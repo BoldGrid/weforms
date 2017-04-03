@@ -180,6 +180,8 @@ class WPUF_Contact_Form {
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/admin.php';
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-contact-form-builder.php';
         }
+
+        require_once WPUF_CONTACT_FORM_INCLUDES . '/class-ajax.php';
     }
 
     /**
@@ -191,6 +193,10 @@ class WPUF_Contact_Form {
         if ( is_admin() ) {
             new WPUF_Contact_Form_Admin();
             new WPUF_Contact_Form_Builder();
+        }
+
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            new WPUF_Contact_Form_Ajax();
         }
     }
 

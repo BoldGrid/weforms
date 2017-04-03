@@ -6,10 +6,10 @@
  */
 class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
+    private $post_type = 'wpuf_contact_form';
+
     /**
      * Class constructor
-     *
-     * @since 2.5
      *
      * @return void
      */
@@ -26,8 +26,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
     /**
      * Top filters like All, Published, Trash etc
      *
-     * @since 2.5
-     *
      * @return array
      */
     public function get_views() {
@@ -42,7 +40,7 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
         $current_status = isset( $_GET['post_status'] ) ? $_GET['post_status'] : 'all';
 
-        $post_counts = (array) wp_count_posts( 'wpuf_contact_form' );
+        $post_counts = (array) wp_count_posts( $this->post_type );
 
         if ( isset( $post_counts['auto-draft'] ) ) {
             unset( $post_counts['auto-draft'] );
@@ -82,8 +80,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
     /**
      * Message to show if no item found
      *
-     * @since 2.5
-     *
      * @return void
      */
     public function no_items() {
@@ -92,8 +88,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
     /**
      * Bulk actions dropdown
-     *
-     * @since 2.5
      *
      * @return array
      */
@@ -114,8 +108,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
     /**
      * List table search box
-     *
-     * @since 2.5
      *
      * @param string $text
      * @param string $input_id
@@ -155,8 +147,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
     /**
      * Decide which action is currently performing
      *
-     * @since 2.5
-     *
      * @return string
      */
     public function current_action() {
@@ -170,8 +160,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
     /**
      * Prepare table data
-     *
-     * @since 2.5
      *
      * @return void
      */
@@ -221,8 +209,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
     /**
      * WP_Query for post forms
      *
-     * @since 2.5
-     *
      * @param array $args
      *
      * @return array
@@ -236,7 +222,7 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
         $args = wp_parse_args( $args, $defauls );
 
-        $args['post_type'] = 'wpuf_contact_form';
+        $args['post_type'] = $this->post_type;
 
         $query = new WP_Query( $args );
 
@@ -278,8 +264,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
     /**
      * Get the column names
      *
-     * @since 2.5
-     *
      * @return array
      */
     public function get_columns() {
@@ -296,8 +280,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
     /**
      * Get sortable columns
      *
-     * @since 2.5
-     *
      * @return array
      */
     public function get_sortable_columns() {
@@ -310,8 +292,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
     /**
      * Column values
-     *
-     * @since 2.5
      *
      * @param array $item
      * @param string $column_name
@@ -335,8 +315,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
     /**
      * Checkbox column value
      *
-     * @since 2.5
-     *
      * @param array $item
      *
      * @return string
@@ -347,8 +325,6 @@ class WPUF_Contact_Form_Admin_Forms_List_Table extends WP_List_Table {
 
     /**
      * Form name column value
-     *
-     * @since 2.5
      *
      * @param array $item
      *
