@@ -13,6 +13,14 @@ function wpuf_cf_get_form_templates() {
     return apply_filters( 'wpuf_contact_form_templates', $integrations );
 }
 
+/**
+ * Get entries by a form_id
+ *
+ * @param  int $form_id
+ * @param  array  $args
+ *
+ * @return Object
+ */
 function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
     global $wpdb;
 
@@ -33,9 +41,24 @@ function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
 
     $results = $wpdb->get_results( $query );
 
-    // var_dump( $results );
-
     return $results;
+}
+
+/**
+ * Get an entry by id
+ *
+ * @param  int $entry_id
+ *
+ * @return Object
+ */
+function wpuf_cf_get_entry( $entry_id ) {
+    global $wpdb;
+
+    $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+             FROM ' . $wpdb->wpuf_cf_entries . '
+             WHERE id = %d';
+
+    return $wpdb->get_row( $wpdb->prepare( $query, $entry_id ) );
 }
 
 /**
@@ -217,6 +240,28 @@ function wpuf_cf_get_entry_columns( $form_id ) {
     }
 
     return array_slice( $columns, 0, 6 ); // max 6 columns
+}
+
+/**
+ * Get fields from a form by it's meta key
+ *
+ * @param  int $form_id
+ *
+ * @return array
+ */
+function wpuf_cf_get_form_field_labels( $form_id ) {
+    $fields  = wpuf_get_form_fields( $form_id );
+
+    if ( ! $fields ) {
+        return false;
+    }
+
+    $data = array();
+    foreach ($fields as $field) {
+        $data[ $field['name'] ] = $field['label'];
+    }
+
+    return $data;
 }
 
 /**

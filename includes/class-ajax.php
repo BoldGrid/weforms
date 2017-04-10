@@ -79,7 +79,7 @@ class WPUF_Contact_Form_Ajax {
     public function get_entries() {
         $form_id      = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
         $current_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
-        $per_page     = 3;
+        $per_page     = 20;
         $offset       = ( $current_page - 1 ) * $per_page;
 
         if ( ! $form_id ) {
@@ -122,15 +122,28 @@ class WPUF_Contact_Form_Ajax {
 
     public function get_entry_detail() {
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
-        $details  = wpuf_cf_get_entry_custom( $entry_id );
-        $data     = array();
-        $keys     = wpuf_cf_get_entry_custom_keys( $entry_id );
+        $entry    = wpuf_cf_get_entry( $entry_id );
 
-        foreach ($keys as $meta_key) {
+        if ( !$entry ) {
+            wp_send_json_error( __( 'No such entry found!', 'wpuf-contact-form' ) );
+        }
+
+        $data   = array();
+        $fields = wpuf_cf_get_form_field_labels( $entry->form_id );
+
+        if ( ! $fields ) {
+            wp_send_json_error( __( 'No form fields found!', 'wpuf-contact-form' ) );
+        }
+
+        foreach ($fields as $meta_key => $label ) {
             $data[ $meta_key ] = wpuf_cf_get_entry_meta( $entry_id, $meta_key, true );
         }
 
-        wp_send_json_success( $data );
+        $response = array(
+            'form_fields' => $fields,
+            'meta_data' => $data
+        );
+        wp_send_json_success( $response );
     }
 
     public function handle_frontend_submission() {

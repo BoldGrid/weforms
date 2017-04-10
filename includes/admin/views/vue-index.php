@@ -40,4 +40,8 @@
         margin: 0;
         font-size: 14px;
     }
+
+    .wpuf-contact-form-entry-wrap table.widefat {
+        border: none
+    }
 </style>

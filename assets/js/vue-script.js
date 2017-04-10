@@ -68,11 +68,19 @@ const FormEntriesSingle = {
     data: function() {
         return {
             loading: false,
-            entry: {},
+            entry: {
+                form_fields: {},
+                meta_data: {}
+            },
         }
     },
     created: function() {
         this.fetchData();
+    },
+    computed: {
+        hasFormFields: function() {
+            return Object.keys(this.entry.form_fields).length;
+        }
     },
     methods: {
         fetchData: function() {
@@ -148,7 +156,7 @@ Vue.component( 'wpuf-table', {
             } else if ( direction == 'next' ) {
                 this.currentPage++;
             } else {
-                if ( ! isNaN( direction ) ) {
+                if ( ! isNaN( direction ) && ( direction <= this.totalPage ) ) {
                     this.currentPage = direction;
                 }
             }
