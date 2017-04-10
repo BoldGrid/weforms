@@ -83,12 +83,16 @@ class WPUF_Contact_Form {
     }
 
     public function init_plugin() {
+        global $wpdb;
 
         // bail out early if the core isn't installed
         if ( ! class_exists( 'WP_User_Frontend' ) ) {
             add_action( 'admin_notices', array( $this, 'core_activation_notice' ) );
             return;
         }
+
+        $wpdb->wpuf_cf_entries   = $wpdb->prefix . 'wpuf_cf_entries';
+        $wpdb->wpuf_cf_entrymeta = $wpdb->prefix . 'wpuf_cf_entrymeta';
 
         // seems like we have the core, we shall pass!!!
         $this->define_constants();
@@ -162,7 +166,7 @@ class WPUF_Contact_Form {
      * @return void
      */
     private function define_constants() {
-        define( 'WPUF_CONTACT_FORM_VERSION', '2.5' );
+        define( 'WPUF_CONTACT_FORM_VERSION', '1.0' );
         define( 'WPUF_CONTACT_FORM_FILE', __FILE__ );
         define( 'WPUF_CONTACT_FORM_ROOT', dirname( __FILE__ ) );
         define( 'WPUF_CONTACT_FORM_INCLUDES', WPUF_CONTACT_FORM_ROOT . '/includes' );
@@ -179,9 +183,12 @@ class WPUF_Contact_Form {
         if ( is_admin() ) {
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/admin.php';
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-contact-form-builder.php';
+        } else {
+            require_once WPUF_CONTACT_FORM_INCLUDES . '/class-frontend-form.php';
         }
 
         require_once WPUF_CONTACT_FORM_INCLUDES . '/class-ajax.php';
+        require_once WPUF_CONTACT_FORM_INCLUDES . '/functions.php';
     }
 
     /**
@@ -193,6 +200,8 @@ class WPUF_Contact_Form {
         if ( is_admin() ) {
             new WPUF_Contact_Form_Admin();
             new WPUF_Contact_Form_Builder();
+        } else {
+            new WPUF_Contact_Form_Frontend();
         }
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
@@ -203,3 +212,8 @@ class WPUF_Contact_Form {
 } // WPUF_Contact_Form
 
 WPUF_Contact_Form::init();
+
+add_action( 'init', function() {
+    // var_dump( wpuf_cf_get_entry_columns(698) );
+    // exit;
+});
