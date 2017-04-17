@@ -54,56 +54,7 @@ Vue.component('form-list-table', {
             }
         }
     }
-})
-
-// 1. Define route components.
-const Home = { template: '#tmpl-wpuf-home-page' };
-const FormHome = { template: '<div><router-view class="child"></router-view></div>' };
-const SingleForm = { template: '#tmpl-wpuf-form-editor' };
-const FormEntriesHome = {
-    template: '<div><router-view class="grand-child"></router-view></div>',
-};
-const FormEntriesSingle = {
-    template: '#tmpl-wpuf-form-entry-single',
-    data: function() {
-        return {
-            loading: false,
-            entry: {
-                form_fields: {},
-                meta_data: {}
-            },
-        }
-    },
-    created: function() {
-        this.fetchData();
-    },
-    computed: {
-        hasFormFields: function() {
-            return Object.keys(this.entry.form_fields).length;
-        }
-    },
-    methods: {
-        fetchData: function() {
-            var self = this;
-
-            this.loading = true
-            wp.ajax.send( 'wpuf_contact_form_entry_details', {
-                data: {
-                    entry_id: self.$route.params.entryid
-                },
-                success: function(response) {
-                    console.log(response);
-                    self.loading = false
-                    self.entry = response;
-                },
-                error: function(error) {
-                    self.loading = false;
-                    alert(error);
-                }
-            });
-        }
-    }
-};
+});
 
 Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
@@ -194,6 +145,56 @@ Vue.component( 'wpuf-table', {
     }
 } );
 
+// 1. Define route components.
+const Home = { template: '#tmpl-wpuf-home-page' };
+const FormHome = { template: '<div><router-view class="child"></router-view></div>' };
+const SingleForm = { template: '#tmpl-wpuf-form-editor' };
+const FormEntriesHome = {
+    template: '<div><router-view class="grand-child"></router-view></div>',
+};
+const FormEntriesSingle = {
+    template: '#tmpl-wpuf-form-entry-single',
+    data: function() {
+        return {
+            loading: false,
+            entry: {
+                form_fields: {},
+                meta_data: {},
+                info: {}
+            },
+        }
+    },
+    created: function() {
+        this.fetchData();
+    },
+    computed: {
+        hasFormFields: function() {
+            return Object.keys(this.entry.form_fields).length;
+        }
+    },
+    methods: {
+        fetchData: function() {
+            var self = this;
+
+            this.loading = true
+            wp.ajax.send( 'wpuf_contact_form_entry_details', {
+                data: {
+                    entry_id: self.$route.params.entryid
+                },
+                success: function(response) {
+                    console.log(response);
+                    self.loading = false
+                    self.entry = response;
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        }
+    }
+};
+
 const FormEntries = {
     props: {
         id: [String, Number]
@@ -201,7 +202,7 @@ const FormEntries = {
     template: '#tmpl-wpuf-form-entries',
     data: function() {
         return {
-            form_title: ''
+            form_title: 'Loading...'
         }
     },
 };
@@ -241,12 +242,19 @@ const routes = [
             },
         ]
     }
-]
+];
 
 // 3. Create the router instance and pass the `routes` option
 const router = new VueRouter({
     // mode: 'history',
-    routes: routes
+    routes: routes,
+    scrollBehavior (to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return { x: 0, y: 0 }
+        }
+    }
 });
 
 // 4. Create and mount the root instance.

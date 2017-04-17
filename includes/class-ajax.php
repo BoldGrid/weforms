@@ -120,6 +120,11 @@ class WPUF_Contact_Form_Ajax {
         wp_send_json_success( $response );
     }
 
+    /**
+     * Get an entry details
+     *
+     * @return void
+     */
     public function get_entry_detail() {
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
         $entry    = wpuf_cf_get_entry( $entry_id );
@@ -130,19 +135,35 @@ class WPUF_Contact_Form_Ajax {
 
         $data   = array();
         $fields = wpuf_cf_get_form_field_labels( $entry->form_id );
+        $info   = array(
+            'form_title' => get_post_field( 'post_title', $entry->form_id ),
+            'created'    => date_i18n( 'F j, Y g:i a', strtotime( $entry->created_at ) ),
+            'ip'         => $entry->ip_address,
+            'user'       => $entry->user_id ? get_user_by( 'id', $entry->user_id )->display_name : false,
+            'referer'    => $entry->referer,
+            'device'     => $entry->user_device
+        );
 
         if ( ! $fields ) {
             wp_send_json_error( __( 'No form fields found!', 'wpuf-contact-form' ) );
         }
 
-        foreach ($fields as $meta_key => $label ) {
-            $data[ $meta_key ] = wpuf_cf_get_entry_meta( $entry_id, $meta_key, true );
+        foreach ($fields as $meta_key => $field ) {
+            $value = wpuf_cf_get_entry_meta( $entry_id, $meta_key, true );
+
+            if ( $field['type'] == 'textarea' ) {
+                $data[ $meta_key ] = wpuf_cf_format_text( $value );
+            } else {
+                $data[ $meta_key ] = $value;
+            }
         }
 
         $response = array(
             'form_fields' => $fields,
-            'meta_data' => $data
+            'meta_data'   => $data,
+            'info'        => $info
         );
+
         wp_send_json_success( $response );
     }
 

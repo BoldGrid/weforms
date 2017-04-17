@@ -1,0 +1,270 @@
+# Copyright (C) 2017 wpuf-contact-form
+# This file is distributed under the same license as the wpuf-contact-form package.
+msgid ""
+msgstr ""
+"Project-Id-Version: wpuf-contact-form\n"
+"Report-Msgid-Bugs-To: https://github.com/weDevsOfficial/contact-form\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Tareq Hasan <tareq@wedevs.com.com>\n"
+"Language-Team: weDevs <info@wedevs.com>\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: contact-form.php:129
+msgid "Your Contact Form is almost ready!"
+msgstr ""
+
+#: contact-form.php:135
+msgid "Dismiss this notice"
+msgstr ""
+
+#: contact-form.php:138
+msgid "You just need to activate the Core Plugin to make it functional."
+msgstr ""
+
+#: contact-form.php:140
+msgid "Activate this plugin"
+msgstr ""
+
+#: contact-form.php:140
+msgid "Activate"
+msgstr ""
+
+#: contact-form.php:143
+msgid "You just need to install the %sCore Plugin%s to make it functional."
+msgstr ""
+
+#: contact-form.php:146
+msgid "Install Now"
+msgstr ""
+
+#: includes/admin/admin.php:19, includes/admin/admin.php:19, includes/admin/class-contact-form-builder.php:29, includes/admin/class-contact-form-builder.php:51, includes/admin/views/forms-list-table.php:4, includes/admin/views/vue/home-page.php:2
+msgid "Contact Forms"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:49
+msgid "Forms"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:50
+msgid "Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:52, includes/admin/views/forms-list-table.php:8
+msgid "Add Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:53
+msgid "Add New Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:54, includes/admin/class-forms-list-table.php:347
+msgid "Edit"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:55
+msgid "Edit Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:56
+msgid "New Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:57, includes/admin/class-contact-form-builder.php:58
+msgid "View Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:59
+msgid "Search Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:60
+msgid "No Form Found"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:61
+msgid "No Form Found in Trash"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:62
+msgid "Parent Form"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:74
+msgid "Notifications"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:75
+msgid "Integrations"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:97
+msgid "Form Settings"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:125
+msgid "Post saved"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:126
+msgid "Post updated successfully"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:130
+msgid "Submit"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:135
+msgid "Redirect To"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:140
+msgid "Same Page"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:141
+msgid "To a page"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:142
+msgid "To a custom URL"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:157
+msgid "Message to show"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:164, includes/admin/views/vue/form-entry-single.php:51
+msgid "Page"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:179
+msgid "Custom URL"
+msgstr ""
+
+#: includes/admin/class-contact-form-builder.php:186
+msgid "Submit Button text"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:36
+msgid "All"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:37
+msgid "Published"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:38, includes/admin/class-forms-list-table.php:348
+msgid "Trash"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:86
+msgid "No form found."
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:98
+msgid "Move to Trash"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:102, includes/admin/class-forms-list-table.php:360
+msgid "Restore"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:103, includes/admin/class-forms-list-table.php:361
+msgid "Delete Permanently"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:272
+msgid "Form Name"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:273, includes/admin/views/vue/form-entries.php:3
+msgid "Entries"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:274
+msgid "Shortcode"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:349
+msgid "Duplicate"
+msgstr ""
+
+#: includes/admin/class-forms-list-table.php:370
+msgid "Draft"
+msgstr ""
+
+#: includes/admin/form-templates/contact-form.php:9
+msgid "Contact Form"
+msgstr ""
+
+#: includes/admin/form-templates/contact-form.php:10
+msgid "Create a simple contact form for your site."
+msgstr ""
+
+#: includes/admin/views/form-notification.php:9
+msgid "Name"
+msgstr ""
+
+#: includes/admin/views/form-notification.php:10
+msgid "Subject"
+msgstr ""
+
+#: includes/admin/views/forms-list-table.php:23
+msgid "Search Forms"
+msgstr ""
+
+#: includes/admin/views/vue/form-entry-single.php:41
+msgid "Entry ID"
+msgstr ""
+
+#: includes/admin/views/vue/form-entry-single.php:46
+msgid "User IP"
+msgstr ""
+
+#: includes/admin/views/vue/form-entry-single.php:56
+msgid "From"
+msgstr ""
+
+#: includes/admin/views/vue/form-entry-single.php:61
+msgid "Submitted On"
+msgstr ""
+
+#: includes/class-ajax.php:49
+msgid "Please provide a form name"
+msgstr ""
+
+#: includes/class-ajax.php:72, includes/class-ajax.php:86
+msgid "No form id provided!"
+msgstr ""
+
+#: includes/class-ajax.php:133
+msgid "No such entry found!"
+msgstr ""
+
+#: includes/class-ajax.php:148
+msgid "No form fields found!"
+msgstr ""
+
+#: includes/class-ajax.php:182
+msgid "No form field was found."
+msgstr ""
+
+#: includes/functions.php:91
+msgid "No form ID was found."
+msgstr ""
+
+#: includes/functions.php:95
+msgid "No form fields were found."
+msgstr ""
+
+#: includes/functions.php:101
+msgid "Could not create an entry"
+msgstr ""

@@ -6,9 +6,60 @@
 class WPUF_Contact_Form_Admin {
 
     public function __construct() {
+        add_action( 'init', array( $this, 'register_post_type' ) );
+
         add_action( 'wpuf_admin_menu_top', array( $this, 'register_admin_menu' ) );
         add_action( 'admin_footer', array( $this, 'include_vue_templates' ) );
         add_action( 'admin_footer', array( $this, 'render_form_templates' ) );
+
+        add_filter( 'admin_action_wpuf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
+    }
+
+    /**
+     * Register form post types
+     *
+     * @return void
+     */
+    public function register_post_type() {
+        $capability = wpuf_admin_role();
+
+        register_post_type( 'wpuf_contact_form', array(
+            'label'           => __( 'Contact Forms', 'wpuf-contact-form' ),
+            'public'          => false,
+            'show_ui'         => true,
+            'show_in_menu'    => false,
+            'capability_type' => 'post',
+            'hierarchical'    => false,
+            'query_var'       => false,
+            'supports'        => array('title'),
+            'capabilities' => array(
+                'publish_posts'       => $capability,
+                'edit_posts'          => $capability,
+                'edit_others_posts'   => $capability,
+                'delete_posts'        => $capability,
+                'delete_others_posts' => $capability,
+                'read_private_posts'  => $capability,
+                'edit_post'           => $capability,
+                'delete_post'         => $capability,
+                'read_post'           => $capability,
+            ),
+            'labels' => array(
+                'name'               => __( 'Forms', 'wpuf-contact-form' ),
+                'singular_name'      => __( 'Form', 'wpuf-contact-form' ),
+                'menu_name'          => __( 'Contact Forms', 'wpuf-contact-form' ),
+                'add_new'            => __( 'Add Form', 'wpuf-contact-form' ),
+                'add_new_item'       => __( 'Add New Form', 'wpuf-contact-form' ),
+                'edit'               => __( 'Edit', 'wpuf-contact-form' ),
+                'edit_item'          => __( 'Edit Form', 'wpuf-contact-form' ),
+                'new_item'           => __( 'New Form', 'wpuf-contact-form' ),
+                'view'               => __( 'View Form', 'wpuf-contact-form' ),
+                'view_item'          => __( 'View Form', 'wpuf-contact-form' ),
+                'search_items'       => __( 'Search Form', 'wpuf-contact-form' ),
+                'not_found'          => __( 'No Form Found', 'wpuf-contact-form' ),
+                'not_found_in_trash' => __( 'No Form Found in Trash', 'wpuf-contact-form' ),
+                'parent'             => __( 'Parent Form', 'wpuf-contact-form' ),
+            ),
+        ) );
     }
 
     public function register_admin_menu() {
@@ -16,8 +67,7 @@ class WPUF_Contact_Form_Admin {
 
         $hook = add_submenu_page( 'wp-user-frontend', __( 'Contact Forms', 'wpuf-contact-form' ), __( 'Contact Forms', 'wpuf-contact-form' ), $capability, 'wpuf-contact-forms', array( $this, 'contact_form_page') );
 
-        add_action( 'load-'. $hook, array( $this, 'form_builder_init' ) );
-        add_action( 'load-'. $hook, array( $this, 'builder_enqueue_scripts' ) );
+        add_action( 'load-'. $hook, array( $this, 'enqueue_scripts' ) );
     }
 
     /**
@@ -29,10 +79,8 @@ class WPUF_Contact_Form_Admin {
         return ( get_current_screen()->id == 'user-frontend_page_wpuf-contact-forms' );
     }
 
-    public function builder_enqueue_scripts() {
+    public function enqueue_scripts() {
         $prefix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-
-        wp_enqueue_style( 'wpuf-formbuilder', WPUF_ASSET_URI . '/css/formbuilder.css' );
 
         if ( isset( $_GET['action'] ) ) {
             return;
@@ -41,52 +89,10 @@ class WPUF_Contact_Form_Admin {
         wp_enqueue_script( 'wpuf-vue', WPUF_ASSET_URI . '/vendor/vue/vue' . $prefix . '.js', array(), WPUF_VERSION, true );
         wp_enqueue_script( 'wpuf-vuex', WPUF_ASSET_URI . '/vendor/vuex/vuex' . $prefix . '.js', array( 'wpuf-vue' ), WPUF_VERSION, true );
         wp_enqueue_script( 'wpuf-vue-router', WPUF_CONTACT_FORM_ASSET_URI . '/js/vue-router.js', array( 'jquery', 'wpuf-vue', 'wpuf-vuex' ), false, true );
-        wp_enqueue_script( 'wpuf-cf-admin', WPUF_CONTACT_FORM_ASSET_URI . '/js/vue-script.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
-    }
-
-    /**
-     * Add dependencies to form builder script
-     *
-     * @since 2.5
-     *
-     * @param array $deps
-     *
-     * @return array
-     */
-    public function js_dependencies( $deps ) {
-        array_push( $deps, 'wpuf-contact-form-builder-mixin' );
-
-        return $deps;
-    }
-
-    /**
-     * Add mixins to form builder builder stage component
-     *
-     * @since 2.5
-     *
-     * @param array $mixins
-     *
-     * @return array
-     */
-    public function js_builder_stage_mixins( $mixins ) {
-        array_push( $mixins , 'wpuf_forms_mixin_builder_stage' );
-
-        return $mixins;
-    }
-
-    /**
-     * Admin script form wpuf_forms form builder
-     *
-     * @since 2.5
-     *
-     * @return void
-     */
-    public function admin_enqueue_scripts() {
-        wp_enqueue_script( 'wpuf-contact-form-builder-mixin', WPUF_CONTACT_FORM_ASSET_URI . '/js/wpuf-form-builder-contact-forms.js', array( 'jquery', 'underscore', 'wpuf-vue', 'wpuf-vuex' ), WPUF_CONTACT_FORM_VERSION, true );
+        wp_enqueue_script( 'wpuf-cf-spa', WPUF_CONTACT_FORM_ASSET_URI . '/js/spa.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
     }
 
     public function contact_form_page() {
-        require_once dirname( __FILE__ ) . '/views/vue-index.php';
 
         $action = isset( $_GET['action'] ) ? $_GET['action'] : null;
 
@@ -99,63 +105,6 @@ class WPUF_Contact_Form_Admin {
                 require_once dirname( __FILE__ ) . '/views/vue-index.php';
                 break;
         }
-    }
-
-    public function form_builder_init() {
-        $form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
-
-        $settings = array(
-            'form_type'         => 'contact_form',
-            'post_type'         => 'wpuf_contact_form',
-            'post_id'           => $form_id,
-            'form_settings_key' => 'wpuf_form_settings',
-            'shortcodes'        => array( array( 'name' => 'wpuf_contact_form' ) )
-        );
-
-        // add_filter( 'wpuf-form-builder-fields-common-properties', array( $this, 'add_fields_common_properties' ) );
-
-        new WPUF_Admin_Form_Builder( $settings );
-
-        add_filter( 'wpuf-form-builder-js-deps', array( $this, 'js_dependencies' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-
-        add_action( 'wpuf-form-builder-js-builder-stage-mixins', array( $this, 'js_builder_stage_mixins' ) );
-        add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
-
-        add_filter( 'wpuf-form-builder-fields-custom-fields', function( $fields ) {
-
-            $search_key = 'custom_hidden_field';
-
-            if ( in_array( $search_key, $fields ) ) {
-                $key = array_search( $search_key, $fields );
-                unset( $fields[ $key ] );
-
-                // re-index the array to preserve sequential keys
-                // otherwise JS converts this into object insetead of array
-                $fields = array_values( $fields );
-            }
-
-            return $fields;
-        } );
-
-        // add_filter( 'wpuf-form-builder-field-settings', function( $settings ) {
-        //     if ( array_key_exists( 'custom_hidden_field', $settings ) ) {
-        //         // unset( $settings[ 'custom_hidden_field' ] );
-        //     }
-
-        //     return $settings;
-        // });
-    }
-
-    /**
-     * Add buttons in form submit area
-     *
-     * @return void
-     */
-    public function add_form_submit_area() {
-        ?>
-            <input @click.prevent="" type="submit" name="submit" :value="form_settings.submit_text">
-        <?php
     }
 
     /**
@@ -179,6 +128,88 @@ class WPUF_Contact_Form_Admin {
         include WPUF_ROOT . '/admin/html/modal.php';
     }
 
+    /**
+     * Get a template object by name from the registry
+     *
+     * @param  string $template
+     *
+     * @return boolean|WPUF_Post_Form_Template
+     */
+    public function get_template_object( $template ) {
+        $registry = wpuf_cf_get_form_templates();
+
+        if ( ! array_key_exists( $template, $registry ) ) {
+            return false;
+        }
+
+        $template_object = $registry[ $template ];
+
+        if ( ! is_a( $template_object, 'WPUF_Post_Form_Template') ) {
+            return false;
+        }
+
+        return $template_object;
+    }
+
+    /**
+     * Create a posting form from a post template
+     *
+     * @since 2.4
+     *
+     * @return void
+     */
+    public function create_contact_form_from_template() {
+        check_admin_referer( 'wpuf_create_from_template' );
+
+        $template_name = isset( $_GET['template'] ) ? sanitize_text_field( $_GET['template'] ) : '';
+
+        if ( ! $template_name ) {
+            return;
+        }
+
+        $template_object = $this->get_template_object( $template_name );
+
+        if ( false === $template_object ) {
+            return;
+        }
+
+        // var_dump( $template_object ); die();
+        $current_user = get_current_user_id();
+
+        $form_post_data = array(
+            'post_title'  => $template_object->get_title(),
+            'post_type'   => 'wpuf_contact_form',
+            'post_status' => 'publish',
+            'post_author' => $current_user
+        );
+
+        $form_id = wp_insert_post( $form_post_data );
+
+        if ( is_wp_error( $form_id ) ) {
+            return;
+        }
+
+        // form has been created, lets setup
+        update_post_meta( $form_id, 'wpuf_form_settings', $template_object->get_form_settings() );
+
+        $form_fields = $template_object->get_form_fields();
+
+        if ( $form_fields ) {
+            foreach ($form_fields as $menu_order => $field) {
+                wp_insert_post( array(
+                    'post_type'    => 'wpuf_input',
+                    'post_status'  => 'publish',
+                    'post_content' => maybe_serialize( $field ),
+                    'post_parent'  => $form_id,
+                    'menu_order'   => $menu_order
+                ) );
+            }
+        }
+
+        wp_redirect( admin_url( 'admin.php?page=wpuf-contact-forms&action=edit&id=' . $form_id ) );
+        exit;
+    }
+
     public function include_vue_templates() {
         if ( ! $this->is_contact_page() ) {
             return;
@@ -191,13 +222,15 @@ class WPUF_Contact_Form_Admin {
             'form-editor',
             'form-entries',
             'form-entry-single',
-            'component-table'
+            'component-table',
+            'form-notification',
+            'merge-tags',
         );
 
         $template_path = dirname( __FILE__ ) . '/views/vue';
 
         foreach ($templates as $template_id) {
-            $this->include_js_template( $template_id, $template_path );
+            self::include_js_template( $template_id, $template_path );
         }
     }
 
@@ -209,7 +242,7 @@ class WPUF_Contact_Form_Admin {
      *
      * @return void
      */
-    public function include_js_template( $template, $file_path = '' ) {
+    public static function include_js_template( $template, $file_path = '' ) {
         $file_path = $file_path . DIRECTORY_SEPARATOR . $template . '.php';
 
         if ( file_exists( $file_path ) ) {

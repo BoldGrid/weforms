@@ -1,0 +1,208 @@
+.clearfix() {
+    &:after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+}
+
+th.col-form-name { width: 25%; }
+th.col-form-shortcode { width: 25%; }
+
+th.col-form-entries,
+th.col-form-views,
+th.col-form-conversion { width: 10%; }
+
+th.col-entry-id {
+    width: 5%;
+}
+th.col-entry-details {
+    width: 10%;
+}
+
+.wpuf-contact-form-entry-wrap {
+    margin-top: 20px;
+    width: 100%;
+    overflow: hidden;
+
+    .wpuf-contact-form-entry-left {
+        float: left;
+        width: 70%;
+    }
+
+    .wpuf-contact-form-entry-right {
+        float: right;
+        width: 28%;
+    }
+
+    h2.hndle {
+        padding: 8px 12px;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    table.widefat {
+        border: none
+    }
+}
+
+a.add-notification .dashicons {
+    margin-top: 4px;
+}
+
+.notification-wrap {
+    width: 100%;
+    overflow: hidden;
+    display: block;
+    margin-top: 20px;
+
+    .notification-table-wrap {
+        width: 100%;
+
+        table.wpuf-cf-notification-table {
+            width: 70%;
+            transition: width 0.3s ease-in-out;
+
+            .col-toggle {
+                width: 35px;
+            }
+
+            .col-name {
+                width: 35%;
+
+                a {
+                    font-weight: bold;
+                }
+            }
+
+            .col-action {
+                width: 15%;
+            }
+        }
+    }
+
+    .notification-edit-area {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+        margin-bottom: 30px;
+        display: none;
+
+        a {
+            text-decoration: none;
+        }
+
+        .notification-head {
+            padding: 8px 10px;
+            background: #f9f9f9;
+            border-bottom: 1px solid #e1e1e1;
+            margin-bottom: 15px;
+
+            input {
+                width: 100%;
+                padding: 8px;
+            }
+        }
+
+        .form-fields {
+            padding: 8px 10px;
+
+            input, textarea {
+                width: 100%;
+                padding: 6px 25px 6px 6px;
+            }
+
+            .notification-row {
+                margin-bottom: 10px;
+                position: relative;
+                .clearfix();
+
+                .merge-tag-wrap {
+
+                    .merge-tag-link {
+                        position: absolute;
+                        right: 5px;
+                        top: 30px;
+                        color: #999;
+                        text-decoration: none;
+
+                        &:hover {
+                            color: #555;
+                        }
+                    }
+
+                    .merge-tags {
+                        max-height: 110px;
+                        overflow: hidden;
+                        overflow-y: scroll;
+                        border: 1px solid #ddd;
+                        display: none;
+
+                        .merge-tag-head {
+                            font-weight: bold;
+                            background: #f0f0f0;
+                            padding: 3px 10px;
+                        }
+
+                        .merge-tag-section ul {
+                            margin: 0;
+                            padding: 5px 10px;
+                        }
+                    }
+                }
+            }
+
+            .row-one-half {
+                float: left;
+                width: 48%;
+                position: relative;
+
+                &.first {
+                    margin-right: 4%;
+                }
+            }
+
+            label {
+                display: block;
+                padding-bottom: 5px;
+            }
+
+            .advanced-field-wrap {
+                display: none;
+            }
+        }
+
+        .submit-area {
+            padding: 8px 10px;
+            background: #f9f9f9;
+            border-top: 1px solid #e1e1e1;
+            margin-top: 15px;
+            .clearfix();
+
+            .button {
+                float: right;
+            }
+        }
+    }
+
+    &.editing {
+        .notification-table-wrap {
+            width: 40%;
+            float: left;
+
+            table.wpuf-cf-notification-table {
+                .col-toggle,
+                .col-subject,
+                .col-action {
+                    display: none;
+                }
+            }
+        }
+
+        .notification-edit-area {
+            float: right;
+            width: 60%;
+            display: block;
+        }
+    }
+}

@@ -35,6 +35,7 @@
 
         mounted: function () {
             var self = this;
+            var wrap = $('#wpuf-metabox-settings-restriction');
 
             // submit button text
             this.form_settings.submit_text = $('[name="wpuf_settings[submit_text]"]').val();
@@ -42,6 +43,27 @@
             $('[name="wpuf_settings[submit_text]"]').on('change', function () {
                 self.form_settings.submit_text = $(this).val();
             });
+
+
+            wrap.on('change', 'input[type=checkbox][name="wpuf_settings[limit_entries]"]', function() {
+                if ( $(this).is(':checked') ) {
+                    $('.show-if-limit-entry').show();
+                } else {
+                    $('.show-if-limit-entry').hide();
+                }
+            });
+
+            wrap.on('change', 'input[type=checkbox][name="wpuf_settings[require_login]"]', function() {
+                if ( $(this).is(':checked') ) {
+                    $('.show-if-require-login').show();
+                } else {
+                    $('.show-if-require-login').hide();
+                }
+            });
+
+            // trigger initial change
+            $('input[type=checkbox][name="wpuf_settings[limit_entries]"]').trigger('change');
+            $('input[type=checkbox][name="wpuf_settings[require_login]"]').trigger('change');
         }
     };
 

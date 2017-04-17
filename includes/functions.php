@@ -6,9 +6,11 @@
  * @return array
  */
 function wpuf_cf_get_form_templates() {
-    // require_once WPUF_ROOT . '/class/post-form-templates/post.php';
+    require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/form-templates/contact-form.php';
 
-    $integrations = array();
+    $integrations = array(
+        'WPUF_Contact_Form_Template_Contact' => new WPUF_Contact_Form_Template_Contact()
+    );
 
     return apply_filters( 'wpuf_contact_form_templates', $integrations );
 }
@@ -54,7 +56,7 @@ function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
 function wpuf_cf_get_entry( $entry_id ) {
     global $wpdb;
 
-    $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+    $query = 'SELECT id, form_id, user_id, user_device, referer, INET_NTOA( user_ip ) as ip_address, created_at
              FROM ' . $wpdb->wpuf_cf_entries . '
              WHERE id = %d';
 
@@ -258,10 +260,30 @@ function wpuf_cf_get_form_field_labels( $form_id ) {
 
     $data = array();
     foreach ($fields as $field) {
-        $data[ $field['name'] ] = $field['label'];
+        $data[ $field['name'] ] = array(
+            'label' => $field['label'],
+            'type'  => $field['input_type']
+        );
     }
 
     return $data;
+}
+
+/**
+ * Format a text and apply WP function callbacks
+ *
+ * @param  string $content
+ *
+ * @return string
+ */
+function wpuf_cf_format_text( $content ) {
+    $content = wptexturize( $content );
+    $content = convert_smilies( $content );
+    $content = convert_smilies( $content );
+    $content = wpautop( $content );
+    $content = make_clickable( $content );
+
+    return $content;
 }
 
 /**
@@ -345,4 +367,58 @@ function wpuf_cf_get_browser() {
         'platform'  => $platform,
         'pattern'   => $pattern
     );
+}
+
+/**
+ * Get form notification merge tags
+ *
+ * @since 1.0
+ *
+ * @return array
+ */
+function wpuf_cf_get_merge_tags() {
+    $tags = array(
+        'form' => array(
+            'title' => __( 'Form', 'wpuf-contact-form' ),
+            'tags'  => array(
+                'entry_id'  => __( 'Entry ID', 'wpuf-contact-form' ),
+                'form_id'   => __( 'Form ID', 'wpuf-contact-form' ),
+                'form_name' => __( 'Form Name', 'wpuf-contact-form' )
+            )
+        ),
+        'system' => array(
+            'title' => __( 'System', 'wpuf-contact-form' ),
+            'tags'  => array(
+                'admin_email' => __( 'Site Administrator Email', 'wpuf-contact-form' ),
+                'date'        => __( 'Date', 'wpuf-contact-form' ),
+                'site_name'   => __( 'Site Title', 'wpuf-contact-form' ),
+                'site_url'    => __( 'Site URL', 'wpuf-contact-form' ),
+                'page_title'  => __( 'Embedded Page Title', 'wpuf-contact-form' ),
+            )
+        ),
+        'user' => array(
+            'title' => __( 'User', 'wpuf-contact-form' ),
+            'tags'  => array(
+                'ip_address'   => __( 'IP Address', 'wpuf-contact-form' ),
+                'user_id'      => __( 'User ID', 'wpuf-contact-form' ),
+                'first_name'   => __( 'First Name', 'wpuf-contact-form' ),
+                'last_name'    => __( 'Last Name', 'wpuf-contact-form' ),
+                'display_name' => __( 'Display Name', 'wpuf-contact-form' ),
+                'user_email'   => __( 'Email', 'wpuf-contact-form' ),
+            )
+        ),
+        'urls' => array(
+            'title' => __( 'URL\'s', 'wpuf-contact-form' ),
+            'tags'  => array(
+                'url_page'          => __( 'Embeded Page URL', 'wpuf-contact-form' ),
+                'url_referer'       => __( 'Referer URL', 'wpuf-contact-form' ),
+                'url_login'         => __( 'Login URL', 'wpuf-contact-form' ),
+                'url_logout'        => __( 'Logout URL', 'wpuf-contact-form' ),
+                'url_register'      => __( 'Register URL', 'wpuf-contact-form' ),
+                'url_lost_password' => __( 'Lost Password URL', 'wpuf-contact-form' ),
+            )
+        ),
+    );
+
+    return apply_filters( 'wpuf_cf_merge_tags', $tags );
 }
