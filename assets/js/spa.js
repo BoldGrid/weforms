@@ -52,6 +52,8 @@ Vue.component('form-list-table', {
             var self = this;
 
             if (confirm('Are you sure?')) {
+                self.loading = true;
+
                 wp.ajax.send( 'wpuf_contact_form_delete', {
                     data: {
                         form_id: this.forms[index].ID,
@@ -59,12 +61,35 @@ Vue.component('form-list-table', {
                     },
                     success: function(response) {
                         self.forms.splice(index, 1);
+                        self.loading = false;
                     },
                     error: function(error) {
                         alert(error);
+                        self.loading = false;
                     }
                 });
             }
+        },
+
+        duplicate: function(form_id, index) {
+            var self = this;
+
+            this.loading = true;
+
+            wp.ajax.send( 'wpuf_contact_form_duplicate', {
+                data: {
+                    form_id: form_id,
+                    _wpnonce: wpufContactForm.nonce
+                },
+                success: function(response) {
+                    self.forms.splice(0, 0, response);
+                    self.loading = false;
+                },
+                error: function(error) {
+                    alert(error);
+                    self.loading = false;
+                }
+            });
         }
     }
 });

@@ -11,6 +11,9 @@ class WPUF_Contact_Form_Ajax {
         add_action( 'wp_ajax_wpuf_contact_form_list', array( $this, 'get_contact_forms' ) );
         add_action( 'wp_ajax_wpuf_contact_form_create', array( $this, 'create_form' ) );
         add_action( 'wp_ajax_wpuf_contact_form_delete', array( $this, 'delete_form' ) );
+        add_action( 'wp_ajax_wpuf_contact_form_duplicate', array( $this, 'duplicate_form' ) );
+
+        // entries
         add_action( 'wp_ajax_wpuf_contact_form_entries', array( $this, 'get_entries' ) );
         add_action( 'wp_ajax_wpuf_contact_form_entry_details', array( $this, 'get_entry_detail' ) );
         add_action( 'wp_ajax_wpuf_contact_form_entry_trash', array( $this, 'trash_entry' ) );
@@ -20,12 +23,25 @@ class WPUF_Contact_Form_Ajax {
     }
 
     /**
+     * Administrator validation
+     *
+     * @return void
+     */
+    public function check_admin() {
+        if ( !current_user_can( 'administrator' ) ) {
+            wp_send_json_error( __( 'You do not have sufficient permission.', 'wpuf-contact-form' ) );
+        }
+    }
+
+    /**
      * Get all contact forms
      *
      * @return void
      */
     public function get_contact_forms() {
         check_ajax_referer( 'wpuf-contact-form' );
+
+        $this->check_admin();
 
         $args = array(
             'post_type' => 'wpuf_contact_form'
@@ -59,9 +75,11 @@ class WPUF_Contact_Form_Ajax {
     public function create_form() {
         check_ajax_referer( 'wpuf-contact-form' );
 
+        $this->check_admin();
+
         $form_name = isset( $_POST['form_name'] ) ? sanitize_text_field( $_POST['form_name'] ) : '';
 
-        if ( empty( $form_name )) {
+        if ( empty( $form_name ) ) {
             wp_send_json_error( __( 'Please provide a form name', 'wpuf-contact-form' ) );
         }
 
@@ -89,18 +107,37 @@ class WPUF_Contact_Form_Ajax {
     public function delete_form() {
         check_ajax_referer( 'wpuf-contact-form' );
 
-        $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
+        $this->check_admin();
 
-        if ( !current_user_can( 'administrator' ) ) {
-            wp_send_json_error( __( 'You do not have sufficient permission.', 'wpuf-contact-form' ) );
-        }
+        $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
 
         if ( ! $form_id ) {
             wp_send_json_error( __( 'No form id provided!', 'wpuf-contact-form' ) );
         }
 
-        wp_delete_post( $form_id, true );
+        wpuf_delete_form( $form_id, true );
         wp_send_json_success();
+    }
+
+    /**
+     * Duplicate a form
+     *
+     * @return voiud
+     */
+    public function duplicate_form() {
+        check_ajax_referer( 'wpuf-contact-form' );
+
+        $this->check_admin();
+
+        $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
+
+        $duplicate_id = wpuf_duplicate_form( $form_id );
+        $form = get_post( $duplicate_id );
+
+        $form->entires = 0;
+        $form->views   = 0;
+
+        wp_send_json_success( $form );
     }
 
     /**
@@ -110,6 +147,8 @@ class WPUF_Contact_Form_Ajax {
      */
     public function get_entries() {
         check_ajax_referer( 'wpuf-contact-form' );
+
+        $this->check_admin();
 
         $form_id      = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
         $current_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
@@ -162,6 +201,8 @@ class WPUF_Contact_Form_Ajax {
     public function get_entry_detail() {
         check_ajax_referer( 'wpuf-contact-form' );
 
+        $this->check_admin();
+
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
         $entry    = wpuf_cf_get_entry( $entry_id );
 
@@ -210,6 +251,8 @@ class WPUF_Contact_Form_Ajax {
      */
     public function trash_entry() {
         check_ajax_referer( 'wpuf-contact-form' );
+
+        $this->check_admin();
 
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
 
