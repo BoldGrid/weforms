@@ -52,8 +52,11 @@
                     <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}">{{ form.entries }}</router-link>
                     <span v-else>&mdash;</span>
                 </td>
-                <td>0</td>
-                <td>0%</td>
+                <td>{{ form.views }}</td>
+                <td>
+                    <span v-if="form.views">{{ ((form.entries/form.views) * 100) }}%</span>
+                    <span v-else>0%</span>
+                </td>
             </tr>
         </tbody>
 

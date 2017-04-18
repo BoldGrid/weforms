@@ -13,21 +13,30 @@ class WPUF_Contact_Form_Ajax {
         add_action( 'wp_ajax_wpuf_contact_form_delete', array( $this, 'delete_form' ) );
         add_action( 'wp_ajax_wpuf_contact_form_entries', array( $this, 'get_entries' ) );
         add_action( 'wp_ajax_wpuf_contact_form_entry_details', array( $this, 'get_entry_detail' ) );
+        add_action( 'wp_ajax_wpuf_contact_form_entry_trash', array( $this, 'trash_entry' ) );
 
         // frontend requests
         add_action( 'wp_ajax_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
     }
 
+    /**
+     * Get all contact forms
+     *
+     * @return void
+     */
     public function get_contact_forms() {
+        check_ajax_referer( 'wpuf-contact-form' );
+
         $args = array(
             'post_type' => 'wpuf_contact_form'
         );
 
-        $forms = new WP_Query( $args );
+        $forms         = new WP_Query( $args );
         $contact_forms = $forms->get_posts();
 
         array_map( function($form) {
             $form->entries = wpuf_cf_count_form_entries( $form->ID );
+            $form->views   = wpuf_cf_get_form_views( $form->ID );
         }, $contact_forms);
 
         // var_dump( $forms->get_posts() );
@@ -42,7 +51,14 @@ class WPUF_Contact_Form_Ajax {
         //wp_send_json_error();
     }
 
+    /**
+     * Create a form
+     *
+     * @return void
+     */
     public function create_form() {
+        check_ajax_referer( 'wpuf-contact-form' );
+
         $form_name = isset( $_POST['form_name'] ) ? sanitize_text_field( $_POST['form_name'] ) : '';
 
         if ( empty( $form_name )) {
@@ -65,8 +81,19 @@ class WPUF_Contact_Form_Ajax {
         ) );
     }
 
+    /**
+     * Delete a form
+     *
+     * @return void
+     */
     public function delete_form() {
+        check_ajax_referer( 'wpuf-contact-form' );
+
         $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
+
+        if ( !current_user_can( 'administrator' ) ) {
+            wp_send_json_error( __( 'You do not have sufficient permission.', 'wpuf-contact-form' ) );
+        }
 
         if ( ! $form_id ) {
             wp_send_json_error( __( 'No form id provided!', 'wpuf-contact-form' ) );
@@ -76,7 +103,14 @@ class WPUF_Contact_Form_Ajax {
         wp_send_json_success();
     }
 
+    /**
+     * Get all entries
+     *
+     * @return void
+     */
     public function get_entries() {
+        check_ajax_referer( 'wpuf-contact-form' );
+
         $form_id      = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
         $current_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
         $per_page     = 20;
@@ -126,6 +160,8 @@ class WPUF_Contact_Form_Ajax {
      * @return void
      */
     public function get_entry_detail() {
+        check_ajax_referer( 'wpuf-contact-form' );
+
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
         $entry    = wpuf_cf_get_entry( $entry_id );
 
@@ -167,6 +203,25 @@ class WPUF_Contact_Form_Ajax {
         wp_send_json_success( $response );
     }
 
+    /**
+     * Trash an entry
+     *
+     * @return void
+     */
+    public function trash_entry() {
+        check_ajax_referer( 'wpuf-contact-form' );
+
+        $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
+
+        wpuf_cf_change_entry_status( $entry_id, 'trash' );
+        wp_send_json_success();
+    }
+
+    /**
+     * Handle the frontend submission
+     *
+     * @return void
+     */
     public function handle_frontend_submission() {
         check_ajax_referer( 'wpuf_form_add' );
 
@@ -223,6 +278,13 @@ class WPUF_Contact_Form_Ajax {
         wp_send_json( $response );
     }
 
+    /**
+     * Prepare meta fields by it's types
+     *
+     * @param  array $form_fields
+     *
+     * @return array
+     */
     public function prepare_entry_fields( $form_fields ) {
         $entry_fields = array();
 

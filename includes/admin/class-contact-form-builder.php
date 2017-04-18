@@ -69,8 +69,13 @@ class WPUF_Contact_Form_Builder {
     }
 
     public function builder_enqueue_scripts() {
+        wp_enqueue_style( 'jquery-ui', WPUF_ASSET_URI . '/css/jquery-ui-1.9.1.custom.css' );
         wp_enqueue_style( 'wpuf-formbuilder', WPUF_ASSET_URI . '/css/formbuilder.css' );
         wp_enqueue_style( 'wpuf-cf-admin', WPUF_CONTACT_FORM_ASSET_URI . '/css/admin.css' );
+
+        wp_enqueue_script( 'jquery-ui-datepicker' );
+        wp_enqueue_script( 'jquery-ui-slider' );
+        wp_enqueue_script( 'jquery-ui-timepicker', WPUF_ASSET_URI . '/js/jquery-ui-timepicker-addon.js', array('jquery-ui-datepicker') );
     }
 
     /**

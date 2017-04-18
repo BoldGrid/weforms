@@ -68,7 +68,7 @@
 
                 <div id="major-publishing-actions">
                     <div id="publishing-action">
-                        <button class="button button-large button-primary"><span class="dashicons dashicons-trash"></span> Trash</button>
+                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span> Trash</button>
                     </div>
                     <div class="clear"></div>
                 </div>

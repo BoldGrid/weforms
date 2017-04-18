@@ -43,6 +43,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
         </form>
 
         <?php
+        wpuf_cf_track_form_view( $form_id );
     }
 
     function submit_button( $form_id, $form_settings, $post_id ) {

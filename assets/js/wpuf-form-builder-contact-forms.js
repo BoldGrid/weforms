@@ -61,9 +61,25 @@
                 }
             });
 
+            wrap.on('change', 'input[type=checkbox][name="wpuf_settings[schedule_form]"]', function() {
+                if ( $(this).is(':checked') ) {
+                    $('.show-if-scheduled').show();
+                } else {
+                    $('.show-if-scheduled').hide();
+                }
+            });
+
             // trigger initial change
             $('input[type=checkbox][name="wpuf_settings[limit_entries]"]').trigger('change');
             $('input[type=checkbox][name="wpuf_settings[require_login]"]').trigger('change');
+            $('input[type=checkbox][name="wpuf_settings[schedule_form]"]').trigger('change');
+
+            $('.wpuf-input-datetime').datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                timeFormat: "HH:mm:ss"
+            });
+
+            //YYYY-MM-DD HH:MM:SS
         }
     };
 

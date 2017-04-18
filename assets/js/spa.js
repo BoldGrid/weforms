@@ -1,23 +1,32 @@
 ;(function($) {
 
+var LoadingMixin = {
+    watch: {
+        loading: function(value) {
+            if ( value ) {
+                NProgress.configure({ parent: '#wpadminbar' });
+                NProgress.start();
+            } else {
+                NProgress.done();
+            }
+        }
+    }
+}
+
 Vue.component('form-list-table', {
     template: '#tmpl-wpuf-form-list-table',
+    mixins: [LoadingMixin],
     data: function() {
         return {
             loading: false,
             forms: []
         }
     },
+
     created: function() {
         this.fetchData();
     },
-    watch: {
-        // call again the method if the route changes
-        '$route': 'fetchData'
-    },
-    computed: {
 
-    },
     methods: {
         fetchData: function() {
             var self = this;
@@ -25,6 +34,9 @@ Vue.component('form-list-table', {
             this.loading = true
 
             wp.ajax.send( 'wpuf_contact_form_list', {
+                data: {
+                    _wpnonce: wpufContactForm.nonce
+                },
                 success: function(response) {
                     self.loading = false
                     self.forms = response.forms;
@@ -42,7 +54,8 @@ Vue.component('form-list-table', {
             if (confirm('Are you sure?')) {
                 wp.ajax.send( 'wpuf_contact_form_delete', {
                     data: {
-                        form_id: this.forms[index].ID
+                        form_id: this.forms[index].ID,
+                        _wpnonce: wpufContactForm.nonce
                     },
                     success: function(response) {
                         self.forms.splice(index, 1);
@@ -58,6 +71,7 @@ Vue.component('form-list-table', {
 
 Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
+    mixins: [LoadingMixin],
     props: {
         action: String,
         id: [String, Number]
@@ -124,7 +138,8 @@ Vue.component( 'wpuf-table', {
             wp.ajax.send( self.action, {
                 data: {
                     id: self.id,
-                    page: self.currentPage
+                    page: self.currentPage,
+                    _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
                     self.loading = false
@@ -154,6 +169,7 @@ const FormEntriesHome = {
 };
 const FormEntriesSingle = {
     template: '#tmpl-wpuf-form-entry-single',
+    mixins: [LoadingMixin],
     data: function() {
         return {
             loading: false,
@@ -179,12 +195,37 @@ const FormEntriesSingle = {
             this.loading = true
             wp.ajax.send( 'wpuf_contact_form_entry_details', {
                 data: {
-                    entry_id: self.$route.params.entryid
+                    entry_id: self.$route.params.entryid,
+                    _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
                     console.log(response);
                     self.loading = false
                     self.entry = response;
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        },
+
+        trashEntry: function() {
+            var self = this;
+
+            if ( !confirm( wpufContactForm.confirm ) ) {
+                return;
+            }
+
+            wp.ajax.send( 'wpuf_contact_form_entry_trash', {
+                data: {
+                    entry_id: self.$route.params.entryid,
+                    _wpnonce: wpufContactForm.nonce
+                },
+                success: function(response) {
+                    self.loading = false
+
+                    self.$router.push({ name: 'formEntries', params: { id: self.$route.params.id }});
                 },
                 error: function(error) {
                     self.loading = false;

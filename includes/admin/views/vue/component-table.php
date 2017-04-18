@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <table class="wp-list-table widefat fixed striped posts">
+    <table class="wp-list-table widefat fixed striped wpuf-contact-form">
         <thead>
             <tr>
                 <td id="cb" class="manage-column column-cb check-column">

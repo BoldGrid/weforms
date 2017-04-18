@@ -30,6 +30,7 @@ function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
         'number'  => 10,
         'offset'  => 0,
         'orderby' => 'created_at',
+        'status'  => 'publish',
         'order'   => 'DESC',
     );
 
@@ -37,7 +38,7 @@ function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
 
     $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
             FROM ' . $wpdb->wpuf_cf_entries .
-            ' WHERE form_id = ' . $form_id .
+            ' WHERE form_id = ' . $form_id . ' AND status = \'' . $r['status'] . '\''.
             ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'] .
             ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
 
@@ -108,6 +109,38 @@ function wpuf_cf_insert_entry( $args, $fields = array() ) {
     }
 
     return $entry_id;
+}
+
+/**
+ * Change an entry status
+ *
+ * @param  int $entry_id
+ * @param  string $status
+ *
+ * @return int|boolean
+ */
+function wpuf_cf_change_entry_status( $entry_id, $status ) {
+    global $wpdb;
+
+    return $wpdb->update( $wpdb->wpuf_cf_entries,
+        array( 'status' => $status ),
+        array( 'id' => $entry_id ),
+        array( '%s' ),
+        array( '%d' )
+    );
+}
+
+/**
+ * Delete an entry
+ *
+ * @param  int $entry_id
+ *
+ * @return int|boolean
+ */
+function wpuf_cf_delete_entry( $entry_id ) {
+    global $wpdb;
+
+    return $wpdb->delete( $wpdb->wpuf_cf_entries, array( 'id' => $entry_id ), array( '%d' ) );
 }
 
 /**
@@ -212,10 +245,10 @@ function wpuf_cf_get_entry_custom_keys( $entry_id = 0 ) {
  *
  * @return int
  */
-function wpuf_cf_count_form_entries( $form_id ) {
+function wpuf_cf_count_form_entries( $form_id, $status = 'publish' ) {
     global $wpdb;
 
-    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->wpuf_cf_entries . ' WHERE form_id = %d', $form_id ) );
+    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->wpuf_cf_entries . ' WHERE form_id = %d AND status = %s', $form_id, $status ) );
 }
 
 /**
@@ -260,6 +293,10 @@ function wpuf_cf_get_form_field_labels( $form_id ) {
 
     $data = array();
     foreach ($fields as $field) {
+        if ( empty( $field['name'] ) ) {
+            continue;
+        }
+
         $data[ $field['name'] ] = array(
             'label' => $field['label'],
             'type'  => $field['input_type']
@@ -421,4 +458,42 @@ function wpuf_cf_get_merge_tags() {
     );
 
     return apply_filters( 'wpuf_cf_merge_tags', $tags );
+}
+
+/**
+ * Record a form view count
+ *
+ * @param  int $form_id
+ *
+ * @return void
+ */
+function wpuf_cf_track_form_view( $form_id ) {
+    // don't track administrators
+    if ( current_user_can( 'administrator' ) ) {
+        // return;
+    }
+
+    // ability to turn this off if someone doesn't like this tracking
+    $is_enabled = apply_filters( 'wpuf_cf_track_form_view', true );
+
+    if ( !$is_enabled ) {
+        return;
+    }
+
+    // increase the count
+    $meta_key = '_wpuf_cf_view_count';
+    $number   = (int) get_post_meta( $form_id, $meta_key, true );
+
+    update_post_meta( $form_id, $meta_key, ( $number + 1 ) );
+}
+
+/**
+ * Get form view count of a form
+ *
+ * @param  int $form_id
+ *
+ * @return int
+ */
+function wpuf_cf_get_form_views( $form_id ) {
+    return (int) get_post_meta( $form_id, '_wpuf_cf_view_count', true );
 }
