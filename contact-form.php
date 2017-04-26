@@ -58,6 +58,8 @@ class WPUF_Contact_Form {
      * @uses add_action()
      */
     public function __construct() {
+        $this->define_constants();
+
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
@@ -95,7 +97,6 @@ class WPUF_Contact_Form {
         $wpdb->wpuf_cf_entrymeta = $wpdb->prefix . 'wpuf_cf_entrymeta';
 
         // seems like we have the core, we shall pass!!!
-        $this->define_constants();
         $this->includes();
         $this->init_classes();
     }
@@ -106,7 +107,51 @@ class WPUF_Contact_Form {
      * Nothing being called here yet.
      */
     public function activate() {
+        global $wpdb;
 
+        $collate = '';
+
+        if ( $wpdb->has_cap( 'collation' ) ) {
+            if ( ! empty($wpdb->charset ) ) {
+                $collate .= "DEFAULT CHARACTER SET $wpdb->charset";
+            }
+
+            if ( ! empty($wpdb->collate ) ) {
+                $collate .= " COLLATE $wpdb->collate";
+            }
+        }
+
+        $table_schema = array(
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}wpuf_cf_entries` (
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                `form_id` bigint(20) unsigned DEFAULT NULL,
+                `user_id` bigint(20) unsigned DEFAULT NULL,
+                `user_ip` int(11) unsigned DEFAULT NULL,
+                `user_device` varchar(50) DEFAULT NULL,
+                `referer` varchar(255) DEFAULT NULL,
+                `status` varchar(10) DEFAULT 'publish',
+                `created_at` datetime DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `form_id` (`form_id`)
+            ) $collate;",
+
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}wpuf_cf_entrymeta` (
+                `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                `wpuf_cf_entry_id` bigint(20) unsigned DEFAULT NULL,
+                `meta_key` varchar(255) DEFAULT NULL,
+                `meta_value` longtext,
+                PRIMARY KEY (`meta_id`),
+                KEY `meta_key` (`meta_key`),
+                KEY `entry_id` (`wpuf_cf_entry_id`)
+            ) $collate;",
+        );
+
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        foreach ( $table_schema as $table ) {
+            dbDelta( $table );
+        }
+
+        update_option( 'wpuf_cf_version', WPUF_CONTACT_FORM_VERSION );
     }
 
     /**
@@ -212,9 +257,14 @@ class WPUF_Contact_Form {
 
 } // WPUF_Contact_Form
 
-WPUF_Contact_Form::init();
+/**
+ * Initialize the plugin
+ *
+ * @return \WPUF_Contact_Form
+ */
+function wpuf_contact_form() {
+    return WPUF_Contact_Form::init();
+}
 
-add_action( 'init', function() {
-    // var_dump( wpuf_cf_get_entry_columns(698) );
-    // exit;
-});
+// kick-off
+wpuf_contact_form();
