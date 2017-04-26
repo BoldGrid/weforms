@@ -1,5 +1,2 @@
 ;(function($) {
-
-
-
-})(jQuery);
+'use strict';

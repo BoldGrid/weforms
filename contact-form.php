@@ -188,6 +188,7 @@ class WPUF_Contact_Form {
         }
 
         require_once WPUF_CONTACT_FORM_INCLUDES . '/class-ajax.php';
+        require_once WPUF_CONTACT_FORM_INCLUDES . '/class-notification.php';
         require_once WPUF_CONTACT_FORM_INCLUDES . '/functions.php';
     }
 

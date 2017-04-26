@@ -32,6 +32,20 @@ class WPUF_Contact_Form_Builder {
         );
 
         wp_enqueue_script( 'wpuf-cf-comp-notification', WPUF_CONTACT_FORM_ASSET_URI . '/js/components-notification.js', array( 'wpuf-vue', 'wpuf-vuex' ), false, true );
+        wp_localize_script( 'wpuf-cf-comp-notification', 'wpufCFBuilderNotification', array(
+            'defaultNotification' => array(
+                'active'      => 'true',
+                'name'        => 'Admin Notification',
+                'subject'     => '[{from_name}] New Form Submission #{entry_id}',
+                'to'          => '{admin_email}',
+                'replyTo'     => '',
+                'message'     => '{all_fields}',
+                'fromName'    => '',
+                'fromAddress' => '{admin_email}',
+                'cc'          => '',
+                'bcc'         => ''
+            )
+        ) );
 
         // add_filter( 'wpuf-form-builder-fields-common-properties', array( $this, 'add_fields_common_properties' ) );
 
@@ -43,13 +57,20 @@ class WPUF_Contact_Form_Builder {
         add_action( 'wpuf-form-builder-js-builder-stage-mixins', array( $this, 'js_builder_stage_mixins' ) );
         add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
 
+        add_action( 'wpuf-form-builder-enqueue-after-components', array( $this, 'admin_enqueue_scripts_components' ) );
+
+        add_filter( 'wpuf-form-builder-field-settings', array( $this, 'add_field_settings' ) );
+        add_action( 'wpuf-form-builder-add-js-templates', array( $this, 'add_form_components' ) );
+
         add_filter( 'wpuf-form-builder-fields-custom-fields', function( $fields ) {
+
+            $fields = array_merge( array( 'name_field' ), $fields );
 
             $search_key = 'custom_hidden_field';
 
             if ( in_array( $search_key, $fields ) ) {
                 $key = array_search( $search_key, $fields );
-                unset( $fields[ $key ] );
+                // unset( $fields[ $key ] );
 
                 // re-index the array to preserve sequential keys
                 // otherwise JS converts this into object insetead of array
@@ -76,6 +97,18 @@ class WPUF_Contact_Form_Builder {
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_enqueue_script( 'jquery-ui-slider' );
         wp_enqueue_script( 'jquery-ui-timepicker', WPUF_ASSET_URI . '/js/jquery-ui-timepicker-addon.js', array('jquery-ui-datepicker') );
+    }
+
+    public function admin_enqueue_scripts_components() {
+        wp_enqueue_script( 'wpuf-form-builder-components-pro', WPUF_CONTACT_FORM_ASSET_URI . '/js/form-builder-components.js', array( 'wpuf-form-builder-components' ), WPUF_CONTACT_FORM_VERSION, true );
+    }
+
+    public function add_field_settings( $settings ) {
+        require_once dirname( __FILE__ ) . '/class-contact-form-builder-settings.php';
+
+        $settings = array_merge( WPUF_Contact_Form_Builder_Field_Settings::get_field_settings(), $settings );
+
+        return $settings;
     }
 
     /**
@@ -156,6 +189,7 @@ class WPUF_Contact_Form_Builder {
 
             <a href="#wpuf-metabox-settings" class="nav-tab"><?php _e( 'Form Settings', 'wpuf-contact-form' ); ?></a>
             <a href="#wpuf-metabox-settings-restriction" class="nav-tab"><?php _e( 'Submission Restriction', 'wpuf-contact-form' ); ?></a>
+            <a href="#wpuf-metabox-settings-display" class="nav-tab"><?php _e( 'Display Settings', 'wpuf-contact-form' ); ?></a>
 
         <?php
     }
@@ -176,9 +210,41 @@ class WPUF_Contact_Form_Builder {
                 <?php include_once dirname( __FILE__ ) . '/views/submission-restriction.php'; ?>
             </div>
 
+            <div id="wpuf-metabox-settings-display" class="group">
+                <?php include_once dirname( __FILE__ ) . '/views/display-settings.php'; ?>
+            </div>
+
             <?php do_action( 'wpuf_contact_form_settings_tab_content' ); ?>
 
         <?php
+    }
+
+    /**
+     * Add Vue components
+     *
+     * @return void
+     */
+    public function add_form_components() {
+        // get all vue component names
+        $path = WPUF_CONTACT_FORM_ROOT . '/assets/components';
+
+        $components = array();
+
+        // directory handle
+        $dir = dir( $path );
+
+        while ( $entry = $dir->read() ) {
+            if ( $entry !== '.' && $entry !== '..' ) {
+               if ( is_dir( $path . '/' . $entry ) ) {
+                    $components[] = $entry;
+               }
+            }
+        }
+
+        // html templates of vue components
+        foreach ( $components as $component ) {
+            WPUF_Admin_Form_Builder::include_js_template( $component, $path );
+        }
     }
 
 }

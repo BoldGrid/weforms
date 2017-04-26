@@ -33,7 +33,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
 
         <form class="wpuf-form-add" action="" method="post">
 
-            <ul class="wpuf-form">
+            <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
                 <?php
                 $this->render_items( $form_vars, $post_id, 'contact_form', $form_id, $form_settings );
                 $this->submit_button( $form_id, $form_settings, $post_id );
@@ -62,5 +62,47 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
             <input type="submit" name="submit" value="<?php echo $form_settings['submit_text']; ?>" />
         </li>
     <?php
+    }
+
+    function field_name( $form_field, $post_id, $type, $form_id ) {
+
+        ?>
+        <div class="wpuf-fields">
+            <div class="wpuf-name-field-wrap format-<?php echo $form_field['format']; ?>">
+                <div class="wpuf-name-field-first-name">
+                    <input
+                        name="<?php echo $form_field['name'] ?>[first]"
+                        type="text" class="textfield"
+                        placeholder=""
+                        value=""
+                        size="40"
+                    >
+                    <label class="wpuf-form-sub-label">First</label>
+                </div>
+
+                <div class="wpuf-name-field-middle-name">
+                    <input
+                        name="<?php echo $form_field['name'] ?>[middle]"
+                        type="text" class="textfield"
+                        placeholder=""
+                        value=""
+                        size="40"
+                    >
+                    <label class="wpuf-form-sub-label">Middle</label>
+                </div>
+
+                <div class="wpuf-name-field-last-name">
+                    <input
+                        name="<?php echo $form_field['name'] ?>[last]"
+                        type="text" class="textfield"
+                        placeholder=""
+                        value=""
+                        size="40"
+                    >
+                    <label class="wpuf-form-sub-label">Last</label>
+                </div>
+            </div>
+        </div>
+        <?php
     }
 }

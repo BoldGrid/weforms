@@ -88,8 +88,8 @@ class WPUF_Contact_Form_Admin {
 
         wp_enqueue_script( 'wpuf-vue', WPUF_ASSET_URI . '/vendor/vue/vue' . $prefix . '.js', array(), WPUF_VERSION, true );
         wp_enqueue_script( 'wpuf-vuex', WPUF_ASSET_URI . '/vendor/vuex/vuex' . $prefix . '.js', array( 'wpuf-vue' ), WPUF_VERSION, true );
-        wp_enqueue_script( 'wpuf-vue-router', WPUF_CONTACT_FORM_ASSET_URI . '/js/vue-router.js', array( 'jquery', 'wpuf-vue', 'wpuf-vuex' ), false, true );
-        wp_enqueue_script( 'nprogress', WPUF_CONTACT_FORM_ASSET_URI . '/js/nprogress.js', array( 'jquery' ), false, true );
+        wp_enqueue_script( 'wpuf-vue-router', WPUF_CONTACT_FORM_ASSET_URI . '/js/vendor/vue-router.js', array( 'jquery', 'wpuf-vue', 'wpuf-vuex' ), false, true );
+        wp_enqueue_script( 'nprogress', WPUF_CONTACT_FORM_ASSET_URI . '/js/vendor/nprogress.js', array( 'jquery' ), false, true );
         wp_enqueue_script( 'wpuf-cf-spa', WPUF_CONTACT_FORM_ASSET_URI . '/js/spa.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
         wp_localize_script( 'wpuf-cf-spa', 'wpufContactForm', array(
             'nonce'   => wp_create_nonce( 'wpuf-contact-form' ),

@@ -269,6 +269,8 @@ class WPUF_Contact_Form_Ajax {
         check_ajax_referer( 'wpuf_form_add' );
 
         $form_id       = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
+        $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
+
         $form_vars     = WPUF_Render_Form::get_input_fields( $form_id );
         $form_settings = wpuf_get_form_settings( $form_id );
 
@@ -316,6 +318,14 @@ class WPUF_Contact_Form_Ajax {
             'show_message' => $show_message,
             'message'      => $form_settings['message']
         );
+
+        $notification = new WPUF_Contact_Form_Notification( array(
+            'form_id'  => $form_id,
+            'page_id'  => $page_id,
+            'entry_id' => $entry_id
+        ) );
+
+        $notification->send_notifications();
 
         // wpuf_clear_buffer();
         wp_send_json( $response );

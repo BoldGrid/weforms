@@ -22,18 +22,7 @@ Vue.component('wpuf-cf-form-notification', {
 
     methods: {
         addNew: function() {
-            this.$store.commit('addNotification', {
-                active: true,
-                name: 'New Notification',
-                subject: 'New Form Submission',
-                to: '{site:admin_email}',
-                replyTo: '{site:admin_email}',
-                message: '{all_fields}',
-                fromName: '{site:blogname}',
-                fromAddress: '{site:admin_email}',
-                cc: '',
-                bcc: ''
-            });
+            this.$store.commit('addNotification', wpufCFBuilderNotification.defaultNotification);
         },
 
         editItem: function(index) {

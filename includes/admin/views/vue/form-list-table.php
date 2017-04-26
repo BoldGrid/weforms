@@ -43,7 +43,7 @@
                     <div class="row-actions">
                         <span class="edit"><a href="#">Edit</a> | </span>
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Trash', 'wpuf-contact-form' ); ?></a> | </span>
-                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'wpuf-contact-form' ); ?></a> | </span>
+                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'wpuf-contact-form' ); ?></a> <template v-if="form.entries">|</template> </span>
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'wpuf-contact-form' ); ?></router-link>
                     </div>
                 </td>
@@ -54,7 +54,7 @@
                 </td>
                 <td>{{ form.views }}</td>
                 <td>
-                    <span v-if="form.views">{{ ((form.entries/form.views) * 100) }}%</span>
+                    <span v-if="form.views">{{ ((form.entries/form.views) * 100).toFixed(2) }}%</span>
                     <span v-else>0%</span>
                 </td>
             </tr>

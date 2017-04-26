@@ -27,6 +27,7 @@
     window.wpuf_forms_mixin_builder_stage = {
         data: function () {
             return {
+                label_type: 'above',
                 form_settings: {
                     submit_text: 'Submit'
                 }
@@ -43,6 +44,12 @@
             $('[name="wpuf_settings[submit_text]"]').on('change', function () {
                 self.form_settings.submit_text = $(this).val();
             });
+
+            $('[name="wpuf_settings[label_position]"]').on('change', function () {
+                self.label_type = $(this).val();
+            });
+
+            $('[name="wpuf_settings[label_position]"]').change();
 
 
             wrap.on('change', 'input[type=checkbox][name="wpuf_settings[limit_entries]"]', function() {

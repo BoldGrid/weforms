@@ -55,6 +55,11 @@ var vendorJSWatchFiles      = './assets/js/**/*.js'; // Path to all vendor JS fi
 var customJSWatchFiles      = './assets/js/custom/*.js'; // Path to all custom JS files.
 var projectPHPWatchFiles    = './**/*.php'; // Path to all PHP files.
 
+// Vue.js component files
+var formBuilderAssets = require('./assets/js/utils/form-builder-assets.js');
+var formBuilderComponents = 'form-builder-components';
+var componentsDestination = './assets/js/';
+
 
 // Browsers you care about for autoprefixing.
 // Browserlist https        ://github.com/ai/browserslist
@@ -199,19 +204,19 @@ gulp.task( 'browser-sync', function() {
     *     3. Renames the JS file with suffix .min.js
     *     4. Uglifes/Minifies the JS file and generates vendors.min.js
     */
- gulp.task( 'vendorsJs', function() {
-    gulp.src( jsVendorSRC )
-        .pipe( concat( jsVendorFile + '.js' ) )
+ gulp.task( 'components', function() {
+    gulp.src( formBuilderAssets.components )
+        .pipe( concat( formBuilderComponents + '.js' ) )
         .pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-        .pipe( gulp.dest( jsVendorDestination ) )
+        .pipe( gulp.dest( componentsDestination ) )
         .pipe( rename( {
-            basename: jsVendorFile,
+            basename: formBuilderComponents,
             suffix: '.min'
         }))
         .pipe( uglify() )
         .pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-        .pipe( gulp.dest( jsVendorDestination ) )
-        .pipe( notify( { message: 'TASK: "vendorsJs" Completed! 💯', onLast: true } ) );
+        .pipe( gulp.dest( componentsDestination ) )
+        .pipe( notify( { message: 'TASK: "components" Completed! 💯', onLast: true } ) );
  });
 
 
@@ -299,9 +304,9 @@ gulp.task( 'browser-sync', function() {
     *
     * Watches for file changes and runs specific tasks.
     */
- gulp.task( 'default', ['styles', 'vendorsJs', 'customJS', 'images', 'browser-sync'], function () {
+ gulp.task( 'default', ['styles', 'components', 'customJS', 'images', 'browser-sync'], function () {
     gulp.watch( projectPHPWatchFiles, reload ); // Reload on PHP file changes.
     gulp.watch( styleWatchFiles, [ 'styles' ] ); // Reload on CSS file changes.
-    gulp.watch( vendorJSWatchFiles, [ 'vendorsJs', reload ] ); // Reload on vendorsJs file changes.
+    gulp.watch( vendorJSWatchFiles, [ 'components', reload ] ); // Reload on vendorsJs file changes.
     gulp.watch( customJSWatchFiles, [ 'customJS', reload ] ); // Reload on customJS file changes.
  });
