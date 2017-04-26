@@ -230,6 +230,8 @@ class WPUF_Contact_Form_Ajax {
 
             if ( $field['type'] == 'textarea' ) {
                 $data[ $meta_key ] = wpuf_cf_format_text( $value );
+            } elseif( $field['type'] == 'name' ) {
+                $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
             } else {
                 $data[ $meta_key ] = $value;
             }

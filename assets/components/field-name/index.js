@@ -1,4 +1,4 @@
-Vue.component('field-name_field', {
+Vue.component('field-name', {
     template: '#tmpl-wpuf-field-name',
 
     mixins: [

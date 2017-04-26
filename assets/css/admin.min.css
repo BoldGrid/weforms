@@ -4,6 +4,10 @@ th.col-form-entries,th.col-form-views,th.col-form-conversion{width:10%}
 th.col-entry-id{width:5%}
 th.col-entry-details{width:10%}
 table.wpuf-contact-form td,table.wpuf-contact-form th{vertical-align:top}
+.wpuf-form-builder-field-options .panel-field-opt.panel-field-name>label{display:block;clear:both}
+.wpuf-form-builder-field-options .panel-field-opt.panel-field-name .name-field-placeholder,.wpuf-form-builder-field-options .panel-field-opt.panel-field-name .name-field-value{float:left;width:48%}
+.wpuf-form-builder-field-options .panel-field-opt.panel-field-name .name-field-placeholder label,.wpuf-form-builder-field-options .panel-field-opt.panel-field-name .name-field-value label{font-size:10px}
+.wpuf-form-builder-field-options .panel-field-opt.panel-field-name .name-field-placeholder{margin-right:4%}
 .wpuf-contact-form-entry-wrap{margin-top:20px;width:100%;overflow:hidden}
 .wpuf-contact-form-entry-wrap .wpuf-contact-form-entry-left{float:left;width:70%}
 .wpuf-contact-form-entry-wrap .wpuf-contact-form-entry-right{float:right;width:28%}

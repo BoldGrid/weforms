@@ -65,7 +65,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
     }
 
     function field_name( $form_field, $post_id, $type, $form_id ) {
-
+        // var_dump( $form_field );
         ?>
         <div class="wpuf-fields">
             <div class="wpuf-name-field-wrap format-<?php echo $form_field['format']; ?>">
@@ -73,33 +73,45 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
                     <input
                         name="<?php echo $form_field['name'] ?>[first]"
                         type="text" class="textfield"
-                        placeholder=""
-                        value=""
+                        placeholder="<?php echo esc_attr( $form_field['first_name']['placeholder'] ); ?>"
+                        value="<?php echo esc_attr( $form_field['first_name']['default'] ); ?>"
                         size="40"
+                        data-required="<?php echo $form_field['required'] ?>"
+                        data-type="text"
                     >
-                    <label class="wpuf-form-sub-label">First</label>
+
+                    <?php if ( ! $form_field['hide_subs'] ) : ?>
+                        <label class="wpuf-form-sub-label"><?php _e( 'First', 'wpuf-contact-form' ); ?></label>
+                    <?php endif; ?>
                 </div>
 
-                <div class="wpuf-name-field-middle-name">
-                    <input
-                        name="<?php echo $form_field['name'] ?>[middle]"
-                        type="text" class="textfield"
-                        placeholder=""
-                        value=""
-                        size="40"
-                    >
-                    <label class="wpuf-form-sub-label">Middle</label>
-                </div>
+                <?php if ( $form_field['format'] != 'first-last' ) : ?>
+                    <div class="wpuf-name-field-middle-name">
+                        <input
+                            name="<?php echo $form_field['name'] ?>[middle]"
+                            type="text" class="textfield"
+                            placeholder="<?php echo esc_attr( $form_field['middle_name']['placeholder'] ); ?>"
+                            value="<?php echo esc_attr( $form_field['middle_name']['default'] ); ?>"
+                            size="40"
+                        >
+
+                        <?php if ( ! $form_field['hide_subs'] ) : ?>
+                            <label class="wpuf-form-sub-label"><?php _e( 'Middle', 'wpuf-contact-form' ); ?></label>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="wpuf-name-field-last-name">
                     <input
                         name="<?php echo $form_field['name'] ?>[last]"
                         type="text" class="textfield"
-                        placeholder=""
-                        value=""
+                        placeholder="<?php echo esc_attr( $form_field['last_name']['placeholder'] ); ?>"
+                        value="<?php echo esc_attr( $form_field['last_name']['default'] ); ?>"
                         size="40"
                     >
-                    <label class="wpuf-form-sub-label">Last</label>
+                    <?php if ( ! $form_field['hide_subs'] ) : ?>
+                        <label class="wpuf-form-sub-label"><?php _e( 'Last', 'wpuf-contact-form' ); ?></label>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
