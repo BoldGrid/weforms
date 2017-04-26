@@ -80,7 +80,7 @@ function wpuf_cf_insert_entry( $args, $fields = array() ) {
     $defaults = array(
         'form_id'     => 0,
         'user_id'     => get_current_user_id(),
-        'user_ip'     => inet_pton( wpuf_get_client_ip() ),
+        'user_ip'     => ip2long( wpuf_get_client_ip() ),
         'user_device' => $browser['name'] . '/' . $browser['platform'],
         'referer'     => $_SERVER['HTTP_REFERER'],
         'created_at'  => current_time( 'mysql' )
@@ -265,7 +265,7 @@ function wpuf_cf_get_entry_columns( $form_id ) {
 
     // filter by input types
     $fields = array_filter( $fields, function($item) {
-        return in_array( $item['input_type'], array( 'text' ) );
+        return in_array( $item['input_type'], array( 'text', 'name' ) );
     } );
 
     if ( $fields ) {

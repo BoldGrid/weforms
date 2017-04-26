@@ -172,7 +172,8 @@ class WPUF_Contact_Form_Ajax {
             $entry->fields = array();
 
             foreach ($columns as $meta_key => $label) {
-                $entry->fields[$meta_key] = wpuf_cf_get_entry_meta( $entry_id, $meta_key, true );
+                $value                    = wpuf_cf_get_entry_meta( $entry_id, $meta_key, true );
+                $entry->fields[$meta_key] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
             }
         }, $entries );
 
@@ -187,8 +188,6 @@ class WPUF_Contact_Form_Ajax {
                 'current'  => $current_page
             )
         );
-
-        paginate_links( );
 
         wp_send_json_success( $response );
     }
