@@ -9,9 +9,23 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
         add_shortcode( 'wpuf_contact_form', array( $this, 'render_shortcode' ) );
     }
 
+    /**
+     * Render contact form shortcode
+     *
+     * @param  array $atts
+     * @param  string $contents
+     *
+     * @return string
+     */
     public function render_shortcode( $atts, $contents = '' ) {
         extract( shortcode_atts( array( 'id' => 0 ), $atts ) );
         ob_start();
+
+        $is_open = wpuf_is_form_submission_open( $id );
+
+        if ( is_wp_error( $is_open ) ) {
+            return '<div class="wpuf-info">' . $is_open->get_error_message() . '</div>';
+        }
 
         $form_settings = wpuf_get_form_settings( $id );
 

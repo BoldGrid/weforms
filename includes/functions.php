@@ -474,7 +474,7 @@ function wpuf_cf_get_merge_tags() {
 function wpuf_cf_track_form_view( $form_id ) {
     // don't track administrators
     if ( current_user_can( 'administrator' ) ) {
-        // return;
+        return;
     }
 
     // ability to turn this off if someone doesn't like this tracking
