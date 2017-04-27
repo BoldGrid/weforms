@@ -93,7 +93,7 @@ class WPUF_Contact_Form_Template_Support extends WPUF_Post_Form_Template {
                 'label'            => 'Message',
                 'name'             => 'message',
                 'is_meta'          => 'yes',
-                'help'             => '',
+                'help'             => 'How may we help you? Please be brief as much as possible.',
                 'css'              => '',
                 'rows'             => 5,
                 'cols'             => 25,
