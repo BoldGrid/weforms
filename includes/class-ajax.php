@@ -20,6 +20,7 @@ class WPUF_Contact_Form_Ajax {
 
         // frontend requests
         add_action( 'wp_ajax_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
+        add_action( 'wp_ajax_nopriv_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
     }
 
     /**
