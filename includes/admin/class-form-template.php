@@ -23,6 +23,7 @@ class WPUF_Contact_Form_Template {
 
         $registry       = wpuf_cf_get_form_templates();
         $action_name    = 'wpuf_contact_form_template';
+        $footer_help    = '';
         $blank_form_url = esc_url( add_query_arg( array(
             'action'   => $action_name,
             'template' => 'blank_form',
