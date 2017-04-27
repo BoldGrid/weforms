@@ -105,7 +105,7 @@ Vue.component('wpuf-merge-tags', {
     },
 
     methods: {
-        toggleFields: function() {
+        toggleFields: function(event) {
             $(event.target).parent().siblings('.merge-tags').slideToggle('fast');
         },
 
