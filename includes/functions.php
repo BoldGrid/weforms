@@ -7,9 +7,11 @@
  */
 function wpuf_cf_get_form_templates() {
     require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/form-templates/contact-form.php';
+    require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/form-templates/support-form.php';
 
     $integrations = array(
-        'WPUF_Contact_Form_Template_Contact' => new WPUF_Contact_Form_Template_Contact()
+        'WPUF_Contact_Form_Template_Contact' => new WPUF_Contact_Form_Template_Contact(),
+        'WPUF_Contact_Form_Template_Support' => new WPUF_Contact_Form_Template_Support()
     );
 
     return apply_filters( 'wpuf_contact_form_templates', $integrations );

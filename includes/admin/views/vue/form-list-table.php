@@ -5,7 +5,6 @@
             <label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label>
             <select name="action" id="bulk-action-selector-top">
                 <option value="-1">Bulk Actions</option>
-                    <option value="trash">Move to Trash</option>
             </select>
 
             <input type="submit" id="doaction" class="button action" value="Apply">
@@ -42,7 +41,7 @@
 
                     <div class="row-actions">
                         <span class="edit"><a href="#">Edit</a> | </span>
-                        <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Trash', 'wpuf-contact-form' ); ?></a> | </span>
+                        <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'wpuf-contact-form' ); ?></a> | </span>
                         <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'wpuf-contact-form' ); ?></a> <template v-if="form.entries">|</template> </span>
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'wpuf-contact-form' ); ?></router-link>
                     </div>

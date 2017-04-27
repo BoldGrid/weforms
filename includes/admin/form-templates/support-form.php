@@ -1,13 +1,13 @@
 <?php
 
-class WPUF_Contact_Form_Template_Contact extends WPUF_Post_Form_Template {
+class WPUF_Contact_Form_Template_Support extends WPUF_Post_Form_Template {
 
     public function __construct() {
         parent::__construct();
 
         $this->enabled     = true;
-        $this->title       = __( 'Contact Form', 'wpuf-contact-form' );
-        $this->description = __( 'Create a simple contact form for your site.', 'wpuf-contact-form' );
+        $this->title       = __( 'Support Form', 'wpuf-contact-form' );
+        $this->description = __( 'Enable your users for asking support questions.', 'wpuf-contact-form' );
 
         $this->form_fields = array(
             array(
@@ -45,11 +45,45 @@ class WPUF_Contact_Form_Template_Contact extends WPUF_Post_Form_Template {
                 'label'            => 'Email',
                 'name'             => 'email',
                 'is_meta'          => 'yes',
+                'help'             => 'Please provide a valid email address so we can get back to you',
+                'css'              => '',
+                'placeholder'      => '',
+                'default'          => '',
+                'size'             => 40,
+                'wpuf_cond'        => $this->conditionals
+            ),
+            array(
+                'input_type'          => 'radio',
+                'template'            => 'radio_field',
+                'required'            => 'yes',
+                'label'               => 'Department',
+                'name'                => 'department',
+                'is_meta'             => 'yes',
+                'help'                => '',
+                'css'                 => '',
+                'selected'            => '',
+                'inline'              => 'no',
+                'options'             => array(
+                    'sales'               => 'Sales',
+                    'support'             => 'Customer Support',
+                    'product_development' => 'Product Development',
+                    'other'               => 'Other',
+                ),
+                'wpuf_cond'        => $this->conditionals
+            ),
+            array(
+                'input_type'       => 'text',
+                'template'         => 'text_field',
+                'required'         => 'yes',
+                'label'            => 'Subject',
+                'name'             => 'subject',
+                'is_meta'          => 'yes',
                 'help'             => '',
                 'css'              => '',
                 'placeholder'      => '',
                 'default'          => '',
                 'size'             => 40,
+                'word_restriction' => '',
                 'wpuf_cond'        => $this->conditionals
             ),
             array(

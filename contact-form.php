@@ -228,6 +228,7 @@ class WPUF_Contact_Form {
         if ( is_admin() ) {
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/admin.php';
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-contact-form-builder.php';
+            require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-form-template.php';
         } else {
             require_once WPUF_CONTACT_FORM_INCLUDES . '/class-frontend-form.php';
         }
@@ -246,6 +247,7 @@ class WPUF_Contact_Form {
         if ( is_admin() ) {
             new WPUF_Contact_Form_Admin();
             new WPUF_Contact_Form_Builder();
+            new WPUF_Contact_Form_Template();
         } else {
             new WPUF_Contact_Form_Frontend();
         }

@@ -10,9 +10,6 @@ class WPUF_Contact_Form_Admin {
 
         add_action( 'wpuf_admin_menu_top', array( $this, 'register_admin_menu' ) );
         add_action( 'admin_footer', array( $this, 'include_vue_templates' ) );
-        add_action( 'admin_footer', array( $this, 'render_form_templates' ) );
-
-        add_filter( 'admin_action_wpuf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
     }
 
     /**
@@ -110,109 +107,6 @@ class WPUF_Contact_Form_Admin {
                 require_once dirname( __FILE__ ) . '/views/vue-index.php';
                 break;
         }
-    }
-
-    /**
-     * Render the forms in the modal
-     *
-     * @return void
-     */
-    public function render_form_templates() {
-        if ( ! $this->is_contact_page() ) {
-            return;
-        }
-
-        $registry       = wpuf_cf_get_form_templates();
-        $blank_form_url = admin_url( 'admin.php?page=wpuf-contact-forms&action=add-new' );
-        $action_name    = 'wpuf_contact_form_template';
-
-        if ( ! $registry ) {
-            // return;
-        }
-
-        include WPUF_ROOT . '/admin/html/modal.php';
-    }
-
-    /**
-     * Get a template object by name from the registry
-     *
-     * @param  string $template
-     *
-     * @return boolean|WPUF_Post_Form_Template
-     */
-    public function get_template_object( $template ) {
-        $registry = wpuf_cf_get_form_templates();
-
-        if ( ! array_key_exists( $template, $registry ) ) {
-            return false;
-        }
-
-        $template_object = $registry[ $template ];
-
-        if ( ! is_a( $template_object, 'WPUF_Post_Form_Template') ) {
-            return false;
-        }
-
-        return $template_object;
-    }
-
-    /**
-     * Create a posting form from a post template
-     *
-     * @since 2.4
-     *
-     * @return void
-     */
-    public function create_contact_form_from_template() {
-        check_admin_referer( 'wpuf_create_from_template' );
-
-        $template_name = isset( $_GET['template'] ) ? sanitize_text_field( $_GET['template'] ) : '';
-
-        if ( ! $template_name ) {
-            return;
-        }
-
-        $template_object = $this->get_template_object( $template_name );
-
-        if ( false === $template_object ) {
-            return;
-        }
-
-        // var_dump( $template_object ); die();
-        $current_user = get_current_user_id();
-
-        $form_post_data = array(
-            'post_title'  => $template_object->get_title(),
-            'post_type'   => 'wpuf_contact_form',
-            'post_status' => 'publish',
-            'post_author' => $current_user
-        );
-
-        $form_id = wp_insert_post( $form_post_data );
-
-        if ( is_wp_error( $form_id ) ) {
-            return;
-        }
-
-        // form has been created, lets setup
-        update_post_meta( $form_id, 'wpuf_form_settings', $template_object->get_form_settings() );
-
-        $form_fields = $template_object->get_form_fields();
-
-        if ( $form_fields ) {
-            foreach ($form_fields as $menu_order => $field) {
-                wp_insert_post( array(
-                    'post_type'    => 'wpuf_input',
-                    'post_status'  => 'publish',
-                    'post_content' => maybe_serialize( $field ),
-                    'post_parent'  => $form_id,
-                    'menu_order'   => $menu_order
-                ) );
-            }
-        }
-
-        wp_redirect( admin_url( 'admin.php?page=wpuf-contact-forms&action=edit&id=' . $form_id ) );
-        exit;
     }
 
     public function include_vue_templates() {
