@@ -86,12 +86,13 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
                 <div class="wpuf-name-field-first-name">
                     <input
                         name="<?php echo $form_field['name'] ?>[first]"
-                        type="text" class="textfield"
+                        type="text"
                         placeholder="<?php echo esc_attr( $form_field['first_name']['placeholder'] ); ?>"
                         value="<?php echo esc_attr( $form_field['first_name']['default'] ); ?>"
                         size="40"
                         data-required="<?php echo $form_field['required'] ?>"
                         data-type="text"
+                        class="textfield wpuf_<?php echo $form_field['name']; ?>_<?php echo $form_id; ?>"
                     >
 
                     <?php if ( ! $form_field['hide_subs'] ) : ?>
@@ -130,5 +131,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
             </div>
         </div>
         <?php
+
+        $this->conditional_logic( $form_field, $form_id );
     }
 }
