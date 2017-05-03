@@ -12,16 +12,38 @@ class WPUF_Contact_Form_Builder {
 
         add_action( 'load-'. $this->hook, array( $this, 'form_builder_init' ) );
         add_action( 'load-'. $this->hook, array( $this, 'builder_enqueue_scripts' ) );
+    }
+
+    /**
+     * Init the form builder
+     *
+     * @return void
+     */
+    public function form_builder_init() {
+        $form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+
+        if ( ! $form_id ) {
+            return;
+        }
 
         add_action( 'wpuf-form-builder-tabs-' . $this->form_type, array( $this, 'add_primary_tabs' ) );
         add_action( 'wpuf-form-builder-tab-contents-' . $this->form_type, array( $this, 'add_primary_tab_contents' ) );
 
         add_action( 'wpuf-form-builder-settings-tabs-' . $this->form_type, array( $this, 'add_settings_tabs' ) );
         add_action( 'wpuf-form-builder-settings-tab-contents-' . $this->form_type, array( $this, 'add_settings_tab_contents' ) );
-    }
 
-    public function form_builder_init() {
-        $form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+        add_action( 'wpuf-form-builder-js-builder-stage-mixins', array( $this, 'js_builder_stage_mixins' ) );
+        add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
+
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+        add_filter( 'wpuf-form-builder-js-deps', array( $this, 'js_dependencies' ) );
+
+        add_action( 'wpuf-form-builder-enqueue-after-components', array( $this, 'admin_enqueue_scripts_components' ) );
+        add_filter( 'wpuf-form-builder-field-settings', array( $this, 'add_field_settings' ) );
+        add_action( 'wpuf-form-builder-add-js-templates', array( $this, 'add_form_components' ) );
+        add_filter( 'wpuf-form-builder-fields-custom-fields', array( $this, 'add_custom_fields' ) );
+
+        do_action( 'wpuf-form-builder-init-type-wpuf_forms' );
 
         $settings = array(
             'form_type'         => 'contact_form',
@@ -31,6 +53,22 @@ class WPUF_Contact_Form_Builder {
             'shortcodes'        => array( array( 'name' => 'wpuf_contact_form' ) )
         );
 
+        new WPUF_Admin_Form_Builder( $settings );
+    }
+
+    /**
+     * Enqueue scripts and styles
+     *
+     * @return void
+     */
+    public function builder_enqueue_scripts() {
+        wp_enqueue_style( 'jquery-ui', WPUF_ASSET_URI . '/css/jquery-ui-1.9.1.custom.css' );
+        wp_enqueue_style( 'wpuf-formbuilder', WPUF_ASSET_URI . '/css/formbuilder.css' );
+        wp_enqueue_style( 'wpuf-cf-admin', WPUF_CONTACT_FORM_ASSET_URI . '/css/admin.css' );
+
+        wp_enqueue_script( 'jquery-ui-datepicker' );
+        wp_enqueue_script( 'jquery-ui-slider' );
+        wp_enqueue_script( 'jquery-ui-timepicker', WPUF_ASSET_URI . '/js/jquery-ui-timepicker-addon.js', array('jquery-ui-datepicker') );
         wp_enqueue_script( 'wpuf-cf-comp-notification', WPUF_CONTACT_FORM_ASSET_URI . '/js/components-notification.js', array( 'wpuf-vue', 'wpuf-vuex' ), false, true );
         wp_localize_script( 'wpuf-cf-comp-notification', 'wpufCFBuilderNotification', array(
             'defaultNotification' => array(
@@ -46,69 +84,40 @@ class WPUF_Contact_Form_Builder {
                 'bcc'         => ''
             )
         ) );
-
-        // add_filter( 'wpuf-form-builder-fields-common-properties', array( $this, 'add_fields_common_properties' ) );
-
-        new WPUF_Admin_Form_Builder( $settings );
-
-        add_filter( 'wpuf-form-builder-js-deps', array( $this, 'js_dependencies' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-
-        add_action( 'wpuf-form-builder-js-builder-stage-mixins', array( $this, 'js_builder_stage_mixins' ) );
-        add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
-
-        add_action( 'wpuf-form-builder-enqueue-after-components', array( $this, 'admin_enqueue_scripts_components' ) );
-
-        add_filter( 'wpuf-form-builder-field-settings', array( $this, 'add_field_settings' ) );
-        add_action( 'wpuf-form-builder-add-js-templates', array( $this, 'add_form_components' ) );
-
-        add_filter( 'wpuf-form-builder-fields-custom-fields', function( $fields ) {
-
-            $fields = array_merge( array( 'name_field' ), $fields );
-
-            $search_key = 'custom_hidden_field';
-
-            if ( in_array( $search_key, $fields ) ) {
-                $key = array_search( $search_key, $fields );
-                // unset( $fields[ $key ] );
-
-                // re-index the array to preserve sequential keys
-                // otherwise JS converts this into object insetead of array
-                $fields = array_values( $fields );
-            }
-
-            return $fields;
-        } );
-
-        // add_filter( 'wpuf-form-builder-field-settings', function( $settings ) {
-        //     if ( array_key_exists( 'custom_hidden_field', $settings ) ) {
-        //         // unset( $settings[ 'custom_hidden_field' ] );
-        //     }
-
-        //     return $settings;
-        // });
     }
 
-    public function builder_enqueue_scripts() {
-        wp_enqueue_style( 'jquery-ui', WPUF_ASSET_URI . '/css/jquery-ui-1.9.1.custom.css' );
-        wp_enqueue_style( 'wpuf-formbuilder', WPUF_ASSET_URI . '/css/formbuilder.css' );
-        wp_enqueue_style( 'wpuf-cf-admin', WPUF_CONTACT_FORM_ASSET_URI . '/css/admin.css' );
-
-        wp_enqueue_script( 'jquery-ui-datepicker' );
-        wp_enqueue_script( 'jquery-ui-slider' );
-        wp_enqueue_script( 'jquery-ui-timepicker', WPUF_ASSET_URI . '/js/jquery-ui-timepicker-addon.js', array('jquery-ui-datepicker') );
-    }
-
+    /**
+     * Enqueue form builder components
+     *
+     * @return void
+     */
     public function admin_enqueue_scripts_components() {
-        wp_enqueue_script( 'wpuf-form-builder-components-pro', WPUF_CONTACT_FORM_ASSET_URI . '/js/form-builder-components.js', array( 'wpuf-form-builder-components' ), WPUF_CONTACT_FORM_VERSION, true );
+        wp_enqueue_script( 'wpuf-cf-form-builder-components', WPUF_CONTACT_FORM_ASSET_URI . '/js/form-builder-components.js', array( 'wpuf-form-builder-components' ), WPUF_CONTACT_FORM_VERSION, true );
     }
 
+    /**
+     * Field settings for custom components
+     *
+     * @param array $settings
+     */
     public function add_field_settings( $settings ) {
         require_once dirname( __FILE__ ) . '/class-contact-form-builder-settings.php';
 
         $settings = array_merge( WPUF_Contact_Form_Builder_Field_Settings::get_field_settings(), $settings );
 
         return $settings;
+    }
+
+    /**
+     * Add custom fields
+     *
+     * @param array $fields
+     */
+    public function add_custom_fields( $fields ) {
+        $new_fields = array( 'name_field' );
+        $fields     = array_merge( $new_fields, $fields );
+
+        return $fields;
     }
 
     /**
