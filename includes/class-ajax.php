@@ -354,4 +354,5 @@ class WPUF_Contact_Form_Ajax {
 
         return $entry_fields;
     }
+
 }

@@ -110,6 +110,9 @@ var browserSync  = require('browser-sync').create(); // Reloads browser and inje
 var reload       = browserSync.reload; // For manual browser reload.
 var wpPot        = require('gulp-wp-pot'); // For generating the .pot file.
 var sort         = require('gulp-sort'); // Recommended to prevent unnecessary changes in pot-file.
+var copy         = require('gulp-contrib-copy');
+var clean        = require('gulp-clean');
+var zip          = require('gulp-zip');
 
 /**
  * Task: `browser-sync`.
@@ -297,6 +300,46 @@ gulp.task( 'browser-sync', function() {
                 .pipe( notify( { message: 'TASK: "translate" Completed! 💯', onLast: true } ) )
 
  });
+
+gulp.task('clean-build', function () {
+  return gulp.src('build/', {read: false})
+    .pipe(clean());
+});
+
+gulp.task( 'copy', ['clean-build'], function() {
+    gulp.src([
+        '**',
+        '!node_modules/**',
+        '!build/**',
+        '!bin/**',
+        '!.git/**',
+        '!Gruntfile.js',
+        '!gulpfile.js',
+        '!secret.json',
+        '!package.json',
+        '!debug.log',
+        '!assets/components/**/*.js',
+        '!phpunit.xml',
+        '!.gitignore',
+        '!.gitmodules',
+        '!npm-debug.log',
+        '!plugin-deploy.sh',
+        '!export.sh',
+        '!config.codekit',
+        '!**/nbproject/**',
+        '!assets/less/**',
+        '!tests/**',
+        '!**/Gruntfile.js',
+        '!**/package.json',
+        '!**/gulpfile.json',
+        '!**/README.md',
+        '!**/docs.md',
+        '!**/*~'
+    ])
+    .pipe(copy())
+    // .pipe(zip('wpuf-contact-form.zip'))
+    .pipe(gulp.dest('build/wpuf-contact-form'));
+});
 
 
  /**

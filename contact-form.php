@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: WP User Frontend - Contact Form
-Plugin URI: https://wedevs.com/
+Plugin Name: WPUF Contact Form
+Plugin URI: https://wedevs.com/wp-user-frontend-pro/
 Description: Contact form plugin for WordPress
 Version: 0.1
 Author: weDevs
@@ -66,6 +66,9 @@ class WPUF_Contact_Form {
         // Localize our plugin
         add_action( 'init', array( $this, 'localization_setup' ) );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
+
+        // install the core
+        add_action( 'wp_ajax_wpuf_cf_install_wpuf', array( $this, 'install_wp_user_frontend' ) );
     }
 
     /**
@@ -191,8 +194,36 @@ class WPUF_Contact_Form {
                     <button id="wpuf-contact-form-installer" class="button"><?php _e( 'Install Now', 'wpuf-contact-form' ); ?></button>
                 </p>
             <?php endif; ?>
-
         </div>
+
+        <script type="text/javascript">
+            (function ($) {
+                var wrapper = $('#wpuf-contact-form-installer-notice');
+
+                wrapper.on('click', '#wpuf-contact-form-installer', function (e) {
+                    var self = $(this);
+
+                    e.preventDefault();
+                    self.addClass('install-now updating-message');
+                    self.text('<?php echo esc_js( 'Installing...', 'wpuf-contact-form' ); ?>');
+
+                    var data = {
+                        action: 'wpuf_cf_install_wpuf',
+                        _wpnonce: '<?php echo wp_create_nonce('wpuf-installer-nonce'); ?>'
+                    };
+
+                    $.post(ajaxurl, data, function (response) {
+                        if (response.success) {
+                            self.attr('disabled', 'disabled');
+                            self.removeClass('install-now updating-message');
+                            self.text('<?php echo esc_js( 'Installed', 'wpuf-contact-form' ); ?>');
+
+                            window.location.reload();
+                        }
+                    });
+                });
+            })(jQuery);
+        </script>
         <?php
     }
 
@@ -255,6 +286,39 @@ class WPUF_Contact_Form {
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             new WPUF_Contact_Form_Ajax();
         }
+    }
+
+    /**
+     * Install the WP User Frontend plugin via ajax
+     *
+     * @return void
+     */
+    public function install_wp_user_frontend() {
+
+        if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpuf-installer-nonce' ) ) {
+            wp_send_json_error( __( 'Error: Nonce verification failed', 'wpuf-pro' ) );
+        }
+
+        include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+        include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+        $plugin = 'wp-user-frontend';
+        $api    = plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) );
+
+        $upgrader = new Plugin_Upgrader( new WP_Ajax_Upgrader_Skin() );
+        $result   = $upgrader->install( $api->download_link );
+
+        if ( is_wp_error( $result ) ) {
+            wp_send_json_error( $result );
+        }
+
+        $result = activate_plugin( 'wp-user-frontend/wpuf.php' );
+
+        if ( is_wp_error( $result ) ) {
+            wp_send_json_error( $result );
+        }
+
+        wp_send_json_success();
     }
 
 } // WPUF_Contact_Form
