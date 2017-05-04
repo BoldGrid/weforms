@@ -1,6 +1,6 @@
 <div>
     <!-- <pre>{{ notifications.length }}</pre> -->
-    <a href="#" class="button button-secondary add-notification" v-on:click.prevent="addNew"><span class="dashicons dashicons-plus-alt"></span> <?php _e( 'Add Notification', 'wpuf-contact-form' ); ?></a>
+    <a href="#" class="button button-secondary add-notification" v-on:click.prevent="addNew"><span class="dashicons dashicons-plus-alt"></span> <?php _e( 'Add Notification', 'best-contact-form' ); ?></a>
 
     <div :class="[editing ? 'editing' : '', 'notification-wrap']">
     <!-- notification-wrap -->
@@ -10,8 +10,8 @@
                 <thead>
                     <tr>
                         <th class="col-toggle">&nbsp;</th>
-                        <th class="col-name"><?php _e( 'Name', 'wpuf-contact-form' ); ?></th>
-                        <th class="col-subject"><?php _e( 'Subject', 'wpuf-contact-form' ); ?></th>
+                        <th class="col-name"><?php _e( 'Name', 'best-contact-form' ); ?></th>
+                        <th class="col-subject"><?php _e( 'Subject', 'best-contact-form' ); ?></th>
                         <th class="col-action">&nbsp;</th>
                     </tr>
                 </thead>
@@ -26,8 +26,8 @@
                         <td class="col-name"><a href="#" v-on:click.prevent="editItem(index)">{{ notification.name }}</a></td>
                         <td class="col-subject">{{ notification.subject }}</td>
                         <td class="col-action">
-                            <a href="#" v-on:click.prevent="duplicate(index)" title="<?php esc_attr_e( 'Duplicate', 'wpuf-contact-form' ); ?>"><span class="dashicons dashicons-admin-page"></span></a>
-                            <a href="#" v-on:click.prevent="editItem(index)" title="<?php esc_attr_e( 'Settings', 'wpuf-contact-form' ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
+                            <a href="#" v-on:click.prevent="duplicate(index)" title="<?php esc_attr_e( 'Duplicate', 'best-contact-form' ); ?>"><span class="dashicons dashicons-admin-page"></span></a>
+                            <a href="#" v-on:click.prevent="editItem(index)" title="<?php esc_attr_e( 'Settings', 'best-contact-form' ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
                         </td>
                     </tr>
                     <tr v-if="!notifications.length">
@@ -106,7 +106,7 @@
             </div>
 
             <div class="submit-area">
-                <a href="#" v-on:click.prevent="deleteItem(editingIndex)" title="<?php esc_attr_e( 'Delete', 'wpuf-contact-form' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                <a href="#" v-on:click.prevent="deleteItem(editingIndex)" title="<?php esc_attr_e( 'Delete', 'best-contact-form' ); ?>"><span class="dashicons dashicons-trash"></span></a>
                 <button class="button button-secondary" v-on:click.prevent="editDone()">Done</button>
             </div>
         </div><!-- .notification-edit-area -->

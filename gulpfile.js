@@ -15,14 +15,14 @@
  */
 
 // Project related.
-var project                 = 'wpuf-contact-form';
+var project                 = 'best-contact-form';
 var projectURL              = 'wpuf.dev';
 var productURL              = './';
 
 // Translation related.
-var text_domain             = 'wpuf-contact-form';
+var text_domain             = 'best-contact-form';
 var destFile                = 'wpuf-contact-form.pot';
-var packageName             = 'wpuf-contact-form';
+var packageName             = 'best-contact-form';
 var bugReport               = 'https://github.com/weDevsOfficial/contact-form';
 var lastTranslator          = 'Tareq Hasan <tareq@wedevs.com.com>';
 var team                    = 'weDevs <info@wedevs.com>';

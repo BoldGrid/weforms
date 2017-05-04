@@ -6,8 +6,8 @@ class WPUF_Contact_Form_Template_Support extends WPUF_Post_Form_Template {
         parent::__construct();
 
         $this->enabled     = true;
-        $this->title       = __( 'Support Form', 'wpuf-contact-form' );
-        $this->description = __( 'Enable your users for asking support questions.', 'wpuf-contact-form' );
+        $this->title       = __( 'Support Form', 'best-contact-form' );
+        $this->description = __( 'Enable your users for asking support questions.', 'best-contact-form' );
 
         $this->form_fields = array(
             array(

@@ -1,5 +1,5 @@
 <div class="merge-tag-wrap">
-    <a href="#" v-on:click.prevent="toggleFields($event)" class="merge-tag-link" title="<?php echo esc_attr( 'Click to toggle merge tags', 'wpuf-contact-form' ); ?>"><span class="dashicons dashicons-editor-code"></span></a>
+    <a href="#" v-on:click.prevent="toggleFields($event)" class="merge-tag-link" title="<?php echo esc_attr( 'Click to toggle merge tags', 'best-contact-form' ); ?>"><span class="dashicons dashicons-editor-code"></span></a>
 
     <!-- <pre>{{ form_fields }}</pre> -->
 

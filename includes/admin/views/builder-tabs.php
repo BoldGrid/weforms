@@ -6,6 +6,6 @@
 
 <div id="wpuf-form-builder-tab-integration" class="group">
 
-    <p><?php _e( 'No integrations found', 'wpuf-contact-form' ); ?></p>
+    <p><?php _e( 'No integrations found', 'best-contact-form' ); ?></p>
 
 </div>

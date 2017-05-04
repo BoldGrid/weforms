@@ -93,17 +93,17 @@ function wpuf_cf_insert_entry( $args, $fields = array() ) {
     $r = wp_parse_args( $args, $defaults );
 
     if ( !$r['form_id'] ) {
-        return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'wpuf-contact-form' ) );
+        return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'best-contact-form' ) );
     }
 
     if ( !$fields ) {
-        return new WP_Error( 'no-fields', __( 'No form fields were found.', 'wpuf-contact-form' ) );
+        return new WP_Error( 'no-fields', __( 'No form fields were found.', 'best-contact-form' ) );
     }
 
     $success = $wpdb->insert( $wpdb->wpuf_cf_entries, $r );
 
     if ( is_wp_error( $success ) || !$success ) {
-        return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'wpuf-contact-form' ) );
+        return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'best-contact-form' ) );
     }
 
     $entry_id = $wpdb->insert_id;
@@ -420,43 +420,43 @@ function wpuf_cf_get_browser() {
 function wpuf_cf_get_merge_tags() {
     $tags = array(
         'form' => array(
-            'title' => __( 'Form', 'wpuf-contact-form' ),
+            'title' => __( 'Form', 'best-contact-form' ),
             'tags'  => array(
-                'entry_id'  => __( 'Entry ID', 'wpuf-contact-form' ),
-                'form_id'   => __( 'Form ID', 'wpuf-contact-form' ),
-                'form_name' => __( 'Form Name', 'wpuf-contact-form' )
+                'entry_id'  => __( 'Entry ID', 'best-contact-form' ),
+                'form_id'   => __( 'Form ID', 'best-contact-form' ),
+                'form_name' => __( 'Form Name', 'best-contact-form' )
             )
         ),
         'system' => array(
-            'title' => __( 'System', 'wpuf-contact-form' ),
+            'title' => __( 'System', 'best-contact-form' ),
             'tags'  => array(
-                'admin_email' => __( 'Site Administrator Email', 'wpuf-contact-form' ),
-                'date'        => __( 'Date', 'wpuf-contact-form' ),
-                'site_name'   => __( 'Site Title', 'wpuf-contact-form' ),
-                'site_url'    => __( 'Site URL', 'wpuf-contact-form' ),
-                'page_title'  => __( 'Embedded Page Title', 'wpuf-contact-form' ),
+                'admin_email' => __( 'Site Administrator Email', 'best-contact-form' ),
+                'date'        => __( 'Date', 'best-contact-form' ),
+                'site_name'   => __( 'Site Title', 'best-contact-form' ),
+                'site_url'    => __( 'Site URL', 'best-contact-form' ),
+                'page_title'  => __( 'Embedded Page Title', 'best-contact-form' ),
             )
         ),
         'user' => array(
-            'title' => __( 'User', 'wpuf-contact-form' ),
+            'title' => __( 'User', 'best-contact-form' ),
             'tags'  => array(
-                'ip_address'   => __( 'IP Address', 'wpuf-contact-form' ),
-                'user_id'      => __( 'User ID', 'wpuf-contact-form' ),
-                'first_name'   => __( 'First Name', 'wpuf-contact-form' ),
-                'last_name'    => __( 'Last Name', 'wpuf-contact-form' ),
-                'display_name' => __( 'Display Name', 'wpuf-contact-form' ),
-                'user_email'   => __( 'Email', 'wpuf-contact-form' ),
+                'ip_address'   => __( 'IP Address', 'best-contact-form' ),
+                'user_id'      => __( 'User ID', 'best-contact-form' ),
+                'first_name'   => __( 'First Name', 'best-contact-form' ),
+                'last_name'    => __( 'Last Name', 'best-contact-form' ),
+                'display_name' => __( 'Display Name', 'best-contact-form' ),
+                'user_email'   => __( 'Email', 'best-contact-form' ),
             )
         ),
         'urls' => array(
-            'title' => __( 'URL\'s', 'wpuf-contact-form' ),
+            'title' => __( 'URL\'s', 'best-contact-form' ),
             'tags'  => array(
-                'url_page'          => __( 'Embeded Page URL', 'wpuf-contact-form' ),
-                'url_referer'       => __( 'Referer URL', 'wpuf-contact-form' ),
-                'url_login'         => __( 'Login URL', 'wpuf-contact-form' ),
-                'url_logout'        => __( 'Logout URL', 'wpuf-contact-form' ),
-                'url_register'      => __( 'Register URL', 'wpuf-contact-form' ),
-                'url_lost_password' => __( 'Lost Password URL', 'wpuf-contact-form' ),
+                'url_page'          => __( 'Embeded Page URL', 'best-contact-form' ),
+                'url_referer'       => __( 'Referer URL', 'best-contact-form' ),
+                'url_login'         => __( 'Login URL', 'best-contact-form' ),
+                'url_logout'        => __( 'Logout URL', 'best-contact-form' ),
+                'url_register'      => __( 'Register URL', 'best-contact-form' ),
+                'url_lost_password' => __( 'Lost Password URL', 'best-contact-form' ),
             )
         ),
     );

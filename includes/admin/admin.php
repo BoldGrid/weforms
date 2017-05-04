@@ -21,7 +21,7 @@ class WPUF_Contact_Form_Admin {
         $capability = wpuf_admin_role();
 
         register_post_type( 'wpuf_contact_form', array(
-            'label'           => __( 'Contact Forms', 'wpuf-contact-form' ),
+            'label'           => __( 'Contact Forms', 'best-contact-form' ),
             'public'          => false,
             'show_ui'         => true,
             'show_in_menu'    => false,
@@ -41,20 +41,20 @@ class WPUF_Contact_Form_Admin {
                 'read_post'           => $capability,
             ),
             'labels' => array(
-                'name'               => __( 'Forms', 'wpuf-contact-form' ),
-                'singular_name'      => __( 'Form', 'wpuf-contact-form' ),
-                'menu_name'          => __( 'Contact Forms', 'wpuf-contact-form' ),
-                'add_new'            => __( 'Add Form', 'wpuf-contact-form' ),
-                'add_new_item'       => __( 'Add New Form', 'wpuf-contact-form' ),
-                'edit'               => __( 'Edit', 'wpuf-contact-form' ),
-                'edit_item'          => __( 'Edit Form', 'wpuf-contact-form' ),
-                'new_item'           => __( 'New Form', 'wpuf-contact-form' ),
-                'view'               => __( 'View Form', 'wpuf-contact-form' ),
-                'view_item'          => __( 'View Form', 'wpuf-contact-form' ),
-                'search_items'       => __( 'Search Form', 'wpuf-contact-form' ),
-                'not_found'          => __( 'No Form Found', 'wpuf-contact-form' ),
-                'not_found_in_trash' => __( 'No Form Found in Trash', 'wpuf-contact-form' ),
-                'parent'             => __( 'Parent Form', 'wpuf-contact-form' ),
+                'name'               => __( 'Forms', 'best-contact-form' ),
+                'singular_name'      => __( 'Form', 'best-contact-form' ),
+                'menu_name'          => __( 'Contact Forms', 'best-contact-form' ),
+                'add_new'            => __( 'Add Form', 'best-contact-form' ),
+                'add_new_item'       => __( 'Add New Form', 'best-contact-form' ),
+                'edit'               => __( 'Edit', 'best-contact-form' ),
+                'edit_item'          => __( 'Edit Form', 'best-contact-form' ),
+                'new_item'           => __( 'New Form', 'best-contact-form' ),
+                'view'               => __( 'View Form', 'best-contact-form' ),
+                'view_item'          => __( 'View Form', 'best-contact-form' ),
+                'search_items'       => __( 'Search Form', 'best-contact-form' ),
+                'not_found'          => __( 'No Form Found', 'best-contact-form' ),
+                'not_found_in_trash' => __( 'No Form Found in Trash', 'best-contact-form' ),
+                'parent'             => __( 'Parent Form', 'best-contact-form' ),
             ),
         ) );
     }
@@ -62,7 +62,7 @@ class WPUF_Contact_Form_Admin {
     public function register_admin_menu() {
         $capability = wpuf_admin_role();
 
-        $hook = add_submenu_page( 'wp-user-frontend', __( 'Contact Forms', 'wpuf-contact-form' ), __( 'Contact Forms', 'wpuf-contact-form' ), $capability, 'wpuf-contact-forms', array( $this, 'contact_form_page') );
+        $hook = add_submenu_page( 'wp-user-frontend', __( 'Contact Forms', 'best-contact-form' ), __( 'Contact Forms', 'best-contact-form' ), $capability, 'wpuf-contact-forms', array( $this, 'contact_form_page') );
 
         add_action( 'load-'. $hook, array( $this, 'enqueue_scripts' ) );
     }
@@ -89,8 +89,8 @@ class WPUF_Contact_Form_Admin {
         wp_enqueue_script( 'nprogress', WPUF_CONTACT_FORM_ASSET_URI . '/js/vendor/nprogress.js', array( 'jquery' ), false, true );
         wp_enqueue_script( 'wpuf-cf-spa', WPUF_CONTACT_FORM_ASSET_URI . '/js/spa.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
         wp_localize_script( 'wpuf-cf-spa', 'wpufContactForm', array(
-            'nonce'   => wp_create_nonce( 'wpuf-contact-form' ),
-            'confirm' => __( 'Are you sure?', 'wpuf-contact-form' )
+            'nonce'   => wp_create_nonce( 'best-contact-form' ),
+            'confirm' => __( 'Are you sure?', 'best-contact-form' )
         ) );
     }
 

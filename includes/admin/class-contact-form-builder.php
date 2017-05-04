@@ -173,8 +173,8 @@ class WPUF_Contact_Form_Builder {
      */
     public function add_primary_tabs() {
         $tabs = apply_filters( 'wpuf_contact_form_editor_tabs', array(
-            'notification' => __( 'Notifications', 'wpuf-contact-form' ),
-            'integration'  => __( 'Integrations', 'wpuf-contact-form' )
+            'notification' => __( 'Notifications', 'best-contact-form' ),
+            'integration'  => __( 'Integrations', 'best-contact-form' )
         ) );
 
         foreach ($tabs as $key => $label) {
@@ -196,9 +196,9 @@ class WPUF_Contact_Form_Builder {
     public function add_settings_tabs() {
         ?>
 
-            <a href="#wpuf-metabox-settings" class="nav-tab"><?php _e( 'Form Settings', 'wpuf-contact-form' ); ?></a>
-            <a href="#wpuf-metabox-settings-restriction" class="nav-tab"><?php _e( 'Submission Restriction', 'wpuf-contact-form' ); ?></a>
-            <a href="#wpuf-metabox-settings-display" class="nav-tab"><?php _e( 'Display Settings', 'wpuf-contact-form' ); ?></a>
+            <a href="#wpuf-metabox-settings" class="nav-tab"><?php _e( 'Form Settings', 'best-contact-form' ); ?></a>
+            <a href="#wpuf-metabox-settings-restriction" class="nav-tab"><?php _e( 'Submission Restriction', 'best-contact-form' ); ?></a>
+            <a href="#wpuf-metabox-settings-display" class="nav-tab"><?php _e( 'Display Settings', 'best-contact-form' ); ?></a>
 
         <?php
     }

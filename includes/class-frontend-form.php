@@ -96,7 +96,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
                     >
 
                     <?php if ( ! $form_field['hide_subs'] ) : ?>
-                        <label class="wpuf-form-sub-label"><?php _e( 'First', 'wpuf-contact-form' ); ?></label>
+                        <label class="wpuf-form-sub-label"><?php _e( 'First', 'best-contact-form' ); ?></label>
                     <?php endif; ?>
                 </div>
 
@@ -111,7 +111,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
                         >
 
                         <?php if ( ! $form_field['hide_subs'] ) : ?>
-                            <label class="wpuf-form-sub-label"><?php _e( 'Middle', 'wpuf-contact-form' ); ?></label>
+                            <label class="wpuf-form-sub-label"><?php _e( 'Middle', 'best-contact-form' ); ?></label>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
@@ -125,7 +125,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
                         size="40"
                     >
                     <?php if ( ! $form_field['hide_subs'] ) : ?>
-                        <label class="wpuf-form-sub-label"><?php _e( 'Last', 'wpuf-contact-form' ); ?></label>
+                        <label class="wpuf-form-sub-label"><?php _e( 'Last', 'best-contact-form' ); ?></label>
                     <?php endif; ?>
                 </div>
             </div>

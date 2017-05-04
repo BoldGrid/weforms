@@ -6,8 +6,8 @@ class WPUF_Contact_Form_Template_Contact extends WPUF_Post_Form_Template {
         parent::__construct();
 
         $this->enabled     = true;
-        $this->title       = __( 'Contact Form', 'wpuf-contact-form' );
-        $this->description = __( 'Create a simple contact form for your site.', 'wpuf-contact-form' );
+        $this->title       = __( 'Contact Form', 'best-contact-form' );
+        $this->description = __( 'Create a simple contact form for your site.', 'best-contact-form' );
 
         $this->form_fields = array(
             array(

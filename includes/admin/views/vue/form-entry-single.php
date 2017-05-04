@@ -38,27 +38,27 @@
 
                         <ul>
                             <li>
-                                <span class="label"><?php _e( 'Entry ID', 'wpuf-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'Entry ID', 'best-contact-form' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">#{{ $route.params.entryid }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'User IP', 'wpuf-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'User IP', 'best-contact-form' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.info.ip }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Page', 'wpuf-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'Page', 'best-contact-form' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value"><a :href="entry.info.referer">{{ entry.info.referer }}</a></span>
                             </li>
                             <li v-if="entry.info.user">
-                                <span class="label"><?php _e( 'From', 'wpuf-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'From', 'best-contact-form' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.info.user }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Submitted On', 'wpuf-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'Submitted On', 'best-contact-form' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.info.created }}</span>
                             </li>

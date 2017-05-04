@@ -30,7 +30,7 @@ class WPUF_Contact_Form_Ajax {
      */
     public function check_admin() {
         if ( !current_user_can( 'administrator' ) ) {
-            wp_send_json_error( __( 'You do not have sufficient permission.', 'wpuf-contact-form' ) );
+            wp_send_json_error( __( 'You do not have sufficient permission.', 'best-contact-form' ) );
         }
     }
 
@@ -40,7 +40,7 @@ class WPUF_Contact_Form_Ajax {
      * @return void
      */
     public function get_contact_forms() {
-        check_ajax_referer( 'wpuf-contact-form' );
+        check_ajax_referer( 'best-contact-form' );
 
         $this->check_admin();
 
@@ -74,14 +74,14 @@ class WPUF_Contact_Form_Ajax {
      * @return void
      */
     public function create_form() {
-        check_ajax_referer( 'wpuf-contact-form' );
+        check_ajax_referer( 'best-contact-form' );
 
         $this->check_admin();
 
         $form_name = isset( $_POST['form_name'] ) ? sanitize_text_field( $_POST['form_name'] ) : '';
 
         if ( empty( $form_name ) ) {
-            wp_send_json_error( __( 'Please provide a form name', 'wpuf-contact-form' ) );
+            wp_send_json_error( __( 'Please provide a form name', 'best-contact-form' ) );
         }
 
         $post_id = wp_insert_post( array(
@@ -106,14 +106,14 @@ class WPUF_Contact_Form_Ajax {
      * @return void
      */
     public function delete_form() {
-        check_ajax_referer( 'wpuf-contact-form' );
+        check_ajax_referer( 'best-contact-form' );
 
         $this->check_admin();
 
         $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
 
         if ( ! $form_id ) {
-            wp_send_json_error( __( 'No form id provided!', 'wpuf-contact-form' ) );
+            wp_send_json_error( __( 'No form id provided!', 'best-contact-form' ) );
         }
 
         wpuf_delete_form( $form_id, true );
@@ -126,7 +126,7 @@ class WPUF_Contact_Form_Ajax {
      * @return voiud
      */
     public function duplicate_form() {
-        check_ajax_referer( 'wpuf-contact-form' );
+        check_ajax_referer( 'best-contact-form' );
 
         $this->check_admin();
 
@@ -147,7 +147,7 @@ class WPUF_Contact_Form_Ajax {
      * @return void
      */
     public function get_entries() {
-        check_ajax_referer( 'wpuf-contact-form' );
+        check_ajax_referer( 'best-contact-form' );
 
         $this->check_admin();
 
@@ -157,7 +157,7 @@ class WPUF_Contact_Form_Ajax {
         $offset       = ( $current_page - 1 ) * $per_page;
 
         if ( ! $form_id ) {
-            wp_send_json_error( __( 'No form id provided!', 'wpuf-contact-form' ) );
+            wp_send_json_error( __( 'No form id provided!', 'best-contact-form' ) );
         }
 
         $entries = wpuf_cf_get_form_entries( $form_id, array(
@@ -199,7 +199,7 @@ class WPUF_Contact_Form_Ajax {
      * @return void
      */
     public function get_entry_detail() {
-        check_ajax_referer( 'wpuf-contact-form' );
+        check_ajax_referer( 'best-contact-form' );
 
         $this->check_admin();
 
@@ -207,7 +207,7 @@ class WPUF_Contact_Form_Ajax {
         $entry    = wpuf_cf_get_entry( $entry_id );
 
         if ( !$entry ) {
-            wp_send_json_error( __( 'No such entry found!', 'wpuf-contact-form' ) );
+            wp_send_json_error( __( 'No such entry found!', 'best-contact-form' ) );
         }
 
         $data   = array();
@@ -222,7 +222,7 @@ class WPUF_Contact_Form_Ajax {
         );
 
         if ( ! $fields ) {
-            wp_send_json_error( __( 'No form fields found!', 'wpuf-contact-form' ) );
+            wp_send_json_error( __( 'No form fields found!', 'best-contact-form' ) );
         }
 
         foreach ($fields as $meta_key => $field ) {
@@ -252,7 +252,7 @@ class WPUF_Contact_Form_Ajax {
      * @return void
      */
     public function trash_entry() {
-        check_ajax_referer( 'wpuf-contact-form' );
+        check_ajax_referer( 'best-contact-form' );
 
         $this->check_admin();
 
@@ -281,7 +281,7 @@ class WPUF_Contact_Form_Ajax {
         if ( !$meta_vars ) {
             wp_send_json( array(
                 'success'     => false,
-                'error'       => __( 'No form field was found.', 'wpuf-contact-form' ),
+                'error'       => __( 'No form field was found.', 'best-contact-form' ),
             ) );
         }
 

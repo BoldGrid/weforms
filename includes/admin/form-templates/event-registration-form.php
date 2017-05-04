@@ -6,8 +6,8 @@ class WPUF_Contact_Form_Template_Event_Registration extends WPUF_Post_Form_Templ
         parent::__construct();
 
         $this->enabled     = true;
-        $this->title       = __( 'Event Registration', 'wpuf-contact-form' );
-        $this->description = __( 'Get your visitors to register for an upcoming event quickly with this registration form template.', 'wpuf-contact-form' );
+        $this->title       = __( 'Event Registration', 'best-contact-form' );
+        $this->description = __( 'Get your visitors to register for an upcoming event quickly with this registration form template.', 'best-contact-form' );
 
         $this->form_fields = array(
             array(
