@@ -30,11 +30,6 @@ a.add-notification .dashicons{margin-top:4px}
 .notification-wrap .notification-edit-area .form-fields input,.notification-wrap .notification-edit-area .form-fields textarea{width:100%;padding:6px 25px 6px 6px}
 .notification-wrap .notification-edit-area .form-fields .notification-row{margin-bottom:10px;position:relative}
 .notification-wrap .notification-edit-area .form-fields .notification-row:after{clear:both;content:"";display:table}
-.notification-wrap .notification-edit-area .form-fields .notification-row .merge-tag-wrap .merge-tag-link{position:absolute;right:5px;top:30px;color:#999;text-decoration:none}
-.notification-wrap .notification-edit-area .form-fields .notification-row .merge-tag-wrap .merge-tag-link:hover{color:#555}
-.notification-wrap .notification-edit-area .form-fields .notification-row .merge-tag-wrap .merge-tags{max-height:110px;overflow:hidden;overflow-y:scroll;border:1px solid #ddd;display:none}
-.notification-wrap .notification-edit-area .form-fields .notification-row .merge-tag-wrap .merge-tags .merge-tag-head{font-weight:bold;background:#f0f0f0;padding:3px 10px}
-.notification-wrap .notification-edit-area .form-fields .notification-row .merge-tag-wrap .merge-tags .merge-tag-section ul{margin:0;padding:5px 10px}
 .notification-wrap .notification-edit-area .form-fields .row-one-half{float:left;width:48%;position:relative}
 .notification-wrap .notification-edit-area .form-fields .row-one-half.first{margin-right:4%}
 .notification-wrap .notification-edit-area .form-fields label{display:block;padding-bottom:5px}

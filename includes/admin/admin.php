@@ -123,7 +123,6 @@ class WPUF_Contact_Form_Admin {
             'form-entry-single',
             'component-table',
             'form-notification',
-            'merge-tags',
         );
 
         $template_path = dirname( __FILE__ ) . '/views/vue';

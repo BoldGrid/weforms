@@ -73,46 +73,4 @@ Vue.component('wpuf-cf-form-notification', {
     }
 });
 
-Vue.component('wpuf-merge-tags', {
-    template: '#tmpl-wpuf-merge-tags',
-    props: {
-        field: String,
-        filter: {
-            type: String,
-            default: null
-        }
-    },
-
-    data: function() {
-        return {
-            showing: false,
-            type: null,
-        }
-    },
-
-    computed: {
-        form_fields: function () {
-            var template = this.filter;
-
-            if (template !== null) {
-                return this.$store.state.form_fields.filter(function(item) {
-                    return item.template === template;
-                });
-            }
-
-            return this.$store.state.form_fields;
-        },
-    },
-
-    methods: {
-        toggleFields: function(event) {
-            $(event.target).parent().siblings('.merge-tags').slideToggle('fast');
-        },
-
-        insertField: function(type, field) {
-            this.$emit('insert', type, field, this.field);
-        }
-    }
-});
-
 })(jQuery);

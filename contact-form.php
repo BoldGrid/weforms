@@ -218,7 +218,7 @@ class WPUF_Contact_Form {
                             self.removeClass('install-now updating-message');
                             self.text('<?php echo esc_js( 'Installed', 'best-contact-form' ); ?>');
 
-                            window.location.reload();
+                            window.location.href = '<?php echo admin_url( 'admin.php?page=wpuf-contact-forms' ); ?>';
                         }
                     });
                 });
