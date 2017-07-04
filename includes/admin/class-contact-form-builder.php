@@ -200,6 +200,8 @@ class WPUF_Contact_Form_Builder {
             <a href="#wpuf-metabox-settings-restriction" class="nav-tab"><?php _e( 'Submission Restriction', 'best-contact-form' ); ?></a>
             <a href="#wpuf-metabox-settings-display" class="nav-tab"><?php _e( 'Display Settings', 'best-contact-form' ); ?></a>
 
+            <?php do_action( 'wpuf_contact_form_settings_tab' ); ?>
+
         <?php
     }
 
