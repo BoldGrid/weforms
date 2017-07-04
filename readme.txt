@@ -12,6 +12,8 @@ A simple contact form for WordPress
 
 == Description ==
 
+= Best Free Contact Form Plugin For WordPress =
+
 A contact form builder plugin leveraging the form builder of WP User Frontend
 
 
