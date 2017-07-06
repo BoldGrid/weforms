@@ -1,8 +1,8 @@
 <div class="wpuf-contact-form-entry">
-    <h1 class="wp-heading-inline">Entry Details</h1>
-    <router-link class="page-title-action" :to="{ name: 'formEntries', params: { id: $route.params.id }}">Back to Entries</router-link>
+    <h1 class="wp-heading-inline"><?php _e( 'Entry Details', 'best-contact-form' ); ?></h1>
+    <router-link class="page-title-action" :to="{ name: 'formEntries', params: { id: $route.params.id }}"><?php _e( 'Back to Entries', 'best-contact-form' ); ?></router-link>
 
-    <div v-if="loading">Loading...</div>
+    <div v-if="loading"><?php _e( 'Loading...', 'best-contact-form' ); ?></div>
     <div v-else class="wpuf-contact-form-entry-wrap">
 
         <div class="wpuf-contact-form-entry-left">
@@ -24,7 +24,7 @@
                             </template>
                         </tbody>
                     </table>
-                    <div v-else><div class="inside">Loading...</div></div>
+                    <div v-else><div class="inside"><?php _e( 'Loading...', 'best-contact-form' ); ?></div></div>
 
                 </div>
             </div>
@@ -32,7 +32,7 @@
 
         <div class="wpuf-contact-form-entry-right">
             <div class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span>Submission Info</span></h2>
+                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Submission Info', 'best-contact-form' ); ?></span></h2>
                 <div class="inside">
                     <div class="main">
 
@@ -68,14 +68,11 @@
 
                 <div id="major-publishing-actions">
                     <div id="publishing-action">
-                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span> Trash</button>
+                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Trash', 'best-contact-form' ); ?></button>
                     </div>
                     <div class="clear"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- <pre>{{ entry }}</pre> -->
-
 </div>

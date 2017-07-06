@@ -31,7 +31,7 @@
                         </td>
                     </tr>
                     <tr v-if="!notifications.length">
-                        <td colspan="4">No notifications found</td>
+                        <td colspan="4"><?php _e( 'No notifications found', 'best-contact-form' ); ?></td>
                     </tr>
                 </tbody>
             </table>
@@ -46,43 +46,43 @@
             <div class="form-fields">
                 <div class="notification-row">
                     <div class="row-one-half notification-field first">
-                        <label for="notification-title">To</label>
+                        <label for="notification-title"><?php _e( 'To', 'best-contact-form' ); ?></label>
                         <input type="text" v-model="notifications[editingIndex].to">
                         <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="to"></wpuf-merge-tags>
                     </div>
 
                     <div class="row-one-half notification-field">
-                        <label for="notification-title">Reply To</label>
+                        <label for="notification-title"><?php _e( 'Reply To', 'best-contact-form' ); ?></label>
                         <input type="email" v-model="notifications[editingIndex].replyTo">
                         <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="replyTo"></wpuf-merge-tags>
                     </div>
                 </div>
 
                 <div class="notification-row notification-field">
-                    <label for="notification-title">Subject</label>
+                    <label for="notification-title"><?php _e( 'Subject', 'best-contact-form' ); ?></label>
                     <input type="text" v-model="notifications[editingIndex].subject">
                     <wpuf-merge-tags v-on:insert="insertValue" field="subject"></wpuf-merge-tags>
                 </div>
 
                 <div class="notification-row notification-field">
-                    <label for="notification-title">Email Message</label>
+                    <label for="notification-title"><?php _e( 'Email Message', 'best-contact-form' ); ?></label>
                     <textarea name="" rows="6" v-model="notifications[editingIndex].message"></textarea>
                     <wpuf-merge-tags v-on:insert="insertValue" field="message"></wpuf-merge-tags>
                 </div>
 
                 <section class="advanced-fields">
-                    <a href="#" class="field-toggle" v-on:click.prevent="toggleAdvanced()"><span class="dashicons dashicons-arrow-right"></span> Advanced</a>
+                    <a href="#" class="field-toggle" v-on:click.prevent="toggleAdvanced()"><span class="dashicons dashicons-arrow-right"></span><?php _e( ' Advanced', 'best-contact-form' ); ?></a>
 
                     <div class="advanced-field-wrap">
                         <div class="notification-row">
                             <div class="row-one-half notification-field first">
-                                <label for="notification-title">From Name</label>
+                                <label for="notification-title"><?php _e( 'From Name', 'best-contact-form' ); ?></label>
                                 <input type="text" v-model="notifications[editingIndex].fromName">
                                 <wpuf-merge-tags v-on:insert="insertValue" field="fromName"></wpuf-merge-tags>
                             </div>
 
                             <div class="row-one-half notification-field">
-                                <label for="notification-title">From Address</label>
+                                <label for="notification-title"><?php _e( 'From Address', 'best-contact-form' ); ?></label>
                                 <input type="email" name="" v-model="notifications[editingIndex].fromAddress">
                                 <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="fromAddress"></wpuf-merge-tags>
                             </div>
@@ -90,13 +90,13 @@
 
                         <div class="notification-row">
                             <div class="row-one-half notification-field first">
-                                <label for="notification-title">CC</label>
+                                <label for="notification-title"><?php _e( 'CC', 'best-contact-form' ); ?></label>
                                 <input type="email" name="" v-model="notifications[editingIndex].cc">
                                 <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="cc"></wpuf-merge-tags>
                             </div>
 
                             <div class="row-one-half notification-field">
-                                <label for="notification-title">BCC</label>
+                                <label for="notification-title"><?php _e( 'BCC', 'best-contact-form' ); ?></label>
                                 <input type="email" name="" v-model="notifications[editingIndex].bcc">
                                 <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="bcc"></wpuf-merge-tags>
                             </div>
@@ -107,7 +107,7 @@
 
             <div class="submit-area">
                 <a href="#" v-on:click.prevent="deleteItem(editingIndex)" title="<?php esc_attr_e( 'Delete', 'best-contact-form' ); ?>"><span class="dashicons dashicons-trash"></span></a>
-                <button class="button button-secondary" v-on:click.prevent="editDone()">Done</button>
+                <button class="button button-secondary" v-on:click.prevent="editDone()"><?php _e( 'Done', 'best-contact-form' ); ?></button>
             </div>
         </div><!-- .notification-edit-area -->
 

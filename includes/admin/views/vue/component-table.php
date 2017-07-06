@@ -3,22 +3,22 @@
     <div class="tablenav top">
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} items</span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'best-contact-form' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text">First page</span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'best-contact-form' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'best-contact-form' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text">Current Page</span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php _e( 'Current Page', 'best-contact-form' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'best-contact-form' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'best-contact-form' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text">Last page</span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'best-contact-form' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -29,7 +29,7 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox">
                 </td>
-                <th class="col-entry-id">ID</th>
+                <th class="col-entry-id"><?php _e( 'ID', 'best-contact-form' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
                 <th>Actions</th>
             </tr>
@@ -39,17 +39,17 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox">
                 </td>
-                <th class="col-entry-id">ID</th>
+                <th class="col-entry-id"><?php _e( 'ID', 'best-contact-form' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
-                <th class="col-entry-details">Actions</th>
+                <th class="col-entry-details"><?php _e( 'Actions', 'best-contact-form' ); ?></th>
             </tr>
         </tfoot>
         <tbody>
             <tr v-if="loading">
-                <td v-bind:colspan="columnLength + 3">Loading...</td>
+                <td v-bind:colspan="columnLength + 3"><?php _e( 'Loading...', 'best-contact-form' ); ?></td>
             </tr>
             <tr v-if="!rows.length && !loading">
-                <td v-bind:colspan="columnLength + 3">No entries found!</td>
+                <td v-bind:colspan="columnLength + 3"><?php _e( 'No entries found!', 'best-contact-form' ); ?></td>
             </tr>
             <tr v-for="(entry, index) in rows">
                 <th scope="row" class="check-column">
@@ -60,7 +60,7 @@
                 </th>
                 <td v-for="(header, index) in columns">{{ entry.fields[index] }}</td>
                 <th class="col-entry-details">
-                    <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">Details</router-link>
+                    <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}"><?php _e( 'Details', 'best-contact-form' ); ?></router-link>
                 </th>
             </tr>
         </tbody>
@@ -69,22 +69,22 @@
     <div class="tablenav bottom">
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} items</span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'best-contact-form' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text">First page</span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'best-contact-form' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'best-contact-form' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text">Current Page</span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php _e( 'Current Page', 'best-contact-form' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'best-contact-form' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text">Last page</span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'best-contact-form' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>

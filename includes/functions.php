@@ -320,7 +320,6 @@ function wpuf_cf_get_form_field_labels( $form_id ) {
 function wpuf_cf_format_text( $content ) {
     $content = wptexturize( $content );
     $content = convert_smilies( $content );
-    $content = convert_smilies( $content );
     $content = wpautop( $content );
     $content = make_clickable( $content );
 

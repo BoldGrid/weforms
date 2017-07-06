@@ -15,7 +15,7 @@
         <thead>
             <tr>
                 <td id="cb" class="manage-column column-cb check-column">
-                    <label class="screen-reader-text" for="cb-select-all-1">Select All</label>
+                    <label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Select All', 'best-contact-form' ); ?></label>
                     <input id="cb-select-all-1" type="checkbox">
                 </td>
                 <th scope="col" class="col-form-name"><?php _e( 'Name', 'best-contact-form' ); ?></th>
@@ -27,10 +27,10 @@
         </thead>
         <tbody>
             <tr v-if="loading">
-                <td colspan="6">Loading...</td>
+                <td colspan="6"><?php _e( 'Loading...', 'best-contact-form' ); ?></td>
             </tr>
             <tr v-if="!forms.length && !loading">
-                <td colspan="6">No form found!</td>
+                <td colspan="6"><?php _e( 'No form found!', 'best-contact-form' ); ?></td>
             </tr>
             <tr v-for="(form, index) in forms">
                 <th scope="row" class="check-column">

@@ -5,7 +5,7 @@
         <span style="color: #999;" class="form-name">{{ form_title }}</span>
     </h1>
 
-    <router-link class="page-title-action" to="/">Back to forms</router-link>
+    <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'best-contact-form' ); ?></router-link>
 
     <wpuf-table action="wpuf_contact_form_entries" :id="id" v-on:ajaxsuccess="form_title = $event.form_title"></wpuf-table>
 
