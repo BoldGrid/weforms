@@ -205,7 +205,7 @@ class WPUF_Contact_Form_Admin {
      */
     public function export_form_entries() {
 
-        $form_id = isset( $_POST['selected_forms'] ) ? absint( $_POST['selected_forms'] ) : 0;
+        $form_id = isset( $_REQUEST['selected_forms'] ) ? absint( $_REQUEST['selected_forms'] ) : 0;
 
         if ( ! $form_id ) {
             return;

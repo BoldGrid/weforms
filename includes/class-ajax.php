@@ -21,6 +21,7 @@ class WPUF_Contact_Form_Ajax {
         add_action( 'wp_ajax_bcf_contact_form_entries', array( $this, 'get_entries' ) );
         add_action( 'wp_ajax_bcf_contact_form_entry_details', array( $this, 'get_entry_detail' ) );
         add_action( 'wp_ajax_bcf_contact_form_entry_trash', array( $this, 'trash_entry' ) );
+        add_action( 'wp_ajax_bcf_contact_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
 
         // frontend requests
         add_action( 'wp_ajax_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
@@ -159,7 +160,7 @@ class WPUF_Contact_Form_Ajax {
 
         $this->check_admin();
 
-        $form_ids = isset( $_POST['form_ids'] ) ? array_map( 'absint', $_POST['form_ids'] ) : array();
+        $form_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
 
         if ( ! $form_ids ) {
             wp_send_json_error( __( 'No form ids provided!', 'best-contact-form' ) );
@@ -311,6 +312,29 @@ class WPUF_Contact_Form_Ajax {
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
 
         wpuf_cf_change_entry_status( $entry_id, 'trash' );
+        wp_send_json_success();
+    }
+
+    /**
+     * Bulk trash entries
+     *
+     * @return void
+     */
+    public function bulk_delete_entry() {
+        check_ajax_referer( 'best-contact-form' );
+
+        $this->check_admin();
+
+        $entry_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
+
+        if ( ! $entry_ids ) {
+            wp_send_json_error( __( 'No entry ids provided!', 'best-contact-form' ) );
+        }
+
+        foreach ($entry_ids as $entry_id) {
+            wpuf_cf_change_entry_status( $entry_id, 'trash' );
+        }
+
         wp_send_json_success();
     }
 

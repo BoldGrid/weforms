@@ -53,10 +53,10 @@
             <tr v-if="loading">
                 <td colspan="6"><?php _e( 'Loading...', 'best-contact-form' ); ?></td>
             </tr>
-            <tr v-if="!forms.length && !loading">
+            <tr v-if="!items.length && !loading">
                 <td colspan="6"><?php _e( 'No form found!', 'best-contact-form' ); ?></td>
             </tr>
-            <tr v-for="(form, index) in forms">
+            <tr v-for="(form, index) in items">
                 <th scope="row" class="check-column">
                     <input type="checkbox" name="post[]" v-model="checkedItems" :value="form.ID">
                 </th>

@@ -76,39 +76,76 @@ var TabsMixin = {
     }
 };
 
-Vue.component('form-list-table', {
-    template: '#tmpl-wpuf-form-list-table',
-    mixins: [LoadingMixin, PaginateMixin],
+var BulkActionMixin = {
     data: function() {
         return {
-            loading: false,
-            forms: [],
+            index: 'id',
             bulkAction: '-1',
             checkedItems: []
         }
     },
 
-    created: function() {
-        this.fetchData();
-    },
-
     computed: {
         selectAll: {
             get: function () {
-                return this.forms ? this.checkedItems.length == this.forms.length : false;
+                return this.items ? this.checkedItems.length == this.items.length : false;
             },
+
             set: function (value) {
                 var selected = [];
 
                 if (value) {
-                    this.forms.forEach(function (item) {
-                        selected.push(item.ID);
+                    this.items.forEach(function (item) {
+                        selected.push(item[index]);
                     });
                 }
 
                 this.checkedItems = selected;
             }
         }
+    },
+
+    methods: {
+        deleteBulk: function() {
+            var self = this;
+
+            self.loading = true;
+
+            wp.ajax.send( self.bulkDeleteAction, {
+                data: {
+                    ids: this.checkedItems,
+                    _wpnonce: wpufContactForm.nonce
+                },
+                success: function(response) {
+                    self.checkedItems = [];
+                    self.fetchData();
+                },
+                error: function(error) {
+                    alert(error);
+                },
+
+                complete: function(resp) {
+                    self.loading = false;
+                }
+            });
+        }
+    }
+};
+
+Vue.component('form-list-table', {
+    template: '#tmpl-wpuf-form-list-table',
+    mixins: [LoadingMixin, PaginateMixin, BulkActionMixin],
+    data: function() {
+        return {
+            loading: false,
+            index: 'ID',
+            items: [],
+            bulkDeleteAction: 'bcf_contact_form_delete_bulk'
+        }
+    },
+
+    created: function() {
+        this.fetchData();
     },
 
     methods: {
@@ -124,7 +161,7 @@ Vue.component('form-list-table', {
                 },
                 success: function(response) {
                     self.loading = false
-                    self.forms = response.forms;
+                    self.items = response.forms;
                     self.totalItems = response.total;
                     self.totalPage = response.pages;
                 },
@@ -143,11 +180,11 @@ Vue.component('form-list-table', {
 
                 wp.ajax.send( 'bcf_contact_form_delete', {
                     data: {
-                        form_id: this.forms[index].ID,
+                        form_id: this.items[index].ID,
                         _wpnonce: wpufContactForm.nonce
                     },
                     success: function(response) {
-                        self.forms.splice(index, 1);
+                        self.items.splice(index, 1);
                         self.loading = false;
                     },
                     error: function(error) {
@@ -169,7 +206,7 @@ Vue.component('form-list-table', {
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
-                    self.forms.splice(0, 0, response);
+                    self.items.splice(0, 0, response);
                     self.loading = false;
                 },
                 error: function(error) {
@@ -196,55 +233,36 @@ Vue.component('form-list-table', {
                 }
             }
         },
-
-        deleteBulk: function() {
-            var self = this;
-
-            self.loading = true;
-
-            wp.ajax.send( 'bcf_contact_form_delete_bulk', {
-                data: {
-                    form_ids: this.checkedItems,
-                    _wpnonce: wpufContactForm.nonce
-                },
-                success: function(response) {
-                    self.checkedItems = [];
-                    self.fetchData();
-                },
-                error: function(error) {
-                    alert(error);
-                },
-
-                complete: function(resp) {
-                    self.loading = false;
-                }
-            });
-        }
     }
 });
 
 Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
-    mixins: [LoadingMixin, PaginateMixin],
+    mixins: [LoadingMixin, PaginateMixin, BulkActionMixin],
     props: {
         action: String,
         id: [String, Number]
     },
+
     data: function() {
         return {
             loading: false,
             columns: [],
-            rows: [],
-            ajaxAction: this.action
+            items: [],
+            ajaxAction: this.action,
+            nonce: wpufContactForm.nonce,
+            bulkDeleteAction: 'bcf_contact_form_entry_trash_bulk'
         }
     },
+
     created: function() {
         this.fetchData();
     },
+
     computed: {
         columnLength: function() {
             return Object.keys(this.columns).length;
-        }
+        },
     },
     methods: {
 
@@ -262,7 +280,7 @@ Vue.component( 'wpuf-table', {
                 success: function(response) {
                     self.loading = false
                     self.columns = response.columns;
-                    self.rows = response.entries;
+                    self.items = response.entries;
                     self.form_title = response.form_title;
                     self.totalItems = response.pagination.total;
                     self.totalPage = response.pagination.pages;
@@ -275,6 +293,24 @@ Vue.component( 'wpuf-table', {
                 }
             });
         },
+
+        handleBulkAction: function() {
+            if ( '-1' === this.bulkAction ) {
+                alert( 'Please chose a bulk action to perform' );
+                return;
+            }
+
+            if ( 'delete' === this.bulkAction ) {
+                if ( ! this.checkedItems.length ) {
+                    alert( 'Please select atleast one entry to delete.' );
+                    return;
+                }
+
+                if ( confirm( 'Are you sure to delete the entries?' ) ) {
+                    this.deleteBulk();
+                }
+            }
+        }
     }
 } );
 
