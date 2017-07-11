@@ -8,15 +8,16 @@ class WPUF_Contact_Form_Ajax {
     public function __construct() {
 
         // backend requests
-        add_action( 'wp_ajax_wpuf_contact_form_list', array( $this, 'get_contact_forms' ) );
-        add_action( 'wp_ajax_wpuf_contact_form_create', array( $this, 'create_form' ) );
-        add_action( 'wp_ajax_wpuf_contact_form_delete', array( $this, 'delete_form' ) );
-        add_action( 'wp_ajax_wpuf_contact_form_duplicate', array( $this, 'duplicate_form' ) );
+        add_action( 'wp_ajax_bcf_contact_form_list', array( $this, 'get_contact_forms' ) );
+        add_action( 'wp_ajax_bcf_contact_form_names', array( $this, 'get_contact_form_names' ) );
+        add_action( 'wp_ajax_bcf_contact_form_create', array( $this, 'create_form' ) );
+        add_action( 'wp_ajax_bcf_contact_form_delete', array( $this, 'delete_form' ) );
+        add_action( 'wp_ajax_bcf_contact_form_duplicate', array( $this, 'duplicate_form' ) );
 
         // entries
-        add_action( 'wp_ajax_wpuf_contact_form_entries', array( $this, 'get_entries' ) );
-        add_action( 'wp_ajax_wpuf_contact_form_entry_details', array( $this, 'get_entry_detail' ) );
-        add_action( 'wp_ajax_wpuf_contact_form_entry_trash', array( $this, 'trash_entry' ) );
+        add_action( 'wp_ajax_bcf_contact_form_entries', array( $this, 'get_entries' ) );
+        add_action( 'wp_ajax_bcf_contact_form_entry_details', array( $this, 'get_entry_detail' ) );
+        add_action( 'wp_ajax_bcf_contact_form_entry_trash', array( $this, 'trash_entry' ) );
 
         // frontend requests
         add_action( 'wp_ajax_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
@@ -65,7 +66,33 @@ class WPUF_Contact_Form_Ajax {
         );
 
         wp_send_json_success( $response );
-        //wp_send_json_error();
+    }
+
+    public function get_contact_form_names() {
+        check_ajax_referer( 'best-contact-form' );
+
+        $this->check_admin();
+
+        $args = array(
+            'post_type'      => 'wpuf_contact_form',
+            'posts_per_page' => -1,
+            'post_status'    => 'publish',
+            'order'          => 'ASC',
+            'orderby'        => 'post_title'
+        );
+
+        $response      = array();
+        $forms         = new WP_Query( $args );
+        $contact_forms = $forms->get_posts();
+
+        foreach ($contact_forms as $form) {
+            $response[] = array(
+                'id'    => $form->ID,
+                'title' => $form->post_title
+            );
+        }
+
+        wp_send_json_success( $response );
     }
 
     /**

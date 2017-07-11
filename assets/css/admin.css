@@ -59,6 +59,27 @@ table.wpuf-contact-form th {
 .wpuf-contact-form-entry-wrap .button .dashicons {
   margin-top: 4px;
 }
+.postboxes.two-col .postbox {
+  width: 49%;
+}
+.postboxes.two-col .postbox:first-child {
+  float: left;
+}
+.postboxes.two-col .postbox:last-child {
+  float: right;
+}
+.export-import-wrap select.forms-list {
+  min-width: 300px;
+}
+.export-import-wrap .loading-spinner {
+  float: none;
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.bcf-extension-list .wp-list-table {
+  margin-top: 25px;
+}
 a.add-notification .dashicons {
   margin-top: 4px;
 }

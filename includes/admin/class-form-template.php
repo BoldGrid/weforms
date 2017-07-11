@@ -8,7 +8,7 @@ class WPUF_Contact_Form_Template {
     public function __construct() {
         add_action( 'admin_footer', array( $this, 'render_form_templates' ) );
 
-        add_filter( 'admin_action_wpuf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
+        add_filter( 'admin_action_bcf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
     }
 
     /**
@@ -17,12 +17,12 @@ class WPUF_Contact_Form_Template {
      * @return void
      */
     public function render_form_templates() {
-        if ( get_current_screen()->id != 'user-frontend_page_wpuf-contact-forms' ) {
+        if ( get_current_screen()->id != 'toplevel_page_best-contact-forms' ) {
             return;
         }
 
         $registry       = wpuf_cf_get_form_templates();
-        $action_name    = 'wpuf_contact_form_template';
+        $action_name    = 'bcf_contact_form_template';
         $footer_help    = '';
         $blank_form_url = esc_url( add_query_arg( array(
             'action'   => $action_name,
@@ -84,11 +84,12 @@ class WPUF_Contact_Form_Template {
             return;
         }
 
-        // var_dump( $template_object ); die();
         $current_user = get_current_user_id();
+        $form_title   = $template_object->get_title();
+        $has_existing = get_page_by_title( $form_title, 'OBJECT', 'wpuf_contact_form' );
 
         $form_post_data = array(
-            'post_title'  => $template_object->get_title(),
+            'post_title'  => $form_title,
             'post_type'   => 'wpuf_contact_form',
             'post_status' => 'publish',
             'post_author' => $current_user
@@ -98,6 +99,14 @@ class WPUF_Contact_Form_Template {
 
         if ( is_wp_error( $form_id ) ) {
             return;
+        }
+
+        // if there is an existing form with same name, update this one with its ID
+        if ( $has_existing ) {
+            wp_update_post( array(
+                'ID'         => $form_id,
+                'post_title' => $form_title . ' (#' . $form_id . ')'
+            ) );
         }
 
         // form has been created, lets setup
@@ -118,7 +127,7 @@ class WPUF_Contact_Form_Template {
             }
         }
 
-        wp_redirect( admin_url( 'admin.php?page=wpuf-contact-forms&action=edit&id=' . $form_id ) );
+        wp_redirect( admin_url( 'admin.php?page=best-contact-forms&action=edit&id=' . $form_id ) );
         exit;
     }
 
@@ -128,6 +137,8 @@ class WPUF_Contact_Form_Template {
      * @return void
      */
     public function create_blank_form() {
+        check_admin_referer( 'wpuf_create_from_template' );
+
         $current_user = get_current_user_id();
 
         $form_post_data = array(

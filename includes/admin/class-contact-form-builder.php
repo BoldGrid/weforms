@@ -6,7 +6,7 @@
 class WPUF_Contact_Form_Builder {
 
     private $form_type = 'contact_form';
-    private $hook = 'user-frontend_page_wpuf-contact-forms';
+    private $hook = 'toplevel_page_best-contact-forms';
 
     public function __construct() {
 

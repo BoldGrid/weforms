@@ -264,7 +264,7 @@ function wpuf_cf_count_form_entries( $form_id, $status = 'publish' ) {
  *
  * @return array
  */
-function wpuf_cf_get_entry_columns( $form_id ) {
+function wpuf_cf_get_entry_columns( $form_id, $limit = 6 ) {
     $fields  = wpuf_get_form_fields( $form_id );
 
     // filter by input types
@@ -276,6 +276,11 @@ function wpuf_cf_get_entry_columns( $form_id ) {
         foreach ($fields as $field) {
             $columns[ $field['name'] ] = $field['label'];
         }
+    }
+
+    // if passed 0/false, return all collumns
+    if ( ! $limit ) {
+        return $columns;
     }
 
     return array_slice( $columns, 0, 6 ); // max 6 columns

@@ -257,7 +257,7 @@ class WPUF_Contact_Form {
      */
     public function includes() {
         if ( is_admin() ) {
-            require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/admin.php';
+            require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-contact-form-admin.php';
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-contact-form-builder.php';
             require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-form-template.php';
         } else {

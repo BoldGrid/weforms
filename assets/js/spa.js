@@ -13,6 +13,19 @@ var LoadingMixin = {
     }
 }
 
+var TabsMixin = {
+
+    methods: {
+        makeActive: function(val) {
+            this.activeTab = val;
+        },
+
+        isActiveTab: function(val) {
+          return this.activeTab === val;
+        }
+    }
+};
+
 Vue.component('form-list-table', {
     template: '#tmpl-wpuf-form-list-table',
     mixins: [LoadingMixin],
@@ -33,7 +46,7 @@ Vue.component('form-list-table', {
 
             this.loading = true
 
-            wp.ajax.send( 'wpuf_contact_form_list', {
+            wp.ajax.send( 'bcf_contact_form_list', {
                 data: {
                     _wpnonce: wpufContactForm.nonce
                 },
@@ -54,7 +67,7 @@ Vue.component('form-list-table', {
             if (confirm('Are you sure?')) {
                 self.loading = true;
 
-                wp.ajax.send( 'wpuf_contact_form_delete', {
+                wp.ajax.send( 'bcf_contact_form_delete', {
                     data: {
                         form_id: this.forms[index].ID,
                         _wpnonce: wpufContactForm.nonce
@@ -76,7 +89,7 @@ Vue.component('form-list-table', {
 
             this.loading = true;
 
-            wp.ajax.send( 'wpuf_contact_form_duplicate', {
+            wp.ajax.send( 'bcf_contact_form_duplicate', {
                 data: {
                     form_id: form_id,
                     _wpnonce: wpufContactForm.nonce
@@ -218,13 +231,13 @@ const FormEntriesSingle = {
             var self = this;
 
             this.loading = true
-            wp.ajax.send( 'wpuf_contact_form_entry_details', {
+            wp.ajax.send( 'bcf_contact_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
                     self.loading = false
                     self.entry = response;
                 },
@@ -242,7 +255,7 @@ const FormEntriesSingle = {
                 return;
             }
 
-            wp.ajax.send( 'wpuf_contact_form_entry_trash', {
+            wp.ajax.send( 'bcf_contact_form_entry_trash', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
@@ -271,6 +284,49 @@ const FormEntries = {
             form_title: 'Loading...'
         }
     },
+};
+
+const Tools = {
+    template: '#tmpl-wpuf-tools',
+    mixins: [TabsMixin, LoadingMixin],
+    data: function() {
+        return {
+            activeTab: 'export',
+            exportType: 'all',
+            loading: false,
+            forms: []
+        }
+    },
+
+    created: function() {
+        this.fetchData();
+    },
+
+    methods: {
+        fetchData: function() {
+            var self = this;
+
+            this.loading = true
+            wp.ajax.send( 'bcf_contact_form_names', {
+                data: {
+                    _wpnonce: wpufContactForm.nonce
+                },
+                success: function(response) {
+                    // console.log(response);
+                    self.loading = false
+                    self.forms   = response;
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        },
+    }
+};
+
+const Addons = {
+    template: '#tmpl-wpuf-addons'
 };
 
 // 2. Define some routes
@@ -307,7 +363,17 @@ const routes = [
                 ]
             },
         ]
-    }
+    },
+    {
+        path: '/tools',
+        name: 'tools',
+        component: Tools
+    },
+    {
+        path: '/extensions',
+        name: 'addons',
+        component: Addons
+    },
 ];
 
 // 3. Create the router instance and pass the `routes` option
@@ -327,5 +393,34 @@ const router = new VueRouter({
 const app = new Vue({
     router
 }).$mount('#wpuf-contact-form-app')
+
+// Admin menu hack
+var menuRoot = $('#toplevel_page_best-contact-forms');
+
+menuRoot.on('click', 'a', function() {
+    var self = $(this);
+
+    $('ul.wp-submenu li', menuRoot).removeClass('current');
+
+    if ( self.hasClass('wp-has-submenu') ) {
+        $('li.wp-first-item', menuRoot).addClass('current');
+    } else {
+        self.parents('li').addClass('current');
+    }
+});
+
+$(function() {
+
+    // select the current sub menu on page load
+    var current_url = window.location.href;
+    var current_path = current_url.substr( current_url.indexOf('admin.php') );
+
+    $('ul.wp-submenu a', menuRoot).each(function(index, el) {
+        if ( $(el).attr( 'href' ) === current_path ) {
+            $(el).parent().addClass('current');
+            return;
+        }
+    });;
+});
 
 })(jQuery);

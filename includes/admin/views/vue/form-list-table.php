@@ -37,10 +37,10 @@
                     <input id="cb-select-664" type="checkbox" name="post[]" value="">
                 </th>
                 <td class="title column-title has-row-actions column-primary page-title">
-                    <strong><a :href="'<?php echo admin_url( 'admin.php?page=wpuf-contact-forms&action=edit&id=') ?>' + form.ID">{{ form.post_title }}</a> <span v-if="form.post_status != 'publish'">({{ form.post_status }})</span></strong>
+                    <strong><a :href="'<?php echo admin_url( 'admin.php?page=best-contact-forms&action=edit&id=') ?>' + form.ID">{{ form.post_title }}</a> <span v-if="form.post_status != 'publish'">({{ form.post_status }})</span></strong>
 
                     <div class="row-actions">
-                        <span class="edit"><a :href="'<?php echo admin_url( 'admin.php?page=wpuf-contact-forms&action=edit&id=') ?>' + form.ID"><?php _e( 'Edit', 'best-contact-form' ); ?></a> | </span>
+                        <span class="edit"><a :href="'<?php echo admin_url( 'admin.php?page=best-contact-forms&action=edit&id=') ?>' + form.ID"><?php _e( 'Edit', 'best-contact-form' ); ?></a> | </span>
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'best-contact-form' ); ?></a> | </span>
                         <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'best-contact-form' ); ?></a> <template v-if="form.entries">|</template> </span>
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link>
