@@ -77,6 +77,12 @@ table.wpuf-contact-form th {
   margin: 0 auto;
   margin-top: 20px;
 }
+.export-import-wrap .upload-status .spinner {
+  float: none;
+  display: inline-block;
+  margin: 0;
+  background-size: 18px 18px;
+}
 .bcf-extension-list .wp-list-table {
   margin-top: 25px;
 }

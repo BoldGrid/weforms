@@ -71,6 +71,30 @@
 
         <div class="nav-tab-inside" v-show="isActiveTab('import')">
             <h3><?php _e( 'Import Contact Form', 'best-contact-form' ); ?></h3>
+
+            <p><?php _e( 'Browse and locate a json file you backed up before.', 'best-contact-form' ); ?></p>
+            <p><?php _e( 'Press <strong>Import</strong> button, we will do the rest for you.', 'best-contact-form' ); ?></p>
+
+            <div class="updated-message notice notice-success is-dismissible" v-if="isSuccess">
+                <p>{{ responseMessage }}</p>
+
+                <button type="button" class="notice-dismiss" v-on:click="currentStatus = 0">
+                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'best-contact-form' ); ?></span>
+                </button>
+            </div>
+
+            <div class="update-message notice notice-error is-dismissible" v-if="isFailed">
+                <p>{{ responseMessage }}</p>
+
+                <button type="button" class="notice-dismiss" v-on:click="currentStatus = 0">
+                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'best-contact-form' ); ?></span>
+                </button>
+            </div>
+
+            <form action="" method="post" enctype="multipart/form-data" style="margin-top: 20px;">
+                <input type="file" name="importFile" v-on:change="importForm( $event.target.name, $event.target.files, $event )" accept="application/json" />
+                <button type="submit" :class="['button', isSaving ? 'updating-message' : '']" disabled="disabled">{{ importButton }}</button>
+            </form>
         </div>
     </div>
 </div>

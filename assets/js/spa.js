@@ -13,6 +13,56 @@ var LoadingMixin = {
     }
 }
 
+var PaginateMixin = {
+    data: function() {
+        return {
+            totalItems: 0,
+            totalPage: 1,
+            currentPage: 1,
+            pageNumberInput: 1
+        };
+    },
+
+    methods: {
+        isFirstPage: function() {
+            return this.currentPage == 1;
+        },
+
+        isLastPage: function() {
+            return this.currentPage == this.totalPage;
+        },
+
+        goFirstPage: function() {
+            this.currentPage = 1;
+            this.pageNumberInput = this.currentPage;
+
+            this.goToPage();
+        },
+
+        goLastPage: function() {
+            this.currentPage = this.totalPage;
+            this.pageNumberInput = this.currentPage;
+
+            this.goToPage();
+        },
+
+        goToPage: function(direction) {
+            if ( direction == 'prev' ) {
+                this.currentPage--;
+            } else if ( direction == 'next' ) {
+                this.currentPage++;
+            } else {
+                if ( ! isNaN( direction ) && ( direction <= this.totalPage ) ) {
+                    this.currentPage = direction;
+                }
+            }
+
+            this.pageNumberInput = this.currentPage;
+            this.fetchData();
+        },
+    }
+};
+
 var TabsMixin = {
 
     methods: {
@@ -28,16 +78,37 @@ var TabsMixin = {
 
 Vue.component('form-list-table', {
     template: '#tmpl-wpuf-form-list-table',
-    mixins: [LoadingMixin],
+    mixins: [LoadingMixin, PaginateMixin],
     data: function() {
         return {
             loading: false,
-            forms: []
+            forms: [],
+            bulkAction: '-1',
+            checkedItems: []
         }
     },
 
     created: function() {
         this.fetchData();
+    },
+
+    computed: {
+        selectAll: {
+            get: function () {
+                return this.forms ? this.checkedItems.length == this.forms.length : false;
+            },
+            set: function (value) {
+                var selected = [];
+
+                if (value) {
+                    this.forms.forEach(function (item) {
+                        selected.push(item.ID);
+                    });
+                }
+
+                this.checkedItems = selected;
+            }
+        }
     },
 
     methods: {
@@ -48,11 +119,14 @@ Vue.component('form-list-table', {
 
             wp.ajax.send( 'bcf_contact_form_list', {
                 data: {
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: wpufContactForm.nonce,
+                    page: self.currentPage,
                 },
                 success: function(response) {
                     self.loading = false
                     self.forms = response.forms;
+                    self.totalItems = response.total;
+                    self.totalPage = response.pages;
                 },
                 error: function(error) {
                     self.loading = false;
@@ -103,23 +177,61 @@ Vue.component('form-list-table', {
                     self.loading = false;
                 }
             });
+        },
+
+        handleBulkAction: function() {
+            if ( '-1' === this.bulkAction ) {
+                alert( 'Please chose a bulk action to perform' );
+                return;
+            }
+
+            if ( 'delete' === this.bulkAction ) {
+                if ( ! this.checkedItems.length ) {
+                    alert( 'Please select atleast one form to delete.' );
+                    return;
+                }
+
+                if ( confirm( 'Are you sure to delete the forms?' ) ) {
+                    this.deleteBulk();
+                }
+            }
+        },
+
+        deleteBulk: function() {
+            var self = this;
+
+            self.loading = true;
+
+            wp.ajax.send( 'bcf_contact_form_delete_bulk', {
+                data: {
+                    form_ids: this.checkedItems,
+                    _wpnonce: wpufContactForm.nonce
+                },
+                success: function(response) {
+                    self.checkedItems = [];
+                    self.fetchData();
+                },
+                error: function(error) {
+                    alert(error);
+                },
+
+                complete: function(resp) {
+                    self.loading = false;
+                }
+            });
         }
     }
 });
 
 Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
-    mixins: [LoadingMixin],
+    mixins: [LoadingMixin, PaginateMixin],
     props: {
         action: String,
         id: [String, Number]
     },
     data: function() {
         return {
-            totalItems: 0,
-            totalPage: 1,
-            currentPage: 1,
-            pageNumberInput: 1,
             loading: false,
             columns: [],
             rows: [],
@@ -135,38 +247,6 @@ Vue.component( 'wpuf-table', {
         }
     },
     methods: {
-        isFirstPage: function() {
-            return this.currentPage == 1;
-        },
-
-        isLastPage: function() {
-            return this.currentPage == this.totalPage;
-        },
-
-        goFirstPage: function() {
-            this.currentPage = 1;
-            this.pageNumberInput = this.currentPage;
-        },
-
-        goLastPage: function() {
-            this.currentPage = this.totalPage;
-            this.pageNumberInput = this.currentPage;
-        },
-
-        goToPage: function(direction) {
-            if ( direction == 'prev' ) {
-                this.currentPage--;
-            } else if ( direction == 'next' ) {
-                this.currentPage++;
-            } else {
-                if ( ! isNaN( direction ) && ( direction <= this.totalPage ) ) {
-                    this.currentPage = direction;
-                }
-            }
-
-            this.pageNumberInput = this.currentPage;
-            this.fetchData();
-        },
 
         fetchData: function() {
             var self = this;
@@ -294,7 +374,29 @@ const Tools = {
             activeTab: 'export',
             exportType: 'all',
             loading: false,
-            forms: []
+            forms: [],
+            importButton: 'Import',
+            currentStatus: 0,
+            responseMessage: ''
+        }
+    },
+
+    computed: {
+
+        isInitial() {
+            return this.currentStatus === 0;
+        },
+
+        isSaving() {
+            return this.currentStatus === 1;
+        },
+
+        isSuccess() {
+            return this.currentStatus === 2;
+        },
+
+        isFailed() {
+            return this.currentStatus === 3;
         }
     },
 
@@ -322,6 +424,50 @@ const Tools = {
                 }
             });
         },
+
+        importForm: function( fieldName, fileList, event ) {
+            if ( !fileList.length ) return;
+
+            var formData = new FormData();
+            var self = this;
+
+            formData.append( fieldName, fileList[0], fileList[0].name);
+            formData.append( 'action', 'bcf_import_form' );
+            formData.append( '_wpnonce', wpufContactForm.nonce );
+
+            self.currentStatus = 1;
+
+            $.ajax({
+                type: "POST",
+                url: ajaxurl,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    self.responseMessage = response.data;
+
+                    if ( response.success ) {
+                        self.currentStatus = 2;
+                    } else {
+                        self.currentStatus = 3;
+                    }
+
+                    // reset the value
+                    $(event.target).val('');
+                },
+
+                error: function(errResponse) {
+                    console.log(errResponse);
+                    self.currentStatus = 3;
+                },
+
+                complete: function() {
+                    $(event.target).val('');
+                }
+            });
+
+
+        }
     }
 };
 

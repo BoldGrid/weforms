@@ -12,7 +12,10 @@ class WPUF_Contact_Form_Ajax {
         add_action( 'wp_ajax_bcf_contact_form_names', array( $this, 'get_contact_form_names' ) );
         add_action( 'wp_ajax_bcf_contact_form_create', array( $this, 'create_form' ) );
         add_action( 'wp_ajax_bcf_contact_form_delete', array( $this, 'delete_form' ) );
+        add_action( 'wp_ajax_bcf_contact_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
         add_action( 'wp_ajax_bcf_contact_form_duplicate', array( $this, 'duplicate_form' ) );
+
+        add_action( 'wp_ajax_bcf_import_form', array( $this, 'import_form' ) );
 
         // entries
         add_action( 'wp_ajax_bcf_contact_form_entries', array( $this, 'get_entries' ) );
@@ -46,7 +49,11 @@ class WPUF_Contact_Form_Ajax {
         $this->check_admin();
 
         $args = array(
-            'post_type' => 'wpuf_contact_form'
+            'post_type'      => 'wpuf_contact_form',
+            'posts_per_page' => 10,
+            'paged'          => isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1,
+            'order'          => 'DESC',
+            'orderby'        => 'post_date'
         );
 
         $forms         = new WP_Query( $args );
@@ -62,7 +69,7 @@ class WPUF_Contact_Form_Ajax {
         $response = array(
             'forms' => $contact_forms,
             'total' => (int) $forms->found_posts,
-            'pages' => (int) $forms->max_num_pages()
+            'pages' => (int) $forms->max_num_pages
         );
 
         wp_send_json_success( $response );
@@ -144,6 +151,24 @@ class WPUF_Contact_Form_Ajax {
         }
 
         wpuf_delete_form( $form_id, true );
+        wp_send_json_success();
+    }
+
+    public function delete_form_bulk() {
+        check_ajax_referer( 'best-contact-form' );
+
+        $this->check_admin();
+
+        $form_ids = isset( $_POST['form_ids'] ) ? array_map( 'absint', $_POST['form_ids'] ) : array();
+
+        if ( ! $form_ids ) {
+            wp_send_json_error( __( 'No form ids provided!', 'best-contact-form' ) );
+        }
+
+        foreach ($form_ids as $form_id) {
+            wpuf_delete_form( $form_id, true );
+        }
+
         wp_send_json_success();
     }
 
@@ -380,6 +405,43 @@ class WPUF_Contact_Form_Ajax {
         }
 
         return $entry_fields;
+    }
+
+    /**
+     * Import a form from a JSON file
+     *
+     * @return void
+     */
+    public function import_form() {
+        check_ajax_referer( 'best-contact-form' );
+
+        $this->check_admin();
+
+        $the_file = isset( $_FILES['importFile'] ) ? $_FILES['importFile'] : false;
+
+        if ( ! $the_file ) {
+            wp_send_json_error( __( 'No file found to import.', 'best-contact-form' ) );
+        }
+
+        $file_ext  = pathinfo( $the_file['name'], PATHINFO_EXTENSION );
+
+        if ( ! class_exists( 'WPUF_Admin_Tools' ) ) {
+            require_once WPUF_ROOT . '/admin/class-tools.php';
+        }
+
+        if ( ( $file_ext == 'json' ) && ( $the_file['size'] < 500000 ) ) {
+
+            $status = WPUF_Admin_Tools::import_json_file( $the_file['tmp_name'] );
+
+            if ( $status ) {
+                wp_send_json_success( __( 'The forms have been imported successfully!', 'best-contact-form' ) );
+            } else {
+                wp_send_json_error( __( 'Something went wrong importing the file.', 'best-contact-form' ) );
+            }
+
+        } else {
+            wp_send_json_error( __( 'Invalid file or file size too big.', 'best-contact-form' ) );
+        }
     }
 
 }
