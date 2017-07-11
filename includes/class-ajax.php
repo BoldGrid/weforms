@@ -76,6 +76,11 @@ class WPUF_Contact_Form_Ajax {
         wp_send_json_success( $response );
     }
 
+    /**
+     * Get the names of contact forms for generating dropdown
+     *
+     * @return void
+     */
     public function get_contact_form_names() {
         check_ajax_referer( 'best-contact-form' );
 
@@ -96,7 +101,7 @@ class WPUF_Contact_Form_Ajax {
         foreach ($contact_forms as $form) {
             $response[] = array(
                 'id'    => $form->ID,
-                'title' => $form->post_title
+                'title' => $form->post_title . ' (#' . $form->ID . ')'
             );
         }
 

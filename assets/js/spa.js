@@ -79,7 +79,6 @@ var TabsMixin = {
 var BulkActionMixin = {
     data: function() {
         return {
-            index: 'id',
             bulkAction: '-1',
             checkedItems: []
         }
@@ -92,11 +91,12 @@ var BulkActionMixin = {
             },
 
             set: function (value) {
-                var selected = [];
+                var selected = [],
+                    self = this;
 
                 if (value) {
                     this.items.forEach(function (item) {
-                        selected.push(item[index]);
+                        selected.push(item[self.index]);
                     });
                 }
 
@@ -251,6 +251,7 @@ Vue.component( 'wpuf-table', {
             items: [],
             ajaxAction: this.action,
             nonce: wpufContactForm.nonce,
+            index: 'id',
             bulkDeleteAction: 'bcf_contact_form_entry_trash_bulk'
         }
     },
