@@ -8,7 +8,7 @@ class WPUF_Contact_Form_Template {
     public function __construct() {
         add_action( 'admin_footer', array( $this, 'render_form_templates' ) );
 
-        add_filter( 'admin_action_bcf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
+        add_filter( 'wp_ajax_bcf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
     }
 
     /**
@@ -68,14 +68,14 @@ class WPUF_Contact_Form_Template {
     public function create_contact_form_from_template() {
         check_admin_referer( 'wpuf_create_from_template' );
 
-        $template_name = isset( $_GET['template'] ) ? sanitize_text_field( $_GET['template'] ) : '';
+        $template_name = isset( $_REQUEST['template'] ) ? sanitize_text_field( $_REQUEST['template'] ) : '';
 
         if ( ! $template_name ) {
             return;
         }
 
         if ( 'blank_form' == $template_name ) {
-            return $this->create_blank_form();
+            $this->create_blank_form();
         }
 
         $template_object = $this->get_template_object( $template_name );
@@ -127,8 +127,7 @@ class WPUF_Contact_Form_Template {
             }
         }
 
-        wp_redirect( admin_url( 'admin.php?page=best-contact-forms&action=edit&id=' . $form_id ) );
-        exit;
+        wp_send_json_success( $form_id );
     }
 
     /**
@@ -159,7 +158,6 @@ class WPUF_Contact_Form_Template {
         update_post_meta( $form_id, 'wpuf_form_settings', $template_object->get_form_settings() );
         update_post_meta( $form_id, 'notifications', $template_object->get_form_notifications() );
 
-        wp_redirect( admin_url( 'admin.php?page=wpuf-contact-forms&action=edit&id=' . $form_id ) );
-        exit;
+        wp_send_json_success( $form_id );
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Best Contact Form
-Plugin URI: https://wedevs.com/wp-user-frontend-pro/
+Plugin URI: https://wedevs.com/wp-user-frontend-pro/contact-form/
 Description: Contact form plugin for WordPress
 Version: 0.1
 Author: weDevs

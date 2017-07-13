@@ -1,6 +1,8 @@
+/* assets/js/utils/jquery-siaf-start.js */
 ;(function($) {
 'use strict';
 
+/* ./assets/components/field-name/index.js */
 Vue.component('field-name', {
     template: '#tmpl-wpuf-field-name',
 
@@ -30,6 +32,7 @@ Vue.component('field-name', {
     }
 });
 
+/* ./assets/components/form-name_field/index.js */
 /**
  * Field template: First Name
  */
@@ -41,4 +44,5 @@ Vue.component('form-name_field', {
     ]
 });
 
+/* assets/js/utils/jquery-siaf-end.js */
 })(jQuery);

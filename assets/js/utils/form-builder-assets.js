@@ -10,7 +10,13 @@ function assets() {
     const fs        = require('fs');
     let paths       = {
         mixins:     ['assets/js/utils/jquery-siaf-start.js'],
-        components: ['assets/js/utils/jquery-siaf-start.js']
+        components: ['assets/js/utils/jquery-siaf-start.js'],
+        componentTemplates: [],
+        spa: {
+            app: [],
+            components: [],
+            templates: []
+        }
     };
 
     // mixins
@@ -34,11 +40,39 @@ function assets() {
 
         if (fs.lstatSync(path).isDirectory()) {
             paths.components.push(path + '/index.js');
+            paths.componentTemplates.push(path + '/template.php');
         }
     });
 
     paths.mixins.push('assets/js/utils/jquery-siaf-end.js');
     paths.components.push('assets/js/utils/jquery-siaf-end.js');
+
+    // SPA paths
+    const spaComponentPath = './assets/spa/components/';
+    let spaComponents      = fs.readdirSync(spaComponentPath);
+
+    spaComponents.forEach((component) => {
+        const path = `${spaComponentPath}${component}`;
+
+        if (fs.lstatSync(path).isDirectory()) {
+            paths.spa.components.push(path + '/index.js');
+            paths.spa.templates.push(path + '/template.php');
+        }
+    });
+
+    const spaMixinsPath = './assets/spa/mixins/';
+    let spaMixins      = fs.readdirSync(spaMixinsPath);
+
+    spaMixins.forEach((mixin) => {
+        const path = `${spaMixinsPath}${mixin}`;
+
+        paths.spa.app.push(path);
+    });
+
+    let app = paths.spa.app.concat( paths.spa.components );
+    app.push( './assets/spa/app.js' );
+
+    paths.spa.app = app;
 
     return paths;
 }

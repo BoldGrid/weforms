@@ -67,7 +67,8 @@
                         <span class="edit"><a :href="'<?php echo admin_url( 'admin.php?page=best-contact-forms&action=edit&id=') ?>' + form.ID"><?php _e( 'Edit', 'best-contact-form' ); ?></a> | </span>
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'best-contact-form' ); ?></a> | </span>
                         <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'best-contact-form' ); ?></a> <template v-if="form.entries">|</template> </span>
-                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link>
+                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link> |
+                        <router-link :to="{ name: 'edit', params: { id: form.ID }}"><?php _e( 'EDIT', 'best-contact-form' ); ?></router-link>
                     </div>
                 </td>
                 <td><code>[wpuf_contact_form id="{{ form.ID }}"]</code></td>

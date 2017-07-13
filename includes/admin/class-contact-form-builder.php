@@ -10,8 +10,8 @@ class WPUF_Contact_Form_Builder {
 
     public function __construct() {
 
-        add_action( 'load-'. $this->hook, array( $this, 'form_builder_init' ) );
-        add_action( 'load-'. $this->hook, array( $this, 'builder_enqueue_scripts' ) );
+        // add_action( 'load-'. $this->hook, array( $this, 'form_builder_init' ) );
+        // add_action( 'load-'. $this->hook, array( $this, 'builder_enqueue_scripts' ) );
     }
 
     /**
@@ -69,7 +69,6 @@ class WPUF_Contact_Form_Builder {
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_enqueue_script( 'jquery-ui-slider' );
         wp_enqueue_script( 'jquery-ui-timepicker', WPUF_ASSET_URI . '/js/jquery-ui-timepicker-addon.js', array('jquery-ui-datepicker') );
-        wp_enqueue_script( 'wpuf-cf-comp-notification', WPUF_CONTACT_FORM_ASSET_URI . '/js/components-notification.js', array( 'wpuf-vue', 'wpuf-vuex' ), false, true );
         wp_localize_script( 'wpuf-cf-comp-notification', 'wpufCFBuilderNotification', array(
             'defaultNotification' => array(
                 'active'      => 'true',

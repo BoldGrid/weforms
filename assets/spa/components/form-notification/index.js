@@ -1,5 +1,3 @@
-;(function($) {
-
 Vue.component('wpuf-cf-form-notification', {
     template: '#tmpl-wpuf-form-notification',
     data: function() {
@@ -72,5 +70,3 @@ Vue.component('wpuf-cf-form-notification', {
         }
     }
 });
-
-})(jQuery);

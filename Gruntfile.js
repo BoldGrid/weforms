@@ -2,15 +2,27 @@ module.exports = function (grunt) {
     'use strict';
 
     var formBuilderAssets = require('./assets/js/utils/form-builder-assets.js');
-    var pkg = grunt.file.readJSON('package.json');
+
+    function template_from_path(src, filepath) {
+        var id = filepath.replace('/template.php', '').split('/').pop();
+
+        return '<script type="text/x-template" id="tmpl-wpuf-' + id + '">\n' + src + '</script>\n';
+    }
+
+    function filename_on_concat(src, filepath) {
+        return '/* ' + filepath + ' */\n' + src;
+    }
 
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         // directory paths
         dirs: {
             css: 'assets/css',
             images: 'assets/images',
             js: 'assets/js',
-            less: 'assets/less'
+            less: 'assets/less',
+            spa: 'assets/spa',
+            template: 'assets/js-templates'
         },
 
         // jshint
@@ -22,6 +34,7 @@ module.exports = function (grunt) {
 
             main: [
                 'assets/js/**/*.js',
+                'assets/spa/**/*.js',
             ]
         },
 
@@ -54,10 +67,19 @@ module.exports = function (grunt) {
 
             components: {
                 files: [
-                    'assets/components/**/*.js',
+                    'assets/components/**/*',
                 ],
                 tasks: [
-                    'concat:formBuilder'
+                    'concat:formBuilder', 'concat:formComponentTemplates'
+                ]
+            },
+
+            spa: {
+                files: [
+                    'assets/spa/**/*',
+                ],
+                tasks: [
+                    'concat:spa', 'concat:spaComponentTemplates'
                 ]
             }
         },
@@ -81,10 +103,45 @@ module.exports = function (grunt) {
         // concat/join files
         concat: {
             formBuilder: {
+                options: {
+                    process: filename_on_concat
+                },
+
                 files: {
                     '<%= dirs.js %>/form-builder-components.js': formBuilderAssets.components,
                 }
             },
+
+            formComponentTemplates: {
+                options: {
+                    process: template_from_path
+                },
+                files: {
+                    '<%= dirs.template %>/form-components.php': formBuilderAssets.componentTemplates
+                }
+            },
+
+            spaComponentTemplates: {
+                options: {
+                    process: template_from_path
+                },
+                files: {
+                    '<%= dirs.template %>/spa-components.php': formBuilderAssets.spa.templates
+                }
+            },
+
+            spa: {
+                options: {
+                    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                            '<%= grunt.template.today("yyyy-mm-dd") %> */\n' +
+                            ';(function($) {\n',
+                    footer: '\n})(jQuery);',
+                    process: filename_on_concat
+                },
+                files: {
+                    '<%= dirs.js %>/spa-app.js': formBuilderAssets.spa.app
+                }
+            }
         },
 
         // Clean up build directory
@@ -99,6 +156,8 @@ module.exports = function (grunt) {
                     '**',
                     '!node_modules/**',
                     '!assets/less/**',
+                    '!assets/components/**',
+                    '!assets/spa/**',
                     '!.codekit-cache/**',
                     '!.idea/**',
                     '!build/**',
@@ -137,7 +196,7 @@ module.exports = function (grunt) {
             main: {
                 options: {
                     mode: 'zip',
-                    archive: './build/best-contact-form-v' + pkg.version + '.zip'
+                    archive: './build/best-contact-form-v<%= pkg.version %>.zip'
                 },
                 expand: true,
                 cwd: 'build/',

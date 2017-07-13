@@ -15,7 +15,11 @@ class WPUF_Contact_Form_Ajax {
         add_action( 'wp_ajax_bcf_contact_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
         add_action( 'wp_ajax_bcf_contact_form_duplicate', array( $this, 'duplicate_form' ) );
 
+        // import
         add_action( 'wp_ajax_bcf_import_form', array( $this, 'import_form' ) );
+
+        // form editing
+        add_action( 'wp_ajax_bcf_get_form', array( $this, 'get_form' ) );
 
         // entries
         add_action( 'wp_ajax_bcf_contact_form_entries', array( $this, 'get_entries' ) );
@@ -37,6 +41,27 @@ class WPUF_Contact_Form_Ajax {
         if ( !current_user_can( 'administrator' ) ) {
             wp_send_json_error( __( 'You do not have sufficient permission.', 'best-contact-form' ) );
         }
+    }
+
+    /**
+     * Get a form to edit
+     *
+     * @return void
+     */
+    public function get_form() {
+
+        $this->check_admin();
+
+        $form_id = isset( $_REQUEST['form_id'] ) ? absint( $_REQUEST['form_id'] ) : 0;
+
+        $data = array(
+            'post'          => get_post( $form_id ),
+            'form_fields'   => wpuf_get_form_fields( $form_id ),
+            'settings'      => wpuf_get_form_settings( $form_id ),
+            'notifications' => wpuf_get_form_notifications( $form_id ),
+        );
+
+        wp_send_json_success( $data );
     }
 
     /**
