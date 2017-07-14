@@ -7,11 +7,31 @@ const FormEditComponent = {
             is_form_saved: false,
             is_form_switcher: false,
             post_title_editing: false,
+            loading: false
+        }
+    },
+
+    watch: {
+        loading: function(value) {
+            if ( value ) {
+                NProgress.configure({ parent: '#wpadminbar' });
+                NProgress.start();
+            } else {
+                NProgress.done();
+            }
         }
     },
 
     created: function() {
         this.fetchForm();
+
+        this.$store.commit('panel_add_show_prop');
+
+        /**
+         * This is the event hub we'll use in every
+         * component to communicate between them
+         */
+        wpuf_form_builder.event_hub = new Vue();
     },
 
     computed: {
@@ -81,22 +101,25 @@ const FormEditComponent = {
         fetchForm: function() {
             var self = this;
 
+            self.loading = true;
+
             wp.ajax.send( 'bcf_get_form', {
                 data: {
                     form_id: this.$route.params.id,
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
-                    // console.log(response);
-                    self.loading = false
 
                     self.$store.commit('set_form_post', response.post);
                     self.$store.commit('set_form_fields', response.form_fields);
                     self.$store.commit('set_form_notification', response.notifications);
                 },
                 error: function(error) {
-                    self.loading = false;
                     alert(error);
+                },
+
+                complete: function() {
+                    self.loading = false;
                 }
             });
         },

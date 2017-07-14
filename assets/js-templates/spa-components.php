@@ -228,24 +228,18 @@
             </span>
         </h2>
 
-        <div class="tab-contents">
+        <div class="tab-contents" v-if="!loading">
             <div id="wpuf-form-builder-container" class="group active">
                 <div id="builder-stage">
                     <header class="clearfix">
-                        <span v-if="!post_title_editing" class="form-title" @click.prevent="post_title_editing = true">{{ post.post_title }}</span>
+                        <span v-if="!post_title_editing" title="<?php esc_attr_e( 'Click to edit the form name', 'best-contact-form' ); ?>" class="form-title" @click.prevent="post_title_editing = true"><span class="dashicons dashicons-edit"></span> {{ post.post_title }}</span>
 
                         <span v-show="post_title_editing">
                             <input type="text" v-model="post.post_title" name="post_title" />
-                            <button type="button" class="button button-small" style="margin-top: 13px;" @click.prevent="post_title_editing = false"><i class="fa fa-check"></i></button>
+                            <button type="button" class="button button-small" style="margin-top: 8px;" @click.prevent="post_title_editing = false"><i class="fa fa-check"></i></button>
                         </span>
 
-                        <i :class="(is_form_switcher ? 'fa fa-angle-up' : 'fa fa-angle-down') + ' form-switcher-arrow'" @click.prevent="switch_form"></i>
-                        <?php
-                            $form_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
-
-                            printf( "<span class=\"form-id\" title=\"%s\" data-clipboard-text='%s'><i class=\"fa fa-clipboard\" aria-hidden=\"true\"></i> #{{ post.ID }}</span>", __( 'Click to copy shortcode', 'wpuf' ), '[wpuf_contact_form id="' . $form_id . '"]' );
-
-                        ?>
+                        <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'best-contact-form' ); ?>" :data-clipboard-text='"[best_contact_form id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
                     </header>
 
                     <ul v-if="is_form_switcher" class="form-switcher-content">
@@ -298,12 +292,17 @@
 
             <?php do_action( "wpuf-form-builder-tab-contents-contact_form" ); ?>
         </div>
+        <div v-else>
+            <div class="updating-message">
+                <p><?php _e( 'Loading the editor', 'best-contact-form' ); ?></p>
+            </div>
+        </div>
 
-            <input type="hidden" name="form_settings_key" value="wpuf_form_settings">
+        <input type="hidden" name="form_settings_key" value="wpuf_form_settings">
 
         <?php wp_nonce_field( 'wpuf_form_builder_save_form', 'wpuf_form_builder_nonce' ); ?>
 
-        <input type="hidden" name="wpuf_form_id" value="<?php echo $form_id; ?>">
+        <input type="hidden" name="wpuf_form_id" :value="post.ID">
     </fieldset>
 </form><!-- #wpuf-form-builder -->
 </script>
@@ -405,8 +404,6 @@
 <script type="text/x-template" id="tmpl-wpuf-form-list-table">
 <div class="content table-responsive table-full-width" style="margin-top: 20px;">
 
-    <!-- <pre>{{ $data }}</pre> -->
-
     <div class="tablenav top">
         <div class="alignleft actions bulkactions">
             <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'best-contact-form' ); ?></label>
@@ -466,14 +463,13 @@
                     <input type="checkbox" name="post[]" v-model="checkedItems" :value="form.ID">
                 </th>
                 <td class="title column-title has-row-actions column-primary page-title">
-                    <strong><a :href="'<?php echo admin_url( 'admin.php?page=best-contact-forms&action=edit&id=') ?>' + form.ID">{{ form.post_title }}</a> <span v-if="form.post_status != 'publish'">({{ form.post_status }})</span></strong>
+                    <strong><router-link :to="{ name: 'edit', params: { id: form.ID }}">{{ form.post_title }}</router-link> <span v-if="form.post_status != 'publish'">({{ form.post_status }})</span></strong>
 
                     <div class="row-actions">
-                        <span class="edit"><a :href="'<?php echo admin_url( 'admin.php?page=best-contact-forms&action=edit&id=') ?>' + form.ID"><?php _e( 'Edit', 'best-contact-form' ); ?></a> | </span>
+                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.ID }}"><?php _e( 'Edit', 'best-contact-form' ); ?></router-link> | </span>
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'best-contact-form' ); ?></a> | </span>
                         <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'best-contact-form' ); ?></a> <template v-if="form.entries">|</template> </span>
-                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link> |
-                        <router-link :to="{ name: 'edit', params: { id: form.ID }}"><?php _e( 'EDIT', 'best-contact-form' ); ?></router-link>
+                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link>
                     </div>
                 </td>
                 <td><code>[wpuf_contact_form id="{{ form.ID }}"]</code></td>
