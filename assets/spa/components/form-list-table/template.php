@@ -68,7 +68,7 @@
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link>
                     </div>
                 </td>
-                <td><code>[wpuf_contact_form id="{{ form.ID }}"]</code></td>
+                <td><code>[best_contact_form id="{{ form.ID }}"]</code></td>
                 <td>
                     <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}">{{ form.entries }}</router-link>
                     <span v-else>&mdash;</span>

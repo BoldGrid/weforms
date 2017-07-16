@@ -62,6 +62,11 @@ class WPUF_Contact_Form_Admin {
         ) );
     }
 
+    /**
+     * Register the admin menu
+     *
+     * @return void
+     */
     public function register_admin_menu() {
         global $submenu;
 
@@ -94,18 +99,7 @@ class WPUF_Contact_Form_Admin {
      * @return void
      */
     public function contact_form_page() {
-
-        $action = isset( $_GET['action'] ) ? $_GET['action'] : null;
-
-        switch ( $action ) {
-            case 'edit':
-                require_once WPUF_ROOT . '/views/post-form.php';
-                break;
-
-            default:
-                require_once dirname( __FILE__ ) . '/views/vue-index.php';
-                break;
-        }
+        require_once dirname( __FILE__ ) . '/views/vue-index.php';
     }
 
     /**

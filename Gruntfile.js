@@ -59,10 +59,7 @@ module.exports = function (grunt) {
 
             less: {
                 files: ['<%= dirs.less %>/*.less'],
-                tasks: ['less:admin'],
-                options: {
-                    livereload: true
-                }
+                tasks: ['less:admin']
             },
 
             components: {

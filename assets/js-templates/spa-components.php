@@ -472,7 +472,7 @@
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link>
                     </div>
                 </td>
-                <td><code>[wpuf_contact_form id="{{ form.ID }}"]</code></td>
+                <td><code>[best_contact_form id="{{ form.ID }}"]</code></td>
                 <td>
                     <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}">{{ form.entries }}</router-link>
                     <span v-else>&mdash;</span>
@@ -654,9 +654,80 @@
 <script type="text/x-template" id="tmpl-wpuf-home-page">
 <div class="contact-form-list">
     <h1 class="wp-heading-inline"><?php _e( 'Contact Forms', 'best-contact-form' ); ?></h1>
-    <a class="page-title-action add-form" herf="#"><?php _e( 'Add Form', 'best-contact-form' ); ?></a>
+    <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'best-contact-form' ); ?></a>
+
+    <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
     <form-list-table></form-list-table>
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-modal">
+<div>
+    <div :class="['wpuf-form-template-modal', show ? 'show' : 'hide' ]">
+
+        <span class="screen-reader-text"><?php _e( 'Modal window. Press escape to close.',  'wpuf'  ); ?></span>
+        <a href="#" class="close" v-on:click.prevent="closeModal()">× <span class="screen-reader-text"><?php _e( 'Close modal window',  'wpuf'  ); ?></span></a>
+
+        <header class="modal-header">
+            <slot name="header"></slot>
+        </header>
+
+        <div :class="['content-container', this.$slots.footer ? 'modal-footer' : 'no-footer']">
+            <div class="content">
+                <slot name="body"></slot>
+            </div>
+        </div>
+
+        <footer v-if="this.$slots.footer">
+            <slot name="footer"></slot>
+        </footer>
+    </div>
+    <div :class="['wpuf-form-template-modal-backdrop', show ? 'show' : 'hide' ]"></div>
+</div>
+</script>
+
+<script type="text/x-template" id="tmpl-wpuf-template-modal">
+<div>
+    <wpuf-modal :show.sync="show" :onClose="onClose">
+        <h2 slot="header">
+            <?php _e( 'Select a Template', 'best-contact-form' ); ?>
+            <small><?php printf( __( 'Select from a pre-defined template or from a <a href="#" %s>blank form</a>', 'best-contact-form' ), '@click.prevent="blankForm()"' ); ?></small>
+        </h2>
+
+        <div slot="body">
+            <ul>
+                <li class="blank-form">
+                    <a href="#" @click.prevent="blankForm($event.target)">
+                        <span class="dashicons dashicons-plus"></span>
+                        <div class="title"><?php _e( 'Blank Form', 'best-contact-form' ); ?></div>
+                    </a>
+                </li>
+
+                <?php
+                $registry = wpuf_cf_get_form_templates();
+
+                foreach ($registry as $key => $template ) {
+                    $class = 'template-active';
+                    $title = '';
+
+                    if ( ! $template->is_enabled() ) {
+                        $class = 'template-inactive';
+                        $title = __( 'This integration is not installed.', 'best-contact-form' );
+                    }
+                    ?>
+
+                    <li>
+                        <a href="#" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>">
+                            <div class="title"><?php echo $template->get_title(); ?></div>
+                            <div class="description"><?php echo $template->get_description(); ?></div>
+                        </a>
+                    </li>
+                    <?php
+                }
+                ?>
+            </ul>
+        </div>
+    </wpuf-modal>
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-tools">

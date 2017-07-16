@@ -1,4 +1,4 @@
-/*! best-contact-form - v1.0.0 - 2017-07-14 */
+/*! best-contact-form - v1.0.0 - 2017-07-16 */
 ;(function($) {
 /* ./assets/spa/mixins/bulk-action.js */
 var BulkActionMixin = {
@@ -677,8 +677,117 @@ Vue.component('wpuf-cf-form-notification', {
 
 /* ./assets/spa/components/home-page/index.js */
 const Home = {
-    template: '#tmpl-wpuf-home-page'
+    template: '#tmpl-wpuf-home-page',
+
+    data: function() {
+        return {
+            showTemplateModal: false
+        }
+    },
+
+    methods: {
+        displayModal: function() {
+            this.showTemplateModal = true;
+        },
+
+        closeModal: function() {
+            this.showTemplateModal = false;
+        },
+    }
 };
+
+/* ./assets/spa/components/modal/index.js */
+Vue.component('wpuf-modal', {
+    template: '#tmpl-wpuf-modal',
+    props: {
+        show: Boolean,
+        onClose: Function
+    },
+
+    mounted: function () {
+        var self = this;
+
+        $('body').on( 'keydown', function(e) {
+            if (self.show && e.keyCode == 27) {
+                self.closeModal();
+            }
+        });
+    },
+
+    methods: {
+        closeModal: function() {
+            if ( typeof this.onClose !== 'undefined' ) {
+                this.onClose();
+            } else {
+                this.$emit('hideModal')
+            }
+        }
+    }
+});
+/* ./assets/spa/components/template-modal/index.js */
+Vue.component('wpuf-template-modal', {
+    template: '#tmpl-wpuf-template-modal',
+
+    props: {
+        show: Boolean,
+        onClose: Function
+    },
+
+    data: function() {
+        return {
+            loading: false
+        }
+    },
+
+    methods: {
+
+        blankForm: function(target) {
+            this.createForm('blank_form', target);
+        },
+
+        createForm: function(form, target) {
+            var self = this,
+                list = $(target).parents('li');
+
+            // already on a request?
+            if ( self.loading ) {
+                return;
+            }
+
+            self.loading = true;
+
+            if ( list ) {
+                list.addClass('on-progress');
+            }
+
+            wp.ajax.send( 'bcf_contact_form_template', {
+                data: {
+                    template: form,
+                    _wpnonce: wpufContactForm.nonce
+                },
+
+                success: function(response) {
+                    self.$router.push({
+                        name: 'edit',
+                        params: { id: response.id }
+                    });
+                },
+
+                error: function(error) {
+
+                },
+
+                complete: function() {
+                    self.loading = false;
+
+                    if ( list ) {
+                        list.removeClass('on-progress');
+                    }
+                }
+            });
+        }
+    }
+});
 
 /* ./assets/spa/components/tools/index.js */
 const Tools = {

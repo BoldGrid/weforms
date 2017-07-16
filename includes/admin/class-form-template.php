@@ -6,35 +6,7 @@
 class WPUF_Contact_Form_Template {
 
     public function __construct() {
-        add_action( 'admin_footer', array( $this, 'render_form_templates' ) );
-
         add_filter( 'wp_ajax_bcf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
-    }
-
-    /**
-     * Render the forms in the modal
-     *
-     * @return void
-     */
-    public function render_form_templates() {
-        if ( get_current_screen()->id != 'toplevel_page_best-contact-forms' ) {
-            return;
-        }
-
-        $registry       = wpuf_cf_get_form_templates();
-        $action_name    = 'bcf_contact_form_template';
-        $footer_help    = '';
-        $blank_form_url = esc_url( add_query_arg( array(
-            'action'   => $action_name,
-            'template' => 'blank_form',
-            '_wpnonce' => wp_create_nonce( 'wpuf_create_from_template' )
-        ), admin_url( 'admin.php' ) ) );
-
-        if ( ! $registry ) {
-            return;
-        }
-
-        include WPUF_ROOT . '/admin/html/modal.php';
     }
 
     /**
@@ -66,7 +38,7 @@ class WPUF_Contact_Form_Template {
      * @return void
      */
     public function create_contact_form_from_template() {
-        check_admin_referer( 'wpuf_create_from_template' );
+        check_ajax_referer( 'best-contact-form' );
 
         $template_name = isset( $_REQUEST['template'] ) ? sanitize_text_field( $_REQUEST['template'] ) : '';
 
@@ -127,7 +99,9 @@ class WPUF_Contact_Form_Template {
             }
         }
 
-        wp_send_json_success( $form_id );
+        wp_send_json_success( array(
+            'id' => $form_id
+        ) );
     }
 
     /**
@@ -136,8 +110,6 @@ class WPUF_Contact_Form_Template {
      * @return void
      */
     public function create_blank_form() {
-        check_admin_referer( 'wpuf_create_from_template' );
-
         $current_user = get_current_user_id();
 
         $form_post_data = array(
@@ -158,6 +130,8 @@ class WPUF_Contact_Form_Template {
         update_post_meta( $form_id, 'wpuf_form_settings', $template_object->get_form_settings() );
         update_post_meta( $form_id, 'notifications', $template_object->get_form_notifications() );
 
-        wp_send_json_success( $form_id );
+        wp_send_json_success( array(
+            'id' => $form_id
+        ) );
     }
 }
