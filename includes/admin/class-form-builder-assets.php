@@ -19,6 +19,12 @@ class WPUF_Contact_Form_Builder_Assets {
         add_filter( 'wpuf-form-builder-fields-custom-fields', array( $this, 'add_custom_fields' ) );
         add_action( 'wpuf-form-builder-js-builder-stage-mixins', array( $this, 'js_builder_stage_mixins' ) );
         add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
+
+        add_action( 'wpuf-form-builder-tabs-contact_form', array( $this, 'add_primary_tabs' ) );
+        add_action( 'wpuf-form-builder-tab-contents-contact_form', array( $this, 'add_primary_tab_contents' ) );
+
+        add_action( 'wpuf-form-builder-settings-tabs-contact_form', array( $this, 'add_settings_tabs' ) );
+        add_action( 'wpuf-form-builder-settings-tab-contents-contact_form', array( $this, 'add_settings_tab_contents' ) );
     }
 
     public function builder_enqueue_scripts() {
@@ -28,6 +34,7 @@ class WPUF_Contact_Form_Builder_Assets {
          * All the styles
          */
         wp_enqueue_style( 'wpuf-css', WPUF_ASSET_URI . '/css/frontend-forms.css' );
+        wp_enqueue_style( 'jquery-ui', WPUF_ASSET_URI . '/css/jquery-ui-1.9.1.custom.css' );
         wp_enqueue_style( 'wpuf-font-awesome', WPUF_ASSET_URI . '/vendor/font-awesome/css/font-awesome.min.css', array(), WPUF_VERSION );
         wp_enqueue_style( 'wpuf-sweetalert2', WPUF_ASSET_URI . '/vendor/sweetalert2/dist/sweetalert2.css', array(), WPUF_VERSION );
         wp_enqueue_style( 'wpuf-selectize', WPUF_ASSET_URI . '/vendor/selectize/css/selectize.default.css', array(), WPUF_VERSION );
@@ -80,11 +87,23 @@ class WPUF_Contact_Form_Builder_Assets {
         require_once WPUF_ROOT . '/includes/free/prompt.php';
 
         $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', array(
-            'i18n'              => $this->i18n(),
-            'panel_sections'    => $this->get_panel_sections(),
-            'field_settings'    => WPUF_Form_Builder_Field_Settings::get_field_settings(),
-            'pro_link'          => WPUF_Pro_Prompt::get_pro_url(),
-            'site_url'          => site_url('/')
+            'i18n'                => $this->i18n(),
+            'panel_sections'      => $this->get_panel_sections(),
+            'field_settings'      => WPUF_Form_Builder_Field_Settings::get_field_settings(),
+            'pro_link'            => WPUF_Pro_Prompt::get_pro_url(),
+            'site_url'            => site_url('/'),
+            'defaultNotification' => array(
+                'active'      => 'true',
+                'name'        => 'Admin Notification',
+                'subject'     => '[{from_name}] New Form Submission #{entry_id}',
+                'to'          => '{admin_email}',
+                'replyTo'     => '',
+                'message'     => '{all_fields}',
+                'fromName'    => '',
+                'fromAddress' => '{admin_email}',
+                'cc'          => '',
+                'bcc'         => ''
+            )
         ) );
 
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
@@ -320,7 +339,70 @@ class WPUF_Contact_Form_Builder_Assets {
      */
     public function add_form_submit_area() {
         ?>
-            <input @click.prevent="" type="submit" name="submit" :value="form_settings.submit_text">
+            <input @click.prevent="" type="submit" name="submit" v-model="settings.submit_text">
+        <?php
+    }
+
+    /**
+     * Additional primary tabs
+     *
+     * @return void
+     */
+    public function add_primary_tabs() {
+        $tabs = apply_filters( 'wpuf_contact_form_editor_tabs', array(
+            'notification' => __( 'Notifications', 'best-contact-form' ),
+            'integration'  => __( 'Integrations', 'best-contact-form' )
+        ) );
+
+        foreach ($tabs as $key => $label) {
+            ?>
+            <a href="#wpuf-form-builder-tab-<?php echo $key; ?>" :class="['nav-tab', isActiveTab( '<?php echo $key; ?>' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('<?php echo $key; ?>')"><?php echo $label; ?></a>
+            <?php
+        }
+    }
+
+    public function add_primary_tab_contents() {
+        include dirname( __FILE__ ) . '/views/builder-tabs.php';
+    }
+
+    /**
+     * Add settings tabs
+     *
+     * @return void
+     */
+    public function add_settings_tabs() {
+        ?>
+
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'form' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'form' )" class="nav-tab"><?php _e( 'Form Settings', 'best-contact-form' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'restriction' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'restriction' )" class="nav-tab"><?php _e( 'Submission Restriction', 'best-contact-form' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'display' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'display' )" class="nav-tab"><?php _e( 'Display Settings', 'best-contact-form' ); ?></a>
+
+            <?php do_action( 'wpuf_contact_form_settings_tab' ); ?>
+
+        <?php
+    }
+
+    /**
+     * Add settings tabs
+     *
+     * @return void
+     */
+    public function add_settings_tab_contents() {
+        ?>
+            <div id="wpuf-metabox-settings" class="tab-content" v-show="isActiveSettingsTab('form')">
+                <?php include_once dirname( __FILE__ ) . '/views/form-settings.php'; ?>
+            </div>
+
+            <div id="wpuf-metabox-settings-restriction" class="tab-content" v-show="isActiveSettingsTab('restriction')">
+                <?php include_once dirname( __FILE__ ) . '/views/submission-restriction.php'; ?>
+            </div>
+
+            <div id="wpuf-metabox-settings-display" class="tab-content" v-show="isActiveSettingsTab('display')">
+                <?php include_once dirname( __FILE__ ) . '/views/display-settings.php'; ?>
+            </div>
+
+            <?php do_action( 'wpuf_contact_form_settings_tab_content' ); ?>
+
         <?php
     }
 }

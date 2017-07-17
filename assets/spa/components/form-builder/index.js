@@ -7,7 +7,11 @@ const FormEditComponent = {
             is_form_saved: false,
             is_form_switcher: false,
             post_title_editing: false,
-            loading: false
+            loading: false,
+            activeTab: 'editor',
+            activeSettingsTab: 'form',
+            started: false,
+            isDirty: false
         }
     },
 
@@ -19,8 +23,27 @@ const FormEditComponent = {
             } else {
                 NProgress.done();
             }
-        }
+        },
+
+        // form_fields: function(newVal, old) {
+        //     console.log('started', this.started);
+        //     if ( !this.started ) {
+        //         console.log( 'watcher haven\'t started yet, skipping');
+        //         return;
+        //     }
+
+        //     console.log('dirty', this.isDirty);
+        //     console.log('watching form fields');
+        //     console.log('New value', newVal);
+        //     console.log('Old value', old);
+        // }
+
     },
+
+    // beforeRouteLeave: function(to, from, next) {
+    //     console.log('leaving');
+    //     next();
+    // },
 
     created: function() {
         this.fetchForm();
@@ -53,26 +76,22 @@ const FormEditComponent = {
 
         notifications: function() {
             return this.$store.state.notifications;
+        },
+
+        settings: function() {
+            return this.$store.state.settings;
         }
     },
 
     mounted: function () {
-        // primary nav tabs and their contents
-        this.bind_tab_on_click($('#wpuf-form-builder > fieldset > .nav-tab-wrapper > a'), '#wpuf-form-builder');
-
-        // secondary settings tabs and their contents
-        var settings_tabs = $('#wpuf-form-builder-settings .nav-tab'),
-            settings_tab_contents = $('#wpuf-form-builder-settings .tab-contents .group');
-
-        settings_tabs.first().addClass('nav-tab-active');
-        settings_tab_contents.first().addClass('active');
-
-        this.bind_tab_on_click(settings_tabs, '#wpuf-form-builder-settings');
 
         var clipboard = new window.Clipboard('.form-id');
         $(".form-id").tooltip();
 
         var self = this;
+
+        this.isDirty = false;
+        this.started = true;
 
         clipboard.on('success', function(e) {
             // Show copied tooltip
@@ -98,6 +117,22 @@ const FormEditComponent = {
 
     methods: {
 
+        makeActive: function(val) {
+            this.activeTab = val;
+        },
+
+        isActiveTab: function(val) {
+          return this.activeTab === val;
+        },
+
+        isActiveSettingsTab: function(val) {
+            return this.activeSettingsTab === val;
+        },
+
+        makeActiveSettingsTab: function(val) {
+            this.activeSettingsTab = val;
+        },
+
         fetchForm: function() {
             var self = this;
 
@@ -113,6 +148,7 @@ const FormEditComponent = {
                     self.$store.commit('set_form_post', response.post);
                     self.$store.commit('set_form_fields', response.form_fields);
                     self.$store.commit('set_form_notification', response.notifications);
+                    self.$store.commit('set_form_settings', response.settings);
                 },
                 error: function(error) {
                     alert(error);
@@ -122,27 +158,6 @@ const FormEditComponent = {
                     self.loading = false;
                 }
             });
-        },
-
-        // tabs and their contents
-        bind_tab_on_click: function (tabs, scope) {
-            tabs.on('click', function (e) {
-                e.preventDefault();
-
-                var button = $(this),
-                    tab_contents = $(scope + ' > fieldset > .tab-contents'),
-                    group_id = button.attr('href');
-
-                button.addClass('nav-tab-active').siblings('.nav-tab-active').removeClass('nav-tab-active');
-
-                tab_contents.children().removeClass('active');
-                $(group_id).addClass('active');
-            });
-        },
-
-        // switch form
-        switch_form: function () {
-            this.is_form_switcher = (this.is_form_switcher) ? false : true;
         },
 
         // set current sidebar panel
@@ -170,7 +185,8 @@ const FormEditComponent = {
                 data: {
                     form_data: $('#wpuf-form-builder').serialize(),
                     form_fields: JSON.stringify(self.form_fields),
-                    notifications: JSON.stringify(self.notifications)
+                    notifications: JSON.stringify(self.notifications),
+                    settings: JSON.stringify(self.settings),
                 },
 
                 success: function (response) {

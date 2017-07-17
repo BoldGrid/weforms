@@ -4,6 +4,26 @@ if (!Array.prototype.hasOwnProperty('swap')) {
     };
 }
 
+Vue.component('datepicker', {
+    template: '<input type="text" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" />',
+    props: ['value'],
+    mounted: function() {
+        var self = this;
+
+        $(this.$el).datetimepicker({
+            dateFormat: 'yy-mm-dd',
+            timeFormat: "HH:mm:ss",
+            onClose: this.onClose
+        });
+    },
+
+    methods: {
+        onClose(date) {
+            this.$emit('input', date);
+        }
+    },
+});
+
 // check if an element is visible in browser viewport
 function is_element_in_viewport (el) {
     if (typeof jQuery === "function" && el instanceof jQuery) {
@@ -30,6 +50,7 @@ var wpuf_form_builder_store = new Vuex.Store({
         panel_sections: wpuf_form_builder.panel_sections,
         field_settings: wpuf_form_builder.field_settings,
         notifications: [],
+        settings: {},
         current_panel: 'form-fields',
         editing_field_id: 0, // editing form field id
     },
@@ -45,6 +66,10 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         set_form_notification: function (state, value) {
             Vue.set(state, 'notifications', value);
+        },
+
+        set_form_settings: function (state, value) {
+            Vue.set(state, 'settings', value);
         },
 
         // set the current panel

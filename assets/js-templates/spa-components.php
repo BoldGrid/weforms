@@ -206,12 +206,13 @@
 <script type="text/x-template" id="tmpl-wpuf-form-builder">
 <form id="wpuf-form-builder" class="wpuf-form-builder-contact_form" method="post" action="" @submit.prevent="save_form_builder" v-cloak>
     <fieldset :class="[is_form_saving ? 'disabled' : '']" :disabled="is_form_saving">
+
         <h2 class="nav-tab-wrapper">
-            <a href="#wpuf-form-builder-container" class="nav-tab nav-tab-active">
+            <a href="#wpuf-form-builder-container" :class="['nav-tab', isActiveTab( 'editor' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('editor')">
                 <?php _e( 'Form Editor', 'wpuf' ); ?>
             </a>
 
-            <a href="#wpuf-form-builder-settings" class="nav-tab">
+            <a href="#wpuf-form-builder-settings" :class="['nav-tab', isActiveTab( 'settings' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('settings')">
                 <?php _e( 'Settings', 'wpuf' ); ?>
             </a>
 
@@ -229,7 +230,7 @@
         </h2>
 
         <div class="tab-contents" v-if="!loading">
-            <div id="wpuf-form-builder-container" class="group active">
+            <div id="wpuf-form-builder-container" v-show="isActiveTab('editor')">
                 <div id="builder-stage">
                     <header class="clearfix">
                         <span v-if="!post_title_editing" title="<?php esc_attr_e( 'Click to edit the form name', 'best-contact-form' ); ?>" class="form-title" @click.prevent="post_title_editing = true"><span class="dashicons dashicons-edit"></span> {{ post.post_title }}</span>
@@ -278,7 +279,7 @@
                 </div><!-- #builder-form-fields -->
             </div><!-- #wpuf-form-builder-container -->
 
-            <div id="wpuf-form-builder-settings" class="group clearfix">
+            <div id="wpuf-form-builder-settings" class="clearfix" v-show="isActiveTab('settings')">
                 <fieldset>
                     <h2 id="wpuf-form-builder-settings-tabs" class="nav-tab-wrapper">
                         <?php do_action( "wpuf-form-builder-settings-tabs-contact_form" ); ?>
@@ -392,7 +393,7 @@
 
                 <div id="major-publishing-actions">
                     <div id="publishing-action">
-                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Trash', 'best-contact-form' ); ?></button>
+                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Delete', 'best-contact-form' ); ?></button>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -734,8 +735,8 @@
 <div class="export-import-wrap">
 
     <h2 class="nav-tab-wrapper">
-        <a v-bind:class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
-        <a v-bind:class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
     </h2>
 
     <div class="nav-tab-content">

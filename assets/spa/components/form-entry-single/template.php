@@ -68,7 +68,7 @@
 
                 <div id="major-publishing-actions">
                     <div id="publishing-action">
-                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Trash', 'best-contact-form' ); ?></button>
+                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Delete', 'best-contact-form' ); ?></button>
                     </div>
                     <div class="clear"></div>
                 </div>

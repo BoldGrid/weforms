@@ -1,11 +1,11 @@
-<div id="wpuf-form-builder-tab-notification" class="group">
+<div id="wpuf-form-builder-tab-notification" class="tab-content" v-show="isActiveTab('notification')">
 
     <wpuf-cf-form-notification></wpuf-cf-form-notification>
 
 </div>
 
-<div id="wpuf-form-builder-tab-integration" class="group">
+<div id="wpuf-form-builder-tab-integration" class="tab-content" v-show="isActiveTab('integration')">
 
-    <p><?php _e( 'No integrations found', 'best-contact-form' ); ?></p>
+    <p><?php _e( 'No integration found', 'best-contact-form' ); ?></p>
 
 </div>

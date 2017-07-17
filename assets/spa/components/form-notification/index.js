@@ -20,7 +20,7 @@ Vue.component('wpuf-cf-form-notification', {
 
     methods: {
         addNew: function() {
-            this.$store.commit('addNotification', wpufCFBuilderNotification.defaultNotification);
+            this.$store.commit('addNotification', wpuf_form_builder.defaultNotification);
         },
 
         editItem: function(index) {
