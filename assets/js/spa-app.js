@@ -1,4 +1,4 @@
-/*! best-contact-form - v1.0.0 - 2017-07-17 */
+/*! weForms - v1.0.0 - 2017-07-20 */
 ;(function($) {
 /* ./assets/spa/mixins/bulk-action.js */
 var BulkActionMixin = {
@@ -157,8 +157,8 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: wpufContactForm.nonce,
             index: 'id',
-            bulkDeleteAction: 'bcf_contact_form_entry_trash_bulk'
-        }
+            bulkDeleteAction: 'weforms_contact_form_entry_trash_bulk'
+        };
     },
 
     created: function() {
@@ -175,7 +175,7 @@ Vue.component( 'wpuf-table', {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
+            this.loading = true;
 
             wp.ajax.send( self.action, {
                 data: {
@@ -184,7 +184,7 @@ Vue.component( 'wpuf-table', {
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
-                    self.loading = false
+                    self.loading = false;
                     self.columns = response.columns;
                     self.items = response.entries;
                     self.form_title = response.form_title;
@@ -221,7 +221,7 @@ Vue.component( 'wpuf-table', {
 } );
 
 /* ./assets/spa/components/form-builder/index.js */
-const FormEditComponent = {
+var FormEditComponent = {
     template: '#tmpl-wpuf-form-builder',
     mixins: wpuf_form_builder_mixins(wpuf_mixins.root),
     data: function() {
@@ -233,9 +233,7 @@ const FormEditComponent = {
             loading: false,
             activeTab: 'editor',
             activeSettingsTab: 'form',
-            started: false,
-            isDirty: false
-        }
+        };
     },
 
     watch: {
@@ -248,25 +246,7 @@ const FormEditComponent = {
             }
         },
 
-        // form_fields: function(newVal, old) {
-        //     console.log('started', this.started);
-        //     if ( !this.started ) {
-        //         console.log( 'watcher haven\'t started yet, skipping');
-        //         return;
-        //     }
-
-        //     console.log('dirty', this.isDirty);
-        //     console.log('watching form fields');
-        //     console.log('New value', newVal);
-        //     console.log('Old value', old);
-        // }
-
     },
-
-    // beforeRouteLeave: function(to, from, next) {
-    //     console.log('leaving');
-    //     next();
-    // },
 
     created: function() {
         this.fetchForm();
@@ -301,6 +281,10 @@ const FormEditComponent = {
             return this.$store.state.notifications;
         },
 
+        integrations: function() {
+            return this.$store.state.integrations;
+        },
+
         settings: function() {
             return this.$store.state.settings;
         }
@@ -330,12 +314,6 @@ const FormEditComponent = {
 
             e.clearSelection();
         });
-
-        // window.onbeforeunload = function () {
-        //     if (!self.is_form_saved) {
-        //         return self.i18n.unsaved_changes;
-        //     }
-        // };
     },
 
     methods: {
@@ -361,7 +339,7 @@ const FormEditComponent = {
 
             self.loading = true;
 
-            wp.ajax.send( 'bcf_get_form', {
+            wp.ajax.send( 'weforms_get_form', {
                 data: {
                     form_id: this.$route.params.id,
                     _wpnonce: wpufContactForm.nonce
@@ -372,6 +350,14 @@ const FormEditComponent = {
                     self.$store.commit('set_form_fields', response.form_fields);
                     self.$store.commit('set_form_notification', response.notifications);
                     self.$store.commit('set_form_settings', response.settings);
+
+                    // if nothing saved in the form, it provides an empty array
+                    // but we expect to be an object
+                    if ( response.integrations.length !== undefined ) {
+                        self.$store.commit('set_form_integrations', {});
+                    } else {
+                        self.$store.commit('set_form_integrations', response.integrations);
+                    }
                 },
                 error: function(error) {
                     alert(error);
@@ -410,6 +396,7 @@ const FormEditComponent = {
                     form_fields: JSON.stringify(self.form_fields),
                     notifications: JSON.stringify(self.notifications),
                     settings: JSON.stringify(self.settings),
+                    integrations: JSON.stringify(self.integrations),
                 },
 
                 success: function (response) {
@@ -440,8 +427,8 @@ const FormEntries = {
     data: function() {
         return {
             form_title: 'Loading...'
-        }
-    },
+        };
+    }
 };
 /* ./assets/spa/components/form-entry-single/index.js */
 const FormEntriesSingle = {
@@ -455,7 +442,7 @@ const FormEntriesSingle = {
                 meta_data: {},
                 info: {}
             },
-        }
+        };
     },
     created: function() {
         this.fetchData();
@@ -469,15 +456,16 @@ const FormEntriesSingle = {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
-            wp.ajax.send( 'bcf_contact_form_entry_details', {
+            this.loading = true;
+
+            wp.ajax.send( 'weforms_contact_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
                     // console.log(response);
-                    self.loading = false
+                    self.loading = false;
                     self.entry = response;
                 },
                 error: function(error) {
@@ -494,13 +482,14 @@ const FormEntriesSingle = {
                 return;
             }
 
-            wp.ajax.send( 'bcf_contact_form_entry_trash', {
+            wp.ajax.send( 'weforms_contact_form_entry_trash', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
                 },
-                success: function(response) {
-                    self.loading = false
+
+                success: function() {
+                    self.loading = false;
 
                     self.$router.push({ name: 'formEntries', params: { id: self.$route.params.id }});
                 },
@@ -522,8 +511,8 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
-            bulkDeleteAction: 'bcf_contact_form_delete_bulk'
-        }
+            bulkDeleteAction: 'weforms_contact_form_delete_bulk'
+        };
     },
 
     created: function() {
@@ -534,15 +523,15 @@ Vue.component('form-list-table', {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
+            this.loading = true;
 
-            wp.ajax.send( 'bcf_contact_form_list', {
+            wp.ajax.send( 'weforms_contact_form_list', {
                 data: {
                     _wpnonce: wpufContactForm.nonce,
                     page: self.currentPage,
                 },
                 success: function(response) {
-                    self.loading = false
+                    self.loading = false;
                     self.items = response.forms;
                     self.totalItems = response.total;
                     self.totalPage = response.pages;
@@ -560,7 +549,7 @@ Vue.component('form-list-table', {
             if (confirm('Are you sure?')) {
                 self.loading = true;
 
-                wp.ajax.send( 'bcf_contact_form_delete', {
+                wp.ajax.send( 'weforms_contact_form_delete', {
                     data: {
                         form_id: this.items[index].ID,
                         _wpnonce: wpufContactForm.nonce
@@ -582,7 +571,7 @@ Vue.component('form-list-table', {
 
             this.loading = true;
 
-            wp.ajax.send( 'bcf_contact_form_duplicate', {
+            wp.ajax.send( 'weforms_contact_form_duplicate', {
                 data: {
                     form_id: form_id,
                     _wpnonce: wpufContactForm.nonce
@@ -617,80 +606,6 @@ Vue.component('form-list-table', {
         },
     }
 });
-/* ./assets/spa/components/form-notification/index.js */
-Vue.component('wpuf-cf-form-notification', {
-    template: '#tmpl-wpuf-form-notification',
-    data: function() {
-        return {
-            editing: false,
-            editingIndex: 0,
-        }
-    },
-
-    computed: {
-
-        notifications: function() {
-            return this.$store.state.notifications;
-        },
-
-        hasNotifications: function() {
-            return Object.keys( this.$store.state.notifications ).length;
-        }
-    },
-
-    methods: {
-        addNew: function() {
-            this.$store.commit('addNotification', wpuf_form_builder.defaultNotification);
-        },
-
-        editItem: function(index) {
-            this.editing = true;
-            this.editingIndex = index;
-        },
-
-        editDone: function() {
-            this.editing = false;
-
-            this.$store.commit('updateNotification', {
-                index: this.editingIndex,
-                value: this.notifications[this.editingIndex]
-            });
-
-            jQuery('.advanced-field-wrap').slideUp('fast');
-        },
-
-        deleteItem: function(index) {
-            if ( confirm( 'Are you sure' ) ) {
-                this.editing = false;
-                this.$store.commit( 'deleteNotification', index);
-            }
-        },
-
-        toggelNotification: function(index) {
-            this.$store.commit('updateNotificationProperty', {
-                index: index,
-                property: 'active',
-                value: !this.notifications[index].active
-            });
-        },
-
-        duplicate: function(index) {
-            this.$store.commit('cloneNotification', index);
-        },
-
-        toggleAdvanced: function() {
-            jQuery('.advanced-field-wrap').slideToggle('fast');
-        },
-
-        insertValue: function(type, field, property) {
-            var notification = this.notifications[this.editingIndex],
-                value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
-
-            notification[property] = notification[property] + value;
-        }
-    }
-});
-
 /* ./assets/spa/components/home-page/index.js */
 const Home = {
     template: '#tmpl-wpuf-home-page',
@@ -698,7 +613,7 @@ const Home = {
     data: function() {
         return {
             showTemplateModal: false
-        }
+        };
     },
 
     methods: {
@@ -711,99 +626,6 @@ const Home = {
         },
     }
 };
-
-/* ./assets/spa/components/modal/index.js */
-Vue.component('wpuf-modal', {
-    template: '#tmpl-wpuf-modal',
-    props: {
-        show: Boolean,
-        onClose: Function
-    },
-
-    mounted: function () {
-        var self = this;
-
-        $('body').on( 'keydown', function(e) {
-            if (self.show && e.keyCode == 27) {
-                self.closeModal();
-            }
-        });
-    },
-
-    methods: {
-        closeModal: function() {
-            if ( typeof this.onClose !== 'undefined' ) {
-                this.onClose();
-            } else {
-                this.$emit('hideModal')
-            }
-        }
-    }
-});
-/* ./assets/spa/components/template-modal/index.js */
-Vue.component('wpuf-template-modal', {
-    template: '#tmpl-wpuf-template-modal',
-
-    props: {
-        show: Boolean,
-        onClose: Function
-    },
-
-    data: function() {
-        return {
-            loading: false
-        }
-    },
-
-    methods: {
-
-        blankForm: function(target) {
-            this.createForm('blank_form', target);
-        },
-
-        createForm: function(form, target) {
-            var self = this,
-                list = $(target).parents('li');
-
-            // already on a request?
-            if ( self.loading ) {
-                return;
-            }
-
-            self.loading = true;
-
-            if ( list ) {
-                list.addClass('on-progress');
-            }
-
-            wp.ajax.send( 'bcf_contact_form_template', {
-                data: {
-                    template: form,
-                    _wpnonce: wpufContactForm.nonce
-                },
-
-                success: function(response) {
-                    self.$router.push({
-                        name: 'edit',
-                        params: { id: response.id }
-                    });
-                },
-
-                error: function(error) {
-
-                },
-
-                complete: function() {
-                    self.loading = false;
-
-                    if ( list ) {
-                        list.removeClass('on-progress');
-                    }
-                }
-            });
-        }
-    }
-});
 
 /* ./assets/spa/components/tools/index.js */
 const Tools = {
@@ -818,7 +640,7 @@ const Tools = {
             importButton: 'Import',
             currentStatus: 0,
             responseMessage: ''
-        }
+        };
     },
 
     computed: {
@@ -848,14 +670,15 @@ const Tools = {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
-            wp.ajax.send( 'bcf_contact_form_names', {
+            this.loading = true;
+
+            wp.ajax.send( 'weforms_contact_form_names', {
                 data: {
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
                     // console.log(response);
-                    self.loading = false
+                    self.loading = false;
                     self.forms   = response;
                 },
                 error: function(error) {
@@ -866,20 +689,22 @@ const Tools = {
         },
 
         importForm: function( fieldName, fileList, event ) {
-            if ( !fileList.length ) return;
+            if ( !fileList.length ) {
+                return;
+            }
 
             var formData = new FormData();
             var self = this;
 
             formData.append( fieldName, fileList[0], fileList[0].name);
-            formData.append( 'action', 'bcf_import_form' );
+            formData.append( 'action', 'weforms_import_form' );
             formData.append( '_wpnonce', wpufContactForm.nonce );
 
             self.currentStatus = 1;
 
             $.ajax({
                 type: "POST",
-                url: ajaxurl,
+                url: window.ajaxurl,
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -965,6 +790,7 @@ var wpuf_form_builder_store = new Vuex.Store({
         field_settings: wpuf_form_builder.field_settings,
         notifications: [],
         settings: {},
+        integrations: {},
         current_panel: 'form-fields',
         editing_field_id: 0, // editing form field id
     },
@@ -980,6 +806,10 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         set_form_notification: function (state, value) {
             Vue.set(state, 'notifications', value);
+        },
+
+        set_form_integrations: function (state, value) {
+            Vue.set(state, 'integrations', value);
         },
 
         set_form_settings: function (state, value) {
@@ -1116,6 +946,15 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         updateNotification: function(state, payload) {
             state.notifications[payload.index] = payload.value;
+        },
+
+        updateIntegration: function(state, payload) {
+            // console.log(payload);
+            // console.log(state.integrations[payload.index]);
+            // state.integrations[payload.index] = payload.value;
+            Vue.set(state.integrations, payload.index, payload.value)
+
+            // state.integrations.splice(payload.index, 0, payload.value);
         }
     }
 });
@@ -1200,7 +1039,7 @@ const app = new Vue({
 }).$mount('#wpuf-contact-form-app')
 
 // Admin menu hack
-var menuRoot = $('#toplevel_page_best-contact-forms');
+var menuRoot = $('#toplevel_page_weforms');
 
 menuRoot.on('click', 'a', function() {
     var self = $(this);
@@ -1225,7 +1064,7 @@ $(function() {
             $(el).parent().addClass('current');
             return;
         }
-    });;
+    });
 });
 
 })(jQuery);

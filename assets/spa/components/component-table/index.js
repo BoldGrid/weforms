@@ -14,8 +14,8 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: wpufContactForm.nonce,
             index: 'id',
-            bulkDeleteAction: 'bcf_contact_form_entry_trash_bulk'
-        }
+            bulkDeleteAction: 'weforms_contact_form_entry_trash_bulk'
+        };
     },
 
     created: function() {
@@ -32,7 +32,7 @@ Vue.component( 'wpuf-table', {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
+            this.loading = true;
 
             wp.ajax.send( self.action, {
                 data: {
@@ -41,7 +41,7 @@ Vue.component( 'wpuf-table', {
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
-                    self.loading = false
+                    self.loading = false;
                     self.columns = response.columns;
                     self.items = response.entries;
                     self.form_title = response.form_title;

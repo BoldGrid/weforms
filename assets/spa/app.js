@@ -51,6 +51,7 @@ var wpuf_form_builder_store = new Vuex.Store({
         field_settings: wpuf_form_builder.field_settings,
         notifications: [],
         settings: {},
+        integrations: {},
         current_panel: 'form-fields',
         editing_field_id: 0, // editing form field id
     },
@@ -66,6 +67,10 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         set_form_notification: function (state, value) {
             Vue.set(state, 'notifications', value);
+        },
+
+        set_form_integrations: function (state, value) {
+            Vue.set(state, 'integrations', value);
         },
 
         set_form_settings: function (state, value) {
@@ -202,6 +207,15 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         updateNotification: function(state, payload) {
             state.notifications[payload.index] = payload.value;
+        },
+
+        updateIntegration: function(state, payload) {
+            // console.log(payload);
+            // console.log(state.integrations[payload.index]);
+            // state.integrations[payload.index] = payload.value;
+            Vue.set(state.integrations, payload.index, payload.value)
+
+            // state.integrations.splice(payload.index, 0, payload.value);
         }
     }
 });
@@ -286,7 +300,7 @@ const app = new Vue({
 }).$mount('#wpuf-contact-form-app')
 
 // Admin menu hack
-var menuRoot = $('#toplevel_page_best-contact-forms');
+var menuRoot = $('#toplevel_page_weforms');
 
 menuRoot.on('click', 'a', function() {
     var self = $(this);
@@ -311,5 +325,5 @@ $(function() {
             $(el).parent().addClass('current');
             return;
         }
-    });;
+    });
 });

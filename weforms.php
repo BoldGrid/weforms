@@ -1,14 +1,16 @@
 <?php
-/*
-Plugin Name: Best Contact Form
-Plugin URI: https://wedevs.com/wp-user-frontend-pro/contact-form/
-Description: Contact form plugin for WordPress
-Version: 0.1
-Author: weDevs
-Author URI: https://wedevs.com/
-License: GPL2
-TextDomain: wpuf-contact-form
-*/
+/**
+ * Plugin Name: weForms
+ * Description: The best contact form plugin for WordPress
+ * Plugin URI: https://wedevs.com/weforms/
+ * Author: weDevs
+ * Author URI: https://wedevs.com/
+ * Version: 1.0
+ * License: GPL2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: best-contact-form
+ * Domain Path: /languages
+ */
 
 /**
  * Copyright (c) 2017 weDevs LLC (email: info@wedevs.com). All rights reserved.
@@ -40,14 +42,21 @@ TextDomain: wpuf-contact-form
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * WPUF_Contact_Form class
+ * WeForms class
  *
- * @class WPUF_Contact_Form The class that holds the entire WPUF_Contact_Form plugin
+ * @class WeForms The class that holds the entire WeForms plugin
  */
-class WPUF_Contact_Form {
+final class WeForms {
 
     /**
-     * Constructor for the WPUF_Contact_Form class
+     * Plugin version
+     *
+     * @var string
+     */
+    public $version = '0.1.0';
+
+    /**
+     * Constructor for the WeForms class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -63,45 +72,48 @@ class WPUF_Contact_Form {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-        // Localize our plugin
-        add_action( 'init', array( $this, 'localization_setup' ) );
-        add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
-
-        // install the core
-        add_action( 'wp_ajax_wpuf_cf_install_wpuf', array( $this, 'install_wp_user_frontend' ) );
+        add_action( 'init', array( $this, 'maybe_requires_core' ) );
+        add_action( 'wpuf_loaded', array( $this, 'init_plugin' ) );
     }
 
     /**
-     * Initializes the WPUF_Contact_Form() class
+     * Define the constants
      *
-     * Checks for an existing WPUF_Contact_Form() instance
+     * @return void
+     */
+    private function define_constants() {
+        define( 'WEFORMS_VERSION', '1.0' );
+        define( 'WEFORMS_FILE', __FILE__ );
+        define( 'WEFORMS_ROOT', dirname( __FILE__ ) );
+        define( 'WEFORMS_INCLUDES', WEFORMS_ROOT . '/includes' );
+        define( 'WEFORMS_ROOT_URI', plugins_url( '', __FILE__ ) );
+        define( 'WEFORMS_ASSET_URI', WEFORMS_ROOT_URI . '/assets' );
+    }
+
+    /**
+     * Load the plugin after WP User Frontend is loaded
+     *
+     * @return void
+     */
+    public function init_plugin() {
+        $this->includes();
+        $this->init_hooks();
+    }
+
+    /**
+     * Initializes the WeForms() class
+     *
+     * Checks for an existing WeForms() instance
      * and if it doesn't find one, creates it.
      */
     public static function init() {
         static $instance = false;
 
         if ( ! $instance ) {
-            $instance = new WPUF_Contact_Form();
+            $instance = new WeForms();
         }
 
         return $instance;
-    }
-
-    public function init_plugin() {
-        global $wpdb;
-
-        // bail out early if the core isn't installed
-        if ( ! class_exists( 'WP_User_Frontend' ) ) {
-            add_action( 'admin_notices', array( $this, 'core_activation_notice' ) );
-            return;
-        }
-
-        $wpdb->wpuf_cf_entries   = $wpdb->prefix . 'wpuf_cf_entries';
-        $wpdb->wpuf_cf_entrymeta = $wpdb->prefix . 'wpuf_cf_entrymeta';
-
-        // seems like we have the core, we shall pass!!!
-        $this->includes();
-        $this->init_classes();
     }
 
     /**
@@ -154,7 +166,7 @@ class WPUF_Contact_Form {
             dbDelta( $table );
         }
 
-        update_option( 'wpuf_cf_version', WPUF_CONTACT_FORM_VERSION );
+        update_option( 'wpuf_cf_version', WEFORMS_VERSION );
     }
 
     /**
@@ -167,6 +179,89 @@ class WPUF_Contact_Form {
     }
 
     /**
+     * Include the required classes
+     *
+     * @return void
+     */
+    public function includes() {
+
+        if ( is_admin() ) {
+            require_once WEFORMS_INCLUDES . '/admin/class-contact-form-admin.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
+        } else {
+            require_once WPUF_ROOT . '/class/render-form.php';
+            require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
+        }
+
+        require_once WEFORMS_INCLUDES . '/class-ajax.php';
+        require_once WEFORMS_INCLUDES . '/class-notification.php';
+        require_once WEFORMS_INCLUDES . '/integrations/mailchimp/class-weforms-mailchimp.php';
+        require_once WEFORMS_INCLUDES . '/functions.php';
+    }
+
+    /**
+     * Initialize the hooks
+     *
+     * @return void
+     */
+    public function init_hooks() {
+        // Localize our plugin
+        add_action( 'init', array( $this, 'localization_setup' ) );
+
+        // initialize the classes
+        add_action( 'init', array( $this, 'init_classes' ) );
+        add_action( 'init', array( $this, 'wpdb_table_shortcuts' ), 0 );
+
+        add_filter( 'wpuf_integrations', function( $integrations ) {
+
+            $integrations = array_merge( $integrations, array( 'WeForms_Integration_MailChimp' ) );
+
+            return $integrations;
+        } );
+
+        add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
+    }
+
+    /**
+     * Set WPDB table shortcut names
+     *
+     * @return void
+     */
+    public function wpdb_table_shortcuts() {
+        global $wpdb;
+
+        $wpdb->wpuf_cf_entries   = $wpdb->prefix . 'wpuf_cf_entries';
+        $wpdb->wpuf_cf_entrymeta = $wpdb->prefix . 'wpuf_cf_entrymeta';
+    }
+
+    /**
+     * Check if the core WP User Frontend is installed
+     *
+     * @return boolean
+     */
+    public function is_core_installed() {
+        return class_exists( 'WP_User_Frontend' );
+    }
+
+    /**
+     * If the core isn't installed
+     *
+     * @return void
+     */
+    public function maybe_requires_core() {
+        if ( $this->is_core_installed() ) {
+            return;
+        }
+
+        // show the notice
+        add_action( 'admin_notices', array( $this, 'core_activation_notice' ) );
+
+        // install the core
+        add_action( 'wp_ajax_wpuf_cf_install_wpuf', array( $this, 'install_wp_user_frontend' ) );
+    }
+
+    /**
      * The prompt to install the core plugin
      *
      * @return void
@@ -174,7 +269,7 @@ class WPUF_Contact_Form {
     public function core_activation_notice() {
         ?>
         <div class="updated" id="wpuf-contact-form-installer-notice" style="padding: 1em; position: relative;">
-            <h2><?php _e( 'Your Contact Form is almost ready!', 'best-contact-form' ); ?></h2>
+            <h2><?php _e( 'weFroms is almost ready!', 'best-contact-form' ); ?></h2>
 
             <?php
                 $plugin_file      = basename( dirname( __FILE__ ) ) . '/contact-form.php';
@@ -233,41 +328,7 @@ class WPUF_Contact_Form {
      * @uses load_plugin_textdomain()
      */
     public function localization_setup() {
-        load_plugin_textdomain( 'best-contact-form', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-    }
-
-    /**
-     * Define the constants
-     *
-     * @return void
-     */
-    private function define_constants() {
-        define( 'WPUF_CONTACT_FORM_VERSION', '1.0' );
-        define( 'WPUF_CONTACT_FORM_FILE', __FILE__ );
-        define( 'WPUF_CONTACT_FORM_ROOT', dirname( __FILE__ ) );
-        define( 'WPUF_CONTACT_FORM_INCLUDES', WPUF_CONTACT_FORM_ROOT . '/includes' );
-        define( 'WPUF_CONTACT_FORM_ROOT_URI', plugins_url( '', __FILE__ ) );
-        define( 'WPUF_CONTACT_FORM_ASSET_URI', WPUF_CONTACT_FORM_ROOT_URI . '/assets' );
-    }
-
-    /**
-     * Include the required classes
-     *
-     * @return void
-     */
-    public function includes() {
-        if ( is_admin() ) {
-            require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-contact-form-admin.php';
-            require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-contact-form-builder.php';
-            require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/class-form-template.php';
-        } else {
-            require_once WPUF_ROOT . '/class/render-form.php';
-            require_once WPUF_CONTACT_FORM_INCLUDES . '/class-frontend-form.php';
-        }
-
-        require_once WPUF_CONTACT_FORM_INCLUDES . '/class-ajax.php';
-        require_once WPUF_CONTACT_FORM_INCLUDES . '/class-notification.php';
-        require_once WPUF_CONTACT_FORM_INCLUDES . '/functions.php';
+        load_plugin_textdomain( 'weforms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     /**
@@ -276,16 +337,17 @@ class WPUF_Contact_Form {
      * @return void
      */
     public function init_classes() {
+
         if ( is_admin() ) {
             new WPUF_Contact_Form_Admin();
-            new WPUF_Contact_Form_Builder();
             new WPUF_Contact_Form_Template();
+            new WeForms_Pro_Integrations();
         } else {
             new WPUF_Contact_Form_Frontend();
         }
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            new WPUF_Contact_Form_Ajax();
+            new WeForms_Ajax();
         }
     }
 
@@ -322,16 +384,30 @@ class WPUF_Contact_Form {
         wp_send_json_success();
     }
 
-} // WPUF_Contact_Form
+    /**
+     * Plugin action links
+     *
+     * @param  array  $links
+     *
+     * @return array
+     */
+    function plugin_action_links( $links ) {
+
+        $links[] = '<a href="' . admin_url( 'admin.php?page=best-contact-forms' ) . '">Settings</a>';
+
+        return $links;
+    }
+
+} // WeForms
 
 /**
  * Initialize the plugin
  *
- * @return \WPUF_Contact_Form
+ * @return \WeForms
  */
-function wpuf_contact_form() {
-    return WPUF_Contact_Form::init();
+function weforms() {
+    return WeForms::init();
 }
 
 // kick-off
-wpuf_contact_form();
+weforms();

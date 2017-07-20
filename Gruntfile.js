@@ -33,8 +33,8 @@ module.exports = function (grunt) {
             },
 
             main: [
-                'assets/js/**/*.js',
-                'assets/spa/**/*.js',
+                // 'assets/js/**/*.js',
+                'assets/spa/components/**/*.js',
             ]
         },
 
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
                     'assets/components/**/*',
                 ],
                 tasks: [
-                    'concat:formBuilder', 'concat:formComponentTemplates'
+                    'concat:formBuilder', 'concat:formComponentTemplates', 'jshint:main'
                 ]
             },
 
@@ -76,7 +76,7 @@ module.exports = function (grunt) {
                     'assets/spa/**/*',
                 ],
                 tasks: [
-                    'concat:spa', 'concat:spaComponentTemplates'
+                    'concat:spa', 'concat:spaComponentTemplates', 'jshint:main'
                 ]
             }
         },

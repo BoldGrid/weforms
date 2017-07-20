@@ -6,6 +6,6 @@
 
 <div id="wpuf-form-builder-tab-integration" class="tab-content" v-show="isActiveTab('integration')">
 
-    <p><?php _e( 'No integration found', 'best-contact-form' ); ?></p>
+    <wpuf-integration></wpuf-integration>
 
 </div>

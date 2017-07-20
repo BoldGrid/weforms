@@ -10,6 +10,7 @@ class WPUF_Contact_Form_Builder_Assets {
     }
 
     public function init_actions() {
+
         add_action( 'admin_enqueue_scripts', array( $this, 'builder_enqueue_scripts' ) );
         add_action( 'admin_print_scripts', array( $this, 'builder_mixins_script' ) );
         add_action( 'admin_footer', array( $this, 'admin_footer_js_templates' ) );
@@ -25,6 +26,8 @@ class WPUF_Contact_Form_Builder_Assets {
 
         add_action( 'wpuf-form-builder-settings-tabs-contact_form', array( $this, 'add_settings_tabs' ) );
         add_action( 'wpuf-form-builder-settings-tab-contents-contact_form', array( $this, 'add_settings_tab_contents' ) );
+
+        do_action( 'wpuf-form-builder-init-type-wpuf_forms' );
     }
 
     public function builder_enqueue_scripts() {
@@ -46,15 +49,15 @@ class WPUF_Contact_Form_Builder_Assets {
         ) );
 
         wp_enqueue_style( 'wpuf-form-builder', WPUF_ASSET_URI . '/css/wpuf-form-builder.css', $form_builder_css_deps, WPUF_VERSION );
-        wp_enqueue_style( 'wpuf-cf-style', WPUF_CONTACT_FORM_ASSET_URI . '/css/admin.css', false );
+        wp_enqueue_style( 'wpuf-cf-style', WEFORMS_ASSET_URI . '/css/admin.css', false );
 
         /**
          * All the scripts
          */
         wp_enqueue_script( 'wpuf-vue', WPUF_ASSET_URI . '/vendor/vue/vue' . $prefix . '.js', array(), WPUF_VERSION, true );
         wp_enqueue_script( 'wpuf-vuex', WPUF_ASSET_URI . '/vendor/vuex/vuex' . $prefix . '.js', array( 'wpuf-vue' ), WPUF_VERSION, true );
-        wp_enqueue_script( 'wpuf-vue-router', WPUF_CONTACT_FORM_ASSET_URI . '/js/vendor/vue-router.js', array( 'jquery', 'wpuf-vue', 'wpuf-vuex' ), false, true );
-        wp_enqueue_script( 'nprogress', WPUF_CONTACT_FORM_ASSET_URI . '/js/vendor/nprogress.js', array( 'jquery' ), false, true );
+        wp_enqueue_script( 'wpuf-vue-router', WEFORMS_ASSET_URI . '/js/vendor/vue-router.js', array( 'jquery', 'wpuf-vue', 'wpuf-vuex' ), false, true );
+        wp_enqueue_script( 'nprogress', WEFORMS_ASSET_URI . '/js/vendor/nprogress.js', array( 'jquery' ), false, true );
         wp_enqueue_script( 'wpuf-sweetalert2', WPUF_ASSET_URI . '/vendor/sweetalert2/dist/sweetalert2.js', array(), WPUF_VERSION, true );
         wp_enqueue_script( 'wpuf-jquery-scrollTo', WPUF_ASSET_URI . '/vendor/jquery.scrollTo/jquery.scrollTo' . $prefix . '.js', array( 'jquery' ), WPUF_VERSION, true );
         wp_enqueue_script( 'wpuf-selectize', WPUF_ASSET_URI . '/vendor/selectize/js/standalone/selectize' . $prefix . '.js', array( 'jquery' ), WPUF_VERSION, true );
@@ -72,7 +75,7 @@ class WPUF_Contact_Form_Builder_Assets {
         ) );
 
         wp_enqueue_script( 'wpuf-form-builder-mixins', WPUF_ASSET_URI . '/js/wpuf-form-builder-mixins.js', $form_builder_js_deps, WPUF_VERSION, true );
-        wp_enqueue_script( 'wpuf-form-builder-mixins-form', WPUF_CONTACT_FORM_ASSET_URI . '/js/wpuf-form-builder-contact-forms.js', $form_builder_js_deps, WPUF_VERSION, true );
+        wp_enqueue_script( 'wpuf-form-builder-mixins-form', WEFORMS_ASSET_URI . '/js/wpuf-form-builder-contact-forms.js', $form_builder_js_deps, WPUF_VERSION, true );
 
         do_action( 'wpuf-form-builder-enqueue-after-mixins' );
 
@@ -103,7 +106,19 @@ class WPUF_Contact_Form_Builder_Assets {
                 'fromAddress' => '{admin_email}',
                 'cc'          => '',
                 'bcc'         => ''
-            )
+            ),
+            'integrations' => apply_filters( 'weforms_form_builder_integrations', array(
+                'slack' => array(
+                    'id'       => 'slack',
+                    'title'    => __( 'Slack', 'textdomain' ),
+                    'icon'     => WEFORMS_ASSET_URI . '/images/icon-slack.png',
+                    'settings' => array(
+                        'enabled' => false,
+                        'message' => 'the message goes here',
+                        'url'     => '',
+                    )
+                ),
+            ) ),
         ) );
 
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
@@ -121,7 +136,7 @@ class WPUF_Contact_Form_Builder_Assets {
         /**
          * Contact form SPA scripts
          */
-        wp_enqueue_script( 'wpuf-cf-spa', WPUF_CONTACT_FORM_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
+        wp_enqueue_script( 'wpuf-cf-spa', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
         wp_localize_script( 'wpuf-cf-spa', 'wpufContactForm', array(
             'nonce'   => wp_create_nonce( 'best-contact-form' ),
             'confirm' => __( 'Are you sure?', 'best-contact-form' )
@@ -172,8 +187,8 @@ class WPUF_Contact_Form_Builder_Assets {
      */
     public function admin_footer_js_templates() {
         include WPUF_ROOT . '/assets/js-templates/form-components.php';
-        include WPUF_CONTACT_FORM_ROOT . '/assets/js-templates/form-components.php';
-        include WPUF_CONTACT_FORM_ROOT . '/assets/js-templates/spa-components.php';
+        include WEFORMS_ROOT . '/assets/js-templates/form-components.php';
+        include WEFORMS_ROOT . '/assets/js-templates/spa-components.php';
 
         do_action( 'wpuf-form-builder-add-js-templates' );
     }
@@ -329,7 +344,7 @@ class WPUF_Contact_Form_Builder_Assets {
      * @return void
      */
     public function admin_enqueue_scripts_components() {
-        wp_enqueue_script( 'wpuf-cf-form-builder-components', WPUF_CONTACT_FORM_ASSET_URI . '/js/form-builder-components.js', array( 'wpuf-form-builder-components' ), WPUF_CONTACT_FORM_VERSION, true );
+        wp_enqueue_script( 'wpuf-cf-form-builder-components', WEFORMS_ASSET_URI . '/js/form-builder-components.js', array( 'wpuf-form-builder-components' ), WEFORMS_VERSION, true );
     }
 
     /**
@@ -362,7 +377,7 @@ class WPUF_Contact_Form_Builder_Assets {
     }
 
     public function add_primary_tab_contents() {
-        include dirname( __FILE__ ) . '/views/builder-tabs.php';
+        include dirname( __FILE__ ) . '/views/notification-integration.php';
     }
 
     /**

@@ -535,123 +535,6 @@
     </div>
 </div></script>
 
-<script type="text/x-template" id="tmpl-wpuf-form-notification">
-<div>
-    <!-- <pre>{{ notifications.length }}</pre> -->
-    <a href="#" class="button button-secondary add-notification" v-on:click.prevent="addNew"><span class="dashicons dashicons-plus-alt"></span> <?php _e( 'Add Notification', 'best-contact-form' ); ?></a>
-
-    <div :class="[editing ? 'editing' : '', 'notification-wrap']">
-    <!-- notification-wrap -->
-
-        <div class="notification-table-wrap">
-            <table class="wp-list-table widefat fixed striped posts wpuf-cf-notification-table">
-                <thead>
-                    <tr>
-                        <th class="col-toggle">&nbsp;</th>
-                        <th class="col-name"><?php _e( 'Name', 'best-contact-form' ); ?></th>
-                        <th class="col-subject"><?php _e( 'Subject', 'best-contact-form' ); ?></th>
-                        <th class="col-action">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(notification, index) in notifications">
-                        <td class="col-toggle">
-                            <a href="#" v-on:click.prevent="toggelNotification(index)">
-                                <img v-if="notification.active" src="<?php echo WPUF_CONTACT_FORM_ASSET_URI; ?>/images/active.png" width="24" alt="status">
-                                <img v-else src="<?php echo WPUF_CONTACT_FORM_ASSET_URI; ?>/images/inactive.png" width="24" alt="status">
-                            </a>
-                        </td>
-                        <td class="col-name"><a href="#" v-on:click.prevent="editItem(index)">{{ notification.name }}</a></td>
-                        <td class="col-subject">{{ notification.subject }}</td>
-                        <td class="col-action">
-                            <a href="#" v-on:click.prevent="duplicate(index)" title="<?php esc_attr_e( 'Duplicate', 'best-contact-form' ); ?>"><span class="dashicons dashicons-admin-page"></span></a>
-                            <a href="#" v-on:click.prevent="editItem(index)" title="<?php esc_attr_e( 'Settings', 'best-contact-form' ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
-                        </td>
-                    </tr>
-                    <tr v-if="!notifications.length">
-                        <td colspan="4"><?php _e( 'No notifications found', 'best-contact-form' ); ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div><!-- .notification-table-wrap -->
-
-        <div class="notification-edit-area" v-if="notifications[editingIndex]">
-
-            <div class="notification-head">
-                <input type="text" name="" v-model="notifications[editingIndex].name" v-on:keyup.enter="editDone()" value="Admin Notification">
-            </div>
-
-            <div class="form-fields">
-                <div class="notification-row">
-                    <div class="row-one-half notification-field first">
-                        <label for="notification-title"><?php _e( 'To', 'best-contact-form' ); ?></label>
-                        <input type="text" v-model="notifications[editingIndex].to">
-                        <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="to"></wpuf-merge-tags>
-                    </div>
-
-                    <div class="row-one-half notification-field">
-                        <label for="notification-title"><?php _e( 'Reply To', 'best-contact-form' ); ?></label>
-                        <input type="email" v-model="notifications[editingIndex].replyTo">
-                        <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="replyTo"></wpuf-merge-tags>
-                    </div>
-                </div>
-
-                <div class="notification-row notification-field">
-                    <label for="notification-title"><?php _e( 'Subject', 'best-contact-form' ); ?></label>
-                    <input type="text" v-model="notifications[editingIndex].subject">
-                    <wpuf-merge-tags v-on:insert="insertValue" field="subject"></wpuf-merge-tags>
-                </div>
-
-                <div class="notification-row notification-field">
-                    <label for="notification-title"><?php _e( 'Email Message', 'best-contact-form' ); ?></label>
-                    <textarea name="" rows="6" v-model="notifications[editingIndex].message"></textarea>
-                    <wpuf-merge-tags v-on:insert="insertValue" field="message"></wpuf-merge-tags>
-                </div>
-
-                <section class="advanced-fields">
-                    <a href="#" class="field-toggle" v-on:click.prevent="toggleAdvanced()"><span class="dashicons dashicons-arrow-right"></span><?php _e( ' Advanced', 'best-contact-form' ); ?></a>
-
-                    <div class="advanced-field-wrap">
-                        <div class="notification-row">
-                            <div class="row-one-half notification-field first">
-                                <label for="notification-title"><?php _e( 'From Name', 'best-contact-form' ); ?></label>
-                                <input type="text" v-model="notifications[editingIndex].fromName">
-                                <wpuf-merge-tags v-on:insert="insertValue" field="fromName"></wpuf-merge-tags>
-                            </div>
-
-                            <div class="row-one-half notification-field">
-                                <label for="notification-title"><?php _e( 'From Address', 'best-contact-form' ); ?></label>
-                                <input type="email" name="" v-model="notifications[editingIndex].fromAddress">
-                                <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="fromAddress"></wpuf-merge-tags>
-                            </div>
-                        </div>
-
-                        <div class="notification-row">
-                            <div class="row-one-half notification-field first">
-                                <label for="notification-title"><?php _e( 'CC', 'best-contact-form' ); ?></label>
-                                <input type="email" name="" v-model="notifications[editingIndex].cc">
-                                <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="cc"></wpuf-merge-tags>
-                            </div>
-
-                            <div class="row-one-half notification-field">
-                                <label for="notification-title"><?php _e( 'BCC', 'best-contact-form' ); ?></label>
-                                <input type="email" name="" v-model="notifications[editingIndex].bcc">
-                                <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="bcc"></wpuf-merge-tags>
-                            </div>
-                        </div>
-                    </div>
-                </section><!-- .advanced-fields -->
-            </div>
-
-            <div class="submit-area">
-                <a href="#" v-on:click.prevent="deleteItem(editingIndex)" title="<?php esc_attr_e( 'Delete', 'best-contact-form' ); ?>"><span class="dashicons dashicons-trash"></span></a>
-                <button class="button button-secondary" v-on:click.prevent="editDone()"><?php _e( 'Done', 'best-contact-form' ); ?></button>
-            </div>
-        </div><!-- .notification-edit-area -->
-
-    </div><!-- .notification-wrap -->
-</div></script>
-
 <script type="text/x-template" id="tmpl-wpuf-home-page">
 <div class="contact-form-list">
     <h1 class="wp-heading-inline"><?php _e( 'Contact Forms', 'best-contact-form' ); ?></h1>
@@ -660,75 +543,6 @@
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
     <form-list-table></form-list-table>
-</div></script>
-
-<script type="text/x-template" id="tmpl-wpuf-modal">
-<div>
-    <div :class="['wpuf-form-template-modal', show ? 'show' : 'hide' ]">
-
-        <span class="screen-reader-text"><?php _e( 'Modal window. Press escape to close.',  'wpuf'  ); ?></span>
-        <a href="#" class="close" v-on:click.prevent="closeModal()">× <span class="screen-reader-text"><?php _e( 'Close modal window',  'wpuf'  ); ?></span></a>
-
-        <header class="modal-header">
-            <slot name="header"></slot>
-        </header>
-
-        <div :class="['content-container', this.$slots.footer ? 'modal-footer' : 'no-footer']">
-            <div class="content">
-                <slot name="body"></slot>
-            </div>
-        </div>
-
-        <footer v-if="this.$slots.footer">
-            <slot name="footer"></slot>
-        </footer>
-    </div>
-    <div :class="['wpuf-form-template-modal-backdrop', show ? 'show' : 'hide' ]"></div>
-</div>
-</script>
-
-<script type="text/x-template" id="tmpl-wpuf-template-modal">
-<div>
-    <wpuf-modal :show.sync="show" :onClose="onClose">
-        <h2 slot="header">
-            <?php _e( 'Select a Template', 'best-contact-form' ); ?>
-            <small><?php printf( __( 'Select from a pre-defined template or from a <a href="#" %s>blank form</a>', 'best-contact-form' ), '@click.prevent="blankForm()"' ); ?></small>
-        </h2>
-
-        <div slot="body">
-            <ul>
-                <li class="blank-form">
-                    <a href="#" @click.prevent="blankForm($event.target)">
-                        <span class="dashicons dashicons-plus"></span>
-                        <div class="title"><?php _e( 'Blank Form', 'best-contact-form' ); ?></div>
-                    </a>
-                </li>
-
-                <?php
-                $registry = wpuf_cf_get_form_templates();
-
-                foreach ($registry as $key => $template ) {
-                    $class = 'template-active';
-                    $title = '';
-
-                    if ( ! $template->is_enabled() ) {
-                        $class = 'template-inactive';
-                        $title = __( 'This integration is not installed.', 'best-contact-form' );
-                    }
-                    ?>
-
-                    <li>
-                        <a href="#" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>">
-                            <div class="title"><?php echo $template->get_title(); ?></div>
-                            <div class="description"><?php echo $template->get_description(); ?></div>
-                        </a>
-                    </li>
-                    <?php
-                }
-                ?>
-            </ul>
-        </div>
-    </wpuf-modal>
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-tools">
@@ -764,8 +578,8 @@
                                     </select>
                                 </p>
 
-                                <?php wp_nonce_field( 'bcf-export-forms' ); ?>
-                                <input type="submit" class="button button-primary" name="bcf_export_forms" value="<?php _e( 'Export Forms', 'best-contact-form' ) ?>">
+                                <?php wp_nonce_field( 'weforms-export-forms' ); ?>
+                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'best-contact-form' ) ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -791,8 +605,8 @@
                                     </select>
                                 </p>
 
-                                <?php wp_nonce_field( 'bcf-export-entries' ); ?>
-                                <input type="submit" class="button button-primary" name="bcf_export_entries" value="<?php _e( 'Export Entries', 'best-contact-form' ) ?>">
+                                <?php wp_nonce_field( 'weforms-export-entries' ); ?>
+                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'best-contact-form' ) ?>">
                             </form>
                         </template>
                         <template v-else>

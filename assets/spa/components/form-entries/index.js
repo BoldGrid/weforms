@@ -6,6 +6,6 @@ const FormEntries = {
     data: function() {
         return {
             form_title: 'Loading...'
-        }
-    },
+        };
+    }
 };

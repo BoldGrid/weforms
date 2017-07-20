@@ -1,4 +1,4 @@
-const FormEditComponent = {
+var FormEditComponent = {
     template: '#tmpl-wpuf-form-builder',
     mixins: wpuf_form_builder_mixins(wpuf_mixins.root),
     data: function() {
@@ -10,9 +10,7 @@ const FormEditComponent = {
             loading: false,
             activeTab: 'editor',
             activeSettingsTab: 'form',
-            started: false,
-            isDirty: false
-        }
+        };
     },
 
     watch: {
@@ -25,25 +23,7 @@ const FormEditComponent = {
             }
         },
 
-        // form_fields: function(newVal, old) {
-        //     console.log('started', this.started);
-        //     if ( !this.started ) {
-        //         console.log( 'watcher haven\'t started yet, skipping');
-        //         return;
-        //     }
-
-        //     console.log('dirty', this.isDirty);
-        //     console.log('watching form fields');
-        //     console.log('New value', newVal);
-        //     console.log('Old value', old);
-        // }
-
     },
-
-    // beforeRouteLeave: function(to, from, next) {
-    //     console.log('leaving');
-    //     next();
-    // },
 
     created: function() {
         this.fetchForm();
@@ -78,6 +58,10 @@ const FormEditComponent = {
             return this.$store.state.notifications;
         },
 
+        integrations: function() {
+            return this.$store.state.integrations;
+        },
+
         settings: function() {
             return this.$store.state.settings;
         }
@@ -107,12 +91,6 @@ const FormEditComponent = {
 
             e.clearSelection();
         });
-
-        // window.onbeforeunload = function () {
-        //     if (!self.is_form_saved) {
-        //         return self.i18n.unsaved_changes;
-        //     }
-        // };
     },
 
     methods: {
@@ -138,7 +116,7 @@ const FormEditComponent = {
 
             self.loading = true;
 
-            wp.ajax.send( 'bcf_get_form', {
+            wp.ajax.send( 'weforms_get_form', {
                 data: {
                     form_id: this.$route.params.id,
                     _wpnonce: wpufContactForm.nonce
@@ -149,6 +127,14 @@ const FormEditComponent = {
                     self.$store.commit('set_form_fields', response.form_fields);
                     self.$store.commit('set_form_notification', response.notifications);
                     self.$store.commit('set_form_settings', response.settings);
+
+                    // if nothing saved in the form, it provides an empty array
+                    // but we expect to be an object
+                    if ( response.integrations.length !== undefined ) {
+                        self.$store.commit('set_form_integrations', {});
+                    } else {
+                        self.$store.commit('set_form_integrations', response.integrations);
+                    }
                 },
                 error: function(error) {
                     alert(error);
@@ -187,6 +173,7 @@ const FormEditComponent = {
                     form_fields: JSON.stringify(self.form_fields),
                     notifications: JSON.stringify(self.notifications),
                     settings: JSON.stringify(self.settings),
+                    integrations: JSON.stringify(self.integrations),
                 },
 
                 success: function (response) {

@@ -9,7 +9,7 @@ Vue.component('wpuf-template-modal', {
     data: function() {
         return {
             loading: false
-        }
+        };
     },
 
     methods: {
@@ -33,7 +33,7 @@ Vue.component('wpuf-template-modal', {
                 list.addClass('on-progress');
             }
 
-            wp.ajax.send( 'bcf_contact_form_template', {
+            wp.ajax.send( 'weforms_contact_form_template', {
                 data: {
                     template: form,
                     _wpnonce: wpufContactForm.nonce

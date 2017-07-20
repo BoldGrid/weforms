@@ -4,7 +4,7 @@ const Home = {
     data: function() {
         return {
             showTemplateModal: false
-        }
+        };
     },
 
     methods: {

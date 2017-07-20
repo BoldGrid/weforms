@@ -3,29 +3,29 @@
 /**
  * The ajax handler class
  */
-class WPUF_Contact_Form_Ajax {
+class WeForms_Ajax {
 
     public function __construct() {
 
         // backend requests
-        add_action( 'wp_ajax_bcf_contact_form_list', array( $this, 'get_contact_forms' ) );
-        add_action( 'wp_ajax_bcf_contact_form_names', array( $this, 'get_contact_form_names' ) );
-        add_action( 'wp_ajax_bcf_contact_form_create', array( $this, 'create_form' ) );
-        add_action( 'wp_ajax_bcf_contact_form_delete', array( $this, 'delete_form' ) );
-        add_action( 'wp_ajax_bcf_contact_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
-        add_action( 'wp_ajax_bcf_contact_form_duplicate', array( $this, 'duplicate_form' ) );
+        add_action( 'wp_ajax_weforms_contact_form_list', array( $this, 'get_contact_forms' ) );
+        add_action( 'wp_ajax_weforms_contact_form_names', array( $this, 'get_contact_form_names' ) );
+        add_action( 'wp_ajax_weforms_contact_form_create', array( $this, 'create_form' ) );
+        add_action( 'wp_ajax_weforms_contact_form_delete', array( $this, 'delete_form' ) );
+        add_action( 'wp_ajax_weforms_contact_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
+        add_action( 'wp_ajax_weforms_contact_form_duplicate', array( $this, 'duplicate_form' ) );
 
         // import
-        add_action( 'wp_ajax_bcf_import_form', array( $this, 'import_form' ) );
+        add_action( 'wp_ajax_weforms_import_form', array( $this, 'import_form' ) );
 
         // form editing
-        add_action( 'wp_ajax_bcf_get_form', array( $this, 'get_form' ) );
+        add_action( 'wp_ajax_weforms_get_form', array( $this, 'get_form' ) );
 
         // entries
-        add_action( 'wp_ajax_bcf_contact_form_entries', array( $this, 'get_entries' ) );
-        add_action( 'wp_ajax_bcf_contact_form_entry_details', array( $this, 'get_entry_detail' ) );
-        add_action( 'wp_ajax_bcf_contact_form_entry_trash', array( $this, 'trash_entry' ) );
-        add_action( 'wp_ajax_bcf_contact_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
+        add_action( 'wp_ajax_weforms_contact_form_entries', array( $this, 'get_entries' ) );
+        add_action( 'wp_ajax_weforms_contact_form_entry_details', array( $this, 'get_entry_detail' ) );
+        add_action( 'wp_ajax_weforms_contact_form_entry_trash', array( $this, 'trash_entry' ) );
+        add_action( 'wp_ajax_weforms_contact_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
 
         // frontend requests
         add_action( 'wp_ajax_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
@@ -59,6 +59,7 @@ class WPUF_Contact_Form_Ajax {
             'form_fields'   => wpuf_get_form_fields( $form_id ),
             'settings'      => wpuf_get_form_settings( $form_id ),
             'notifications' => wpuf_get_form_notifications( $form_id ),
+            'integrations'  => wpuf_get_form_integrations( $form_id )
         );
 
         wp_send_json_success( $data );

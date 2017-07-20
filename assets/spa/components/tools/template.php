@@ -30,8 +30,8 @@
                                     </select>
                                 </p>
 
-                                <?php wp_nonce_field( 'bcf-export-forms' ); ?>
-                                <input type="submit" class="button button-primary" name="bcf_export_forms" value="<?php _e( 'Export Forms', 'best-contact-form' ) ?>">
+                                <?php wp_nonce_field( 'weforms-export-forms' ); ?>
+                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'best-contact-form' ) ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -57,8 +57,8 @@
                                     </select>
                                 </p>
 
-                                <?php wp_nonce_field( 'bcf-export-entries' ); ?>
-                                <input type="submit" class="button button-primary" name="bcf_export_entries" value="<?php _e( 'Export Entries', 'best-contact-form' ) ?>">
+                                <?php wp_nonce_field( 'weforms-export-entries' ); ?>
+                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'best-contact-form' ) ?>">
                             </form>
                         </template>
                         <template v-else>

@@ -10,7 +10,7 @@ const Tools = {
             importButton: 'Import',
             currentStatus: 0,
             responseMessage: ''
-        }
+        };
     },
 
     computed: {
@@ -40,14 +40,15 @@ const Tools = {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
-            wp.ajax.send( 'bcf_contact_form_names', {
+            this.loading = true;
+
+            wp.ajax.send( 'weforms_contact_form_names', {
                 data: {
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
                     // console.log(response);
-                    self.loading = false
+                    self.loading = false;
                     self.forms   = response;
                 },
                 error: function(error) {
@@ -58,20 +59,22 @@ const Tools = {
         },
 
         importForm: function( fieldName, fileList, event ) {
-            if ( !fileList.length ) return;
+            if ( !fileList.length ) {
+                return;
+            }
 
             var formData = new FormData();
             var self = this;
 
             formData.append( fieldName, fileList[0], fileList[0].name);
-            formData.append( 'action', 'bcf_import_form' );
+            formData.append( 'action', 'weforms_import_form' );
             formData.append( '_wpnonce', wpufContactForm.nonce );
 
             self.currentStatus = 1;
 
             $.ajax({
                 type: "POST",
-                url: ajaxurl,
+                url: window.ajaxurl,
                 data: formData,
                 processData: false,
                 contentType: false,

@@ -6,8 +6,8 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
-            bulkDeleteAction: 'bcf_contact_form_delete_bulk'
-        }
+            bulkDeleteAction: 'weforms_contact_form_delete_bulk'
+        };
     },
 
     created: function() {
@@ -18,15 +18,15 @@ Vue.component('form-list-table', {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
+            this.loading = true;
 
-            wp.ajax.send( 'bcf_contact_form_list', {
+            wp.ajax.send( 'weforms_contact_form_list', {
                 data: {
                     _wpnonce: wpufContactForm.nonce,
                     page: self.currentPage,
                 },
                 success: function(response) {
-                    self.loading = false
+                    self.loading = false;
                     self.items = response.forms;
                     self.totalItems = response.total;
                     self.totalPage = response.pages;
@@ -44,7 +44,7 @@ Vue.component('form-list-table', {
             if (confirm('Are you sure?')) {
                 self.loading = true;
 
-                wp.ajax.send( 'bcf_contact_form_delete', {
+                wp.ajax.send( 'weforms_contact_form_delete', {
                     data: {
                         form_id: this.items[index].ID,
                         _wpnonce: wpufContactForm.nonce
@@ -66,7 +66,7 @@ Vue.component('form-list-table', {
 
             this.loading = true;
 
-            wp.ajax.send( 'bcf_contact_form_duplicate', {
+            wp.ajax.send( 'weforms_contact_form_duplicate', {
                 data: {
                     form_id: form_id,
                     _wpnonce: wpufContactForm.nonce

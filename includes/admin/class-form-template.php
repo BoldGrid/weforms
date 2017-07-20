@@ -124,7 +124,7 @@ class WPUF_Contact_Form_Template {
             return;
         }
 
-        require_once WPUF_CONTACT_FORM_INCLUDES . '/admin/form-templates/contact-form.php';
+        require_once WEFORMS_INCLUDES . '/admin/form-templates/contact-form.php';
 
         $template_object = new WPUF_Contact_Form_Template_Contact();
         update_post_meta( $form_id, 'wpuf_form_settings', $template_object->get_form_settings() );

@@ -9,7 +9,7 @@ const FormEntriesSingle = {
                 meta_data: {},
                 info: {}
             },
-        }
+        };
     },
     created: function() {
         this.fetchData();
@@ -23,15 +23,16 @@ const FormEntriesSingle = {
         fetchData: function() {
             var self = this;
 
-            this.loading = true
-            wp.ajax.send( 'bcf_contact_form_entry_details', {
+            this.loading = true;
+
+            wp.ajax.send( 'weforms_contact_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
                 },
                 success: function(response) {
                     // console.log(response);
-                    self.loading = false
+                    self.loading = false;
                     self.entry = response;
                 },
                 error: function(error) {
@@ -48,13 +49,14 @@ const FormEntriesSingle = {
                 return;
             }
 
-            wp.ajax.send( 'bcf_contact_form_entry_trash', {
+            wp.ajax.send( 'weforms_contact_form_entry_trash', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
                 },
-                success: function(response) {
-                    self.loading = false
+
+                success: function() {
+                    self.loading = false;
 
                     self.$router.push({ name: 'formEntries', params: { id: self.$route.params.id }});
                 },
