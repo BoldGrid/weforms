@@ -231,7 +231,7 @@ var FormEditComponent = {
             is_form_switcher: false,
             post_title_editing: false,
             loading: false,
-            activeTab: 'editor',
+            activeTab: 'integration',
             activeSettingsTab: 'form',
         };
     },

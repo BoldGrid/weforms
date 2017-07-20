@@ -107,18 +107,7 @@ class WPUF_Contact_Form_Builder_Assets {
                 'cc'          => '',
                 'bcc'         => ''
             ),
-            'integrations' => apply_filters( 'weforms_form_builder_integrations', array(
-                'slack' => array(
-                    'id'       => 'slack',
-                    'title'    => __( 'Slack', 'textdomain' ),
-                    'icon'     => WEFORMS_ASSET_URI . '/images/icon-slack.png',
-                    'settings' => array(
-                        'enabled' => false,
-                        'message' => 'the message goes here',
-                        'url'     => '',
-                    )
-                ),
-            ) ),
+            'integrations' => apply_filters( 'weforms_form_builder_integrations', array() ),
         ) );
 
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );

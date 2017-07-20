@@ -196,7 +196,6 @@ final class WeForms {
 
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
-        require_once WEFORMS_INCLUDES . '/integrations/mailchimp/class-weforms-mailchimp.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
     }
 
@@ -213,12 +212,7 @@ final class WeForms {
         add_action( 'init', array( $this, 'init_classes' ) );
         add_action( 'init', array( $this, 'wpdb_table_shortcuts' ), 0 );
 
-        add_filter( 'wpuf_integrations', function( $integrations ) {
-
-            $integrations = array_merge( $integrations, array( 'WeForms_Integration_MailChimp' ) );
-
-            return $integrations;
-        } );
+        add_filter( 'wpuf_integrations', array( $this, 'register_default_integrations' ) );
 
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
     }
@@ -396,6 +390,21 @@ final class WeForms {
         $links[] = '<a href="' . admin_url( 'admin.php?page=best-contact-forms' ) . '">Settings</a>';
 
         return $links;
+    }
+
+    /**
+     * Register default integrations
+     *
+     * @param  array $integrations
+     *
+     * @return array
+     */
+    public function register_default_integrations( $integrations ) {
+        require_once WEFORMS_INCLUDES . '/integrations/slack/class-integration-slack.php';
+
+        $integrations = array_merge( $integrations, array( 'WeForms_Integration_Slack' ) );
+
+        return $integrations;
     }
 
 } // WeForms
