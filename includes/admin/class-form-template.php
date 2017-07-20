@@ -6,7 +6,7 @@
 class WPUF_Contact_Form_Template {
 
     public function __construct() {
-        add_filter( 'wp_ajax_bcf_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
+        add_filter( 'wp_ajax_weforms_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
     }
 
     /**
