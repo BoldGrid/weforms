@@ -127,8 +127,8 @@ class WPUF_Contact_Form_Builder_Assets {
          */
         wp_enqueue_script( 'wpuf-cf-spa', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
         wp_localize_script( 'wpuf-cf-spa', 'wpufContactForm', array(
-            'nonce'   => wp_create_nonce( 'best-contact-form' ),
-            'confirm' => __( 'Are you sure?', 'best-contact-form' )
+            'nonce'   => wp_create_nonce( 'weforms' ),
+            'confirm' => __( 'Are you sure?', 'weforms' )
         ) );
     }
 
@@ -354,8 +354,8 @@ class WPUF_Contact_Form_Builder_Assets {
      */
     public function add_primary_tabs() {
         $tabs = apply_filters( 'wpuf_contact_form_editor_tabs', array(
-            'notification' => __( 'Notifications', 'best-contact-form' ),
-            'integration'  => __( 'Integrations', 'best-contact-form' )
+            'notification' => __( 'Notifications', 'weforms' ),
+            'integration'  => __( 'Integrations', 'weforms' )
         ) );
 
         foreach ($tabs as $key => $label) {
@@ -377,9 +377,9 @@ class WPUF_Contact_Form_Builder_Assets {
     public function add_settings_tabs() {
         ?>
 
-            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'form' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'form' )" class="nav-tab"><?php _e( 'Form Settings', 'best-contact-form' ); ?></a>
-            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'restriction' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'restriction' )" class="nav-tab"><?php _e( 'Submission Restriction', 'best-contact-form' ); ?></a>
-            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'display' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'display' )" class="nav-tab"><?php _e( 'Display Settings', 'best-contact-form' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'form' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'form' )" class="nav-tab"><?php _e( 'Form Settings', 'weforms' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'restriction' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'restriction' )" class="nav-tab"><?php _e( 'Submission Restriction', 'weforms' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'display' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'display' )" class="nav-tab"><?php _e( 'Display Settings', 'weforms' ); ?></a>
 
             <?php do_action( 'wpuf_contact_form_settings_tab' ); ?>
 

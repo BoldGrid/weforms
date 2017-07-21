@@ -3,51 +3,51 @@
     <div class="panel-field-opt panel-field-name clearfix">
 
         <label>
-            <?php _e( 'First Name', 'best-contact-form' ); ?>
+            <?php _e( 'First Name', 'weforms' ); ?>
         </label>
 
         <div class="name-field-placeholder">
             <input type="text" v-model="editing_form_field.first_name.placeholder">
-            <label><?php _e( 'Placeholder', 'best-contact-form' ); ?></label>
+            <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 
         <div class="name-field-value">
             <input type="text" v-model="editing_form_field.first_name.default">
-            <label><?php _e( 'Default Value', 'best-contact-form' ); ?></label>
+            <label><?php _e( 'Default Value', 'weforms' ); ?></label>
         </div>
     </div>
 
     <div class="panel-field-opt panel-field-name clearfix" v-if="editing_form_field.format !== 'first-last'">
 
         <label>
-            <?php _e( 'Middle Name', 'best-contact-form' ); ?>
+            <?php _e( 'Middle Name', 'weforms' ); ?>
         </label>
 
         <div class="name-field-placeholder">
             <input type="text" v-model="editing_form_field.middle_name.placeholder">
-            <label><?php _e( 'Placeholder', 'best-contact-form' ); ?></label>
+            <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 
         <div class="name-field-value">
             <input type="text" v-model="editing_form_field.middle_name.default">
-            <label><?php _e( 'Default Value', 'best-contact-form' ); ?></label>
+            <label><?php _e( 'Default Value', 'weforms' ); ?></label>
         </div>
     </div>
 
     <div class="panel-field-opt panel-field-name clearfix">
 
         <label>
-            <?php _e( 'Last Name', 'best-contact-form' ); ?>
+            <?php _e( 'Last Name', 'weforms' ); ?>
         </label>
 
         <div class="name-field-placeholder">
             <input type="text" v-model="editing_form_field.last_name.placeholder">
-            <label><?php _e( 'Placeholder', 'best-contact-form' ); ?></label>
+            <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 
         <div class="name-field-value">
             <input type="text" v-model="editing_form_field.last_name.default">
-            <label><?php _e( 'Default Value', 'best-contact-form' ); ?></label>
+            <label><?php _e( 'Default Value', 'weforms' ); ?></label>
         </div>
     </div>
 </div></script>
@@ -123,8 +123,8 @@
 <div>
     <wpuf-modal :show.sync="show" :onClose="onClose">
         <h2 slot="header">
-            <?php _e( 'Select a Template', 'best-contact-form' ); ?>
-            <small><?php printf( __( 'Select from a pre-defined template or from a <a href="#" %s>blank form</a>', 'best-contact-form' ), '@click.prevent="blankForm()"' ); ?></small>
+            <?php _e( 'Select a Template', 'weforms' ); ?>
+            <small><?php printf( __( 'Select from a pre-defined template or from a <a href="#" %s>blank form</a>', 'weforms' ), '@click.prevent="blankForm()"' ); ?></small>
         </h2>
 
         <div slot="body">
@@ -132,7 +132,7 @@
                 <li class="blank-form">
                     <a href="#" @click.prevent="blankForm($event.target)">
                         <span class="dashicons dashicons-plus"></span>
-                        <div class="title"><?php _e( 'Blank Form', 'best-contact-form' ); ?></div>
+                        <div class="title"><?php _e( 'Blank Form', 'weforms' ); ?></div>
                     </a>
                 </li>
 
@@ -145,7 +145,7 @@
 
                     if ( ! $template->is_enabled() ) {
                         $class = 'template-inactive';
-                        $title = __( 'This integration is not installed.', 'best-contact-form' );
+                        $title = __( 'This integration is not installed.', 'weforms' );
                     }
                     ?>
 

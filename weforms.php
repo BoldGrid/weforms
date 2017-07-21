@@ -263,24 +263,24 @@ final class WeForms {
     public function core_activation_notice() {
         ?>
         <div class="updated" id="wpuf-contact-form-installer-notice" style="padding: 1em; position: relative;">
-            <h2><?php _e( 'weFroms is almost ready!', 'best-contact-form' ); ?></h2>
+            <h2><?php _e( 'weFroms is almost ready!', 'weforms' ); ?></h2>
 
             <?php
                 $plugin_file      = basename( dirname( __FILE__ ) ) . '/contact-form.php';
                 $core_plugin_file = 'wp-user-frontend/wpuf.php';
             ?>
-            <a href="<?php echo wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'deactivate-plugin_' . $plugin_file ); ?>" class="notice-dismiss" style="text-decoration: none;" title="<?php _e( 'Dismiss this notice', 'best-contact-form' ); ?>"></a>
+            <a href="<?php echo wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'deactivate-plugin_' . $plugin_file ); ?>" class="notice-dismiss" style="text-decoration: none;" title="<?php _e( 'Dismiss this notice', 'weforms' ); ?>"></a>
 
             <?php if ( file_exists( WP_PLUGIN_DIR . '/' . $core_plugin_file ) && is_plugin_inactive( 'wpuf-user-frontend' ) ): ?>
-                <p><?php _e( 'You just need to activate the Core Plugin to make it functional.', 'best-contact-form' ); ?></p>
+                <p><?php _e( 'You just need to activate the Core Plugin to make it functional.', 'weforms' ); ?></p>
                 <p>
-                    <a class="button button-primary" href="<?php echo wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $core_plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'activate-plugin_' . $core_plugin_file ); ?>"  title="<?php _e( 'Activate this plugin', 'best-contact-form' ); ?>"><?php _e( 'Activate', 'best-contact-form' ); ?></a>
+                    <a class="button button-primary" href="<?php echo wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $core_plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'activate-plugin_' . $core_plugin_file ); ?>"  title="<?php _e( 'Activate this plugin', 'weforms' ); ?>"><?php _e( 'Activate', 'weforms' ); ?></a>
                 </p>
             <?php else: ?>
                 <p><?php echo sprintf( __( "You just need to install the %sCore Plugin%s to make it functional.", "wpuf-contact-form" ), '<a target="_blank" href="https://wordpress.org/plugins/wp-user-frontend/">', '</a>' ); ?></p>
 
                 <p>
-                    <button id="wpuf-contact-form-installer" class="button"><?php _e( 'Install Now', 'best-contact-form' ); ?></button>
+                    <button id="wpuf-contact-form-installer" class="button"><?php _e( 'Install Now', 'weforms' ); ?></button>
                 </p>
             <?php endif; ?>
         </div>
@@ -294,7 +294,7 @@ final class WeForms {
 
                     e.preventDefault();
                     self.addClass('install-now updating-message');
-                    self.text('<?php echo esc_js( 'Installing...', 'best-contact-form' ); ?>');
+                    self.text('<?php echo esc_js( 'Installing...', 'weforms' ); ?>');
 
                     var data = {
                         action: 'wpuf_cf_install_wpuf',
@@ -305,7 +305,7 @@ final class WeForms {
                         if (response.success) {
                             self.attr('disabled', 'disabled');
                             self.removeClass('install-now updating-message');
-                            self.text('<?php echo esc_js( 'Installed', 'best-contact-form' ); ?>');
+                            self.text('<?php echo esc_js( 'Installed', 'weforms' ); ?>');
 
                             window.location.href = '<?php echo admin_url( 'admin.php?page=wpuf-contact-forms' ); ?>';
                         }

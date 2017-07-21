@@ -193,12 +193,12 @@ module.exports = function (grunt) {
             main: {
                 options: {
                     mode: 'zip',
-                    archive: './build/best-contact-form-v<%= pkg.version %>.zip'
+                    archive: './build/weforms-v<%= pkg.version %>.zip'
                 },
                 expand: true,
                 cwd: 'build/',
                 src: ['**/*'],
-                dest: 'best-contact-form'
+                dest: 'weforms'
             }
         },
     });

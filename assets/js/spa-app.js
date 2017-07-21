@@ -1,4 +1,4 @@
-/*! weForms - v1.0.0 - 2017-07-20 */
+/*! weForms - v1.0.0 - 2017-07-21 */
 ;(function($) {
 /* ./assets/spa/mixins/bulk-action.js */
 var BulkActionMixin = {

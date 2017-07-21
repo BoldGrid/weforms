@@ -38,7 +38,7 @@ class WPUF_Contact_Form_Template {
      * @return void
      */
     public function create_contact_form_from_template() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $template_name = isset( $_REQUEST['template'] ) ? sanitize_text_field( $_REQUEST['template'] ) : '';
 

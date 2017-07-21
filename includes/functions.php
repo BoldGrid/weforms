@@ -93,17 +93,17 @@ function wpuf_cf_insert_entry( $args, $fields = array() ) {
     $r = wp_parse_args( $args, $defaults );
 
     if ( !$r['form_id'] ) {
-        return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'best-contact-form' ) );
+        return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'weforms' ) );
     }
 
     if ( !$fields ) {
-        return new WP_Error( 'no-fields', __( 'No form fields were found.', 'best-contact-form' ) );
+        return new WP_Error( 'no-fields', __( 'No form fields were found.', 'weforms' ) );
     }
 
     $success = $wpdb->insert( $wpdb->wpuf_cf_entries, $r );
 
     if ( is_wp_error( $success ) || !$success ) {
-        return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'best-contact-form' ) );
+        return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'weforms' ) );
     }
 
     $entry_id = $wpdb->insert_id;
@@ -424,43 +424,43 @@ function wpuf_cf_get_browser() {
 function wpuf_cf_get_merge_tags() {
     $tags = array(
         'form' => array(
-            'title' => __( 'Form', 'best-contact-form' ),
+            'title' => __( 'Form', 'weforms' ),
             'tags'  => array(
-                'entry_id'  => __( 'Entry ID', 'best-contact-form' ),
-                'form_id'   => __( 'Form ID', 'best-contact-form' ),
-                'form_name' => __( 'Form Name', 'best-contact-form' )
+                'entry_id'  => __( 'Entry ID', 'weforms' ),
+                'form_id'   => __( 'Form ID', 'weforms' ),
+                'form_name' => __( 'Form Name', 'weforms' )
             )
         ),
         'system' => array(
-            'title' => __( 'System', 'best-contact-form' ),
+            'title' => __( 'System', 'weforms' ),
             'tags'  => array(
-                'admin_email' => __( 'Site Administrator Email', 'best-contact-form' ),
-                'date'        => __( 'Date', 'best-contact-form' ),
-                'site_name'   => __( 'Site Title', 'best-contact-form' ),
-                'site_url'    => __( 'Site URL', 'best-contact-form' ),
-                'page_title'  => __( 'Embedded Page Title', 'best-contact-form' ),
+                'admin_email' => __( 'Site Administrator Email', 'weforms' ),
+                'date'        => __( 'Date', 'weforms' ),
+                'site_name'   => __( 'Site Title', 'weforms' ),
+                'site_url'    => __( 'Site URL', 'weforms' ),
+                'page_title'  => __( 'Embedded Page Title', 'weforms' ),
             )
         ),
         'user' => array(
-            'title' => __( 'User', 'best-contact-form' ),
+            'title' => __( 'User', 'weforms' ),
             'tags'  => array(
-                'ip_address'   => __( 'IP Address', 'best-contact-form' ),
-                'user_id'      => __( 'User ID', 'best-contact-form' ),
-                'first_name'   => __( 'First Name', 'best-contact-form' ),
-                'last_name'    => __( 'Last Name', 'best-contact-form' ),
-                'display_name' => __( 'Display Name', 'best-contact-form' ),
-                'user_email'   => __( 'Email', 'best-contact-form' ),
+                'ip_address'   => __( 'IP Address', 'weforms' ),
+                'user_id'      => __( 'User ID', 'weforms' ),
+                'first_name'   => __( 'First Name', 'weforms' ),
+                'last_name'    => __( 'Last Name', 'weforms' ),
+                'display_name' => __( 'Display Name', 'weforms' ),
+                'user_email'   => __( 'Email', 'weforms' ),
             )
         ),
         'urls' => array(
-            'title' => __( 'URL\'s', 'best-contact-form' ),
+            'title' => __( 'URL\'s', 'weforms' ),
             'tags'  => array(
-                'url_page'          => __( 'Embeded Page URL', 'best-contact-form' ),
-                'url_referer'       => __( 'Referer URL', 'best-contact-form' ),
-                'url_login'         => __( 'Login URL', 'best-contact-form' ),
-                'url_logout'        => __( 'Logout URL', 'best-contact-form' ),
-                'url_register'      => __( 'Register URL', 'best-contact-form' ),
-                'url_lost_password' => __( 'Lost Password URL', 'best-contact-form' ),
+                'url_page'          => __( 'Embeded Page URL', 'weforms' ),
+                'url_referer'       => __( 'Referer URL', 'weforms' ),
+                'url_login'         => __( 'Login URL', 'weforms' ),
+                'url_logout'        => __( 'Logout URL', 'weforms' ),
+                'url_register'      => __( 'Register URL', 'weforms' ),
+                'url_lost_password' => __( 'Lost Password URL', 'weforms' ),
             )
         ),
     );

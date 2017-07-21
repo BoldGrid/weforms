@@ -19,24 +19,24 @@ class WPUF_Contact_Form_Builder_Field_Settings extends WPUF_Form_Builder_Field_S
         $name_settings = array(
             array(
                 'name'      => 'format',
-                'title'     => __( 'Format', 'best-contact-form' ),
+                'title'     => __( 'Format', 'weforms' ),
                 'type'      => 'radio',
                 'options'   => array(
-                    'first-last'        => __( 'First and Last name', 'best-contact-form' ),
-                    'first-middle-last' => __( 'First, Middle and Last name', 'best-contact-form' )
+                    'first-last'        => __( 'First and Last name', 'weforms' ),
+                    'first-middle-last' => __( 'First, Middle and Last name', 'weforms' )
                 ),
                 'selected'  => 'first-last',
                 'section'   => 'advanced',
                 'priority'  => 20,
-                'help_text' => __( 'Select format to use for the name field', 'best-contact-form' ),
+                'help_text' => __( 'Select format to use for the name field', 'weforms' ),
             ),
             array(
                 'name'      => 'sub-labels',
-                'title'     => __( 'Label', 'best-contact-form' ),
+                'title'     => __( 'Label', 'weforms' ),
                 'type'      => 'name',
                 'section'   => 'advanced',
                 'priority'  => 21,
-                'help_text' => __( 'Select format to use for the name field', 'best-contact-form' ),
+                'help_text' => __( 'Select format to use for the name field', 'weforms' ),
             ),
             array(
                 'name'          => 'hide_subs',
@@ -44,7 +44,7 @@ class WPUF_Contact_Form_Builder_Field_Settings extends WPUF_Form_Builder_Field_S
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
                 'options'       => array(
-                    'true'   => __( 'Hide Sub Labels', 'best-contact-form' )
+                    'true'   => __( 'Hide Sub Labels', 'weforms' )
                 ),
                 'section'       => 'advanced',
                 'priority'      => 23,
@@ -56,31 +56,31 @@ class WPUF_Contact_Form_Builder_Field_Settings extends WPUF_Form_Builder_Field_S
 
         return array(
             'template'      => 'name_field',
-            'title'         => __( 'Name', 'best-contact-form' ),
+            'title'         => __( 'Name', 'weforms' ),
             'icon'          => 'user',
             'settings'      => $settings,
             'field_props'   => array(
                 'input_type'       => 'name',
                 'template'         => 'name_field',
                 'required'         => 'yes',
-                'label'            => __( 'Name', 'best-contact-form' ),
+                'label'            => __( 'Name', 'weforms' ),
                 'name'             => '',
                 'is_meta'          => 'yes',
                 'format'           => 'first-last',
                 'first_name' => array(
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'First', 'best-contact-form' )
+                    'sub'         => __( 'First', 'weforms' )
                 ),
                 'middle_name' => array(
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Middle', 'best-contact-form' )
+                    'sub'         => __( 'Middle', 'weforms' )
                 ),
                 'last_name' => array(
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Last', 'best-contact-form' )
+                    'sub'         => __( 'Last', 'weforms' )
                 ),
                 'hide_subs'        => false,
                 'help'             => '',

@@ -27,14 +27,14 @@
             <div id="wpuf-form-builder-container" v-show="isActiveTab('editor')">
                 <div id="builder-stage">
                     <header class="clearfix">
-                        <span v-if="!post_title_editing" title="<?php esc_attr_e( 'Click to edit the form name', 'best-contact-form' ); ?>" class="form-title" @click.prevent="post_title_editing = true"><span class="dashicons dashicons-edit"></span> {{ post.post_title }}</span>
+                        <span v-if="!post_title_editing" title="<?php esc_attr_e( 'Click to edit the form name', 'weforms' ); ?>" class="form-title" @click.prevent="post_title_editing = true"><span class="dashicons dashicons-edit"></span> {{ post.post_title }}</span>
 
                         <span v-show="post_title_editing">
                             <input type="text" v-model="post.post_title" name="post_title" />
                             <button type="button" class="button button-small" style="margin-top: 8px;" @click.prevent="post_title_editing = false"><i class="fa fa-check"></i></button>
                         </span>
 
-                        <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'best-contact-form' ); ?>" :data-clipboard-text='"[best_contact_form id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
+                        <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
                     </header>
 
                     <ul v-if="is_form_switcher" class="form-switcher-content">
@@ -89,7 +89,7 @@
         </div>
         <div v-else>
             <div class="updating-message">
-                <p><?php _e( 'Loading the editor', 'best-contact-form' ); ?></p>
+                <p><?php _e( 'Loading the editor', 'weforms' ); ?></p>
             </div>
         </div>
 

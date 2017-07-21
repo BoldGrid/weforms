@@ -3,7 +3,7 @@
 /**
  * Email Notification Class
  */
-class WPUF_Contact_Form_Notification {
+class WeForms_Notification {
 
     private $merge_tags = array();
     private $args       = array();

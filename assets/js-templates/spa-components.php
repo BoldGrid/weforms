@@ -91,37 +91,37 @@
     <div class="tablenav top">
 
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'best-contact-form' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'best-contact-form' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Entries', 'best-contact-form' ); ?></option>
+                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="delete"><?php _e( 'Delete Entries', 'weforms' ); ?></option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'best-contact-form' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="alignleft actions">
-            <a class="button" :href="'admin-post.php?action=bcf_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php _e( 'Export Entries', 'best-contact-form' ); ?></a>
+            <a class="button" :href="'admin-post.php?action=bcf_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php _e( 'Export Entries', 'weforms' ); ?></a>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'best-contact-form' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'best-contact-form' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'best-contact-form' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'best-contact-form' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'best-contact-form' ); ?> <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'best-contact-form' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'best-contact-form' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -132,7 +132,7 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th class="col-entry-id"><?php _e( 'ID', 'best-contact-form' ); ?></th>
+                <th class="col-entry-id"><?php _e( 'ID', 'weforms' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
                 <th>Actions</th>
             </tr>
@@ -142,17 +142,17 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th class="col-entry-id"><?php _e( 'ID', 'best-contact-form' ); ?></th>
+                <th class="col-entry-id"><?php _e( 'ID', 'weforms' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
-                <th class="col-entry-details"><?php _e( 'Actions', 'best-contact-form' ); ?></th>
+                <th class="col-entry-details"><?php _e( 'Actions', 'weforms' ); ?></th>
             </tr>
         </tfoot>
         <tbody>
             <tr v-if="loading">
-                <td v-bind:colspan="columnLength + 3"><?php _e( 'Loading...', 'best-contact-form' ); ?></td>
+                <td v-bind:colspan="columnLength + 3"><?php _e( 'Loading...', 'weforms' ); ?></td>
             </tr>
             <tr v-if="!items.length && !loading">
-                <td v-bind:colspan="columnLength + 3"><?php _e( 'No entries found!', 'best-contact-form' ); ?></td>
+                <td v-bind:colspan="columnLength + 3"><?php _e( 'No entries found!', 'weforms' ); ?></td>
             </tr>
             <tr v-for="(entry, index) in items">
                 <th scope="row" class="check-column">
@@ -163,7 +163,7 @@
                 </th>
                 <td v-for="(header, index) in columns">{{ entry.fields[index] }}</td>
                 <th class="col-entry-details">
-                    <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}"><?php _e( 'Details', 'best-contact-form' ); ?></router-link>
+                    <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}"><?php _e( 'Details', 'weforms' ); ?></router-link>
                 </th>
             </tr>
         </tbody>
@@ -171,33 +171,33 @@
 
     <div class="tablenav bottom">
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'best-contact-form' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'best-contact-form' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Entries', 'best-contact-form' ); ?></option>
+                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="delete"><?php _e( 'Delete Entries', 'weforms' ); ?></option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'best-contact-form' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'best-contact-form' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'best-contact-form' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'best-contact-form' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'best-contact-form' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'best-contact-form' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'best-contact-form' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -233,14 +233,14 @@
             <div id="wpuf-form-builder-container" v-show="isActiveTab('editor')">
                 <div id="builder-stage">
                     <header class="clearfix">
-                        <span v-if="!post_title_editing" title="<?php esc_attr_e( 'Click to edit the form name', 'best-contact-form' ); ?>" class="form-title" @click.prevent="post_title_editing = true"><span class="dashicons dashicons-edit"></span> {{ post.post_title }}</span>
+                        <span v-if="!post_title_editing" title="<?php esc_attr_e( 'Click to edit the form name', 'weforms' ); ?>" class="form-title" @click.prevent="post_title_editing = true"><span class="dashicons dashicons-edit"></span> {{ post.post_title }}</span>
 
                         <span v-show="post_title_editing">
                             <input type="text" v-model="post.post_title" name="post_title" />
                             <button type="button" class="button button-small" style="margin-top: 8px;" @click.prevent="post_title_editing = false"><i class="fa fa-check"></i></button>
                         </span>
 
-                        <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'best-contact-form' ); ?>" :data-clipboard-text='"[best_contact_form id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
+                        <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
                     </header>
 
                     <ul v-if="is_form_switcher" class="form-switcher-content">
@@ -295,7 +295,7 @@
         </div>
         <div v-else>
             <div class="updating-message">
-                <p><?php _e( 'Loading the editor', 'best-contact-form' ); ?></p>
+                <p><?php _e( 'Loading the editor', 'weforms' ); ?></p>
             </div>
         </div>
 
@@ -311,12 +311,12 @@
 <script type="text/x-template" id="tmpl-wpuf-form-entries">
 <div class="wpuf-contact-form-entries">
     <h1 class="wp-heading-inline">
-        <?php _e( 'Entries', 'best-contact-form' ); ?>
+        <?php _e( 'Entries', 'weforms' ); ?>
         <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
         <span style="color: #999;" class="form-name">{{ form_title }}</span>
     </h1>
 
-    <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'best-contact-form' ); ?></router-link>
+    <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
 
     <wpuf-table action="bcf_contact_form_entries" :id="id" v-on:ajaxsuccess="form_title = $event.form_title"></wpuf-table>
 
@@ -324,10 +324,10 @@
 
 <script type="text/x-template" id="tmpl-wpuf-form-entry-single">
 <div class="wpuf-contact-form-entry">
-    <h1 class="wp-heading-inline"><?php _e( 'Entry Details', 'best-contact-form' ); ?></h1>
-    <router-link class="page-title-action" :to="{ name: 'formEntries', params: { id: $route.params.id }}"><?php _e( 'Back to Entries', 'best-contact-form' ); ?></router-link>
+    <h1 class="wp-heading-inline"><?php _e( 'Entry Details', 'weforms' ); ?></h1>
+    <router-link class="page-title-action" :to="{ name: 'formEntries', params: { id: $route.params.id }}"><?php _e( 'Back to Entries', 'weforms' ); ?></router-link>
 
-    <div v-if="loading"><?php _e( 'Loading...', 'best-contact-form' ); ?></div>
+    <div v-if="loading"><?php _e( 'Loading...', 'weforms' ); ?></div>
     <div v-else class="wpuf-contact-form-entry-wrap">
 
         <div class="wpuf-contact-form-entry-left">
@@ -349,7 +349,7 @@
                             </template>
                         </tbody>
                     </table>
-                    <div v-else><div class="inside"><?php _e( 'Loading...', 'best-contact-form' ); ?></div></div>
+                    <div v-else><div class="inside"><?php _e( 'Loading...', 'weforms' ); ?></div></div>
 
                 </div>
             </div>
@@ -357,33 +357,33 @@
 
         <div class="wpuf-contact-form-entry-right">
             <div class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Submission Info', 'best-contact-form' ); ?></span></h2>
+                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Submission Info', 'weforms' ); ?></span></h2>
                 <div class="inside">
                     <div class="main">
 
                         <ul>
                             <li>
-                                <span class="label"><?php _e( 'Entry ID', 'best-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'Entry ID', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">#{{ $route.params.entryid }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'User IP', 'best-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'User IP', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.info.ip }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Page', 'best-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'Page', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value"><a :href="entry.info.referer">{{ entry.info.referer }}</a></span>
                             </li>
                             <li v-if="entry.info.user">
-                                <span class="label"><?php _e( 'From', 'best-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'From', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.info.user }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Submitted On', 'best-contact-form' ); ?></span>
+                                <span class="label"><?php _e( 'Submitted On', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.info.created }}</span>
                             </li>
@@ -393,7 +393,7 @@
 
                 <div id="major-publishing-actions">
                     <div id="publishing-action">
-                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Delete', 'best-contact-form' ); ?></button>
+                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Delete', 'weforms' ); ?></button>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -407,33 +407,33 @@
 
     <div class="tablenav top">
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'best-contact-form' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'best-contact-form' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Forms', 'best-contact-form' ); ?></option>
+                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="delete"><?php _e( 'Delete Forms', 'weforms' ); ?></option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'best-contact-form' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'best-contact-form' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'best-contact-form' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'best-contact-form' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'best-contact-form' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'best-contact-form' ); ?> <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'best-contact-form' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'best-contact-form' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -442,22 +442,22 @@
         <thead>
             <tr>
                 <td id="cb" class="manage-column column-cb check-column">
-                    <label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Select All', 'best-contact-form' ); ?></label>
+                    <label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Select All', 'weforms' ); ?></label>
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th scope="col" class="col-form-name"><?php _e( 'Name', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-shortcode"><?php _e( 'Shortcode', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-entries"><?php _e( 'Entries', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-views"><?php _e( 'Views', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'best-contact-form' ); ?></th>
+                <th scope="col" class="col-form-name"><?php _e( 'Name', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-shortcode"><?php _e( 'Shortcode', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-entries"><?php _e( 'Entries', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-views"><?php _e( 'Views', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'weforms' ); ?></th>
             </tr>
         </thead>
         <tbody>
             <tr v-if="loading">
-                <td colspan="6"><?php _e( 'Loading...', 'best-contact-form' ); ?></td>
+                <td colspan="6"><?php _e( 'Loading...', 'weforms' ); ?></td>
             </tr>
             <tr v-if="!items.length && !loading">
-                <td colspan="6"><?php _e( 'No form found!', 'best-contact-form' ); ?></td>
+                <td colspan="6"><?php _e( 'No form found!', 'weforms' ); ?></td>
             </tr>
             <tr v-for="(form, index) in items">
                 <th scope="row" class="check-column">
@@ -467,13 +467,13 @@
                     <strong><router-link :to="{ name: 'edit', params: { id: form.ID }}">{{ form.post_title }}</router-link> <span v-if="form.post_status != 'publish'">({{ form.post_status }})</span></strong>
 
                     <div class="row-actions">
-                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.ID }}"><?php _e( 'Edit', 'best-contact-form' ); ?></router-link> | </span>
-                        <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'best-contact-form' ); ?></a> | </span>
-                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'best-contact-form' ); ?></a> <template v-if="form.entries">|</template> </span>
-                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'best-contact-form' ); ?></router-link>
+                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.ID }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
+                        <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'weforms' ); ?></a> | </span>
+                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
+                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
                     </div>
                 </td>
-                <td><code>[best_contact_form id="{{ form.ID }}"]</code></td>
+                <td><code>[weforms id="{{ form.ID }}"]</code></td>
                 <td>
                     <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}">{{ form.entries }}</router-link>
                     <span v-else>&mdash;</span>
@@ -489,47 +489,47 @@
         <tfoot>
             <tr>
                 <td id="cb" class="manage-column column-cb check-column">
-                    <label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Select All', 'best-contact-form' ); ?></label>
+                    <label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Select All', 'weforms' ); ?></label>
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th scope="col" class="col-form-name"><?php _e( 'Name', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-shortcode"><?php _e( 'Shortcode', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-entries"><?php _e( 'Entries', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-views"><?php _e( 'Views', 'best-contact-form' ); ?></th>
-                <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'best-contact-form' ); ?></th>
+                <th scope="col" class="col-form-name"><?php _e( 'Name', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-shortcode"><?php _e( 'Shortcode', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-entries"><?php _e( 'Entries', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-views"><?php _e( 'Views', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'weforms' ); ?></th>
             </tr>
         </tfoot>
     </table>
 
     <div class="tablenav bottom">
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'best-contact-form' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'best-contact-form' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Forms', 'best-contact-form' ); ?></option>
+                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="delete"><?php _e( 'Delete Forms', 'weforms' ); ?></option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'best-contact-form' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'best-contact-form' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'best-contact-form' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'best-contact-form' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'best-contact-form' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'best-contact-form' ); ?> <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'best-contact-form' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'best-contact-form' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -537,8 +537,8 @@
 
 <script type="text/x-template" id="tmpl-wpuf-home-page">
 <div class="contact-form-list">
-    <h1 class="wp-heading-inline"><?php _e( 'Contact Forms', 'best-contact-form' ); ?></h1>
-    <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'best-contact-form' ); ?></a>
+    <h1 class="wp-heading-inline"><?php _e( 'Contact Forms', 'weforms' ); ?></h1>
+    <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'weforms' ); ?></a>
 
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
@@ -555,23 +555,23 @@
 
     <div class="nav-tab-content">
         <div class="nav-tab-inside" v-show="isActiveTab('export')">
-            <h3><?php _e( 'Export Utility', 'best-contact-form' ); ?></h3>
+            <h3><?php _e( 'Export Utility', 'weforms' ); ?></h3>
 
-            <p><?php _e( 'You can export your form, as well as exporting the submitted entries by the users', 'best-contact-form' ); ?></p>
+            <p><?php _e( 'You can export your form, as well as exporting the submitted entries by the users', 'weforms' ); ?></p>
 
             <div class="postboxes metabox-holder two-col">
                 <div class="postbox">
-                    <h3 class="hndle"><?php _e( 'Export Forms', 'best-contact-form' ); ?></h3>
+                    <h3 class="hndle"><?php _e( 'Export Forms', 'weforms' ); ?></h3>
 
                     <div class="inside">
                         <p class="help">
-                            <?php _e( 'You can export your existing contact forms and import the same forms into a different site.', 'best-contact-form' ); ?>
+                            <?php _e( 'You can export your existing contact forms and import the same forms into a different site.', 'weforms' ); ?>
                         </p>
 
                         <template v-if="!loading">
                             <form action="admin-post.php?action=bcf_export_forms" method="post">
-                                <p><label><input v-model="exportType" type="radio" name="export_type" value="all" checked> <?php _e( 'All Forms', 'best-contact-form' ); ?></label></p>
-                                <p><label><input v-model="exportType" type="radio" name="export_type" value="selected"> <?php _e( 'Selected Forms', 'best-contact-form' ); ?></label></p>
+                                <p><label><input v-model="exportType" type="radio" name="export_type" value="all" checked> <?php _e( 'All Forms', 'weforms' ); ?></label></p>
+                                <p><label><input v-model="exportType" type="radio" name="export_type" value="selected"> <?php _e( 'Selected Forms', 'weforms' ); ?></label></p>
                                 <p v-show="exportType == 'selected'">
                                     <select name="selected_forms[]" class="forms-list" multiple="multiple">
                                         <option v-for="entry in forms" :value="entry.id">{{ entry.title }}</option>
@@ -579,7 +579,7 @@
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-forms' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'best-contact-form' ) ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'weforms' ) ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -589,24 +589,24 @@
                 </div><!-- .postbox -->
 
                 <div class="postbox">
-                    <h3 class="hndle"><?php _e( 'Export Form Entries', 'best-contact-form' ); ?></h3>
+                    <h3 class="hndle"><?php _e( 'Export Form Entries', 'weforms' ); ?></h3>
 
                     <div class="inside">
                         <p class="help">
-                            <?php _e( 'Export your form entries/submissions as a <strong>CSV</strong> file.', 'best-contact-form' ); ?>
+                            <?php _e( 'Export your form entries/submissions as a <strong>CSV</strong> file.', 'weforms' ); ?>
                         </p>
 
                         <template v-if="!loading">
                             <form action="admin-post.php?action=bcf_export_form_entries" method="post">
                                 <p>
                                     <select name="selected_forms" class="forms-list">
-                                        <option value=""><?php _e( '&mdash; Select Form &mdash;', 'best-contact-form' ); ?></option>
+                                        <option value=""><?php _e( '&mdash; Select Form &mdash;', 'weforms' ); ?></option>
                                         <option v-for="entry in forms" :value="entry.id">{{ entry.title }}</option>
                                     </select>
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-entries' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'best-contact-form' ) ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'weforms' ) ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -618,16 +618,16 @@
         </div>
 
         <div class="nav-tab-inside" v-show="isActiveTab('import')">
-            <h3><?php _e( 'Import Contact Form', 'best-contact-form' ); ?></h3>
+            <h3><?php _e( 'Import Contact Form', 'weforms' ); ?></h3>
 
-            <p><?php _e( 'Browse and locate a json file you backed up before.', 'best-contact-form' ); ?></p>
-            <p><?php _e( 'Press <strong>Import</strong> button, we will do the rest for you.', 'best-contact-form' ); ?></p>
+            <p><?php _e( 'Browse and locate a json file you backed up before.', 'weforms' ); ?></p>
+            <p><?php _e( 'Press <strong>Import</strong> button, we will do the rest for you.', 'weforms' ); ?></p>
 
             <div class="updated-message notice notice-success is-dismissible" v-if="isSuccess">
                 <p>{{ responseMessage }}</p>
 
                 <button type="button" class="notice-dismiss" v-on:click="currentStatus = 0">
-                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'best-contact-form' ); ?></span>
+                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'weforms' ); ?></span>
                 </button>
             </div>
 
@@ -635,7 +635,7 @@
                 <p>{{ responseMessage }}</p>
 
                 <button type="button" class="notice-dismiss" v-on:click="currentStatus = 0">
-                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'best-contact-form' ); ?></span>
+                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'weforms' ); ?></span>
                 </button>
             </div>
 

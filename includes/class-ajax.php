@@ -39,7 +39,7 @@ class WeForms_Ajax {
      */
     public function check_admin() {
         if ( !current_user_can( 'administrator' ) ) {
-            wp_send_json_error( __( 'You do not have sufficient permission.', 'best-contact-form' ) );
+            wp_send_json_error( __( 'You do not have sufficient permission.', 'weforms' ) );
         }
     }
 
@@ -71,7 +71,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function get_contact_forms() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
@@ -108,7 +108,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function get_contact_form_names() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
@@ -140,14 +140,14 @@ class WeForms_Ajax {
      * @return void
      */
     public function create_form() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
         $form_name = isset( $_POST['form_name'] ) ? sanitize_text_field( $_POST['form_name'] ) : '';
 
         if ( empty( $form_name ) ) {
-            wp_send_json_error( __( 'Please provide a form name', 'best-contact-form' ) );
+            wp_send_json_error( __( 'Please provide a form name', 'weforms' ) );
         }
 
         $post_id = wp_insert_post( array(
@@ -172,14 +172,14 @@ class WeForms_Ajax {
      * @return void
      */
     public function delete_form() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
         $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
 
         if ( ! $form_id ) {
-            wp_send_json_error( __( 'No form id provided!', 'best-contact-form' ) );
+            wp_send_json_error( __( 'No form id provided!', 'weforms' ) );
         }
 
         wpuf_delete_form( $form_id, true );
@@ -187,14 +187,14 @@ class WeForms_Ajax {
     }
 
     public function delete_form_bulk() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
         $form_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
 
         if ( ! $form_ids ) {
-            wp_send_json_error( __( 'No form ids provided!', 'best-contact-form' ) );
+            wp_send_json_error( __( 'No form ids provided!', 'weforms' ) );
         }
 
         foreach ($form_ids as $form_id) {
@@ -210,7 +210,7 @@ class WeForms_Ajax {
      * @return voiud
      */
     public function duplicate_form() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
@@ -231,7 +231,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function get_entries() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
@@ -241,7 +241,7 @@ class WeForms_Ajax {
         $offset       = ( $current_page - 1 ) * $per_page;
 
         if ( ! $form_id ) {
-            wp_send_json_error( __( 'No form id provided!', 'best-contact-form' ) );
+            wp_send_json_error( __( 'No form id provided!', 'weforms' ) );
         }
 
         $entries = wpuf_cf_get_form_entries( $form_id, array(
@@ -283,7 +283,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function get_entry_detail() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
@@ -291,7 +291,7 @@ class WeForms_Ajax {
         $entry    = wpuf_cf_get_entry( $entry_id );
 
         if ( !$entry ) {
-            wp_send_json_error( __( 'No such entry found!', 'best-contact-form' ) );
+            wp_send_json_error( __( 'No such entry found!', 'weforms' ) );
         }
 
         $data   = array();
@@ -306,7 +306,7 @@ class WeForms_Ajax {
         );
 
         if ( ! $fields ) {
-            wp_send_json_error( __( 'No form fields found!', 'best-contact-form' ) );
+            wp_send_json_error( __( 'No form fields found!', 'weforms' ) );
         }
 
         foreach ($fields as $meta_key => $field ) {
@@ -336,7 +336,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function trash_entry() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
@@ -352,14 +352,14 @@ class WeForms_Ajax {
      * @return void
      */
     public function bulk_delete_entry() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
         $entry_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
 
         if ( ! $entry_ids ) {
-            wp_send_json_error( __( 'No entry ids provided!', 'best-contact-form' ) );
+            wp_send_json_error( __( 'No entry ids provided!', 'weforms' ) );
         }
 
         foreach ($entry_ids as $entry_id) {
@@ -388,7 +388,7 @@ class WeForms_Ajax {
         if ( !$meta_vars ) {
             wp_send_json( array(
                 'success'     => false,
-                'error'       => __( 'No form field was found.', 'best-contact-form' ),
+                'error'       => __( 'No form field was found.', 'weforms' ),
             ) );
         }
 
@@ -420,6 +420,9 @@ class WeForms_Ajax {
             $redirect_to = get_permalink( $post_id );
         }
 
+        // Fire a hook for integration
+        do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
+
         // send the response
         $response = array(
             'success'      => true,
@@ -428,7 +431,7 @@ class WeForms_Ajax {
             'message'      => $form_settings['message']
         );
 
-        $notification = new WPUF_Contact_Form_Notification( array(
+        $notification = new WeForms_Notification( array(
             'form_id'  => $form_id,
             'page_id'  => $page_id,
             'entry_id' => $entry_id
@@ -468,14 +471,14 @@ class WeForms_Ajax {
      * @return void
      */
     public function import_form() {
-        check_ajax_referer( 'best-contact-form' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
         $the_file = isset( $_FILES['importFile'] ) ? $_FILES['importFile'] : false;
 
         if ( ! $the_file ) {
-            wp_send_json_error( __( 'No file found to import.', 'best-contact-form' ) );
+            wp_send_json_error( __( 'No file found to import.', 'weforms' ) );
         }
 
         $file_ext  = pathinfo( $the_file['name'], PATHINFO_EXTENSION );
@@ -489,13 +492,13 @@ class WeForms_Ajax {
             $status = WPUF_Admin_Tools::import_json_file( $the_file['tmp_name'] );
 
             if ( $status ) {
-                wp_send_json_success( __( 'The forms have been imported successfully!', 'best-contact-form' ) );
+                wp_send_json_success( __( 'The forms have been imported successfully!', 'weforms' ) );
             } else {
-                wp_send_json_error( __( 'Something went wrong importing the file.', 'best-contact-form' ) );
+                wp_send_json_error( __( 'Something went wrong importing the file.', 'weforms' ) );
             }
 
         } else {
-            wp_send_json_error( __( 'Invalid file or file size too big.', 'best-contact-form' ) );
+            wp_send_json_error( __( 'Invalid file or file size too big.', 'weforms' ) );
         }
     }
 

@@ -24,16 +24,4 @@ class WeForms_Integration_Slack extends WPUF_Abstract_Integration {
         add_filter( 'weforms_form_builder_integrations', array( $this, 'register_integration_settings' ) );
     }
 
-    /**
-     * Register the integration in the builder settings
-     *
-     * @param  array $integrations
-     *
-     * @return array
-     */
-    public function register_integration_settings( $integrations ) {
-        $integrations[ $this->id ] = $this->get_js_settings();
-
-        return $integrations;
-    }
 }
