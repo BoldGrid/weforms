@@ -129,8 +129,8 @@ module.exports = function (grunt) {
 
             spa: {
                 options: {
-                    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-                            '<%= grunt.template.today("yyyy-mm-dd") %> */\n' +
+                    banner: '/*!\n<%= pkg.name %> - v<%= pkg.version %>\n' +
+                            'Generated: <%= grunt.template.today("yyyy-mm-dd") %> (<%= new Date().getTime() %>)\n*/\n\n' +
                             ';(function($) {\n',
                     footer: '\n})(jQuery);',
                     process: filename_on_concat

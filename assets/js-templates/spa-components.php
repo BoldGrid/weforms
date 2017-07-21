@@ -318,7 +318,7 @@
 
     <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
 
-    <wpuf-table action="bcf_contact_form_entries" :id="id" v-on:ajaxsuccess="form_title = $event.form_title"></wpuf-table>
+    <wpuf-table action="weforms_form_entries" :id="id" v-on:ajaxsuccess="form_title = $event.form_title"></wpuf-table>
 
 </div></script>
 

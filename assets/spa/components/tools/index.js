@@ -42,7 +42,7 @@ const Tools = {
 
             this.loading = true;
 
-            wp.ajax.send( 'weforms_contact_form_names', {
+            wp.ajax.send( 'weforms_form_names', {
                 data: {
                     _wpnonce: wpufContactForm.nonce
                 },

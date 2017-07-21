@@ -25,7 +25,7 @@ const FormEntriesSingle = {
 
             this.loading = true;
 
-            wp.ajax.send( 'weforms_contact_form_entry_details', {
+            wp.ajax.send( 'weforms_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
@@ -49,7 +49,7 @@ const FormEntriesSingle = {
                 return;
             }
 
-            wp.ajax.send( 'weforms_contact_form_entry_trash', {
+            wp.ajax.send( 'weforms_form_entry_trash', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce

@@ -1,4 +1,8 @@
-/*! weForms - v1.0.0 - 2017-07-21 */
+/*!
+weForms - v1.0.0
+Generated: 2017-07-21 (1500619632643)
+*/
+
 ;(function($) {
 /* ./assets/spa/mixins/bulk-action.js */
 var BulkActionMixin = {
@@ -157,7 +161,7 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: wpufContactForm.nonce,
             index: 'id',
-            bulkDeleteAction: 'weforms_contact_form_entry_trash_bulk'
+            bulkDeleteAction: 'weforms_form_entry_trash_bulk'
         };
     },
 
@@ -458,7 +462,7 @@ const FormEntriesSingle = {
 
             this.loading = true;
 
-            wp.ajax.send( 'weforms_contact_form_entry_details', {
+            wp.ajax.send( 'weforms_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
@@ -482,7 +486,7 @@ const FormEntriesSingle = {
                 return;
             }
 
-            wp.ajax.send( 'weforms_contact_form_entry_trash', {
+            wp.ajax.send( 'weforms_form_entry_trash', {
                 data: {
                     entry_id: self.$route.params.entryid,
                     _wpnonce: wpufContactForm.nonce
@@ -511,7 +515,7 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
-            bulkDeleteAction: 'weforms_contact_form_delete_bulk'
+            bulkDeleteAction: 'weforms_form_delete_bulk'
         };
     },
 
@@ -525,7 +529,7 @@ Vue.component('form-list-table', {
 
             this.loading = true;
 
-            wp.ajax.send( 'weforms_contact_form_list', {
+            wp.ajax.send( 'weforms_form_list', {
                 data: {
                     _wpnonce: wpufContactForm.nonce,
                     page: self.currentPage,
@@ -549,7 +553,7 @@ Vue.component('form-list-table', {
             if (confirm('Are you sure?')) {
                 self.loading = true;
 
-                wp.ajax.send( 'weforms_contact_form_delete', {
+                wp.ajax.send( 'weforms_form_delete', {
                     data: {
                         form_id: this.items[index].ID,
                         _wpnonce: wpufContactForm.nonce
@@ -571,7 +575,7 @@ Vue.component('form-list-table', {
 
             this.loading = true;
 
-            wp.ajax.send( 'weforms_contact_form_duplicate', {
+            wp.ajax.send( 'weforms_form_duplicate', {
                 data: {
                     form_id: form_id,
                     _wpnonce: wpufContactForm.nonce
@@ -672,7 +676,7 @@ const Tools = {
 
             this.loading = true;
 
-            wp.ajax.send( 'weforms_contact_form_names', {
+            wp.ajax.send( 'weforms_form_names', {
                 data: {
                     _wpnonce: wpufContactForm.nonce
                 },

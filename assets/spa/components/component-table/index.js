@@ -14,7 +14,7 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: wpufContactForm.nonce,
             index: 'id',
-            bulkDeleteAction: 'weforms_contact_form_entry_trash_bulk'
+            bulkDeleteAction: 'weforms_form_entry_trash_bulk'
         };
     },
 
