@@ -137,7 +137,7 @@
                 </li>
 
                 <?php
-                $registry = wpuf_cf_get_form_templates();
+                $registry = weforms_get_form_templates();
 
                 foreach ($registry as $key => $template ) {
                     $class = 'template-active';

@@ -1,6 +1,6 @@
 <?php
 
-class WPUF_Contact_Form_Builder_Field_Settings extends WPUF_Form_Builder_Field_Settings {
+class WeForms_Builder_Field_Settings extends WPUF_Form_Builder_Field_Settings {
 
     public static function get_field_settings() {
         return array(

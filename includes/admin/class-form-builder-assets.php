@@ -3,7 +3,7 @@
 /**
  * The Assets Class
  */
-class WPUF_Contact_Form_Builder_Assets {
+class WeForms_Form_Builder_Assets {
 
     public function __construct() {
         $this->init_actions();
@@ -320,9 +320,9 @@ class WPUF_Contact_Form_Builder_Assets {
      * @param array $settings
      */
     public function add_field_settings( $settings ) {
-        require_once dirname( __FILE__ ) . '/class-contact-form-builder-settings.php';
+        require_once dirname( __FILE__ ) . '/class-builder-field-settings.php';
 
-        $settings = array_merge( WPUF_Contact_Form_Builder_Field_Settings::get_field_settings(), $settings );
+        $settings = array_merge( WeForms_Builder_Field_Settings::get_field_settings(), $settings );
 
         return $settings;
     }

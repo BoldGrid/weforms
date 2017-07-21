@@ -137,7 +137,7 @@ final class WeForms {
         }
 
         $table_schema = array(
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}wpuf_cf_entries` (
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}weforms_entries` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 `form_id` bigint(20) unsigned DEFAULT NULL,
                 `user_id` bigint(20) unsigned DEFAULT NULL,
@@ -150,14 +150,14 @@ final class WeForms {
                 KEY `form_id` (`form_id`)
             ) $collate;",
 
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}wpuf_cf_entrymeta` (
+            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}weforms_entrymeta` (
                 `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `wpuf_cf_entry_id` bigint(20) unsigned DEFAULT NULL,
+                `weforms_entry_id` bigint(20) unsigned DEFAULT NULL,
                 `meta_key` varchar(255) DEFAULT NULL,
                 `meta_value` longtext,
                 PRIMARY KEY (`meta_id`),
                 KEY `meta_key` (`meta_key`),
-                KEY `entry_id` (`wpuf_cf_entry_id`)
+                KEY `entry_id` (`weforms_entry_id`)
             ) $collate;",
         );
 
@@ -166,7 +166,7 @@ final class WeForms {
             dbDelta( $table );
         }
 
-        update_option( 'wpuf_cf_version', WEFORMS_VERSION );
+        update_option( 'weforms_version', WEFORMS_VERSION );
     }
 
     /**
@@ -186,7 +186,7 @@ final class WeForms {
     public function includes() {
 
         if ( is_admin() ) {
-            require_once WEFORMS_INCLUDES . '/admin/class-contact-form-admin.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
@@ -225,8 +225,8 @@ final class WeForms {
     public function wpdb_table_shortcuts() {
         global $wpdb;
 
-        $wpdb->wpuf_cf_entries   = $wpdb->prefix . 'wpuf_cf_entries';
-        $wpdb->wpuf_cf_entrymeta = $wpdb->prefix . 'wpuf_cf_entrymeta';
+        $wpdb->weforms_entries   = $wpdb->prefix . 'weforms_entries';
+        $wpdb->weforms_entrymeta = $wpdb->prefix . 'weforms_entrymeta';
     }
 
     /**
@@ -333,11 +333,11 @@ final class WeForms {
     public function init_classes() {
 
         if ( is_admin() ) {
-            new WPUF_Contact_Form_Admin();
-            new WPUF_Contact_Form_Template();
+            new WeForms_Admin();
+            new WeForms_Form_Template();
             new WeForms_Pro_Integrations();
         } else {
-            new WPUF_Contact_Form_Frontend();
+            new WeForms_Frontend();
         }
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {

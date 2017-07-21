@@ -119,7 +119,7 @@ class WeForms_Notification {
         }
 
         // populate the key/value array for the first time
-        $tags          = wpuf_cf_get_merge_tags();
+        $tags          = weforms_get_merge_tags();
         $replace_array = array();
 
         foreach ($tags as $section => $child) {
@@ -250,7 +250,7 @@ class WeForms_Notification {
         }
 
         foreach ($matches[1] as $index => $meta_key) {
-            $meta_value = wpuf_cf_get_entry_meta( $this->args['entry_id'], $meta_key, true );
+            $meta_value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key, true );
             $text       = str_replace( $matches[0][$index], $meta_value, $text );
         }
 
@@ -306,17 +306,17 @@ class WeForms_Notification {
         }
 
         $data   = array();
-        $fields = wpuf_cf_get_form_field_labels( $this->args['form_id'] );
+        $fields = weforms_get_form_field_labels( $this->args['form_id'] );
 
         if ( !$fields ) {
             return $text;
         }
 
         foreach ($fields as $meta_key => $field ) {
-            $value = wpuf_cf_get_entry_meta( $this->args['entry_id'], $meta_key, true );
+            $value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key, true );
 
             if ( $field['type'] == 'textarea' ) {
-                $data[ $meta_key ] = wpuf_cf_format_text( $value );
+                $data[ $meta_key ] = weforms_format_text( $value );
             } else {
                 $data[ $meta_key ] = $value;
             }

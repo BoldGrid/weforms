@@ -3,7 +3,7 @@
 /**
  * The template manager
  */
-class WPUF_Contact_Form_Template {
+class WeForms_Form_Template {
 
     public function __construct() {
         add_filter( 'wp_ajax_weforms_contact_form_template', array( $this, 'create_contact_form_from_template' ) );
@@ -17,7 +17,7 @@ class WPUF_Contact_Form_Template {
      * @return boolean|WPUF_Post_Form_Template
      */
     public function get_template_object( $template ) {
-        $registry = wpuf_cf_get_form_templates();
+        $registry = weforms_get_form_templates();
 
         if ( ! array_key_exists( $template, $registry ) ) {
             return false;

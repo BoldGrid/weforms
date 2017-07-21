@@ -5,7 +5,7 @@
  *
  * @return array
  */
-function wpuf_cf_get_form_templates() {
+function weforms_get_form_templates() {
     require_once WEFORMS_INCLUDES . '/admin/form-templates/contact-form.php';
     require_once WEFORMS_INCLUDES . '/admin/form-templates/support-form.php';
     require_once WEFORMS_INCLUDES . '/admin/form-templates/event-registration-form.php';
@@ -16,7 +16,7 @@ function wpuf_cf_get_form_templates() {
         'WPUF_Contact_Form_Template_Event_Registration' => new WPUF_Contact_Form_Template_Event_Registration(),
     );
 
-    return apply_filters( 'wpuf_contact_form_templates', $integrations );
+    return apply_filters( 'weforms_form_templates', $integrations );
 }
 
 /**
@@ -27,7 +27,7 @@ function wpuf_cf_get_form_templates() {
  *
  * @return Object
  */
-function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
+function weforms_get_form_entries( $form_id, $args = array() ) {
     global $wpdb;
 
     $defaults = array(
@@ -41,7 +41,7 @@ function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
     $r = wp_parse_args( $args, $defaults );
 
     $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
-            FROM ' . $wpdb->wpuf_cf_entries .
+            FROM ' . $wpdb->weforms_entries .
             ' WHERE form_id = ' . $form_id . ' AND status = \'' . $r['status'] . '\''.
             ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'] .
             ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
@@ -58,11 +58,11 @@ function wpuf_cf_get_form_entries( $form_id, $args = array() ) {
  *
  * @return Object
  */
-function wpuf_cf_get_entry( $entry_id ) {
+function weforms_get_entry( $entry_id ) {
     global $wpdb;
 
     $query = 'SELECT id, form_id, user_id, user_device, referer, INET_NTOA( user_ip ) as ip_address, created_at
-             FROM ' . $wpdb->wpuf_cf_entries . '
+             FROM ' . $wpdb->weforms_entries . '
              WHERE id = %d';
 
     return $wpdb->get_row( $wpdb->prepare( $query, $entry_id ) );
@@ -76,10 +76,10 @@ function wpuf_cf_get_entry( $entry_id ) {
  *
  * @return WP_Error|integer
  */
-function wpuf_cf_insert_entry( $args, $fields = array() ) {
+function weforms_insert_entry( $args, $fields = array() ) {
     global $wpdb;
 
-    $browser = wpuf_cf_get_browser();
+    $browser = weforms_get_browser();
 
     $defaults = array(
         'form_id'     => 0,
@@ -100,7 +100,7 @@ function wpuf_cf_insert_entry( $args, $fields = array() ) {
         return new WP_Error( 'no-fields', __( 'No form fields were found.', 'weforms' ) );
     }
 
-    $success = $wpdb->insert( $wpdb->wpuf_cf_entries, $r );
+    $success = $wpdb->insert( $wpdb->weforms_entries, $r );
 
     if ( is_wp_error( $success ) || !$success ) {
         return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'weforms' ) );
@@ -109,7 +109,7 @@ function wpuf_cf_insert_entry( $args, $fields = array() ) {
     $entry_id = $wpdb->insert_id;
 
     foreach ($fields as $key => $value) {
-        wpuf_cf_add_entry_meta( $entry_id, $key, $value );
+        weforms_add_entry_meta( $entry_id, $key, $value );
     }
 
     return $entry_id;
@@ -123,10 +123,10 @@ function wpuf_cf_insert_entry( $args, $fields = array() ) {
  *
  * @return int|boolean
  */
-function wpuf_cf_change_entry_status( $entry_id, $status ) {
+function weforms_change_entry_status( $entry_id, $status ) {
     global $wpdb;
 
-    return $wpdb->update( $wpdb->wpuf_cf_entries,
+    return $wpdb->update( $wpdb->weforms_entries,
         array( 'status' => $status ),
         array( 'id' => $entry_id ),
         array( '%s' ),
@@ -141,10 +141,10 @@ function wpuf_cf_change_entry_status( $entry_id, $status ) {
  *
  * @return int|boolean
  */
-function wpuf_cf_delete_entry( $entry_id ) {
+function weforms_delete_entry( $entry_id ) {
     global $wpdb;
 
-    return $wpdb->delete( $wpdb->wpuf_cf_entries, array( 'id' => $entry_id ), array( '%d' ) );
+    return $wpdb->delete( $wpdb->weforms_entries, array( 'id' => $entry_id ), array( '%d' ) );
 }
 
 /**
@@ -157,8 +157,8 @@ function wpuf_cf_delete_entry( $entry_id ) {
  *                           Default false.
  * @return int|false Meta ID on success, false on failure.
  */
-function wpuf_cf_add_entry_meta( $entry_id, $meta_key, $meta_value, $unique = false ) {
-    return add_metadata( 'wpuf_cf_entry', $entry_id, $meta_key, $meta_value, $unique);
+function weforms_add_entry_meta( $entry_id, $meta_key, $meta_value, $unique = false ) {
+    return add_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $unique);
 }
 
 /**
@@ -171,8 +171,8 @@ function wpuf_cf_add_entry_meta( $entry_id, $meta_key, $meta_value, $unique = fa
  * @return mixed Will be an array if $single is false. Will be value of meta data
  *               field if $single is true.
  */
-function wpuf_cf_get_entry_meta( $entry_id, $key = '', $single = false ) {
-    return get_metadata( 'wpuf_cf_entry', $entry_id, $key, $single );
+function weforms_get_entry_meta( $entry_id, $key = '', $single = false ) {
+    return get_metadata( 'weforms_entry', $entry_id, $key, $single );
 }
 
 /**
@@ -191,8 +191,8 @@ function wpuf_cf_get_entry_meta( $entry_id, $key = '', $single = false ) {
  * @return int|bool Meta ID if the key didn't exist, true on successful update,
  *                  false on failure.
  */
-function wpuf_cf_update_entry_meta( $entry_id, $meta_key, $meta_value, $prev_value = '' ) {
-    return update_metadata( 'wpuf_cf_entry', $entry_id, $meta_key, $meta_value, $prev_value);
+function weforms_update_entry_meta( $entry_id, $meta_key, $meta_value, $prev_value = '' ) {
+    return update_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $prev_value);
 }
 
 /**
@@ -201,8 +201,8 @@ function wpuf_cf_update_entry_meta( $entry_id, $meta_key, $meta_value, $prev_val
  * @param string $entry_meta_key Key to search for when deleting.
  * @return bool Whether the entry meta key was deleted from the database.
  */
-function wpuf_cf_delete_entry_meta_by_key( $meta_key ) {
-    return delete_metadata( 'wpuf_cf_entry', null, $meta_key, '', true );
+function weforms_delete_entry_meta_by_key( $meta_key ) {
+    return delete_metadata( 'weforms_entry', null, $meta_key, '', true );
 }
 
 /**
@@ -216,10 +216,10 @@ function wpuf_cf_delete_entry_meta_by_key( $meta_key ) {
  * @param int $entry_id Optional.
  * @return array entry meta for the given entry.
  */
-function wpuf_cf_get_entry_custom( $entry_id = 0 ) {
+function weforms_get_entry_custom( $entry_id = 0 ) {
     $entry_id = absint( $entry_id );
 
-    return wpuf_cf_get_entry_meta( $entry_id );
+    return weforms_get_entry_meta( $entry_id );
 }
 
 /**
@@ -230,8 +230,8 @@ function wpuf_cf_get_entry_custom( $entry_id = 0 ) {
  * @param int $entry_id Optional.
  * @return array|void Array of the keys, if retrieved.
  */
-function wpuf_cf_get_entry_custom_keys( $entry_id = 0 ) {
-    $custom = wpuf_cf_get_entry_custom( $entry_id );
+function weforms_get_entry_custom_keys( $entry_id = 0 ) {
+    $custom = weforms_get_entry_custom( $entry_id );
 
     if ( !is_array( $custom ) ) {
         return false;
@@ -249,10 +249,10 @@ function wpuf_cf_get_entry_custom_keys( $entry_id = 0 ) {
  *
  * @return int
  */
-function wpuf_cf_count_form_entries( $form_id, $status = 'publish' ) {
+function weforms_count_form_entries( $form_id, $status = 'publish' ) {
     global $wpdb;
 
-    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->wpuf_cf_entries . ' WHERE form_id = %d AND status = %s', $form_id, $status ) );
+    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->weforms_entries . ' WHERE form_id = %d AND status = %s', $form_id, $status ) );
 }
 
 /**
@@ -264,7 +264,7 @@ function wpuf_cf_count_form_entries( $form_id, $status = 'publish' ) {
  *
  * @return array
  */
-function wpuf_cf_get_entry_columns( $form_id, $limit = 6 ) {
+function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     $fields  = wpuf_get_form_fields( $form_id );
 
     // filter by input types
@@ -293,7 +293,7 @@ function wpuf_cf_get_entry_columns( $form_id, $limit = 6 ) {
  *
  * @return array
  */
-function wpuf_cf_get_form_field_labels( $form_id ) {
+function weforms_get_form_field_labels( $form_id ) {
     $fields  = wpuf_get_form_fields( $form_id );
 
     if ( ! $fields ) {
@@ -322,7 +322,7 @@ function wpuf_cf_get_form_field_labels( $form_id ) {
  *
  * @return string
  */
-function wpuf_cf_format_text( $content ) {
+function weforms_format_text( $content ) {
     $content = wptexturize( $content );
     $content = convert_smilies( $content );
     $content = wpautop( $content );
@@ -336,7 +336,7 @@ function wpuf_cf_format_text( $content ) {
  *
  * @return array
  */
-function wpuf_cf_get_browser() {
+function weforms_get_browser() {
     $u_agent  = $_SERVER['HTTP_USER_AGENT'];
     $bname    = 'Unknown';
     $platform = 'Unknown';
@@ -421,7 +421,7 @@ function wpuf_cf_get_browser() {
  *
  * @return array
  */
-function wpuf_cf_get_merge_tags() {
+function weforms_get_merge_tags() {
     $tags = array(
         'form' => array(
             'title' => __( 'Form', 'weforms' ),
@@ -475,21 +475,21 @@ function wpuf_cf_get_merge_tags() {
  *
  * @return void
  */
-function wpuf_cf_track_form_view( $form_id ) {
+function weforms_track_form_view( $form_id ) {
     // don't track administrators
     if ( current_user_can( 'administrator' ) ) {
         return;
     }
 
     // ability to turn this off if someone doesn't like this tracking
-    $is_enabled = apply_filters( 'wpuf_cf_track_form_view', true );
+    $is_enabled = apply_filters( 'weforms_track_form_view', true );
 
     if ( !$is_enabled ) {
         return;
     }
 
     // increase the count
-    $meta_key = '_wpuf_cf_view_count';
+    $meta_key = '_weforms_view_count';
     $number   = (int) get_post_meta( $form_id, $meta_key, true );
 
     update_post_meta( $form_id, $meta_key, ( $number + 1 ) );
@@ -502,6 +502,6 @@ function wpuf_cf_track_form_view( $form_id ) {
  *
  * @return int
  */
-function wpuf_cf_get_form_views( $form_id ) {
-    return (int) get_post_meta( $form_id, '_wpuf_cf_view_count', true );
+function weforms_get_form_views( $form_id ) {
+    return (int) get_post_meta( $form_id, '_weforms_view_count', true );
 }

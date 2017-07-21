@@ -3,7 +3,7 @@
 /**
  * The admin page handler class
  */
-class WPUF_Contact_Form_Admin {
+class WeForms_Admin {
 
     public function __construct() {
 
@@ -94,7 +94,7 @@ class WPUF_Contact_Form_Admin {
      */
     public function load_assets() {
         require_once dirname( __FILE__ ) . '/class-form-builder-assets.php';
-        new WPUF_Contact_Form_Builder_Assets();
+        new WeForms_Form_Builder_Assets();
     }
 
     /**
@@ -153,9 +153,9 @@ class WPUF_Contact_Form_Admin {
         }
 
         $entry_array   = [];
-        $columns       = wpuf_cf_get_entry_columns( $form_id, false );
-        $total_entries = wpuf_cf_count_form_entries( $form_id );
-        $entries       = wpuf_cf_get_form_entries( $form_id, array(
+        $columns       = weforms_get_entry_columns( $form_id, false );
+        $total_entries = weforms_count_form_entries( $form_id );
+        $entries       = weforms_get_form_entries( $form_id, array(
             'number'       => $total_entries,
             'offset'       => 0
         ) );
@@ -184,7 +184,7 @@ class WPUF_Contact_Form_Admin {
                         break;
 
                     default:
-                        $value              = wpuf_cf_get_entry_meta( $entry->id, $column_id, true );
+                        $value              = weforms_get_entry_meta( $entry->id, $column_id, true );
                         $temp[ $column_id ] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
                         break;
                 }

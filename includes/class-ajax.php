@@ -87,8 +87,8 @@ class WeForms_Ajax {
         $contact_forms = $forms->get_posts();
 
         array_map( function($form) {
-            $form->entries = wpuf_cf_count_form_entries( $form->ID );
-            $form->views   = wpuf_cf_get_form_views( $form->ID );
+            $form->entries = weforms_count_form_entries( $form->ID );
+            $form->views   = weforms_get_form_views( $form->ID );
         }, $contact_forms);
 
         // var_dump( $forms->get_posts() );
@@ -244,20 +244,20 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No form id provided!', 'weforms' ) );
         }
 
-        $entries = wpuf_cf_get_form_entries( $form_id, array(
+        $entries = weforms_get_form_entries( $form_id, array(
             'number' => $per_page,
             'offset' => $offset
         ) );
 
-        $columns       = wpuf_cf_get_entry_columns( $form_id );
-        $total_entries = wpuf_cf_count_form_entries( $form_id );
+        $columns       = weforms_get_entry_columns( $form_id );
+        $total_entries = weforms_count_form_entries( $form_id );
 
         array_map( function( $entry ) use ($columns) {
             $entry_id = $entry->id;
             $entry->fields = array();
 
             foreach ($columns as $meta_key => $label) {
-                $value                    = wpuf_cf_get_entry_meta( $entry_id, $meta_key, true );
+                $value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
                 $entry->fields[$meta_key] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
             }
         }, $entries );
@@ -288,14 +288,14 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
-        $entry    = wpuf_cf_get_entry( $entry_id );
+        $entry    = weforms_get_entry( $entry_id );
 
         if ( !$entry ) {
             wp_send_json_error( __( 'No such entry found!', 'weforms' ) );
         }
 
         $data   = array();
-        $fields = wpuf_cf_get_form_field_labels( $entry->form_id );
+        $fields = weforms_get_form_field_labels( $entry->form_id );
         $info   = array(
             'form_title' => get_post_field( 'post_title', $entry->form_id ),
             'created'    => date_i18n( 'F j, Y g:i a', strtotime( $entry->created_at ) ),
@@ -310,10 +310,10 @@ class WeForms_Ajax {
         }
 
         foreach ($fields as $meta_key => $field ) {
-            $value = wpuf_cf_get_entry_meta( $entry_id, $meta_key, true );
+            $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
 
             if ( $field['type'] == 'textarea' ) {
-                $data[ $meta_key ] = wpuf_cf_format_text( $value );
+                $data[ $meta_key ] = weforms_format_text( $value );
             } elseif( $field['type'] == 'name' ) {
                 $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
             } else {
@@ -342,7 +342,7 @@ class WeForms_Ajax {
 
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
 
-        wpuf_cf_change_entry_status( $entry_id, 'trash' );
+        weforms_change_entry_status( $entry_id, 'trash' );
         wp_send_json_success();
     }
 
@@ -363,7 +363,7 @@ class WeForms_Ajax {
         }
 
         foreach ($entry_ids as $entry_id) {
-            wpuf_cf_change_entry_status( $entry_id, 'trash' );
+            weforms_change_entry_status( $entry_id, 'trash' );
         }
 
         wp_send_json_success();
@@ -395,7 +395,7 @@ class WeForms_Ajax {
         // process the form fields
         $entry_fields = $this->prepare_entry_fields( $meta_vars );
 
-        $entry_id = wpuf_cf_insert_entry( array(
+        $entry_id = weforms_insert_entry( array(
             'form_id' => $form_id
         ), $entry_fields );
 

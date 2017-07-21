@@ -3,7 +3,7 @@
 /**
  * The frontend form class
  */
-class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
+class WeForms_Frontend extends WPUF_Render_Form {
 
     public function __construct() {
         add_shortcode( 'best_contact_form', array( $this, 'render_shortcode' ) );
@@ -57,7 +57,7 @@ class WPUF_Contact_Form_Frontend extends WPUF_Render_Form {
         </form>
 
         <?php
-        wpuf_cf_track_form_view( $form_id );
+        weforms_track_form_view( $form_id );
     }
 
     function submit_button( $form_id, $form_settings, $post_id ) {
