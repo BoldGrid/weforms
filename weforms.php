@@ -8,7 +8,7 @@
  * Version: 1.0
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: best-contact-form
+ * Text Domain: weforms
  * Domain Path: /languages
  */
 
@@ -307,7 +307,7 @@ final class WeForms {
                             self.removeClass('install-now updating-message');
                             self.text('<?php echo esc_js( 'Installed', 'weforms' ); ?>');
 
-                            window.location.href = '<?php echo admin_url( 'admin.php?page=wpuf-contact-forms' ); ?>';
+                            window.location.href = '<?php echo admin_url( 'admin.php?page=weforms' ); ?>';
                         }
                     });
                 });
@@ -353,7 +353,7 @@ final class WeForms {
     public function install_wp_user_frontend() {
 
         if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpuf-installer-nonce' ) ) {
-            wp_send_json_error( __( 'Error: Nonce verification failed', 'wpuf-pro' ) );
+            wp_send_json_error( __( 'Error: Nonce verification failed', 'weforms' ) );
         }
 
         include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -387,7 +387,7 @@ final class WeForms {
      */
     function plugin_action_links( $links ) {
 
-        $links[] = '<a href="' . admin_url( 'admin.php?page=best-contact-forms' ) . '">Settings</a>';
+        $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
         return $links;
     }
