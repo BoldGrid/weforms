@@ -24,7 +24,7 @@
     "Vuex": false,
     "swal": false,
     "toastr": false,
-    "wpufContactForm": true,
+    "weForms": true,
     "wpuf_form_builder": false,
     "wpuf_form_builder_mixins": false,
     "wpuf_mixins": false,

@@ -15,6 +15,10 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
         add_action( 'wp_ajax_weforms_form_duplicate', array( $this, 'duplicate_form' ) );
 
+        // form settings
+        add_action( 'wp_ajax_weforms_save_settings', array( $this, 'save_settings' ) );
+        add_action( 'wp_ajax_weforms_get_settings', array( $this, 'get_settings' ) );
+
         // import
         add_action( 'wp_ajax_weforms_import_form', array( $this, 'import_form' ) );
 
@@ -223,6 +227,40 @@ class WeForms_Ajax {
         $form->views   = 0;
 
         wp_send_json_success( $form );
+    }
+
+    /**
+     * Save the weForms settings
+     *
+     * @return void
+     */
+    public function save_settings() {
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $settings = (array) json_decode( wp_unslash( $_POST['settings'] ) );
+
+        update_option( 'weforms_settings', $settings );
+
+        do_action( 'weforms_save_settings', $settings );
+
+        wp_send_json_success( $settings );
+    }
+
+    /**
+     * Get the weForms Settings
+     *
+     * @return void
+     */
+    public function get_settings() {
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $settings = get_option( 'weforms_settings', array() );
+
+        wp_send_json_success( $settings );
     }
 
     /**

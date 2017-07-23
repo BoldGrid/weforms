@@ -12,7 +12,7 @@ Vue.component( 'wpuf-table', {
             columns: [],
             items: [],
             ajaxAction: this.action,
-            nonce: wpufContactForm.nonce,
+            nonce: weForms.nonce,
             index: 'id',
             bulkDeleteAction: 'weforms_form_entry_trash_bulk'
         };
@@ -38,7 +38,7 @@ Vue.component( 'wpuf-table', {
                 data: {
                     id: self.id,
                     page: self.currentPage,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     self.loading = false;

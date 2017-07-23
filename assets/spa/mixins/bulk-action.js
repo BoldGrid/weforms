@@ -36,7 +36,7 @@ var BulkActionMixin = {
             wp.ajax.send( self.bulkDeleteAction, {
                 data: {
                     ids: this.checkedItems,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     self.checkedItems = [];

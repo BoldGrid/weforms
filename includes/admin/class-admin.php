@@ -72,14 +72,19 @@ class WeForms_Admin {
 
         $capability = wpuf_admin_role();
 
-        $hook = add_menu_page( __( 'weFroms - The Best Contact Form', 'weforms' ), __( 'weForms', 'weforms' ), $capability, 'weforms', array( $this, 'contact_form_page'), 'data:image/svg+xml;base64,' . base64_encode( '<svg viewBox="0 0 110 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Page-1" stroke="none" stroke-width="1" fill="#9ea3a8" fill-rule="evenodd"><g id="logo" fill="#9ea3a8"><g id="Shape"><path d="M101.16,-8.8817842e-16 L57.5,-8.8817842e-16 L57.5,16.69 L109.17,16.69 L109.17,8 C109.170002,5.87653433 108.325774,3.8401861 106.82332,2.33960728 C105.320865,0.839028462 103.283464,-0.00265433208 101.16,-8.8817842e-16 Z" fill-rule="nonzero"></path><polygon fill-rule="nonzero" points="57.5 24.21 57.5 40.9 57.5 63.27 74.53 63.27 74.53 40.9 79.45 40.9 98.73 40.9 98.73 24.21 79.45 24.21 74.53 24.21"></polygon><path d="M3.75,16.69 C1.2859816,21.287726 -0.00228984973,26.4236348 2.62234667e-15,31.64 C-4.1933494e-07,40.0305305 3.33380912,48.0772606 9.26774777,54.0093238 C15.2016864,59.941387 23.2494699,63.2726527 31.64,63.27 L50.92,63.27 L50.92,46.58 L31.64,46.58 C26.302452,46.5800001 21.3703543,43.7324522 18.7015803,39.1100001 C16.0328063,34.4875479 16.0328063,28.7924521 18.7015803,24.1699999 C21.3703543,19.5475478 26.302452,16.6999999 31.64,16.7 L50.92,16.7 L50.92,1.18248108e-15 L31.64,1.18248108e-15 C19.9773109,-0.00395864835 9.25871213,6.41029065 3.75,16.69 Z" fill-rule="nonzero"></path></g></g></g></svg>' ), 56 );
+        $hook = add_menu_page( __( 'weFroms - The Best Contact Form', 'weforms' ), 'weForms', $capability, 'weforms', array( $this, 'contact_form_page'), 'data:image/svg+xml;base64,' . base64_encode( '<svg viewBox="0 0 110 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Page-1" stroke="none" stroke-width="1" fill="#9ea3a8" fill-rule="evenodd"><g id="logo" fill="#9ea3a8"><g id="Shape"><path d="M101.16,-8.8817842e-16 L57.5,-8.8817842e-16 L57.5,16.69 L109.17,16.69 L109.17,8 C109.170002,5.87653433 108.325774,3.8401861 106.82332,2.33960728 C105.320865,0.839028462 103.283464,-0.00265433208 101.16,-8.8817842e-16 Z" fill-rule="nonzero"></path><polygon fill-rule="nonzero" points="57.5 24.21 57.5 40.9 57.5 63.27 74.53 63.27 74.53 40.9 79.45 40.9 98.73 40.9 98.73 24.21 79.45 24.21 74.53 24.21"></polygon><path d="M3.75,16.69 C1.2859816,21.287726 -0.00228984973,26.4236348 2.62234667e-15,31.64 C-4.1933494e-07,40.0305305 3.33380912,48.0772606 9.26774777,54.0093238 C15.2016864,59.941387 23.2494699,63.2726527 31.64,63.27 L50.92,63.27 L50.92,46.58 L31.64,46.58 C26.302452,46.5800001 21.3703543,43.7324522 18.7015803,39.1100001 C16.0328063,34.4875479 16.0328063,28.7924521 18.7015803,24.1699999 C21.3703543,19.5475478 26.302452,16.6999999 31.64,16.7 L50.92,16.7 L50.92,1.18248108e-15 L31.64,1.18248108e-15 C19.9773109,-0.00395864835 9.25871213,6.41029065 3.75,16.69 Z" fill-rule="nonzero"></path></g></g></g></svg>' ), 56 );
 
         if ( current_user_can( $capability ) ) {
             $submenu['weforms'][] = array( __( 'Contact Forms', 'weforms' ), $capability, 'admin.php?page=weforms#/' );
             $submenu['weforms'][] = array( __( 'Tools', 'weforms' ), $capability, 'admin.php?page=weforms#/tools' );
-            $submenu['weforms'][] = array( __( 'Add-ons', 'weforms' ), $capability, 'admin.php?page=weforms#/extensions' );
 
-            do_action( 'bcf-admin-menu', $hook );
+            if ( class_exists( 'WeForms_Pro' ) ) {
+                $submenu['weforms'][] = array( __( 'Modules', 'weforms' ), $capability, 'admin.php?page=weforms#/modules' );
+            } else {
+                $submenu['weforms'][] = array( __( 'Premium', 'weforms' ), $capability, 'admin.php?page=weforms#/premium' );
+            }
+
+            do_action( 'weforms-admin-menu', $hook );
 
             $submenu['weforms'][] = array( __( 'Settings', 'weforms' ), $capability, 'admin.php?page=weforms#/settings' );
         }

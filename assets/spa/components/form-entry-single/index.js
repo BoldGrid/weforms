@@ -28,7 +28,7 @@ const FormEntriesSingle = {
             wp.ajax.send( 'weforms_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     // console.log(response);
@@ -45,14 +45,14 @@ const FormEntriesSingle = {
         trashEntry: function() {
             var self = this;
 
-            if ( !confirm( wpufContactForm.confirm ) ) {
+            if ( !confirm( weForms.confirm ) ) {
                 return;
             }
 
             wp.ajax.send( 'weforms_form_entry_trash', {
                 data: {
                     entry_id: self.$route.params.entryid,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
 
                 success: function() {

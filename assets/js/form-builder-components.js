@@ -88,7 +88,7 @@ Vue.component('wpuf-template-modal', {
             wp.ajax.send( 'weforms_contact_form_template', {
                 data: {
                     template: form,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
 
                 success: function(response) {

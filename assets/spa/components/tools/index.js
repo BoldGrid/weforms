@@ -44,7 +44,7 @@ const Tools = {
 
             wp.ajax.send( 'weforms_form_names', {
                 data: {
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     // console.log(response);
@@ -68,7 +68,7 @@ const Tools = {
 
             formData.append( fieldName, fileList[0], fileList[0].name);
             formData.append( 'action', 'weforms_import_form' );
-            formData.append( '_wpnonce', wpufContactForm.nonce );
+            formData.append( '_wpnonce', weForms.nonce );
 
             self.currentStatus = 1;
 

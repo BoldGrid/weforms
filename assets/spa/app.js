@@ -274,9 +274,19 @@ const routes = [
         component: Tools
     },
     {
-        path: '/extensions',
-        name: 'addons',
-        component: Addons
+        path: '/premium',
+        name: 'premium',
+        component: Premium
+    },
+    {
+        path: '/modules',
+        name: 'modules',
+        component: Modules
+    },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: Settings
     },
 ];
 

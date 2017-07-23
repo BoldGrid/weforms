@@ -119,7 +119,7 @@ var FormEditComponent = {
             wp.ajax.send( 'weforms_get_form', {
                 data: {
                     form_id: this.$route.params.id,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
 

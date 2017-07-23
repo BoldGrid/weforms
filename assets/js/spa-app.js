@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.0
-Generated: 2017-07-21 (1500619632643)
+Generated: 2017-07-23 (1500809011215)
 */
 
 ;(function($) {
@@ -43,7 +43,7 @@ var BulkActionMixin = {
             wp.ajax.send( self.bulkDeleteAction, {
                 data: {
                     ids: this.checkedItems,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     self.checkedItems = [];
@@ -140,10 +140,6 @@ var TabsMixin = {
     }
 };
 
-/* ./assets/spa/components/addons/index.js */
-const Addons = {
-    template: '#tmpl-wpuf-addons'
-};
 /* ./assets/spa/components/component-table/index.js */
 Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
@@ -159,7 +155,7 @@ Vue.component( 'wpuf-table', {
             columns: [],
             items: [],
             ajaxAction: this.action,
-            nonce: wpufContactForm.nonce,
+            nonce: weForms.nonce,
             index: 'id',
             bulkDeleteAction: 'weforms_form_entry_trash_bulk'
         };
@@ -185,7 +181,7 @@ Vue.component( 'wpuf-table', {
                 data: {
                     id: self.id,
                     page: self.currentPage,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     self.loading = false;
@@ -346,7 +342,7 @@ var FormEditComponent = {
             wp.ajax.send( 'weforms_get_form', {
                 data: {
                     form_id: this.$route.params.id,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
 
@@ -465,7 +461,7 @@ const FormEntriesSingle = {
             wp.ajax.send( 'weforms_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     // console.log(response);
@@ -482,14 +478,14 @@ const FormEntriesSingle = {
         trashEntry: function() {
             var self = this;
 
-            if ( !confirm( wpufContactForm.confirm ) ) {
+            if ( !confirm( weForms.confirm ) ) {
                 return;
             }
 
             wp.ajax.send( 'weforms_form_entry_trash', {
                 data: {
                     entry_id: self.$route.params.entryid,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
 
                 success: function() {
@@ -531,7 +527,7 @@ Vue.component('form-list-table', {
 
             wp.ajax.send( 'weforms_form_list', {
                 data: {
-                    _wpnonce: wpufContactForm.nonce,
+                    _wpnonce: weForms.nonce,
                     page: self.currentPage,
                 },
                 success: function(response) {
@@ -556,7 +552,7 @@ Vue.component('form-list-table', {
                 wp.ajax.send( 'weforms_form_delete', {
                     data: {
                         form_id: this.items[index].ID,
-                        _wpnonce: wpufContactForm.nonce
+                        _wpnonce: weForms.nonce
                     },
                     success: function(response) {
                         self.items.splice(index, 1);
@@ -578,7 +574,7 @@ Vue.component('form-list-table', {
             wp.ajax.send( 'weforms_form_duplicate', {
                 data: {
                     form_id: form_id,
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     self.items.splice(0, 0, response);
@@ -678,7 +674,7 @@ const Tools = {
 
             wp.ajax.send( 'weforms_form_names', {
                 data: {
-                    _wpnonce: wpufContactForm.nonce
+                    _wpnonce: weForms.nonce
                 },
                 success: function(response) {
                     // console.log(response);
@@ -702,7 +698,7 @@ const Tools = {
 
             formData.append( fieldName, fileList[0], fileList[0].name);
             formData.append( 'action', 'weforms_import_form' );
-            formData.append( '_wpnonce', wpufContactForm.nonce );
+            formData.append( '_wpnonce', weForms.nonce );
 
             self.currentStatus = 1;
 
@@ -740,6 +736,185 @@ const Tools = {
     }
 };
 
+/* ./assets/spa/components/weforms-modules/index.js */
+const Modules = {
+    template: '#tmpl-wpuf-weforms-modules',
+    mixins: [LoadingMixin],
+    data: function() {
+        return {
+            requesting: false,
+            loading: false,
+            modules: {
+                all: {},
+                active: []
+            }
+        };
+    },
+
+    created: function() {
+        this.fetchModules();
+    },
+
+    methods: {
+
+        isActive: function( module ) {
+            return _.contains( this.modules.active, module );
+        },
+
+        activateModule: function(module) {
+            if ( !this.isActive(module) ) {
+                this.modules.active.push(module);
+            }
+        },
+
+        deactivateModule: function(module) {
+            console.log(this.modules.active );
+
+            if ( this.isActive(module) ) {
+                this.modules.active.splice( this.modules.active.indexOf(module), 1 );
+            }
+        },
+
+        fetchModules: function() {
+            var self = this;
+
+            self.loading = true;
+
+            wp.ajax.send( 'weforms_get_modules', {
+                data: {
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+                    self.modules = response;
+                },
+
+                complete: function() {
+                    self.loading = false;
+                }
+            });
+        },
+
+        toggleModule: function(module) {
+            var self = this;
+            var state = this.isActive(module) ? 'deactivate' : 'activate';
+
+            // if we are already making a call
+            if (self.requesting) {
+                return;
+            }
+
+            self.requesting = true;
+            self.loading    = true;
+
+            wp.ajax.send( 'weforms_toggle_modules', {
+                data: {
+                    type: state,
+                    module: module,
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+
+                    if ( state === 'activate' ) {
+                        self.activateModule(module);
+                    } else {
+                        self.deactivateModule(module);
+                    }
+
+                    toastr.options.timeOut = 1000;
+                    toastr.success( response );
+                },
+
+                complete: function() {
+                    self.requesting = false;
+                    self.loading    = false;
+                }
+            });
+        }
+    }
+};
+/* ./assets/spa/components/weforms-premium/index.js */
+const Premium = {
+    template: '#tmpl-wpuf-weforms-premium'
+};
+/* ./assets/spa/components/weforms-settings/index.js */
+const Settings = {
+    template: '#tmpl-wpuf-weforms-settings',
+    mixins: [LoadingMixin],
+    data: function() {
+        return {
+            loading: false,
+            settings: {
+                email_gateway: 'wordpress',
+                gateways: {
+                    sendgrid: '',
+                    mailgun: '',
+                    sparkpost: ''
+                },
+                recaptcha: {
+                    type: 'v2',
+                    key: '',
+                    secret: ''
+                }
+            }
+        };
+    },
+
+    created: function() {
+        this.fetchSettings();
+    },
+
+    methods: {
+
+        fetchSettings: function() {
+            var self = this;
+
+            self.loading = true;
+
+            wp.ajax.send('weforms_get_settings', {
+                data: {
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+                    self.settings = response;
+                },
+
+                complete: function() {
+                    self.loading = false;
+                }
+            });
+        },
+
+        saveSettings: function(target) {
+            var self = this;
+
+            $(target).addClass('updating-message');
+
+            wp.ajax.send('weforms_save_settings', {
+                data: {
+                    settings: JSON.stringify(self.settings),
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+                    toastr.options.timeOut = 1000;
+                    toastr.success( 'Settings has been updated' );
+                },
+
+                error: function(error) {
+                    console.log(error);
+                },
+
+                complete: function() {
+                    $(target).removeClass('updating-message');
+                }
+            });
+
+        }
+    }
+};
 /* ./assets/spa/app.js */
 if (!Array.prototype.hasOwnProperty('swap')) {
     Array.prototype.swap = function (from, to) {
@@ -1017,9 +1192,19 @@ const routes = [
         component: Tools
     },
     {
-        path: '/extensions',
-        name: 'addons',
-        component: Addons
+        path: '/premium',
+        name: 'premium',
+        component: Premium
+    },
+    {
+        path: '/modules',
+        name: 'modules',
+        component: Modules
+    },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: Settings
     },
 ];
 

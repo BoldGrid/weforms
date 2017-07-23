@@ -1,90 +1,3 @@
-<script type="text/x-template" id="tmpl-wpuf-addons">
-<div class="wrap bcf-extension-list">
-    <h2><?php _e( 'Best Contact Form - Add-Ons', 'wpuf' ); ?></h2>
-
-    <?php
-    $add_ons = get_transient( 'wpuf_addons' );
-
-    if ( false === $add_ons ) {
-        $response = wp_remote_get( 'https://wedevs.com/api/wpuf/addons.php', array('timeout' => 15) );
-        $update   = wp_remote_retrieve_body( $response );
-
-        if ( is_wp_error( $response ) || $response['response']['code'] != 200 ) {
-            return false;
-        }
-
-        set_transient( 'wpuf_addons', $update, 12 * HOUR_IN_SECONDS );
-        $add_ons = $update;
-    }
-
-    $add_ons = json_decode( $add_ons );
-
-    if ( count( $add_ons ) ) {
-        ?>
-        <div class="wp-list-table widefat plugin-install">
-
-        <?php foreach ($add_ons as $addon) { ?>
-
-            <div class="plugin-card">
-                <div class="plugin-card-top">
-
-                    <div class="name column-name">
-                        <h3>
-                            <a href="<?php echo $addon->url; ?>" target="_blank">
-                                <?php echo $addon->title; ?>
-                                <img class="plugin-icon" src="<?php echo $addon->thumbnail; ?>" alt="<?php echo esc_attr( $addon->title ); ?>" />
-                            </a>
-                        </h3>
-                    </div>
-
-                    <div class="action-links">
-                        <ul class="plugin-action-buttons">
-                            <li>
-                                <?php if ( class_exists( $addon->class ) ) { ?>
-                                    <a class="button button-disabled" href="<?php echo $addon->url; ?>" target="_blank">Installed</a>
-                                <?php } else { ?>
-                                    <a class="button" href="<?php echo $addon->url; ?>" target="_blank">View Details</a>
-                                <?php } ?>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="desc column-description">
-                        <p>
-                            <?php echo $addon->desc; ?>
-                        </p>
-
-                        <p class="authors">
-                            <cite>By <a href="https://wedevs.com" target="_blank">weDevs</a></cite>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="plugin-card-bottom">
-                    <div class="column-updated">
-                        <strong>Last Updated:</strong> 2 months ago
-                    </div>
-
-                    <div class="column-compatibility">
-                        <span class="compatibility-compatible">
-                            <strong>Compatible</strong> with your version of WordPress
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-        <?php } ?>
-
-        </div>
-
-        <?php
-    } else {
-        echo '<div class="error"><p>Error fetching add-ons. Please refresh the page again.</p></div>';
-    }
-    ?>
-
-</div></script>
-
 <script type="text/x-template" id="tmpl-wpuf-component-table">
 <div>
 
@@ -643,6 +556,122 @@
                 <input type="file" name="importFile" v-on:change="importForm( $event.target.name, $event.target.files, $event )" accept="application/json" />
                 <button type="submit" :class="['button', isSaving ? 'updating-message' : '']" disabled="disabled">{{ importButton }}</button>
             </form>
+        </div>
+    </div>
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-weforms-modules">
+<div class="weforms-modules">
+    <h1><?php _e( 'Modules', 'weforms' ); ?></h1>
+
+    <?php do_action( 'weforms_modules' ); ?>
+
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-weforms-premium">
+<div class="wrap bcf-extension-list">
+    <h2><?php _e( 'weForms Premium', 'weforms' ); ?></h2>
+
+    <p>Upgrade to weForms premium to unlock features</p>
+
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-weforms-settings">
+<div class="weforms-settings">
+    <h1><?php _e( 'Settings', 'weforms' ); ?></h1>
+
+    <div class="postboxes metabox-holder two-col">
+        <div class="postbox">
+            <h3 class="hndle"><?php _e( 'Email', 'weforms' ); ?></h3>
+
+            <!-- sendgrid: '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',
+            mailgun: 'key-255d1503f37e6c521d4a55e93e420b19', -->
+
+            <div class="inside">
+                <p class="help">
+                    <?php _e( 'For better email deliverability choose a email provider that will ensure the email reaches your inbox, as well as reducing your server load.', 'weforms' ); ?>
+                </p>
+
+                <table class="form-table">
+                    <tr>
+                        <th><?php _e( 'Send Email Via', 'weforms' ); ?></th>
+                        <td>
+                            <select v-model="settings.email_gateway">
+                                <option value="wordpress"><?php _e( 'WordPress', 'weforms' ); ?></option>
+                                <option value="sendgrid"><?php _e( 'SendGrid', 'weforms' ); ?></option>
+                                <option value="mailgun"><?php _e( 'Mailgun', 'weforms' ); ?></option>
+                                <option value="sparkpost"><?php _e( 'SparkPost', 'weforms' ); ?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr v-if="settings.email_gateway == 'sendgrid'">
+                        <th><?php _e( 'SendGrid API Key', 'weforms' ); ?></th>
+                        <td>
+                            <input type="text" v-model="settings.gateways.sendgrid" class="regular-text">
+
+                            <p class="description"><?php printf( __( 'Fill your SendGrid <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sendgrid.com/settings/api_keys' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr v-if="settings.email_gateway == 'mailgun'">
+                        <th><?php _e( 'Mailgun API Key', 'weforms' ); ?></th>
+                        <td>
+                            <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
+
+                            <p class="description"><?php printf( __( 'Fill your Mailgun <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.mailgun.com/app/account/security' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr v-if="settings.email_gateway == 'sparkpost'">
+                        <th><?php _e( 'SparkPost API Key', 'weforms' ); ?></th>
+                        <td>
+                            <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
+
+                            <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <p class="submit-wrapper">
+                <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
+            </p>
+        </div>
+
+        <div class="postbox">
+            <h3 class="hndle"><?php _e( 'reCaptcha', 'weforms' ); ?></h3>
+
+            <div class="inside">
+                <p class="help">
+                    <?php printf( __( '<a href="%s" target="_blank">reCAPTCHA</a> is a free anti-spam service from Google which helps to protect your website from spam and abuse. Get <a href="%s" target="_blank">your API Keys</a>.', 'weforms' ), 'https://www.google.com/recaptcha/intro/', 'https://www.google.com/recaptcha/admin#list' ); ?>
+                </p>
+
+                <table class="form-table">
+                    <tr>
+                        <th><?php _e( 'reCAPTCHA Type', 'weforms' ); ?></th>
+                        <td>
+                            <select v-model="settings.recaptcha.type">
+                                <option value="v2"><?php _e( 'v2 reCAPTCHA', 'weforms' ); ?></option>
+                                <option value="invisible"><?php _e( 'Invisible reCAPTCHA', 'weforms' ); ?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e( 'Site key', 'weforms' ); ?></th>
+                        <td>
+                            <input type="text" v-model="settings.recaptcha.key" class="regular-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e( 'Secret key', 'weforms' ); ?></th>
+                        <td>
+                            <input type="text" v-model="settings.recaptcha.secret" class="regular-text">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <p class="submit-wrapper">
+                <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
+            </p>
         </div>
     </div>
 </div></script>
