@@ -509,9 +509,12 @@ function weforms_get_form_views( $form_id ) {
 /**
  * Get the weForms global settings
  *
- * @return array|mixed
+ * @param string $key
+ * @param mixed $default
+ *
+ * @return mixed
  */
-function weforms_get_settings( $key = '' ) {
+function weforms_get_settings( $key = '', $default = '' ) {
     $settings = get_option( 'weforms_settings', array() );
 
     if ( empty( $key ) ) {
@@ -522,5 +525,5 @@ function weforms_get_settings( $key = '' ) {
         return $settings[ $key ];
     }
 
-    return '';
+    return $default;
 }

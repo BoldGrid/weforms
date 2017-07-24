@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.0
-Generated: 2017-07-24 (1500871689297)
+Generated: 2017-07-24 (1500889332045)
 */
 
 ;(function($) {
@@ -231,7 +231,7 @@ var FormEditComponent = {
             is_form_switcher: false,
             post_title_editing: false,
             loading: false,
-            activeTab: 'integration',
+            activeTab: 'editor',
             activeSettingsTab: 'form',
         };
     },

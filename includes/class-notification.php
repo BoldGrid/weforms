@@ -53,9 +53,15 @@ class WeForms_Notification {
         $headers = array();
 
         $to          = $this->replace_tags( $notification['to'] );
+
         $subject     = $this->replace_tags( $notification['subject'] );
+        $subject     = $this->replace_name_tag( $subject );
+
         $message     = $this->replace_tags( $notification['message'] );
+        $message     = $this->replace_name_tag( $message );
         $message     = $this->replace_all_fields( $message );
+        $message     = wpautop( $message );
+
         $fromName    = $this->replace_tags( $notification['fromName'] );
         $fromAddress = $this->replace_tags( $notification['fromAddress'] );
         $replyTo     = $this->replace_tags( $notification['replyTo'] );
@@ -78,11 +84,11 @@ class WeForms_Notification {
             $headers[] = sprintf( 'Reply-To: %s', $replyTo );
         }
 
-        // var_dump( $notification );
-        // var_dump( $to, $subject, $message, $headers );
-        // var_dump( '====================================' );
+        // content type to text/html
+        $headers[]  = 'Content-Type: text/html; charset=UTF-8';
+        $email_body = apply_filters( 'weforms_email_message', $this->get_formatted_body( $message ), $notification['message'], $headers );
 
-        wp_mail( $to, $subject, $message, $headers );
+        wp_mail( $to, $subject, $email_body, $headers );
     }
 
     /**
@@ -104,6 +110,54 @@ class WeForms_Notification {
         }
 
         return false;
+    }
+
+    /**
+     * Get formatted HTML email
+     *
+     * @param  string $message
+     *
+     * @return string
+     */
+    public function get_formatted_body( $message ) {
+        $css    = '';
+        $header = apply_filters( 'weforms_email_header', '' );
+        $footer = apply_filters( 'weforms_email_footer', '' );
+
+        if ( empty( $header ) ) {
+            ob_start();
+            include WEFORMS_INCLUDES . '/emails/common/header.php';
+            $header = ob_get_clean();
+        }
+
+        if ( empty( $footer ) ) {
+            ob_start();
+            include WEFORMS_INCLUDES . '/emails/common/footer.php';
+            $footer = ob_get_clean();
+        }
+
+        ob_start();
+        include WEFORMS_INCLUDES . '/emails/common/styles.php';
+        $css = apply_filters( 'weforms_email_styles', ob_get_clean() );
+
+        $content = $header . $message . $footer;
+
+        if ( ! class_exists( 'Emogrifier' ) ) {
+            require_once WEFORMS_INCLUDES . '/library/Emogrifier.php';
+        }
+
+        try {
+
+            // apply CSS styles inline for picky email clients
+            $emogrifier = new Emogrifier( $content, $css );
+            $content = $emogrifier->emogrify();
+
+        } catch ( Exception $e ) {
+
+            echo $e->getMessage();
+        }
+
+        return $content;
     }
 
     /**
@@ -207,7 +261,7 @@ class WeForms_Notification {
                 break;
 
             case 'url_referer':
-                return $_SERVER['REFERRER'];
+                return $_SERVER['HTTP_REFERER'];
                 break;
 
             case 'url_login':
@@ -227,7 +281,7 @@ class WeForms_Notification {
                 break;
 
             default:
-                return apply_filters( 'wpuf_cf_merge_tag_value', '', $tag, $this->args );
+                return apply_filters( 'weforms_merge_tag_value', '', $tag, $this->args );
                 break;
         }
     }
@@ -252,6 +306,52 @@ class WeForms_Notification {
         foreach ($matches[1] as $index => $meta_key) {
             $meta_value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key, true );
             $text       = str_replace( $matches[0][$index], $meta_value, $text );
+        }
+
+        return $text;
+    }
+
+    /**
+     * Replace name tag with required value
+     *
+     * @param  string $text
+     *
+     * @return string
+     */
+    public function replace_name_tag( $text ) {
+        $pattern = '/{name-(full|first|middle|last):(\w*)}/';
+
+        preg_match_all( $pattern, $text, $matches );
+
+        // bail out if nothing found to be replaced
+        if ( !$matches ) {
+            return $text;
+        }
+
+        list( $search, $fields, $meta_key ) = $matches;
+
+        $meta_value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key[0], true );
+        $replace    = explode( WPUF_Render_Form::$separator, $meta_value );
+
+        foreach ($search as $index => $search_key) {
+
+            if ( 'first' == $fields[ $index ] ) {
+
+                $text = str_replace( $search_key, $replace[0], $text );
+
+            } elseif ( 'middle' == $fields[ $index ] ) {
+
+                $text = str_replace( $search_key, $replace[1], $text );
+
+            } elseif ( 'last' == $fields[ $index ] ) {
+
+                $text = str_replace( $search_key, $replace[2], $text );
+
+            } else {
+
+                $text = str_replace( $search_key, implode(' ', $replace ), $text );
+            }
+
         }
 
         return $text;
@@ -315,8 +415,14 @@ class WeForms_Notification {
         foreach ($fields as $meta_key => $field ) {
             $value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key, true );
 
+            if ( empty( $value ) ) {
+                $value = '&mdash;';
+            }
+
             if ( $field['type'] == 'textarea' ) {
                 $data[ $meta_key ] = weforms_format_text( $value );
+            } elseif( $field['type'] == 'name' ) {
+                $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
             } else {
                 $data[ $meta_key ] = $value;
             }
@@ -327,10 +433,10 @@ class WeForms_Notification {
 
                 foreach ($data as $key => $value) {
                     $table .= '<tr class="field-label">';
-                        $table .= '<th width="600"><strong>' . $fields[$key]['label'] . '</strong></th>';
+                        $table .= '<th><strong>' . $fields[$key]['label'] . '</strong></th>';
                     $table .= '</tr>';
                     $table .= '<tr class="field-value">';
-                        $table .= '<td width="600">';
+                        $table .= '<td>';
                             $table .= $value;
                         $table .= '</td>';
                     $table .= '</tr>';

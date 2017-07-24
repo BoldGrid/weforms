@@ -114,6 +114,8 @@ class WeForms_Frontend extends WPUF_Render_Form {
                             <label class="wpuf-form-sub-label"><?php _e( 'Middle', 'weforms' ); ?></label>
                         <?php endif; ?>
                     </div>
+                <?php else: ?>
+                    <input type="hidden" name="<?php echo $form_field['name'] ?>[middle]" value="">
                 <?php endif; ?>
 
                 <div class="wpuf-name-field-last-name">
