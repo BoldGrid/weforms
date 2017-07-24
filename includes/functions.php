@@ -505,3 +505,22 @@ function weforms_track_form_view( $form_id ) {
 function weforms_get_form_views( $form_id ) {
     return (int) get_post_meta( $form_id, '_weforms_view_count', true );
 }
+
+/**
+ * Get the weForms global settings
+ *
+ * @return array|mixed
+ */
+function weforms_get_settings( $key = '' ) {
+    $settings = get_option( 'weforms_settings', array() );
+
+    if ( empty( $key ) ) {
+        return $settings;
+    }
+
+    if ( isset( $settings[ $key ] ) ) {
+        return $settings[ $key ];
+    }
+
+    return '';
+}

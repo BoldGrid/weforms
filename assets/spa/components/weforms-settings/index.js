@@ -20,6 +20,13 @@ const Settings = {
         };
     },
 
+    computed: {
+
+        is_pro: function() {
+            return 'true' === weForms.is_pro;
+        }
+    },
+
     created: function() {
         this.fetchSettings();
     },

@@ -5,9 +5,6 @@
         <div class="postbox">
             <h3 class="hndle"><?php _e( 'Email', 'weforms' ); ?></h3>
 
-            <!-- sendgrid: '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',
-            mailgun: 'key-255d1503f37e6c521d4a55e93e420b19', -->
-
             <div class="inside">
                 <p class="help">
                     <?php _e( 'For better email deliverability choose a email provider that will ensure the email reaches your inbox, as well as reducing your server load.', 'weforms' ); ?>
@@ -19,9 +16,9 @@
                         <td>
                             <select v-model="settings.email_gateway">
                                 <option value="wordpress"><?php _e( 'WordPress', 'weforms' ); ?></option>
-                                <option value="sendgrid"><?php _e( 'SendGrid', 'weforms' ); ?></option>
-                                <option value="mailgun"><?php _e( 'Mailgun', 'weforms' ); ?></option>
-                                <option value="sparkpost"><?php _e( 'SparkPost', 'weforms' ); ?></option>
+                                <option value="sendgrid" :disabled="is_pro ? false : true"><?php _e( 'SendGrid', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
+                                <option value="mailgun" :disabled="is_pro ? false : true"><?php _e( 'Mailgun', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
+                                <option value="sparkpost" :disabled="is_pro ? false : true"><?php _e( 'SparkPost', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
                             </select>
                         </td>
                     </tr>
@@ -52,9 +49,9 @@
                 </table>
             </div>
 
-            <p class="submit-wrapper">
+            <div class="submit-wrapper">
                 <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
-            </p>
+            </div>
         </div>
 
         <div class="postbox">
@@ -90,9 +87,11 @@
                 </table>
             </div>
 
-            <p class="submit-wrapper">
+            <div class="submit-wrapper">
                 <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
-            </p>
+            </div>
         </div>
+
+        <?php do_action( 'weforms_settings' ); ?>
     </div>
 </div>

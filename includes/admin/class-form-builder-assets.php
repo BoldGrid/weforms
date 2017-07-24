@@ -128,7 +128,8 @@ class WeForms_Form_Builder_Assets {
         wp_enqueue_script( 'wpuf-cf-spa', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
         wp_localize_script( 'wpuf-cf-spa', 'weForms', array(
             'nonce'   => wp_create_nonce( 'weforms' ),
-            'confirm' => __( 'Are you sure?', 'weforms' )
+            'confirm' => __( 'Are you sure?', 'weforms' ),
+            'is_pro'  => class_exists( 'WeForms_Pro' ) ? 'true' : 'false'
         ) );
     }
 

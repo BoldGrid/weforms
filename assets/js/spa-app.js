@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.0
-Generated: 2017-07-23 (1500809011215)
+Generated: 2017-07-24 (1500871689297)
 */
 
 ;(function($) {
@@ -859,6 +859,13 @@ const Settings = {
                 }
             }
         };
+    },
+
+    computed: {
+
+        is_pro: function() {
+            return 'true' === weForms.is_pro;
+        }
     },
 
     created: function() {

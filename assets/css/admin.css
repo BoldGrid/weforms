@@ -59,22 +59,29 @@ table.wpuf-contact-form th {
 .wpuf-contact-form-entry-wrap .button .dashicons {
   margin-top: 4px;
 }
+.postboxes.two-col {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
 .postboxes.two-col .postbox {
-  width: 49%;
+  width: 48%;
+  display: flex;
+  flex-direction: column;
 }
-.postboxes.two-col .postbox:first-child {
-  float: left;
+.postboxes.two-col .postbox:nth-child(2n+1) {
+  margin-right: 3%;
 }
-.postboxes.two-col .postbox:last-child {
-  float: right;
+.postboxes.two-col .postbox:nth-child(2n+2) {
+  margin-right: 0;
 }
-.postboxes.two-col p.submit-wrapper {
+.postboxes.two-col .submit-wrapper {
+  margin-top: auto;
   text-align: right;
   padding-right: 10px;
   border-top: 1px solid #eee;
   padding-top: 10px;
   background: #fafafa;
-  margin-bottom: 0;
   padding-bottom: 10px;
 }
 .export-import-wrap select.forms-list {
