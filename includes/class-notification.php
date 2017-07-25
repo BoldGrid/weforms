@@ -55,10 +55,10 @@ class WeForms_Notification {
         $to          = $this->replace_tags( $notification['to'] );
 
         $subject     = $this->replace_tags( $notification['subject'] );
-        $subject     = $this->replace_name_tag( $subject );
+        $subject     = static::replace_name_tag( $subject, $this->args['entry_id'] );
 
         $message     = $this->replace_tags( $notification['message'] );
-        $message     = $this->replace_name_tag( $message );
+        $message     = static::replace_name_tag( $message, $this->args['entry_id'] );
         $message     = $this->replace_all_fields( $message );
         $message     = wpautop( $message );
 
@@ -293,7 +293,7 @@ class WeForms_Notification {
      *
      * @return string
      */
-    public function replace_field_tags( $text ) {
+    public static function replace_field_tags( $text, $entry_id ) {
         $pattern = '/{field:(\w*)}/';
 
         preg_match_all( $pattern, $text, $matches );
@@ -304,7 +304,7 @@ class WeForms_Notification {
         }
 
         foreach ($matches[1] as $index => $meta_key) {
-            $meta_value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key, true );
+            $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
             $text       = str_replace( $matches[0][$index], $meta_value, $text );
         }
 
@@ -318,19 +318,19 @@ class WeForms_Notification {
      *
      * @return string
      */
-    public function replace_name_tag( $text ) {
+    public static function replace_name_tag( $text, $entry_id ) {
         $pattern = '/{name-(full|first|middle|last):(\w*)}/';
 
         preg_match_all( $pattern, $text, $matches );
 
         // bail out if nothing found to be replaced
-        if ( !$matches ) {
+        if ( !$matches[0] ) {
             return $text;
         }
 
         list( $search, $fields, $meta_key ) = $matches;
 
-        $meta_value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key[0], true );
+        $meta_value = weforms_get_entry_meta( $entry_id, $meta_key[0], true );
         $replace    = explode( WPUF_Render_Form::$separator, $meta_value );
 
         foreach ($search as $index => $search_key) {
@@ -386,7 +386,7 @@ class WeForms_Notification {
         $merge_values = array_values( $this->merge_tags );
 
         $text         = str_replace( $merge_keys, $merge_values, $text );
-        $text         = $this->replace_field_tags( $text );
+        $text         = static::replace_field_tags( $text, $this->args['entry_id'] );
 
         return $text;
     }
