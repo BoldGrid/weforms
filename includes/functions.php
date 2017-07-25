@@ -61,11 +61,19 @@ function weforms_get_form_entries( $form_id, $args = array() ) {
 function weforms_get_entry( $entry_id ) {
     global $wpdb;
 
-    $query = 'SELECT id, form_id, user_id, user_device, referer, INET_NTOA( user_ip ) as ip_address, created_at
+    $cache_key = 'weforms-entry-' . $entry_id;
+    $entry     = wp_cache_get( $cache_key, 'weforms' );
+
+    if ( false === $entry ) {
+        $query = 'SELECT id, form_id, user_id, user_device, referer, INET_NTOA( user_ip ) as ip_address, created_at
              FROM ' . $wpdb->weforms_entries . '
              WHERE id = %d';
 
-    return $wpdb->get_row( $wpdb->prepare( $query, $entry_id ) );
+        $entry = $wpdb->get_row( $wpdb->prepare( $query, $entry_id ) );
+        wp_cache_set( $cache_key, $entry );
+    }
+
+    return $entry;
 }
 
 /**
@@ -313,6 +321,41 @@ function weforms_get_form_field_labels( $form_id ) {
     }
 
     return $data;
+}
+
+/**
+ * Get data from an entry
+ *
+ * @param  int $entry_id
+ * @param  int $form_id
+ *
+ * @return false|array
+ */
+function weforms_get_entry_data( $entry_id ) {
+    $data   = array();
+    $entry  = weforms_get_entry( $entry_id );
+    $fields = weforms_get_form_field_labels( $entry->form_id );
+
+    if ( ! $fields ) {
+        return false;
+    }
+
+    foreach ($fields as $meta_key => $field ) {
+        $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+
+        if ( $field['type'] == 'textarea' ) {
+            $data[ $meta_key ] = weforms_format_text( $value );
+        } elseif( $field['type'] == 'name' ) {
+            $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
+        } else {
+            $data[ $meta_key ] = $value;
+        }
+    }
+
+    return array(
+        'fields' => $fields,
+        'data'   => $data
+    );
 }
 
 /**

@@ -332,8 +332,6 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No such entry found!', 'weforms' ) );
         }
 
-        $data   = array();
-        $fields = weforms_get_form_field_labels( $entry->form_id );
         $info   = array(
             'form_title' => get_post_field( 'post_title', $entry->form_id ),
             'created'    => date_i18n( 'F j, Y g:i a', strtotime( $entry->created_at ) ),
@@ -343,25 +341,15 @@ class WeForms_Ajax {
             'device'     => $entry->user_device
         );
 
-        if ( ! $fields ) {
+        $data = weforms_get_entry_data( $entry_id );
+
+        if ( false === $data ) {
             wp_send_json_error( __( 'No form fields found!', 'weforms' ) );
         }
 
-        foreach ($fields as $meta_key => $field ) {
-            $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
-
-            if ( $field['type'] == 'textarea' ) {
-                $data[ $meta_key ] = weforms_format_text( $value );
-            } elseif( $field['type'] == 'name' ) {
-                $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
-            } else {
-                $data[ $meta_key ] = $value;
-            }
-        }
-
         $response = array(
-            'form_fields' => $fields,
-            'meta_data'   => $data,
+            'form_fields' => $data['fields'],
+            'meta_data'   => $data['data'],
             'info'        => $info
         );
 
