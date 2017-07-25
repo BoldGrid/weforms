@@ -93,7 +93,7 @@ class WeForms_Form_Builder_Assets {
             'i18n'                => $this->i18n(),
             'panel_sections'      => $this->get_panel_sections(),
             'field_settings'      => WPUF_Form_Builder_Field_Settings::get_field_settings(),
-            'pro_link'            => WPUF_Pro_Prompt::get_pro_url(),
+            'pro_link'            => self::get_pro_url(),
             'site_url'            => site_url('/'),
             'defaultNotification' => array(
                 'active'      => 'true',
@@ -131,6 +131,15 @@ class WeForms_Form_Builder_Assets {
             'confirm' => __( 'Are you sure?', 'weforms' ),
             'is_pro'  => class_exists( 'WeForms_Pro' ) ? 'true' : 'false'
         ) );
+    }
+
+    /**
+     * The pro url
+     *
+     * @return string
+     */
+    public static function get_pro_url() {
+        return 'https://wedevs.com/weforms/pricing/?utm_source=freeplugin&utm_medium=prompt&utm_term=weforms_free_plugin&utm_content=textlink&utm_campaign=pro_prompt';
     }
 
     /**
