@@ -6,7 +6,7 @@
 class WeForms_Frontend extends WPUF_Render_Form {
 
     public function __construct() {
-        add_shortcode( 'best_contact_form', array( $this, 'render_shortcode' ) );
+        add_shortcode( 'weforms', array( $this, 'render_shortcode' ) );
     }
 
     /**
