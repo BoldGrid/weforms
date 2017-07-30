@@ -421,12 +421,13 @@ final class WeForms {
         $requires_update = false;
         $settings        = get_option( 'weforms_settings', array() );
         $additional_keys = array(
-            'email_gateway', 'recaptcha' => array( 'type' => '', 'key' => '', 'secret' => '' )
+            'email_gateway' => 'wordpress',
+            'recaptcha'     => array( 'type' => 'v2', 'key' => '', 'secret' => '' )
         );
 
-        foreach ($additional_keys as $key) {
+        foreach ($additional_keys as $key => $value) {
             if ( ! isset( $settings[ $key ] ) ) {
-                $settings[ $key ] = '';
+                $settings[ $key ] = $value;
 
                 $requires_update = true;
             }
