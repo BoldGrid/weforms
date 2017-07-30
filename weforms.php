@@ -263,7 +263,7 @@ final class WeForms {
     public function core_activation_notice() {
         ?>
         <div class="updated" id="wpuf-contact-form-installer-notice" style="padding: 1em; position: relative;">
-            <h2><?php _e( 'weFroms is almost ready!', 'weforms' ); ?></h2>
+            <h2><?php _e( 'weForms is almost ready!', 'weforms' ); ?></h2>
 
             <?php
                 $plugin_file      = basename( dirname( __FILE__ ) ) . '/contact-form.php';
