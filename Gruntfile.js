@@ -169,6 +169,7 @@ module.exports = function (grunt) {
                     '!.gitignore',
                     '!.gitmodules',
                     '!npm-debug.log',
+                    '!package-lock.json',
                     '!plugin-deploy.sh',
                     '!export.sh',
                     '!config.codekit',

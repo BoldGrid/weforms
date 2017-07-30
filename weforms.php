@@ -166,6 +166,9 @@ final class WeForms {
             dbDelta( $table );
         }
 
+        $this->maybe_set_default_settings();
+
+        update_option( 'weforms_installed', time() );
         update_option( 'weforms_version', WEFORMS_VERSION );
     }
 
@@ -405,6 +408,33 @@ final class WeForms {
         $integrations = array_merge( $integrations, array( 'WeForms_Integration_Slack' ) );
 
         return $integrations;
+    }
+
+    /**
+     * Set the required default settings key if not present
+     *
+     * This is required for setting up the component settings data
+     *
+     * @return void
+     */
+    public function maybe_set_default_settings() {
+        $requires_update = false;
+        $settings        = get_option( 'weforms_settings', array() );
+        $additional_keys = array(
+            'email_gateway', 'recaptcha' => array( 'type' => '', 'key' => '', 'secret' => '' )
+        );
+
+        foreach ($additional_keys as $key) {
+            if ( ! isset( $settings[ $key ] ) ) {
+                $settings[ $key ] = '';
+
+                $requires_update = true;
+            }
+        }
+
+        if ( $requires_update ) {
+            update_option( 'weforms_settings', $settings );
+        }
     }
 
 } // WeForms
