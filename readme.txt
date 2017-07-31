@@ -1,46 +1,106 @@
-=== Contact Form plugin for  ===
+=== weForms - Best Contact Form Plugin for WordPress ===
 Contributors: tareq1988, wedevs
 Donate link: https://tareq.co/donate/
-Tags: contact, form, contact-form,
-Requires at least: 3.0.1
-Tested up to: 4.7.4
+Tags: contact form, contact, form, forms, form-builder
+Requires at least: 4.4
+Tested up to: 4.8
 Stable tag: trunk
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A simple contact form for WordPress
+The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop live builder, submission listing, reCaptcha & more!
 
 == Description ==
 
-= Best Free Contact Form Plugin For WordPress =
+weForms is the easiest and fastest contact form plugin on WordPress. You can easily get started with weForms with its pre-built form templates. Creating forms is just one click away and everything is setup instantly, you don't need to even touch a single configuration.
 
-A contact form builder plugin leveraging the form builder of WP User Frontend
+= The Easiest & Fastest Contact Form Plugin on WordPress  =
+Quickly create rich contact forms to generate leads, taking feedbacks, onboarding visitors and flourishing your imagination! Comes with the best frontend post submission plugin for WordPress, WP User Frontend.
+
+
+= It’s Blazingly Fast! =
+weForms works on everything from a single page, so it is amazingly fast! From creating a form to configuring settings or viewing entries, everything feels real time. No delay - because your time is precious!
+
+= The Easiest WorkFlow Ever! =
+weForms has the most simplest and easiest user interface over a highly powerful feature set. Since contact forms are needed by everyone from a novice to an expert - it was our first priority to make the form creation, publishing and management easier than any other form builder.
+
+= Templates for Quick Action =
+Just one click and your entire form is ready to be deployed! Create industry standard forms quickly with our 4 predefined customizable templates to choose from. More templates coming soon!
+
+= Single Page Operation =
+Using Vue.js smartly, everything inside weForms actually load in a single page without reloading the page. Which is why, everything happens in an instant. We won’t be surprised if you mistake it for using from your local server.
+
+= Drag and Drop Form Builder with Live Preview =
+Design forms faster with our user friendly builder that lets you drag and drop form elements from the sidebar. Also, you will get instant preview of how your form will look as you build or edit. The form builder responds and updates automatically to all changes you make so that you exactly know what your form will look like. What else can make form building easier?
+
+= Mobile Responsive Forms =
+Create contact forms that work on any portable device! Many users wish that their forms looked better and were useable on mobile devices. No more losing potential submissions just because the device failed to render the form upon need. weForms optimizes all forms to look good on any device.
+
+= reCaptcha Support for Form Security =
+Block the nasty spammers by adding reCaptcha to your forms, one of the most accepted online spam detection tool from Google.
+Sync Email data with MailChimp, MailPoet & weMail
+Purchase the integration to directly import contacts received through your contact forms into your mail subscriber list. Start sending mails to your leads!
+
+= Customizable Email Notifications for Admins =
+Stay alert with every submission. Create multiple custom notification settings on each form with advanced mail forwarding and quickly create templates with hooks.
+
+= Form Entry Restrictions & Scheduling =
+Allow only a limited number of entries to be submitted or limit users to enforce control on your form. Very effective for creating exclusive campaigns.
+
+= Form Expiry Time (Live time) =
+Create forms that automatically disappear after the time you want. Pretty handy for program registration portals.
+
+= Form Redirection Page / Custom URL =
+When a contact completes the form, you can redirect with a custom link or a page to guide the contact to the desired landing page. Very useful when you want to direct the visitor's attention.
+
+= Anti Spam Protection =
+What happens when hackers target your contact forms with spam? Upgrade to pro to stop them. User Frontend is well equipped to defend you against spamming.
 
 
 == Installation ==
 
+This section describes how to install the plugin and get it working.
 
-1. Upload the plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
+e.g.
+
+1. Upload the plugin files to the `/wp-content/plugins/weforms` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
-
+1. Use the `weForms` -> `Settings` screen to configure the plugin
+1. (Make your instructions match the desired user flow for activating and installing your plugin. Include any steps that might be needed for explanatory purposes)
 
 == Frequently Asked Questions ==
 
-= Can I do 'X'? =
+= Can I Translate weForms =
 
-Yes, you can even build a spaceship
+Yes, you can customize the plugins language using poedit with the provided pot file.
+
+= Is weForms Responsive? =
+
+Contact form created by weForms is mobile responsive and looks beautiful in any device.
+
+= Are my forms protected from spam? =
+
+We have built-in integration with reCaptcha. So your forms are protected from the evil bots.
+
+= Can I set notifications on each form submission? =
+
+You can set as many email notifications as possible with weForms.
+
+= I am not technical, can I use weForms? =
+
+weForms is the most beginner friendly and fastest WordPress contact form plugin available and getting started is so easy!
+
 
 == Screenshots ==
 
-1. Coming here
+1. Nothing here right now
 
 == Changelog ==
 
-= 0.1 =
+= v1.0 =
 
- * Initial release
+Initial release
 
 == Upgrade Notice ==
 
-Nothing Here
-
+Nothing here right now
