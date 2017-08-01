@@ -1,11 +1,11 @@
 {
   "name": "weForms",
   "author": "weDevs",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "license": "GPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/weDevsOfficial/contact-form"
+    "url": "https://github.com/weDevsOfficial/weforms"
   },
   "dependencies": {},
   "devDependencies": {
