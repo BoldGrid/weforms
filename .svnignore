@@ -7,3 +7,7 @@ Gruntfile.js
 package.json
 README.md
 plugin-deploy.sh
+assets/components/*
+assets/spa
+assets/less
+.svnignore
