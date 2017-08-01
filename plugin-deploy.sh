@@ -42,7 +42,7 @@ cd $DEST_DIR
 # check .svnignore
 for file in $(cat "$SRC_DIR/.svnignore" 2>/dev/null)
 do
-    rm $file -rf
+    rm -rf $file
 done
 
 # Transform the readme

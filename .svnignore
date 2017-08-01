@@ -5,9 +5,10 @@
 .svnignore
 Gruntfile.js
 package.json
+package-lock.json
 README.md
 plugin-deploy.sh
-assets/components/*
+assets/components
 assets/spa
 assets/less
 .svnignore
