@@ -26,7 +26,7 @@ $text_lighter_20 = '#555555';
 #wrapper {
     background-color: <?php echo esc_attr( $bg ); ?>;
     margin: 0;
-    padding: 70px 0 20px 0;
+    padding: 40px 0 0 0;
     -webkit-text-size-adjust: none !important;
     width: 100%;
 }
@@ -96,7 +96,7 @@ $text_lighter_20 = '#555555';
 }
 
 #body_content table td {
-    padding: 40px 45px;
+    padding: 20px 20px;
 }
 
 #body_content table td td {
@@ -114,7 +114,7 @@ $text_lighter_20 = '#555555';
 #body_content_inner {
     color: <?php echo esc_attr( $text_lighter_20 ); ?>;
     font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 170%;
     text-align: <?php echo is_rtl() ? 'right' : 'left'; ?>;
 }
@@ -135,7 +135,7 @@ $text_lighter_20 = '#555555';
 }
 
 #body_content_inner tr.field-value td {
-    padding: 6px 12px 24px 12px;
+    padding: 6px 12px 12px 12px;
 }
 
 .link {
