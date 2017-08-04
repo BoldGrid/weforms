@@ -190,6 +190,7 @@ final class WeForms {
 
         if ( is_admin() ) {
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-cf7.php';
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
@@ -339,6 +340,7 @@ final class WeForms {
             new WeForms_Admin();
             new WeForms_Form_Template();
             new WeForms_Pro_Integrations();
+            new WeForms_CF7();
         } else {
             new WeForms_Frontend();
         }
