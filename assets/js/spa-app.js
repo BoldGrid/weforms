@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.0-beta.1
-Generated: 2017-08-02 (1501642190854)
+Generated: 2017-08-04 (1501863634086)
 */
 
 ;(function($) {

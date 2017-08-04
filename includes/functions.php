@@ -276,9 +276,12 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     $fields  = wpuf_get_form_fields( $form_id );
 
     // filter by input types
-    $fields = array_filter( $fields, function($item) {
-        return in_array( $item['input_type'], array( 'text', 'name' ) );
-    } );
+    if ( $limit ) {
+
+        $fields = array_filter( $fields, function($item) {
+            return in_array( $item['input_type'], array( 'text', 'name' ) );
+        } );
+    }
 
     if ( $fields ) {
         foreach ($fields as $field) {
