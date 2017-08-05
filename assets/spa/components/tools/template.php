@@ -49,7 +49,7 @@
                         </p>
 
                         <template v-if="!loading">
-                            <form action="admin-post.php?action=bcf_export_form_entries" method="post">
+                            <form action="admin-post.php?action=weforms_export_form_entries" method="post">
                                 <p>
                                     <select name="selected_forms" class="forms-list">
                                         <option value=""><?php _e( '&mdash; Select Form &mdash;', 'weforms' ); ?></option>

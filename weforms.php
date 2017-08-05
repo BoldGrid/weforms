@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.0.0-beta.1
+ * Version: 1.0.0-beta.2
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.0.0-beta.1';
+    public $version = '1.0.0-beta.2';
 
     /**
      * Constructor for the WeForms class
@@ -167,6 +167,7 @@ final class WeForms {
         }
 
         $this->maybe_set_default_settings();
+        $this->create_default_form();
 
         update_option( 'weforms_installed', time() );
         update_option( 'weforms_version', WEFORMS_VERSION );
@@ -190,6 +191,7 @@ final class WeForms {
 
         if ( is_admin() ) {
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-cf7.php';
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
@@ -339,6 +341,7 @@ final class WeForms {
             new WeForms_Admin();
             new WeForms_Form_Template();
             new WeForms_Pro_Integrations();
+            new WeForms_CF7();
         } else {
             new WeForms_Frontend();
         }
@@ -435,6 +438,57 @@ final class WeForms {
 
         if ( $requires_update ) {
             update_option( 'weforms_settings', $settings );
+        }
+    }
+
+    /**
+     * Create a default form
+     *
+     * @return void
+     */
+    public function create_default_form() {
+        $version = get_option( 'weforms_version' );
+
+        // seems like it's already installed
+        if ( $version ) {
+            return;
+        }
+
+        if ( ! function_exists( 'weforms_get_form_templates' ) ) {
+            require_once dirname( __FILE__ ) . '/includes/functions.php';
+        }
+
+        $templates = weforms_get_form_templates();
+        $template  = $templates['WPUF_Contact_Form_Template_Contact'];
+
+        $form_post_data = array(
+            'post_title'  => $template->get_title(),
+            'post_type'   => 'wpuf_contact_form',
+            'post_status' => 'publish',
+            'post_author' => get_current_user_id()
+        );
+
+        $form_id = wp_insert_post( $form_post_data );
+
+        if ( is_wp_error( $form_id ) ) {
+            return;
+        }
+
+        update_post_meta( $form_id, 'wpuf_form_settings', $template->get_form_settings() );
+        update_post_meta( $form_id, 'notifications', $template->get_form_notifications() );
+
+        $form_fields = $template->get_form_fields();
+
+        if ( $form_fields ) {
+            foreach ($form_fields as $menu_order => $field) {
+                wp_insert_post( array(
+                    'post_type'    => 'wpuf_input',
+                    'post_status'  => 'publish',
+                    'post_content' => maybe_serialize( $field ),
+                    'post_parent'  => $form_id,
+                    'menu_order'   => $menu_order
+                ) );
+            }
         }
     }
 

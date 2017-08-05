@@ -63,6 +63,7 @@ class WeForms_Notification {
         $message     = wpautop( $message );
 
         $fromName    = $this->replace_tags( $notification['fromName'] );
+        $fromName    = static::replace_name_tag( $fromName, $this->args['entry_id'] );
         $fromAddress = $this->replace_tags( $notification['fromAddress'] );
         $replyTo     = $this->replace_tags( $notification['replyTo'] );
         $cc          = $this->replace_tags( $notification['cc'] );

@@ -64,15 +64,6 @@
 
                 <table class="form-table">
                     <tr>
-                        <th><?php _e( 'reCAPTCHA Type', 'weforms' ); ?></th>
-                        <td>
-                            <select v-model="settings.recaptcha.type">
-                                <option value="v2"><?php _e( 'v2 reCAPTCHA', 'weforms' ); ?></option>
-                                <option value="invisible"><?php _e( 'Invisible reCAPTCHA', 'weforms' ); ?></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <th><?php _e( 'Site key', 'weforms' ); ?></th>
                         <td>
                             <input type="text" v-model="settings.recaptcha.key" class="regular-text">
