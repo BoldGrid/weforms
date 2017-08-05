@@ -97,7 +97,16 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
-= v1.0.0-beta.1 (1 August, 2017)=
+= v1.0.0-beta.2 (5 August, 2017) =
+
+ * [fix] Padding in email template. Looks better now.
+ * [fix] Support name in “From Name” email notification. Fixes #16
+ * [fix] Remove recaptcha “type” from settings page
+ * [fix] Other fields were not coming in export entries csv file
+ * [new] Import Contact form 7 forms into weForms 😎
+ * [new] Create a default form upon installation
+
+= v1.0.0-beta.1 (1 August, 2017) =
 
  * First beta version
 
