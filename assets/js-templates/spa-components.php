@@ -585,23 +585,23 @@
 
     <div class="feature-section two-col">
         <div class="col">
-            <h3>Image Widget</h3>
-            <p>Adding an image to a widget is now a simple task that is achievable for any WordPress user without needing to know code. Simply insert your image right within the widget settings. Try adding something like a headshot or a photo of your latest weekend adventure — and see it appear automatically.</p>
+            <h3>Advanced Fields</h3>
+            <p>Build any kind of form flexibly with the advanced field option.</p>
         </div>
 
         <div class="col">
-            <h3>Video Widget</h3>
-            <p>A welcome video is a great way to humanize the branding of your website. You can now add any video from the Media Library to a sidebar on your site with the new Video widget. Use this to showcase a welcome video to introduce visitors to your site or promote your latest and greatest content.</p>
+            <h3>Conditional Logic</h3>
+            <p>Configure your form’s settings and user flow based on conditional selection</p>
         </div>
 
         <div class="col">
-            <h3>Rich Text Widget</h3>
-            <p>This feature deserves a parade down the center of town! Rich-text editing capabilities are now native for Text widgets. Add a widget anywhere and format away. Create lists, add emphasis, and quickly and easily insert links. Have fun with your newfound formatting powers, and watch what you can accomplish in a short amount of time.</p>
+            <h3>Multi-step Form</h3>
+            <p>Break down the long forms into small and attractive multi step forms.</p>
         </div>
 
         <div class="col">
-            <h3>Audio Widget</h3>
-            <p>Are you a podcaster, musician, or avid blogger? Adding a widget with your audio file has never been easier. Upload your audio file to the Media Library, go to the widget settings, select your file, and you’re ready for listeners. This would be a easy way to add a more personal welcome message, too!</p>
+            <h3>File Uploaders</h3>
+            <p>Let the user upload any kind of file by filling up your contact form.</p>
         </div>
     </div>
 
@@ -613,22 +613,42 @@
         <div class="col">
             <img src="http://via.placeholder.com/240x160&text=MailChimp" alt="">
             <h3>MailChimp</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In officiis repellat ea molestias.</p>
+            <p>Add your desired contact form to your MailChimp email newsletter.</p>
         </div>
         <div class="col">
             <img src="http://via.placeholder.com/240x160&text=Campaign+Monitor" alt="">
             <h3>Campaign Monitor</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In officiis repellat ea molestias.</p>
+            <p>Lets you add submission form in your Campaign Monitor email campaigns too.</p>
         </div>
         <div class="col">
             <img src="http://via.placeholder.com/240x160&text=Constant+Contact" alt="">
             <h3>Constant Contact</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In officiis repellat ea molestias.</p>
+            <p>Integrate your contact forms seamlessly with your Constant Contact account.</p>
         </div>
         <div class="col">
             <img src="http://via.placeholder.com/240x160&text=MailPoet" alt="">
             <h3>MailPoet</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In officiis repellat ea molestias.</p>
+            <p>Why only MailChimp? Do the same for MailPoet email newsletter too!.</p>
+        </div>
+        <div class="col">
+            <img src="http://via.placeholder.com/240x160&text=SalesForce" alt="">
+            <h3>SalesForce</h3>
+            <p>Connect with SalesForce to use your valuable customer dataset in weForms.</p>
+        </div>
+        <div class="col">
+            <img src="http://via.placeholder.com/240x160&text=SalesForce" alt="">
+            <h3>AWeber</h3>
+            <p>Use customizable forms and create mailing list for AWber email solution.</p>
+        </div>
+        <div class="col">
+            <img src="http://via.placeholder.com/240x160&text=Get+Response" alt="">
+            <h3>Get Response</h3>
+            <p>Enjoy seamless integration of weForms with your Get Response account.</p>
+        </div>
+        <div class="col">
+            <img src="http://via.placeholder.com/240x160&text=SMS+Notification" alt="">
+            <h3>SMS Notification</h3>
+            <p>Get notified about any new form or submission through SMS.</p>
         </div>
     </div>
 

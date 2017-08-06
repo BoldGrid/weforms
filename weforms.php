@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.0.0-beta.2
+ * Version: 1.0.0-beta.3
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.0.0-beta.2';
+    public $version = '1.0.0-beta.3';
 
     /**
      * Constructor for the WeForms class
@@ -202,6 +202,7 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
+        require_once WEFORMS_INCLUDES . '/functions-template-contact-form.php';
     }
 
     /**
@@ -381,6 +382,10 @@ final class WeForms {
             wp_send_json_error( $result );
         }
 
+        // hide wpuf page creation notice and tracking
+        update_option( '_wpuf_page_created', '1' );
+        update_option( 'wp-user-frontend_tracking_notice', 'hide' );
+
         wp_send_json_success();
     }
 
@@ -454,15 +459,12 @@ final class WeForms {
             return;
         }
 
-        if ( ! function_exists( 'weforms_get_form_templates' ) ) {
-            require_once dirname( __FILE__ ) . '/includes/functions.php';
+        if ( ! function_exists( 'weforms_get_contactform_template_fields' ) ) {
+            require_once dirname( __FILE__ ) . '/includes/functions-template-contact-form.php';
         }
 
-        $templates = weforms_get_form_templates();
-        $template  = $templates['WPUF_Contact_Form_Template_Contact'];
-
         $form_post_data = array(
-            'post_title'  => $template->get_title(),
+            'post_title'  => __( 'Contact Form', 'weforms' ),
             'post_type'   => 'wpuf_contact_form',
             'post_status' => 'publish',
             'post_author' => get_current_user_id()
@@ -474,10 +476,10 @@ final class WeForms {
             return;
         }
 
-        update_post_meta( $form_id, 'wpuf_form_settings', $template->get_form_settings() );
-        update_post_meta( $form_id, 'notifications', $template->get_form_notifications() );
+        update_post_meta( $form_id, 'wpuf_form_settings', weforms_get_contactform_template_settings() );
+        update_post_meta( $form_id, 'notifications', weforms_get_contactform_template_notification() );
 
-        $form_fields = $template->get_form_fields();
+        $form_fields = weforms_get_contactform_template_fields();
 
         if ( $form_fields ) {
             foreach ($form_fields as $menu_order => $field) {
