@@ -4,7 +4,7 @@ Donate link: https://tareq.co/donate/
 Tags: contact form, contact, form, forms, form-builder
 Requires at least: 4.4
 Tested up to: 4.8
-Stable tag: trunk
+Stable tag: 1.0.0-beta.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
