@@ -97,6 +97,11 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
+= v1.0.0-beta.3 (6 August, 2017) =
+
+ * [fix] Fatal error on creating a new form
+ * [inhancement] Hide WPUF page installation and tracking prompt
+
 = v1.0.0-beta.2 (5 August, 2017) =
 
  * [fix] Padding in email template. Looks better now.
