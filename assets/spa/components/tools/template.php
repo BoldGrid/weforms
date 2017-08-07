@@ -21,7 +21,7 @@
                         </p>
 
                         <template v-if="!loading">
-                            <form action="admin-post.php?action=bcf_export_forms" method="post">
+                            <form action="admin-post.php?action=weforms_export_forms" method="post">
                                 <p><label><input v-model="exportType" type="radio" name="export_type" value="all" checked> <?php _e( 'All Forms', 'weforms' ); ?></label></p>
                                 <p><label><input v-model="exportType" type="radio" name="export_type" value="selected"> <?php _e( 'Selected Forms', 'weforms' ); ?></label></p>
                                 <p v-show="exportType == 'selected'">
