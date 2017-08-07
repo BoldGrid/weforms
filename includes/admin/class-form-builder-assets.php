@@ -89,6 +89,8 @@ class WeForms_Form_Builder_Assets {
         require_once WPUF_ROOT . '/admin/form-builder/class-wpuf-form-builder-field-settings.php';
         require_once WPUF_ROOT . '/includes/free/prompt.php';
 
+        $recaptcha = weforms_get_settings( 'recaptcha' );
+
         $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', array(
             'i18n'                => $this->i18n(),
             'panel_sections'      => $this->get_panel_sections(),
@@ -107,7 +109,9 @@ class WeForms_Form_Builder_Assets {
                 'cc'          => '',
                 'bcc'         => ''
             ),
-            'integrations' => apply_filters( 'weforms_form_builder_integrations', array() ),
+            'integrations'     => apply_filters( 'weforms_form_builder_integrations', array() ),
+            'recaptcha_site'   => isset( $recaptcha->key ) ? $recaptcha->key : '',
+            'recaptcha_secret' => isset( $recaptcha->secret ) ? $recaptcha->secret : '',
         ) );
 
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
@@ -312,7 +316,7 @@ class WeForms_Form_Builder_Assets {
      */
     private function get_others_fields() {
         $fields = apply_filters( 'wpuf-form-builder-fields-others-fields', array(
-            'section_break', 'custom_html'
+            'section_break', 'custom_html', 'recaptcha'
         ) );
 
         return array(
@@ -333,6 +337,12 @@ class WeForms_Form_Builder_Assets {
         require_once dirname( __FILE__ ) . '/class-builder-field-settings.php';
 
         $settings = array_merge( WeForms_Builder_Field_Settings::get_field_settings(), $settings );
+
+        // filter out recaptcha settings url in message
+        if ( isset( $settings['recaptcha'] ) ) {
+            $message = $settings['recaptcha']['validator']['msg'];
+            $settings['recaptcha']['validator']['msg'] = str_replace( 'admin.php?page=wpuf-settings', 'admin.php?page=weforms#/settings', $message );
+        }
 
         return $settings;
     }
