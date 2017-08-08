@@ -70,26 +70,29 @@ class WeForms_Notification {
         $bcc         = $this->replace_tags( $notification['bcc'] );
 
         if ( $fromName || $fromAddress ) {
-            $headers[] = sprintf( 'From: %s <%s>', $fromName, $fromAddress );
+            $headers['from'] = array(
+                'email' => $fromAddress,
+                'name' => $fromName
+            );
         }
 
         if ( $cc ) {
-            $headers[] = sprintf( 'CC: %s', $cc );
+            $headers['cc'] = $cc;
         }
 
         if ( $bcc ) {
-            $headers[] = sprintf( 'BCC: %s', $bcc );
+            $headers['bcc'] = $bcc;
         }
 
         if ( $replyTo ) {
-            $headers[] = sprintf( 'Reply-To: %s', $replyTo );
+            $headers['replyto'] = $replyTo;
         }
 
         // content type to text/html
         $headers[]  = 'Content-Type: text/html; charset=UTF-8';
         $email_body = apply_filters( 'weforms_email_message', $this->get_formatted_body( $message ), $notification['message'], $headers );
 
-        wp_mail( $to, $subject, $email_body, $headers );
+        weforms()->emailer->send( $to, $subject, $email_body, $headers );
     }
 
     /**
@@ -127,18 +130,18 @@ class WeForms_Notification {
 
         if ( empty( $header ) ) {
             ob_start();
-            include WEFORMS_INCLUDES . '/emails/common/header.php';
+            include WEFORMS_INCLUDES . '/email/template/header.php';
             $header = ob_get_clean();
         }
 
         if ( empty( $footer ) ) {
             ob_start();
-            include WEFORMS_INCLUDES . '/emails/common/footer.php';
+            include WEFORMS_INCLUDES . '/email/template/footer.php';
             $footer = ob_get_clean();
         }
 
         ob_start();
-        include WEFORMS_INCLUDES . '/emails/common/styles.php';
+        include WEFORMS_INCLUDES . '/email/template/styles.php';
         $css = apply_filters( 'weforms_email_styles', ob_get_clean() );
 
         $content = $header . $message . $footer;
