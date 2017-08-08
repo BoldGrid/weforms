@@ -694,7 +694,15 @@
                         </td>
                     </tr>
                     <tr v-if="settings.email_gateway == 'mailgun'">
-                        <th><?php _e( 'Mailgun API Key', 'weforms' ); ?></th>
+                        <th><?php _e( 'Domain Name', 'weforms' ); ?></th>
+                        <td>
+                            <input type="text" v-model="settings.gateways.mailgun_domain" class="regular-text">
+
+                            <p class="description"><?php _e( 'Your Mailgun domain name', 'weforms' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr v-if="settings.email_gateway == 'mailgun'">
+                        <th><?php _e( 'API Key', 'weforms' ); ?></th>
                         <td>
                             <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
 

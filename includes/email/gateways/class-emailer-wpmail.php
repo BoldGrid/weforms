@@ -19,7 +19,7 @@ class WeForms_Emailer_WPMail implements WeForms_Mailer_Contract {
         $_headers = array();
 
         if ( isset( $headers['from'] ) ) {
-            $_headers[] = sprintf( 'From: %s <%s>', $headers['from']['name'], $headers['from']['email'] );;
+            $_headers[] = sprintf( 'From: %s <%s>', $headers['from']['name'], $headers['from']['email'] );
         }
 
         if ( isset( $headers['cc'] ) ) {
