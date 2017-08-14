@@ -488,6 +488,12 @@ class WeForms_Ajax {
             }
         }
 
+        if ( $files ) {
+            foreach ( $files as $file_input ) {
+                $entry_fields[ $file_input['name'] ] = $file_input['value'];
+            }
+        }
+
         return $entry_fields;
     }
 

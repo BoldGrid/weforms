@@ -306,6 +306,7 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
  */
 function weforms_get_form_field_labels( $form_id ) {
     $fields  = wpuf_get_form_fields( $form_id );
+    $exclude = array( 'step_start', 'section_break', 'recaptcha', 'shortcode', 'action_hook' );
 
     if ( ! $fields ) {
         return false;
@@ -314,6 +315,11 @@ function weforms_get_form_field_labels( $form_id ) {
     $data = array();
     foreach ($fields as $field) {
         if ( empty( $field['name'] ) ) {
+            continue;
+        }
+
+        // exclude the fields
+        if ( in_array( $field['input_type'], $exclude ) ) {
             continue;
         }
 
@@ -347,9 +353,33 @@ function weforms_get_entry_data( $entry_id ) {
         $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
 
         if ( $field['type'] == 'textarea' ) {
+
             $data[ $meta_key ] = weforms_format_text( $value );
-        } elseif( $field['type'] == 'name' ) {
+
+        } elseif ( $field['type'] == 'name' ) {
+
             $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
+
+        } elseif ( in_array( $field['type'], array( 'image_upload', 'file_upload' ) ) ) {
+
+            $data[ $meta_key ] = '';
+
+            if ( is_array( $value ) && $value ) {
+
+                foreach ($value as $attachment_id) {
+
+                    if ( $field['type'] == 'image_upload' ) {
+                        $thumb = wp_get_attachment_image( $attachment_id, 'thumbnail' );
+                    } else {
+                        $thumb = get_post_field( 'post_title', $attachment_id );
+                    }
+
+                    $full_size = wp_get_attachment_url( $attachment_id );
+
+                    $data[ $meta_key ] .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
+                }
+            }
+
         } else {
             $data[ $meta_key ] = $value;
         }
