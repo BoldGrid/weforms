@@ -380,6 +380,12 @@ function weforms_get_entry_data( $entry_id ) {
                 }
             }
 
+        } elseif ( $field['type'] == 'map' ) {
+
+            list( $lat, $long ) = explode( ',', $value );
+
+            $data[ $meta_key ] = array( 'lat' => $lat, 'long' => $long );
+
         } else {
             $data[ $meta_key ] = $value;
         }
