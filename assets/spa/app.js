@@ -18,7 +18,7 @@ Vue.component('datepicker', {
     },
 
     methods: {
-        onClose(date) {
+        onClose: function(date) {
             this.$emit('input', date);
         }
     },
@@ -220,81 +220,47 @@ var wpuf_form_builder_store = new Vuex.Store({
     }
 });
 
-
 // 1. Define route components.
-const FormHome = { template: '<div><router-view class="child"></router-view></div>' };
-const SingleForm = { template: '#tmpl-wpuf-form-editor' };
-const FormEntriesHome = {
+weForms.routeComponents.FormHome = { template: '<div><router-view class="child"></router-view></div>' };
+weForms.routeComponents.SingleForm = { template: '#tmpl-wpuf-form-editor' };
+weForms.routeComponents.FormEntriesHome = {
     template: '<div><router-view class="grand-child"></router-view></div>',
 };
 
-// 2. Define some routes
-const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: Home
-    },
-    {
-        path: '/form/:id',
-        component: FormHome,
-        children: [
-            {
-                path: '',
-                name: 'form',
-                component: SingleForm
-            },
-            {
-                path: 'entries',
-                component: FormEntriesHome,
-                children: [
-                    {
-                        path: '',
-                        name: 'formEntries',
-                        component: FormEntries,
-                        props: true
-                    },
-                    {
-                        path: ':entryid',
-                        name: 'formEntriesSingle',
-                        component: FormEntriesSingle
-                    }
-                ]
-            },
-            {
-                path: 'edit',
-                name: 'edit',
-                component: FormEditComponent
+/**
+ * Parse the route array and bind required components
+ *
+ * This changes the weForms.routes array and changes the components
+ * so we can use weForms.routeComponents.{compontent} component.
+ *
+ * @param  {array} routes
+ *
+ * @return {void}
+ */
+function parseRouteComponent(routes) {
+
+    for (var i = 0; i < routes.length; i++) {
+        if ( typeof routes[i].children === 'object' ) {
+
+            parseRouteComponent( routes[i].children );
+
+            if ( typeof routes[i].component !== 'undefined' ) {
+                routes[i].component = weForms.routeComponents[ routes[i].component ];
             }
-        ]
-    },
-    {
-        path: '/tools',
-        name: 'tools',
-        component: Tools
-    },
-    {
-        path: '/premium',
-        name: 'premium',
-        component: Premium
-    },
-    {
-        path: '/modules',
-        name: 'modules',
-        component: Modules
-    },
-    {
-        path: '/settings',
-        name: 'settings',
-        component: Settings
-    },
-];
+
+        } else {
+            routes[i].component = weForms.routeComponents[ routes[i].component ];
+        }
+    }
+}
+
+// mutate the localized array
+parseRouteComponent(weForms.routes);
 
 // 3. Create the router instance and pass the `routes` option
-const router = new VueRouter({
-    // mode: 'history',
-    routes: routes,
-    scrollBehavior (to, from, savedPosition) {
+var router = new VueRouter({
+    routes: weForms.routes,
+    scrollBehavior: function (to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition
         } else {
@@ -303,8 +269,7 @@ const router = new VueRouter({
     }
 });
 
-// 4. Create and mount the root instance.
-const app = new Vue({
+var app = new Vue({
     router,
     store: wpuf_form_builder_store
 }).$mount('#wpuf-contact-form-app')

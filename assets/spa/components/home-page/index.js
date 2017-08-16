@@ -1,4 +1,4 @@
-const Home = {
+weForms.routeComponents.Home = {
     template: '#tmpl-wpuf-home-page',
 
     data: function() {

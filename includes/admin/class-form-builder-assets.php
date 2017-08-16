@@ -127,13 +127,17 @@ class WeForms_Form_Builder_Assets {
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_mixins', $wpuf_mixins );
 
         /**
-         * Contact form SPA scripts
+         * SPA scripts
          */
-        wp_enqueue_script( 'wpuf-cf-spa', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
-        wp_localize_script( 'wpuf-cf-spa', 'weForms', array(
-            'nonce'   => wp_create_nonce( 'weforms' ),
-            'confirm' => __( 'Are you sure?', 'weforms' ),
-            'is_pro'  => class_exists( 'WeForms_Pro' ) ? 'true' : 'false'
+        wp_enqueue_script( 'weforms-mixins', WEFORMS_ASSET_URI . '/js/spa-mixins.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
+        wp_enqueue_script( 'weforms-app', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
+        wp_localize_script( 'weforms-mixins', 'weForms', array(
+            'nonce'           => wp_create_nonce( 'weforms' ),
+            'confirm'         => __( 'Are you sure?', 'weforms' ),
+            'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
+            'routes'          => $this->get_vue_routes(),
+            'routeComponents' => array( 'default' => null ),
+            'mixins'          => array( 'default' => null )
         ) );
     }
 
@@ -144,6 +148,71 @@ class WeForms_Form_Builder_Assets {
      */
     public static function get_pro_url() {
         return 'https://wedevs.com/weforms/pricing/?utm_source=freeplugin&utm_medium=prompt&utm_term=weforms_free_plugin&utm_content=textlink&utm_campaign=pro_prompt';
+    }
+
+    /**
+     * SPA Routes
+     *
+     * @return array
+     */
+    public function get_vue_routes() {
+        $routes = array(
+            array(
+                'path'      => '/',
+                'name'      => 'home',
+                'component' => 'Home'
+            ),
+            array(
+                'path'      => '/form/:id',
+                'component' => 'FormHome',
+                'children'  => array(
+                    array(
+                        'path'      => '',
+                        'name'      => 'form',
+                        'component' => 'SingleForm'
+                    ),
+                    array(
+                        'path'      => 'entries',
+                        'component' => 'FormEntriesHome',
+                        'children'  => array(
+                            array(
+                                'path'      => '',
+                                'name'      => 'formEntries',
+                                'component' => 'FormEntries',
+                                'props'     => true
+                            ),
+                            array(
+                                'path'      => ':entryid',
+                                'name'      => 'formEntriesSingle',
+                                'component' => 'FormEntriesSingle'
+                            )
+                        )
+                    ),
+                    array(
+                        'path'      => 'edit',
+                        'name'      => 'edit',
+                        'component' => 'FormEditComponent'
+                    )
+                )
+            ),
+            array(
+                'path'      => '/tools',
+                'name'      => 'tools',
+                'component' => 'Tools'
+            ),
+            array(
+                'path'      => '/premium',
+                'name'      => 'premium',
+                'component' => 'Premium'
+            ),
+            array(
+                'path'      => '/settings',
+                'name'      => 'settings',
+                'component' => 'Settings'
+            ),
+        );
+
+        return apply_filters( 'weforms_vue_routes', $routes );
     }
 
     /**

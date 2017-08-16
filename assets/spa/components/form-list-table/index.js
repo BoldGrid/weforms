@@ -1,6 +1,6 @@
 Vue.component('form-list-table', {
     template: '#tmpl-wpuf-form-list-table',
-    mixins: [LoadingMixin, PaginateMixin, BulkActionMixin],
+    mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     data: function() {
         return {
             loading: false,

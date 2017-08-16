@@ -561,14 +561,6 @@
     </div>
 </div></script>
 
-<script type="text/x-template" id="tmpl-wpuf-weforms-modules">
-<div class="weforms-modules">
-    <h1><?php _e( 'Modules', 'weforms' ); ?></h1>
-
-    <?php do_action( 'weforms_modules' ); ?>
-
-</div></script>
-
 <script type="text/x-template" id="tmpl-wpuf-weforms-premium">
 <div class="wrap weforms-premium about-wrap">
     <h1><?php _e( 'weForms Pro', 'weforms' ); ?></h1>

@@ -1,4 +1,4 @@
-var BulkActionMixin = {
+weForms.mixins.BulkAction = {
     data: function() {
         return {
             bulkAction: '-1',
