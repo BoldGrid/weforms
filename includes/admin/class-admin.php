@@ -86,7 +86,7 @@ class WeForms_Admin {
                 $submenu['weforms'][] = array( __( 'Premium', 'weforms' ), $capability, 'admin.php?page=weforms#/premium' );
             }
 
-            do_action( 'weforms-admin-menu', $hook );
+            do_action( 'weforms-admin-menu', $hook, $capability );
 
             $submenu['weforms'][] = array( __( 'Settings', 'weforms' ), $capability, 'admin.php?page=weforms#/settings' );
         }
