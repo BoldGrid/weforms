@@ -41,6 +41,18 @@ class WeForms_Frontend extends WPUF_Render_Form {
      * @param $atts
      */
     function render_form( $form_id, $post_id = NULL, $preview = false ) {
+        $form_status   = get_post_status( $form_id );
+
+        if ( ! $form_status ) {
+            echo '<div class="wpuf-message">' . __( 'Your selected form is no longer available.', 'weforms' ) . '</div>';
+            return;
+        }
+
+        if ( $form_status != 'publish' ) {
+            echo '<div class="wpuf-message">' . __( "Please make sure you've published your form.", 'weforms' ) . '</div>';
+            return;
+        }
+
         $form_vars     = wpuf_get_form_fields( $form_id );
         $form_settings = wpuf_get_form_settings( $form_id );
         ?>
