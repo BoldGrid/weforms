@@ -3,8 +3,8 @@ Contributors: tareq1988, wedevs
 Donate link: https://tareq.co/donate/
 Tags: contact form, contact, form, forms, form-builder
 Requires at least: 4.4
-Tested up to: 4.8
-Stable tag: 1.0.0-beta.3
+Tested up to: 4.8.1
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,17 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 1. Nothing here right now
 
 == Changelog ==
+
+= v1.0.0 (19 August, 2017) =
+
+ * [new] Added reCaptcha support
+ * [new] Emailer class added for hookable email gateway support
+ * [new] Added support for google map in rendering entries
+ * [new] Added help page and premium contents
+ * [improved] Sync settings between weforms and wpuf map and recaptcha
+ * [improved] Routes moved to localize script, better hookability
+ * [fix] Form status checking in rendering
+ * [fix] Image and file upload and rendering issue fixed
 
 = v1.0.0-beta.3 (6 August, 2017) =
 
