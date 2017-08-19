@@ -76,7 +76,7 @@ module.exports = function (grunt) {
                     'assets/spa/**/*',
                 ],
                 tasks: [
-                    'concat:spa', 'concat:spaComponentTemplates', 'jshint:main'
+                    'concat:spa', 'concat:spaMixins', 'concat:spaComponentTemplates', 'jshint:main'
                 ]
             }
         },
@@ -87,7 +87,7 @@ module.exports = function (grunt) {
                 options: {
                     exclude: ['build/.*', 'node_modules/*', 'assets/*'],
                     domainPath: '/languages/',
-                    potFilename: 'best-contact-form.pot',
+                    potFilename: 'weforms.pot',
                     type: 'wp-plugin',
                     potHeaders: {
                         'report-msgid-bugs-to': 'https://wedevs.com/contact/',
@@ -124,6 +124,15 @@ module.exports = function (grunt) {
                 },
                 files: {
                     '<%= dirs.template %>/spa-components.php': formBuilderAssets.spa.templates
+                }
+            },
+
+            spaMixins: {
+                options: {
+                    process: filename_on_concat
+                },
+                files: {
+                    '<%= dirs.js %>/spa-mixins.js': formBuilderAssets.spa.mixins
                 }
             },
 

@@ -1,6 +1,6 @@
-const FormEntriesSingle = {
+weForms.routeComponents.FormEntriesSingle = {
     template: '#tmpl-wpuf-form-entry-single',
-    mixins: [LoadingMixin],
+    mixins: [weForms.mixins.Loading],
     data: function() {
         return {
             loading: false,

@@ -1,149 +1,13 @@
 /*!
-weForms - v1.0.0-beta.2
-Generated: 2017-08-06 (1502001490107)
+weForms - v1.0.0-beta.3
+Generated: 2017-08-19 (1503138238582)
 */
 
 ;(function($) {
-/* ./assets/spa/mixins/bulk-action.js */
-var BulkActionMixin = {
-    data: function() {
-        return {
-            bulkAction: '-1',
-            checkedItems: []
-        }
-    },
-
-    computed: {
-        selectAll: {
-            get: function () {
-                return this.items ? this.checkedItems.length == this.items.length : false;
-            },
-
-            set: function (value) {
-                var selected = [],
-                    self = this;
-
-                if (value) {
-                    this.items.forEach(function (item) {
-                        selected.push(item[self.index]);
-                    });
-                }
-
-                this.checkedItems = selected;
-            }
-        }
-    },
-
-    methods: {
-        deleteBulk: function() {
-            var self = this;
-
-            self.loading = true;
-
-            wp.ajax.send( self.bulkDeleteAction, {
-                data: {
-                    ids: this.checkedItems,
-                    _wpnonce: weForms.nonce
-                },
-                success: function(response) {
-                    self.checkedItems = [];
-                    self.fetchData();
-                },
-                error: function(error) {
-                    alert(error);
-                },
-
-                complete: function(resp) {
-                    self.loading = false;
-                }
-            });
-        }
-    }
-};
-
-/* ./assets/spa/mixins/loading.js */
-var LoadingMixin = {
-    watch: {
-        loading: function(value) {
-            if ( value ) {
-                NProgress.configure({ parent: '#wpadminbar' });
-                NProgress.start();
-            } else {
-                NProgress.done();
-            }
-        }
-    }
-}
-
-/* ./assets/spa/mixins/paginate.js */
-var PaginateMixin = {
-    data: function() {
-        return {
-            totalItems: 0,
-            totalPage: 1,
-            currentPage: 1,
-            pageNumberInput: 1
-        };
-    },
-
-    methods: {
-        isFirstPage: function() {
-            return this.currentPage == 1;
-        },
-
-        isLastPage: function() {
-            return this.currentPage == this.totalPage;
-        },
-
-        goFirstPage: function() {
-            this.currentPage = 1;
-            this.pageNumberInput = this.currentPage;
-
-            this.goToPage();
-        },
-
-        goLastPage: function() {
-            this.currentPage = this.totalPage;
-            this.pageNumberInput = this.currentPage;
-
-            this.goToPage();
-        },
-
-        goToPage: function(direction) {
-            if ( direction == 'prev' ) {
-                this.currentPage--;
-            } else if ( direction == 'next' ) {
-                this.currentPage++;
-            } else {
-                if ( ! isNaN( direction ) && ( direction <= this.totalPage ) ) {
-                    this.currentPage = direction;
-                }
-            }
-
-            this.pageNumberInput = this.currentPage;
-            this.fetchData();
-        },
-    }
-};
-
-/* ./assets/spa/mixins/tabs.js */
-var TabsMixin = {
-
-    methods: {
-        makeActive: function(val) {
-            this.activeTab = val;
-        },
-
-        isActiveTab: function(val) {
-          return this.activeTab === val;
-        }
-    }
-};
-
 /* ./assets/spa/components/component-table/index.js */
 Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
-    mixins: [LoadingMixin, PaginateMixin, BulkActionMixin],
+    mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
         action: String,
         id: [String, Number]
@@ -221,7 +85,7 @@ Vue.component( 'wpuf-table', {
 } );
 
 /* ./assets/spa/components/form-builder/index.js */
-var FormEditComponent = {
+weForms.routeComponents.FormEditComponent = {
     template: '#tmpl-wpuf-form-builder',
     mixins: wpuf_form_builder_mixins(wpuf_mixins.root),
     data: function() {
@@ -419,7 +283,7 @@ var FormEditComponent = {
 };
 
 /* ./assets/spa/components/form-entries/index.js */
-const FormEntries = {
+weForms.routeComponents.FormEntries = {
     props: {
         id: [String, Number]
     },
@@ -431,9 +295,9 @@ const FormEntries = {
     }
 };
 /* ./assets/spa/components/form-entry-single/index.js */
-const FormEntriesSingle = {
+weForms.routeComponents.FormEntriesSingle = {
     template: '#tmpl-wpuf-form-entry-single',
-    mixins: [LoadingMixin],
+    mixins: [weForms.mixins.Loading],
     data: function() {
         return {
             loading: false,
@@ -505,7 +369,7 @@ const FormEntriesSingle = {
 /* ./assets/spa/components/form-list-table/index.js */
 Vue.component('form-list-table', {
     template: '#tmpl-wpuf-form-list-table',
-    mixins: [LoadingMixin, PaginateMixin, BulkActionMixin],
+    mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     data: function() {
         return {
             loading: false,
@@ -607,7 +471,7 @@ Vue.component('form-list-table', {
     }
 });
 /* ./assets/spa/components/home-page/index.js */
-const Home = {
+weForms.routeComponents.Home = {
     template: '#tmpl-wpuf-home-page',
 
     data: function() {
@@ -628,9 +492,9 @@ const Home = {
 };
 
 /* ./assets/spa/components/tools/index.js */
-const Tools = {
+weForms.routeComponents.Tools = {
     template: '#tmpl-wpuf-tools',
-    mixins: [TabsMixin, LoadingMixin],
+    mixins: [weForms.mixins.Tabs, weForms.mixins.Loading],
     data: function() {
         return {
             activeTab: 'export',
@@ -736,112 +600,18 @@ const Tools = {
     }
 };
 
-/* ./assets/spa/components/weforms-modules/index.js */
-const Modules = {
-    template: '#tmpl-wpuf-weforms-modules',
-    mixins: [LoadingMixin],
-    data: function() {
-        return {
-            requesting: false,
-            loading: false,
-            modules: {
-                all: {},
-                active: []
-            }
-        };
-    },
-
-    created: function() {
-        this.fetchModules();
-    },
-
-    methods: {
-
-        isActive: function( module ) {
-            return _.contains( this.modules.active, module );
-        },
-
-        activateModule: function(module) {
-            if ( !this.isActive(module) ) {
-                this.modules.active.push(module);
-            }
-        },
-
-        deactivateModule: function(module) {
-            console.log(this.modules.active );
-
-            if ( this.isActive(module) ) {
-                this.modules.active.splice( this.modules.active.indexOf(module), 1 );
-            }
-        },
-
-        fetchModules: function() {
-            var self = this;
-
-            self.loading = true;
-
-            wp.ajax.send( 'weforms_get_modules', {
-                data: {
-                    _wpnonce: weForms.nonce
-                },
-
-                success: function(response) {
-                    self.modules = response;
-                },
-
-                complete: function() {
-                    self.loading = false;
-                }
-            });
-        },
-
-        toggleModule: function(module) {
-            var self = this;
-            var state = this.isActive(module) ? 'deactivate' : 'activate';
-
-            // if we are already making a call
-            if (self.requesting) {
-                return;
-            }
-
-            self.requesting = true;
-            self.loading    = true;
-
-            wp.ajax.send( 'weforms_toggle_modules', {
-                data: {
-                    type: state,
-                    module: module,
-                    _wpnonce: weForms.nonce
-                },
-
-                success: function(response) {
-
-                    if ( state === 'activate' ) {
-                        self.activateModule(module);
-                    } else {
-                        self.deactivateModule(module);
-                    }
-
-                    toastr.options.timeOut = 1000;
-                    toastr.success( response );
-                },
-
-                complete: function() {
-                    self.requesting = false;
-                    self.loading    = false;
-                }
-            });
-        }
-    }
+/* ./assets/spa/components/weforms-page-help/index.js */
+weForms.routeComponents.Help = {
+    template: '#tmpl-wpuf-weforms-page-help'
 };
 /* ./assets/spa/components/weforms-premium/index.js */
-const Premium = {
+weForms.routeComponents.Premium = {
     template: '#tmpl-wpuf-weforms-premium'
 };
 /* ./assets/spa/components/weforms-settings/index.js */
-const Settings = {
+weForms.routeComponents.Settings = {
     template: '#tmpl-wpuf-weforms-settings',
-    mixins: [LoadingMixin],
+    mixins: [weForms.mixins.Loading],
     data: function() {
         return {
             loading: false,
@@ -943,7 +713,7 @@ Vue.component('datepicker', {
     },
 
     methods: {
-        onClose(date) {
+        onClose: function(date) {
             this.$emit('input', date);
         }
     },
@@ -1145,81 +915,47 @@ var wpuf_form_builder_store = new Vuex.Store({
     }
 });
 
-
 // 1. Define route components.
-const FormHome = { template: '<div><router-view class="child"></router-view></div>' };
-const SingleForm = { template: '#tmpl-wpuf-form-editor' };
-const FormEntriesHome = {
+weForms.routeComponents.FormHome = { template: '<div><router-view class="child"></router-view></div>' };
+weForms.routeComponents.SingleForm = { template: '#tmpl-wpuf-form-editor' };
+weForms.routeComponents.FormEntriesHome = {
     template: '<div><router-view class="grand-child"></router-view></div>',
 };
 
-// 2. Define some routes
-const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: Home
-    },
-    {
-        path: '/form/:id',
-        component: FormHome,
-        children: [
-            {
-                path: '',
-                name: 'form',
-                component: SingleForm
-            },
-            {
-                path: 'entries',
-                component: FormEntriesHome,
-                children: [
-                    {
-                        path: '',
-                        name: 'formEntries',
-                        component: FormEntries,
-                        props: true
-                    },
-                    {
-                        path: ':entryid',
-                        name: 'formEntriesSingle',
-                        component: FormEntriesSingle
-                    }
-                ]
-            },
-            {
-                path: 'edit',
-                name: 'edit',
-                component: FormEditComponent
+/**
+ * Parse the route array and bind required components
+ *
+ * This changes the weForms.routes array and changes the components
+ * so we can use weForms.routeComponents.{compontent} component.
+ *
+ * @param  {array} routes
+ *
+ * @return {void}
+ */
+function parseRouteComponent(routes) {
+
+    for (var i = 0; i < routes.length; i++) {
+        if ( typeof routes[i].children === 'object' ) {
+
+            parseRouteComponent( routes[i].children );
+
+            if ( typeof routes[i].component !== 'undefined' ) {
+                routes[i].component = weForms.routeComponents[ routes[i].component ];
             }
-        ]
-    },
-    {
-        path: '/tools',
-        name: 'tools',
-        component: Tools
-    },
-    {
-        path: '/premium',
-        name: 'premium',
-        component: Premium
-    },
-    {
-        path: '/modules',
-        name: 'modules',
-        component: Modules
-    },
-    {
-        path: '/settings',
-        name: 'settings',
-        component: Settings
-    },
-];
+
+        } else {
+            routes[i].component = weForms.routeComponents[ routes[i].component ];
+        }
+    }
+}
+
+// mutate the localized array
+parseRouteComponent(weForms.routes);
 
 // 3. Create the router instance and pass the `routes` option
-const router = new VueRouter({
-    // mode: 'history',
-    routes: routes,
-    scrollBehavior (to, from, savedPosition) {
+var router = new VueRouter({
+    routes: weForms.routes,
+    scrollBehavior: function (to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition
         } else {
@@ -1228,8 +964,7 @@ const router = new VueRouter({
     }
 });
 
-// 4. Create and mount the root instance.
-const app = new Vue({
+var app = new Vue({
     router,
     store: wpuf_form_builder_store
 }).$mount('#wpuf-contact-form-app')

@@ -1,4 +1,4 @@
-var TabsMixin = {
+weForms.mixins.Tabs = {
 
     methods: {
         makeActive: function(val) {

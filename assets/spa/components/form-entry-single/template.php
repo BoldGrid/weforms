@@ -18,7 +18,8 @@
                                 </tr>
                                 <tr class="field-value">
                                     <td>
-                                        <div v-html="entry.meta_data[index]"></div>
+                                        <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
+                                        <div v-else v-html="entry.meta_data[index]"></div>
                                     </td>
                                 </tr>
                             </template>

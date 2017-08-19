@@ -15,6 +15,7 @@ function assets() {
         spa: {
             app: [],
             components: [],
+            mixins: [],
             templates: []
         }
     };
@@ -47,7 +48,7 @@ function assets() {
     paths.mixins.push('assets/js/utils/jquery-siaf-end.js');
     paths.components.push('assets/js/utils/jquery-siaf-end.js');
 
-    // SPA paths
+    // SPA component paths
     const spaComponentPath = './assets/spa/components/';
     let spaComponents      = fs.readdirSync(spaComponentPath);
 
@@ -60,13 +61,14 @@ function assets() {
         }
     });
 
+    // spa mixins
     const spaMixinsPath = './assets/spa/mixins/';
     let spaMixins      = fs.readdirSync(spaMixinsPath);
 
     spaMixins.forEach((mixin) => {
         const path = `${spaMixinsPath}${mixin}`;
 
-        paths.spa.app.push(path);
+        paths.spa.mixins.push(path);
     });
 
     let app = paths.spa.app.concat( paths.spa.components );

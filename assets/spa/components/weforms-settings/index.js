@@ -1,6 +1,6 @@
-const Settings = {
+weForms.routeComponents.Settings = {
     template: '#tmpl-wpuf-weforms-settings',
-    mixins: [LoadingMixin],
+    mixins: [weForms.mixins.Loading],
     data: function() {
         return {
             loading: false,

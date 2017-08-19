@@ -1,6 +1,6 @@
 Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
-    mixins: [LoadingMixin, PaginateMixin, BulkActionMixin],
+    mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
         action: String,
         id: [String, Number]

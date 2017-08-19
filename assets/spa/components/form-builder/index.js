@@ -1,4 +1,4 @@
-var FormEditComponent = {
+weForms.routeComponents.FormEditComponent = {
     template: '#tmpl-wpuf-form-builder',
     mixins: wpuf_form_builder_mixins(wpuf_mixins.root),
     data: function() {

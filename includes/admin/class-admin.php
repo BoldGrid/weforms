@@ -11,6 +11,8 @@ class WeForms_Admin {
 
         add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
 
+        add_action( 'pre_update_option_wpuf_general', array( $this, 'watch_wpuf_settings' ) );
+
         add_filter( 'admin_post_weforms_export_forms', array( $this, 'export_forms' ) );
         add_filter( 'admin_post_weforms_export_form_entries', array( $this, 'export_form_entries' ) );
     }
@@ -84,8 +86,9 @@ class WeForms_Admin {
                 $submenu['weforms'][] = array( __( 'Premium', 'weforms' ), $capability, 'admin.php?page=weforms#/premium' );
             }
 
-            do_action( 'weforms-admin-menu', $hook );
+            do_action( 'weforms-admin-menu', $hook, $capability );
 
+            $submenu['weforms'][] = array( __( 'Help', 'weforms' ), $capability, 'admin.php?page=weforms#/help' );
             $submenu['weforms'][] = array( __( 'Settings', 'weforms' ), $capability, 'admin.php?page=weforms#/settings' );
         }
 
@@ -222,5 +225,37 @@ class WeForms_Admin {
         header("Content-Disposition: attachment;filename={$file_name}");
         header("Content-Transfer-Encoding: binary");
         exit;
+    }
+
+    /**
+     * Watch the wpuf general settings and sync with weforms settings
+     *
+     * @param  array $value
+     *
+     * @return array
+     */
+    public function watch_wpuf_settings( $settings ) {
+        $merge_array = array();
+
+        if ( isset( $settings['gmap_api_key'] ) ) {
+            $merge_array['gmap_api'] = $settings['gmap_api_key'];
+        }
+
+        if ( isset( $settings['recaptcha_public'] ) ) {
+            $recaptcha         =  new StdClass;
+            $recaptcha->key    = $settings['recaptcha_public'];
+            $recaptcha->secret = $settings['recaptcha_private'];
+
+            $merge_array['recaptcha'] = $recaptcha;
+        }
+
+        if ( $merge_array ) {
+            $weforms_settings = get_option( 'weforms_settings', array() );
+            $weforms_settings = array_merge( $weforms_settings, $merge_array );
+
+            update_option( 'weforms_settings', $weforms_settings );
+        }
+
+        return $settings;
     }
 }

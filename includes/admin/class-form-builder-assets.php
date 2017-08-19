@@ -89,6 +89,8 @@ class WeForms_Form_Builder_Assets {
         require_once WPUF_ROOT . '/admin/form-builder/class-wpuf-form-builder-field-settings.php';
         require_once WPUF_ROOT . '/includes/free/prompt.php';
 
+        $recaptcha = weforms_get_settings( 'recaptcha' );
+
         $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', array(
             'i18n'                => $this->i18n(),
             'panel_sections'      => $this->get_panel_sections(),
@@ -107,7 +109,9 @@ class WeForms_Form_Builder_Assets {
                 'cc'          => '',
                 'bcc'         => ''
             ),
-            'integrations' => apply_filters( 'weforms_form_builder_integrations', array() ),
+            'integrations'     => apply_filters( 'weforms_form_builder_integrations', array() ),
+            'recaptcha_site'   => isset( $recaptcha->key ) ? $recaptcha->key : '',
+            'recaptcha_secret' => isset( $recaptcha->secret ) ? $recaptcha->secret : '',
         ) );
 
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
@@ -123,14 +127,18 @@ class WeForms_Form_Builder_Assets {
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_mixins', $wpuf_mixins );
 
         /**
-         * Contact form SPA scripts
+         * SPA scripts
          */
-        wp_enqueue_script( 'wpuf-cf-spa', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
-        wp_localize_script( 'wpuf-cf-spa', 'weForms', array(
-            'nonce'   => wp_create_nonce( 'weforms' ),
-            'confirm' => __( 'Are you sure?', 'weforms' ),
-            'is_pro'  => class_exists( 'WeForms_Pro' ) ? 'true' : 'false'
-        ) );
+        wp_enqueue_script( 'weforms-mixins', WEFORMS_ASSET_URI . '/js/spa-mixins.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
+        wp_enqueue_script( 'weforms-app', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
+        wp_localize_script( 'weforms-mixins', 'weForms', apply_filters( 'weforms_localized_script', array(
+            'nonce'           => wp_create_nonce( 'weforms' ),
+            'confirm'         => __( 'Are you sure?', 'weforms' ),
+            'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
+            'routes'          => $this->get_vue_routes(),
+            'routeComponents' => array( 'default' => null ),
+            'mixins'          => array( 'default' => null )
+        ) ) );
     }
 
     /**
@@ -139,7 +147,77 @@ class WeForms_Form_Builder_Assets {
      * @return string
      */
     public static function get_pro_url() {
-        return 'https://wedevs.com/weforms/pricing/?utm_source=freeplugin&utm_medium=prompt&utm_term=weforms_free_plugin&utm_content=textlink&utm_campaign=pro_prompt';
+        return 'https://wedevs.com/weforms-upgrade/';
+    }
+
+    /**
+     * SPA Routes
+     *
+     * @return array
+     */
+    public function get_vue_routes() {
+        $routes = array(
+            array(
+                'path'      => '/',
+                'name'      => 'home',
+                'component' => 'Home'
+            ),
+            array(
+                'path'      => '/form/:id',
+                'component' => 'FormHome',
+                'children'  => array(
+                    array(
+                        'path'      => '',
+                        'name'      => 'form',
+                        'component' => 'SingleForm'
+                    ),
+                    array(
+                        'path'      => 'entries',
+                        'component' => 'FormEntriesHome',
+                        'children'  => array(
+                            array(
+                                'path'      => '',
+                                'name'      => 'formEntries',
+                                'component' => 'FormEntries',
+                                'props'     => true
+                            ),
+                            array(
+                                'path'      => ':entryid',
+                                'name'      => 'formEntriesSingle',
+                                'component' => 'FormEntriesSingle'
+                            )
+                        )
+                    ),
+                    array(
+                        'path'      => 'edit',
+                        'name'      => 'edit',
+                        'component' => 'FormEditComponent'
+                    )
+                )
+            ),
+            array(
+                'path'      => '/tools',
+                'name'      => 'tools',
+                'component' => 'Tools'
+            ),
+            array(
+                'path'      => '/help',
+                'name'      => 'help',
+                'component' => 'Help'
+            ),
+            array(
+                'path'      => '/premium',
+                'name'      => 'premium',
+                'component' => 'Premium'
+            ),
+            array(
+                'path'      => '/settings',
+                'name'      => 'settings',
+                'component' => 'Settings'
+            ),
+        );
+
+        return apply_filters( 'weforms_vue_routes', $routes );
     }
 
     /**
@@ -312,7 +390,7 @@ class WeForms_Form_Builder_Assets {
      */
     private function get_others_fields() {
         $fields = apply_filters( 'wpuf-form-builder-fields-others-fields', array(
-            'section_break', 'custom_html'
+            'section_break', 'custom_html', 'recaptcha'
         ) );
 
         return array(
@@ -333,6 +411,12 @@ class WeForms_Form_Builder_Assets {
         require_once dirname( __FILE__ ) . '/class-builder-field-settings.php';
 
         $settings = array_merge( WeForms_Builder_Field_Settings::get_field_settings(), $settings );
+
+        // filter out recaptcha settings url in message
+        if ( isset( $settings['recaptcha'] ) ) {
+            $message = $settings['recaptcha']['validator']['msg'];
+            $settings['recaptcha']['validator']['msg'] = str_replace( 'admin.php?page=wpuf-settings', 'admin.php?page=weforms#/settings', $message );
+        }
 
         return $settings;
     }

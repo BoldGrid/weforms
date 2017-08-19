@@ -239,9 +239,30 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $settings = (array) json_decode( wp_unslash( $_POST['settings'] ) );
+        $requires_wpuf_update = false;
+        $wpuf_update_array    = array();
+        $settings             = (array) json_decode( wp_unslash( $_POST['settings'] ) );
 
         update_option( 'weforms_settings', $settings );
+
+        // wpuf settings sync
+        if ( isset( $settings['gmap_api'] ) ) {
+            $requires_wpuf_update = true;
+            $wpuf_update_array['gmap_api_key'] = $settings['gmap_api'];
+        }
+
+        if ( isset( $settings['recaptcha'] ) ) {
+            $requires_wpuf_update                   = true;
+            $wpuf_update_array['recaptcha_public']  = $settings['recaptcha']->key;
+            $wpuf_update_array['recaptcha_private'] = $settings['recaptcha']->secret;
+        }
+
+        if ( $requires_wpuf_update ) {
+            $wpuf_settings = get_option( 'wpuf_general', array() );
+
+            $wpuf_settings = array_merge( $wpuf_settings, $wpuf_update_array );
+            update_option( 'wpuf_general', $wpuf_settings );
+        }
 
         do_action( 'weforms_save_settings', $settings );
 
@@ -485,6 +506,12 @@ class WeForms_Ajax {
         if ( $meta_key_value ) {
             foreach ($meta_key_value as $key => $value) {
                 $entry_fields[ $key ] = $value;
+            }
+        }
+
+        if ( $files ) {
+            foreach ( $files as $file_input ) {
+                $entry_fields[ $file_input['name'] ] = $file_input['value'];
             }
         }
 

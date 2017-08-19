@@ -1,4 +1,4 @@
-const FormEntries = {
+weForms.routeComponents.FormEntries = {
     props: {
         id: [String, Number]
     },

@@ -1,4 +1,4 @@
-var LoadingMixin = {
+weForms.mixins.Loading = {
     watch: {
         loading: function(value) {
             if ( value ) {

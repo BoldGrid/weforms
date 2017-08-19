@@ -1,6 +1,6 @@
-const Tools = {
+weForms.routeComponents.Tools = {
     template: '#tmpl-wpuf-tools',
-    mixins: [TabsMixin, LoadingMixin],
+    mixins: [weForms.mixins.Tabs, weForms.mixins.Loading],
     data: function() {
         return {
             activeTab: 'export',

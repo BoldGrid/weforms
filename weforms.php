@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.0.0-beta.3
+ * Version: 1.0.0
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,14 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.0.0-beta.3';
+    public $version = '1.0.0';
+
+    /**
+     * Emailer instance
+     *
+     * @var WeForms_Emailer
+     */
+    public $emailer = null;
 
     /**
      * Constructor for the WeForms class
@@ -98,6 +105,8 @@ final class WeForms {
     public function init_plugin() {
         $this->includes();
         $this->init_hooks();
+
+        do_action( 'weforms_loaded' );
     }
 
     /**
@@ -199,6 +208,7 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
         }
 
+        require_once WEFORMS_INCLUDES . '/class-emailer.php';
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
@@ -211,6 +221,7 @@ final class WeForms {
      * @return void
      */
     public function init_hooks() {
+
         // Localize our plugin
         add_action( 'init', array( $this, 'localization_setup' ) );
 
@@ -346,6 +357,8 @@ final class WeForms {
         } else {
             new WeForms_Frontend();
         }
+
+        $this->emailer = new WeForms_Emailer();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             new WeForms_Ajax();

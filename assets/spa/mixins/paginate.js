@@ -1,4 +1,4 @@
-var PaginateMixin = {
+weForms.mixins.Paginate = {
     data: function() {
         return {
             totalItems: 0,
