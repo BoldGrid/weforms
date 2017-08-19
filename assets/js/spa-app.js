@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.0-beta.3
-Generated: 2017-08-16 (1502902661812)
+Generated: 2017-08-19 (1503138238582)
 */
 
 ;(function($) {
@@ -600,6 +600,10 @@ weForms.routeComponents.Tools = {
     }
 };
 
+/* ./assets/spa/components/weforms-page-help/index.js */
+weForms.routeComponents.Help = {
+    template: '#tmpl-wpuf-weforms-page-help'
+};
 /* ./assets/spa/components/weforms-premium/index.js */
 weForms.routeComponents.Premium = {
     template: '#tmpl-wpuf-weforms-premium'

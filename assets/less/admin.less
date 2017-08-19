@@ -136,6 +136,12 @@ table.wpuf-contact-form {
 
 .weforms-premium {
 
+    .wp-badge {
+        background: #40ce65 url(../images/weforms-pro.png) no-repeat;
+        background-size: 100px 90px;
+        background-position: 35px 5px;
+    }
+
     .weforms-upgrade-sticky-footer {
         position: fixed;
         bottom: 0;
@@ -377,6 +383,39 @@ a.add-notification .dashicons {
             width: 96px;
             height: 96px;
             margin: 0 20px 0px 0;
+        }
+    }
+}
+
+.weforms-help-page {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 30px;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .help-block {
+        flex: 1;
+        align-self: flex-start;
+        min-width: 31%;
+        max-width: 32%;
+        border: 1px solid #ddd;
+        margin-right: 2%;
+        margin-bottom: 25px;
+        border-radius: 3px;
+        padding: 25px 15px;
+        text-align: center;
+        background: #fff;
+
+        &:hover {
+            background: #f9f9f9;
+        }
+
+        img {
+            max-height: 70px;
         }
     }
 }

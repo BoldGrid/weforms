@@ -131,14 +131,14 @@ class WeForms_Form_Builder_Assets {
          */
         wp_enqueue_script( 'weforms-mixins', WEFORMS_ASSET_URI . '/js/spa-mixins.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
         wp_enqueue_script( 'weforms-app', WEFORMS_ASSET_URI . '/js/spa-app.js', array( 'wpuf-vue-router', 'wp-util' ), false, true );
-        wp_localize_script( 'weforms-mixins', 'weForms', array(
+        wp_localize_script( 'weforms-mixins', 'weForms', apply_filters( 'weforms_localized_script', array(
             'nonce'           => wp_create_nonce( 'weforms' ),
             'confirm'         => __( 'Are you sure?', 'weforms' ),
             'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
             'routes'          => $this->get_vue_routes(),
             'routeComponents' => array( 'default' => null ),
             'mixins'          => array( 'default' => null )
-        ) );
+        ) ) );
     }
 
     /**
@@ -147,7 +147,7 @@ class WeForms_Form_Builder_Assets {
      * @return string
      */
     public static function get_pro_url() {
-        return 'https://wedevs.com/weforms/pricing/?utm_source=freeplugin&utm_medium=prompt&utm_term=weforms_free_plugin&utm_content=textlink&utm_campaign=pro_prompt';
+        return 'https://wedevs.com/weforms-upgrade/';
     }
 
     /**
@@ -199,6 +199,11 @@ class WeForms_Form_Builder_Assets {
                 'path'      => '/tools',
                 'name'      => 'tools',
                 'component' => 'Tools'
+            ),
+            array(
+                'path'      => '/help',
+                'name'      => 'help',
+                'component' => 'Help'
             ),
             array(
                 'path'      => '/premium',
