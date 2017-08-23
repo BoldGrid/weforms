@@ -23,16 +23,18 @@ class WeForms_Emailer_WPMail implements WeForms_Mailer_Contract {
         }
 
         if ( isset( $headers['cc'] ) ) {
-            $_headers = sprintf( 'CC: %s', $headers['cc'] );
+            $_headers[] = sprintf( 'CC: %s', $headers['cc'] );
         }
 
         if ( isset( $headers['bcc'] ) ) {
-            $_headers = sprintf( 'BCC: %s', $headers['bcc'] );
+            $_headers[] = sprintf( 'BCC: %s', $headers['bcc'] );
         }
 
         if ( isset( $headers['replyto'] ) ) {
-            $_headers = sprintf( 'Reply-To: %s', $headers['replyto'] );
+            $_headers[] = sprintf( 'Reply-To: %s', $headers['replyto'] );
         }
+
+        $_headers[] = 'Content-Type: text/html; charset=UTF-8';
 
         return wp_mail( $to, $subject, $body, $_headers );
     }
