@@ -42,22 +42,40 @@ class WeForms_Pro_Integrations {
                     )
                 )
             ),
-            'constant-contact' => array(
-                'id'    => 'constant-contact',
-                'title' => __( 'Constant Contact', 'textdomain' ),
-                'icon'  => WEFORMS_ASSET_URI . '/images/icon-constant-contact.png',
-                'pro'   => true
-            ),
             'campaign-monitor' => array(
                 'id'    => 'campaign-monitor',
-                'title' => __( 'Campaign Monitor', 'textdomain' ),
+                'title' => __( 'Campaign Monitor', 'weforms' ),
                 'icon'  => WEFORMS_ASSET_URI . '/images/icon-campaign-monitor.png',
+                'pro'   => true
+            ),
+            'constant-contact' => array(
+                'id'    => 'constant-contact',
+                'title' => __( 'Constant Contact', 'weforms' ),
+                'icon'  => WEFORMS_ASSET_URI . '/images/icon-constant-contact.png',
                 'pro'   => true
             ),
             'mailpoet' => array(
                 'id'    => 'mailpoet',
-                'title' => __( 'MailPoet', 'textdomain' ),
+                'title' => __( 'MailPoet', 'weforms' ),
                 'icon'  => WEFORMS_ASSET_URI . '/images/icon-mailpoet.png',
+                'pro'   => true
+            ),
+            'aweber' => array(
+                'id'    => 'aweber',
+                'title' => __( 'AWeber', 'weforms' ),
+                'icon'  => WEFORMS_ASSET_URI . '/images/icon-aweber.png',
+                'pro'   => true
+            ),
+            'getresponse' => array(
+                'id'    => 'getresponse',
+                'title' => __( 'Get Response', 'weforms' ),
+                'icon'  => WEFORMS_ASSET_URI . '/images/icon-getresponse.png',
+                'pro'   => true
+            ),
+            'convertkit' => array(
+                'id'    => 'convertkit',
+                'title' => __( 'ConvertKit', 'weforms' ),
+                'icon'  => WEFORMS_ASSET_URI . '/images/icon-convertkit.png',
                 'pro'   => true
             ),
         );
