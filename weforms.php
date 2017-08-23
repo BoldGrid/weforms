@@ -283,7 +283,7 @@ final class WeForms {
             <h2><?php _e( 'weForms is almost ready!', 'weforms' ); ?></h2>
 
             <?php
-                $plugin_file      = basename( dirname( __FILE__ ) ) . '/contact-form.php';
+                $plugin_file      = basename( dirname( __FILE__ ) ) . '/weforms.php';
                 $core_plugin_file = 'wp-user-frontend/wpuf.php';
             ?>
             <a href="<?php echo wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'deactivate-plugin_' . $plugin_file ); ?>" class="notice-dismiss" style="text-decoration: none;" title="<?php _e( 'Dismiss this notice', 'weforms' ); ?>"></a>
