@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.0.0
+ * Version: 1.0.1
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.0.0';
+    public $version = '1.0.1';
 
     /**
      * Emailer instance
