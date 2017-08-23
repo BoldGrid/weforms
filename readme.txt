@@ -4,7 +4,7 @@ Donate link: https://tareq.co/donate/
 Tags: contact form, contact, form, forms, form-builder
 Requires at least: 4.4
 Tested up to: 4.8.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,11 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 1. Nothing here right now
 
 == Changelog ==
+
+= v1.0.1 (23 August, 2017) =
+
+ * [improved] Added missing integration icons
+ * [fix] Email content type fixed
 
 = v1.0.0 (19 August, 2017) =
 
