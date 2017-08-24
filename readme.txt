@@ -4,7 +4,7 @@ Donate link: https://tareq.co/donate/
 Tags: contact form, contact, form, forms, form-builder
 Requires at least: 4.4
 Tested up to: 4.8.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,8 @@ The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop
 == Description ==
 
 weForms is the easiest and fastest contact form plugin on WordPress. You can easily get started with weForms with its pre-built form templates. Creating forms is just one click away and everything is setup instantly, you don't need to even touch a single configuration.
+
+[youtube https://www.youtube.com/watch?v=NJvjy9WFyAM]
 
 = The Easiest & Fastest Contact Form Plugin on WordPress  =
 Quickly create rich contact forms to generate leads, taking feedbacks, onboarding visitors and flourishing your imagination! Comes with the best frontend post submission plugin for WordPress, WP User Frontend.
@@ -96,6 +98,10 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 1. Nothing here right now
 
 == Changelog ==
+
+= v1.0.1 (24 August, 2017) =
+
+ * [improved] Affiliate link tracking for plugin install
 
 = v1.0.1 (23 August, 2017) =
 
