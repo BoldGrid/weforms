@@ -51,7 +51,7 @@ class WeForms_Importer_CF7 {
                     wp.ajax.send( 'weforms_import_cf7_forms', {
                         data: {
                             type: self.data('type'),
-                            _wpnonce: '<?php echo wp_create_nonce( 'weforms_cf7_import' ); ?>'
+                            _wpnonce: '<?php echo wp_create_nonce( 'weforms' ); ?>'
                         },
 
                         success: function(response) {
@@ -196,9 +196,17 @@ class WeForms_Importer_CF7 {
      * @return void
      */
     public function import_forms() {
-        check_ajax_referer( 'weforms_cf7_import' );
+        check_ajax_referer( 'weforms' );
 
         $this->check_caps();
+
+        // check if plugin installed
+        if ( ! class_exists( 'WPCF7_ContactForm' ) ) {
+            wp_send_json_error( array(
+                'title' => __( 'Uh oh!', 'weforms' ),
+                'message' => __( 'Contact Form 7 is not installed.', 'weforms' )
+            ) );
+        }
 
         $imported = 0;
         $refs     = array();

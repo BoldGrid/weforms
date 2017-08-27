@@ -1,6 +1,6 @@
 /*!
-weForms - v1.0.0-beta.3
-Generated: 2017-08-19 (1503138238582)
+weForms - v1.0.2
+Generated: 2017-08-27 (1503820582373)
 */
 
 ;(function($) {
@@ -594,8 +594,30 @@ weForms.routeComponents.Tools = {
                     $(event.target).val('');
                 }
             });
+        },
 
+        importCF7: function(target) {
+            var button = $(target);
 
+            button.addClass('updating-message').text( button.data('importing') );
+
+            wp.ajax.send( 'weforms_import_cf7_forms', {
+                data: {
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+                    console.log(response);
+                },
+
+                error: function(error) {
+                    alert(error.message);
+                },
+
+                complete: function() {
+                    button.removeClass('updating-message').text( button.data('original') );
+                }
+            });
         }
     }
 };

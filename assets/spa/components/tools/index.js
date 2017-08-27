@@ -100,8 +100,30 @@ weForms.routeComponents.Tools = {
                     $(event.target).val('');
                 }
             });
+        },
 
+        importCF7: function(target) {
+            var button = $(target);
 
+            button.addClass('updating-message').text( button.data('importing') );
+
+            wp.ajax.send( 'weforms_import_cf7_forms', {
+                data: {
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+                    console.log(response);
+                },
+
+                error: function(error) {
+                    alert(error.message);
+                },
+
+                complete: function() {
+                    button.removeClass('updating-message').text( button.data('original') );
+                }
+            });
         }
     }
 };

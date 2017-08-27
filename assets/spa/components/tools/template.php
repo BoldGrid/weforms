@@ -95,6 +95,31 @@
                 <input type="file" name="importFile" v-on:change="importForm( $event.target.name, $event.target.files, $event )" accept="application/json" />
                 <button type="submit" :class="['button', isSaving ? 'updating-message' : '']" disabled="disabled">{{ importButton }}</button>
             </form>
+
+            <hr>
+            <h3><?php _e( 'Import Other Forms', 'weforms' ); ?></h3>
+            <p><?php _e( 'You can import other WordPress form plugins into weForms.', 'weforms' ); ?></p>
+
+            <table style="min-width: 500px;">
+                <tbody>
+                    <tr>
+                        <td>Contact Form 7</td>
+                        <th><button class="button" @click.prevent="importCF7($event.target)" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                    </tr>
+                    <tr>
+                        <td>Ninja Forms</td>
+                        <th><button class="button">Import</button></th>
+                    </tr>
+                    <tr>
+                        <td>Gravity Forms</td>
+                        <th><button class="button">Import</button></th>
+                    </tr>
+                    <tr>
+                        <td>WP Forms</td>
+                        <th><button class="button">Import</button></th>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
