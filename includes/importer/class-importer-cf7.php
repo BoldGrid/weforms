@@ -5,7 +5,7 @@
  *
  * Import contact form 7 forms
  */
-class WeForms_CF7 {
+class WeForms_Importer_CF7 {
 
     function __construct() {
         add_action( 'admin_notices', array( $this, 'maybe_show_notice' ) );
