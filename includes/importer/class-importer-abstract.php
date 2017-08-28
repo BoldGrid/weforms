@@ -244,7 +244,7 @@ abstract class WeForms_Importer_Abstract {
                     }
 
                     foreach ($form_fields as $menu_order => $form_field) {
-                        $this->insert_form_field( $form_id, $form_field, $menu_order );
+                        $this->insert_form_field( $form_field, $form_id, $menu_order );
                     }
 
                     $this->update_settings( $form_id, $settings );
@@ -416,6 +416,7 @@ abstract class WeForms_Importer_Abstract {
             'max'         => '',
             'extension'   => '',
             'max_size'    => '', // file size
+            'size'        => '', // file size
         );
 
         $args = wp_parse_args( $args, $defaults );
@@ -550,10 +551,7 @@ abstract class WeForms_Importer_Abstract {
                     'word_restriction' => '',
                     'wpuf_cond'        => $this->conditionals
                 );
-                break;
 
-            case 'range':
-                # code...
                 break;
 
             case 'checkbox':
@@ -597,7 +595,6 @@ abstract class WeForms_Importer_Abstract {
                     'required'         => $args['required'],
                     'name'             => $args['name'],
                     'description'      => $args['label'],
-                    'name'             => '',
                     'is_meta'          => 'yes',
                     'show_checkbox'    => true,
                     'wpuf_cond'        => $this->conditionals
@@ -731,7 +728,7 @@ abstract class WeForms_Importer_Abstract {
      *
      * @return void
      */
-    public function update_notification( $form_id, $notification ) {
+    public function update_notification( $form_id, $notifications ) {
         update_post_meta( $form_id, 'notifications', $notifications );
     }
 }
