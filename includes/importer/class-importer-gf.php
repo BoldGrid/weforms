@@ -5,20 +5,82 @@
  *
  * Import contact form 7 forms
  */
-class WeForms_Importer_GF {
+class WeForms_Importer_GF extends WeForms_Importer_Abstract {
 
     function __construct() {
+        $this->id = 'gf';
+
         add_action( 'admin_notices', array( $this, 'maybe_show_notice' ) );
 
         // $forms = GFAPI::get_forms();
         // echo '<pre>';
         // print_r( $forms );
         // die();
-        add_action( 'wp_ajax_weforms_import_gf_dismiss', array( $this, 'dismiss_notice' ) );
+        // add_action( 'wp_ajax_weforms_import_gf_dismiss', array( $this, 'dismiss_notice' ) );
         // add_action( 'wp_ajax_weforms_import_gf_forms', array( $this, 'import_forms' ) );
         // add_action( 'wp_ajax_weforms_gf_shortcode_replace', array( $this, 'replace_action' ) );
     }
 
+
+    public function get_forms() {
+        return GFAPI::get_forms();
+    }
+
+    public function get_form_name( $form ) {
+        return $form['title'];
+    }
+
+    public function get_form_fields( $form ) {
+        $form_fields = array();
+
+        $form_tags  = $form['fields'];
+
+        if ( ! $form_tags ) {
+            return;
+        }
+
+        foreach ( $form_tags as $menu_order => $field ) {
+
+            switch ( $field->type ) {
+
+                case 'text':
+                case 'email':
+                case 'textarea':
+                case 'date':
+                case 'url':
+
+                    $form_fields[] = $this->get_form_field( $field->type, array(
+                        'required' => $field->isRequired ? 'yes' : 'no',
+                        'label'    => $field->label,
+                        'name'     => $this->get_meta_key( $field ),
+                        'css'      => $field->cssClass,
+                        'placeholder' => $field->placeholder
+                    ) );
+                    break;
+
+            }
+        }
+
+    }
+
+    public function get_form_settings( $form ) {
+
+    }
+
+    public function get_form_notifications( $form ) {
+
+    }
+
+    /**
+    * Get unique meta key for field name
+    *
+    * @since 1.0.0
+    *
+    * @return void
+    **/
+    public function get_meta_key( $field ) {
+        return str_replace( '-', '_', sanitize_title( $field->label . '-' . $field->id ) );
+    }
 
     /**
      * Show notice if Contact From 7 found
@@ -627,7 +689,7 @@ class WeForms_Importer_GF {
      *
      * @return void
      */
-    private function dismiss_prompt() {
+    public function dismiss_prompt() {
         update_option( 'weforms_dismiss_gf_notice', 'yes' );
     }
 
@@ -636,7 +698,7 @@ class WeForms_Importer_GF {
      *
      * @return boolean
      */
-    private function is_dimissed() {
+    public function is_dimissed() {
         return 'yes' == get_option( 'weforms_dismiss_gf_notice' );
     }
 

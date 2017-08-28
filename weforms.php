@@ -200,8 +200,12 @@ final class WeForms {
 
         if ( is_admin() ) {
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
+
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-gf.php';
+            // require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
+
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
@@ -356,6 +360,7 @@ final class WeForms {
             new WeForms_Pro_Integrations();
             new WeForms_Importer_CF7();
             new WeForms_Importer_GF();
+            // new WeForms_Importer_WPForms();
         } else {
             new WeForms_Frontend();
         }

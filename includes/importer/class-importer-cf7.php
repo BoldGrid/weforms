@@ -5,13 +5,15 @@
  *
  * Import contact form 7 forms
  */
-class WeForms_Importer_CF7 {
+class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
 
     function __construct() {
+        $this->id = 'cf7';
+
         add_action( 'admin_notices', array( $this, 'maybe_show_notice' ) );
 
-        add_action( 'wp_ajax_weforms_import_cf7_dismiss', array( $this, 'dismiss_notice' ) );
-        add_action( 'wp_ajax_weforms_import_cf7_forms', array( $this, 'import_forms' ) );
+        add_action( 'wp_ajax_weforms_import_dismiss_' . $this->id, array( $this, 'dismiss_notice' ) );
+        add_action( 'wp_ajax_weforms_import_xforms_' . $this->id, array( $this, 'import_forms' ) );
         add_action( 'wp_ajax_weforms_cf7_shortcode_replace', array( $this, 'replace_action' ) );
     }
 
@@ -188,6 +190,248 @@ class WeForms_Importer_CF7 {
 
         delete_option( 'weforms_cf7_imported_forms' );
         wp_send_json_success( sprintf( _n( 'Replaced %d form', 'Replaced %d forms', $count ), $count ) );
+    }
+
+    public function get_forms() {
+        $items    = WPCF7_ContactForm::find( array(
+            'posts_per_page' => -1
+        ) );
+
+        return $items;
+    }
+
+    public function get_form_name( $form ) {
+        return $form->title();
+    }
+
+    public function get_form_fields( $form ) {
+        $form_fields = array();
+        $form_tags   = $form->scan_form_tags();
+
+        if ( ! $form_tags ) {
+            return $form_fields;
+        }
+
+        foreach ($form_tags as $menu_order => $cf_field) {
+            $field_content = array();
+
+            switch ( $cf_field->basetype ) {
+                case 'text':
+                case 'email':
+                case 'textarea':
+                case 'date':
+                case 'url':
+
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                        'required' => $cf_field->is_required() ? 'yes' : 'no',
+                        'label'    => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'     => $cf_field->name,
+                        'css'      => $cf_field->get_class_option(),
+                    ) );
+                    break;
+
+                case 'select':
+                case 'radio':
+                case 'checkbox':
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                        'required' => $cf_field->is_required() ? 'yes' : 'no',
+                        'label'    => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'     => $cf_field->name,
+                        'css'      => $cf_field->get_class_option(),
+                        'options'  => $this->get_options( $cf_field ),
+                    ) );
+
+                case 'range':
+                case 'number':
+
+                    $field_content = $this->get_form_field( $cf_field->basetype, array(
+                        'required'        => $cf_field->is_required() ? 'yes' : 'no',
+                        'label'           => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'            => $cf_field->name,
+                        'css'             => $cf_field->get_class_option(),
+                        'step_text_field' => $cf_field->get_option( 'step', 'int', true ),
+                        'min_value_field' => $cf_field->get_option( 'min', 'signed_int', true ),
+                        'max_value_field' => $cf_field->get_option( 'max', 'signed_int', true ),
+                    ) );
+
+                    if ( $cf_field->has_option( 'placeholder' ) || $cf_field->has_option( 'watermark' ) ) {
+                        $field_content['placeholder'] = $value;
+                        $value                        = '';
+                    }
+
+                    $value                  = $cf_field->get_default_option( $value );
+                    $value                  = wpcf7_get_hangover( $cf_field->name, $value );
+                    $field_content['value'] = $value;
+
+                    $form_fields[] = $field_content;
+
+                    break;
+
+                case 'range':
+                case 'quiz':
+                    # code...
+                    break;
+
+                case 'acceptance':
+                    $form_fields[] = $this->get_form_field( 'toc', array(
+                        'required'    => $cf_field->is_required() ? 'yes' : 'no',
+                        'description' => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'        => $cf_field->name,
+                    ) );
+                    break;
+
+                case 'recaptcha':
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                        'required'    => $cf_field->is_required() ? 'yes' : 'no',
+                        'label' => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'        => $cf_field->name,
+                        'css_class'              => $cf_field->get_class_option(),
+                    ) );
+                    break;
+
+                case 'file':
+
+                    $allowed_size       = 1024; // default size 1 MB
+                    $allowed_file_types = array();
+
+                    if ( $file_size_a = $cf_field->get_option( 'limit' ) ) {
+                        $limit_pattern = '/^([1-9][0-9]*)([kKmM]?[bB])?$/';
+
+                        foreach ( $file_size_a as $file_size ) {
+                            if ( preg_match( $limit_pattern, $file_size, $matches ) ) {
+                                $allowed_size = (int) $matches[1];
+
+                                if ( ! empty( $matches[2] ) ) {
+                                    $kbmb = strtolower( $matches[2] );
+
+                                    if ( 'kb' == $kbmb ) {
+                                        $allowed_size *= 1;
+                                    } elseif ( 'mb' == $kbmb ) {
+                                        $allowed_size *=  1024;
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+
+                    if ( $file_types_a = $cf_field->get_option( 'filetypes' ) ) {
+                        foreach ( $file_types_a as $file_types ) {
+                            $file_types = explode( '|', $file_types );
+
+                            foreach ( $file_types as $file_type ) {
+                                $file_type = trim( $file_type, '.' );
+                                $file_type = str_replace( array( '.', '+', '*', '?' ), array( '\.', '\+', '\*', '\?' ), $file_type );
+
+                                $_type = $this->get_file_type( $file_type );
+
+                                if ( ! in_array( $_type, $allowed_file_types ) ) {
+                                    $allowed_file_types[] = $_type;
+                                }
+                            }
+                        }
+                    }
+
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                        'required'  => $cf_field->is_required() ? 'yes' : 'no',
+                        'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'      => $cf_field->name,
+                        'css_class' => $cf_field->get_class_option(),
+                        'max_size'  => $allowed_size,
+                        'extension' => $allowed_file_types,
+                    ) );
+                    break;
+            }
+        }
+
+        return $form_fields;
+    }
+
+    public function get_form_settings( $form ) {
+        $default    = $this->get_default_form_settings();
+        $properties = $form->get_properties();
+
+        $settings = wp_parse_args( array(
+            'message' => $properties['messages']['mail_sent_ok'],
+        ), $default );
+
+        return $settings;
+    }
+
+    public function get_form_notifications( $form ) {
+        $notifications = array();
+        $properties    = $form->get_properties();
+
+        $notifications = array(
+            array(
+                'active'      => $properties['mail']['active'] ? 'true' : 'false',
+                'name'        => 'Admin Notification',
+                'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $properties['mail']['subject'] ),
+                'to'          => $properties['mail']['recipient'],
+                'replyTo'     => '{field:your-email}',
+                'message'     => '{all_fields}',
+                'fromName'    => '{site_name}',
+                'fromAddress' => '{admin_email}',
+                'cc'          => '',
+                'bcc'         => '',
+            ),
+        );
+
+        $sender_match = $this->get_notification_sender_match( $properties['mail'] );
+
+        if ( !empty( $sender_match['fromName'] ) ) {
+            $form_notifications[0]['fromName'] = $sender_match['fromName'];
+        }
+
+        if ( isset( $sender_match['fromAddress'] ) ) {
+            $form_notifications[0]['fromAddress'] = $sender_match['fromAddress'];
+        }
+
+        if ( $properties['mail_2']['active'] ) {
+            $notifications[] = array(
+                'active'      => $properties['mail_2']['active'] ? 'true' : 'false',
+                'name'        => 'Admin Notification',
+                'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $properties['mail_2']['subject'] ),
+                'to'          => $properties['mail_2']['recipient'],
+                'replyTo'     => '{field:your-email}',
+                'message'     => '{all_fields}',
+                'fromName'    => '{site_name}',
+                'fromAddress' => '{admin_email}',
+                'cc'          => '',
+                'bcc'         => '',
+            );
+        }
+
+        $sender_match = $this->get_notification_sender_match( $properties['mail2'] );
+
+        if ( !empty( $sender_match['fromName'] ) ) {
+            $form_notifications[1]['fromName'] = $sender_match['fromName'];
+        }
+
+        if ( isset( $sender_match['fromAddress'] ) ) {
+            $form_notifications[1]['fromAddress'] = $sender_match['fromAddress'];
+        }
+
+        return $notifications;
+    }
+
+    public function get_notification_sender_match( $mail ) {
+        $sender       = array( 'fromName' => '', 'fromAddress' => '' );
+        $sender_match = array();
+
+        preg_match( '/([^<"]*)"?\s*<(\S*)>/', $mail['sender'], $sender_match );
+
+        if ( isset( $sender_match[1] ) ) {
+            $sender['fromName'] = $sender_match[1];
+        }
+
+        if ( isset( $sender_match[2] ) ) {
+            $sender['fromAddress'] = $sender_match[2];
+        }
+
+        return $sender;
     }
 
     /**
@@ -649,27 +893,6 @@ class WeForms_Importer_CF7 {
         ) );
     }
 
-    /**
-     * Dismiss the notice
-     *
-     * @return void
-     */
-    public function dismiss_notice() {
-        $this->dismiss_prompt();
-
-        wp_send_json_success();
-    }
-
-    /**
-     * Check capability if able to process
-     *
-     * @return void
-     */
-    private function check_caps() {
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'You are not allowed.', 'weforms' ) );
-        }
-    }
 
     /**
      * Try to find out the input label
@@ -743,24 +966,6 @@ class WeForms_Importer_CF7 {
         }
 
         return $options;
-    }
-
-    /**
-     * Dismiss the prompt
-     *
-     * @return void
-     */
-    private function dismiss_prompt() {
-        update_option( 'weforms_dismiss_cf7_notice', 'yes' );
-    }
-
-    /**
-     * If the prompt is dismissed
-     *
-     * @return boolean
-     */
-    private function is_dimissed() {
-        return 'yes' == get_option( 'weforms_dismiss_cf7_notice' );
     }
 
 }
