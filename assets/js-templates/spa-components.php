@@ -562,11 +562,30 @@
             <h3><?php _e( 'Import Other Forms', 'weforms' ); ?></h3>
             <p><?php _e( 'You can import other WordPress form plugins into weForms.', 'weforms' ); ?></p>
 
+            <div class="updated" v-if="ximport.title">
+                <p><strong>{{ ximport.title }}</strong></p>
+
+                <p>{{ ximport.message }}</p>
+                <p>{{ ximport.action }}</p>
+
+                <ul v-if="hasRefs">
+                    <li v-for="ref in ximport.refs">
+                        <a target="_blank" :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'">{{ ref.title }}</a> - <a :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'" target="_blank" class="button button-small"><span class="dashicons dashicons-external"></span> <?php _e( 'Edit', 'weforms' ); ?></a>
+                    </li>
+                </ul>
+
+                <p>
+                    <a href="#" class="button button-primary" @click.prevent="replaceX($event.target, 'replace')"><?php _e( 'Replace Shortcodes', 'weforms' ); ?></a>&nbsp;
+                    <a href="#" class="button" @click.prevent="replaceX($event.target, 'skip')"><?php _e( 'No Thanks', 'weforms' ); ?></a>
+                </p>
+            </div>
+
+
             <table style="min-width: 500px;">
                 <tbody>
                     <tr>
                         <td>Contact Form 7</td>
-                        <th><button class="button" @click.prevent="importCF7($event.target)" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                        <th><button class="button" @click.prevent="importx($event.target, 'cf7')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
                         <td>Ninja Forms</td>
