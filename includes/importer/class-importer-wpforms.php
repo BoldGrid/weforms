@@ -2,7 +2,7 @@
 /**
  * WPForms importer class
  */
-class WeForms_Importer_WPForms {
+class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
 
     function __construct() {
         add_action( 'admin_notices', array( $this, 'maybe_show_notice' ) );
@@ -440,28 +440,6 @@ class WeForms_Importer_WPForms {
     }
 
     /**
-     * Dismiss the notice
-     *
-     * @return void
-     */
-    public function dismiss_notice() {
-        $this->dismiss_prompt();
-
-        wp_send_json_success();
-    }
-
-    /**
-     * Check capability if able to process
-     *
-     * @return void
-     */
-    private function check_caps() {
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'You are not allowed.', 'weforms' ) );
-        }
-    }
-
-    /**
      * Translate to wpuf field options array
      *
      * @param  object $field
@@ -481,23 +459,4 @@ class WeForms_Importer_WPForms {
 
         return $options;
     }
-
-    /**
-     * Dismiss the prompt
-     *
-     * @return void
-     */
-    private function dismiss_prompt() {
-        update_option( 'weforms_dismiss_wpforms_notice', 'yes' );
-    }
-
-    /**
-     * If the prompt is dismissed
-     *
-     * @return boolean
-     */
-    private function is_dimissed() {
-        return 'yes' == get_option( 'weforms_dismiss_wpforms_notice' );
-    }
-
 }
