@@ -204,6 +204,7 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
             // require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-nf.php';
 
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
@@ -359,6 +360,7 @@ final class WeForms {
             new WeForms_Pro_Integrations();
             new WeForms_Importer_CF7();
             // new WeForms_Importer_WPForms();
+            new WeForms_Importer_NF();
         } else {
             new WeForms_Frontend();
         }
