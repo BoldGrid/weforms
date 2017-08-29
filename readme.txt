@@ -95,7 +95,23 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Screenshots ==
 
-1. Nothing here right now
+1. How it works
+2. The form listings
+3. Create form from a range of pre-defined templates
+4. A single contact form with it's builder view
+5. Edit the field properties on the right side and see the changes instantly
+6. Form settings
+7. Submission restriction settings of a form
+8. Form display settings
+9. Create and send unlimited email notifications to various destinations
+10. Email notification settings
+11. Free slack integration and various premium integrations
+12. Export the forms, as well as the form entries (CSV).
+13. Import forms, also import forms from various other plugins
+14. The help page
+15. Plugin settings
+16. A simple contact form displayed on the site
+17. Event registration form displayed on the site
 
 == Changelog ==
 
