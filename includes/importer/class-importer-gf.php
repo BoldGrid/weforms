@@ -8,6 +8,11 @@
 class WeForms_Importer_GF extends WeForms_Importer_Abstract {
 
     function __construct() {
+        // $forms = GFAPI::get_forms();
+        // echo '<pre>';
+        // print_r( $forms );
+        // die();
+
         $this->id = 'gf';
         $this->title     = 'Gravity Form';
         $this->shortcode = 'gravityform';
@@ -235,6 +240,8 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                     break;
             }
         }
+
+        return $form_fields;
     }
 
     /**
@@ -251,30 +258,32 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
         $start_date       = '';
         $end_date         = '';
 
-        if (  $form['scheduleForm'] ) {
+        if (  isset( $form['scheduleForm'] ) && $form['scheduleForm'] ) {
             $start_time =  sprintf( "%02d", $form['scheduleStartHour'] ) . ':' . sprintf( "%02d", $form['scheduleStartMinute'] ) . ' ' . $form['scheduleStartAmpm'];
             $end_time   = sprintf( "%02d", $form['scheduleEndHour'] ) . ':' . sprintf( "%02d", $form['scheduleEndMinute'] ) . ' ' . $form['scheduleEndAmpm'];
             $start_date = date( 'Y-m-d H:i:s', strtotime( $form['scheduleStart'] . $start_time ) );
             $end_date   = date( 'Y-m-d H:i:s', strtotime( $form['scheduleEnd'] . $end_time ) );
         }
 
+        $form_label_position = ! empty( $form['labelPlacement'] ) ? $form['labelPlacement'] : 'top_label';
+
         $form_settings = array(
             'redirect_to'        => 'same',
             'message'            => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
             'page_id'            => '',
             'url'                => '',
-            'submit_text'        => ! empty( $form['button'][text] ) ? $form['button'][text] : __( 'Submit Query', 'weforms' ),
-            'schedule_form'      => $form['scheduleForm'] ? 'true' : 'false',
+            'submit_text'        => ! empty( $form['button']['text'] ) ? $form['button']['text'] : __( 'Submit Query', 'weforms' ),
+            'schedule_form'      => ( isset( $form['scheduleForm'] ) && $form['scheduleForm'] )  ? 'true' : 'false',
             'schedule_start'     => $start_date,
             'schedule_end'       => $end_date,
-            'sc_pending_message' => $form['schedulePendingMessage'],
-            'sc_expired_message' => $form['scheduleMessage'],
-            'require_login'      => $form['requireLogin'] ? 'true' : 'false',
-            'req_login_message'  => $form['requireLoginMessage'],
-            'limit_entries'      => $form['limitEntries'] ? 'true' : 'false',
-            'limit_number'       => $form['limitEntriesCount'],
-            'limit_message'      => $form['limitEntriesMessage'],
-            'label_position'     => $this->get_label_position( $form['labelPlacement'] ),
+            'sc_pending_message' => ! empty( $form['schedulePendingMessage'] ) ? $form['schedulePendingMessage'] : '',
+            'sc_expired_message' => ! empty( $form['scheduleMessage'] ) ? $form['scheduleMessage'] : '' ,
+            'require_login'      => ! empty( $form['requireLogin'] ) ? 'true' : 'false',
+            'req_login_message'  => ! empty( $form['requireLoginMessage'] ) ? $form['requireLoginMessage'] : '',
+            'limit_entries'      => ! empty( $form['limitEntries'] ) ? 'true' : 'false',
+            'limit_number'       => ! empty( $form['limitEntriesCount'] ) ? $form['limitEntriesCount'] : '',
+            'limit_message'      => ! empty( $form['limitEntriesMessage'] ) ? $form['limitEntriesMessage'] : '',
+            'label_position'     => $this->get_label_position( $form_label_position ),
         );
 
         $settings = wp_parse_args( $form_settings, $default_settings );
@@ -302,7 +311,7 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
             $notifications[] = array(
                 'active'      => ( isset( $notification['isActive'] ) && $notification['isActive'] ) ? 'true' : 'false',
                 'name'        => $notification['name'],
-                'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $properties['mail']['subject'] ),
+                'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $notification['subject'] ),
                 'to'          => $notification['to'],
                 'replyTo'     => '{field:your-email}',
                 'message'     => '{all_fields}',
