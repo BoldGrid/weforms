@@ -350,6 +350,10 @@ function weforms_get_form_field_labels( $form_id ) {
             'label' => $field['label'],
             'type'  => $field['input_type']
         );
+
+        if ( in_array( $field['input_type'], array( 'select', 'radio', 'checkbox', 'multiselect' ) ) ) {
+            $data[ $field['name'] ]['options'] = $field['options'];
+        }
     }
 
     return $data;
@@ -402,6 +406,10 @@ function weforms_get_entry_data( $entry_id ) {
                     $data[ $meta_key ] .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
                 }
             }
+
+        } elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
+
+            $data[ $meta_key ] = explode( WPUF_Render_Form::$separator, $value );
 
         } elseif ( $field['type'] == 'map' ) {
 
