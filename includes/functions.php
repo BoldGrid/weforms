@@ -1,6 +1,29 @@
 <?php
 
 /**
+ * Get a single form
+ *
+ * @since 1.0.3
+ *
+ * @param  int $form_id
+ *
+ * @return false|WP_Post
+ */
+function weform_get_form( $form_id ) {
+    $form = get_post( $form_id );
+
+    if ( ! $form ) {
+        return false;
+    }
+
+    if ( $form->post_type != 'wpuf_contact_form' ) {
+        return false;
+    }
+
+    return $form;
+}
+
+/**
  * Get contact form templates
  *
  * @return array

@@ -204,7 +204,6 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-gf.php';
-            // require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-ninja-forms.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-caldera-forms.php';
@@ -219,6 +218,7 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
+        require_once WEFORMS_INCLUDES . '/class-form-preview.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
         require_once WEFORMS_INCLUDES . '/functions-template-contact-form.php';
     }
@@ -372,6 +372,7 @@ final class WeForms {
         }
 
         $this->emailer = new WeForms_Emailer();
+        new WeForms_Form_Preview();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             new WeForms_Ajax();
