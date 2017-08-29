@@ -203,7 +203,7 @@ final class WeForms {
 
             require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
-            // require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-ninja-forms.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-caldera-forms.php';
 
@@ -360,7 +360,7 @@ final class WeForms {
             new WeForms_Form_Template();
             new WeForms_Pro_Integrations();
             new WeForms_Importer_CF7();
-            // new WeForms_Importer_WPForms();
+            new WeForms_Importer_WPForms();
             new WeForms_Importer_Ninja_Forms();
             new WeForms_Importer_Caldera_Forms();
         } else {

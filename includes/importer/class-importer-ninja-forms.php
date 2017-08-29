@@ -76,6 +76,17 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     }
 
     /**
+     * Get the form id
+     *
+     * @param  mixed $form
+     *
+     * @return int
+     */
+    protected function get_form_id( $form ) {
+        return $form->id;
+    }
+
+    /**
      * Get the form fields
      *
      * @param  object $form
@@ -165,7 +176,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 case 'spam':
                 case 'starrating':
                 case 'submit':
-                    
+
                     break;
 
                 case 'acceptance':

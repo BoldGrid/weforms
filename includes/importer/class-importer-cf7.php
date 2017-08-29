@@ -49,6 +49,17 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     }
 
     /**
+     * Get the form id
+     *
+     * @param  mixed $form
+     *
+     * @return int
+     */
+    protected function get_form_id( $form ) {
+        return $form->id;
+    }
+
+    /**
      * Get the form fields
      *
      * @param  object $form
@@ -58,6 +69,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     public function get_form_fields( $form ) {
         $form_fields = array();
         $form_tags   = $form->scan_form_tags();
+        $properties  = $form->get_properties();
 
         if ( ! $form_tags ) {
             return $form_fields;
@@ -74,10 +86,10 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                 case 'url':
 
                     $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
-                        'required' => $cf_field->is_required() ? 'yes' : 'no',
-                        'label'    => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                        'name'     => $cf_field->name,
-                        'css'      => $cf_field->get_class_option(),
+                        'required'  => $cf_field->is_required() ? 'yes' : 'no',
+                        'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'      => $cf_field->name,
+                        'css_class' => $cf_field->get_class_option(),
                     ) );
                     break;
 
@@ -85,11 +97,11 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                 case 'radio':
                 case 'checkbox':
                     $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
-                        'required' => $cf_field->is_required() ? 'yes' : 'no',
-                        'label'    => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                        'name'     => $cf_field->name,
-                        'css'      => $cf_field->get_class_option(),
-                        'options'  => $this->get_options( $cf_field ),
+                        'required'  => $cf_field->is_required() ? 'yes' : 'no',
+                        'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'      => $cf_field->name,
+                        'css_class' => $cf_field->get_class_option(),
+                        'options'   => $this->get_options( $cf_field ),
                     ) );
 
                 case 'range':
@@ -99,7 +111,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                         'required'        => $cf_field->is_required() ? 'yes' : 'no',
                         'label'           => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
                         'name'            => $cf_field->name,
-                        'css'             => $cf_field->get_class_option(),
+                        'css_class'       => $cf_field->get_class_option(),
                         'step_text_field' => $cf_field->get_option( 'step', 'int', true ),
                         'min_value_field' => $cf_field->get_option( 'min', 'signed_int', true ),
                         'max_value_field' => $cf_field->get_option( 'max', 'signed_int', true ),
@@ -133,10 +145,10 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
 
                 case 'recaptcha':
                     $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
-                        'required'    => $cf_field->is_required() ? 'yes' : 'no',
-                        'label' => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                        'name'        => $cf_field->name,
-                        'css_class'              => $cf_field->get_class_option(),
+                        'required'  => $cf_field->is_required() ? 'yes' : 'no',
+                        'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
+                        'name'      => $cf_field->name,
+                        'css_class' => $cf_field->get_class_option(),
                     ) );
                     break;
 

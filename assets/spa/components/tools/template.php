@@ -122,20 +122,24 @@
             <table style="min-width: 500px;">
                 <tbody>
                     <tr>
-                        <td>Contact Form 7</td>
+                        <td><?php _e( 'Contact Form 7', 'weforms' ); ?></td>
                         <th><button class="button" @click.prevent="importx($event.target, 'cf7')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
-                        <td>Ninja Forms</td>
-                        <th><button class="button">Import</button></th>
+                        <td><?php _e( 'Ninja Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'nf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
-                        <td>Gravity Forms</td>
-                        <th><button class="button">Import</button></th>
+                        <td><?php _e( 'Caldera Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'caldera-forms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
-                        <td>WP Forms</td>
-                        <th><button class="button">Import</button></th>
+                        <td><?php _e( 'Gravity Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'gf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                    </tr>
+                    <tr>
+                        <td><?php _e( 'WP Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'wpforms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                 </tbody>
             </table>
