@@ -3,7 +3,7 @@ weForms.routeComponents.Tools = {
     mixins: [weForms.mixins.Tabs, weForms.mixins.Loading],
     data: function() {
         return {
-            activeTab: 'import',
+            activeTab: 'export',
             exportType: 'all',
             loading: false,
             forms: [],
