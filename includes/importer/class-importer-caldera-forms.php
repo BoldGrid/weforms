@@ -53,6 +53,17 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     }
 
     /**
+     * Get the form id
+     *
+     * @param  mixed $form
+     *
+     * @return int
+     */
+    protected function get_form_id( $form ) {
+        return $form['ID'];
+    }
+
+    /**
      * Get the form fields
      *
      * @param  object $form

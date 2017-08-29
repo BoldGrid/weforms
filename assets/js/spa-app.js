@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.2
-Generated: 2017-08-28 (1503903175665)
+Generated: 2017-08-29 (1503999291998)
 */
 
 ;(function($) {
@@ -497,7 +497,7 @@ weForms.routeComponents.Tools = {
     mixins: [weForms.mixins.Tabs, weForms.mixins.Loading],
     data: function() {
         return {
-            activeTab: 'import',
+            activeTab: 'export',
             exportType: 'all',
             loading: false,
             forms: [],

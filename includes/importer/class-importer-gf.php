@@ -8,11 +8,6 @@
 class WeForms_Importer_GF extends WeForms_Importer_Abstract {
 
     function __construct() {
-        // $forms = GFAPI::get_forms();
-        // echo '<pre>';
-        // print_r( $forms );
-        // die();
-
         $this->id = 'gf';
         $this->title     = 'Gravity Form';
         $this->shortcode = 'gravityform';
@@ -121,6 +116,8 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                         'help'      => $field->description,
                         'options'   => $this->get_options( $field ),
                     ) );
+                    break;
+
 
                 case 'multiselect':
                     $form_fields[] = array(
@@ -153,14 +150,17 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                     break;
 
                  case 'address':
-                    $form_fields[] = $this->get_form_field( $field->type, array(
-                        'required'  => $field->isRequired ? 'yes' : 'no',
-                        'label'     => $field->label,
-                        'name'      => $this->get_meta_key( $field ),
-                        'css_class' => $field->cssClass,
-                        'help'      => $field->description,
-                        'address'   => $this->get_address_field_data( $field )
-                    ) );
+                    $form_fields[] = array(
+                        'input_type' => 'address',
+                        'template'   => 'address_field',
+                        'required'   => $field->isRequired ? 'yes' : 'no',
+                        'label'      => $field->label,
+                        'name'       => $this->get_meta_key( $field ),
+                        'is_meta'    => 'yes',
+                        'css_class'  => $field->cssClass,
+                        'help'       => $field->description,
+                        'address'    => $this->get_address_field_data( $field )
+                    );
                     break;
 
                 case 'fileupload':
@@ -168,7 +168,7 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                     $file_ext = explode( ',', $field->allowedExtensions );
 
                     foreach( $file_ext as $ext ) {
-                        $allowed_ext = $this->get_file_type( $et );
+                        $allowed_ext = $this->get_file_type( $ext );
                         if ( $allowed_ext ) {
                             $extenion_type[] = $data;
                         }
@@ -180,7 +180,7 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                         'name'      => $this->get_meta_key( $field ),
                         'css_class' => $field->cssClass,
                         'help'      => $field->description,
-                        'max_size'  => $field->maxFileSize*1024,
+                        'max_size'  => !empty( $field->maxFileSize ) ? $field->maxFileSize * 1024 : 1024,
                         'extension' => array_unique( $extenion_type ),
                     ) );
                     break;
@@ -199,7 +199,7 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                     break;
 
                 case 'name':
-                    if ( $this->get_name_format() ) {
+                    if ( $this->get_name_format( $field ) ) {
                         $form_fields[] = array(
                             'input_type' => 'name',
                             'template'   => 'name_field',
@@ -209,7 +209,7 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                             'is_meta'    => 'yes',
                             'css'        => $field->cssClass,
                             'wpuf_cond'  => $this->conditionals,
-                            'format'     => $this->get_name_format(),
+                            'format'     => $this->get_name_format( $field ),
                             'first_name' => array(
                                 'sub'         => isset( $field->inputs[1]['label'] ) ? $field->inputs[1]['label'] : '',
                                 'default'     => isset( $field->inputs[1]['defaultValue'] ) ? $field->inputs[1]['defaultValue'] : '',
@@ -235,7 +235,7 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
                         'required'  => $field->isRequired ? 'yes' : 'no',
                         'label'     => $field->label,
                         'name'      => $this->get_meta_key( $field ),
-                        'css_class' => $cf_field->get_class_option(),
+                        'css_class' => $field->cssClass,
                     ) );
                     break;
             }
@@ -323,6 +323,17 @@ class WeForms_Importer_GF extends WeForms_Importer_Abstract {
         }
 
         return $notifications;
+    }
+
+    /**
+     * Get the form id
+     *
+     * @param  mixed $form
+     *
+     * @return int
+     */
+    protected function get_form_id( $form ) {
+        return $form['id'];
     }
 
     /**

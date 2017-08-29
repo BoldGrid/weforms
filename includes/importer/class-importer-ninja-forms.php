@@ -1,696 +1,330 @@
 <?php
 
 /**
- * Ninja Form 7
+ * Ninja Form
  *
- * Import Ninja form 7 forms
+ * Import Ninja form forms
  */
-class WeForms_Importer_NF {
+class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
 
     function __construct() {
-        add_action( 'admin_notices', array( $this, 'maybe_show_notice' ) );
+        $this->id        = 'nf';
+        $this->title     = 'Ninja Forms';
+        $this->shortcode = 'ninja_form';
 
-        add_action( 'wp_ajax_weforms_import_nf_dismiss', array( $this, 'dismiss_notice' ) );
-        add_action( 'wp_ajax_weforms_import_nf_forms', array( $this, 'import_forms' ) );
-        add_action( 'wp_ajax_weforms_nf_shortcode_replace', array( $this, 'replace_action' ) );
+        parent::__construct();
     }
 
     /**
-     * Show notice if Ninja From 7 found
+     * See if the plugin exists
      *
-     * @return void
+     * @return boolean
      */
-    public function maybe_show_notice() {
-        if ( ! class_exists( 'Ninja_Forms' ) ) {
-            return;
-        }
-
-        if ( $this->is_dimissed() || !current_user_can( 'manage_options' ) ) {
-            return;
-        }
-        ?>
-        <div class="notice notice-info">
-            <p><strong><?php _e( 'Ninja Form Detected', 'weforms' ); ?></strong></p>
-            <p><?php _e( 'Hey, looks like you have <strong>Ninja Form</strong> installed. Would you like to <strong>import</strong> the forms into weForms?', 'weforms' ); ?></p>
-
-            <p>
-                <a href="#" class="button button-primary weforms-import-nf" id="weforms-import-nf"><?php _e( 'Import Forms', 'weforms' ); ?></a>
-                <a href="#" class="button weforms-import-nf" id="weforms-dimiss-nf"><?php _e( 'No Thanks', 'weforms' ); ?></a>
-            </p>
-        </div>
-
-        <script type="text/javascript">
-            jQuery(function($) {
-                $('.notice').on('click', 'a#weforms-import-nf', function(e) {
-                    e.preventDefault();
-
-                    var self = $(this);
-                    self.addClass('updating-message');
-
-                    wp.ajax.send( 'weforms_import_nf_forms', {
-                        data: {
-                            type: self.data('type'),
-                            _wpnonce: '<?php echo wp_create_nonce( 'weforms' ); ?>'
-                        },
-
-                        success: function(response) {
-                            var html = '<p><strong>' + response.title + '</strong></p>' +
-                                        '<p>' + response.message + '</p>' +
-                                        '<p>' + response.action + '</p>';
-
-                            html += '<ul>';
-                            _.each(response.refs, function(el, index) {
-                                html += '<li><a target="_blank" href="admin.php?page=weforms#/form/' + el.weforms_id + '/edit">' + el.title + '</a> - <a href="admin.php?page=weforms#/form/' + el.weforms_id + '/edit" target="_blank" class="button button-small"><span class="dashicons dashicons-external"></span> Edit</a></li>';
-                            });
-
-                            html += '</ul>';
-                            html += '<p>' + '<a href="#" class="button button-primary weforms-nf-replace-action" data-type="replace"><?php _e( 'Replace Shortcodes', 'weforms' ); ?></a>&nbsp;' +
-                                    '<a href="#" class="button weforms-nf-replace-action" data-type="skip"><?php _e( 'No Thanks', 'weforms' ); ?></a></p>';
-
-                            self.closest('.notice').removeClass('notice-info').addClass('notice-success').html( html );
-                        },
-
-                        error: function(error) {
-                            var html = '<p><strong>' + error.title + '</strong></p>' +
-                                        '<p>' + error.message + '</p>';
-
-                            self.closest('.notice').removeClass('notice-info').addClass('notice-error').html( html );
-                        },
-
-                        complete: function() {
-                            self.removeClass('updating-message');
-                        }
-                    });
-                });
-
-                $('.notice').on('click', '#weforms-dimiss-nf', function(e) {
-                    e.preventDefault();
-
-                    $(this).closest('.notice').remove();
-                    wp.ajax.send('weforms_import_nf_dismiss');
-                });
-
-                $('.notice').on('click', 'a.weforms-nf-replace-action', function(e) {
-                    e.preventDefault();
-
-                    var self = $(this);
-                    var notice = self.closest('.notice');
-
-                    self.addClass('updating-message');
-
-                    wp.ajax.send( 'weforms_nf_shortcode_replace', {
-                        data: {
-                            type: self.data('type'),
-                            _wpnonce: '<?php echo wp_create_nonce( 'weforms_nf_replace' ); ?>'
-                        },
-
-                        success: function(response) {
-                            notice.remove();
-
-                            if ( 'replace' === self.data('type') ) {
-                                alert( response );
-                            }
-                        },
-
-                        error: function(error) {
-                            notice.remove();
-                            alert( error );
-                        },
-
-                        complete: function() {
-                            self.removeClass('updating-message');
-                        }
-                    });
-
-                });
-            });
-        </script>
-        <?php
+    public function plugin_exists() {
+        return class_exists( 'Ninja_Forms' );
     }
 
     /**
-     * Replace Ninja form 7 shortcodes
+     * Show notice if Ninja From found
      *
      * @return void
      */
-    public function replace_action() {
-        check_ajax_referer( 'weforms_nf_replace' );
+    public function ninja_form_field($form) {
 
-        $this->check_caps();
+        $data = array();
+        foreach( Ninja_Forms()->form( $form->get_id() )->get_fields() as $field ){
+            $data[$field->get_settings( 'order' )] = array(
+                'type'      => $field->get_setting( 'type' ),
+                'key'       => $field->get_setting( 'key' ),
+                'label'     => $field->get_setting( 'label' ),
+                'required'  => $field->get_setting( 'required' ) ? $field->get_setting( 'required' ) : 0
+            );
 
-        if ( ! in_array( $_POST['type'], array( 'skip', 'replace' ) ) ) {
-            wp_send_json_error( __( 'Not a valid action type.', 'weforms' ) );
-        }
-
-        if ( 'skip' == $_POST['type'] ) {
-            wp_send_json_success();
-        }
-
-        $pages_query = new WP_Query( array(
-            'post_type'      => 'page',
-            'posts_per_page' => -1,
-            's'              => '[ninja_form'
-        ) );
-
-        if ( ! $pages_query->found_posts ) {
-            wp_send_json_error( __( 'No pages found with Ninja Form shortcode. Skipped!', 'weforms' ) );
-        }
-
-        $count = 0;
-        $refs  = get_option( 'weforms_nf_imported_forms', array() );
-        $pages = $pages_query->get_posts();
-
-        foreach ($pages as $page) {
-            preg_match_all( '/\[(\[?)(ninja\_form|)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*+(?:\[(?!\/\2\])[^\[]*+)*+)\[\/\2\])?)(\]?)/s', $page->post_content, $matches, PREG_SET_ORDER );
-
-            if ( empty( $matches ) ) {
-                continue;
+            if (in_array($field->get_setting('type'), array('listselect', 'listradio', 'listcheckbox', 'listmultiselect')) ) {
+                foreach ($field->get_setting('options') as $option) {
+                    $data[$field->get_settings( 'order' )]['options'][] = array(
+                        'label'     => $option['label'],
+                        'value'     => $option['value'],
+                    );
+                }
             }
+        }
+        return $data;
+    }
 
-            foreach ( $matches as $shortcode ) {
-                $atts = shortcode_parse_atts( $shortcode[0] );
 
-                if ( isset( $atts['id'] ) && array_key_exists( $atts['id'], $refs ) ) {
-                    $replace = sprintf( '[weforms id="%d"]', $refs[ $atts['id'] ]['weforms_id'] );
+    /**
+     * Get all the forms
+     *
+     * @return array
+     */
+    public function get_forms() {
+        $items    = Ninja_Forms()->form()->get_forms();
 
-                    $post_content = str_replace( $shortcode[0], $replace, $page->post_content );
+        return $items;
+    }
 
-                    wp_update_post( array(
-                        'ID'           => $page->ID,
-                        'post_content' => $post_content
+    /**
+     * Get form name
+     *
+     * @param  object $form
+     *
+     * @return string
+     */
+    public function get_form_name( $form ) {
+        return $form->get_setting( 'title' );
+    }
+
+    /**
+     * Get the form id
+     *
+     * @param  mixed $form
+     *
+     * @return int
+     */
+    protected function get_form_id( $form ) {
+        return $form->id;
+    }
+
+    /**
+     * Get the form fields
+     *
+     * @param  object $form
+     *
+     * @return array
+     */
+    public function get_form_fields( $form ) {
+        $form_fields = $this->ninja_form_field($form);
+
+        foreach ($form_fields as $menu_order => $field) {
+
+            $field_content = array();
+
+            switch ( $field['type'] ) {
+                case 'text':
+                case 'email':
+                case 'textarea':
+                case 'date':
+                case 'url':
+                case 'firstname':
+                case 'lastname':
+
+                    if($field['type'] == 'firstname' || $field['type'] == 'firstname') {
+                        $field['type'] = 'text';
+                    }
+
+                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                        'required' => $field['required'] ? 'yes' : 'no',
+                        'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
+                        'name'     => $field['key'],
+                    ) );
+                    break;
+
+                case 'checkbox':
+
+
+                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                        'required' => $field['required'] ? 'yes' : 'no',
+                        'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
+                        'name'     => $field['key'],
+                    ) );
+                    break;
+
+                case 'select':
+                case 'radio':
+                case 'checkbox':
+                case 'listcheckbox':
+                case 'listmultiselect':
+                case 'listradio':
+                case 'listselect':
+
+
+                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                        'required' => $field['required'] ? 'yes' : 'no',
+                        'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
+                        'name'     => $field['key'],
+                        'options'  => $this->get_options( $field['options'] ),
+                    ) );
+                    break;
+
+                case 'range':
+                case 'phone':
+                case 'number':
+                case 'quantity':
+                case 'total':
+                case 'shipping':
+                case 'quantity':
+
+                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                        'required'        => $field['required'] ? 'yes' : 'no',
+                        'label'           => $this->find_label( $field['label'], $field['type'], $field['key'] ),
+                        'name'            => $field['key'],
                     ) );
 
-                    $count++;
-                }
+                    break;
+
+                case 'city':
+                case 'quiz':
+                case 'address':
+                case 'listcountry':
+                case 'liststate':
+                case 'zip':
+                case 'product':
+                case 'hr':
+                case 'html':
+                case 'hidden':
+                case 'spam':
+                case 'starrating':
+                case 'submit':
+
+                    break;
+
+                case 'acceptance':
+
+                    $form_fields[] = $this->get_form_field( 'toc', array(
+                        'required'    => $field['required'] ? 'yes' : 'no',
+                        'description' => $this->find_label( $field['label'], $field['type'], $field['key'] ),
+                        'name'        => $field['key'],
+                    ) );
+                    break;
+
+                case 'recaptcha':
+
+                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                        'required'    => $field['required'] ? 'yes' : 'no',
+                        'label' => $this->find_label( $field['label'], $field['type'], $field['key'] ),
+                        'name'        => $field['key'],
+                    ) );
+                    break;
             }
         }
 
-        delete_option( 'weforms_nf_imported_forms' );
-        wp_send_json_success( sprintf( _n( 'Replaced %d form', 'Replaced %d forms', $count ), $count ) );
+        return $form_fields;
     }
 
     /**
-     * Ajax import callback
+     * Get form settings
      *
-     * @return void
+     * @param  object $form
+     *
+     * @return array
      */
-    public function import_forms() {
-        check_ajax_referer( 'weforms' );
-
-        $this->check_caps();
-
-        // check if plugin installed
-        if ( ! class_exists( 'Ninja_Forms' ) ) {
-            wp_send_json_error( array(
-                'title' => __( 'Uh oh!', 'weforms' ),
-                'message' => __( 'Ninja Forms is not installed.', 'weforms' )
-            ) );
-        }
-
-        $imported = 0;
-        $forms = Ninja_Forms()->form()->get_forms();
-
-        if ( ! $forms ) {
-            wp_send_json_error( array(
-                'title' => __( 'Uh oh!', 'weforms' ),
-                'message' => __( 'No form found!', 'weforms' )
-            ) );
-
-            $this->dismiss_prompt();
-        }
-
-        foreach( $forms as $form ){
-            $data[$form->get_id()] = array(
-                'id'        => $form->get_id(),
-                'title'     => $form->get_setting( 'title' ),
-            );
-            foreach( Ninja_Forms()->form( $form->get_id() )->get_fields() as $field ){
-                // pre($field);
-                $data[$form->get_id()]['fields'][$field->get_id()]['type'] = $field->get_setting( 'type' );
-                $data[$form->get_id()]['fields'][$field->get_id()]['field_attr'] = array(
-                    'key'       => $field->get_setting( 'key' ),
-                    'label'     => $field->get_setting( 'label' ),
-                    'required'  => $field->get_setting( 'required' ) ? $field->get_setting( 'required' ) : 0
-                );
-
-                if (in_array($field->get_setting('type'), array('listselect', 'listradio', 'listcheckbox', 'listmultiselect')) ) {
-                    foreach ($field->get_setting('options') as $option) {
-                        $data[$form->get_id()]['fields'][$field->get_id()]['field_attr']['options'][] = array(
-                            'label'     => $option['label'],
-                            'value'     => $option['value'],
-                            'selected'  => $option['selected']
-                        );
-                    }
-                }
+    public function get_form_settings( $form ) {
+        $all_settings = get_option( 'nf_form_' . $form->get_id(), true );
+        foreach ($all_settings['actions'] as $actions) {
+            if('successmessage' == $actions['settings']['type']){
+                $message = $actions['settings']['message'];
             }
         }
-        //-------------
-        foreach ($data as $id => $form_data) {
+        $message    = str_replace(' {field:name}', '', $message);
+        $default    = $this->get_default_form_settings();
+        $settings   = wp_parse_args( array(
+            'message' => $message,
+            ), $default );
 
-            // $properties = $form->get_properties();
-            // $form_tags  = $form->scan_form_tags();
-
-            if ( ! $form_tags ) {
-                continue;
-            }
-
-            $weforms_form = array(
-                'post_title'  => '[NF] ' . $form->title(),
-                'post_type'   => 'wpuf_contact_form',
-                'post_status' => 'publish',
-                'post_author' => get_current_user_id()
-            );
-
-            $form_id = wp_insert_post( $weforms_form );
-
-            if ( is_wp_error( $form_id ) ) {
-                continue;
-            }
-
-            $submit_label = __( 'Submit Query', 'weforms' );
-            $form_settings = array(
-                'redirect_to'        => 'same',
-                'message'            => $properties['messages']['mail_sent_ok'],
-                'page_id'            => '',
-                'url'                => '',
-                'submit_text'        => __( 'Submit Query', 'weforms' ),
-                'schedule_form'      => 'false',
-                'schedule_start'     => '',
-                'schedule_end'       => '',
-                'sc_pending_message' => __( 'Form submission hasn\'t been started yet', 'weforms' ),
-                'sc_expired_message' => __( 'Form submission is now closed.', 'weforms' ),
-                'require_login'      => 'false',
-                'req_login_message'  => __( 'You need to login to submit a query.', 'weforms' ),
-                'limit_entries'      => 'false',
-                'limit_number'       => '1000',
-                'limit_message'      => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
-                'label_position'     => 'above',
-            );
-
-            $form_notifications = array(
-                array(
-                    'active'      => $properties['mail']['active'] ? 'true' : 'false',
-                    'name'        => 'Admin Notification',
-                    'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $properties['mail']['subject'] ),
-                    'to'          => $properties['mail']['recipient'],
-                    'replyTo'     => '{field:your-email}',
-                    'message'     => '{all_fields}',
-                    'fromName'    => '{site_name}',
-                    'fromAddress' => '{admin_email}',
-                    'cc'          => '',
-                    'bcc'         => '',
-                ),
-            );
-
-            $sender_match = array();
-            preg_match( '/([^<"]*)"?\s*<(\S*)>/', $properties['mail']['sender'], $sender_match );
-
-            if ( isset( $sender_match[1] ) ) {
-                $form_notifications[0]['fromName'] = $sender_match[1];
-            }
-
-            if ( isset( $sender_match[2] ) ) {
-                $form_notifications[0]['fromAddress'] = $sender_match[2];
-            }
-
-            if ( $properties['mail_2']['active'] ) {
-                $form_notifications[] = array(
-                    'active'      => $properties['mail_2']['active'] ? 'true' : 'false',
-                    'name'        => 'Admin Notification',
-                    'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $properties['mail_2']['subject'] ),
-                    'to'          => $properties['mail_2']['recipient'],
-                    'replyTo'     => '{field:your-email}',
-                    'message'     => '{all_fields}',
-                    'fromName'    => '{site_name}',
-                    'fromAddress' => '{admin_email}',
-                    'cc'          => '',
-                    'bcc'         => '',
-                );
-            }
-
-            $sender2_match = array();
-            preg_match( '/([^<"]*)"?\s*<(\S*)>/', $properties['mail_2']['sender'], $sender2_match );
-
-            if ( isset( $sender2_match[1] ) ) {
-                $form_notifications[1]['fromName'] = $sender2_match[1];
-            }
-
-            if ( isset( $sender2_match[2] ) ) {
-                $form_notifications[1]['fromAddress'] = $sender2_match[2];
-            }
-
-            $conditional_config = array(
-                'condition_status' => 'no',
-                'cond_field'       => array(),
-                'cond_operator'    => array( '=' ),
-                'cond_option'      => array( '- select -' ),
-                'cond_logic'       => 'all'
-            );
-
-            foreach ($form_tags as $menu_order => $cf_field) {
-                $field_content = array();
-
-                switch ( $cf_field->basetype ) {
-                    case 'text':
-                        $field_content = array(
-                            'input_type'       => 'text',
-                            'template'         => 'text_field',
-                            'required'         => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'            => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'             => $cf_field->name,
-                            'is_meta'          => 'yes',
-                            'help'             => '',
-                            'css'              => $cf_field->get_class_option(),
-                            'placeholder'      => '',
-                            'default'          => '',
-                            'size'             => 40,
-                            'word_restriction' => '',
-                            'wpuf_cond'        => $conditional_config
-                        );
-                        break;
-
-                    case 'email':
-                        $field_content = array(
-                            'input_type'       => 'text',
-                            'template'         => 'email_address',
-                            'required'         => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'            => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'             => $cf_field->name,
-                            'is_meta'          => 'yes',
-                            'help'             => '',
-                            'css'              => $cf_field->get_class_option(),
-                            'placeholder'      => '',
-                            'default'          => '',
-                            'size'             => 40,
-                            'word_restriction' => '',
-                            'wpuf_cond'        => $conditional_config
-                        );
-                        break;
-
-                    case 'textarea':
-                        $field_content = array(
-                            'input_type'       => 'textarea',
-                            'template'         => 'textarea_field',
-                            'required'         => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'            => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'             => $cf_field->name,
-                            'is_meta'          => 'yes',
-                            'help'             => '',
-                            'css'              => $cf_field->get_class_option(),
-                            'rows'             => 5,
-                            'cols'             => 25,
-                            'placeholder'      => '',
-                            'default'          => '',
-                            'rich'             => 'no',
-                            'word_restriction' => '',
-                            'wpuf_cond'        => $conditional_config
-                        );
-                        break;
-
-                    case 'select':
-                        $field_content = array(
-                            'input_type' => 'select',
-                            'template'   => 'dropdown_field',
-                            'required'   => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'      => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'       => $cf_field->name,
-                            'is_meta'    => 'yes',
-                            'help'       => '',
-                            'css'        => $cf_field->get_class_option(),
-                            'selected'   => '',
-                            'inline'     => 'no',
-                            'options'    => $this->get_options( $cf_field ),
-                            'wpuf_cond'  => $conditional_config
-                        );
-                        break;
-
-                    case 'date':
-                        $field_content = array(
-                            'input_type'      => 'date',
-                            'template'        => 'date_field',
-                            'required'        => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'           => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'            => $cf_field->name,
-                            'is_meta'         => 'yes',
-                            'help'            => '',
-                            'css'             => $cf_field->get_class_option(),
-                            'format'          => 'dd/mm/yy',
-                            'time'            => '',
-                            'is_publish_time' => '',
-                            'wpuf_cond'       => $conditional_config
-                        );
-                        break;
-
-                    case 'range':
-                    case 'number':
-
-                        $field_content = array(
-                            'input_type'       => 'numeric_text',
-                            'template'         => 'numeric_text_field',
-                            'required'         => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'            => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'             => $cf_field->name,
-                            'is_meta'          => 'yes',
-                            'help'             => '',
-                            'css'              => $cf_field->get_class_option(),
-                            'placeholder'      => '',
-                            'default'          => $value,
-                            'size'             => 40,
-                            'step_text_field' => $cf_field->get_option( 'step', 'int', true ),
-                            'min_value_field' => $cf_field->get_option( 'min', 'signed_int', true ),
-                            'max_value_field' => $cf_field->get_option( 'max', 'signed_int', true ),
-                            'wpuf_cond'        => $conditional_config
-                        );
-
-                        if ( $cf_field->has_option( 'placeholder' ) || $cf_field->has_option( 'watermark' ) ) {
-                            $field_content['placeholder'] = $value;
-                            $value                        = '';
-                        }
-
-                        $value                  = $cf_field->get_default_option( $value );
-                        $value                  = wpcf7_get_hangover( $cf_field->name, $value );
-                        $field_content['value'] = $value;
-
-                        break;
-
-                    case 'url':
-                        $field_content = array(
-                            'input_type'       => 'text',
-                            'template'         => 'website_url',
-                            'required'         => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'            => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'             => $cf_field->name,
-                            'is_meta'          => 'yes',
-                            'help'             => '',
-                            'css'              => $cf_field->get_class_option(),
-                            'placeholder'      => '',
-                            'default'          => '',
-                            'size'             => 40,
-                            'word_restriction' => '',
-                            'wpuf_cond'        => $conditional_config
-                        );
-                        break;
-
-                    case 'range':
-                        # code...
-                        break;
-
-                    case 'checkbox':
-                        $field_content = array(
-                            'input_type' => 'checkbox',
-                            'template'   => 'checkbox_field',
-                            'required'   => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'      => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'       => $cf_field->name,
-                            'is_meta'    => 'yes',
-                            'help'       => '',
-                            'css'        => $cf_field->get_class_option(),
-                            'selected'   => '',
-                            'inline'     => 'no',
-                            'options'    => $this->get_options( $cf_field ),
-                            'wpuf_cond'  => $conditional_config
-                        );
-                        break;
-
-                    case 'radio':
-                        $field_content = array(
-                            'input_type' => 'radio',
-                            'template'   => 'radio_field',
-                            'required'   => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'      => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'       => $cf_field->name,
-                            'is_meta'    => 'yes',
-                            'help'       => '',
-                            'css'        => $cf_field->get_class_option(),
-                            'selected'   => '',
-                            'inline'     => 'no',
-                            'options'    => $this->get_options( $cf_field ),
-                            'wpuf_cond'  => $conditional_config
-                        );
-                        break;
-
-                    case 'acceptance':
-                        $field_content = array(
-                            'input_type'       => 'toc',
-                            'template'         => 'toc',
-                            'required'         => $cf_field->is_required() ? 'yes' : 'no',
-                            'name'             => $cf_field->name,
-                            'description'      => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'             => '',
-                            'is_meta'          => 'yes',
-                            'show_checkbox'    => true,
-                            'wpuf_cond'        => $conditional_config
-                        );
-                        break;
-
-                    case 'quiz':
-                        # code...
-                        break;
-
-                    case 'recaptcha':
-                        $field_content = array(
-                            'input_type'       => 'recaptcha',
-                            'template'         => 'recaptcha',
-                            'required'         => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'            => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'             => $cf_field->name,
-                            'recaptcha_type'   => 'enable_no_captcha',
-                            'is_meta'          => 'yes',
-                            'help'             => '',
-                            'css'              => $cf_field->get_class_option(),
-                            'placeholder'      => '',
-                            'default'          => '',
-                            'size'             => 40,
-                            'word_restriction' => '',
-                            'wpuf_cond'        => $conditional_config
-                        );
-                        break;
-
-                    case 'file':
-
-                        $allowed_size       = 1024; // default size 1 MB
-                        $allowed_file_types = array();
-
-                        if ( $file_size_a = $cf_field->get_option( 'limit' ) ) {
-                            $limit_pattern = '/^([1-9][0-9]*)([kKmM]?[bB])?$/';
-
-                            foreach ( $file_size_a as $file_size ) {
-                                if ( preg_match( $limit_pattern, $file_size, $matches ) ) {
-                                    $allowed_size = (int) $matches[1];
-
-                                    if ( ! empty( $matches[2] ) ) {
-                                        $kbmb = strtolower( $matches[2] );
-
-                                        if ( 'kb' == $kbmb ) {
-                                            $allowed_size *= 1;
-                                        } elseif ( 'mb' == $kbmb ) {
-                                            $allowed_size *=  1024;
-                                        }
-                                    }
-
-                                    break;
-                                }
-                            }
-                        }
-
-
-                        if ( $file_types_a = $cf_field->get_option( 'filetypes' ) ) {
-                            foreach ( $file_types_a as $file_types ) {
-                                $file_types = explode( '|', $file_types );
-
-                                foreach ( $file_types as $file_type ) {
-                                    $file_type = trim( $file_type, '.' );
-                                    $file_type = str_replace( array( '.', '+', '*', '?' ), array( '\.', '\+', '\*', '\?' ), $file_type );
-
-                                    $_type = $this->get_file_type( $file_type );
-
-                                    if ( ! in_array( $_type, $allowed_file_types ) ) {
-                                        $allowed_file_types[] = $_type;
-                                    }
-                                }
-                            }
-                        }
-
-                        $field_content = array(
-                            'input_type' => 'file_upload',
-                            'template'   => 'file_upload',
-                            'required'   => $cf_field->is_required() ? 'yes' : 'no',
-                            'label'      => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
-                            'name'       => $cf_field->name,
-                            'is_meta'    => 'yes',
-                            'help'       => '',
-                            'css'        => $cf_field->get_class_option(),
-                            'max_size'   => $allowed_size,
-                            'count'      => '1',
-                            'extension'  => $allowed_file_types,
-                            'wpuf_cond'  => $conditional_config
-                        );
-                        break;
-
-                    case 'submit':
-                        $submit_label = isset( $cf_field->values[0] ) ? $cf_field->values[0] : '';
-                        break;
-                }
-
-
-                if ( $field_content ) {
-                    $form_field = array(
-                        'post_type'    => 'wpuf_input',
-                        'post_status'  => 'publish',
-                        'post_content' => maybe_serialize( $field_content ),
-                        'post_parent'  => $form_id,
-                        'menu_order'   => $menu_order
-                    );
-
-                    wp_insert_post( $form_field );
-                }
-            }
-
-            $form_settings['submit_text'] = $submit_label;
-
-            update_post_meta( $form_id, 'wpuf_form_settings', $form_settings );
-            update_post_meta( $form_id, 'notifications', $form_notifications );
-
-            $imported++;
-
-            $refs[$form->id] = array(
-                'cf7_id'     => $form->id,
-                'weforms_id' => $form_id,
-                'title'      => '[NF] ' . $form->title()
-            );
-        }
-
-        $this->dismiss_prompt();
-        update_option( 'weforms_nf_imported_forms', $refs );
-
-        wp_send_json_success( array(
-            'title'   => sprintf( _n( '%s form imported', '%s forms imported', $imported ), $imported ),
-            'message' => __( 'We have successfully imported these forms into weForms. You could check and edit in-case anything weird happended.', 'weforms' ),
-            'action'  => __( 'Do you want to <strong>replace</strong> Ninja From shortcodes with weForms?', 'weforms' ),
-            'refs'    => $refs
-        ) );
+        return $settings;
     }
 
     /**
-     * Dismiss the notice
+     * Get form notifications
      *
-     * @return void
+     * @param  object $form
+     *
+     * @return array
      */
-    public function dismiss_notice() {
-        $this->dismiss_prompt();
+    public function get_form_notifications( $form ) {
+        $notifications = array();
+        $all_settings = get_option( 'nf_form_' . $form->get_id(), true );
+        foreach ($all_settings['actions'] as $actions) {
+            if('Email Notification' == $actions['settings']['label']){
+                $action_settings = $actions['settings'];
+            }
+            else if('Email Confirmation' == $actions['settings']['label']){
+                $action_settings2 = $actions['settings'];
+            }
+        }
 
-        wp_send_json_success();
+        $sub    = str_replace('{field:name}', '{site_name}', $action_settings['email_subject']);
+
+        $notifications = array(
+            array(
+                'active'      => $action_settings['active'] ? 'true' : 'false',
+                'name'        => 'Admin Notification',
+                'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $sub ),
+                'to'          => '{field:your-email}',
+                'replyTo'     => '{field:your-email}',
+                'message'     => '{all_fields}',
+                'fromName'    => '{site_name}',
+                'fromAddress' => '{admin_email}',
+                'cc'          => '',
+                'bcc'         => '',
+            ),
+        );
+
+        $sender_match = $this->get_notification_sender_match( get_option( 'admin_email' ) );
+
+        if ( !empty( $sender_match['fromName'] ) ) {
+            $form_notifications[0]['fromName'] = $sender_match['fromName'];
+        }
+
+        if ( isset( $sender_match['fromAddress'] ) ) {
+            $form_notifications[0]['fromAddress'] = $sender_match['fromAddress'];
+        }
+
+        if ( $action_settings2['active'] ) {
+            $notifications[] = array(
+                'active'      => $action_settings2['active'] ? 'true' : 'false',
+                'name'        => 'Admin Notification',
+                'subject'     => str_replace( '[your-subject]', $action_settings2['subject'], $action_settings2['subject'] ),
+                'to'          => '{field:your-email}',
+                'replyTo'     => '{field:your-email}',
+                'message'     => '{all_fields}',
+                'fromName'    => '{site_name}',
+                'fromAddress' => '{admin_email}',
+                'cc'          => '',
+                'bcc'         => '',
+            );
+        }
+
+        $sender_match = $this->get_notification_sender_match( get_option( 'admin_email' ) );
+
+        if ( !empty( $sender_match['fromName'] ) ) {
+            $form_notifications[1]['fromName'] = $sender_match['fromName'];
+        }
+
+        if ( isset( $sender_match['fromAddress'] ) ) {
+            $form_notifications[1]['fromAddress'] = $sender_match['fromAddress'];
+        }
+
+        return $notifications;
     }
 
     /**
-     * Check capability if able to process
+     * Match the sender
      *
-     * @return void
+     * @param  array $mail
+     *
+     * @return array
      */
-    private function check_caps() {
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'You are not allowed.', 'weforms' ) );
+    public function get_notification_sender_match( $mail ) {
+
+        if ( !isset( $mail['sender'] ) ) {
+            return;
         }
+        $sender       = array( 'fromName' => '', 'fromAddress' => '' );
+        $sender_match = array();
+
+        preg_match( '/([^<"]*)"?\s*<(\S*)>/', $mail['sender'], $sender_match );
+
+        if ( isset( $sender_match[1] ) ) {
+            $sender['fromName'] = $sender_match[1];
+        }
+
+        if ( isset( $sender_match[2] ) ) {
+            $sender['fromAddress'] = $sender_match[2];
+        }
+
+        return $sender;
     }
 
     /**
@@ -756,33 +390,14 @@ class WeForms_Importer_NF {
     private function get_options( $field ) {
         $options = array();
 
-        if ( ! $field->raw_values ) {
+        if ( !is_array( $field ) ) {
             return $options;
         }
 
-        foreach ($field->raw_values as $key => $value) {
-            $options[ $value ] = $field->values[ $key ];
+        foreach ($field as $value) {
+            $options[ $value['value'] ] = $values['label'];
         }
 
         return $options;
     }
-
-    /**
-     * Dismiss the prompt
-     *
-     * @return void
-     */
-    private function dismiss_prompt() {
-        update_option( 'weforms_dismiss_nf_notice', 'yes' );
-    }
-
-    /**
-     * If the prompt is dismissed
-     *
-     * @return boolean
-     */
-    private function is_dimissed() {
-        return 'yes' == get_option( 'weforms_dismiss_nf_notice' );
-    }
-
 }

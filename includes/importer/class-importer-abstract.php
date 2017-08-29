@@ -77,11 +77,63 @@ abstract class WeForms_Importer_Abstract {
         return $this->shortcode;
     }
 
+    /**
+     * Get all the forms
+     *
+     * @return array
+     */
     abstract protected function get_forms();
+
+    /**
+     * Get the form name
+     *
+     * @param  mixed $form
+     *
+     * @return string
+     */
     abstract protected function get_form_name( $form );
+
+    /**
+     * Get the form id
+     *
+     * @param  mixed $form
+     *
+     * @return int
+     */
+    abstract protected function get_form_id( $form );
+
+    /**
+     * Get all form fields of a form
+     *
+     * @param  mixed $form
+     *
+     * @return array
+     */
     abstract protected function get_form_fields( $form );
+
+    /**
+     * Get form settings of a form
+     *
+     * @param  mixed $form
+     *
+     * @return array
+     */
     abstract protected function get_form_settings( $form );
+
+    /**
+     * Get form notifications of a form
+     *
+     * @param  mixed $form
+     *
+     * @return array
+     */
     abstract protected function get_form_notifications( $form );
+
+    /**
+     * Check if the plugin exists
+     *
+     * @return boolean
+     */
     abstract protected function plugin_exists();
 
     /**
@@ -236,6 +288,8 @@ abstract class WeForms_Importer_Abstract {
                 $settings      = $this->get_form_settings( $form );
                 $notifications = $this->get_form_notifications( $form );
 
+                error_log( print_r( $form_fields, true ) );
+
                 if ( $form_fields ) {
                     $form_id = $this->insert_form( $form_name );
 
@@ -252,8 +306,8 @@ abstract class WeForms_Importer_Abstract {
 
                     $imported++;
 
-                    $refs[$form->id] = array(
-                        'imported_id' => $form->id,
+                    $refs[ $this->get_form_id( $form ) ] = array(
+                        'imported_id' => $this->get_form_id( $form ),
                         'weforms_id'  => $form_id,
                         'title'       => $form_name
                     );
@@ -297,7 +351,7 @@ abstract class WeForms_Importer_Abstract {
         ) );
 
         if ( ! $pages_query->found_posts ) {
-            wp_send_json_error( __( 'No pages found with Contact Form 7 shortcode. Skipped!', 'weforms' ) );
+            wp_send_json_error( __( 'No pages found with shortcode. Skipped!', 'weforms' ) );
         }
 
         $count = 0;
@@ -402,21 +456,27 @@ abstract class WeForms_Importer_Abstract {
      */
     public function get_form_field( $type, $args = array() ) {
         $defaults = array(
-            'required'    => 'no',
-            'label'       => '',
-            'name'        => '',
-            'help'        => '',
-            'css_class'   => '',
-            'placeholder' => '',
-            'value'       => '',
-            'default'     => '',
-            'options'     => array(),
-            'step'        => '',
-            'min'         => '',
-            'max'         => '',
-            'extension'   => '',
-            'max_size'    => '', // file size
-            'size'        => '', // file size
+            'required'           => 'no',
+            'label'              => '',
+            'name'               => '',
+            'help'               => '',
+            'css_class'          => '',
+            'placeholder'        => '',
+            'value'              => '',
+            'default'            => '',
+            'options'            => array(),
+            'step'               => '',
+            'min'                => '',
+            'max'                => '',
+            'extension'          => '',
+            'max_size'           => '', // file size
+            'size'               => '', // file size
+            'first_placeholder'  => '',
+            'first_default'      => '',
+            'middle_placeholder' => '',
+            'middle_default'     => '',
+            'last_placeholder'   => '',
+            'last_default'       => '',
         );
 
         $args = wp_parse_args( $args, $defaults );
@@ -634,6 +694,37 @@ abstract class WeForms_Importer_Abstract {
                     'count'      => '1',
                     'extension'  => $args['extension'],
                     'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'name':
+                $field_content = array(
+                    'input_type' => 'name',
+                    'template'   => 'name_field',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'format'     => $args['format'],
+                    'first_name' => array(
+                        'placeholder' => $args['first_placeholder'],
+                        'default'     => $args['first_default'],
+                        'sub'         => __( 'First', 'weforms' )
+                    ),
+                    'middle_name' => array(
+                        'placeholder' => $args['middle_placeholder'],
+                        'default'     => $args['middle_default'],
+                        'sub'         => __( 'Middle', 'weforms' )
+                    ),
+                    'last_name' => array(
+                        'placeholder' => $args['last_placeholder'],
+                        'default'     => $args['last_default'],
+                        'sub'         => __( 'Last', 'weforms' )
+                    ),
+                    'hide_subs'        => false,
+                    'help'             => $args['description'],
+                    'css'              => $args['css_class'],
+                    'wpuf_cond'        => $this->conditionals
                 );
                 break;
         }
