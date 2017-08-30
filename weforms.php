@@ -457,7 +457,8 @@ final class WeForms {
         $settings        = get_option( 'weforms_settings', array() );
         $additional_keys = array(
             'email_gateway' => 'wordpress',
-            'recaptcha'     => array( 'type' => 'v2', 'key' => '', 'secret' => '' )
+            'credit'        => false,
+            'recaptcha'     => array( 'key' => '', 'secret' => '' )
         );
 
         foreach ($additional_keys as $key => $value) {

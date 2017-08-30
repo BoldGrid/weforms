@@ -785,7 +785,7 @@
 
     <div class="postboxes metabox-holder two-col">
         <div class="postbox">
-            <h3 class="hndle"><?php _e( 'Email', 'weforms' ); ?></h3>
+            <h3 class="hndle"><?php _e( 'General Settings', 'weforms' ); ?></h3>
 
             <div class="inside">
                 <p class="help">
@@ -834,6 +834,15 @@
                             <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
 
                             <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
+                        <td>
+                            <label>
+                                <input type="checkbox" v-model="settings.credit">
+                                <?php _e( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ); ?>
+                            </label>
                         </td>
                     </tr>
                 </table>

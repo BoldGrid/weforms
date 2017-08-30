@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.2
-Generated: 2017-08-30 (1504074050950)
+Generated: 2017-08-30 (1504075478137)
 */
 
 ;(function($) {
@@ -685,6 +685,7 @@ weForms.routeComponents.Settings = {
             loading: false,
             settings: {
                 email_gateway: 'wordpress',
+                credit: false,
                 gateways: {
                     sendgrid: '',
                     mailgun: '',

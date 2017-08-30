@@ -281,6 +281,11 @@ class WeForms_Ajax {
 
         $settings = get_option( 'weforms_settings', array() );
 
+        // checking to prevent js error, will be removed in future
+        if ( ! isset( $settings['credit'] ) ) {
+            $settings['credit'] = false;
+        }
+
         wp_send_json_success( $settings );
     }
 
