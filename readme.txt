@@ -4,7 +4,7 @@ Donate link: https://tareq.co/donate/
 Tags: contact form, contact, form, forms, form-builder
 Requires at least: 4.4
 Tested up to: 4.8.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop
 
 weForms is the easiest and fastest contact form plugin on WordPress. You can easily get started with weForms with its pre-built form templates. Creating forms is just one click away and everything is setup instantly, you don't need to even touch a single configuration.
 
-[youtube https://www.youtube.com/watch?v=NJvjy9WFyAM]
+[youtube https://www.youtube.com/watch?v=sqP-nvyqUdQ]
 
 = The Easiest & Fastest Contact Form Plugin on WordPress  =
 Quickly create rich contact forms to generate leads, taking feedbacks, onboarding visitors and flourishing your imagination! Comes with the best frontend post submission plugin for WordPress, WP User Frontend.
@@ -95,11 +95,38 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Screenshots ==
 
-1. Nothing here right now
+1. How it works
+2. The form listings
+3. Create form from a range of pre-defined templates
+4. A single contact form with it's builder view
+5. Edit the field properties on the right side and see the changes instantly
+6. Form settings
+7. Submission restriction settings of a form
+8. Form display settings
+9. Create and send unlimited email notifications to various destinations
+10. Email notification settings
+11. Free slack integration and various premium integrations
+12. Export the forms, as well as the form entries (CSV).
+13. Import forms, also import forms from various other plugins
+14. The help page
+15. Plugin settings
+16. A simple contact form displayed on the site
+17. Event registration form displayed on the site
 
 == Changelog ==
 
-= v1.0.1 (24 August, 2017) =
+= v1.0.3 (30 August, 2017) =
+
+ * [new] Gravity Forms Importer
+ * [new] Caldera Forms Importer
+ * [new] Ninja Forms Importer
+ * [new] WP Forms Forms Importer
+ * [new] Frontend Form Preview
+ * [new] Add form credit settings
+ * [fix] Notification mail shows level with Underscore between all words
+ * [fix] New columns added on entries listing page
+
+= v1.0.2 (24 August, 2017) =
 
  * [improved] Affiliate link tracking for plugin install
 

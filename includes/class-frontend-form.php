@@ -55,6 +55,7 @@ class WeForms_Frontend extends WPUF_Render_Form {
 
         $form_vars     = wpuf_get_form_fields( $form_id );
         $form_settings = wpuf_get_form_settings( $form_id );
+        $show_credit   = weforms_get_settings( 'credit', false );
         ?>
 
         <form class="wpuf-form-add" action="" method="post">
@@ -69,6 +70,10 @@ class WeForms_Frontend extends WPUF_Render_Form {
         </form>
 
         <?php
+        if ( $show_credit ) {
+            printf( '<em>' . __( 'Powered by <a href="%s" target="_blank">weForms</a>', 'weforms' ) . '</em>', 'https://wordpress.org/plugins/weforms/' );
+        }
+
         weforms_track_form_view( $form_id );
     }
 

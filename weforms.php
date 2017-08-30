@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.0.2
+ * Version: 1.0.3
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.0.2';
+    public $version = '1.0.3';
 
     /**
      * Emailer instance
@@ -200,7 +200,14 @@ final class WeForms {
 
         if ( is_admin() ) {
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
-            require_once WEFORMS_INCLUDES . '/admin/class-cf7.php';
+
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-gf.php';
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-ninja-forms.php';
+            require_once WEFORMS_INCLUDES . '/importer/class-importer-caldera-forms.php';
+
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
@@ -211,6 +218,7 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
+        require_once WEFORMS_INCLUDES . '/class-form-preview.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
         require_once WEFORMS_INCLUDES . '/functions-template-contact-form.php';
     }
@@ -353,12 +361,18 @@ final class WeForms {
             new WeForms_Admin();
             new WeForms_Form_Template();
             new WeForms_Pro_Integrations();
-            new WeForms_CF7();
+            new WeForms_Importer_CF7();
+            new WeForms_Importer_GF();
+            // new WeForms_Importer_WPForms();
+            new WeForms_Importer_WPForms();
+            new WeForms_Importer_Ninja_Forms();
+            new WeForms_Importer_Caldera_Forms();
         } else {
             new WeForms_Frontend();
         }
 
         $this->emailer = new WeForms_Emailer();
+        new WeForms_Form_Preview();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             new WeForms_Ajax();
@@ -443,7 +457,8 @@ final class WeForms {
         $settings        = get_option( 'weforms_settings', array() );
         $additional_keys = array(
             'email_gateway' => 'wordpress',
-            'recaptcha'     => array( 'type' => 'v2', 'key' => '', 'secret' => '' )
+            'credit'        => false,
+            'recaptcha'     => array( 'key' => '', 'secret' => '' )
         );
 
         foreach ($additional_keys as $key => $value) {

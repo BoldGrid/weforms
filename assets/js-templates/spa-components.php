@@ -122,22 +122,24 @@
 
         <h2 class="nav-tab-wrapper">
             <a href="#wpuf-form-builder-container" :class="['nav-tab', isActiveTab( 'editor' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('editor')">
-                <?php _e( 'Form Editor', 'wpuf' ); ?>
+                <?php _e( 'Form Editor', 'weforms' ); ?>
             </a>
 
             <a href="#wpuf-form-builder-settings" :class="['nav-tab', isActiveTab( 'settings' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('settings')">
-                <?php _e( 'Settings', 'wpuf' ); ?>
+                <?php _e( 'Settings', 'weforms' ); ?>
             </a>
 
             <?php do_action( "wpuf-form-builder-tabs-contact_form" ); ?>
 
             <span class="pull-right">
+                <a :href="'<?php echo site_url( '/' ); ?>?weforms_preview=1&form_id=' + post.ID" target="_blank" class="button"><span class="dashicons dashicons-visibility" style="padding-top: 3px;"></span> <?php _e( 'Preview', 'weforms' ); ?></a>
+
                 <button v-if="!is_form_saving" type="button" class="button button-primary" @click="save_form_builder">
-                    <?php _e( 'Save Form', 'wpuf' ); ?>
+                    <?php _e( 'Save Form', 'weforms' ); ?>
                 </button>
 
                 <button v-else type="button" class="button button-primary button-ajax-working" disabled>
-                    <span class="loader"></span> <?php _e( 'Saving Form Data', 'wpuf' ); ?>
+                    <span class="loader"></span> <?php _e( 'Saving Form Data', 'weforms' ); ?>
                 </button>
             </span>
         </h2>
@@ -172,13 +174,13 @@
                         <ul class="clearfix">
                             <li :class="['form-fields' === current_panel ? 'active' : '']">
                                 <a href="#add-fields" @click.prevent="set_current_panel('form-fields')">
-                                    <?php _e( 'Add Fields', 'wpuf' ); ?>
+                                    <?php _e( 'Add Fields', 'weforms' ); ?>
                                 </a>
                             </li>
 
                             <li :class="['field-options' === current_panel ? 'active' : '', !form_fields_count ? 'disabled' : '']">
                                 <a href="#field-options" @click.prevent="set_current_panel('field-options')">
-                                    <?php _e( 'Field Options', 'wpuf' ); ?>
+                                    <?php _e( 'Field Options', 'weforms' ); ?>
                                 </a>
                             </li>
                         </ul>
@@ -257,6 +259,11 @@
                                 <tr class="field-value">
                                     <td>
                                         <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
+                                        <div v-else-if="field.type === 'checkbox' || field.type === 'multiselect'">
+                                            <ul style="margin: 0;">
+                                                <li v-for="item in entry.meta_data[index]">- {{ item }}</li>
+                                            </ul>
+                                        </div>
                                         <div v-else v-html="entry.meta_data[index]"></div>
                                     </td>
                                 </tr>
@@ -451,7 +458,7 @@
 
 <script type="text/x-template" id="tmpl-wpuf-home-page">
 <div class="contact-form-list">
-    <h1 class="wp-heading-inline"><?php _e( 'Contact Forms', 'weforms' ); ?></h1>
+    <h1 class="wp-heading-inline"><?php _e( 'All Forms', 'weforms' ); ?></h1>
     <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'weforms' ); ?></a>
 
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
@@ -557,6 +564,54 @@
                 <input type="file" name="importFile" v-on:change="importForm( $event.target.name, $event.target.files, $event )" accept="application/json" />
                 <button type="submit" :class="['button', isSaving ? 'updating-message' : '']" disabled="disabled">{{ importButton }}</button>
             </form>
+
+            <hr>
+            <h3><?php _e( 'Import Other Forms', 'weforms' ); ?></h3>
+            <p><?php _e( 'You can import other WordPress form plugins into weForms.', 'weforms' ); ?></p>
+
+            <div class="updated" v-if="ximport.title">
+                <p><strong>{{ ximport.title }}</strong></p>
+
+                <p>{{ ximport.message }}</p>
+                <p>{{ ximport.action }}</p>
+
+                <ul v-if="hasRefs">
+                    <li v-for="ref in ximport.refs">
+                        <a target="_blank" :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'">{{ ref.title }}</a> - <a :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'" target="_blank" class="button button-small"><span class="dashicons dashicons-external"></span> <?php _e( 'Edit', 'weforms' ); ?></a>
+                    </li>
+                </ul>
+
+                <p>
+                    <a href="#" class="button button-primary" @click.prevent="replaceX($event.target, 'replace')"><?php _e( 'Replace Shortcodes', 'weforms' ); ?></a>&nbsp;
+                    <a href="#" class="button" @click.prevent="replaceX($event.target, 'skip')"><?php _e( 'No Thanks', 'weforms' ); ?></a>
+                </p>
+            </div>
+
+
+            <table style="min-width: 500px;">
+                <tbody>
+                    <tr>
+                        <td><?php _e( 'Contact Form 7', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'cf7')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                    </tr>
+                    <tr>
+                        <td><?php _e( 'Ninja Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'nf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                    </tr>
+                    <tr>
+                        <td><?php _e( 'Caldera Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'caldera-forms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                    </tr>
+                    <tr>
+                        <td><?php _e( 'Gravity Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'gf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                    </tr>
+                    <tr>
+                        <td><?php _e( 'WP Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'wpforms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div></script>
@@ -730,7 +785,7 @@
 
     <div class="postboxes metabox-holder two-col">
         <div class="postbox">
-            <h3 class="hndle"><?php _e( 'Email', 'weforms' ); ?></h3>
+            <h3 class="hndle"><?php _e( 'General Settings', 'weforms' ); ?></h3>
 
             <div class="inside">
                 <p class="help">
@@ -779,6 +834,15 @@
                             <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
 
                             <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
+                        <td>
+                            <label>
+                                <input type="checkbox" v-model="settings.credit">
+                                <?php _e( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ); ?>
+                            </label>
                         </td>
                     </tr>
                 </table>

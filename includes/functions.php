@@ -1,6 +1,29 @@
 <?php
 
 /**
+ * Get a single form
+ *
+ * @since 1.0.3
+ *
+ * @param  int $form_id
+ *
+ * @return false|WP_Post
+ */
+function weform_get_form( $form_id ) {
+    $form = get_post( $form_id );
+
+    if ( ! $form ) {
+        return false;
+    }
+
+    if ( $form->post_type != 'wpuf_contact_form' ) {
+        return false;
+    }
+
+    return $form;
+}
+
+/**
  * Get contact form templates
  *
  * @return array
@@ -274,12 +297,13 @@ function weforms_count_form_entries( $form_id, $status = 'publish' ) {
  */
 function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     $fields  = wpuf_get_form_fields( $form_id );
+    $columns = array();
 
     // filter by input types
     if ( $limit ) {
 
         $fields = array_filter( $fields, function($item) {
-            return in_array( $item['input_type'], array( 'text', 'name' ) );
+            return in_array( $item['input_type'], array( 'text', 'name', 'select', 'radio', 'email', 'url' ) );
         } );
     }
 
@@ -379,6 +403,10 @@ function weforms_get_entry_data( $entry_id ) {
                     $data[ $meta_key ] .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
                 }
             }
+
+        } elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
+
+            $data[ $meta_key ] = explode( WPUF_Render_Form::$separator, $value );
 
         } elseif ( $field['type'] == 'map' ) {
 

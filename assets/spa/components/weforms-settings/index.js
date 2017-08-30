@@ -6,6 +6,7 @@ weForms.routeComponents.Settings = {
             loading: false,
             settings: {
                 email_gateway: 'wordpress',
+                credit: false,
                 gateways: {
                     sendgrid: '',
                     mailgun: '',

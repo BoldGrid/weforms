@@ -9,26 +9,38 @@ weForms.routeComponents.Tools = {
             forms: [],
             importButton: 'Import',
             currentStatus: 0,
-            responseMessage: ''
+            responseMessage: '',
+            ximport: {
+                current: '',
+                title: '',
+                action: '',
+                message: '',
+                type: 'updated',
+                refs: {}
+            }
         };
     },
 
     computed: {
 
-        isInitial() {
+        isInitial: function() {
             return this.currentStatus === 0;
         },
 
-        isSaving() {
+        isSaving: function() {
             return this.currentStatus === 1;
         },
 
-        isSuccess() {
+        isSuccess: function() {
             return this.currentStatus === 2;
         },
 
-        isFailed() {
+        isFailed: function() {
             return this.currentStatus === 3;
+        },
+
+        hasRefs: function() {
+            return Object.keys(this.ximport.refs).length;
         }
     },
 
@@ -100,8 +112,64 @@ weForms.routeComponents.Tools = {
                     $(event.target).val('');
                 }
             });
+        },
 
+        importx: function(target, plugin) {
+            var button = $(target);
+            var self   = this;
 
+            self.ximport.current = plugin;
+            button.addClass('updating-message').text( button.data('importing') );
+
+            wp.ajax.send( 'weforms_import_xforms_' + plugin, {
+                data: {
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+                    self.ximport.title   = response.title;
+                    self.ximport.message = response.message;
+                    self.ximport.action  = response.action;
+                    self.ximport.refs    = response.refs;
+                },
+
+                error: function(error) {
+                    alert(error.message);
+                },
+
+                complete: function() {
+                    button.removeClass('updating-message').text( button.data('original') );
+                }
+            });
+        },
+
+        replaceX: function(target, type) {
+            var button = $(target);
+            var self   = this;
+
+            button.addClass('updating-message');
+
+            wp.ajax.send( 'weforms_import_xreplace_' + self.ximport.current, {
+                data: {
+                    type: type,
+                    _wpnonce: weForms.nonce
+                },
+
+                success: function(response) {
+                    if ( 'replace' === button.data('type') ) {
+                        alert( response );
+                    }
+                },
+
+                error: function(error) {
+                    alert( error );
+                },
+
+                complete: function() {
+                    self.ximport.current = '';
+                    self.ximport.title   = '';
+                }
+            });
         }
     }
 };
