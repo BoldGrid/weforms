@@ -416,32 +416,36 @@ class WeForms_Notification {
             return $text;
         }
 
-        foreach ($fields as $meta_key => $field ) {
-            $value = weforms_get_entry_meta( $this->args['entry_id'], $meta_key, true );
-
-            if ( empty( $value ) ) {
-                $value = '&mdash;';
-            }
-
-            if ( $field['type'] == 'textarea' ) {
-                $data[ $meta_key ] = weforms_format_text( $value );
-            } elseif( $field['type'] == 'name' ) {
-                $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
-            } else {
-                $data[ $meta_key ] = $value;
-            }
-        }
+        $entry_data = weforms_get_entry_data( $this->args['entry_id'] );
 
         $table = '<table width="600" cellpadding="0" cellspacing="0">';
             $table .= '<tbody>';
 
-                foreach ($data as $key => $value) {
+                foreach ($entry_data['fields'] as $key => $value) {
                     $table .= '<tr class="field-label">';
-                        $table .= '<th><strong>' . $fields[$key]['label'] . '</strong></th>';
+                        $table .= '<th><strong>' . $value['label'] . '</strong></th>';
                     $table .= '</tr>';
                     $table .= '<tr class="field-value">';
                         $table .= '<td>';
-                            $table .= $value;
+
+                            $field_value = $entry_data['data'][ $key ];
+
+                            if ( in_array( $value['type'], array( 'multiselect', 'checkbox' ) ) ) {
+                                $field_value = is_array( $field_value ) ? $field_value : array();
+
+                                if ( $field_value ) {
+                                    $table .= '<ul>';
+                                    foreach ($field_value as $value_key) {
+                                        $table .= '<li>' . $value_key . '</li>';
+                                    }
+                                    $table .= '</ul>';
+                                } else {
+                                    $table .= '&mdash;';
+                                }
+                            } else {
+                                $table .= $field_value;
+                            }
+
                         $table .= '</td>';
                     $table .= '</tr>';
                 }

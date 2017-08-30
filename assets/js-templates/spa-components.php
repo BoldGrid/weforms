@@ -259,6 +259,11 @@
                                 <tr class="field-value">
                                     <td>
                                         <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
+                                        <div v-else-if="field.type === 'checkbox' || field.type === 'multiselect'">
+                                            <ul style="margin: 0;">
+                                                <li v-for="item in entry.meta_data[index]">- {{ item }}</li>
+                                            </ul>
+                                        </div>
                                         <div v-else v-html="entry.meta_data[index]"></div>
                                     </td>
                                 </tr>

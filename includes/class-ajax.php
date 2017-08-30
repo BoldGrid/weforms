@@ -486,7 +486,7 @@ class WeForms_Ajax {
 
         $notification->send_notifications();
 
-        // wpuf_clear_buffer();
+        wpuf_clear_buffer();
         wp_send_json( $response );
     }
 
@@ -500,7 +500,7 @@ class WeForms_Ajax {
     public function prepare_entry_fields( $form_fields ) {
         $entry_fields = array();
 
-        list( $meta_key_value, $multi_repeated, $files ) = WPUF_Frontend_Form_Post::prepare_meta_fields( $form_fields );
+        list( $meta_key_value, $multi_repeated, $files ) = self::prepare_meta_fields( $form_fields );
 
         // var_dump( $meta_key_value, $multi_repeated, $files );
         if ( $meta_key_value ) {
@@ -516,6 +516,139 @@ class WeForms_Ajax {
         }
 
         return $entry_fields;
+    }
+
+    public static function prepare_meta_fields( $meta_vars ) {
+        // loop through custom fields
+        // skip files, put in a key => value paired array for later executation
+        // process repeatable fields separately
+        // if the input is array type, implode with separator in a field
+
+        $files          = array();
+        $meta_key_value = array();
+        $multi_repeated = array(); //multi repeated fields will in sotre duplicated meta key
+
+        foreach ($meta_vars as $key => $value) {
+
+            switch ( $value['input_type'] ) {
+
+                // put files in a separate array, we'll process it later
+                case 'file_upload':
+                case 'image_upload':
+
+                    $files[] = array(
+                        'name'  => $value['name'],
+                        'value' => isset( $_POST['wpuf_files'][$value['name']] ) ? $_POST['wpuf_files'][$value['name']] : array(),
+                        'count' => $value['count']
+                    );
+                    break;
+
+                case 'repeat':
+
+                    // if it is a multi column repeat field
+                    if ( isset( $value['multiple'] ) && $value['multiple'] == 'true' ) {
+
+                        // if there's any items in the array, process it
+                        if ( $_POST[$value['name']] ) {
+
+                            $ref_arr = array();
+                            $cols    = count( $value['columns'] );
+                            $first   = array_shift( array_values( $_POST[$value['name']] ) ); //first element
+                            $rows    = count( $first );
+
+                            // loop through columns
+                            for ($i = 0; $i < $rows; $i++) {
+
+                                // loop through the rows and store in a temp array
+                                $temp = array();
+                                for ($j = 0; $j < $cols; $j++) {
+
+                                    $temp[] = $_POST[$value['name']][$j][$i];
+                                }
+
+                                // store all fields in a row with self::$separator separated
+                                $ref_arr[] = implode( self::$separator, $temp );
+                            }
+
+                            // now, if we found anything in $ref_arr, store to $multi_repeated
+                            if ( $ref_arr ) {
+                                $multi_repeated[$value['name']] = array_slice( $ref_arr, 0, $rows );
+                            }
+                        }
+                    } else {
+                        $meta_key_value[$value['name']] = implode( self::$separator, $_POST[$value['name']] );
+                    }
+
+                    break;
+
+                case 'address':
+
+                    if ( isset( $_POST[ $value['name'] ] ) && is_array( $_POST[ $value['name'] ] ) ) {
+                        foreach ( $_POST[ $value['name'] ] as $address_field => $field_value ) {
+                            $meta_key_value[ $value['name'] ][ $address_field ] = sanitize_text_field( $field_value );
+                        }
+                    }
+
+                    break;
+
+                case 'text':
+                case 'email':
+                case 'number':
+                case 'date':
+
+                    $meta_key_value[$value['name']] = sanitize_text_field( trim( $_POST[$value['name']] ) );
+
+                    break;
+
+                case 'textarea':
+
+                    $meta_key_value[$value['name']] = wp_kses_post( $_POST[$value['name']] );
+
+                    break;
+
+                case 'select':
+                case 'radio':
+
+                    $val                            = $_POST[$value['name']];
+                    $meta_key_value[$value['name']] = isset( $value['options'][$val] ) ? $value['options'][$val] : '';
+                    break;
+
+                case 'multiselect':
+                case 'checkbox':
+
+                    $val                            = ( is_array( $_POST[$value['name']] ) && $_POST[$value['name']] ) ? $_POST[$value['name']] : array();
+                    $meta_key_value[$value['name']] = $val;
+
+                    if ( $val ) {
+                        $new_val = array();
+
+                        foreach ($val as $option_key) {
+                            $new_val[] = isset( $value['options'][$option_key] ) ? $value['options'][$option_key] : '';
+                        }
+
+                        $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $new_val );
+                    }
+                    break;
+
+                default:
+                    // if it's an array, implode with this->separator
+                    if ( is_array( $_POST[$value['name']] ) ) {
+
+                        if ( $value['input_type'] == 'address' ) {
+                            $meta_key_value[$value['name']] = $_POST[$value['name']];
+                        } else {
+                            $meta_key_value[$value['name']] = implode( self::$separator, $_POST[$value['name']] );
+                        }
+                    } else {
+                        $meta_key_value[$value['name']] = trim( $_POST[$value['name']] );
+                    }
+
+                    break;
+            }
+
+        } //end foreach
+
+        return array($meta_key_value, $multi_repeated, $files);
     }
 
     /**
