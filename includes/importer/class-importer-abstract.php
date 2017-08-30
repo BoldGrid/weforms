@@ -502,7 +502,7 @@ abstract class WeForms_Importer_Abstract {
 
             case 'email':
                 $field_content = array(
-                    'input_type'       => 'text',
+                    'input_type'       => 'email',
                     'template'         => 'email_address',
                     'required'         => $args['required'],
                     'label'            => $args['label'],
@@ -555,6 +555,23 @@ abstract class WeForms_Importer_Abstract {
                 );
                 break;
 
+            case 'multiselect':
+                $field_content = array(
+                    'input_type' => 'multiselect',
+                    'template'   => 'multiple_select',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'selected'   => '',
+                    'first'      => __( '- select -', 'wpuf' ),
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
             case 'date':
                 $field_content = array(
                     'input_type'      => 'date',
@@ -597,7 +614,7 @@ abstract class WeForms_Importer_Abstract {
 
             case 'url':
                 $field_content = array(
-                    'input_type'       => 'text',
+                    'input_type'       => 'url',
                     'template'         => 'website_url',
                     'required'         => $args['required'],
                     'label'            => $args['label'],
@@ -645,6 +662,37 @@ abstract class WeForms_Importer_Abstract {
                     'inline'     => 'no',
                     'options'    => $args['options'],
                     'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'hidden':
+                $field_content = array(
+                    'input_type'       => 'hidden',
+                    'template'         => 'custom_hidden_field',
+                    'label'            => $args['label'],
+                    'name'             => $args['name'],
+                    'is_meta'          => 'yes',
+                    'wpuf_cond'        => $this->conditionals
+                );
+                break;
+
+            case 'section_break':
+                $field_content = array(
+                    'input_type'       => 'section_break',
+                    'template'         => 'section_break',
+                    'label'            => $args['label'],
+                    'name'             => $args['name'],
+                    'wpuf_cond'        => $this->conditionals
+                );
+                break;
+
+            case 'html':
+                $field_content = array(
+                    'input_type'       => 'html',
+                    'template'         => 'custom_html',
+                    'label'            => $args['label'],
+                    'name'             => $args['name'],
+                    'wpuf_cond'        => $this->conditionals
                 );
                 break;
 

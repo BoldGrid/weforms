@@ -83,7 +83,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
      * @return int
      */
     protected function get_form_id( $form ) {
-        return $form->id;
+        return $form->get_id();
     }
 
     /**
@@ -108,8 +108,14 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 case 'url':
                 case 'firstname':
                 case 'lastname':
+                case 'zip':
+                case 'product':
+                case 'city':
+                case 'quiz':
+                case 'address':
+                case 'spam':
 
-                    if($field['type'] == 'firstname' || $field['type'] == 'firstname') {
+                    if($field['type'] == 'firstname' || $field['type'] == 'lastname' || $field['type'] == 'zip' || $field['type'] == 'product' || $field['type'] == 'city' || $field['type'] == 'quiz' || $field['type'] == 'address' || $field['type'] == 'spam') {
                         $field['type'] = 'text';
                     }
 
@@ -121,22 +127,33 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                     break;
 
                 case 'checkbox':
-
+                case 'listcheckbox':
+                    if($field['type'] == 'listcheckbox') {
+                        $field['type'] = 'checkbox';
+                    }
 
                     $form_fields[] = $this->get_form_field( $field['type'], array(
                         'required' => $field['required'] ? 'yes' : 'no',
                         'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'     => $field['key'],
+                        'options'  => $this->get_options( $field['options'] ) ? $this->get_options( $field['options'] ) : array( 'label' => $field['label'], 'value' => $field['key'] ),
                     ) );
                     break;
 
                 case 'select':
                 case 'radio':
-                case 'checkbox':
-                case 'listcheckbox':
                 case 'listmultiselect':
                 case 'listradio':
                 case 'listselect':
+                case 'listcountry':
+                case 'starrating':
+                    if($field['type'] == 'listcountry' || $field['type'] == 'starrating') {
+                        $field['type'] = 'select';
+                    } else if($field['type'] == 'listmultiselect' || $field['type'] == 'listselect') {
+                        $field['type'] = 'multiselect';
+                    } else if($field['type'] == 'listradio') {
+                        $field['type'] = 'radio';
+                    }
 
 
                     $form_fields[] = $this->get_form_field( $field['type'], array(
@@ -148,12 +165,14 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                     break;
 
                 case 'range':
-                case 'phone':
                 case 'number':
+                case 'phone':
                 case 'quantity':
                 case 'total':
                 case 'shipping':
-                case 'quantity':
+                    if($field['type'] == 'phone' || $field['type'] == 'quantity' || $field['type'] == 'total' || $field['type'] == 'shipping') {
+                        $field['type'] = 'number';
+                    }
 
                     $form_fields[] = $this->get_form_field( $field['type'], array(
                         'required'        => $field['required'] ? 'yes' : 'no',
@@ -163,20 +182,17 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
 
                     break;
 
-                case 'city':
-                case 'quiz':
-                case 'address':
-                case 'listcountry':
-                case 'liststate':
-                case 'zip':
-                case 'product':
                 case 'hr':
-                case 'html':
                 case 'hidden':
-                case 'spam':
-                case 'starrating':
-                case 'submit':
+                case 'html':
+                    if($field['type'] == 'hr') {
+                        $field['type'] = 'section_break';
+                    }
 
+                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                        'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
+                        'name'     => $field['key'],
+                    ) );
                     break;
 
                 case 'acceptance':
