@@ -427,9 +427,6 @@ class WeForms_Notification {
                 $data[ $meta_key ] = weforms_format_text( $value );
             } elseif( $field['type'] == 'name' ) {
                 $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
-
-            } elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
-                $data[ $meta_key ] = explode( WPUF_Render_Form::$separator, $value );
             } else {
                 $data[ $meta_key ] = $value;
             }
@@ -443,32 +440,9 @@ class WeForms_Notification {
                         $table .= '<th><strong>' . $fields[$key]['label'] . '</strong></th>';
                     $table .= '</tr>';
                     $table .= '<tr class="field-value">';
-
                         $table .= '<td>';
-
-                            if ( in_array( $fields[ $key ]['type'], array( 'multiselect', 'checkbox' ) ) ) {
-                                $value = is_array( $value ) ? $value : array();
-
-                                if ( $value ) {
-                                    $table .= '<ul>';
-                                    foreach ($value as $value_key) {
-                                        $table .= '<li>' . $fields[ $key ]['options'][ $value_key ] . '</li>';
-                                    }
-                                    $table .= '</ul>';
-                                } else {
-                                    $table .= '-';
-                                }
-
-                            } elseif ( in_array( $fields[ $key ]['type'], array( 'select', 'radio' ) ) ) {
-                                $table .= $fields[ $key ]['options'][ $value ];
-
-                            } else {
-                                $table .= $value;
-                            }
-
+                            $table .= $value;
                         $table .= '</td>';
-
-
                     $table .= '</tr>';
                 }
 

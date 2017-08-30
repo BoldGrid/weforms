@@ -18,15 +18,7 @@
                                 </tr>
                                 <tr class="field-value">
                                     <td>
-                                        <weforms-entry-gmap v-if="field.type === 'map'" :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']"></weforms-entry-gmap>
-                                        <div v-else-if="field.type === 'checkbox' || field.type === 'multiselect'">
-                                            <ul style="margin: 0;">
-                                                <li v-for="item in entry.meta_data[index]">{{ field.options[item] }}</li>
-                                            </ul>
-                                        </div>
-                                        <div v-else-if="field.type === 'select' || field.type === 'radio'">
-                                            {{ field.options[ entry.meta_data[index] ]}}
-                                        </div>
+                                        <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
                                         <div v-else v-html="entry.meta_data[index]"></div>
                                     </td>
                                 </tr>
