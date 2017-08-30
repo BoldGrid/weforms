@@ -1,10 +1,10 @@
 === weForms - Best Contact Form Plugin for WordPress ===
 Contributors: tareq1988, wedevs
 Donate link: https://tareq.co/donate/
-Tags: contact form, contact, form, forms, form-builder
+Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Tested up to: 4.8.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,7 +115,18 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
-= v1.0.1 (24 August, 2017) =
+= v1.0.3 (30 August, 2017) =
+
+ * [new] Gravity Forms Importer
+ * [new] Caldera Forms Importer
+ * [new] Ninja Forms Importer
+ * [new] WP Forms Forms Importer
+ * [new] Frontend Form Preview
+ * [new] Add form credit settings
+ * [fix] Notification mail shows level with Underscore between all words
+ * [fix] New columns added on entries listing page
+
+= v1.0.2 (24 August, 2017) =
 
  * [improved] Affiliate link tracking for plugin install
 
