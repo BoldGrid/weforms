@@ -505,7 +505,7 @@ class WeForms_Ajax {
     public function prepare_entry_fields( $form_fields ) {
         $entry_fields = array();
 
-        list( $meta_key_value, $multi_repeated, $files ) = self::prepare_meta_fields( $form_fields );
+        list( $meta_key_value, $multi_repeated, $files ) = WPUF_Render_Form::prepare_meta_fields( $form_fields );
 
         // var_dump( $meta_key_value, $multi_repeated, $files );
         if ( $meta_key_value ) {
@@ -571,8 +571,8 @@ class WeForms_Ajax {
                                     $temp[] = $_POST[$value['name']][$j][$i];
                                 }
 
-                                // store all fields in a row with self::$separator separated
-                                $ref_arr[] = implode( self::$separator, $temp );
+                                // store all fields in a row with WPUF_Render_Form::$separator separated
+                                $ref_arr[] = implode( WPUF_Render_Form::$separator, $temp );
                             }
 
                             // now, if we found anything in $ref_arr, store to $multi_repeated
@@ -581,7 +581,7 @@ class WeForms_Ajax {
                             }
                         }
                     } else {
-                        $meta_key_value[$value['name']] = implode( self::$separator, $_POST[$value['name']] );
+                        $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $_POST[$value['name']] );
                     }
 
                     break;
@@ -642,7 +642,7 @@ class WeForms_Ajax {
                         if ( $value['input_type'] == 'address' ) {
                             $meta_key_value[$value['name']] = $_POST[$value['name']];
                         } else {
-                            $meta_key_value[$value['name']] = implode( self::$separator, $_POST[$value['name']] );
+                            $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $_POST[$value['name']] );
                         }
                     } else {
                         $meta_key_value[$value['name']] = trim( $_POST[$value['name']] );
