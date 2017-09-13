@@ -439,8 +439,9 @@ final class WeForms {
      */
     public function register_default_integrations( $integrations ) {
         require_once WEFORMS_INCLUDES . '/integrations/slack/class-integration-slack.php';
+        require_once WEFORMS_INCLUDES . '/integrations/erp/class-integration-erp.php';
 
-        $integrations = array_merge( $integrations, array( 'WeForms_Integration_Slack' ) );
+        $integrations = array_merge( $integrations, array( 'WeForms_Integration_Slack', 'WeForms_Integration_ERP' ) );
 
         return $integrations;
     }
