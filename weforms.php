@@ -56,11 +56,11 @@ final class WeForms {
     public $version = '1.0.4';
 
     /**
-     * Emailer instance
+     * Holds various class instances
      *
-     * @var WeForms_Emailer
+     * @var array
      */
-    public $emailer = null;
+    private $container = array();
 
     /**
      * Constructor for the WeForms class
@@ -123,6 +123,32 @@ final class WeForms {
         }
 
         return $instance;
+    }
+
+    /**
+     * Magic getter to bypass referencing plugin.
+     *
+     * @param $prop
+     *
+     * @return mixed
+     */
+    public function __get( $prop ) {
+        if ( array_key_exists( $prop, $this->container ) ) {
+            return $this->container[ $prop ];
+        }
+
+        return $this->{$prop};
+    }
+
+    /**
+     * Magic isset to bypass referencing plugin.
+     *
+     * @param $prop
+     *
+     * @return mixed
+     */
+    public function __isset( $prop ) {
+        return isset( $this->{$prop} ) || isset( $this->container[ $prop ] );
     }
 
     /**
@@ -216,6 +242,8 @@ final class WeForms {
         }
 
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
+        require_once WEFORMS_INCLUDES . '/class-form-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-form.php';
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
@@ -363,7 +391,6 @@ final class WeForms {
             new WeForms_Pro_Integrations();
             new WeForms_Importer_CF7();
             new WeForms_Importer_GF();
-            // new WeForms_Importer_WPForms();
             new WeForms_Importer_WPForms();
             new WeForms_Importer_Ninja_Forms();
             new WeForms_Importer_Caldera_Forms();
@@ -371,7 +398,9 @@ final class WeForms {
             new WeForms_Frontend();
         }
 
-        $this->emailer = new WeForms_Emailer();
+        $this->container['emailer'] = new WeForms_Emailer();
+        $this->container['form']    = new WeForms_Form_Manager();
+
         new WeForms_Form_Preview();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {

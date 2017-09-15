@@ -270,7 +270,7 @@ var router = new VueRouter({
 });
 
 var app = new Vue({
-    router,
+    router: router,
     store: wpuf_form_builder_store
 }).$mount('#wpuf-contact-form-app')
 

@@ -1,6 +1,6 @@
 /*!
-weForms - v1.0.3
-Generated: 2017-08-30 (1504109998873)
+weForms - v1.0.4
+Generated: 2017-09-14 (1505372261131)
 */
 
 ;(function($) {
@@ -1034,7 +1034,7 @@ var router = new VueRouter({
 });
 
 var app = new Vue({
-    router,
+    router: router,
     store: wpuf_form_builder_store
 }).$mount('#wpuf-contact-form-app')
 

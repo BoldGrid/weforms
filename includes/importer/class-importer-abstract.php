@@ -288,8 +288,6 @@ abstract class WeForms_Importer_Abstract {
                 $settings      = $this->get_form_settings( $form );
                 $notifications = $this->get_form_notifications( $form );
 
-                error_log( print_r( $form_fields, true ) );
-
                 if ( $form_fields ) {
                     $form_id = $this->insert_form( $form_name );
 
