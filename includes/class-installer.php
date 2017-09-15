@@ -3,7 +3,7 @@
 /**
  * The installer class
  *
- * @since 1.0.5
+ * @since 1.1.0
  */
 class WeForms_Installer {
 
@@ -24,6 +24,7 @@ class WeForms_Installer {
             update_option( 'weforms_installed', time() );
         }
 
+        set_transient( 'weforms_activation_redirect', true, 30 );
         update_option( 'weforms_version', WEFORMS_VERSION );
     }
 

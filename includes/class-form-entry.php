@@ -2,6 +2,8 @@
 
 /**
  * Single Form Entry Class
+ *
+ * @since 1.1.0
  */
 class WeForms_Form_Entry {
 

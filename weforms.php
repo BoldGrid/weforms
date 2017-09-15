@@ -67,11 +67,6 @@ final class WeForms {
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
-     *
-     * @uses register_activation_hook()
-     * @uses register_deactivation_hook()
-     * @uses is_admin()
-     * @uses add_action()
      */
     public function __construct() {
         $this->define_constants();
@@ -81,48 +76,6 @@ final class WeForms {
 
         add_action( 'plugins_loaded', array( $this, 'ensure_core' ) );
         add_action( 'wpuf_loaded', array( $this, 'init_plugin' ) );
-    }
-
-    /**
-     * Define the constants
-     *
-     * @return void
-     */
-    private function define_constants() {
-        define( 'WEFORMS_VERSION', '1.0' );
-        define( 'WEFORMS_FILE', __FILE__ );
-        define( 'WEFORMS_ROOT', dirname( __FILE__ ) );
-        define( 'WEFORMS_INCLUDES', WEFORMS_ROOT . '/includes' );
-        define( 'WEFORMS_ROOT_URI', plugins_url( '', __FILE__ ) );
-        define( 'WEFORMS_ASSET_URI', WEFORMS_ROOT_URI . '/assets' );
-    }
-
-    /**
-     * Load the plugin after WP User Frontend is loaded
-     *
-     * @return void
-     */
-    public function init_plugin() {
-        $this->includes();
-        $this->init_hooks();
-
-        do_action( 'weforms_loaded' );
-    }
-
-    /**
-     * Initializes the WeForms() class
-     *
-     * Checks for an existing WeForms() instance
-     * and if it doesn't find one, creates it.
-     */
-    public static function init() {
-        static $instance = false;
-
-        if ( ! $instance ) {
-            $instance = new WeForms();
-        }
-
-        return $instance;
     }
 
     /**
@@ -149,6 +102,48 @@ final class WeForms {
      */
     public function __isset( $prop ) {
         return isset( $this->{$prop} ) || isset( $this->container[ $prop ] );
+    }
+
+    /**
+     * Initializes the WeForms() class
+     *
+     * Checks for an existing WeForms() instance
+     * and if it doesn't find one, creates it.
+     */
+    public static function init() {
+        static $instance = false;
+
+        if ( ! $instance ) {
+            $instance = new WeForms();
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Define the constants
+     *
+     * @return void
+     */
+    private function define_constants() {
+        define( 'WEFORMS_VERSION', '1.0' );
+        define( 'WEFORMS_FILE', __FILE__ );
+        define( 'WEFORMS_ROOT', dirname( __FILE__ ) );
+        define( 'WEFORMS_INCLUDES', WEFORMS_ROOT . '/includes' );
+        define( 'WEFORMS_ROOT_URI', plugins_url( '', __FILE__ ) );
+        define( 'WEFORMS_ASSET_URI', WEFORMS_ROOT_URI . '/assets' );
+    }
+
+    /**
+     * Load the plugin after WP User Frontend is loaded
+     *
+     * @return void
+     */
+    public function init_plugin() {
+        $this->includes();
+        $this->init_hooks();
+
+        do_action( 'weforms_loaded' );
     }
 
     /**
@@ -181,6 +176,7 @@ final class WeForms {
 
         if ( is_admin() ) {
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-admin-welcome.php';
 
             require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
             require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
@@ -270,6 +266,7 @@ final class WeForms {
 
         if ( is_admin() ) {
             new WeForms_Admin();
+            // new WeForms_Admin_Welcome();
             new WeForms_Form_Template();
             new WeForms_Pro_Integrations();
             new WeForms_Importer_CF7();
@@ -300,6 +297,7 @@ final class WeForms {
      */
     function plugin_action_links( $links ) {
 
+        $links[] = '<a href="https://wedevs.com/docs/weforms/contact-forms/?utm_source=weforms-action-link&utm_medium=textlink&utm_campaign=plugin-docs-link" target="_blank">' . __( 'Docs', 'weforms' ) . '</a>';
         $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
         return $links;

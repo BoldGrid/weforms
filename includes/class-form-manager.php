@@ -3,7 +3,7 @@
 /**
  * The Form Manager Class
  *
- * @since 1.0.5
+ * @since 1.1.0
  */
 class WeForms_Form_Manager {
 

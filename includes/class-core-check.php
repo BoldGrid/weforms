@@ -3,7 +3,7 @@
 /**
  * Check if the core exists and related tasks
  *
- * @since 1.0.5
+ * @since 1.1.0
  */
 class WeForms_Core_Check {
 
