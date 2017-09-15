@@ -91,9 +91,27 @@ class WeForms_Form {
     /**
      * Get entries of this form
      *
-     * @return array
+     * @return \WeForms_Form_Entry_Manager
      */
-    public function get_entries() {
-        return weforms_get_form_entries( $this->id );
+    public function entries() {
+        return new WeForms_Form_Entry_Manager( $this->id );
+    }
+
+    /**
+     * Get number of form entries
+     *
+     * @return integer
+     */
+    public function num_form_entries() {
+        return weforms_count_form_entries( $this->id );
+    }
+
+    /**
+     * Get the number of form views
+     *
+     * @return integer
+     */
+    public function num_form_views() {
+        return weforms_get_form_views( $this->id );
     }
 }

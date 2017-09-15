@@ -243,6 +243,8 @@ final class WeForms {
 
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
         require_once WEFORMS_INCLUDES . '/class-form-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-form-entry-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-form-entry.php';
         require_once WEFORMS_INCLUDES . '/class-form.php';
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
