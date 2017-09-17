@@ -177,13 +177,7 @@ final class WeForms {
         if ( is_admin() ) {
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
             require_once WEFORMS_INCLUDES . '/admin/class-admin-welcome.php';
-
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-gf.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-ninja-forms.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-caldera-forms.php';
+            require_once WEFORMS_INCLUDES . '/class-importer-manager.php';
 
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
@@ -266,27 +260,22 @@ final class WeForms {
     public function init_classes() {
 
         if ( is_admin() ) {
-            new WeForms_Admin();
-            // new WeForms_Admin_Welcome();
-            new WeForms_Form_Template();
-            new WeForms_Pro_Integrations();
-            new WeForms_Importer_CF7();
-            new WeForms_Importer_GF();
-            new WeForms_Importer_WPForms();
-            new WeForms_Importer_Ninja_Forms();
-            new WeForms_Importer_Caldera_Forms();
+            $this->container['admin']        = new WeForms_Admin();
+            // $this->container['welcome']      = new WeForms_Admin_Welcome();
+            $this->container['templates']    = new WeForms_Form_Template();
+            $this->container['integrations'] = new WeForms_Pro_Integrations();
+            $this->container['importer']     = new WeForms_Importer_Manager();
         } else {
-            new WeForms_Frontend();
+            $this->container['frontend'] = new WeForms_Frontend();
         }
 
         $this->container['emailer'] = new WeForms_Emailer();
         $this->container['form']    = new WeForms_Form_Manager();
         $this->container['fields']  = new WeForms_Field_Manager();
-
-        new WeForms_Form_Preview();
+        $this->container['preview'] = new WeForms_Form_Preview();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            new WeForms_Ajax();
+            $this->container['ajax'] = new WeForms_Ajax();
         }
     }
 
