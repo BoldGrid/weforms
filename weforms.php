@@ -193,6 +193,7 @@ final class WeForms {
         }
 
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
+        require_once WEFORMS_INCLUDES . '/class-field-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-entry-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-entry.php';
@@ -280,6 +281,7 @@ final class WeForms {
 
         $this->container['emailer'] = new WeForms_Emailer();
         $this->container['form']    = new WeForms_Form_Manager();
+        $this->container['fields']  = new WeForms_Field_Manager();
 
         new WeForms_Form_Preview();
 
