@@ -646,5 +646,5 @@ function weforms_get_settings( $key = '', $default = '' ) {
  * @return string
  */
 function weforms_form_access_capability() {
-    return apply_filters( 'weforms_form_access_capability', 'editor' );
+    return apply_filters( 'weforms_form_access_capability', 'manage_options' );
 }
