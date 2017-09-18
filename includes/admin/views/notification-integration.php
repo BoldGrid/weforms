@@ -9,5 +9,3 @@
     <wpuf-integration></wpuf-integration>
 
 </div>
-
-<?php do_action( 'after_notification_intregration_tab_content' ); ?>

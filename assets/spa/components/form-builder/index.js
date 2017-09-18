@@ -10,6 +10,7 @@ weForms.routeComponents.FormEditComponent = {
             loading: false,
             activeTab: 'editor',
             activeSettingsTab: 'form',
+            activePaymentTab: 'paypal',
         };
     },
 
@@ -64,6 +65,10 @@ weForms.routeComponents.FormEditComponent = {
 
         settings: function() {
             return this.$store.state.settings;
+        },
+
+        payment: function() {
+            return this.$store.state.payment;
         }
     },
 
@@ -111,6 +116,14 @@ weForms.routeComponents.FormEditComponent = {
             this.activeSettingsTab = val;
         },
 
+        isActivePaymentTab: function(val) {
+            return this.activePaymentTab === val;
+        },
+
+        makeActivePaymentTab: function(val) {
+            this.activePaymentTab = val;
+        },
+
         fetchForm: function() {
             var self = this;
 
@@ -127,6 +140,7 @@ weForms.routeComponents.FormEditComponent = {
                     self.$store.commit('set_form_fields', response.form_fields);
                     self.$store.commit('set_form_notification', response.notifications);
                     self.$store.commit('set_form_settings', response.settings);
+                    self.$store.commit('set_form_payment', response.payment);
 
                     // if nothing saved in the form, it provides an empty array
                     // but we expect to be an object
@@ -173,6 +187,7 @@ weForms.routeComponents.FormEditComponent = {
                     form_fields: JSON.stringify(self.form_fields),
                     notifications: JSON.stringify(self.notifications),
                     settings: JSON.stringify(self.settings),
+                    payment: JSON.stringify(self.payment),
                     integrations: JSON.stringify(self.integrations),
                 },
 

@@ -95,6 +95,126 @@ class WeForms_Frontend extends WPUF_Render_Form {
     <?php
     }
 
+    function field_total( $form_field, $post_id, $type, $form_id ) {
+        ?>
+        <div class="wpuf-fields total <?php  echo ' wpuf_'.$form_field['name'].'_'.$form_id; ?>">
+            $ <input 
+                type="number" 
+                class="input-total <?php echo 'wpuf_'.$form_field['name']. '_'. $form_id; ?>" 
+                id="form-total"
+                name="form-total" 
+                value=""
+                disabled="disabled"
+                style="width:50px;" />
+        </div>
+        
+        <script>
+            ;(function($){
+                $totalHtml = $('.wpuf-fields').find('input#form-total');
+                $totalVal = $totalHtml.val();
+                $total = $totalVal;
+                $('.quantity').on('keyup', function() {
+                    $singlePriceHtml = $('.wpuf-fields').find('span.input-price');
+                    $singlePriceVal = $singlePriceHtml.text();
+                    $singlePrice = $singlePriceVal;
+                    $final = $total + $singlePrice;
+                    $totalHtml.val($final);
+                });
+                $('.multiple-product').change(function() {
+                    $price = $(this).val();
+                    $totalHtml = $('.wpuf-fields').find('input#form-total');
+                    $totalVal = $totalHtml.val();
+                    $total = $totalVal;
+                    $final = $total;
+                    if(this.checked) {
+                        $final = $total*1 + $price*1;
+                    } else {
+                        $final = $total*1 - $price*1;
+                    }
+                    $totalHtml.val($final);     
+                });
+            })(jQuery);
+        </script>
+
+        <?php
+
+        $this->conditional_logic( $form_field, $form_id );
+    }
+
+    function field_single_product( $form_field, $post_id, $type, $form_id ) {
+        ?>
+        <div class="wpuf-fields" data-required="<?php echo $form_field['required'] ?>" data-type="radio">
+            <div>
+                <label><?php echo __( 'Price: $', 'wpuf-pro' ) ?><span class="input-price"><?php echo $form_field['price']; ?></span></label>
+            </div>
+            <div>
+                <label><?php echo __( 'Quantity: ', 'wpuf-pro' ) ?></label>
+                <input 
+                    type="number" 
+                    class="<?php echo 'wpuf_'.$form_field['name']. '_'. $form_id; ?> quantity" 
+                    name="qty" 
+                    value=0
+                    min=0
+                    max="<?php echo $form_field['size']; ?>" 
+                    style="width:50px;" />
+            </div>
+
+            <?php $this->help_text( $form_field ); ?>
+
+        </div>
+
+        <script>
+            ;(function($){
+                $priceHtml = $('.wpuf-fields').find('span.input-price');
+                $priceVal = $priceHtml.text();
+                $price = $priceVal;
+                $('.quantity').on('keyup', function() {
+                    var self = $(this),
+                        val = self.val();
+                    $priceHtml.html( $price * val );
+                });
+            })(jQuery);
+        </script>
+
+        <?php
+
+        $this->conditional_logic( $form_field, $form_id );
+    }
+
+    function field_multiple_product( $form_field, $post_id, $type, $form_id ) {
+        $selected = isset( $form_field['selected'] ) ? $form_field['selected'] : array();
+
+        if ( $post_id ) {
+            if ( $value = $this->get_meta( $post_id, $form_field['name'], $type, true ) ) {
+                $selected = explode( self::$separator, $value );
+            }
+        }
+        ?>
+
+        <div class="wpuf-fields" data-required="<?php echo $form_field['required'] ?>">
+
+            <?php
+            if ( $form_field['options'] && count( $form_field['options'] ) > 0 ) {
+                foreach ($form_field['options'] as $value => $option) {
+                    ?>
+                    <label <?php echo $form_field['inline'] == 'yes' ? 'class="wpuf-checkbox-inline"' : 'class="wpuf-checkbox-block"'; ?>>
+                        <input type="checkbox" class="multiple-product <?php echo 'wpuf_'.$form_field['name']. '_'. $form_id; ?>" name="<?php echo $form_field['name']; ?>[]" value="<?php echo esc_attr( $value ); ?>"<?php echo in_array( $value, $selected ) ? ' checked="checked"' : ''; ?> />
+                        <?php echo $option ?> - $<span class="price"><?php echo $value; ?></span>
+                    </label>
+                    <?php
+                }
+            }
+            ?>
+
+            <?php $this->help_text( $form_field ); ?>
+
+        </div>
+
+        <?php
+
+        $this->conditional_logic( $form_field, $form_id );
+    }
+
     function field_name( $form_field, $post_id, $type, $form_id ) {
         // var_dump( $form_field );
         ?>
