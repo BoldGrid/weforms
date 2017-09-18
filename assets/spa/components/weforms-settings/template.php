@@ -63,6 +63,20 @@
                             </label>
                         </td>
                     </tr>
+                    <tr>
+                        <th><?php _e( 'Form Permission', 'weforms' ); ?></th>
+                        <td>
+                            <select :disabled="!is_pro" v-model="settings.permission">
+                                <option value="manage_options"><?php _e( 'Admins Only', 'weforms' ); ?></option>
+                                <option value="edit_others_posts"><?php _e( 'Admins, Editors', 'weforms' ); ?></option>
+                                <option value="publish_posts"><?php _e( 'Admins, Editors, Authors', 'weforms' ); ?></option>
+                                <option value="edit_posts"><?php _e( 'Admins, Editors, Authors, Contributors', 'weforms' ); ?></option>
+                            </select>
+
+                            <p v-if="!is_pro" class="description"><?php _e( 'Available in PRO version.', 'weforms' ); ?></p>
+                            <p v-else class="description"><?php _e( 'Which user roles can access and create forms, manage form submissions.', 'weforms' ); ?></p>
+                        </td>
+                    </tr>
                 </table>
             </div>
 

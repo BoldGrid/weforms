@@ -286,6 +286,10 @@ class WeForms_Ajax {
             $settings['credit'] = false;
         }
 
+        if ( ! isset( $settings['permission'] ) ) {
+            $settings['permission'] = 'manage_options';
+        }
+
         wp_send_json_success( $settings );
     }
 
