@@ -42,7 +42,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function check_admin() {
-        if ( !current_user_can( 'administrator' ) ) {
+        if ( !current_user_can( weforms_form_access_capability() ) ) {
             wp_send_json_error( __( 'You do not have sufficient permission.', 'weforms' ) );
         }
     }

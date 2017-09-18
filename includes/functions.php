@@ -637,3 +637,14 @@ function weforms_get_settings( $key = '', $default = '' ) {
 
     return $default;
 }
+
+/**
+ * Form access capability for forms
+ *
+ * @since 1.0.5
+ *
+ * @return string
+ */
+function weforms_form_access_capability() {
+    return apply_filters( 'weforms_form_access_capability', 'editor' );
+}
