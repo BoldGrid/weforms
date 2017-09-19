@@ -60,12 +60,10 @@ abstract class WeForms_Field_Contract {
      *
      * @param  integer  $form_id        The form id
      * @param  array    $field_settings The field configuration from the db
-     * @param  string   $type           optional form type. e.g.: post, user
-     * @param  integer  $data_id        if a post/user type field, the Post ID or the User ID
      *
      * @return void
      */
-    abstract function render( $form_id, $field_settings, $type = '', $data_id = 0 );
+    abstract function render( $form_id, $field_settings );
 
     /**
      * Get the field option settings for form builder
@@ -325,6 +323,65 @@ abstract class WeForms_Field_Contract {
                 'help_text' => __( 'Numebr of words the author to be restricted in', 'weforms' ),
             ),
         );
+    }
+
+    #####################
+    # Field helper methods
+    #####################
+
+    public function print_list_attributes( $field ) {
+        $label      = isset( $field['label'] ) ? $field['label'] : '';
+        $el_name    = !empty( $field['name'] ) ? $field['name'] : '';
+        $class_name = !empty( $field['css'] ) ? ' ' . $field['css'] : '';
+
+        printf( 'class="wpuf-el %s%s" data-label="%s"', $el_name, $class_name, $label );
+    }
+
+    /**
+     * Prints form input label
+     *
+     * @param array $attr
+     */
+    function print_label( $field ) {
+        ?>
+        <div class="wpuf-label">
+            <label for="<?php echo isset( $field['name'] ) ? $field['name'] : 'cls'; ?>"><?php echo $field['label'] . $this->required_mark( $field ); ?></label>
+        </div>
+        <?php
+    }
+
+    public function is_required( $field ) {
+        if ( isset( $field['required'] ) && $field['required'] == 'yes' ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Prints required field asterisk
+     *
+     * @param array $attr
+     * @return string
+     */
+    function required_mark( $field ) {
+        if ( isset( $field['required'] ) && $field['required'] == 'yes' ) {
+            return ' <span class="required">*</span>';
+        }
+    }
+
+    /**
+     * Prints help text for a field
+     *
+     * @param array $field
+     */
+    function help_text( $field ) {
+        if ( empty( $field['help'] ) ) {
+            return;
+        }
+        ?>
+        <span class="wpuf-help"><?php echo stripslashes( $field['help'] ); ?></span>
+        <?php
     }
 
 }

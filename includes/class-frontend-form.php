@@ -3,7 +3,7 @@
 /**
  * The frontend form class
  */
-class WeForms_Frontend extends WPUF_Render_Form {
+class WeForms_Frontend_Form {
 
     public function __construct() {
         add_shortcode( 'weforms', array( $this, 'render_shortcode' ) );
@@ -53,16 +53,32 @@ class WeForms_Frontend extends WPUF_Render_Form {
             return;
         }
 
-        $form_vars     = wpuf_get_form_fields( $form_id );
+        $form_fields     = wpuf_get_form_fields( $form_id );
         $form_settings = wpuf_get_form_settings( $form_id );
         $show_credit   = weforms_get_settings( 'credit', false );
         ?>
+
+        <script type="text/javascript">
+            if ( typeof wpuf_conditional_items === 'undefined' ) {
+                window.wpuf_conditional_items = [];
+            }
+
+            if ( typeof wpuf_plupload_items === 'undefined' ) {
+                window.wpuf_plupload_items = [];
+            }
+
+            if ( typeof wpuf_map_items === 'undefined' ) {
+                window.wpuf_map_items = [];
+            }
+        </script>
 
         <form class="wpuf-form-add" action="" method="post">
 
             <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
                 <?php
-                $this->render_items( $form_vars, $post_id, 'contact_form', $form_id, $form_settings );
+                // var_dump( $form_fields );
+                weforms()->fields->render_fields( $form_id, $form_fields );
+                // $this->render_items( $form_vars, $post_id, 'contact_form', $form_id, $form_settings );
                 $this->submit_button( $form_id, $form_settings, $post_id );
                 ?>
             </ul>

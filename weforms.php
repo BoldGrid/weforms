@@ -266,7 +266,7 @@ final class WeForms {
             $this->container['integrations'] = new WeForms_Pro_Integrations();
             $this->container['importer']     = new WeForms_Importer_Manager();
         } else {
-            $this->container['frontend'] = new WeForms_Frontend();
+            $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
         $this->container['emailer'] = new WeForms_Emailer();
