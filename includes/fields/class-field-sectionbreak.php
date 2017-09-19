@@ -14,12 +14,12 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  integer  $form_id
      * @param  array  $field_settings
+     * @param  integer  $form_id
      *
      * @return void
      */
-    public function render( $form_id, $field_settings ) {
+    public function render( $field_settings, $form_id ) {
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <div class="wpuf-section-wrap <?php echo 'section_' . $form_id; ?>">

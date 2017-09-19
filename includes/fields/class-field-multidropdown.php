@@ -14,12 +14,12 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
     /**
      * Render the text field
      *
-     * @param  integer  $form_id
      * @param  array  $field_settings
+     * @param  integer  $form_id
      *
      * @return void
      */
-    public function render( $form_id, $field_settings ) {
+    public function render( $field_settings, $form_id ) {
         $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
         $selected = is_array( $selected ) ? $selected : array();
         $name     = $field_settings['name'] . '[]';

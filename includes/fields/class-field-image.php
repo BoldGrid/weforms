@@ -14,12 +14,12 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  integer  $form_id
      * @param  array  $field_settings
+     * @param  integer  $form_id
      *
      * @return void
      */
-    public function render( $form_id, $field_settings ) {
+    public function render( $field_settings, $form_id ) {
         $unique_id = sprintf( '%s-%d', $field_settings['name'], $form_id );
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>

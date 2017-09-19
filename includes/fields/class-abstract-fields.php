@@ -58,12 +58,12 @@ abstract class WeForms_Field_Contract {
     /**
      * Render of the field in the frontend
      *
-     * @param  integer  $form_id        The form id
      * @param  array    $field_settings The field configuration from the db
+     * @param  integer  $form_id        The form id
      *
      * @return void
      */
-    abstract function render( $form_id, $field_settings );
+    abstract function render( $field_settings, $form_id );
 
     /**
      * Get the field option settings for form builder
@@ -325,9 +325,13 @@ abstract class WeForms_Field_Contract {
         );
     }
 
-    #####################
-    # Field helper methods
-    #####################
+    /*
+    |--------------------------------------------------------------------------
+    | Field helper methods
+    |--------------------------------------------------------------------------
+    |
+    | Various helper method for rendering form fields
+    */
 
     public function print_list_attributes( $field ) {
         $label      = isset( $field['label'] ) ? $field['label'] : '';
@@ -381,6 +385,46 @@ abstract class WeForms_Field_Contract {
         }
         ?>
         <span class="wpuf-help"><?php echo stripslashes( $field['help'] ); ?></span>
+        <?php
+    }
+
+    /**
+     * Push logic to conditional array for processing
+     *
+     * @param  array $form_field
+     * @param  integer $form_id
+     *
+     * @return void
+     */
+    function conditional_logic( $form_field, $form_id ) {
+
+        if ( !isset( $form_field['wpuf_cond']['condition_status'] ) || $form_field['wpuf_cond']['condition_status'] != 'yes' ) {
+            return;
+        }
+
+        $cond_inputs = $form_field['wpuf_cond'];
+        $cond_inputs['condition_status'] = isset( $cond_inputs['condition_status'] ) ? $cond_inputs['condition_status'] : '';
+
+        if ( $cond_inputs['condition_status'] == 'yes') {
+            $cond_inputs['type']    = $form_field['input_type'];
+            $cond_inputs['name']    = $form_field['name'];
+            $cond_inputs['form_id'] = $form_id;
+            $condition              = json_encode( $cond_inputs );
+
+        } else {
+            $condition = '';
+        }
+
+        //for section break
+        if ( $form_field['template'] == 'section_break' ) {
+            $cond_inputs['name'] = $form_field['name'] .'_'. $form_field['id'];
+            $condition           = json_encode( $cond_inputs );
+        }
+
+        ?>
+        <script type="text/javascript">
+            wpuf_conditional_items.push(<?php echo $condition; ?>);
+        </script>
         <?php
     }
 

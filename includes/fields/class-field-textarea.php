@@ -14,12 +14,12 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  integer  $form_id
      * @param  array  $field_settings
+     * @param  integer  $form_id
      *
      * @return void
      */
-    public function render( $form_id, $field_settings ) {
+    public function render( $field_settings, $form_id ) {
         $req_class   = ( $field_settings['required'] == 'yes' ) ? 'required' : 'rich-editor';
         $value       = $field_settings['default'];
         $textarea_id = $field_settings['name'] ? $field_settings['name'] . '_' . $form_id : 'textarea_';

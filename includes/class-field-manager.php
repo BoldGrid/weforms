@@ -94,7 +94,8 @@ class WeForms_Field_Manager {
                 continue;
             }
 
-            $field_object->render( $form_id, $field );
+            $field_object->render( $field, $form_id );
+            $field_object->conditional_logic( $field, $form_id );
         }
     }
 
