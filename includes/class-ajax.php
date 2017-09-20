@@ -58,12 +58,14 @@ class WeForms_Ajax {
 
         $form_id = isset( $_REQUEST['form_id'] ) ? absint( $_REQUEST['form_id'] ) : 0;
 
+        $form = weforms()->form->get( $form_id );
+
         $data = array(
-            'post'          => get_post( $form_id ),
-            'form_fields'   => wpuf_get_form_fields( $form_id ),
-            'settings'      => wpuf_get_form_settings( $form_id ),
-            'notifications' => wpuf_get_form_notifications( $form_id ),
-            'integrations'  => wpuf_get_form_integrations( $form_id )
+            'post'          => $form->data,
+            'form_fields'   => $form->get_fields(),
+            'settings'      => $form->get_settings(),
+            'notifications' => $form->get_notifications(),
+            'integrations'  => $form->get_integrations()
         );
 
         wp_send_json_success( $data );
