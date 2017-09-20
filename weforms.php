@@ -182,7 +182,6 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
-            require_once WPUF_ROOT . '/class/render-form.php';
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
         }
 

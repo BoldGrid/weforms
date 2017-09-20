@@ -136,17 +136,17 @@ class WeForms_Admin {
         $export_type = isset( $_POST['export_type'] ) ? $_POST['export_type'] : 'all';
         $selected    = isset( $_POST['selected_forms'] ) ? array_map( 'absint', $_POST['selected_forms'] ) : array();
 
-        if ( ! class_exists( 'WPUF_Admin_Tools' ) ) {
-            require_once WPUF_ROOT . '/admin/class-tools.php';
+        if ( ! class_exists( 'WeForms_Admin_Tools' ) ) {
+            require_once dirname( __FILE__ ) . '/class-admin-tools.php';
         }
 
         switch ($export_type) {
             case 'all':
-                WPUF_Admin_Tools::export_to_json( 'wpuf_contact_form' );
+                WeForms_Admin_Tools::export_to_json();
                 return;
 
             case 'selected':
-                WPUF_Admin_Tools::export_to_json( 'wpuf_contact_form', $selected );
+                WeForms_Admin_Tools::export_to_json( $selected );
                 return;
         }
 
@@ -220,7 +220,7 @@ class WeForms_Admin {
         fclose( $handle );
 
         $blogname  = strtolower( str_replace( " ", "-", get_option( 'blogname' ) ) );
-        $file_name = $blogname . "-bcf-entries-" . time() . '.csv';
+        $file_name = $blogname . "-weforms-entries-" . time() . '.csv';
 
         // force download
         header("Content-Type: application/force-download");

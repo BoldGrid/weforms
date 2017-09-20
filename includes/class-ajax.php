@@ -678,13 +678,13 @@ class WeForms_Ajax {
 
         $file_ext  = pathinfo( $the_file['name'], PATHINFO_EXTENSION );
 
-        if ( ! class_exists( 'WPUF_Admin_Tools' ) ) {
-            require_once WPUF_ROOT . '/admin/class-tools.php';
+        if ( ! class_exists( 'WeForms_Admin_Tools' ) ) {
+            require_once dirname( __FILE__ ) . '/admin/class-admin-tools.php';
         }
 
         if ( ( $file_ext == 'json' ) && ( $the_file['size'] < 500000 ) ) {
 
-            $status = WPUF_Admin_Tools::import_json_file( $the_file['tmp_name'] );
+            $status = WeForms_Admin_Tools::import_json_file( $the_file['tmp_name'] );
 
             if ( $status ) {
                 wp_send_json_success( __( 'The forms have been imported successfully!', 'weforms' ) );
