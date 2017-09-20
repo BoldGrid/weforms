@@ -31,54 +31,6 @@ class WeForms_Field_Manager {
     }
 
     /**
-     * Get field groups
-     *
-     * @return array
-     */
-    public function get_field_groups() {
-
-        $groups = array(
-            array(
-                'title'  => __( 'Custom Fields', 'weforms' ),
-                'id'     => 'custom-fields',
-                'fields' => apply_filters( 'weforms_field_groups_custom', array(
-                    'name_field', 'text_field', 'textarea_field', 'dropdown_field', 'multiple_select',
-                    'radio_field', 'checkbox_field', 'website_url', 'email_address',
-                    'custom_hidden_field', 'image_upload'
-                ) )
-            ),
-
-            array(
-                'title'  => __( 'Others', 'weforms' ),
-                'id'     => 'others',
-                'fields' => apply_filters( 'weforms_field_groups_others', array(
-                    'section_break', 'custom_html', 'recaptcha'
-                ) )
-            )
-        );
-
-        return apply_filters( 'weforms-field-groups', $groups );
-    }
-
-    /**
-     * Get fields JS setting for the form builder
-     *
-     * @return array
-     */
-    public function get_js_settings() {
-        $fields   = $this->get_fields();
-        $js_array = array();
-
-        if ( $fields ) {
-            foreach ($fields as $type => $object) {
-                $js_array[ $type ] = $object->get_js_settings();
-            }
-        }
-
-        return $js_array;
-    }
-
-    /**
      * Register the field types
      *
      * @return void
@@ -89,9 +41,7 @@ class WeForms_Field_Manager {
         require_once dirname( __FILE__ ) . '/fields/class-field-text.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-name.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-email.php';
-
         require_once dirname( __FILE__ ) . '/fields/class-field-textarea.php';
-
         require_once dirname( __FILE__ ) . '/fields/class-field-checkbox.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-radio.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-dropdown.php';
@@ -121,6 +71,54 @@ class WeForms_Field_Manager {
         );
 
         $this->fields = apply_filters( 'weforms_form_fields', $fields );
+    }
+
+    /**
+     * Get field groups
+     *
+     * @return array
+     */
+    public function get_field_groups() {
+
+        $groups = array(
+            array(
+                'title'  => __( 'Custom Fields', 'weforms' ),
+                'id'     => 'custom-fields',
+                'fields' => apply_filters( 'weforms_field_groups_custom', array(
+                    'name_field', 'text_field', 'textarea_field', 'dropdown_field', 'multiple_select',
+                    'radio_field', 'checkbox_field', 'website_url', 'email_address',
+                    'custom_hidden_field', 'image_upload'
+                ) )
+            ),
+
+            array(
+                'title'  => __( 'Others', 'weforms' ),
+                'id'     => 'others',
+                'fields' => apply_filters( 'weforms_field_groups_others', array(
+                    'section_break', 'custom_html', 'recaptcha'
+                ) )
+            )
+        );
+
+        return apply_filters( 'weforms_field_groups', $groups );
+    }
+
+    /**
+     * Get fields JS setting for the form builder
+     *
+     * @return array
+     */
+    public function get_js_settings() {
+        $fields   = $this->get_fields();
+        $js_array = array();
+
+        if ( $fields ) {
+            foreach ($fields as $type => $object) {
+                $js_array[ $type ] = $object->get_js_settings();
+            }
+        }
+
+        return $js_array;
     }
 
     /**

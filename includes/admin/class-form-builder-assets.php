@@ -101,7 +101,7 @@ class WeForms_Form_Builder_Assets {
                 'cc'          => '',
                 'bcc'         => ''
             ),
-            'integrations'     => apply_filters( 'weforms_form_builder_integrations', array() ),
+            'integrations'     => weforms()->integrations->get_integration_js_settings(),
             'recaptcha_site'   => isset( $recaptcha->key ) ? $recaptcha->key : '',
             'recaptcha_secret' => isset( $recaptcha->secret ) ? $recaptcha->secret : '',
         ) );

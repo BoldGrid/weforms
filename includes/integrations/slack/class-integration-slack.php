@@ -5,7 +5,7 @@
  *
  * @package weForms\Integrations
  */
-class WeForms_Integration_Slack extends WPUF_Abstract_Integration {
+class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
 
     /**
      * Initialize the plugin

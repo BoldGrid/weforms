@@ -191,6 +191,10 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-form-entry-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-entry.php';
         require_once WEFORMS_INCLUDES . '/class-form.php';
+
+        require_once WEFORMS_INCLUDES . '/integrations/class-abstract-integration.php';
+        require_once WEFORMS_INCLUDES . '/class-integration-manager.php';
+
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
@@ -211,8 +215,6 @@ final class WeForms {
         // initialize the classes
         add_action( 'init', array( $this, 'init_classes' ) );
         add_action( 'init', array( $this, 'wpdb_table_shortcuts' ), 0 );
-
-        add_filter( 'wpuf_integrations', array( $this, 'register_default_integrations' ) );
 
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
     }
@@ -268,10 +270,14 @@ final class WeForms {
             $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
-        $this->container['emailer'] = new WeForms_Emailer();
-        $this->container['form']    = new WeForms_Form_Manager();
-        $this->container['fields']  = new WeForms_Field_Manager();
-        $this->container['preview'] = new WeForms_Form_Preview();
+        $this->container['emailer']      = new WeForms_Emailer();
+        $this->container['form']         = new WeForms_Form_Manager();
+        $this->container['fields']       = new WeForms_Field_Manager();
+        $this->container['integrations'] = new WeForms_Integration_Manager();
+        $this->container['preview']      = new WeForms_Form_Preview();
+
+        // instantiate the integrations
+        $this->integrations->get_integrations();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             $this->container['ajax'] = new WeForms_Ajax();
@@ -291,22 +297,6 @@ final class WeForms {
         $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
         return $links;
-    }
-
-    /**
-     * Register default integrations
-     *
-     * @param  array $integrations
-     *
-     * @return array
-     */
-    public function register_default_integrations( $integrations ) {
-        require_once WEFORMS_INCLUDES . '/integrations/slack/class-integration-slack.php';
-        require_once WEFORMS_INCLUDES . '/integrations/erp/class-integration-erp.php';
-
-        $integrations = array_merge( $integrations, array( 'WeForms_Integration_Slack', 'WeForms_Integration_ERP' ) );
-
-        return $integrations;
     }
 
 } // WeForms
