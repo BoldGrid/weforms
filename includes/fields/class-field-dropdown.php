@@ -57,10 +57,21 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $default_options  = $this->get_default_option_settings();
+        $dropdown_options = array(
+            $this->get_default_option_dropdown_settings(),
 
-        return array_merge( $default_options, $default_text_options );
+            array(
+                'name'          => 'first',
+                'title'         => __( 'Select Text', 'wpuf' ),
+                'type'          => 'text',
+                'section'       => 'basic',
+                'priority'      => 13,
+                'help_text'     => __( "First element of the select dropdown. Leave this empty if you don't want to show this field", 'wpuf' ),
+            ),
+        );
+
+        return array_merge( $default_options, $dropdown_options );
     }
 
     /**
@@ -71,7 +82,9 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
     public function get_field_props() {
         $defaults = $this->default_attributes();
         $props    = array(
-            'word_restriction' => '',
+            'selected' => '',
+            'options'  => array( 'Option' => __( 'Option', 'wpuf' ) ),
+            'first'    => __( '— Select —', 'wpuf' ),
         );
 
         return array_merge( $defaults, $props );

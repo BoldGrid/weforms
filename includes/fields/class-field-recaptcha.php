@@ -56,15 +56,55 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
     }
 
     /**
+     * Custom validator
+     *
+     * @return array
+     */
+    public function get_validator() {
+        return array(
+            'callback'      => 'has_recaptcha_api_keys',
+            'button_class'  => 'button-faded',
+            'msg_title'     => __( 'Site key and Secret key', 'wpuf' ),
+            'msg'           => sprintf(
+                __( 'You need to set Site key and Secret key in <a href="%s" target="_blank">Settings</a> in order to use "Recaptcha" field. <a href="%s" target="_blank">Click here to get the these key</a>.', 'wpuf' ),
+                admin_url( 'admin.php?page=weforms#/settings' ),
+                'https://www.google.com/recaptcha/'
+            ),
+        );
+    }
+
+    /**
      * Get field options setting
      *
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $settings = array(
+            array(
+                'name'          => 'label',
+                'title'         => __( 'Title', 'wpuf' ),
+                'type'          => 'text',
+                'section'       => 'basic',
+                'priority'      => 10,
+                'help_text'     => __( 'Title of the section', 'wpuf' ),
+            ),
 
-        return array_merge( $default_options, $default_text_options );
+            array(
+                'name'          => 'recaptcha_type',
+                'title'         => 'reCaptcha type',
+                'type'          => 'radio',
+                'options'       => array(
+                    'enable_no_captcha'    => __( 'Enable noCaptcha', 'wpuf' ),
+                    'invisible_recaptcha'  => __( 'Enable Invisible reCaptcha', 'wpuf' ),
+                ),
+                'default'       => 'enable_no_captcha',
+                'section'       => 'basic',
+                'priority'      => 11,
+                'help_text'     => __( 'Select reCaptcha type', 'wpuf' ),
+            )
+        );
+
+        return $settings;
     }
 
     /**
@@ -73,11 +113,16 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
      * @return array
      */
     public function get_field_props() {
-        $defaults = $this->default_attributes();
-        $props    = array(
-            'word_restriction' => '',
+        $props = array(
+            'template'    => $this->get_type(),
+            'label'          => '',
+            'meta_value'    => '',
+            'is_meta'       => 'yes',
+            'id'            => 0,
+            'is_new'        => true,
+            'wpuf_cond'     => null
         );
 
-        return array_merge( $defaults, $props );
+        return $props;
     }
 }

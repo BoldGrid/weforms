@@ -31,10 +31,27 @@ class WeForms_Form_Field_Hidden extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $settings = array(
+            array(
+                'name'      => 'name',
+                'title'     => __( 'Meta Key', 'wpuf' ),
+                'type'      => 'text',
+                'section'   => 'basic',
+                'priority'  => 10,
+                'help_text' => __( 'Name of the meta key this field will save to', 'wpuf' ),
+            ),
 
-        return array_merge( $default_options, $default_text_options );
+            array(
+                'name'      => 'meta_value',
+                'title'     => __( 'Meta Value', 'wpuf' ),
+                'type'      => 'text',
+                'section'   => 'basic',
+                'priority'  => 11,
+                'help_text' => __( 'Enter the meta value', 'wpuf' ),
+            ),
+        );
+
+        return $settings;
     }
 
     /**
@@ -43,11 +60,16 @@ class WeForms_Form_Field_Hidden extends WeForms_Field_Contract {
      * @return array
      */
     public function get_field_props() {
-        $defaults = $this->default_attributes();
-        $props    = array(
-            'word_restriction' => '',
+        $props = array(
+            'template'    => $this->get_type(),
+            'name'          => '',
+            'meta_value'    => '',
+            'is_meta'       => 'yes',
+            'id'            => 0,
+            'is_new'        => true,
+            'wpuf_cond'     => null
         );
 
-        return array_merge( $defaults, $props );
+        return $props;
     }
 }

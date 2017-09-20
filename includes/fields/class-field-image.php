@@ -58,9 +58,28 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      */
     public function get_options_settings() {
         $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
 
-        return array_merge( $default_options, $default_text_options );
+        $settings = array(
+            array(
+                'name'          => 'max_size',
+                'title'         => __( 'Max. file size', 'wpuf' ),
+                'type'          => 'text',
+                'section'       => 'advanced',
+                'priority'      => 20,
+                'help_text'     => __( 'Enter maximum upload size limit in KB', 'wpuf' ),
+            ),
+
+            array(
+                'name'          => 'count',
+                'title'         => __( 'Max. files', 'wpuf' ),
+                'type'          => 'text',
+                'section'       => 'advanced',
+                'priority'      => 21,
+                'help_text'     => __( 'Number of images can be uploaded', 'wpuf' ),
+            ),
+        );
+
+        return array_merge( $default_options, $settings );
     }
 
     /**
@@ -71,7 +90,8 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
     public function get_field_props() {
         $defaults = $this->default_attributes();
         $props    = array(
-            'word_restriction' => '',
+            'max_size' => '1024',
+            'count'    => '1',
         );
 
         return array_merge( $defaults, $props );

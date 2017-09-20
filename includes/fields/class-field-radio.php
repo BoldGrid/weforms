@@ -47,4 +47,20 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
         </li>
         <?php
     }
+
+    /**
+     * Get the field props
+     *
+     * @return array
+     */
+    public function get_field_props() {
+        $defaults = $this->default_attributes();
+        $props    = array(
+            'selected' => '',
+            'inline'   => 'no',
+            'options'  => array( 'Option' => __( 'Option', 'wpuf' ) ),
+        );
+
+        return array_merge( $defaults, $props );
+    }
 }

@@ -53,9 +53,13 @@ class WeForms_Frontend_Form {
             return;
         }
 
-        $form_fields     = wpuf_get_form_fields( $form_id );
-        $form_settings = wpuf_get_form_settings( $form_id );
+        $form          = weforms()->form->get( $form_id );
+
+        $form_fields   = $form->get_fields();
+        $form_settings = $form->get_settings();
         $show_credit   = weforms_get_settings( 'credit', false );
+
+        // var_dump( $form_fields );
         ?>
 
         <script type="text/javascript">
@@ -77,7 +81,7 @@ class WeForms_Frontend_Form {
             <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
                 <?php
                 // var_dump( $form_fields );
-                weforms()->fields->render_fields( $form_id, $form_fields );
+                weforms()->fields->render_fields( $form_fields, $form_id );
                 // $this->render_items( $form_vars, $post_id, 'contact_form', $form_id, $form_settings );
                 $this->submit_button( $form_id, $form_settings, $post_id );
                 ?>
@@ -114,16 +118,16 @@ class WeForms_Frontend_Form {
     function field_total( $form_field, $post_id, $type, $form_id ) {
         ?>
         <div class="wpuf-fields total <?php  echo ' wpuf_'.$form_field['name'].'_'.$form_id; ?>">
-            $ <input 
-                type="number" 
-                class="input-total <?php echo 'wpuf_'.$form_field['name']. '_'. $form_id; ?>" 
+            $ <input
+                type="number"
+                class="input-total <?php echo 'wpuf_'.$form_field['name']. '_'. $form_id; ?>"
                 id="form-total"
-                name="form-total" 
+                name="form-total"
                 value=""
                 disabled="disabled"
                 style="width:50px;" />
         </div>
-        
+
         <script>
             ;(function($){
                 $totalHtml = $('.wpuf-fields').find('input#form-total');
@@ -147,7 +151,7 @@ class WeForms_Frontend_Form {
                     } else {
                         $final = $total*1 - $price*1;
                     }
-                    $totalHtml.val($final);     
+                    $totalHtml.val($final);
                 });
             })(jQuery);
         </script>
@@ -165,13 +169,13 @@ class WeForms_Frontend_Form {
             </div>
             <div>
                 <label><?php echo __( 'Quantity: ', 'wpuf-pro' ) ?></label>
-                <input 
-                    type="number" 
-                    class="<?php echo 'wpuf_'.$form_field['name']. '_'. $form_id; ?> quantity" 
-                    name="qty" 
+                <input
+                    type="number"
+                    class="<?php echo 'wpuf_'.$form_field['name']. '_'. $form_id; ?> quantity"
+                    name="qty"
                     value=0
                     min=0
-                    max="<?php echo $form_field['size']; ?>" 
+                    max="<?php echo $form_field['size']; ?>"
                     style="width:50px;" />
             </div>
 

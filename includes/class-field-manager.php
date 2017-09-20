@@ -31,6 +31,24 @@ class WeForms_Field_Manager {
     }
 
     /**
+     * Get fields JS setting for the form builder
+     *
+     * @return array
+     */
+    public function get_js_settings() {
+        $fields   = $this->get_fields();
+        $js_array = array();
+
+        if ( $fields ) {
+            foreach ($fields as $type => $object) {
+                $js_array[ $type ] = $object->get_js_settings();
+            }
+        }
+
+        return $js_array;
+    }
+
+    /**
      * Register the field types
      *
      * @return void
@@ -83,7 +101,7 @@ class WeForms_Field_Manager {
      *
      * @return void
      */
-    public function render_fields( $form_id, $fields ) {
+    public function render_fields( $fields, $form_id ) {
         if ( ! $fields ) {
             return;
         }

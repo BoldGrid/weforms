@@ -85,10 +85,45 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $default_options = $this->get_default_option_settings();
 
-        return array_merge( $default_options, $default_text_options );
+        $name_settings = array(
+            array(
+                'name'      => 'format',
+                'title'     => __( 'Format', 'weforms' ),
+                'type'      => 'radio',
+                'options'   => array(
+                    'first-last'        => __( 'First and Last name', 'weforms' ),
+                    'first-middle-last' => __( 'First, Middle and Last name', 'weforms' )
+                ),
+                'selected'  => 'first-last',
+                'section'   => 'advanced',
+                'priority'  => 20,
+                'help_text' => __( 'Select format to use for the name field', 'weforms' ),
+            ),
+            array(
+                'name'      => 'sub-labels',
+                'title'     => __( 'Label', 'weforms' ),
+                'type'      => 'name',
+                'section'   => 'advanced',
+                'priority'  => 21,
+                'help_text' => __( 'Select format to use for the name field', 'weforms' ),
+            ),
+            array(
+                'name'          => 'hide_subs',
+                'title'         => '',
+                'type'          => 'checkbox',
+                'is_single_opt' => true,
+                'options'       => array(
+                    'true'   => __( 'Hide Sub Labels', 'weforms' )
+                ),
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => '',
+            ),
+        );
+
+        return array_merge( $default_options, $name_settings );
     }
 
     /**
@@ -99,7 +134,23 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
     public function get_field_props() {
         $defaults = $this->default_attributes();
         $props    = array(
-            'word_restriction' => '',
+            'format'     => 'first-last',
+            'first_name' => array(
+                'placeholder' => '',
+                'default'     => '',
+                'sub'         => __( 'First', 'weforms' )
+            ),
+            'middle_name' => array(
+                'placeholder' => '',
+                'default'     => '',
+                'sub'         => __( 'Middle', 'weforms' )
+            ),
+            'last_name' => array(
+                'placeholder' => '',
+                'default'     => '',
+                'sub'         => __( 'Last', 'weforms' )
+            ),
+            'hide_subs'        => false,
         );
 
         return array_merge( $defaults, $props );

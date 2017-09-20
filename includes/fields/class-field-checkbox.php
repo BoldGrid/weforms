@@ -55,10 +55,27 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $default_options  = $this->get_default_option_settings();
+        $dropdown_options = array(
+            $this->get_default_option_dropdown_settings( true ),
 
-        return array_merge( $default_options, $default_text_options );
+            array(
+                'name'          => 'inline',
+                'title'         => __( 'Show in inline list', 'wpuf' ),
+                'type'          => 'radio',
+                'options'       => array(
+                    'yes'   => __( 'Yes', 'wpuf' ),
+                    'no'    => __( 'No', 'wpuf' ),
+                ),
+                'default'       => 'no',
+                'inline'        => true,
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'Show this option in an inline list', 'wpuf' ),
+            )
+        );
+
+        return array_merge( $default_options, $dropdown_options );
     }
 
     /**
@@ -69,7 +86,9 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
     public function get_field_props() {
         $defaults = $this->default_attributes();
         $props    = array(
-            'word_restriction' => '',
+            'selected' => array(),
+            'inline'   => 'no',
+            'options'  => array( 'Option' => __( 'Option', 'wpuf' ) ),
         );
 
         return array_merge( $defaults, $props );

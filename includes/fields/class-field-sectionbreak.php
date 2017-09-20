@@ -37,10 +37,27 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $options = array(
+            array(
+                'name'      => 'label',
+                'title'     => __( 'Title', 'wpuf' ),
+                'type'      => 'text',
+                'section'   => 'basic',
+                'priority'  => 10,
+                'help_text' => __( 'Title of the section', 'wpuf' ),
+            ),
 
-        return array_merge( $default_options, $default_text_options );
+            array(
+                'name'      => 'description',
+                'title'     => __( 'Description', 'wpuf' ),
+                'type'      => 'textarea',
+                'section'   => 'basic',
+                'priority'  => 11,
+                'help_text' => __( 'Some details text about the section', 'wpuf' ),
+            ),
+        );
+
+        return $options;
     }
 
     /**
@@ -49,11 +66,15 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
      * @return array
      */
     public function get_field_props() {
-        $defaults = $this->default_attributes();
-        $props    = array(
-            'word_restriction' => '',
+        $props = array(
+            'template'    => $this->get_type(),
+            'label'       => $this->get_name(),
+            'description' => __( 'Some description about this section', 'wpuf' ),
+            'id'          => 0,
+            'is_new'      => true,
+            'wpuf_cond'   => null
         );
 
-        return array_merge( $defaults, $props );
+        return $props;
     }
 }

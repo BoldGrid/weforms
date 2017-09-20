@@ -77,7 +77,7 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
      */
     public function get_options_settings() {
         $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $default_text_options = $this->get_default_textarea_option_settings();
 
         return array_merge( $default_options, $default_text_options );
     }
@@ -91,6 +91,9 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
         $defaults = $this->default_attributes();
         $props    = array(
             'word_restriction' => '',
+            'rows'             => 5,
+            'cols'             => 25,
+            'rich'             => 'no',
         );
 
         return array_merge( $defaults, $props );

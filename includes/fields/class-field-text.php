@@ -42,7 +42,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
      */
     public function get_options_settings() {
         $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $default_text_options = $this->get_default_text_option_settings( true );
 
         return array_merge( $default_options, $default_text_options );
     }

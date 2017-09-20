@@ -32,4 +32,27 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
         </li>
         <?php
     }
+
+    /**
+     * Get field options setting
+     *
+     * @return array
+     */
+    public function get_options_settings() {
+        $default_options      = $this->get_default_option_settings();
+        $default_text_options = $this->get_default_text_option_settings();
+
+        return array_merge( $default_options, $default_text_options );
+    }
+
+    /**
+     * Get the field props
+     *
+     * @return array
+     */
+    public function get_field_props() {
+        $defaults = $this->default_attributes();
+
+        return $defaults;
+    }
 }

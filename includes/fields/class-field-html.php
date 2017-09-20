@@ -37,10 +37,18 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
-        $default_text_options = $this->get_default_text_option_settings();
+        $settings = array(
+            array(
+                'name'      => 'html',
+                'title'     => __( 'HTML Codes', 'wpuf' ),
+                'type'      => 'textarea',
+                'section'   => 'basic',
+                'priority'  => 11,
+                'help_text' => __( 'Paste your HTML codes, WordPress shortcodes will also work here', 'wpuf' ),
+            ),
+        );
 
-        return array_merge( $default_options, $default_text_options );
+        return $settings;
     }
 
     /**
@@ -49,11 +57,14 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
      * @return array
      */
     public function get_field_props() {
-        $defaults = $this->default_attributes();
-        $props    = array(
-            'word_restriction' => '',
+        $props = array(
+            'template'  => $this->get_type(),
+            'html'      => sprintf( '<p>%s</p>', __( 'Some description about this section', 'wpuf' ) ),
+            'id'        => 0,
+            'is_new'    => true,
+            'wpuf_cond' => $this->default_conditional_prop()
         );
 
-        return array_merge( $defaults, $props );
+        return $props;
     }
 }

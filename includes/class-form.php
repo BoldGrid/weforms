@@ -58,7 +58,60 @@ class WeForms_Form {
      * @return array
      */
     public function get_fields() {
-        return wpuf_get_form_fields( $this->id );
+        $fields = get_children(array(
+            'post_parent' => $this->id,
+            'post_status' => 'publish',
+            'post_type'   => 'wpuf_input',
+            'numberposts' => '-1',
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
+        ));
+
+        $form_fields = array();
+
+        foreach ( $fields as $key => $content ) {
+
+            $field = maybe_unserialize( $content->post_content );
+
+            $field['id'] = $content->ID;
+
+            // Add inline property for radio and checkbox fields
+            $inline_supported_fields = array( 'radio_field', 'checkbox_field' );
+            if ( in_array( $field['template'] , $inline_supported_fields ) ) {
+                if ( ! isset( $field['inline'] ) ) {
+                    $field['inline'] = 'no';
+                }
+            }
+
+            // Add 'selected' property
+            $option_based_fields = array( 'dropdown_field', 'multiple_select', 'radio_field', 'checkbox_field' );
+            if ( in_array( $field['template'] , $option_based_fields ) ) {
+                if ( ! isset( $field['selected'] ) ) {
+
+                    if ( 'dropdown_field' === $field['template'] || 'radio_field' === $field['template'] ) {
+                        $field['selected'] = '';
+                    } else {
+                        $field['selected'] = array();
+                    }
+
+                }
+            }
+
+            // Add 'multiple' key for template:repeat
+            if ( 'repeat_field' === $field['template'] && ! isset( $field['multiple'] ) ) {
+                $field['multiple'] = '';
+            }
+
+            if ( 'recaptcha' === $field['template'] ) {
+                $field['name'] = 'recaptcha';
+                $field['enable_no_captcha'] = isset( $field['enable_no_captcha'] ) ? $field['enable_no_captcha'] : '';
+
+            }
+
+            $form_fields[] = apply_filters( 'weforms-get-form-fields', $field );
+        }
+
+        return $form_fields;
     }
 
     /**

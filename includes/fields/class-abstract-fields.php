@@ -87,13 +87,28 @@ abstract class WeForms_Field_Contract {
      * @return array
      */
     public function get_js_settings() {
-        return array(
+        $settings = array(
             'template'      => $this->get_type(),
             'title'         => $this->get_name(),
             'icon'          => $this->get_icon(),
             'settings'      => $this->get_options_settings(),
             'field_props'   => $this->get_field_props()
         );
+
+        if ( $validator = $this->get_validator() ) {
+            $settings['validator'] = $validator;
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Custom field validator if exists
+     *
+     * @return boolean|array
+     */
+    public function get_validator() {
+        return false;
     }
 
     /**
@@ -123,7 +138,7 @@ abstract class WeForms_Field_Contract {
             'template'    => $this->get_type(),
             'name'        => '',
             'label'       => $this->get_name(),
-            'requird'     => 'no',
+            'required'    => 'no',
             'id'          => 0,
             'css'         => '',
             'placeholder' => '',
@@ -252,6 +267,25 @@ abstract class WeForms_Field_Contract {
         }
 
         return apply_filters( 'wpuf-form-builder-common-text-fields-properties', $properties );
+    }
+
+    /**
+     * Option data for option based fields
+     *
+     * @param boolean $is_multiple
+     *
+     * @return array
+     */
+    public function get_default_option_dropdown_settings( $is_multiple = false ) {
+        return array(
+            'name'          => 'options',
+            'title'         => __( 'Options', 'wpuf' ),
+            'type'          => 'option-data',
+            'is_multiple'   => $is_multiple,
+            'section'       => 'basic',
+            'priority'      => 12,
+            'help_text'     => __( 'Add options for the form field', 'wpuf' ),
+        );
     }
 
     /**

@@ -16,7 +16,6 @@ class WeForms_Form_Builder_Assets {
         add_action( 'admin_footer', array( $this, 'admin_footer_js_templates' ) );
 
         add_action( 'wpuf-form-builder-enqueue-after-components', array( $this, 'admin_enqueue_scripts_components' ) );
-        add_filter( 'wpuf-form-builder-field-settings', array( $this, 'add_field_settings' ) );
         add_filter( 'wpuf-form-builder-fields-custom-fields', array( $this, 'add_custom_fields' ) );
         add_action( 'wpuf-form-builder-js-builder-stage-mixins', array( $this, 'js_builder_stage_mixins' ) );
         add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
@@ -83,18 +82,12 @@ class WeForms_Form_Builder_Assets {
 
         do_action( 'wpuf-form-builder-enqueue-after-components' );
 
-        /*
-         * Data required for building the form
-         */
-        require_once WPUF_ROOT . '/admin/form-builder/class-wpuf-form-builder-field-settings.php';
-        require_once WPUF_ROOT . '/includes/free/prompt.php';
-
         $recaptcha = weforms_get_settings( 'recaptcha' );
 
         $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', array(
             'i18n'                => $this->i18n(),
             'panel_sections'      => $this->get_panel_sections(),
-            'field_settings'      => WPUF_Form_Builder_Field_Settings::get_field_settings(),
+            'field_settings'      => weforms()->fields->get_js_settings(),
             'pro_link'            => self::get_pro_url(),
             'site_url'            => site_url('/'),
             'defaultNotification' => array(
@@ -334,7 +327,7 @@ class WeForms_Form_Builder_Assets {
      * @return array
      */
     private function get_custom_fields() {
-        $fields = apply_filters( 'wpuf-form-builder-fields-custom-fields', array(
+        $fields = apply_filters( 'wpuf-form-builder-fields-custom-fields-1', array(
             'text_field', 'textarea_field', 'dropdown_field', 'multiple_select',
             'radio_field', 'checkbox_field', 'website_url', 'email_address',
             'custom_hidden_field', 'image_upload'
@@ -395,7 +388,7 @@ class WeForms_Form_Builder_Assets {
      * @return array
      */
     private function get_others_fields() {
-        $fields = apply_filters( 'wpuf-form-builder-fields-others-fields', array(
+        $fields = apply_filters( 'wpuf-form-builder-fields-others-fields-1', array(
             'section_break', 'custom_html', 'recaptcha'
         ) );
 
@@ -406,25 +399,6 @@ class WeForms_Form_Builder_Assets {
                 'fields'    => $fields
             )
         );
-    }
-
-    /**
-     * Field settings for custom components
-     *
-     * @param array $settings
-     */
-    public function add_field_settings( $settings ) {
-        require_once dirname( __FILE__ ) . '/class-builder-field-settings.php';
-
-        $settings = array_merge( WeForms_Builder_Field_Settings::get_field_settings(), $settings );
-
-        // filter out recaptcha settings url in message
-        if ( isset( $settings['recaptcha'] ) ) {
-            $message = $settings['recaptcha']['validator']['msg'];
-            $settings['recaptcha']['validator']['msg'] = str_replace( 'admin.php?page=wpuf-settings', 'admin.php?page=weforms#/settings', $message );
-        }
-
-        return $settings;
     }
 
     /**
