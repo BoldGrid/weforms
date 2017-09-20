@@ -31,6 +31,36 @@ class WeForms_Field_Manager {
     }
 
     /**
+     * Get field groups
+     *
+     * @return array
+     */
+    public function get_field_groups() {
+
+        $groups = array(
+            array(
+                'title'  => __( 'Custom Fields', 'weforms' ),
+                'id'     => 'custom-fields',
+                'fields' => apply_filters( 'weforms_field_groups_custom', array(
+                    'name_field', 'text_field', 'textarea_field', 'dropdown_field', 'multiple_select',
+                    'radio_field', 'checkbox_field', 'website_url', 'email_address',
+                    'custom_hidden_field', 'image_upload'
+                ) )
+            ),
+
+            array(
+                'title'  => __( 'Others', 'weforms' ),
+                'id'     => 'others',
+                'fields' => apply_filters( 'weforms_field_groups_others', array(
+                    'section_break', 'custom_html', 'recaptcha'
+                ) )
+            )
+        );
+
+        return apply_filters( 'weforms-field-groups', $groups );
+    }
+
+    /**
      * Get fields JS setting for the form builder
      *
      * @return array

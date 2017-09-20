@@ -116,7 +116,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
         $props = array(
             'template'    => $this->get_type(),
             'label'          => '',
-            'meta_value'    => '',
+            'recaptcha_type' => 'enable_no_captcha',
             'is_meta'       => 'yes',
             'id'            => 0,
             'is_new'        => true,

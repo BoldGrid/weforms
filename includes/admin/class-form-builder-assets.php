@@ -16,7 +16,6 @@ class WeForms_Form_Builder_Assets {
         add_action( 'admin_footer', array( $this, 'admin_footer_js_templates' ) );
 
         add_action( 'wpuf-form-builder-enqueue-after-components', array( $this, 'admin_enqueue_scripts_components' ) );
-        add_filter( 'wpuf-form-builder-fields-custom-fields', array( $this, 'add_custom_fields' ) );
         add_action( 'wpuf-form-builder-js-builder-stage-mixins', array( $this, 'js_builder_stage_mixins' ) );
         add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
 
@@ -86,7 +85,7 @@ class WeForms_Form_Builder_Assets {
 
         $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', array(
             'i18n'                => $this->i18n(),
-            'panel_sections'      => $this->get_panel_sections(),
+            'panel_sections'      => weforms()->fields->get_field_groups(),
             'field_settings'      => weforms()->fields->get_js_settings(),
             'pro_link'            => self::get_pro_url(),
             'site_url'            => site_url('/'),
@@ -300,61 +299,6 @@ class WeForms_Form_Builder_Assets {
     }
 
     /**
-     * Add Fields panel sections
-     *
-     * @since 2.5
-     *
-     * @return array
-     */
-    private function get_panel_sections() {
-        $before_custom_fields = apply_filters( 'wpuf-form-builder-fields-section-before', array() );
-
-        $sections = array_merge( $before_custom_fields, $this->get_custom_fields() );
-        $sections = array_merge( $sections, $this->get_others_fields() );
-
-        $after_custom_fields = apply_filters( 'wpuf-form-builder-fields-section-after', array() );
-
-        $sections = array_merge( $sections, $after_custom_fields );
-
-        return $sections;
-    }
-
-    /**
-     * Custom field section
-     *
-     * @since 2.5
-     *
-     * @return array
-     */
-    private function get_custom_fields() {
-        $fields = apply_filters( 'wpuf-form-builder-fields-custom-fields-1', array(
-            'text_field', 'textarea_field', 'dropdown_field', 'multiple_select',
-            'radio_field', 'checkbox_field', 'website_url', 'email_address',
-            'custom_hidden_field', 'image_upload'
-        ) );
-
-        return array(
-            array(
-                'title'     => __( 'Custom Fields', 'wpuf' ),
-                'id'        => 'custom-fields',
-                'fields'    => $fields
-            )
-        );
-    }
-
-    /**
-     * Add custom fields
-     *
-     * @param array $fields
-     */
-    public function add_custom_fields( $fields ) {
-        $new_fields = array( 'name_field' );
-        $fields     = array_merge( $new_fields, $fields );
-
-        return $fields;
-    }
-
-    /**
      * Add dependencies to form builder script
      *
      * @param array $deps
@@ -378,27 +322,6 @@ class WeForms_Form_Builder_Assets {
         array_push( $mixins , 'wpuf_forms_mixin_builder_stage' );
 
         return $mixins;
-    }
-
-    /**
-     * Others field section
-     *
-     * @since 2.5
-     *
-     * @return array
-     */
-    private function get_others_fields() {
-        $fields = apply_filters( 'wpuf-form-builder-fields-others-fields-1', array(
-            'section_break', 'custom_html', 'recaptcha'
-        ) );
-
-        return array(
-            array(
-                'title'     => __( 'Others', 'wpuf' ),
-                'id'        => 'others',
-                'fields'    => $fields
-            )
-        );
     }
 
     /**
