@@ -354,6 +354,13 @@ abstract class WeForms_Field_Contract {
         <?php
     }
 
+    /**
+     * Check if a field is required
+     *
+     * @param  array  $field
+     *
+     * @return boolean
+     */
     public function is_required( $field ) {
         if ( isset( $field['required'] ) && $field['required'] == 'yes' ) {
             return true;
@@ -369,7 +376,7 @@ abstract class WeForms_Field_Contract {
      * @return string
      */
     function required_mark( $field ) {
-        if ( isset( $field['required'] ) && $field['required'] == 'yes' ) {
+        if ( $this->is_required( $field ) ) {
             return ' <span class="required">*</span>';
         }
     }
