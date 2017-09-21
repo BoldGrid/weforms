@@ -82,30 +82,20 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $args = array(
-            'post_type'      => 'wpuf_contact_form',
             'posts_per_page' => 10,
             'paged'          => isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1,
             'order'          => 'DESC',
             'orderby'        => 'post_date'
         );
 
-        $forms         = new WP_Query( $args );
-        $contact_forms = $forms->get_posts();
+        $contact_forms = weforms()->form->get_forms( $args );
 
         array_map( function($form) {
-            $form->entries = weforms_count_form_entries( $form->ID );
-            $form->views   = weforms_get_form_views( $form->ID );
-        }, $contact_forms);
+            $form->entries = $form->num_form_entries();
+            $form->views   = $form->num_form_views();
+        }, $contact_forms['forms'] );
 
-        // var_dump( $forms->get_posts() );
-        // var_dump( $forms );
-        $response = array(
-            'forms' => $contact_forms,
-            'total' => (int) $forms->found_posts,
-            'pages' => (int) $forms->max_num_pages
-        );
-
-        wp_send_json_success( $response );
+        wp_send_json_success( $contact_forms );
     }
 
     /**
@@ -118,22 +108,13 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $args = array(
-            'post_type'      => 'wpuf_contact_form',
-            'posts_per_page' => -1,
-            'post_status'    => 'publish',
-            'order'          => 'ASC',
-            'orderby'        => 'post_title'
-        );
-
+        $contact_forms = weforms()->form->all();
         $response      = array();
-        $forms         = new WP_Query( $args );
-        $contact_forms = $forms->get_posts();
 
-        foreach ($contact_forms as $form) {
+        foreach ($contact_forms['forms'] as $form) {
             $response[] = array(
-                'id'    => $form->ID,
-                'title' => $form->post_title . ' (#' . $form->ID . ')'
+                'id'    => $form->get_id(),
+                'title' => $form->get_name() . ' (#' . $form->get_id() . ')'
             );
         }
 
@@ -156,18 +137,14 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'Please provide a form name', 'weforms' ) );
         }
 
-        $post_id = wp_insert_post( array(
-            'post_title'  => $form_name,
-            'post_type'   => 'wpuf_contact_form',
-            'post_status' => 'publish'
-        ) );
+        $form_id = weforms()->form->create( $form_name );
 
-        if ( is_wp_error( $post_id )) {
-            wp_send_json_error( $post_id->get_error_message() );
+        if ( is_wp_error( $form_id )) {
+            wp_send_json_error( $form_id->get_error_message() );
         }
 
         wp_send_json_success( array(
-            'form_id'   => $post_id,
+            'form_id'   => $form_id,
             'form_name' => $form_name
         ) );
     }
@@ -188,7 +165,8 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No form id provided!', 'weforms' ) );
         }
 
-        wpuf_delete_form( $form_id, true );
+        weforms()->form->delete( $form_id );
+
         wp_send_json_success();
     }
 
@@ -204,7 +182,7 @@ class WeForms_Ajax {
         }
 
         foreach ($form_ids as $form_id) {
-            wpuf_delete_form( $form_id, true );
+            weforms()->form->delete( $form_id );
         }
 
         wp_send_json_success();

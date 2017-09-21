@@ -53,6 +53,24 @@ class WeForms_Form {
     }
 
     /**
+     * Get the form ID
+     *
+     * @return integer
+     */
+    public function get_id() {
+        return $this->id;
+    }
+
+    /**
+     * Get the form name
+     *
+     * @return string
+     */
+    public function get_name() {
+        return $this->name;
+    }
+
+    /**
      * Get all form fields of this form
      *
      * @return array
