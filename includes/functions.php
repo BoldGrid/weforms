@@ -314,11 +314,11 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     }
 
     // if passed 0/false, return all collumns
-    if ( ! $limit ) {
-        return $columns;
+    if ( $limit && sizeof($columns) > $limit ) {
+       $columns = array_slice( $columns, 0, $limit ); // max 6 columns
     }
 
-    return array_slice( $columns, 0, 6 ); // max 6 columns
+    return apply_filters('weforms_get_entry_columns', $columns, $form_id);
 }
 
 /**
@@ -625,7 +625,9 @@ function weforms_get_form_views( $form_id ) {
  * @return mixed
  */
 function weforms_get_settings( $key = '', $default = '' ) {
+
     $settings = get_option( 'weforms_settings', array() );
+    $settings = apply_filters( 'weforms_get_settings', $settings );
 
     if ( empty( $key ) ) {
         return $settings;

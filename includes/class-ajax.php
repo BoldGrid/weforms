@@ -281,7 +281,7 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $settings = get_option( 'weforms_settings', array() );
+        $settings = weforms_get_settings();
 
         // checking to prevent js error, will be removed in future
         if ( ! isset( $settings['credit'] ) ) {
@@ -331,6 +331,8 @@ class WeForms_Ajax {
                 $entry->fields[$meta_key] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
             }
         }, $entries );
+
+        $entries = apply_filters('weforms_get_entries', $entries, $form_id );
 
         $response = array(
             'columns'    => $columns,
