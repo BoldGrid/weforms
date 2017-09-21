@@ -7,7 +7,7 @@
 
         <div class="wpuf-contact-form-entry-left">
             <div class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span>{{ entry.info.form_title }} : Entry # {{ $route.params.entryid }}</span></h2>
+                <h2 class="hndle ui-sortable-handle"><span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span></h2>
 
                 <div class="main">
                     <table v-if="hasFormFields" class="wp-list-table widefat fixed striped posts">
@@ -19,12 +19,12 @@
                                 <tr class="field-value">
                                     <td>
                                         <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
-                                        <div v-else-if="field.type === 'checkbox' || field.type === 'multiselect'">
+                                        <div v-else-if="field.type === 'checkbox_field' || field.type === 'multiple_select'">
                                             <ul style="margin: 0;">
-                                                <li v-for="item in entry.meta_data[index]">- {{ item }}</li>
+                                                <li v-for="item in field.value">- {{ item }}</li>
                                             </ul>
                                         </div>
-                                        <div v-else v-html="entry.meta_data[index]"></div>
+                                        <div v-else v-html="field.value"></div>
                                     </td>
                                 </tr>
                             </template>
@@ -51,22 +51,22 @@
                             <li>
                                 <span class="label"><?php _e( 'User IP', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value">{{ entry.info.ip }}</span>
+                                <span class="value">{{ entry.meta_data.ip_address }}</span>
                             </li>
                             <li>
                                 <span class="label"><?php _e( 'Page', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value"><a :href="entry.info.referer">{{ entry.info.referer }}</a></span>
+                                <span class="value"><a :href="entry.meta_data.referer">{{ entry.meta_data.referer }}</a></span>
                             </li>
-                            <li v-if="entry.info.user">
+                            <li v-if="entry.meta_data.user">
                                 <span class="label"><?php _e( 'From', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value">{{ entry.info.user }}</span>
+                                <span class="value">{{ entry.meta_data.user }}</span>
                             </li>
                             <li>
                                 <span class="label"><?php _e( 'Submitted On', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value">{{ entry.info.created }}</span>
+                                <span class="value">{{ entry.meta_data.created }}</span>
                             </li>
                         </ul>
                     </div>

@@ -409,28 +409,27 @@ class WeForms_Notification {
             return $text;
         }
 
-        $data   = array();
-        $fields = weforms_get_form_field_labels( $this->args['form_id'] );
+        $form     = weforms()->form->get( $this->args['form_id'] );
+        $entry    = $form->entries()->get( $this->args['entry_id'] );
+        $fields   = $entry->get_fields();
 
         if ( !$fields ) {
             return $text;
         }
 
-        $entry_data = weforms_get_entry_data( $this->args['entry_id'] );
-
         $table = '<table width="600" cellpadding="0" cellspacing="0">';
             $table .= '<tbody>';
 
-                foreach ($entry_data['fields'] as $key => $value) {
+                foreach ($fields as $key => $value) {
                     $table .= '<tr class="field-label">';
                         $table .= '<th><strong>' . $value['label'] . '</strong></th>';
                     $table .= '</tr>';
                     $table .= '<tr class="field-value">';
                         $table .= '<td>';
 
-                            $field_value = $entry_data['data'][ $key ];
+                            $field_value = $value[ 'value' ];
 
-                            if ( in_array( $value['type'], array( 'multiselect', 'checkbox' ) ) ) {
+                            if ( in_array( $value['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
                                 $field_value = is_array( $field_value ) ? $field_value : array();
 
                                 if ( $field_value ) {

@@ -56,6 +56,13 @@ final class WeForms {
     public $version = '1.0.4';
 
     /**
+     * Form field value seperator
+     *
+     * @var string
+     */
+    static $field_separator = '| ';
+
+    /**
      * Holds various class instances
      *
      * @var array

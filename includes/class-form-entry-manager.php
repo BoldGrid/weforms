@@ -14,8 +14,22 @@ class WeForms_Form_Entry_Manager {
      */
     private $id = 0;
 
-    function __construct( $form_id ) {
-        $this->id = $form_id;
+    /**
+     * The form object
+     *
+     * @var \WeForms_Form
+     */
+    private $form;
+
+    /**
+     * The constructor
+     *
+     * @param integer $form_id
+     * @param \WeForms_Form $form
+     */
+    function __construct( $form_id, $form ) {
+        $this->id   = $form_id;
+        $this->form = $form;
     }
 
     /**
@@ -35,6 +49,6 @@ class WeForms_Form_Entry_Manager {
      * @return mixed
      */
     public function get( $entry_id ) {
-        return new WeForms_Form_Entry( $entry_id );
+        return new WeForms_Form_Entry( $entry_id, $this->form );
     }
 }

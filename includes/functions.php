@@ -296,14 +296,14 @@ function weforms_count_form_entries( $form_id, $status = 'publish' ) {
  * @return array
  */
 function weforms_get_entry_columns( $form_id, $limit = 6 ) {
-    $fields  = wpuf_get_form_fields( $form_id );
+    $fields  = weforms()->form->get( $form_id )->get_fields();
     $columns = array();
 
     // filter by input types
     if ( $limit ) {
 
         $fields = array_filter( $fields, function($item) {
-            return in_array( $item['input_type'], array( 'text', 'name', 'select', 'radio', 'email', 'url' ) );
+            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
         } );
     }
 
@@ -329,7 +329,7 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
  * @return array
  */
 function weforms_get_form_field_labels( $form_id ) {
-    $fields  = wpuf_get_form_fields( $form_id );
+    $fields  = weforms()->form->get( $form_id )->get_fields();
     $exclude = array( 'step_start', 'section_break', 'recaptcha', 'shortcode', 'action_hook' );
 
     if ( ! $fields ) {
@@ -343,13 +343,13 @@ function weforms_get_form_field_labels( $form_id ) {
         }
 
         // exclude the fields
-        if ( in_array( $field['input_type'], $exclude ) ) {
+        if ( in_array( $field['template'], $exclude ) ) {
             continue;
         }
 
         $data[ $field['name'] ] = array(
             'label' => $field['label'],
-            'type'  => $field['input_type']
+            'type'  => $field['template']
         );
     }
 
@@ -649,4 +649,17 @@ function weforms_get_settings( $key = '', $default = '' ) {
  */
 function weforms_form_access_capability() {
     return apply_filters( 'weforms_form_access_capability', 'manage_options' );
+}
+
+/**
+ * Clear the buffer
+ *
+ * prevents ajax breakage and endless loading icon. A LIFE SAVER!!!
+ *
+ * @since 1.1.0
+ *
+ * @return void
+ */
+function weforms_clear_buffer() {
+    ob_clean();
 }

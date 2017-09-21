@@ -306,7 +306,7 @@ class WeForms_Ajax {
 
             foreach ($columns as $meta_key => $label) {
                 $value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
-                $entry->fields[$meta_key] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
+                $entry->fields[$meta_key] = str_replace( WeForms::$field_separator, ' ', $value );
             }
         }, $entries );
 
@@ -337,32 +337,21 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
+        $form_id  = isset( $_REQUEST['form_id'] ) ? intval( $_REQUEST['form_id'] ) : 0;
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
-        $entry    = weforms_get_entry( $entry_id );
 
-        if ( !$entry ) {
-            wp_send_json_error( __( 'No such entry found!', 'weforms' ) );
-        }
-
-        $info   = array(
-            'form_title' => get_post_field( 'post_title', $entry->form_id ),
-            'created'    => date_i18n( 'F j, Y g:i a', strtotime( $entry->created_at ) ),
-            'ip'         => $entry->ip_address,
-            'user'       => $entry->user_id ? get_user_by( 'id', $entry->user_id )->display_name : false,
-            'referer'    => $entry->referer,
-            'device'     => $entry->user_device
-        );
-
-        $data = weforms_get_entry_data( $entry_id );
+        $form     = weforms()->form->get( $form_id );
+        $entry    = $form->entries()->get( $entry_id );
+        $fields   = $entry->get_fields();
+        $metadata = $entry->get_metadata();
 
         if ( false === $data ) {
             wp_send_json_error( __( 'No form fields found!', 'weforms' ) );
         }
 
         $response = array(
-            'form_fields' => $data['fields'],
-            'meta_data'   => $data['data'],
-            'info'        => $info
+            'form_fields' => $fields,
+            'meta_data'   => $metadata
         );
 
         wp_send_json_success( $response );
@@ -418,12 +407,11 @@ class WeForms_Ajax {
         $form_id       = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
         $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
 
-        $form_vars     = WPUF_Render_Form::get_input_fields( $form_id );
-        $form_settings = apply_filters( 'weforms_entry_submission_settings', wpuf_get_form_settings( $form_id ), $_POST );
+        $form          = weforms()->form->get( $form_id );
+        $form_fields   = $form->get_fields();
+        $form_settings = $form->get_settings();
 
-        list( $post_vars, $taxonomy_vars, $meta_vars ) = $form_vars;
-
-        if ( !$meta_vars ) {
+        if ( !$form_fields ) {
             wp_send_json( array(
                 'success'     => false,
                 'error'       => __( 'No form field was found.', 'weforms' ),
@@ -431,7 +419,7 @@ class WeForms_Ajax {
         }
 
         // process the form fields
-        $entry_fields = $this->prepare_entry_fields( $meta_vars );
+        $entry_fields = $this->prepare_entry_fields( $form_fields );
 
         $entry_id = weforms_insert_entry( array(
             'form_id' => $form_id
@@ -477,7 +465,7 @@ class WeForms_Ajax {
 
         $notification->send_notifications();
 
-        wpuf_clear_buffer();
+        weforms_clear_buffer();
         wp_send_json( $response );
     }
 
@@ -490,21 +478,127 @@ class WeForms_Ajax {
      */
     public function prepare_entry_fields( $form_fields ) {
         $entry_fields = array();
+        $ignore_list  = array( 'section_break', 'custom_html', 'recaptcha' );
 
-        list( $meta_key_value, $multi_repeated, $files ) = WPUF_Render_Form::prepare_meta_fields( $form_fields );
+        foreach ($form_fields as $field) {
 
-        // var_dump( $meta_key_value, $multi_repeated, $files );
-        if ( $meta_key_value ) {
-            foreach ($meta_key_value as $key => $value) {
-                $entry_fields[ $key ] = $value;
+            if ( in_array( $field['template'], $ignore_list ) ) {
+                continue;
             }
-        }
 
-        if ( $files ) {
-            foreach ( $files as $file_input ) {
-                $entry_fields[ $file_input['name'] ] = $file_input['value'];
+            switch ( $field['template'] ) {
+
+                // put files in a separate array, we'll process it later
+                case 'file_upload':
+                case 'image_upload':
+
+                    $entry_fields[$field['name']] =  isset( $_POST['wpuf_files'][$field['name']] ) ? $_POST['wpuf_files'][$field['name']] : array();
+                    break;
+
+                case 'repeat_field':
+
+                    // if it is a multi column repeat field
+                    if ( isset( $field['multiple'] ) && $field['multiple'] == 'true' ) {
+
+                        // if there's any items in the array, process it
+                        if ( $_POST[$field['name']] ) {
+
+                            $ref_arr = array();
+                            $cols    = count( $field['columns'] );
+                            $first   = array_shift( array_values( $_POST[$field['name']] ) ); //first element
+                            $rows    = count( $first );
+
+                            // loop through columns
+                            for ($i = 0; $i < $rows; $i++) {
+
+                                // loop through the rows and store in a temp array
+                                $temp = array();
+                                for ($j = 0; $j < $cols; $j++) {
+
+                                    $temp[] = $_POST[$field['name']][$j][$i];
+                                }
+
+                                // store all fields in a row with WeForms::$field_separator separated
+                                $ref_arr[] = implode( WeForms::$field_separator, $temp );
+                            }
+
+                            // now, if we found anything in $ref_arr, store to $multi_repeated
+                            if ( $ref_arr ) {
+                                $multi_repeated[$field['name']] = array_slice( $ref_arr, 0, $rows );
+                            }
+                        }
+                    } else {
+                        $entry_fields[$field['name']] = implode( WeForms::$field_separator, $_POST[$field['name']] );
+                    }
+
+                    break;
+
+                case 'address_field':
+
+                    if ( isset( $_POST[ $field['name'] ] ) && is_array( $_POST[ $field['name'] ] ) ) {
+                        foreach ( $_POST[ $field['name'] ] as $address_field => $field_value ) {
+                            $entry_fields[ $field['name'] ][ $address_field ] = sanitize_text_field( $field_value );
+                        }
+                    }
+
+                    break;
+
+                case 'text_field':
+                case 'email_address':
+                case 'numeric_text_field':
+                case 'date_field':
+
+                    $entry_fields[$field['name']] = sanitize_text_field( trim( $_POST[$field['name']] ) );
+
+                    break;
+
+                case 'textarea_field':
+
+                    $entry_fields[$field['name']] = wp_kses_post( $_POST[$field['name']] );
+
+                    break;
+
+                case 'dropdown_field':
+                case 'radio_field':
+
+                    $val                            = $_POST[$field['name']];
+                    $entry_fields[$field['name']] = isset( $field['options'][$val] ) ? $field['options'][$val] : '';
+                    break;
+
+                case 'multiple_select':
+                case 'checkbox_field':
+
+                    $val                            = ( is_array( $_POST[$field['name']] ) && $_POST[$field['name']] ) ? $_POST[$field['name']] : array();
+                    $entry_fields[$field['name']] = $val;
+
+                    if ( $val ) {
+                        $new_val = array();
+
+                        foreach ($val as $option_key) {
+                            $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : '';
+                        }
+
+                        $entry_fields[$field['name']] = implode( WeForms::$field_separator, $new_val );
+                    } else {
+                        $entry_fields[$field['name']] = '';
+                    }
+
+                    break;
+
+                default:
+                    // if it's an array, implode with this->separator
+                    if ( is_array( $_POST[$field['name']] ) ) {
+
+                        $entry_fields[$field['name']] = implode( WeForms::$field_separator, $_POST[$field['name']] );
+
+                    } else {
+                        $entry_fields[$field['name']] = trim( $_POST[$field['name']] );
+                    }
+
+                    break;
             }
-        }
+
+        } //end foreach
 
         return $entry_fields;
     }
@@ -521,7 +615,7 @@ class WeForms_Ajax {
 
         foreach ($meta_vars as $key => $value) {
 
-            switch ( $value['input_type'] ) {
+            switch ( $value['template'] ) {
 
                 // put files in a separate array, we'll process it later
                 case 'file_upload':
@@ -534,7 +628,7 @@ class WeForms_Ajax {
                     );
                     break;
 
-                case 'repeat':
+                case 'repeat_field':
 
                     // if it is a multi column repeat field
                     if ( isset( $value['multiple'] ) && $value['multiple'] == 'true' ) {
@@ -557,8 +651,8 @@ class WeForms_Ajax {
                                     $temp[] = $_POST[$value['name']][$j][$i];
                                 }
 
-                                // store all fields in a row with WPUF_Render_Form::$separator separated
-                                $ref_arr[] = implode( WPUF_Render_Form::$separator, $temp );
+                                // store all fields in a row with WeForms::$field_separator separated
+                                $ref_arr[] = implode( WeForms::$field_separator, $temp );
                             }
 
                             // now, if we found anything in $ref_arr, store to $multi_repeated
@@ -567,12 +661,12 @@ class WeForms_Ajax {
                             }
                         }
                     } else {
-                        $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $_POST[$value['name']] );
+                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $_POST[$value['name']] );
                     }
 
                     break;
 
-                case 'address':
+                case 'address_field':
 
                     if ( isset( $_POST[ $value['name'] ] ) && is_array( $_POST[ $value['name'] ] ) ) {
                         foreach ( $_POST[ $value['name'] ] as $address_field => $field_value ) {
@@ -582,30 +676,30 @@ class WeForms_Ajax {
 
                     break;
 
-                case 'text':
-                case 'email':
-                case 'number':
-                case 'date':
+                case 'text_field':
+                case 'email_address':
+                case 'numeric_text_field':
+                case 'date_field':
 
                     $meta_key_value[$value['name']] = sanitize_text_field( trim( $_POST[$value['name']] ) );
 
                     break;
 
-                case 'textarea':
+                case 'textarea_field':
 
                     $meta_key_value[$value['name']] = wp_kses_post( $_POST[$value['name']] );
 
                     break;
 
-                case 'select':
-                case 'radio':
+                case 'dropdown_field':
+                case 'radio_field':
 
                     $val                            = $_POST[$value['name']];
                     $meta_key_value[$value['name']] = isset( $value['options'][$val] ) ? $value['options'][$val] : '';
                     break;
 
-                case 'multiselect':
-                case 'checkbox':
+                case 'multiple_select':
+                case 'checkbox_field':
 
                     $val                            = ( is_array( $_POST[$value['name']] ) && $_POST[$value['name']] ) ? $_POST[$value['name']] : array();
                     $meta_key_value[$value['name']] = $val;
@@ -617,7 +711,7 @@ class WeForms_Ajax {
                             $new_val[] = isset( $value['options'][$option_key] ) ? $value['options'][$option_key] : '';
                         }
 
-                        $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $new_val );
+                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $new_val );
                     }
                     break;
 
@@ -625,11 +719,8 @@ class WeForms_Ajax {
                     // if it's an array, implode with this->separator
                     if ( is_array( $_POST[$value['name']] ) ) {
 
-                        if ( $value['input_type'] == 'address' ) {
-                            $meta_key_value[$value['name']] = $_POST[$value['name']];
-                        } else {
-                            $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $_POST[$value['name']] );
-                        }
+                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $_POST[$value['name']] );
+
                     } else {
                         $meta_key_value[$value['name']] = trim( $_POST[$value['name']] );
                     }

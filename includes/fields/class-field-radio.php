@@ -49,6 +49,35 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
     }
 
     /**
+     * Get field options setting
+     *
+     * @return array
+     */
+    public function get_options_settings() {
+        $default_options  = $this->get_default_option_settings();
+        $dropdown_options = array(
+            $this->get_default_option_dropdown_settings(),
+
+            array(
+                'name'          => 'inline',
+                'title'         => __( 'Show in inline list', 'wpuf' ),
+                'type'          => 'radio',
+                'options'       => array(
+                    'yes'   => __( 'Yes', 'wpuf' ),
+                    'no'    => __( 'No', 'wpuf' ),
+                ),
+                'default'       => 'no',
+                'inline'        => true,
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'Show this option in an inline list', 'wpuf' ),
+            )
+        );
+
+        return array_merge( $default_options, $dropdown_options );
+    }
+
+    /**
      * Get the field props
      *
      * @return array

@@ -6,9 +6,8 @@ weForms.routeComponents.FormEntriesSingle = {
             loading: false,
             entry: {
                 form_fields: {},
-                meta_data: {},
-                info: {}
-            },
+                meta_data: {}
+            }
         };
     },
     created: function() {
@@ -28,6 +27,7 @@ weForms.routeComponents.FormEntriesSingle = {
             wp.ajax.send( 'weforms_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
+                    form_id: self.$route.params.id,
                     _wpnonce: weForms.nonce
                 },
                 success: function(response) {

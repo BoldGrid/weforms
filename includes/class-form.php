@@ -29,6 +29,13 @@ class WeForms_Form {
     public $data = null;
 
     /**
+     * Form fields
+     *
+     * @var array
+     */
+    public $form_fields = array();
+
+    /**
      * The Constructor
      *
      * @param int|WP_Post $form
@@ -76,6 +83,12 @@ class WeForms_Form {
      * @return array
      */
     public function get_fields() {
+
+        // return if already fetched
+        if ( $this->form_fields ) {
+            return $this->form_fields;
+        }
+
         $fields = get_children(array(
             'post_parent' => $this->id,
             'post_status' => 'publish',
@@ -129,7 +142,51 @@ class WeForms_Form {
             $form_fields[] = apply_filters( 'weforms-get-form-fields', $field );
         }
 
-        return $form_fields;
+        $this->form_fields = $form_fields;
+
+        return $this->form_fields;
+    }
+
+    /**
+     * Get formatted field name/values
+     *
+     * @return array
+     */
+    public function get_field_values() {
+        $values = array();
+        $fields = $this->get_fields();
+
+        if ( ! $fields ) {
+            return $values;
+        }
+
+        $ignore_fields  = array( 'recaptcha', 'section_break' );
+        $options_fields = array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' );
+
+        foreach ($fields as $field) {
+
+            if ( in_array( $field['template'], $ignore_fields ) ) {
+                continue;
+            }
+
+            if ( ! isset( $field['name'] ) ) {
+                continue;
+            }
+
+            $value = array(
+                'label' => isset( $field['label'] ) ? $field['label'] : '',
+                'type'  => $field['template'],
+            );
+
+            // put options if this is an option field
+            if ( in_array( $field['template'], $options_fields ) ) {
+                $value['options'] = $field['options'];
+            }
+
+            $values[ $field['name'] ] = $value;
+        }
+
+        return $values;
     }
 
     /**
@@ -165,7 +222,7 @@ class WeForms_Form {
      * @return \WeForms_Form_Entry_Manager
      */
     public function entries() {
-        return new WeForms_Form_Entry_Manager( $this->id );
+        return new WeForms_Form_Entry_Manager( $this->id, $this );
     }
 
     /**
