@@ -227,7 +227,6 @@ weForms.routeComponents.FormEditComponent = {
                     self.$store.commit('set_form_fields', response.form_fields);
                     self.$store.commit('set_form_notification', response.notifications);
                     self.$store.commit('set_form_settings', response.settings);
-                    self.$store.commit('set_form_payment', response.payment);
 
                     // if nothing saved in the form, it provides an empty array
                     // but we expect to be an object

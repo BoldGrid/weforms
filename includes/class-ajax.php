@@ -419,7 +419,7 @@ class WeForms_Ajax {
         $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
 
         $form_vars     = WPUF_Render_Form::get_input_fields( $form_id );
-        $form_settings = wpuf_get_form_settings( $form_id );
+        $form_settings = apply_filters( 'weforms_entry_submission_settings', wpuf_get_form_settings( $form_id ), $_POST );
 
         list( $post_vars, $taxonomy_vars, $meta_vars ) = $form_vars;
 
