@@ -195,7 +195,52 @@ class WeForms_Form {
      * @return array
      */
     public function get_settings() {
-        return wpuf_get_form_settings( $this->id );
+        return get_post_meta( $this->id, 'wpuf_form_settings', true );
+    }
+
+    /**
+     * Check if the form submission is open
+     *
+     * @return boolean|WP_Error
+     */
+    public function is_submission_open() {
+        $settings = $this->get_settings();
+
+        $needs_login  = ( isset( $settings['require_login'] ) && $settings['require_login'] == 'true' ) ? true : false;
+        $has_limit    = ( isset( $settings['limit_entries'] ) && $settings['limit_entries'] == 'true' ) ? true : false;
+        $is_scheduled = ( isset( $settings['schedule_form'] ) && $settings['schedule_form'] == 'true' ) ? true : false;
+
+        if ( $this->data->post_status != 'publish' ) {
+            return new WP_Error( 'needs-publish', __( 'The form is not published yet.', 'weforms' ) );
+        }
+
+        if ( $needs_login && !is_user_logged_in() ) {
+            return new WP_Error( 'needs-login', $settings['req_login_message'] );
+        }
+
+        if ( $has_limit ) {
+            $limit        = (int) $settings['limit_number'];
+            $form_entries = $this->num_form_entries();
+
+            if ( $limit < $form_entries ) {
+                return new WP_Error( 'entry-limit', $settings['limit_message'] );
+            }
+        }
+
+        if ( $is_scheduled ) {
+            $start_time   = strtotime( $settings['schedule_start'] );
+            $end_time     = strtotime( $settings['schedule_end'] );
+            $current_time = current_time( 'timestamp' );
+
+            // too early?
+            if ( $current_time < $start_time ) {
+                return new WP_Error( 'form-pending', $settings['sc_pending_message'] );
+            } elseif ( $current_time > $end_time ) {
+                return new WP_Error( 'form-expired', $settings['sc_expired_message'] );
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -204,7 +249,13 @@ class WeForms_Form {
      * @return array
      */
     public function get_notifications() {
-        return wpuf_get_form_notifications( $this->id );
+        $notifications =  get_post_meta( $this->id, 'notifications', true );
+
+        if ( ! $notifications ) {
+            return array();
+        }
+
+        return $notifications;
     }
 
     /**
@@ -213,7 +264,13 @@ class WeForms_Form {
      * @return array
      */
     public function get_integrations() {
-        return wpuf_get_form_integrations( $this->id );
+        $integrations =  get_post_meta( $this->id, 'integrations', true );
+
+        if ( ! $integrations ) {
+            return array();
+        }
+
+        return $integrations;
     }
 
     /**

@@ -103,7 +103,7 @@ class WeForms_Notification {
      * @return array|boolean
      */
     public function get_active_notifications() {
-        $notifications = wpuf_get_form_notifications( $this->args['form_id'] );
+        $notifications = weforms()->form->get( $this->args['form_id'] )->get_notifications();
 
         if ( $notifications ) {
             $notifications = array_filter( $notifications, function($notification) {
@@ -237,7 +237,7 @@ class WeForms_Notification {
                 break;
 
             case 'ip_address':
-                return wpuf_get_client_ip();
+                return weforms_get_client_ip();
                 break;
 
             case 'user_id':
@@ -335,7 +335,7 @@ class WeForms_Notification {
         list( $search, $fields, $meta_key ) = $matches;
 
         $meta_value = weforms_get_entry_meta( $entry_id, $meta_key[0], true );
-        $replace    = explode( WPUF_Render_Form::$separator, $meta_value );
+        $replace    = explode( WeForms::$field_separator, $meta_value );
 
         foreach ($search as $index => $search_key) {
 

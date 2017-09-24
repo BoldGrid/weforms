@@ -383,7 +383,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
      * @return boolean|string
      */
     private function get_file_type( $extension ) {
-        $allowed_extensions = wpuf_allowed_extensions();
+        $allowed_extensions = weforms_allowed_extensions();
 
         foreach ($allowed_extensions as $type => $extensions) {
             $_extensions = explode( ',', $extensions['ext'] );

@@ -23,7 +23,7 @@ class WeForms_Admin {
      * @return void
      */
     public function register_post_type() {
-        $capability = wpuf_admin_role();
+        $capability = weforms_form_access_capability();
 
         register_post_type( 'wpuf_contact_form', array(
             'label'           => __( 'Contact Forms', 'weforms' ),
@@ -199,7 +199,7 @@ class WeForms_Admin {
 
                     default:
                         $value              = weforms_get_entry_meta( $entry->id, $column_id, true );
-                        $temp[ $column_id ] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
+                        $temp[ $column_id ] = str_replace( WeForms::$field_separator, ' ', $value );
                         break;
                 }
             }

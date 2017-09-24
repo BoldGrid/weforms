@@ -55,7 +55,7 @@ class WeForms_Integration_ERP extends WeForms_Abstract_Integration {
             return;
         }
 
-        $integration = wpuf_is_integration_active( $form_id, $this->id );
+        $integration = weforms_is_integration_active( $form_id, $this->id );
 
         if ( false === $integration ) {
             return;

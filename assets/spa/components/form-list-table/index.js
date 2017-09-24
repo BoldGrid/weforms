@@ -46,7 +46,7 @@ Vue.component('form-list-table', {
 
                 wp.ajax.send( 'weforms_form_delete', {
                     data: {
-                        form_id: this.items[index].ID,
+                        form_id: this.items[index].id,
                         _wpnonce: weForms.nonce
                     },
                     success: function(response) {

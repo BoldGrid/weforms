@@ -81,8 +81,7 @@ final class WeForms {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-        add_action( 'plugins_loaded', array( $this, 'ensure_core' ) );
-        add_action( 'wpuf_loaded', array( $this, 'init_plugin' ) );
+        add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
     }
 
     /**
@@ -181,7 +180,12 @@ final class WeForms {
      */
     public function includes() {
 
+        require_once WEFORMS_INCLUDES . '/compat/class-abstract-wpuf-integration.php';
+
         if ( is_admin() ) {
+            // compatibility
+            require_once WEFORMS_INCLUDES . '/compat/class-abstract-post-form-template.php';
+
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
             require_once WEFORMS_INCLUDES . '/admin/class-admin-welcome.php';
             require_once WEFORMS_INCLUDES . '/class-importer-manager.php';
@@ -190,8 +194,15 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
+
+            // add reCaptcha library if not found
+            if ( !function_exists( 'recaptcha_get_html' ) ) {
+                require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
+                require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
+            }
         }
 
+        require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
         require_once WEFORMS_INCLUDES . '/class-field-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-manager.php';
@@ -239,19 +250,6 @@ final class WeForms {
     }
 
     /**
-     * Ensure if core exists
-     *
-     * @since 1.0.5
-     *
-     * @return void
-     */
-    public function ensure_core() {
-        require_once WEFORMS_INCLUDES . '/class-core-check.php';
-
-        new WeForms_Core_Check();
-    }
-
-    /**
      * Initialize plugin for localization
      *
      * @uses load_plugin_textdomain()
@@ -282,6 +280,7 @@ final class WeForms {
         $this->container['fields']       = new WeForms_Field_Manager();
         $this->container['integrations'] = new WeForms_Integration_Manager();
         $this->container['preview']      = new WeForms_Form_Preview();
+        $this->container['scripts']      = new WeForms_Scripts_Styles();
 
         // instantiate the integrations
         $this->integrations->get_integrations();

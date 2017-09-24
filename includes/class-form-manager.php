@@ -121,4 +121,69 @@ class WeForms_Form_Manager {
             )
         );
     }
+
+    /**
+     * Save and existing form
+     *
+     * @since 1.1.0
+     *
+     * @param array $data Contains form_fields, form_settings, form_settings_key data
+     *
+     * @return boolean
+     */
+    public function save( $data ) {
+        $saved_wpuf_inputs = array();
+
+        wp_update_post( array( 'ID' => $data['form_id'], 'post_status' => 'publish', 'post_title' => $data['post_title'] ) );
+
+        $existing_wpuf_input_ids = get_children( array(
+            'post_parent' => $data['form_id'],
+            'post_status' => 'publish',
+            'post_type'   => 'wpuf_input',
+            'numberposts' => '-1',
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
+            'fields'      => 'ids'
+        ) );
+
+        $new_wpuf_input_ids = array();
+
+        if ( ! empty( $data['form_fields'] ) ) {
+
+            foreach ( $data['form_fields'] as $order => $field ) {
+                if ( ! empty( $field['is_new'] ) ) {
+                    unset( $field['is_new'] );
+                    unset( $field['id'] );
+
+                    $field_id = 0;
+
+                } else {
+                    $field_id = $field['id'];
+                }
+
+                $field_id = weforms_insert_form_field( $data['form_id'], $field, $field_id, $order );
+
+                $new_wpuf_input_ids[] = $field_id;
+
+                $field['id'] = $field_id;
+
+                $saved_wpuf_inputs[] = $field;
+            }
+
+        }
+
+        $inputs_to_delete = array_diff( $existing_wpuf_input_ids, $new_wpuf_input_ids );
+
+        if ( ! empty( $inputs_to_delete ) ) {
+            foreach ( $inputs_to_delete as $delete_id ) {
+                wp_delete_post( $delete_id , true );
+            }
+        }
+
+        update_post_meta( $data['form_id'], $data['form_settings_key'], $data['form_settings'] );
+        update_post_meta( $data['form_id'], 'notifications', $data['notifications'] );
+        update_post_meta( $data['form_id'], 'integrations', $data['integrations'] );
+
+        return $saved_wpuf_inputs;
+    }
 }

@@ -34,7 +34,7 @@ class WeForms_Admin_Tools {
             if ( $post_id && !is_wp_error( $post_id ) ) {
 
                 foreach ( $value['meta_data']['fields'] as $order => $field ) {
-                    wpuf_insert_form_field( $post_id, $field, false, $order );
+                    weforms_insert_form_field( $post_id, $field, false, $order );
                 }
 
                 update_post_meta( $post_id, 'wpuf_form_settings', $value['meta_data']['settings'] );
@@ -76,12 +76,14 @@ class WeForms_Admin_Tools {
             $postdata = get_object_vars( $post );
             unset( $postdata['ID'] );
 
+            $form = weforms()->form->get( $post );
+
             $data = array(
                 'post_data' => $postdata,
                 'meta_data' => array(
-                    'fields'        => wpuf_get_form_fields( $post->ID ),
-                    'settings'      => wpuf_get_form_settings( $post->ID ),
-                    'notifications' => wpuf_get_form_notifications( $post->ID )
+                    'fields'        => $form->get_fields(),
+                    'settings'      => $form->get_settings(),
+                    'notifications' => $form->get_notifications()
                 )
             );
 

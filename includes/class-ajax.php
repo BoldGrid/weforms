@@ -24,6 +24,7 @@ class WeForms_Ajax {
 
         // form editing
         add_action( 'wp_ajax_weforms_get_form', array( $this, 'get_form' ) );
+        add_action( 'wp_ajax_wpuf_form_builder_save_form', array( $this, 'save_form' ) );
 
         // entries
         add_action( 'wp_ajax_weforms_form_entries', array( $this, 'get_entries' ) );
@@ -32,8 +33,8 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
 
         // frontend requests
-        add_action( 'wp_ajax_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
-        add_action( 'wp_ajax_nopriv_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
+        add_action( 'wp_ajax_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
+        add_action( 'wp_ajax_nopriv_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
     }
 
     /**
@@ -69,6 +70,58 @@ class WeForms_Ajax {
         );
 
         wp_send_json_success( $data );
+    }
+
+    /**
+     * Save the form
+     *
+     * @return void
+     */
+    public function save_form() {
+        parse_str( $_POST['form_data'], $form_data );
+
+        if ( ! wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'wpuf' ) );
+        }
+
+        if ( empty( $form_data['wpuf_form_id'] ) ) {
+            wp_send_json_error( __( 'Invalid form id', 'wpuf' ) );
+        }
+
+        $form_fields   = isset( $_POST['form_fields'] ) ? $_POST['form_fields'] : '';
+        $notifications = isset( $_POST['notifications'] ) ? $_POST['notifications'] : '';
+        $settings      = array();
+        $integrations  = array();
+
+        if ( isset( $_POST['settings'] ) ) {
+            $settings = (array) json_decode( wp_unslash( $_POST['settings'] ) );
+        } else {
+            $settings = isset( $form_data['wpuf_settings'] ) ? $form_data['wpuf_settings'] : array();
+        }
+
+        if ( isset( $_POST['integrations'] ) ) {
+            $integrations = (array) json_decode( wp_unslash( $_POST['integrations'] ) );
+        }
+
+        $form_fields   = wp_unslash( $form_fields );
+        $notifications = wp_unslash( $notifications );
+
+        $form_fields   = json_decode( $form_fields, true );
+        $notifications = json_decode( $notifications, true );
+
+        $data = array(
+            'form_id'           => absint( $form_data['wpuf_form_id'] ),
+            'post_title'        => sanitize_text_field( $form_data['post_title'] ),
+            'form_fields'       => $form_fields,
+            'form_settings'     => $settings,
+            'form_settings_key' => isset( $form_data['form_settings_key'] ) ? $form_data['form_settings_key'] : '',
+            'notifications'     => $notifications,
+            'integrations'      => $integrations
+        );
+
+        $form_fields = weforms()->form->save( $data );
+
+        wp_send_json_success( array( 'form_fields' => $form_fields ) );
     }
 
     /**

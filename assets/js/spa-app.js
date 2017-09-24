@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.4
-Generated: 2017-09-21 (1505987702049)
+Generated: 2017-09-24 (1506226262022)
 */
 
 ;(function($) {
@@ -227,7 +227,6 @@ weForms.routeComponents.FormEditComponent = {
                     self.$store.commit('set_form_fields', response.form_fields);
                     self.$store.commit('set_form_notification', response.notifications);
                     self.$store.commit('set_form_settings', response.settings);
-                    self.$store.commit('set_form_payment', response.payment);
 
                     // if nothing saved in the form, it provides an empty array
                     // but we expect to be an object
@@ -430,7 +429,7 @@ Vue.component('form-list-table', {
 
                 wp.ajax.send( 'weforms_form_delete', {
                     data: {
-                        form_id: this.items[index].ID,
+                        form_id: this.items[index].id,
                         _wpnonce: weForms.nonce
                     },
                     success: function(response) {

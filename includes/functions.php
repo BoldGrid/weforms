@@ -382,7 +382,7 @@ function weforms_get_entry_data( $entry_id ) {
 
         } elseif ( $field['type'] == 'name' ) {
 
-            $data[ $meta_key ] = implode( ' ', explode( WPUF_Render_Form::$separator, $value ) );
+            $data[ $meta_key ] = implode( ' ', explode( WeForms::$field_separator, $value ) );
 
         } elseif ( in_array( $field['type'], array( 'image_upload', 'file_upload' ) ) ) {
 
@@ -406,7 +406,7 @@ function weforms_get_entry_data( $entry_id ) {
 
         } elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
 
-            $data[ $meta_key ] = explode( WPUF_Render_Form::$separator, $value );
+            $data[ $meta_key ] = explode( WeForms::$field_separator, $value );
 
         } elseif ( $field['type'] == 'map' ) {
 
@@ -662,4 +662,131 @@ function weforms_form_access_capability() {
  */
 function weforms_clear_buffer() {
     ob_clean();
+}
+
+/**
+ * Get the client IP address
+ *
+ * @since 1.1.0
+ *
+ * @return string
+ */
+function weforms_get_client_ip() {
+    $ipaddress = '';
+
+    if ( isset($_SERVER['HTTP_CLIENT_IP'] ) ) {
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    } else if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else if ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    } else if ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    } else if ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    } else if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    } else {
+        $ipaddress = 'UNKNOWN';
+    }
+
+    return $ipaddress;
+}
+
+/**
+ * Save form fields
+ *
+ * @since 1.1.0
+ *
+ * @param int $form_id
+ * @param array $field
+ * @param int $field_id
+ * @param int $order
+ *
+ * @return int ID of updated or inserted post
+ */
+function weforms_insert_form_field( $form_id, $field = array(), $field_id = null, $order = 0 ) {
+
+    $args = array(
+        'post_type'    => 'wpuf_input',
+        'post_parent'  => $form_id,
+        'post_status'  => 'publish',
+        'post_content' => maybe_serialize( wp_unslash( $field ) ),
+        'menu_order'   => $order
+    );
+
+    if ( $field_id ) {
+        $args['ID'] = $field_id;
+    }
+
+    if ( $field_id ) {
+        return wp_update_post( $args );
+    } else {
+        return wp_insert_post( $args );
+    }
+}
+
+/**
+ * Allowed upload extensions
+ *
+ * @return array
+ */
+function weforms_allowed_extensions() {
+    $extesions = array(
+        'images' => array('ext' => 'jpg,jpeg,gif,png,bmp', 'label' => __( 'Images', 'wpuf' )),
+        'audio'  => array('ext' => 'mp3,wav,ogg,wma,mka,m4a,ra,mid,midi', 'label' => __( 'Audio', 'wpuf' )),
+        'video'  => array('ext' => 'avi,divx,flv,mov,ogv,mkv,mp4,m4v,divx,mpg,mpeg,mpe', 'label' => __( 'Videos', 'wpuf' )),
+        'pdf'    => array('ext' => 'pdf', 'label' => __( 'PDF', 'wpuf' )),
+        'office' => array('ext' => 'doc,ppt,pps,xls,mdb,docx,xlsx,pptx,odt,odp,ods,odg,odc,odb,odf,rtf,txt', 'label' => __( 'Office Documents', 'wpuf' )),
+        'zip'    => array('ext' => 'zip,gz,gzip,rar,7z', 'label' => __( 'Zip Archives' )),
+        'exe'    => array('ext' => 'exe', 'label' => __( 'Executable Files', 'wpuf' )),
+        'csv'    => array('ext' => 'csv', 'label' => __( 'CSV', 'wpuf' ))
+    );
+
+    return apply_filters( 'weforms_allowed_extensions', $extesions );
+}
+
+/**
+ * Get form integration settings
+ *
+ * @since 1.1.0
+ *
+ * @param  int $form_id
+ *
+ * @return array
+ */
+function weforms_get_form_integrations( $form_id ) {
+    $integrations =  get_post_meta( $form_id, 'integrations', true );
+
+    if ( ! $integrations ) {
+        return array();
+    }
+
+    return $integrations;
+}
+
+/**
+ * Check if an integration is active
+ *
+ * @since 1.1.0
+ *
+ * @param  int $form_id
+ * @param  string $integration_id
+ *
+ * @return boolean
+ */
+function weforms_is_integration_active( $form_id, $integration_id ) {
+    $integrations = weforms_get_form_integrations( $form_id );
+
+    if ( ! $integrations ) {
+        return false;
+    }
+
+    foreach ($integrations as $id => $integration) {
+        if ( $integration_id == $id && $integration->enabled == true ) {
+            return $integration;
+        }
+    }
+
+    return false;
 }
