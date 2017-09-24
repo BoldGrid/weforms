@@ -11,10 +11,10 @@ class WeForms_Scripts_Styles {
      * The constructor
      */
     function __construct() {
-        $this->register_frontend();
+        add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
 
         if ( is_admin() ) {
-            $this->register_backend();
+            add_action( 'admin_enqueue_scripts', array( $this, 'register_backend' ) );
         }
     }
 

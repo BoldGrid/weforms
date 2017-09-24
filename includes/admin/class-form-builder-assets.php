@@ -76,6 +76,8 @@ class WeForms_Form_Builder_Assets {
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_mixins', $wpuf_mixins );
         wp_localize_script( 'weforms-mixins', 'weForms', $weforms );
+
+        do_action( 'weforms_admin_after_scripts_loaded' );
     }
 
     /**
