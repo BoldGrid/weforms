@@ -11,10 +11,11 @@ class WeForms_Scripts_Styles {
      * The constructor
      */
     function __construct() {
-        add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
 
         if ( is_admin() ) {
             add_action( 'admin_enqueue_scripts', array( $this, 'register_backend' ) );
+        } else {
+            add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
         }
     }
 
@@ -87,7 +88,7 @@ class WeForms_Scripts_Styles {
             'wpuf-selectize', 'wpuf-toastr', 'wpuf-clipboard', 'wpuf-tooltip'
         ) );
 
-        $builder_scripts = array(
+        $builder_scripts = apply_filters( 'weforms_builder_scripts', array(
             'wpuf-vue' => array(
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/vue/vue' . $prefix . '.js',
                 'deps'      => false,
@@ -159,7 +160,7 @@ class WeForms_Scripts_Styles {
                 'in_footer' => true
             ),
 
-        );
+        ) );
 
         $spa_scripts = array(
             'weforms-mixins' => array(
