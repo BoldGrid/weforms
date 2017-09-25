@@ -115,7 +115,7 @@ function weforms_insert_entry( $args, $fields = array() ) {
     $defaults = array(
         'form_id'     => 0,
         'user_id'     => get_current_user_id(),
-        'user_ip'     => ip2long( wpuf_get_client_ip() ),
+        'user_ip'     => ip2long( wefroms_get_client_ip() ),
         'user_device' => $browser['name'] . '/' . $browser['platform'],
         'referer'     => $_SERVER['HTTP_REFERER'],
         'created_at'  => current_time( 'mysql' )
@@ -789,4 +789,32 @@ function weforms_is_integration_active( $form_id, $integration_id ) {
     }
 
     return false;
+}
+
+
+/**
+ * Get the client IP address
+ *
+ * @return string
+ */
+function wefroms_get_client_ip() {
+    $ipaddress = '';
+
+    if ( isset($_SERVER['HTTP_CLIENT_IP'] ) ) {
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    } else if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else if ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    } else if ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    } else if ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    } else if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    } else {
+        $ipaddress = 'UNKNOWN';
+    }
+
+    return $ipaddress;
 }
