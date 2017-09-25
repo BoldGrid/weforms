@@ -148,6 +148,8 @@ class WeForms_Ajax {
             $form->views   = $form->num_form_views();
         }, $contact_forms['forms'] );
 
+        $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $contact_forms );
+
         wp_send_json_success( $contact_forms );
     }
 

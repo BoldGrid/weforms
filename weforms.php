@@ -214,6 +214,7 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-integration-manager.php';
 
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
+        require_once WEFORMS_INCLUDES . '/class-ajax-upload.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
@@ -286,7 +287,8 @@ final class WeForms {
         $this->integrations->get_integrations();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            $this->container['ajax'] = new WeForms_Ajax();
+            $this->container['ajax']        = new WeForms_Ajax();
+            $this->container['ajax_upload'] = new WeForms_Ajax_Upload();
         }
     }
 
