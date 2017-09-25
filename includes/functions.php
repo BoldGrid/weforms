@@ -746,6 +746,18 @@ function weforms_allowed_extensions() {
     return apply_filters( 'weforms_allowed_extensions', $extesions );
 }
 
+
+/**
+ * Allowed upload extensions
+ *
+ * @return array
+ */
+if( ! function_exists( 'wpuf_allowed_extensions' )) {
+    function wpuf_allowed_extensions() {
+        return weforms_allowed_extensions();
+    }
+}
+
 /**
  * Get form integration settings
  *
@@ -764,6 +776,7 @@ function weforms_get_form_integrations( $form_id ) {
 
     return $integrations;
 }
+
 
 /**
  * Check if an integration is active
