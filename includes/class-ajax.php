@@ -507,7 +507,8 @@ class WeForms_Ajax {
             'success'      => true,
             'redirect_to'  => $redirect_to,
             'show_message' => $show_message,
-            'message'      => $form_settings['message']
+            'message'      => $form_settings['message'],
+            'data'         => $_POST
         );
 
         $notification = new WeForms_Notification( array(
