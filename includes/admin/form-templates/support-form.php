@@ -5,9 +5,11 @@ class WPUF_Contact_Form_Template_Support extends WPUF_Post_Form_Template {
     public function __construct() {
         parent::__construct();
 
-        $this->enabled     = true;
-        $this->title       = __( 'Support Form', 'weforms' );
-        $this->description = __( 'Enable your users for asking support questions.', 'weforms' );
+        $this->enabled           = true;
+        $this->title             = __( 'Support Form', 'weforms' );
+        $this->description       = __( 'Enable your users for asking support questions.', 'weforms' );
+        $this->category          = 'default';
+        $this->image       = WEFORMS_ASSET_URI . '/images/form-template/contact.png';
 
         $this->form_fields = array(
             array(

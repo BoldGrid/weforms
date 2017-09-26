@@ -8,6 +8,8 @@ class WPUF_Contact_Form_Template_Event_Registration extends WPUF_Post_Form_Templ
         $this->enabled     = true;
         $this->title       = __( 'Event Registration', 'weforms' );
         $this->description = __( 'Get your visitors to register for an upcoming event quickly with this registration form template.', 'weforms' );
+        $this->image       = WEFORMS_ASSET_URI . '/images/form-template/contact.png';
+        $this->category    = 'event';
 
         $this->form_fields = array(
             array(

@@ -3,12 +3,13 @@ Vue.component('wpuf-template-modal', {
 
     props: {
         show: Boolean,
-        onClose: Function
+        onClose: Function,
     },
 
     data: function() {
         return {
-            loading: false
+            loading: false,
+            category: 'all',
         };
     },
 

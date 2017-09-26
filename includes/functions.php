@@ -43,6 +43,31 @@ function weforms_get_form_templates() {
 }
 
 /**
+ * Get contact form templates
+ *
+ * @return array
+ */
+function weforms_get_form_template_categories() {
+
+    $categories    = array(
+        'default'      => array(
+            'name'         => 'Default Templates',
+            'icon'         => 'fa fa-bars',
+        ),
+        // 'registration' => array(
+        //     'name'         => 'Registration Templates',
+        //     'icon'         => 'fa fa-user-plus',
+        // ),
+        'event'        => array(
+            'name'         => 'Event Templates',
+            'icon'         => 'fa fa-calendar',
+        ),
+    );
+
+    return apply_filters( 'weforms_form_template_categories', $categories );
+}
+
+/**
  * Get entries by a form_id
  *
  * @param  int $form_id
@@ -802,4 +827,14 @@ function weforms_is_integration_active( $form_id, $integration_id ) {
     }
 
     return false;
+}
+
+
+/**
+ * Get Flat UI Colors
+ *
+ * @return array
+ */
+function weforms_get_flat_ui_colors() {
+    return array( '#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e' );
 }

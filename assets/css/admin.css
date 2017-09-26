@@ -351,3 +351,103 @@ a.add-notification .dashicons {
     transform: rotate(360deg);
   }
 }
+@keyframes color-me-in {
+  /* You could think of as "step 1" */
+  0% {
+    background: orange;
+  }
+  /* You could think of as "step 2" */
+  100% {
+    background: black;
+  }
+}
+/* by Nobin */
+@keyframes weZoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.wefroms-form-templates .wpuf-form-template-modal .choose-form-categroy {
+  float: right;
+  font-size: 14px;
+  margin-right: 70px;
+  font-weight: normal;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content {
+  max-width: 985px;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content h2 {
+  font-size: 15px;
+  color: #5d6d74;
+  width: 100%;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li:nth-child(3n+1) {
+  margin-left: 3.0612244897959% !important;
+  clear: none !important;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li:nth-child(4n+1) {
+  margin-left: 0 !important;
+  clear: both !important;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content .blank-form .blank-form-text {
+  margin-top: 70px;
+  font-size: 15px;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content .blank-form .blank-form-text .title {
+  color: #929292;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li {
+  text-align: center;
+  min-height: 280px;
+  width: 220px;
+  border: 0px;
+  box-shadow: 0px 5px 10px #929292;
+  position: relative;
+  border-radius: 3px;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li .form-create-overlay {
+  position: absolute;
+  display: none;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li:hover {
+  background: #fff;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li:hover .form-create-overlay {
+  animation: weZoomIn .25s;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  color: #fff;
+  border-radius: 3px;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li:hover .form-create-overlay .title {
+  color: #fff;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li:hover .form-create-overlay .description {
+  color: #fff;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li:hover .form-create-overlay button {
+  height: 30px;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li h3 {
+  margin-top: 0px;
+  border: 0px;
+  background: #1E87B6;
+  padding: 13px;
+  font-weight: normal;
+  font-size: 13px;
+  color: #fff;
+  border-radius: 3px 3px 0px 0px;
+  text-align: left;
+}

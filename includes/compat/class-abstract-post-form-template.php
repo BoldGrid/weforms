@@ -52,6 +52,21 @@ abstract class WPUF_Post_Form_Template {
     protected $form_settings;
 
     /**
+     * Form Template Category
+     *
+     * @var array
+     */
+    public $category = 'default';    
+
+
+    /**
+     * Form Template Image
+     *
+     * @var array
+     */
+    public $image;
+
+    /**
      * Form notifications
      *
      * @since 2.5.2
