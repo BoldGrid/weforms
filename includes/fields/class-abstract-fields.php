@@ -92,7 +92,8 @@ abstract class WeForms_Field_Contract {
             'title'         => $this->get_name(),
             'icon'          => $this->get_icon(),
             'settings'      => $this->get_options_settings(),
-            'field_props'   => $this->get_field_props()
+            'field_props'   => $this->get_field_props(),
+            'is_full_width' => $this->is_full_width()
         );
 
         if ( $validator = $this->get_validator() ) {
@@ -108,6 +109,17 @@ abstract class WeForms_Field_Contract {
      * @return boolean|array
      */
     public function get_validator() {
+        return false;
+    }
+
+    /**
+     * If this field is full width
+     *
+     * Used in form builder preview (hides the label)
+     *
+     * @return boolean
+     */
+    public function is_full_width() {
         return false;
     }
 

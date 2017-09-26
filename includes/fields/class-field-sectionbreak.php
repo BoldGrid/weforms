@@ -32,6 +32,15 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
     }
 
     /**
+     * It's a full width block
+     *
+     * @return boolean
+     */
+    public function is_full_width() {
+        return true;
+    }
+
+    /**
      * Get field options setting
      *
      * @return array
