@@ -72,7 +72,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'Show this option in an inline list', 'wpuf' ),
-            )
+            ),
         );
 
         return array_merge( $default_options, $dropdown_options );
@@ -92,11 +92,11 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
         );
 
         return array_merge( $defaults, $props );
-    } 
+    }
 
     /**
      * Prepare entry
-     * 
+     *
      * @param $field
      *
      * @return mixed

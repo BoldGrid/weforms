@@ -191,7 +191,7 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/class-importer-manager.php';
 
             require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
-            require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
         } else {
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
 
@@ -270,7 +270,7 @@ final class WeForms {
             $this->container['admin']        = new WeForms_Admin();
             // $this->container['welcome']      = new WeForms_Admin_Welcome();
             $this->container['templates']    = new WeForms_Form_Template();
-            $this->container['integrations'] = new WeForms_Pro_Integrations();
+            $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
         } else {
             $this->container['frontend'] = new WeForms_Frontend_Form();
