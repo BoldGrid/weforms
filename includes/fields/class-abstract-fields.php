@@ -99,7 +99,7 @@ abstract class WeForms_Field_Contract {
             $settings['validator'] = $validator;
         }
 
-        return $settings;
+        return apply_filters( 'weforms_field_get_js_settings', $settings );
     }
 
     /**
@@ -471,7 +471,7 @@ abstract class WeForms_Field_Contract {
 
     /**
      * Prepare entry default, can be replaced through field classes
-     * 
+     *
      * @param $field
      *
      * @return mixed

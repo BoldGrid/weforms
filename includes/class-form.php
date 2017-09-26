@@ -307,16 +307,16 @@ class WeForms_Form {
      * @return array
      */
     public function prepare_entries() {
-        
+
         $fields       = weforms()->fields->get_fields();
         $form_fields  = $this->get_fields();
-        
+
         $entry_fields = array();
 
-        $ignore_list  = apply_filters('wefroms_entry_ignore_list', array( 
-            'section_break', 
-            'custom_html', 
-            'recaptcha' 
+        $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
+            'section_break',
+            'custom_html',
+            'recaptcha'
         ) );
 
         foreach ($form_fields as $field) {

@@ -3,7 +3,7 @@
 /**
  * The Pro Integrations
  */
-class WeForms_Pro_Integrations {
+class WeForms_Pro_Upgrades {
 
     /**
      * Initialize
@@ -15,6 +15,8 @@ class WeForms_Pro_Integrations {
         }
 
         add_filter( 'weforms_form_builder_integrations', array( $this, 'register_integrations' ) );
+
+        add_filter( 'weforms_field_get_js_settings', array( $this, 'add_conditional_field_prompt' ) );
     }
 
     /**
@@ -81,5 +83,25 @@ class WeForms_Pro_Integrations {
         );
 
         return array_merge( $integrations, $pro );
+    }
+
+    /**
+     * Add conditional logic prompt
+     *
+     * @param array $settings
+     */
+    public function add_conditional_field_prompt( $settings ) {
+
+        $settings['settings'][] = array(
+            'name'           => 'wpuf_cond',
+            'title'          => __( 'Conditional Logic', 'weforms' ),
+            'type'           => 'option-pro-feature-alert',
+            'section'        => 'advanced',
+            'priority'       => 30,
+            'help_text'      => '',
+            'is_pro_feature' => true
+        );
+
+        return $settings;
     }
 }
