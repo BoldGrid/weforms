@@ -195,19 +195,19 @@ class WeForms_Scripts_Styles {
 
         $backend_styles = array(
             'wpuf-font-awesome' => array(
-                'src'  => WEFORMS_ASSET_URI . '/vendor/font-awesome/css/font-awesome.min.css',
+                'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/font-awesome/css/font-awesome.min.css',
             ),
             'wpuf-sweetalert2' => array(
-                'src'  => WEFORMS_ASSET_URI . '/vendor/sweetalert2/dist/sweetalert2.css',
+                'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2.css',
             ),
             'wpuf-selectize' => array(
-                'src'  => WEFORMS_ASSET_URI . '/vendor/selectize/css/selectize.default.css',
+                'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/selectize/css/selectize.default.css',
             ),
             'wpuf-toastr' => array(
-                'src'  => WEFORMS_ASSET_URI . '/vendor/toastr/toastr.min.css',
+                'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/toastr/toastr.min.css',
             ),
             'wpuf-tooltip' => array(
-                'src'  => WEFORMS_ASSET_URI . '/vendor/tooltip/tooltip.css',
+                'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/tooltip/tooltip.css',
             ),
             'wpuf-form-builder' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/wpuf-form-builder.css',
