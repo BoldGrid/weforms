@@ -58,8 +58,8 @@ class WeForms_Form_Builder_Assets {
 
         // mixins
         $wpuf_mixins = array(
-            'root'           => apply_filters( 'wpuf-form-builder-js-root-mixins', array() ),
-            'builder_stage'  => apply_filters( 'wpuf-form-builder-js-builder-stage-mixins', array( 'wpuf_forms_mixin_builder_stage' ) ),
+            'root'           => apply_filters( 'wpuf-form-builder-js-root-mixins', array( 'weforms_mixin_builder_root' ) ),
+            'builder_stage'  => apply_filters( 'wpuf-form-builder-js-builder-stage-mixins', array( 'weforms_mixin_builder_stage' ) ),
             'form_fields'    => apply_filters( 'wpuf-form-builder-js-form-fields-mixins', array() ),
             'field_options'  => apply_filters( 'wpuf-form-builder-js-field-options-mixins', array() ),
         );
