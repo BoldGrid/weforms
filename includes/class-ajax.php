@@ -464,6 +464,7 @@ class WeForms_Ajax {
 
         $form          = weforms()->form->get( $form_id );
         $form_fields   = $form->get_fields();
+        $entry_fields  = $form->prepare_entries();
         $form_settings = $form->get_settings();
 
         if ( !$form_fields ) {
@@ -472,9 +473,6 @@ class WeForms_Ajax {
                 'error'       => __( 'No form field was found.', 'weforms' ),
             ) );
         }
-
-        // process the form fields
-        $entry_fields = $this->prepare_entry_fields( $form_fields );
 
         $entry_id = weforms_insert_entry( array(
             'form_id' => $form_id
@@ -525,139 +523,6 @@ class WeForms_Ajax {
         wp_send_json( $response );
     }
 
-    /**
-     * Prepare meta fields by it's types
-     *
-     * @param  array $form_fields
-     *
-     * @return array
-     */
-    public function prepare_entry_fields( $form_fields ) {
-        $entry_fields = array();
-        $ignore_list  = array( 'section_break', 'custom_html', 'recaptcha' );
-
-        foreach ($form_fields as $field) {
-
-            if ( in_array( $field['template'], $ignore_list ) ) {
-                continue;
-            }
-
-            switch ( $field['template'] ) {
-
-                // put files in a separate array, we'll process it later
-                case 'file_upload':
-                case 'image_upload':
-
-                    $entry_fields[$field['name']] =  isset( $_POST['wpuf_files'][$field['name']] ) ? $_POST['wpuf_files'][$field['name']] : array();
-                    break;
-
-                case 'repeat_field':
-
-                    // if it is a multi column repeat field
-                    if ( isset( $field['multiple'] ) && $field['multiple'] == 'true' ) {
-
-                        // if there's any items in the array, process it
-                        if ( $_POST[$field['name']] ) {
-
-                            $ref_arr = array();
-                            $cols    = count( $field['columns'] );
-                            $first   = array_shift( array_values( $_POST[$field['name']] ) ); //first element
-                            $rows    = count( $first );
-
-                            // loop through columns
-                            for ($i = 0; $i < $rows; $i++) {
-
-                                // loop through the rows and store in a temp array
-                                $temp = array();
-                                for ($j = 0; $j < $cols; $j++) {
-
-                                    $temp[] = $_POST[$field['name']][$j][$i];
-                                }
-
-                                // store all fields in a row with WeForms::$field_separator separated
-                                $ref_arr[] = implode( WeForms::$field_separator, $temp );
-                            }
-
-                            // now, if we found anything in $ref_arr, store to $multi_repeated
-                            if ( $ref_arr ) {
-                                $multi_repeated[$field['name']] = array_slice( $ref_arr, 0, $rows );
-                            }
-                        }
-                    } else {
-                        $entry_fields[$field['name']] = implode( WeForms::$field_separator, $_POST[$field['name']] );
-                    }
-
-                    break;
-
-                case 'address_field':
-
-                    if ( isset( $_POST[ $field['name'] ] ) && is_array( $_POST[ $field['name'] ] ) ) {
-                        foreach ( $_POST[ $field['name'] ] as $address_field => $field_value ) {
-                            $entry_fields[ $field['name'] ][ $address_field ] = sanitize_text_field( $field_value );
-                        }
-                    }
-
-                    break;
-
-                case 'text_field':
-                case 'email_address':
-                case 'numeric_text_field':
-                case 'date_field':
-
-                    $entry_fields[$field['name']] = sanitize_text_field( trim( $_POST[$field['name']] ) );
-
-                    break;
-
-                case 'textarea_field':
-
-                    $entry_fields[$field['name']] = wp_kses_post( $_POST[$field['name']] );
-
-                    break;
-
-                case 'dropdown_field':
-                case 'radio_field':
-
-                    $val                            = $_POST[$field['name']];
-                    $entry_fields[$field['name']] = isset( $field['options'][$val] ) ? $field['options'][$val] : '';
-                    break;
-
-                case 'multiple_select':
-                case 'checkbox_field':
-
-                    $val                            = ( is_array( $_POST[$field['name']] ) && $_POST[$field['name']] ) ? $_POST[$field['name']] : array();
-                    $entry_fields[$field['name']] = $val;
-
-                    if ( $val ) {
-                        $new_val = array();
-
-                        foreach ($val as $option_key) {
-                            $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : '';
-                        }
-
-                        $entry_fields[$field['name']] = implode( WeForms::$field_separator, $new_val );
-                    } else {
-                        $entry_fields[$field['name']] = '';
-                    }
-
-                    break;
-
-                default:
-                    // if it's an array, implode with this->separator
-                    if ( is_array( $_POST[$field['name']] ) ) {
-
-                        $entry_fields[$field['name']] = implode( WeForms::$field_separator, $_POST[$field['name']] );
-
-                    } else {
-                        $entry_fields[$field['name']] = trim( $_POST[$field['name']] );
-                    }
-
-                    break;
-            }
-
-        } //end foreach
-
-        return $entry_fields;
-    }
 
     public static function prepare_meta_fields( $meta_vars ) {
         // loop through custom fields

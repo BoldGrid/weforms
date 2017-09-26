@@ -98,4 +98,15 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
 
         return array_merge( $defaults, $props );
     }
+
+    /**
+     * Prepare entry
+     * 
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function prepare_entry( $field ) {
+       return wp_kses_post( $_POST[$field['name']] );
+    }
 }

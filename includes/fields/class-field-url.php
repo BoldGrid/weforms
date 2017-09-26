@@ -33,4 +33,15 @@ class WeForms_Form_Field_URL extends WeForms_Form_Field_Text {
         </li>
         <?php
     }
+
+    /**
+     * Prepare entry
+     * 
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function prepare_entry( $field ) {
+       return esc_url( trim( $_POST[$field['name']] ) );
+    }
 }

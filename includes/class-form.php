@@ -299,4 +299,41 @@ class WeForms_Form {
     public function num_form_views() {
         return weforms_get_form_views( $this->id );
     }
+
+
+    /**
+     * prepare_entries
+     *
+     * @return array
+     */
+    public function prepare_entries() {
+        
+        $fields       = weforms()->fields->get_fields();
+        $form_fields  = $this->get_fields();
+        
+        $entry_fields = array();
+
+        $ignore_list  = apply_filters('wefroms_entry_ignore_list', array( 
+            'section_break', 
+            'custom_html', 
+            'recaptcha' 
+        ) );
+
+        foreach ($form_fields as $field) {
+
+            if ( in_array( $field['template'], $ignore_list ) ) {
+                continue;
+            }
+
+            if ( ! array_key_exists( $field['template'], $fields ) ) {
+                continue;
+            }
+
+            $field_class = $fields[ $field['template'] ];
+
+            $entry_fields[ $field['name'] ] = $field_class->prepare_entry( $field );
+        }
+
+        return $entry_fields;
+    }
 }

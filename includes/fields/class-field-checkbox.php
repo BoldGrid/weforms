@@ -92,5 +92,31 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
         );
 
         return array_merge( $defaults, $props );
+    } 
+
+    /**
+     * Prepare entry
+     * 
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function prepare_entry( $field ) {
+
+        $entry_value  = ( is_array( $_POST[$field['name']] ) && $_POST[$field['name']] ) ? $_POST[$field['name']] : array();
+
+        if ( $entry_value ) {
+            $new_val = array();
+
+            foreach ($entry_value as $option_key) {
+                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : '';
+            }
+
+            $entry_value = implode( WeForms::$field_separator, $new_val );
+        } else {
+            $entry_value = '';
+        }
+
+        return $entry_value;
     }
 }

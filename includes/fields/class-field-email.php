@@ -55,4 +55,15 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
 
         return $defaults;
     }
+
+    /**
+     * Prepare entry
+     * 
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function prepare_entry( $field ) {
+       return sanitize_text_field( trim( $_POST[$field['name']] ) );
+    }
 }

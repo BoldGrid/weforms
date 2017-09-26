@@ -469,4 +469,23 @@ abstract class WeForms_Field_Contract {
         <?php
     }
 
+    /**
+     * Prepare entry default, can be replaced through field classes
+     * 
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function prepare_entry( $field ) {
+
+        if ( is_array( $_POST[$field['name']] ) ) {
+
+            $entry_value = implode( WeForms::$field_separator, $_POST[$field['name']] );
+
+        } else {
+            $entry_value = trim( $_POST[$field['name']] );
+        }
+
+        return $entry_value;
+    }
 }
