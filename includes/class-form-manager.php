@@ -186,4 +186,36 @@ class WeForms_Form_Manager {
 
         return $saved_wpuf_inputs;
     }
+
+    /**
+     * API to duplicate a form
+     *
+     * @param int $_form_id
+     *
+     * @return int New duplicated form id
+     */
+    function duplicate( $_form_id ) {
+
+        $form = $this->get( $_form_id );
+
+        if ( empty( $form ) ) {
+            return;
+        }
+        
+        $form_id = $this->create( $form->name, $form->get_fields());
+
+        $data = array(
+            'form_id'           => absint( $form_id ),
+            'post_title'        => sanitize_text_field( $form->name ) . ' (#' . $form_id . ')',
+            'form_fields'       => $this->get( $form_id )->get_fields(), // already imported just proxy
+            'form_settings'     => $form->get_settings(),
+            'form_settings_key' => 'wpuf_form_settings',
+            'notifications'     => $form->get_notifications(),
+            'integrations'      => $form->get_integrations()
+        );
+
+        $form_fields = $this->save( $data );
+
+        return $this->get( $form_id );
+    }
 }

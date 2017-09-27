@@ -255,11 +255,7 @@ class WeForms_Ajax {
 
         $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
 
-        $duplicate_id = wpuf_duplicate_form( $form_id );
-        $form = get_post( $duplicate_id );
-
-        $form->entires = 0;
-        $form->views   = 0;
+        $form = weforms()->form->duplicate( $form_id );
 
         wp_send_json_success( $form );
     }
