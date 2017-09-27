@@ -16,7 +16,11 @@ class WeForms_Pro_Upgrades {
 
         add_filter( 'weforms_form_builder_integrations', array( $this, 'register_integrations' ) );
 
+        // form fields
         add_filter( 'weforms_field_get_js_settings', array( $this, 'add_conditional_field_prompt' ) );
+        add_filter( 'weforms_form_fields', array( $this, 'register_pro_fields' ) );
+        add_filter( 'weforms_field_groups_custom', array( $this, 'add_to_custom_fields' ) );
+        add_filter( 'weforms_field_groups_others', array( $this, 'add_to_others_fields' ) );
     }
 
     /**
@@ -83,6 +87,63 @@ class WeForms_Pro_Upgrades {
         );
 
         return array_merge( $integrations, $pro );
+    }
+
+    /**
+     * Register pro fields
+     *
+     * @param  array $fields
+     *
+     * @return array
+     */
+    public function register_pro_fields( $fields ) {
+        if ( ! class_exists( 'WeForms_Form_Field_Pro' ) ) {
+            require_once WEFORMS_INCLUDES . '/fields/class-fields-pro.php';
+        }
+
+        require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrade-fields.php';
+
+        $fields['repeat_field']       = new WeForms_Form_Field_Repeat();
+        $fields['date_field']         = new WeForms_Form_Field_Date();
+        $fields['file_upload']        = new WeForms_Form_Field_File();
+        $fields['country_list_field'] = new WeForms_Form_Field_Country();
+        $fields['numeric_text_field'] = new WeForms_Form_Field_Numeric();
+        $fields['address_field']      = new WeForms_Form_Field_Address();
+        $fields['google_map']         = new WeForms_Form_Field_GMap();
+        $fields['shortcode']          = new WeForms_Form_Field_Shortcode();
+        $fields['action_hook']        = new WeForms_Form_Field_Hook();
+        $fields['toc']                = new WeForms_Form_Field_Toc();
+        $fields['ratings']            = new WeForms_Form_Field_Rating();
+        $fields['step_start']         = new WeForms_Form_Field_Step();
+
+        return $fields;
+    }
+
+    /**
+     * Register fields to custom field section
+     *
+     * @param array $fields
+     */
+    public function add_to_custom_fields( $fields ) {
+        $pro_fields = array(
+            'repeat_field', 'date_field', 'file_upload', 'country_list_field',
+            'numeric_text_field', 'address_field', 'google_map', 'step_start'
+        );
+
+        return array_merge( $fields, $pro_fields );
+    }
+
+    /**
+     * Register fields to others field section
+     *
+     * @param array $fields
+     */
+    public function add_to_others_fields( $fields ) {
+        $pro_fields = array(
+            'shortcode', 'action_hook', 'toc', 'ratings'
+        );
+
+        return array_merge( $fields, $pro_fields );
     }
 
     /**

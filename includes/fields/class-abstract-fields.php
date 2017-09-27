@@ -91,6 +91,7 @@ abstract class WeForms_Field_Contract {
             'template'      => $this->get_type(),
             'title'         => $this->get_name(),
             'icon'          => $this->get_icon(),
+            'pro_feature'   => $this->is_pro(),
             'settings'      => $this->get_options_settings(),
             'field_props'   => $this->get_field_props(),
             'is_full_width' => $this->is_full_width()
@@ -109,6 +110,15 @@ abstract class WeForms_Field_Contract {
      * @return boolean|array
      */
     public function get_validator() {
+        return false;
+    }
+
+    /**
+     * Check if it's a pro feature
+     *
+     * @return boolean
+     */
+    public function is_pro() {
         return false;
     }
 
@@ -455,11 +465,11 @@ abstract class WeForms_Field_Contract {
             return;
         }
 
-        $cond_inputs = $form_field['wpuf_cond'];
+        $cond_inputs                     = $form_field['wpuf_cond'];
         $cond_inputs['condition_status'] = isset( $cond_inputs['condition_status'] ) ? $cond_inputs['condition_status'] : '';
 
         if ( $cond_inputs['condition_status'] == 'yes') {
-            $cond_inputs['type']    = $form_field['input_type'];
+            $cond_inputs['type']    = $form_field['template'];
             $cond_inputs['name']    = $form_field['name'];
             $cond_inputs['form_id'] = $form_id;
             $condition              = json_encode( $cond_inputs );
@@ -468,7 +478,7 @@ abstract class WeForms_Field_Contract {
             $condition = '';
         }
 
-        //for section break
+        // for section break
         if ( $form_field['template'] == 'section_break' ) {
             $cond_inputs['name'] = $form_field['name'] .'_'. $form_field['id'];
             $condition           = json_encode( $cond_inputs );

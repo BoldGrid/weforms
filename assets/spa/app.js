@@ -5,7 +5,7 @@ if (!Array.prototype.hasOwnProperty('swap')) {
 }
 
 Vue.component('datepicker', {
-    template: '<input type="text" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" />',
+    template: '<input type="text" v-bind:value="value" />',
     props: ['value'],
     mounted: function() {
         var self = this;
@@ -20,6 +20,24 @@ Vue.component('datepicker', {
     methods: {
         onClose: function(date) {
             this.$emit('input', date);
+        }
+    },
+});
+
+Vue.component('weforms-colorpicker', {
+    template: '<input type="text" v-bind:value="value" />',
+    props: ['value'],
+    mounted: function() {
+        var self = this;
+
+        $(this.$el).wpColorPicker({
+            change: this.onChange
+        });
+    },
+
+    methods: {
+        onChange: function(event, ui) {
+            this.$emit('input', ui.color.toString());
         }
     },
 });

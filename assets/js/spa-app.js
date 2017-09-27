@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.4
-Generated: 2017-09-27 (1506508312941)
+Generated: 2017-09-27 (1506530535345)
 */
 
 ;(function($) {
@@ -294,7 +294,7 @@ weForms.routeComponents.FormEditComponent = {
                     self.is_form_saving = false;
                 }
             });
-        },        
+        },
 
 
         save_settings: function () {
@@ -349,11 +349,11 @@ weForms.routeComponents.FormEditComponent = {
                     self.enableSharing(site_url, post);
                 });
 
-            }            
+            }
         },
 
         enableSharing: function(site_url, post){
-    
+
             this.settings.sharing_on = 'on';
             this.save_settings();
             this.shareForm(site_url, post);
@@ -364,7 +364,7 @@ weForms.routeComponents.FormEditComponent = {
             this.save_settings();
         },
         getSharingHash: function(){
-            
+
             if( ! this.settings.sharing_hash ) {
                 this.settings.sharing_hash = this.makeRandomString(8);
                 this.save_settings();
@@ -402,7 +402,7 @@ weForms.routeComponents.FormEditComponent = {
                     $(e.trigger).tooltip('hide')
                     .attr('data-original-title', 'Copy URL');
                 }, 1000);
-                
+
                 e.clearSelection();
             });
         },
@@ -898,7 +898,7 @@ if (!Array.prototype.hasOwnProperty('swap')) {
 }
 
 Vue.component('datepicker', {
-    template: '<input type="text" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" />',
+    template: '<input type="text" v-bind:value="value" />',
     props: ['value'],
     mounted: function() {
         var self = this;
@@ -913,6 +913,24 @@ Vue.component('datepicker', {
     methods: {
         onClose: function(date) {
             this.$emit('input', date);
+        }
+    },
+});
+
+Vue.component('weforms-colorpicker', {
+    template: '<input type="text" v-bind:value="value" />',
+    props: ['value'],
+    mounted: function() {
+        var self = this;
+
+        $(this.$el).wpColorPicker({
+            change: this.onChange
+        });
+    },
+
+    methods: {
+        onChange: function(event, ui) {
+            this.$emit('input', ui.color.toString());
         }
     },
 });
