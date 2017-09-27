@@ -23,7 +23,7 @@ class WeForms_Form_Builder_Assets {
         add_action( 'wpuf-form-builder-settings-tabs-contact_form', array( $this, 'add_settings_tabs' ) );
         add_action( 'wpuf-form-builder-settings-tab-contents-contact_form', array( $this, 'add_settings_tab_contents' ) );
 
-        do_action( 'wpuf-form-builder-init-type-wpuf_forms' );
+        do_action( 'weforms_form_builder_init' );
     }
 
     public function builder_enqueue_scripts() {
@@ -58,10 +58,10 @@ class WeForms_Form_Builder_Assets {
 
         // mixins
         $wpuf_mixins = array(
-            'root'           => apply_filters( 'wpuf-form-builder-js-root-mixins', array( 'weforms_mixin_builder_root' ) ),
-            'builder_stage'  => apply_filters( 'wpuf-form-builder-js-builder-stage-mixins', array( 'weforms_mixin_builder_stage' ) ),
-            'form_fields'    => apply_filters( 'wpuf-form-builder-js-form-fields-mixins', array() ),
-            'field_options'  => apply_filters( 'wpuf-form-builder-js-field-options-mixins', array() ),
+            'root'           => apply_filters( 'weforms-builder-js-root-mixins', array( 'weforms_mixin_builder_root' ) ),
+            'builder_stage'  => apply_filters( 'weforms-builder-js-builder-stage-mixins', array( 'weforms_mixin_builder_stage' ) ),
+            'form_fields'    => apply_filters( 'weforms-builder-js-form-fields-mixins', array() ),
+            'field_options'  => apply_filters( 'weforms-builder-js-field-options-mixins', array() ),
         );
 
         $weforms = apply_filters( 'weforms_localized_script', array(
