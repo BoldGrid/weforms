@@ -309,6 +309,11 @@ class WeForms_Notification {
 
         foreach ($matches[1] as $index => $meta_key) {
             $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+            
+            if ( is_array( $meta_value ) ) {
+                $meta_value = implode(WeForms::$field_separator, $meta_value);
+            }
+
             $text       = str_replace( $matches[0][$index], $meta_value, $text );
         }
 
