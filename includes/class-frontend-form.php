@@ -83,9 +83,20 @@ class WeForms_Frontend_Form {
         <form class="wpuf-form-add" action="" method="post">
 
             <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
+
                 <?php
+                /**
+                 * @since 1.1.0
+                 */
+                do_action( 'weforms_form_fields_top', $form, $form_fields );
+
                 weforms()->fields->render_fields( $form_fields, $form->id );
                 $this->submit_button( $form->id, $form_settings );
+
+                /**
+                 * @since 1.1.0
+                 */
+                do_action( 'weforms_form_fields_bottom', $form, $form_fields );
                 ?>
             </ul>
 
@@ -99,6 +110,14 @@ class WeForms_Frontend_Form {
         weforms_track_form_view( $form->id );
     }
 
+    /**
+     * Render submit button
+     *
+     * @param  integer $form_id
+     * @param  array   $form_settings
+     *
+     * @return void
+     */
     function submit_button( $form_id, $form_settings ) {
         ?>
         <li class="wpuf-submit">
