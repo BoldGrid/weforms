@@ -96,6 +96,8 @@ weForms.routeComponents.FormEditComponent = {
 
             e.clearSelection();
         });
+
+        this.initSharingClipBoard();
     },
 
     methods: {
@@ -205,6 +207,118 @@ weForms.routeComponents.FormEditComponent = {
                     self.is_form_saving = false;
                 }
             });
-        }
+        },        
+
+
+        save_settings: function () {
+            toastr.options.preventDuplicates = true;
+            this.save_form_builder();
+        },
+
+        shareForm: function( site_url, post ) {
+
+            var self = this;
+
+            if( self.settings.sharing_on === 'on'){
+
+                var post_link = site_url + '?weforms=' + btoa( self.getSharingHash() + '_' + Math.floor(Date.now() / 1000)  + '_' + post.ID);
+
+                swal({
+                    title: 'Share Your Form',
+                    html: '<p> Anyone with this URL will able to view and submit the form. </p> <p> <input type ="text" class="regular-text" value="'+post_link+'"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="'+post_link+'"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p> ',
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonColor: '#d54e21',
+                    confirmButtonText: 'Disable Sharing',
+                    cancelButtonText: 'Close',
+                    focusCancel: true,
+
+                }).then(function () {
+                    swal({
+                        title: 'Are you sure?',
+                        html: "<p>Anyone with existing URL won't able to view and submit the form anymroe.</p>",
+                        type: 'info',
+                        confirmButtonColor: '#d54e21',
+                        showCancelButton: true,
+                        confirmButtonText: 'Disable',
+                        cancelButtonText: 'Cancel',
+                    }).then(function () {
+                       self.disableSharing();
+                    });
+                });
+
+            } else {
+
+                swal({
+                  title: 'Share Your Form',
+                  html: "Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.",
+                  type: 'info',
+                  showCancelButton: true,
+                  confirmButtonText: 'Enable',
+                  cancelButtonText: 'Cancel',
+                }).then(function () {
+                    self.enableSharing(site_url, post);
+                });
+
+            }            
+        },
+
+        enableSharing: function(site_url, post){
+    
+            this.settings.sharing_on = 'on';
+            this.save_settings();
+            this.shareForm(site_url, post);
+        },
+
+        disableSharing: function(){
+            this.settings.sharing_on = false;
+            this.save_settings();
+        },
+        getSharingHash: function(){
+            
+            if( ! this.settings.sharing_hash ) {
+                this.settings.sharing_hash = this.makeRandomString(8);
+                this.save_settings();
+            }
+
+            return this.settings.sharing_hash;
+        },
+
+        makeRandomString: function(limit) {
+          limit = limit || 8;
+          var text = "";
+          var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+          for (var i = 0; i < limit; i++){
+
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+          }
+
+          return text;
+        },
+
+        initSharingClipBoard: function(val) {
+            var clipboard2 = new window.Clipboard('.anonymous-share-btn');
+
+            $(".anonymous-share-btn").tooltip();
+
+            clipboard2.on('success', function(e) {
+                // Show copied tooltip
+                $(e.trigger)
+                    .attr('data-original-title', 'Copied!')
+                    .tooltip('show');
+
+                // Reset the copied tooltip
+                setTimeout(function() {
+                    $(e.trigger).tooltip('hide')
+                    .attr('data-original-title', 'Copy URL');
+                }, 1000);
+                
+                e.clearSelection();
+            });
+        },
+
     }
 };

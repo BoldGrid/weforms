@@ -499,9 +499,13 @@ a.add-notification .dashicons {
         min-height: 280px;
         width: 220px;
         border: 0px;
-        box-shadow: 0px 5px 10px rgb(146, 146, 146,.5);
+        box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
         position: relative;
         border-radius: 3px;
+
+        img{
+            width: 100%;
+        }
 
         .form-create-overlay{
             position: absolute;
@@ -552,4 +556,11 @@ a.add-notification .dashicons {
             text-align: left;
         }
     }
+}
+
+.ann-form-btn{
+    background: rgb(231, 76, 60) !important;
+}
+.ann-form-btn.sharing_on{
+    background: rgb(39, 174, 96) !important;
 }

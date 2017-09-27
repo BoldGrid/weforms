@@ -23,13 +23,46 @@ class WeForms_Form_Preview {
      */
     private $form_id;
 
+    /**
+     * is_preview
+     * 
+     * @var string
+     */
+    private $is_preview = true;
+
     function __construct() {
 
-        if ( ! isset( $_GET['weforms_preview'] ) ) {
+        if ( ! isset( $_GET['weforms_preview'] ) && empty( $_GET['weforms'] ) ) {
             return;
         }
 
-        $this->form_id = isset( $_GET['form_id'] ) ? intval( $_GET['form_id'] ) : 0;
+        if ( ! empty( $_GET['weforms'] ) ) {
+
+            $hash          = explode("_", base64_decode( $_GET['weforms'] ));
+            $_hash         = $hash[0]; 
+            $this->form_id = intval( end($hash) );
+            $form          = weforms()->form->get( $this->form_id );
+
+            if ( ! $form  ) {
+               return;
+            }
+            
+            $form_settings = $form->get_settings();
+
+            if ( ! isset($form_settings['sharing_on']) || $form_settings['sharing_on'] !== 'on' ) {
+               return;
+            }            
+
+            if ( ! isset($form_settings['sharing_hash']) || $form_settings['sharing_hash'] !== $_hash ) {
+               return;
+            }
+
+            $this->is_preview = false;
+
+        } else {
+
+            $this->form_id = isset( $_GET['form_id'] ) ? intval( $_GET['form_id'] ) : 0;
+        }
 
         add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
         add_filter( 'template_include', array( $this, 'template_include' ) );
@@ -58,7 +91,9 @@ class WeForms_Form_Preview {
             return $title;
         }
 
-        return $form->post_title . ' ' . __( 'Preview', 'weforms' );
+        $preview = $this->is_preview ? 'Preview' : '';
+
+        return $form->post_title . ' ' . $preview;
     }
 
     /**
@@ -70,14 +105,17 @@ class WeForms_Form_Preview {
      */
     public function the_content( $content ) {
 
-        if ( ! is_user_logged_in() ) {
-            return __( 'You must be logged in to preview this form.', 'weforms' );
-        }
+        if ( $this->is_preview ) {
+            
+            if ( ! is_user_logged_in() ) {
+                return __( 'You must be logged in to preview this form.', 'weforms' );
+            }
 
-        $viewing_capability = apply_filters( 'weforms_preview_form_cap', 'edit_posts' ); // at least has to be contributor
+            $viewing_capability = apply_filters( 'weforms_preview_form_cap', 'edit_posts' ); // at least has to be contributor
 
-        if ( ! current_user_can( $viewing_capability ) ) {
-            return __( 'Sorry, you are not eligible to preview this form.', 'weforms' );
+            if ( ! current_user_can( $viewing_capability ) ) {
+                return __( 'Sorry, you are not eligible to preview this form.', 'weforms' );
+            }
         }
 
         return do_shortcode( sprintf( '[weforms id="%d"]', $this->form_id ) );

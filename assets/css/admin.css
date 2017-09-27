@@ -405,9 +405,12 @@ a.add-notification .dashicons {
   min-height: 280px;
   width: 220px;
   border: 0px;
-  box-shadow: 0px 5px 10px #929292;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.1);
   position: relative;
   border-radius: 3px;
+}
+.wefroms-form-templates .wpuf-form-template-modal .content ul li img {
+  width: 100%;
 }
 .wefroms-form-templates .wpuf-form-template-modal .content ul li .form-create-overlay {
   position: absolute;
@@ -450,4 +453,10 @@ a.add-notification .dashicons {
   color: #fff;
   border-radius: 3px 3px 0px 0px;
   text-align: left;
+}
+.ann-form-btn {
+  background: #e74c3c !important;
+}
+.ann-form-btn.sharing_on {
+  background: #27ae60 !important;
 }
