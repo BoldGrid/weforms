@@ -19,14 +19,11 @@ weForms.mixins.BulkAction = {
 
                 if (value) {
                     this.items.forEach(function (item) {
-
-                        var id = item[self.index];
-
-                        if( id === undefined ) {
-                            id = item.id;
+                        if( item[self.index] !== undefined ) {
+                            selected.push(item[self.index]);
+                        } else {
+                            selected.push(item.id);
                         }
-
-                        selected.push(id);
                     });
                 }
 

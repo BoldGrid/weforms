@@ -356,10 +356,10 @@
 
                 <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
-                <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
+                <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
                 <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
-                <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
+                <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
                 <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
@@ -452,10 +452,10 @@
 
                 <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
-                <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
+                <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
                 <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
-                <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
+                <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
                 <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
