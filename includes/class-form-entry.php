@@ -84,7 +84,10 @@ class WeForms_Form_Entry {
     }
 
     /**
+     *
      * Populate the class with data
+     *
+     * @TODO: Abstract this
      *
      * @return void
      */
@@ -187,6 +190,24 @@ class WeForms_Form_Entry {
                         list( $lat, $long ) = explode( ',', $value );
 
                         $value = array( 'lat' => $lat, 'long' => $long );
+
+                    } elseif ( $field['type'] == 'address_field' ) {
+
+                        $field_value = unserialize( $value );
+
+                        $serialized_value = array();
+
+                        if ( is_array( $field_value ) ) {
+
+                            foreach ( $field_value as $key => $single_value ) {
+
+                                $single_value = str_replace( array( "_", "-" ), " ", $key) . ': ' . $single_value;
+                                $single_value = ucwords( $single_value );
+                                $serialized_value[] = $single_value;
+                            }
+
+                            $value =  implode( "<br> ", $serialized_value );
+                        }
                     }
 
                     $this->fields[ $result->meta_key ]['value'] = apply_filters( 'weforms_entry_meta_field', $value, $field );
