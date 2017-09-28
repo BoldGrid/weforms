@@ -28,8 +28,8 @@ Vue.component('form-list-table', {
                 success: function(response) {
                     self.loading = false;
                     self.items = response.forms;
-                    self.totalItems = response.total;
-                    self.totalPage = response.pages;
+                    self.totalItems = response.meta.total;
+                    self.totalPage = response.meta.pages;
                 },
                 error: function(error) {
                     self.loading = false;

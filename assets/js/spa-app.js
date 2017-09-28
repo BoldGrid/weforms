@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.4
-Generated: 2017-09-28 (1506569967778)
+Generated: 2017-09-28 (1506570885834)
 */
 
 ;(function($) {
@@ -525,8 +525,8 @@ Vue.component('form-list-table', {
                 success: function(response) {
                     self.loading = false;
                     self.items = response.forms;
-                    self.totalItems = response.total;
-                    self.totalPage = response.pages;
+                    self.totalItems = response.meta.total;
+                    self.totalPage = response.meta.pages;
                 },
                 error: function(error) {
                     self.loading = false;
