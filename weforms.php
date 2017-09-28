@@ -219,7 +219,6 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
-        require_once WEFORMS_INCLUDES . '/functions-template-contact-form.php';
     }
 
     /**
