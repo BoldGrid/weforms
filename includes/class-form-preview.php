@@ -25,7 +25,7 @@ class WeForms_Form_Preview {
 
     /**
      * is_preview
-     * 
+     *
      * @var string
      */
     private $is_preview = true;
@@ -39,19 +39,19 @@ class WeForms_Form_Preview {
         if ( ! empty( $_GET['weforms'] ) ) {
 
             $hash          = explode("_", base64_decode( $_GET['weforms'] ));
-            $_hash         = $hash[0]; 
+            $_hash         = $hash[0];
             $this->form_id = intval( end($hash) );
             $form          = weforms()->form->get( $this->form_id );
 
             if ( ! $form  ) {
                return;
             }
-            
+
             $form_settings = $form->get_settings();
 
             if ( ! isset($form_settings['sharing_on']) || $form_settings['sharing_on'] !== 'on' ) {
                return;
-            }            
+            }
 
             if ( ! isset($form_settings['sharing_hash']) || $form_settings['sharing_hash'] !== $_hash ) {
                return;
@@ -93,7 +93,7 @@ class WeForms_Form_Preview {
 
         $preview = $this->is_preview ? 'Preview' : '';
 
-        return $form->name . ' ' . $preview;
+        return $form->get_name() . ' ' . $preview;
     }
 
     /**
@@ -106,7 +106,7 @@ class WeForms_Form_Preview {
     public function the_content( $content ) {
 
         if ( $this->is_preview ) {
-            
+
             if ( ! is_user_logged_in() ) {
                 return __( 'You must be logged in to preview this form.', 'weforms' );
             }
