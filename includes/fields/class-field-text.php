@@ -30,7 +30,15 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                 <span class="wpuf-wordlimit-message wpuf-help"></span>
                 <?php $this->help_text( $field_settings ); ?>
             </div>
-
+            <?php 
+            if ( isset( $field_settings['word_restriction'] ) && $field_settings['word_restriction'] ) {
+                $this->check_word_restriction_func( 
+                    $field_settings['word_restriction'], 
+                    'no', 
+                    $field_settings['name'] . '_' . $form_id 
+                );
+            }
+            ?>
         </li>
         <?php
     }

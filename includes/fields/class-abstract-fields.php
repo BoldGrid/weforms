@@ -510,4 +510,28 @@ abstract class WeForms_Field_Contract {
 
         return $entry_value;
     }
+
+    
+
+    /**
+     * Function to check word restriction
+     *
+     * @param $word_nums number of words allowed
+     */
+    function check_word_restriction_func($word_nums, $rich_text, $field_name) {
+        // bail out if it is dashboard
+        if ( is_admin() ) {
+            return;
+        }
+        ?>
+        <script type="text/javascript">
+            ;(function($) {
+                $(document).ready( function(){
+                    WP_User_Frontend.editorLimit.bind(<?php printf( '%d, "%s", "%s"', $word_nums, $field_name, $rich_text ); ?>);
+                });
+            })(jQuery);
+        </script>
+        <?php
+
+    }
 }

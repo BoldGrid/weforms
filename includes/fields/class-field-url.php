@@ -35,6 +35,28 @@ class WeForms_Form_Field_URL extends WeForms_Form_Field_Text {
     }
 
     /**
+     * Get field options setting 
+     *
+     * @return array
+     */
+    public function get_options_settings() {
+        $default_options      = $this->get_default_option_settings();
+        $default_text_options = $this->get_default_text_option_settings( false ); // word_restriction = false
+
+        return array_merge( $default_options, $default_text_options );
+    }
+
+    /**
+     * Get the field props
+     *
+     * @return array
+     */
+    public function get_field_props() {
+        return $this->default_attributes();
+    }
+
+
+    /**
      * Prepare entry
      * 
      * @param $field
