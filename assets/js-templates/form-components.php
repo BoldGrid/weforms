@@ -344,11 +344,10 @@
                 <?php _e( 'Select Category', 'weforms' ); ?> &nbsp;
                 <select v-model="category">
                     <option value="all">All</option>
-                    <?php 
-                        $registry   = weforms_get_form_templates();
+                    <?php
+                        $registry   = weforms()->templates->get_templates();
                         $categories = weforms_get_form_template_categories();
                         $colors     = weforms_get_flat_ui_colors();
-
 
                         foreach ( $categories as $key => $category ) {
                             printf( '<option value="%s">%s</option>', $key, $category['name'] );
@@ -359,25 +358,30 @@
         </h2>
 
         <div slot="body">
-            
+
                 <?php
+
+                // remove the blank form from index as it's handled separately
+                if ( array_key_exists( 'blank', $registry ) ) {
+                    unset( $registry['blank'] );
+                }
 
                 foreach ($categories as $category_id => $category) {
 
                     ?>
                     <div class="clearfix" v-if="category=='<?php echo $category_id; ?>' || category=='all'">
-                
-                    <?php 
-             
+
+                    <?php
+
                     printf( '<h2><i class="%s" style="color: %s"></i> &nbsp;  %s</h2> <ul class="clearfix">',$category['icon'], $colors[array_rand($colors)], $category['name'] );
 
                     if ( $category_id == 'default' ) {
-        
+
                         ?>
 
-                            <li class="blank-form">    
+                            <li class="blank-form">
                                 <h3><?php _e( 'Blank Form', 'weforms' ); ?></h3>
-                                
+
                                 <div class="blank-form-text">
                                     <span class="dashicons dashicons-plus"></span>
                                     <div class="title"><?php _e( 'Blank Form', 'weforms' ); ?></div>
@@ -393,7 +397,7 @@
                                 </div>
                             </li>
 
-                        <?php  
+                        <?php
                     }
 
                     foreach ( $registry as $key => $template ) {
@@ -413,9 +417,9 @@
 
                         ?>
 
-                        <li>    
+                        <li>
                             <h3><?php _e( $title, 'weforms' ); ?></h3>
-                            
+
                             <?php  if ( $image ) { printf( '<img src="%s" alt="%s">', $image, $title );   }  ?>
 
                             <div class="form-create-overlay">
@@ -435,8 +439,8 @@
                     ?>
 
                     </ul></div>
-                    
-                    <?php 
+
+                    <?php
                 }
                 ?>
         </div>

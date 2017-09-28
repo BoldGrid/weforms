@@ -16,7 +16,7 @@ Vue.component('wpuf-template-modal', {
     methods: {
 
         blankForm: function(target) {
-            this.createForm('blank_form', target);
+            this.createForm( 'blank', target );
         },
 
         createForm: function(form, target) {
