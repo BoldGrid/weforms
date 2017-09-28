@@ -92,8 +92,12 @@ class WeForms_Admin_Tools {
 
         $json_file = json_encode( $formatted_data ); // Encode data into json data
 
-        ob_clean();
+        error_reporting(0);
 
+        if ( ob_get_contents() ) {
+            ob_clean();
+        }
+       
         header( "Content-Type: text/json; charset=" . get_option( 'blog_charset' ) );
         header( "Content-Disposition: attachment; filename=$json_name.json" );
 
