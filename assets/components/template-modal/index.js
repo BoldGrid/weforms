@@ -20,8 +20,7 @@ Vue.component('wpuf-template-modal', {
         },
 
         createForm: function(form, target) {
-            var self = this,
-                list = $(target).parents('li');
+            var self = this;
 
             // already on a request?
             if ( self.loading ) {
@@ -30,9 +29,7 @@ Vue.component('wpuf-template-modal', {
 
             self.loading = true;
 
-            if ( list ) {
-                list.addClass('on-progress');
-            }
+            $(target).addClass('updating-message');
 
             wp.ajax.send( 'weforms_contact_form_template', {
                 data: {
@@ -54,9 +51,7 @@ Vue.component('wpuf-template-modal', {
                 complete: function() {
                     self.loading = false;
 
-                    if ( list ) {
-                        list.removeClass('on-progress');
-                    }
+                    $(target).removeClass('updating-message');
                 }
             });
         }
