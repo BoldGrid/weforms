@@ -10,36 +10,7 @@
  * @return false|WP_Post
  */
 function weform_get_form( $form_id ) {
-    $form = get_post( $form_id );
-
-    if ( ! $form ) {
-        return false;
-    }
-
-    if ( $form->post_type != 'wpuf_contact_form' ) {
-        return false;
-    }
-
-    return $form;
-}
-
-/**
- * Get contact form templates
- *
- * @return array
- */
-function weforms_get_form_templates() {
-    require_once WEFORMS_INCLUDES . '/admin/form-templates/contact-form.php';
-    require_once WEFORMS_INCLUDES . '/admin/form-templates/support-form.php';
-    require_once WEFORMS_INCLUDES . '/admin/form-templates/event-registration-form.php';
-
-    $integrations = array(
-        'WPUF_Contact_Form_Template_Contact'            => new WPUF_Contact_Form_Template_Contact(),
-        'WPUF_Contact_Form_Template_Support'            => new WPUF_Contact_Form_Template_Support(),
-        'WPUF_Contact_Form_Template_Event_Registration' => new WPUF_Contact_Form_Template_Event_Registration(),
-    );
-
-    return apply_filters( 'weforms_form_templates', $integrations );
+    return weforms()->form->get( $form_id );
 }
 
 /**

@@ -184,15 +184,16 @@ final class WeForms {
 
         if ( is_admin() ) {
             // compatibility
-            require_once WEFORMS_INCLUDES . '/compat/class-abstract-post-form-template.php';
+            require_once WEFORMS_INCLUDES . '/class-template-manager.php';
 
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
             require_once WEFORMS_INCLUDES . '/admin/class-admin-welcome.php';
             require_once WEFORMS_INCLUDES . '/class-importer-manager.php';
 
-            require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
             require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
+
         } else {
+
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
 
             // add reCaptcha library if not found
@@ -269,7 +270,7 @@ final class WeForms {
         if ( is_admin() ) {
             $this->container['admin']        = new WeForms_Admin();
             // $this->container['welcome']      = new WeForms_Admin_Welcome();
-            $this->container['templates']    = new WeForms_Form_Template();
+            $this->container['templates']    = new WeForms_Template_Manager();
             $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
         } else {

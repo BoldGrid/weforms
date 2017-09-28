@@ -1,6 +1,10 @@
 /*!
 weForms - v1.0.4
+<<<<<<< HEAD
 Generated: 2017-09-28 (1506592504655)
+=======
+Generated: 2017-09-28 (1506591726659)
+>>>>>>> 067b551b1ea3c71ae0e5faa1dc1ed77d1402fab5
 */
 
 ;(function($) {

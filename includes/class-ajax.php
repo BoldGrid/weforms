@@ -15,6 +15,9 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
         add_action( 'wp_ajax_weforms_form_duplicate', array( $this, 'duplicate_form' ) );
 
+        // create from a template
+        add_filter( 'wp_ajax_weforms_contact_form_template', array( $this, 'create_form_from_template' ) );
+
         // form settings
         add_action( 'wp_ajax_weforms_save_settings', array( $this, 'save_settings' ) );
         add_action( 'wp_ajax_weforms_get_settings', array( $this, 'get_settings' ) );
@@ -258,6 +261,27 @@ class WeForms_Ajax {
         $form = weforms()->form->duplicate( $form_id );
 
         wp_send_json_success( $form );
+    }
+
+    /**
+     * Create form from a template
+     *
+     * @return void
+     */
+    public function create_form_from_template() {
+        check_ajax_referer( 'weforms' );
+
+        $template = isset( $_REQUEST['template'] ) ? sanitize_text_field( $_REQUEST['template'] ) : '';
+
+        $form_id = weforms()->templates->create( $template );
+
+        if ( is_wp_error( $form_id ) ) {
+            wp_send_json_error( __( 'Could not create the form', 'weforms' ) );
+        }
+
+        wp_send_json_success( array(
+            'id' => $form_id
+        ) );
     }
 
     /**
