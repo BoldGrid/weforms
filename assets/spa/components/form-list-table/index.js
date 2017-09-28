@@ -6,10 +6,9 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
-            bulkDeleteAction: 'weforms_form_delete_bulk'
+            bulkDeleteAction: 'weforms_form_delete_bulk',
         };
     },
-
     created: function() {
         this.fetchData();
     },

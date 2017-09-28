@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.4
-Generated: 2017-09-28 (1506572412393)
+Generated: 2017-09-28 (1506592504655)
 */
 
 ;(function($) {
@@ -503,10 +503,9 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
-            bulkDeleteAction: 'weforms_form_delete_bulk'
+            bulkDeleteAction: 'weforms_form_delete_bulk',
         };
     },
-
     created: function() {
         this.fetchData();
     },
