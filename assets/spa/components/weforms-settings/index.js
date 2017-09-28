@@ -47,7 +47,7 @@ weForms.routeComponents.Settings = {
 
                 success: function(response) {
 
-                    if (response === undefined){
+                    if ( response === undefined ){
                         return;
                     }
                     

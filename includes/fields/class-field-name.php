@@ -74,6 +74,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                         <?php endif; ?>
                     </div>
                 </div>
+                <?php $this->help_text( $field_settings ); ?>
             </div>
         </li>
         <?php
