@@ -364,6 +364,59 @@ class WeForms_Notification {
         }
 
         return $text;
+    }    
+
+
+    /**
+     * Replace image/file tag with Image URL
+     *
+     * @param  string $text
+     *
+     * @return string
+     */
+    public static function replace_file_tags( $text, $entry_id ) {
+        $pattern = '/{(?:image|file):(\w*)}/';
+
+        preg_match_all( $pattern, $text, $matches );
+
+        // bail out if nothing found to be replaced
+        if ( !$matches ) {
+            return $text;
+        }
+
+        foreach ($matches[1] as $index => $meta_key) {
+
+            $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+
+            $files = array();
+
+            if ( is_array( $meta_value ) ) {
+                
+                foreach ( $meta_value as $key => $attachment_id ) {
+
+                    $file_url = wp_get_attachment_url( $attachment_id );
+
+                    if ( $file_url ) {
+                       $files[] = $file_url;
+                    }
+                }
+
+            } else {
+
+                $file_url = wp_get_attachment_url( $attachment_id );
+
+                if ( $file_url ) {
+                    
+                   $files[] = $file_url;
+                }
+            }
+
+            $files     = implode(" ", $files);
+
+            $text       = str_replace( $matches[0][$index], $files, $text );
+        }
+
+        return $text;
     }
 
     /**
@@ -396,6 +449,7 @@ class WeForms_Notification {
 
         $text         = str_replace( $merge_keys, $merge_values, $text );
         $text         = static::replace_field_tags( $text, $this->args['entry_id'] );
+        $text         = static::replace_file_tags( $text, $this->args['entry_id'] );
 
         return $text;
     }

@@ -11,16 +11,24 @@
                 <template v-if="form_fields.length">
                     <li v-for="field in form_fields">
 
-                        <template v-if="field.input_type === 'name'">
+                        <template v-if="field.template === 'name_field'">
                             <a href="#" v-on:click.prevent="insertField('name-full', field.name);">{{ field.label }}</a>
                             (
                             <a href="#" v-on:click.prevent="insertField('name-first', field.name);"><?php _e( 'first', 'wpuf' ); ?></a> |
                             <a href="#" v-on:click.prevent="insertField('name-middle', field.name);"><?php _e( 'middle', 'wpuf' ); ?></a> |
                             <a href="#" v-on:click.prevent="insertField('name-last', field.name);"><?php _e( 'last', 'wpuf' ); ?></a>
                             )
+                        </template> 
+
+                        <template v-else-if="field.template === 'image_upload'">
+                            <a href="#" v-on:click.prevent="insertField('image', field.name);">{{ field.label }}</a>
                         </template>
 
-                        <a v-else href="#" v-on:click.prevent="insertField('field', field.name);">{{ field.label }}</a>
+                        <template v-else-if="field.template === 'file_upload'">
+                            <a href="#" v-on:click.prevent="insertField('file', field.name);">{{ field.label }}</a>
+                        </template>
+
+                        <a v-else href="#" v-on:click.prevent="insertField('field', field.name);">{{ field.label }} </a>
 
                     </li>
                 </template>
