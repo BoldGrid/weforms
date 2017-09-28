@@ -94,10 +94,10 @@ class WeForms_Admin_Tools {
 
         ob_clean();
 
-        echo $json_file;
-
         header( "Content-Type: text/json; charset=" . get_option( 'blog_charset' ) );
         header( "Content-Disposition: attachment; filename=$json_name.json" );
+
+        echo $json_file;
 
         exit();
     }
