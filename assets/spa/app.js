@@ -181,8 +181,9 @@ var wpuf_form_builder_store = new Vuex.Store({
             var clone = $.extend(true, {}, field),
                 index = parseInt(payload.index) + 1;
 
-            clone.id   = payload.new_id;
-            clone.name = clone.name + '_copy';
+            clone.id     = payload.new_id;
+            clone.name   = clone.name + '_copy';
+            clone.is_new = true;
 
             state.form_fields.splice(index, 0, clone);
         },
