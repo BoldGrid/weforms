@@ -207,17 +207,12 @@ class WeForms_Admin {
             $entry_array[] = $temp;
         }
 
-        $handle = fopen("php://output", 'w');
 
-        // put the column headers
-        fputcsv( $handle, array_values( $columns ) );
+        error_reporting(0);
 
-        // put the entry values
-        foreach ($entry_array as $row) {
-            fputcsv( $handle, $row );
+        if ( ob_get_contents() ) {
+            ob_clean();
         }
-
-        fclose( $handle );
 
         $blogname  = strtolower( str_replace( " ", "-", get_option( 'blogname' ) ) );
         $file_name = $blogname . "-weforms-entries-" . time() . '.csv';
@@ -230,6 +225,19 @@ class WeForms_Admin {
         // disposition / encoding on response body
         header("Content-Disposition: attachment;filename={$file_name}");
         header("Content-Transfer-Encoding: binary");
+
+        $handle = fopen("php://output", 'w');
+
+        // put the column headers
+        fputcsv( $handle, array_values( $columns ) );
+
+        // put the entry values
+        foreach ($entry_array as $row) {
+            fputcsv( $handle, $row );
+        }
+
+        fclose( $handle );
+
         exit;
     }
 
