@@ -1,6 +1,6 @@
 /*!
 weForms - v1.0.4
-Generated: 2017-09-27 (1506530535345)
+Generated: 2017-09-28 (1506567299854)
 */
 
 ;(function($) {
@@ -853,6 +853,18 @@ weForms.routeComponents.Settings = {
                 },
 
                 success: function(response) {
+
+                    if (response === undefined){
+                        return;
+                    }
+                    
+                    // set defaults if undefined
+                    $.each( self.settings, function( key, value ) {
+                        if( response[key] === undefined ) {
+                            response[key] = value;
+                        }
+                    });
+
                     self.settings = response;
                 },
 

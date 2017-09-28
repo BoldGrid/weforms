@@ -46,6 +46,18 @@ weForms.routeComponents.Settings = {
                 },
 
                 success: function(response) {
+
+                    if (response === undefined){
+                        return;
+                    }
+                    
+                    // set defaults if undefined
+                    $.each( self.settings, function( key, value ) {
+                        if( response[key] === undefined ) {
+                            response[key] = value;
+                        }
+                    });
+
                     self.settings = response;
                 },
 
