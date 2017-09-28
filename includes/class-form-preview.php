@@ -93,7 +93,7 @@ class WeForms_Form_Preview {
 
         $preview = $this->is_preview ? 'Preview' : '';
 
-        return $form->post_title . ' ' . $preview;
+        return $form->name . ' ' . $preview;
     }
 
     /**

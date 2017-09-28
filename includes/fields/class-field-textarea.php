@@ -65,11 +65,11 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
                     ?>
                     <textarea class="textareafield <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" name="<?php echo $field_settings['name']; ?>" data-required="<?php echo $field_settings['required'] ?>" data-type="textarea" placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>" rows="<?php echo $field_settings['rows']; ?>" cols="<?php echo $field_settings['cols']; ?>"><?php echo esc_textarea( $value ) ?></textarea>
                     <span class="wpuf-wordlimit-message wpuf-help"></span>
-                    <?php $this->help_text( $field_settings ); ?>
+                   
                 <?php } ?>
 
                 <?php 
-
+                $this->help_text( $field_settings );
                 if ( isset( $field_settings['word_restriction'] ) && $field_settings['word_restriction'] ) {
                     $this->check_word_restriction_func( 
                         $field_settings['word_restriction'], 
