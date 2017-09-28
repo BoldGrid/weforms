@@ -27,7 +27,6 @@ weForms.mixins.BulkAction = {
                         }
 
                         selected.push(id);
-
                     });
                 }
 

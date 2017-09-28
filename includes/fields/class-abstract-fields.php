@@ -511,7 +511,7 @@ abstract class WeForms_Field_Contract {
         return $entry_value;
     }
 
-    
+
 
     /**
      * Function to check word restriction
