@@ -494,6 +494,10 @@ class WeForms_Ajax {
             ) );
         }
 
+        if ( $form->has_field( 'recaptcha' ) ) {
+            $this->validate_reCaptcha();
+        }
+
         $entry_id = weforms_insert_entry( array(
             'form_id' => $form_id
         ), $entry_fields );
@@ -543,6 +547,58 @@ class WeForms_Ajax {
         wp_send_json( $response );
     }
 
+    /**
+     * reCaptcha Validation
+     *
+     * @return void
+     */
+    function validate_reCaptcha() {
+
+        // add reCaptcha library if not found
+        if ( !function_exists( 'recaptcha_get_html' ) ) {
+            require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
+            require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
+        }
+
+
+        $invisible = isset( $_POST["g-recaptcha-response"] ) ? false : true;
+
+        $recaptcha_settings = weforms_get_settings( 'recaptcha' );
+        $secret             = isset( $recaptcha_settings->secret ) ? $recaptcha_settings->secret : '';
+
+        if ( ! $invisible ) {
+
+            $response = null;
+            $reCaptcha = new ReCaptcha($secret);
+
+            $resp = $reCaptcha->verifyResponse(
+                $_SERVER["REMOTE_ADDR"],
+                $_POST["g-recaptcha-response"]
+            );
+
+            if ( !$resp->success ) {
+                wp_send_json( array(
+                    'success'     => false,
+                    'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
+                ) );
+            }
+
+        } else {
+
+            $recap_challenge = isset( $_POST['recaptcha_challenge_field'] ) ? $_POST['recaptcha_challenge_field'] : '';
+            $recap_response  = isset( $_POST['recaptcha_response_field'] ) ? $_POST['recaptcha_response_field'] : '';
+
+            $resp            = recaptcha_check_answer( $secret, $_SERVER["REMOTE_ADDR"], $recap_challenge, $recap_response );
+
+            if ( !$resp->is_valid ) {
+                wp_send_json( array(
+                    'success'     => false,
+                    'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
+                ) );
+            }
+        }
+
+    }
 
     public static function prepare_meta_fields( $meta_vars ) {
         // loop through custom fields

@@ -131,7 +131,7 @@ class WeForms_Frontend_Form {
             <input type="hidden" name="page_id" value="<?php echo get_the_ID(); ?>">
             <input type="hidden" name="action" value="weforms_frontend_submit">
 
-            <input type="submit" name="submit" value="<?php echo $form_settings['submit_text']; ?>" />
+            <input type="submit" class="weforms_submit_btn" name="submit" value="<?php echo $form_settings['submit_text']; ?>" />
         </li>
     <?php
     }

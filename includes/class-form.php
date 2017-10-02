@@ -152,6 +152,20 @@ class WeForms_Form {
     }
 
     /**
+     * Check if any perticular field template is used in a form
+     *
+     * @return array
+     */
+    public function has_field( $field_template ) {
+
+        foreach ( $this->get_fields() as $key => $field) {
+            if ( isset( $field['template'] ) && $field['template'] == $field_template) {
+                return true;
+            }
+        }
+    }
+
+    /**
      * Get formatted field name/values
      *
      * @return array

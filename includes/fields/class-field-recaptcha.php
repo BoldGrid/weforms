@@ -20,35 +20,89 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        ?>
-        <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+
+        $settings     = weforms_get_settings( 'recaptcha' );
+        $is_invisible = false;
+        $public_key   = isset( $settings->key ) ? $settings->key : '';
+
+        if ( isset ( $field_settings['recaptcha_type'] ) ) {
+            $is_invisible = $field_settings['recaptcha_type'] == 'invisible_recaptcha' ? true : false;
+        }
+
+        $invisible_css   = $is_invisible ? ' style="margin: 0; padding: 0" ' : '';
+
+        ?> <li <?php $this->print_list_attributes( $field_settings ); echo $invisible_css; ?>>
 
             <?php
-            $enable_no_captcha = $enable_invisible_recaptcha = $public_key = '';
-            $settings          = weforms_get_settings( 'recaptcha' );
 
-            if ( isset( $settings->key ) ) {
-                $public_key = $settings->key;
+            if ( ! $is_invisible ) {
+               $this->print_label( $field_settings );
             }
 
             if ( ! $public_key ) {
                 _e( 'reCaptcha API key is missing.');
+
             } else {
 
-                if ( isset ( $field_settings['recaptcha_type'] ) ) {
-                    $enable_invisible_recaptcha = $field_settings['recaptcha_type'] == 'invisible_recaptcha' ? true : false;
-                    $enable_no_captcha          = $field_settings['recaptcha_type'] == 'enable_no_captcha' ? true : false;
-                }
+                ?>
 
-                if ( $enable_invisible_recaptcha ) { ?>
-                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                    <div id='recaptcha' class="g-recaptcha" data-sitekey=<?php echo $public_key; ?>" data-callback="onSubmit" data-size="invisible"></div>
+                <div class="wpuf-fields <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>">
+                    <script>
+                        function weformsRecaptchaCallback(token) {
+                            jQuery('[name="g-recaptcha-response"]').val(token);
+                            jQuery('.weforms_submit_btn').attr('disabled',false).show();
+                            jQuery('.weforms_submit_btn_recaptcha').hide();
+                        }
+
+                        jQuery(document).ready( function($) {
+                            $('.weforms_submit_btn').attr('disabled',true);
+                        });
+                    </script>
+
+                    <input type="hidden" name="g-recaptcha-response">
+                <?php
+
+                if ( $is_invisible ) { ?>
+
+                    <script src="https://www.google.com/recaptcha/api.js?onload=weFormsreCaptchaLoaded&render=explicit&hl=en" async defer></script>
+
+                    <script>
+
+                        jQuery(document).ready(function($) {
+                            var btn = $('.weforms_submit_btn');
+                            var gc_btn = btn.clone().removeClass().addClass('weforms_submit_btn_recaptcha').attr('disabled',false);
+                            btn.after(gc_btn);
+                            btn.hide();
+
+                            $(document).on('click','.weforms_submit_btn_recaptcha',function(e){
+                                e.preventDefault();
+                                e.stopPropagation();
+                                grecaptcha.execute();
+                            })
+                        });
+
+                        var weFormsreCaptchaLoaded = function() {
+
+                            grecaptcha.render('recaptcha', {
+                                'size' : 'invisible',
+                                'sitekey' : '<?php echo $public_key; ?>',
+                                'callback' : weformsRecaptchaCallback
+                            });
+
+                            grecaptcha.execute();
+                        };
+                    </script>
+
+                    <div id='recaptcha' class="g-recaptcha" data-sitekey=<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
+
                 <?php } else { ?>
-                    <div class="wpuf-fields <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>">
-                        <?php echo recaptcha_get_html( $public_key, $enable_no_captcha, null, is_ssl() ); ?>
-                    </div>
+
+                    <script src="https://www.google.com/recaptcha/api.js"></script>
+                    <div id='recaptcha' class="g-recaptcha" data-sitekey=<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback"></div>
                 <?php } ?>
+
+                </div>
+
             <?php } ?>
 
         </li>
