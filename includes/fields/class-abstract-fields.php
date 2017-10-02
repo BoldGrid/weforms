@@ -401,11 +401,12 @@ abstract class WeForms_Field_Contract {
      * Prints form input label
      *
      * @param array $attr
+     * @param integer $form_id
      */
-    function print_label( $field ) {
+    function print_label( $field, $form_id = 0 ) {
         ?>
         <div class="wpuf-label">
-            <label for="<?php echo isset( $field['name'] ) ? $field['name'] : 'cls'; ?>"><?php echo $field['label'] . $this->required_mark( $field ); ?></label>
+            <label for="<?php echo isset( $field['name'] ) ? $field['name'] . '_' . $form_id : 'cls'; ?>"><?php echo $field['label'] . $this->required_mark( $field ); ?></label>
         </div>
         <?php
     }

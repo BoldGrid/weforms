@@ -22,7 +22,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
     public function render( $field_settings, $form_id ) {
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+            <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
                 <div class="wpuf-name-field-wrap format-<?php echo $field_settings['format']; ?>">

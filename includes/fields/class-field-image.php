@@ -23,7 +23,7 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
         $unique_id = sprintf( '%s-%d', $field_settings['name'], $form_id );
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+            <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
                 <div id="wpuf-<?php echo $unique_id; ?>-upload-container">
@@ -99,7 +99,7 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
 
     /**
      * Prepare entry
-     * 
+     *
      * @param $field
      *
      * @return @return mixed

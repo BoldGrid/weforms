@@ -23,7 +23,7 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
         $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+            <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields" data-required="<?php echo $field_settings['required'] ?>" data-type="radio">
 
@@ -95,7 +95,7 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
 
     /**
      * Prepare entry
-     * 
+     *
      * @param $field
      *
      * @return mixed

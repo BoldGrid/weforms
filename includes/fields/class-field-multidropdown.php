@@ -25,10 +25,10 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
         $name     = $field_settings['name'] . '[]';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+            <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
-                <select multiple="multiple" class="multiselect <?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>" name="<?php echo $name; ?>" mulitple="multiple" data-required="<?php echo $field_settings['required'] ?>" data-type="multiselect">
+                <select multiple="multiple" class="multiselect <?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" name="<?php echo $name; ?>" mulitple="multiple" data-required="<?php echo $field_settings['required'] ?>" data-type="multiselect">
 
                     <?php if ( !empty( $field_settings['first'] ) ) { ?>
                         <option value=""><?php echo $field_settings['first']; ?></option>
@@ -70,7 +70,7 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
 
     /**
      * Prepare entry
-     * 
+     *
      * @param $field
      *
      * @return mixed

@@ -25,7 +25,7 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
         $textarea_id = $field_settings['name'] ? $field_settings['name'] . '_' . $form_id : 'textarea_';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+            <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <?php if ( in_array( $field_settings['rich'], array( 'yes', 'teeny' ) ) ) { ?>
                 <div class="wpuf-fields wpuf-rich-validation <?php printf( 'wpuf_%s_%s', $field_settings['name'], $form_id ); ?>" data-type="rich" data-required="<?php echo esc_attr( $field_settings['required'] ); ?>" data-id="<?php echo esc_attr( $field_settings['name'] ) . '_' . $form_id; ?>" data-name="<?php echo esc_attr( $field_settings['name'] ); ?>">
@@ -65,16 +65,16 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
                     ?>
                     <textarea class="textareafield <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" name="<?php echo $field_settings['name']; ?>" data-required="<?php echo $field_settings['required'] ?>" data-type="textarea" placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>" rows="<?php echo $field_settings['rows']; ?>" cols="<?php echo $field_settings['cols']; ?>"><?php echo esc_textarea( $value ) ?></textarea>
                     <span class="wpuf-wordlimit-message wpuf-help"></span>
-                   
+
                 <?php } ?>
 
-                <?php 
+                <?php
                 $this->help_text( $field_settings );
                 if ( isset( $field_settings['word_restriction'] ) && $field_settings['word_restriction'] ) {
-                    $this->check_word_restriction_func( 
-                        $field_settings['word_restriction'], 
-                        $field_settings['rich'], 
-                        $field_settings['name'] . '_' . $form_id 
+                    $this->check_word_restriction_func(
+                        $field_settings['word_restriction'],
+                        $field_settings['rich'],
+                        $field_settings['name'] . '_' . $form_id
                     );
                 }
 
@@ -114,7 +114,7 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
 
     /**
      * Prepare entry
-     * 
+     *
      * @param $field
      *
      * @return mixed

@@ -23,7 +23,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
         $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : array();
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+            <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields" data-required="<?php echo $field_settings['required'] ?>" data-type="radio">
 
@@ -34,7 +34,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
 
                         ?>
                         <label <?php echo $field_settings['inline'] == 'yes' ? 'class="wpuf-checkbox-inline"' : 'class="wpuf-checkbox-block"'; ?>>
-                            <input type="checkbox" class="<?php echo 'wpuf_'.$field_settings['name']. '_'. $form_id; ?>" name="<?php echo $field_settings['name']; ?>[]" value="<?php echo esc_attr( $value ); ?>"<?php echo in_array( $value, $selected ) ? ' checked="checked"' : ''; ?> />
+                            <input type="checkbox" class="<?php echo 'wpuf_' . $field_settings['name']. '_'. $form_id; ?>" name="<?php echo $field_settings['name']; ?>[]" value="<?php echo esc_attr( $value ); ?>"<?php echo in_array( $value, $selected ) ? ' checked="checked"' : ''; ?> />
                             <?php echo $option; ?>
                         </label>
                         <?php

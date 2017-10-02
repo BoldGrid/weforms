@@ -23,19 +23,19 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
         $value = $field_settings['default'];
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <?php $this->print_label( $field_settings ); ?>
+            <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
-                <input class="textfield<?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>" id="<?php echo $field_settings['name'].'_'.$form_id; ?>" type="text" data-required="<?php echo $field_settings['required'] ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="<?php echo esc_attr( $field_settings['size'] ) ?>" />
+                <input class="textfield <?php echo 'wpuf_' . $field_settings['name'] . '_' . $form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" type="text" data-required="<?php echo $field_settings['required'] ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="<?php echo esc_attr( $field_settings['size'] ) ?>" />
                 <span class="wpuf-wordlimit-message wpuf-help"></span>
                 <?php $this->help_text( $field_settings ); ?>
             </div>
-            <?php 
+            <?php
             if ( isset( $field_settings['word_restriction'] ) && $field_settings['word_restriction'] ) {
-                $this->check_word_restriction_func( 
-                    $field_settings['word_restriction'], 
-                    'no', 
-                    $field_settings['name'] . '_' . $form_id 
+                $this->check_word_restriction_func(
+                    $field_settings['word_restriction'],
+                    'no',
+                    $field_settings['name'] . '_' . $form_id
                 );
             }
             ?>
@@ -71,7 +71,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
 
     /**
      * Prepare entry
-     * 
+     *
      * @param $field
      *
      * @return mixed
