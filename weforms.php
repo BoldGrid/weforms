@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.0.4
+ * Version: 1.1.0
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.0.4';
+    public $version = '1.1.0';
 
     /**
      * Form field value seperator
@@ -132,7 +132,7 @@ final class WeForms {
      * @return void
      */
     private function define_constants() {
-        define( 'WEFORMS_VERSION', '1.0' );
+        define( 'WEFORMS_VERSION', '1.1.0' );
         define( 'WEFORMS_FILE', __FILE__ );
         define( 'WEFORMS_ROOT', dirname( __FILE__ ) );
         define( 'WEFORMS_INCLUDES', WEFORMS_ROOT . '/includes' );
@@ -197,7 +197,7 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
 
             // add reCaptcha library if not found
-            if ( !function_exists( 'recaptcha_get_html' ) ) {
+            if ( ! function_exists( 'recaptcha_get_html' ) ) {
                 require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
                 require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
             }
