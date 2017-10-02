@@ -441,9 +441,7 @@ a.add-notification .dashicons {
 }
 
 
-/* by Nobin */
-
-@keyframes weZoomIn {
+@keyframes weFormsZoomIn {
     from {
         opacity: 0;
         transform: scale3d(.3, .3, .3);
@@ -454,8 +452,18 @@ a.add-notification .dashicons {
     }
 }
 
+@keyframes weFormsFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .wefroms-form-templates .wpuf-form-template-modal{
-    
+
     .choose-form-categroy{
         float: right;
         font-size: 14px;
@@ -513,11 +521,11 @@ a.add-notification .dashicons {
         }
 
         &:hover {
-            
+
             background: #fff;
 
             .form-create-overlay{
-                animation: weZoomIn .25s;
+                animation: weFormsFadeIn .25s;
                 padding: 10px;
                 text-align: center;
                 display: flex;
@@ -531,7 +539,7 @@ a.add-notification .dashicons {
                 color: #fff;
                 border-radius: 3px;
 
-                .title {   
+                .title {
                     color: #fff;
                 }
                 .description {

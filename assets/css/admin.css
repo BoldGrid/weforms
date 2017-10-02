@@ -361,13 +361,20 @@ a.add-notification .dashicons {
     background: black;
   }
 }
-/* by Nobin */
-@keyframes weZoomIn {
+@keyframes weFormsZoomIn {
   from {
     opacity: 0;
     transform: scale3d(0.3, 0.3, 0.3);
   }
   50% {
+    opacity: 1;
+  }
+}
+@keyframes weFormsFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }
@@ -420,7 +427,7 @@ a.add-notification .dashicons {
   background: #fff;
 }
 .wefroms-form-templates .wpuf-form-template-modal .content ul li:hover .form-create-overlay {
-  animation: weZoomIn .25s;
+  animation: weFormsFadeIn .25s;
   padding: 10px;
   text-align: center;
   display: flex;
