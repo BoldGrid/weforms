@@ -24,10 +24,10 @@
 
                 <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
-                <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
+                <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
                 <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
-                <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
+                <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
                 <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
@@ -56,21 +56,21 @@
             </tr>
             <tr v-for="(form, index) in items">
                 <th scope="row" class="check-column">
-                    <input type="checkbox" name="post[]" v-model="checkedItems" :value="form.ID">
+                    <input type="checkbox" name="post[]" v-model="checkedItems" :value="form.id">
                 </th>
                 <td class="title column-title has-row-actions column-primary page-title">
-                    <strong><router-link :to="{ name: 'edit', params: { id: form.ID }}">{{ form.post_title }}</router-link> <span v-if="form.post_status != 'publish'">({{ form.post_status }})</span></strong>
+                    <strong><router-link :to="{ name: 'edit', params: { id: form.id }}">{{ form.name }}</router-link> <span v-if="form.data.post_status != 'publish'">({{ form.data.post_status }})</span></strong>
 
                     <div class="row-actions">
-                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.ID }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
+                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.id }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'weforms' ); ?></a> | </span>
-                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
-                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
+                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.id, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
+                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
                     </div>
                 </td>
-                <td><code>[weforms id="{{ form.ID }}"]</code></td>
+                <td><code>[weforms id="{{ form.id }}"]</code></td>
                 <td>
-                    <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}">{{ form.entries }}</router-link>
+                    <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}">{{ form.entries }}</router-link>
                     <span v-else>&mdash;</span>
                 </td>
                 <td>{{ form.views }}</td>
@@ -120,10 +120,10 @@
 
                 <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
-                <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
+                <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
                 <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
-                <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
+                <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
                 <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>

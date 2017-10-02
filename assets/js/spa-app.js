@@ -1,6 +1,6 @@
 /*!
-weForms - v1.0.3
-Generated: 2017-08-30 (1504109998873)
+weForms - v1.0.4
+Generated: 2017-10-02 (1506919369473)
 */
 
 ;(function($) {
@@ -97,6 +97,7 @@ weForms.routeComponents.FormEditComponent = {
             loading: false,
             activeTab: 'editor',
             activeSettingsTab: 'form',
+            activePaymentTab: 'paypal',
         };
     },
 
@@ -151,6 +152,10 @@ weForms.routeComponents.FormEditComponent = {
 
         settings: function() {
             return this.$store.state.settings;
+        },
+
+        payment: function() {
+            return this.$store.state.payment;
         }
     },
 
@@ -178,6 +183,8 @@ weForms.routeComponents.FormEditComponent = {
 
             e.clearSelection();
         });
+
+        this.initSharingClipBoard();
     },
 
     methods: {
@@ -196,6 +203,14 @@ weForms.routeComponents.FormEditComponent = {
 
         makeActiveSettingsTab: function(val) {
             this.activeSettingsTab = val;
+        },
+
+        isActivePaymentTab: function(val) {
+            return this.activePaymentTab === val;
+        },
+
+        makeActivePaymentTab: function(val) {
+            this.activePaymentTab = val;
         },
 
         fetchForm: function() {
@@ -260,6 +275,7 @@ weForms.routeComponents.FormEditComponent = {
                     form_fields: JSON.stringify(self.form_fields),
                     notifications: JSON.stringify(self.notifications),
                     settings: JSON.stringify(self.settings),
+                    payment: JSON.stringify(self.payment),
                     integrations: JSON.stringify(self.integrations),
                 },
 
@@ -278,7 +294,119 @@ weForms.routeComponents.FormEditComponent = {
                     self.is_form_saving = false;
                 }
             });
-        }
+        },
+
+
+        save_settings: function () {
+            toastr.options.preventDuplicates = true;
+            this.save_form_builder();
+        },
+
+        shareForm: function( site_url, post ) {
+
+            var self = this;
+
+            if( self.settings.sharing_on === 'on'){
+
+                var post_link = site_url + '?weforms=' + btoa( self.getSharingHash() + '_' + Math.floor(Date.now() / 1000)  + '_' + post.ID);
+
+                swal({
+                    title: 'Share Your Form',
+                    html: '<p>Anyone with this URL will be able to view and submit this form.</p> <p><input type ="text" class="regular-text" value="' + post_link + '"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="' + post_link + '"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p>',
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonColor: '#d54e21',
+                    confirmButtonText: 'Disable Sharing',
+                    cancelButtonText: 'Close',
+                    focusCancel: true,
+
+                }).then(function () {
+                    swal({
+                        title: 'Are you sure?',
+                        html: "<p>Anyone with existing URL won't be able to view and submit the form anymore.</p>",
+                        type: 'info',
+                        confirmButtonColor: '#d54e21',
+                        showCancelButton: true,
+                        confirmButtonText: 'Disable',
+                        cancelButtonText: 'Cancel',
+                    }).then(function () {
+                       self.disableSharing();
+                    });
+                });
+
+            } else {
+
+                swal({
+                  title: 'Share Your Form',
+                  html: "Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.",
+                  type: 'info',
+                  showCancelButton: true,
+                  confirmButtonText: 'Enable',
+                  cancelButtonText: 'Cancel',
+                }).then(function () {
+                    self.enableSharing(site_url, post);
+                });
+
+            }
+        },
+
+        enableSharing: function(site_url, post){
+
+            this.settings.sharing_on = 'on';
+            this.save_settings();
+            this.shareForm(site_url, post);
+        },
+
+        disableSharing: function(){
+            this.settings.sharing_on = false;
+            this.save_settings();
+        },
+        getSharingHash: function(){
+
+            if( ! this.settings.sharing_hash ) {
+                this.settings.sharing_hash = this.makeRandomString(8);
+                this.save_settings();
+            }
+
+            return this.settings.sharing_hash;
+        },
+
+        makeRandomString: function(limit) {
+          limit = limit || 8;
+          var text = "";
+          var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+          for (var i = 0; i < limit; i++){
+
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+          }
+
+          return text;
+        },
+
+        initSharingClipBoard: function(val) {
+            var clipboard2 = new window.Clipboard('.anonymous-share-btn');
+
+            $(".anonymous-share-btn").tooltip();
+
+            clipboard2.on('success', function(e) {
+                // Show copied tooltip
+                $(e.trigger)
+                    .attr('data-original-title', 'Copied!')
+                    .tooltip('show');
+
+                // Reset the copied tooltip
+                setTimeout(function() {
+                    $(e.trigger).tooltip('hide')
+                    .attr('data-original-title', 'Copy URL');
+                }, 1000);
+
+                e.clearSelection();
+            });
+        },
+
     }
 };
 
@@ -303,9 +431,8 @@ weForms.routeComponents.FormEntriesSingle = {
             loading: false,
             entry: {
                 form_fields: {},
-                meta_data: {},
-                info: {}
-            },
+                meta_data: {}
+            }
         };
     },
     created: function() {
@@ -325,6 +452,7 @@ weForms.routeComponents.FormEntriesSingle = {
             wp.ajax.send( 'weforms_form_entry_details', {
                 data: {
                     entry_id: self.$route.params.entryid,
+                    form_id: self.$route.params.id,
                     _wpnonce: weForms.nonce
                 },
                 success: function(response) {
@@ -375,10 +503,9 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
-            bulkDeleteAction: 'weforms_form_delete_bulk'
+            bulkDeleteAction: 'weforms_form_delete_bulk',
         };
     },
-
     created: function() {
         this.fetchData();
     },
@@ -397,8 +524,8 @@ Vue.component('form-list-table', {
                 success: function(response) {
                     self.loading = false;
                     self.items = response.forms;
-                    self.totalItems = response.total;
-                    self.totalPage = response.pages;
+                    self.totalItems = response.meta.total;
+                    self.totalPage = response.meta.pages;
                 },
                 error: function(error) {
                     self.loading = false;
@@ -415,7 +542,7 @@ Vue.component('form-list-table', {
 
                 wp.ajax.send( 'weforms_form_delete', {
                     data: {
-                        form_id: this.items[index].ID,
+                        form_id: this.items[index].id,
                         _wpnonce: weForms.nonce
                     },
                     success: function(response) {
@@ -686,6 +813,7 @@ weForms.routeComponents.Settings = {
             settings: {
                 email_gateway: 'wordpress',
                 credit: false,
+                permission: 'manage_options',
                 gateways: {
                     sendgrid: '',
                     mailgun: '',
@@ -724,6 +852,18 @@ weForms.routeComponents.Settings = {
                 },
 
                 success: function(response) {
+
+                    if ( response === undefined ){
+                        return;
+                    }
+                    
+                    // set defaults if undefined
+                    $.each( self.settings, function( key, value ) {
+                        if( response[key] === undefined ) {
+                            response[key] = value;
+                        }
+                    });
+
                     self.settings = response;
                 },
 
@@ -769,7 +909,7 @@ if (!Array.prototype.hasOwnProperty('swap')) {
 }
 
 Vue.component('datepicker', {
-    template: '<input type="text" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" />',
+    template: '<input type="text" v-bind:value="value" />',
     props: ['value'],
     mounted: function() {
         var self = this;
@@ -784,6 +924,24 @@ Vue.component('datepicker', {
     methods: {
         onClose: function(date) {
             this.$emit('input', date);
+        }
+    },
+});
+
+Vue.component('weforms-colorpicker', {
+    template: '<input type="text" v-bind:value="value" />',
+    props: ['value'],
+    mounted: function() {
+        var self = this;
+
+        $(this.$el).wpColorPicker({
+            change: this.onChange
+        });
+    },
+
+    methods: {
+        onChange: function(event, ui) {
+            this.$emit('input', ui.color.toString());
         }
     },
 });
@@ -927,8 +1085,9 @@ var wpuf_form_builder_store = new Vuex.Store({
             var clone = $.extend(true, {}, field),
                 index = parseInt(payload.index) + 1;
 
-            clone.id   = payload.new_id;
-            clone.name = clone.name + '_copy';
+            clone.id     = payload.new_id;
+            clone.name   = clone.name + '_copy';
+            clone.is_new = true;
 
             state.form_fields.splice(index, 0, clone);
         },
@@ -1034,7 +1193,7 @@ var router = new VueRouter({
 });
 
 var app = new Vue({
-    router,
+    router: router,
     store: wpuf_form_builder_store
 }).$mount('#wpuf-contact-form-app')
 

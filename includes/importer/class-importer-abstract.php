@@ -288,8 +288,6 @@ abstract class WeForms_Importer_Abstract {
                 $settings      = $this->get_form_settings( $form );
                 $notifications = $this->get_form_notifications( $form );
 
-                error_log( print_r( $form_fields, true ) );
-
                 if ( $form_fields ) {
                     $form_id = $this->insert_form( $form_name );
 
@@ -566,7 +564,7 @@ abstract class WeForms_Importer_Abstract {
                     'help'       => '',
                     'css'        => $args['css_class'],
                     'selected'   => '',
-                    'first'      => __( '- select -', 'wpuf' ),
+                    'first'      => __( '- select -', 'weforms' ),
                     'options'    => $args['options'],
                     'wpuf_cond'  => $this->conditionals
                 );
@@ -692,6 +690,7 @@ abstract class WeForms_Importer_Abstract {
                     'template'         => 'custom_html',
                     'label'            => $args['label'],
                     'name'             => $args['name'],
+                    'html'             => $args['default'],
                     'wpuf_cond'        => $this->conditionals
                 );
                 break;

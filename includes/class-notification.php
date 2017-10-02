@@ -103,7 +103,7 @@ class WeForms_Notification {
      * @return array|boolean
      */
     public function get_active_notifications() {
-        $notifications = wpuf_get_form_notifications( $this->args['form_id'] );
+        $notifications = weforms()->form->get( $this->args['form_id'] )->get_notifications();
 
         if ( $notifications ) {
             $notifications = array_filter( $notifications, function($notification) {
@@ -237,7 +237,7 @@ class WeForms_Notification {
                 break;
 
             case 'ip_address':
-                return wpuf_get_client_ip();
+                return weforms_get_client_ip();
                 break;
 
             case 'user_id':
@@ -309,6 +309,11 @@ class WeForms_Notification {
 
         foreach ($matches[1] as $index => $meta_key) {
             $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+            
+            if ( is_array( $meta_value ) ) {
+                $meta_value = implode(WeForms::$field_separator, $meta_value);
+            }
+
             $text       = str_replace( $matches[0][$index], $meta_value, $text );
         }
 
@@ -335,7 +340,7 @@ class WeForms_Notification {
         list( $search, $fields, $meta_key ) = $matches;
 
         $meta_value = weforms_get_entry_meta( $entry_id, $meta_key[0], true );
-        $replace    = explode( WPUF_Render_Form::$separator, $meta_value );
+        $replace    = explode( WeForms::$field_separator, $meta_value );
 
         foreach ($search as $index => $search_key) {
 
@@ -356,6 +361,59 @@ class WeForms_Notification {
                 $text = str_replace( $search_key, implode(' ', $replace ), $text );
             }
 
+        }
+
+        return $text;
+    }    
+
+
+    /**
+     * Replace image/file tag with Image URL
+     *
+     * @param  string $text
+     *
+     * @return string
+     */
+    public static function replace_file_tags( $text, $entry_id ) {
+        $pattern = '/{(?:image|file):(\w*)}/';
+
+        preg_match_all( $pattern, $text, $matches );
+
+        // bail out if nothing found to be replaced
+        if ( !$matches ) {
+            return $text;
+        }
+
+        foreach ($matches[1] as $index => $meta_key) {
+
+            $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+
+            $files = array();
+
+            if ( is_array( $meta_value ) ) {
+                
+                foreach ( $meta_value as $key => $attachment_id ) {
+
+                    $file_url = wp_get_attachment_url( $attachment_id );
+
+                    if ( $file_url ) {
+                       $files[] = $file_url;
+                    }
+                }
+
+            } else {
+
+                $file_url = wp_get_attachment_url( $attachment_id );
+
+                if ( $file_url ) {
+                    
+                   $files[] = $file_url;
+                }
+            }
+
+            $files     = implode(" ", $files);
+
+            $text       = str_replace( $matches[0][$index], $files, $text );
         }
 
         return $text;
@@ -391,6 +449,7 @@ class WeForms_Notification {
 
         $text         = str_replace( $merge_keys, $merge_values, $text );
         $text         = static::replace_field_tags( $text, $this->args['entry_id'] );
+        $text         = static::replace_file_tags( $text, $this->args['entry_id'] );
 
         return $text;
     }
@@ -409,28 +468,27 @@ class WeForms_Notification {
             return $text;
         }
 
-        $data   = array();
-        $fields = weforms_get_form_field_labels( $this->args['form_id'] );
+        $form     = weforms()->form->get( $this->args['form_id'] );
+        $entry    = $form->entries()->get( $this->args['entry_id'] );
+        $fields   = $entry->get_fields();
 
         if ( !$fields ) {
             return $text;
         }
 
-        $entry_data = weforms_get_entry_data( $this->args['entry_id'] );
-
         $table = '<table width="600" cellpadding="0" cellspacing="0">';
             $table .= '<tbody>';
 
-                foreach ($entry_data['fields'] as $key => $value) {
+                foreach ($fields as $key => $value) {
                     $table .= '<tr class="field-label">';
                         $table .= '<th><strong>' . $value['label'] . '</strong></th>';
                     $table .= '</tr>';
                     $table .= '<tr class="field-value">';
                         $table .= '<td>';
 
-                            $field_value = $entry_data['data'][ $key ];
+                            $field_value = $value[ 'value' ];
 
-                            if ( in_array( $value['type'], array( 'multiselect', 'checkbox' ) ) ) {
+                            if ( in_array( $value['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
                                 $field_value = is_array( $field_value ) ? $field_value : array();
 
                                 if ( $field_value ) {

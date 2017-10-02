@@ -22,38 +22,40 @@
                             </select>
                         </td>
                     </tr>
-                    <tr v-if="settings.email_gateway == 'sendgrid'">
-                        <th><?php _e( 'SendGrid API Key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.sendgrid" class="regular-text">
+                    <template v-if="is_pro">
+                        <tr v-if="settings.email_gateway == 'sendgrid'">
+                            <th><?php _e( 'SendGrid API Key', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.sendgrid" class="regular-text">
 
-                            <p class="description"><?php printf( __( 'Fill your SendGrid <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sendgrid.com/settings/api_keys' ); ?></p>
-                        </td>
-                    </tr>
-                    <tr v-if="settings.email_gateway == 'mailgun'">
-                        <th><?php _e( 'Domain Name', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.mailgun_domain" class="regular-text">
+                                <p class="description"><?php printf( __( 'Fill your SendGrid <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sendgrid.com/settings/api_keys' ); ?></p>
+                            </td>
+                        </tr>
+                        <tr v-if="settings.email_gateway == 'mailgun'">
+                            <th><?php _e( 'Domain Name', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.mailgun_domain" class="regular-text">
 
-                            <p class="description"><?php _e( 'Your Mailgun domain name', 'weforms' ); ?></p>
-                        </td>
-                    </tr>
-                    <tr v-if="settings.email_gateway == 'mailgun'">
-                        <th><?php _e( 'API Key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
+                                <p class="description"><?php _e( 'Your Mailgun domain name', 'weforms' ); ?></p>
+                            </td>
+                        </tr>
+                        <tr v-if="settings.email_gateway == 'mailgun'">
+                            <th><?php _e( 'API Key', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
 
-                            <p class="description"><?php printf( __( 'Fill your Mailgun <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.mailgun.com/app/account/security' ); ?></p>
-                        </td>
-                    </tr>
-                    <tr v-if="settings.email_gateway == 'sparkpost'">
-                        <th><?php _e( 'SparkPost API Key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
+                                <p class="description"><?php printf( __( 'Fill your Mailgun <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.mailgun.com/app/account/security' ); ?></p>
+                            </td>
+                        </tr>
+                        <tr v-if="settings.email_gateway == 'sparkpost'">
+                            <th><?php _e( 'SparkPost API Key', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
 
-                            <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
-                        </td>
-                    </tr>
+                                <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
+                            </td>
+                        </tr>
+                    </template>
                     <tr>
                         <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
                         <td>
@@ -61,6 +63,20 @@
                                 <input type="checkbox" v-model="settings.credit">
                                 <?php _e( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ); ?>
                             </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e( 'Form Permission', 'weforms' ); ?></th>
+                        <td>
+                            <select :disabled="!is_pro" v-model="settings.permission">
+                                <option value="manage_options"><?php _e( 'Admins Only', 'weforms' ); ?></option>
+                                <option value="edit_others_posts"><?php _e( 'Admins, Editors', 'weforms' ); ?></option>
+                                <option value="publish_posts"><?php _e( 'Admins, Editors, Authors', 'weforms' ); ?></option>
+                                <option value="edit_posts"><?php _e( 'Admins, Editors, Authors, Contributors', 'weforms' ); ?></option>
+                            </select>
+
+                            <p v-if="!is_pro" class="description"><?php _e( 'Available in PRO version.', 'weforms' ); ?></p>
+                            <p v-else class="description"><?php _e( 'Which user roles can access and create forms, manage form submissions.', 'weforms' ); ?></p>
                         </td>
                     </tr>
                 </table>

@@ -5,7 +5,7 @@
  *
  * @package weForms\Integrations
  */
-class WeForms_Integration_Slack extends WPUF_Abstract_Integration {
+class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
 
     /**
      * Initialize the plugin
@@ -20,7 +20,6 @@ class WeForms_Integration_Slack extends WPUF_Abstract_Integration {
             'url'     => '',
         );
 
-        add_filter( 'weforms_form_builder_integrations', array( $this, 'register_integration_settings' ) );
         add_action( 'weforms_entry_submission', array( $this, 'send_notification' ), 10, 4 );
     }
 
@@ -36,7 +35,7 @@ class WeForms_Integration_Slack extends WPUF_Abstract_Integration {
      */
     public function send_notification( $entry_id, $form_id, $page_id, $form_settings ) {
 
-        $integration = wpuf_is_integration_active( $form_id, $this->id );
+        $integration = weforms_is_integration_active( $form_id, $this->id );
 
         if ( false === $integration ) {
             return;

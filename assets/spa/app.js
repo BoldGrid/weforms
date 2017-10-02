@@ -5,7 +5,7 @@ if (!Array.prototype.hasOwnProperty('swap')) {
 }
 
 Vue.component('datepicker', {
-    template: '<input type="text" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" />',
+    template: '<input type="text" v-bind:value="value" />',
     props: ['value'],
     mounted: function() {
         var self = this;
@@ -20,6 +20,24 @@ Vue.component('datepicker', {
     methods: {
         onClose: function(date) {
             this.$emit('input', date);
+        }
+    },
+});
+
+Vue.component('weforms-colorpicker', {
+    template: '<input type="text" v-bind:value="value" />',
+    props: ['value'],
+    mounted: function() {
+        var self = this;
+
+        $(this.$el).wpColorPicker({
+            change: this.onChange
+        });
+    },
+
+    methods: {
+        onChange: function(event, ui) {
+            this.$emit('input', ui.color.toString());
         }
     },
 });
@@ -163,8 +181,9 @@ var wpuf_form_builder_store = new Vuex.Store({
             var clone = $.extend(true, {}, field),
                 index = parseInt(payload.index) + 1;
 
-            clone.id   = payload.new_id;
-            clone.name = clone.name + '_copy';
+            clone.id     = payload.new_id;
+            clone.name   = clone.name + '_copy';
+            clone.is_new = true;
 
             state.form_fields.splice(index, 0, clone);
         },
@@ -270,7 +289,7 @@ var router = new VueRouter({
 });
 
 var app = new Vue({
-    router,
+    router: router,
     store: wpuf_form_builder_store
 }).$mount('#wpuf-contact-form-app')
 

@@ -23,7 +23,7 @@ class WeForms_Admin {
      * @return void
      */
     public function register_post_type() {
-        $capability = wpuf_admin_role();
+        $capability = weforms_form_access_capability();
 
         register_post_type( 'wpuf_contact_form', array(
             'label'           => __( 'Contact Forms', 'weforms' ),
@@ -72,7 +72,7 @@ class WeForms_Admin {
     public function register_admin_menu() {
         global $submenu;
 
-        $capability = wpuf_admin_role();
+        $capability = weforms_form_access_capability();
 
         $hook = add_menu_page( __( 'weForms - The Best Contact Form', 'weforms' ), 'weForms', $capability, 'weforms', array( $this, 'contact_form_page'), 'data:image/svg+xml;base64,' . base64_encode( '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 300 300" style="enable-background:new 0 0 300 300;" xml:space="preserve"><g fill="#9ea3a8"><path d="M285.1,24.1C273.1,9.4,254.8,0,234.3,0H65.7C46.6,0,29.3,8.2,17.3,21.2C6.6,32.9,0,48.5,0,65.7v60.5v108.1 C0,270.6,29.4,300,65.7,300h140h28.6c15.3,0,29.5-5.3,40.7-14.1c15.2-12,25-30.7,25-51.6V65.7C300,49.9,294.4,35.4,285.1,24.1z M212.7,187L104.6,233c-11.1,4.8-24-0.3-28.7-11.4c-4.8-11.1,0.3-24,11.4-28.7l108.1-46.1c11.1-4.8,24,0.3,28.7,11.4 C228.9,169.3,223.8,182.2,212.7,187z M217.4,107.1L99.9,157.8c-11.1,4.8-24-0.3-28.7-11.4c-4.8-11.1,0.3-24,11.4-28.7L200.1,67 c11.1-4.8,24,0.3,28.7,11.4v0C233.6,89.5,228.5,102.3,217.4,107.1z"/></g></svg>' ), 56 );
 
@@ -81,7 +81,9 @@ class WeForms_Admin {
             $submenu['weforms'][] = array( __( 'Tools', 'weforms' ), $capability, 'admin.php?page=weforms#/tools' );
 
             if ( class_exists( 'WeForms_Pro' ) ) {
-                $submenu['weforms'][] = array( __( 'Modules', 'weforms' ), $capability, 'admin.php?page=weforms#/modules' );
+                if ( current_user_can( 'manage_options' ) ) {
+                    $submenu['weforms'][] = array( __( 'Modules', 'weforms' ), $capability, 'admin.php?page=weforms#/modules' );
+                }
             } else {
                 $submenu['weforms'][] = array( __( 'Premium', 'weforms' ), $capability, 'admin.php?page=weforms#/premium' );
             }
@@ -89,7 +91,11 @@ class WeForms_Admin {
             do_action( 'weforms-admin-menu', $hook, $capability );
 
             $submenu['weforms'][] = array( __( 'Help', 'weforms' ), $capability, 'admin.php?page=weforms#/help' );
-            $submenu['weforms'][] = array( __( 'Settings', 'weforms' ), $capability, 'admin.php?page=weforms#/settings' );
+        }
+
+        // only admins should see the settings page
+        if ( current_user_can( 'manage_options' ) ) {
+            $submenu['weforms'][] = array( __( 'Settings', 'weforms' ), 'manage_options', 'admin.php?page=weforms#/settings' );
         }
 
         add_action( 'load-'. $hook, array( $this, 'load_assets' ) );
@@ -130,17 +136,17 @@ class WeForms_Admin {
         $export_type = isset( $_POST['export_type'] ) ? $_POST['export_type'] : 'all';
         $selected    = isset( $_POST['selected_forms'] ) ? array_map( 'absint', $_POST['selected_forms'] ) : array();
 
-        if ( ! class_exists( 'WPUF_Admin_Tools' ) ) {
-            require_once WPUF_ROOT . '/admin/class-tools.php';
+        if ( ! class_exists( 'WeForms_Admin_Tools' ) ) {
+            require_once dirname( __FILE__ ) . '/class-admin-tools.php';
         }
 
         switch ($export_type) {
             case 'all':
-                WPUF_Admin_Tools::export_to_json( 'wpuf_contact_form' );
+                WeForms_Admin_Tools::export_to_json();
                 return;
 
             case 'selected':
-                WPUF_Admin_Tools::export_to_json( 'wpuf_contact_form', $selected );
+                WeForms_Admin_Tools::export_to_json( $selected );
                 return;
         }
 
@@ -193,13 +199,32 @@ class WeForms_Admin {
 
                     default:
                         $value              = weforms_get_entry_meta( $entry->id, $column_id, true );
-                        $temp[ $column_id ] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
+                        $temp[ $column_id ] = str_replace( WeForms::$field_separator, ' ', $value );
                         break;
                 }
             }
 
             $entry_array[] = $temp;
         }
+
+
+        error_reporting(0);
+
+        if ( ob_get_contents() ) {
+            ob_clean();
+        }
+
+        $blogname  = strtolower( str_replace( " ", "-", get_option( 'blogname' ) ) );
+        $file_name = $blogname . "-weforms-entries-" . time() . '.csv';
+
+        // force download
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+
+        // disposition / encoding on response body
+        header("Content-Disposition: attachment;filename={$file_name}");
+        header("Content-Transfer-Encoding: binary");
 
         $handle = fopen("php://output", 'w');
 
@@ -213,17 +238,6 @@ class WeForms_Admin {
 
         fclose( $handle );
 
-        $blogname  = strtolower( str_replace( " ", "-", get_option( 'blogname' ) ) );
-        $file_name = $blogname . "-bcf-entries-" . time() . '.csv';
-
-        // force download
-        header("Content-Type: application/force-download");
-        header("Content-Type: application/octet-stream");
-        header("Content-Type: application/download");
-
-        // disposition / encoding on response body
-        header("Content-Disposition: attachment;filename={$file_name}");
-        header("Content-Transfer-Encoding: binary");
         exit;
     }
 

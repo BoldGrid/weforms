@@ -8,7 +8,7 @@
         // return;
     }
 
-    window.wpuf_forms_mixin_root = {
+    window.weforms_mixin_builder_root = {
         data: function () {
             return {
                 validation_error_msg: wpuf_form_builder.i18n.email_needed,
@@ -24,7 +24,7 @@
         }
     };
 
-    window.wpuf_forms_mixin_builder_stage = {
+    window.weforms_mixin_builder_stage = {
 
         computed: {
             settings: function() {

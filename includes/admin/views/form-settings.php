@@ -45,14 +45,21 @@
     <tr class="wpuf-url" v-show="settings.redirect_to == 'url'">
         <th><?php _e( 'Custom URL', 'weforms' ); ?></th>
         <td>
-            <input type="url" v-model="settings.url">
+            <input type="url" v-model="settings.url" class="regular-text">
         </td>
     </tr>
 
     <tr class="wpuf-submit-text">
         <th><?php _e( 'Submit Button text', 'weforms' ); ?></th>
         <td>
-            <input type="text" v-model="settings.submit_text">
+            <input type="text" v-model="settings.submit_text" class="regular-text">
         </td>
     </tr>
+
+    <?php
+    /**
+     * @since 1.1.0
+     */
+    do_action( 'weforms_form_settings_form' );
+    ?>
 </table>

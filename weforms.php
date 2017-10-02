@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.0.4
+ * Version: 1.1.0
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,25 +53,27 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.0.4';
+    public $version = '1.1.0';
 
     /**
-     * Emailer instance
+     * Form field value seperator
      *
-     * @var WeForms_Emailer
+     * @var string
      */
-    public $emailer = null;
+    static $field_separator = '| ';
+
+    /**
+     * Holds various class instances
+     *
+     * @var array
+     */
+    private $container = array();
 
     /**
      * Constructor for the WeForms class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
-     *
-     * @uses register_activation_hook()
-     * @uses register_deactivation_hook()
-     * @uses is_admin()
-     * @uses add_action()
      */
     public function __construct() {
         $this->define_constants();
@@ -79,8 +81,49 @@ final class WeForms {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-        add_action( 'init', array( $this, 'maybe_requires_core' ) );
-        add_action( 'wpuf_loaded', array( $this, 'init_plugin' ) );
+        add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
+    }
+
+    /**
+     * Magic getter to bypass referencing plugin.
+     *
+     * @param $prop
+     *
+     * @return mixed
+     */
+    public function __get( $prop ) {
+        if ( array_key_exists( $prop, $this->container ) ) {
+            return $this->container[ $prop ];
+        }
+
+        return $this->{$prop};
+    }
+
+    /**
+     * Magic isset to bypass referencing plugin.
+     *
+     * @param $prop
+     *
+     * @return mixed
+     */
+    public function __isset( $prop ) {
+        return isset( $this->{$prop} ) || isset( $this->container[ $prop ] );
+    }
+
+    /**
+     * Initializes the WeForms() class
+     *
+     * Checks for an existing WeForms() instance
+     * and if it doesn't find one, creates it.
+     */
+    public static function init() {
+        static $instance = false;
+
+        if ( ! $instance ) {
+            $instance = new WeForms();
+        }
+
+        return $instance;
     }
 
     /**
@@ -89,7 +132,7 @@ final class WeForms {
      * @return void
      */
     private function define_constants() {
-        define( 'WEFORMS_VERSION', '1.0' );
+        define( 'WEFORMS_VERSION', '1.1.0' );
         define( 'WEFORMS_FILE', __FILE__ );
         define( 'WEFORMS_ROOT', dirname( __FILE__ ) );
         define( 'WEFORMS_INCLUDES', WEFORMS_ROOT . '/includes' );
@@ -110,76 +153,15 @@ final class WeForms {
     }
 
     /**
-     * Initializes the WeForms() class
-     *
-     * Checks for an existing WeForms() instance
-     * and if it doesn't find one, creates it.
-     */
-    public static function init() {
-        static $instance = false;
-
-        if ( ! $instance ) {
-            $instance = new WeForms();
-        }
-
-        return $instance;
-    }
-
-    /**
      * Placeholder for activation function
      *
      * Nothing being called here yet.
      */
     public function activate() {
-        global $wpdb;
+        require_once WEFORMS_INCLUDES . '/class-installer.php';
 
-        $collate = '';
-
-        if ( $wpdb->has_cap( 'collation' ) ) {
-            if ( ! empty($wpdb->charset ) ) {
-                $collate .= "DEFAULT CHARACTER SET $wpdb->charset";
-            }
-
-            if ( ! empty($wpdb->collate ) ) {
-                $collate .= " COLLATE $wpdb->collate";
-            }
-        }
-
-        $table_schema = array(
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}weforms_entries` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `form_id` bigint(20) unsigned DEFAULT NULL,
-                `user_id` bigint(20) unsigned DEFAULT NULL,
-                `user_ip` int(11) unsigned DEFAULT NULL,
-                `user_device` varchar(50) DEFAULT NULL,
-                `referer` varchar(255) DEFAULT NULL,
-                `status` varchar(10) DEFAULT 'publish',
-                `created_at` datetime DEFAULT NULL,
-                PRIMARY KEY (`id`),
-                KEY `form_id` (`form_id`)
-            ) $collate;",
-
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}weforms_entrymeta` (
-                `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `weforms_entry_id` bigint(20) unsigned DEFAULT NULL,
-                `meta_key` varchar(255) DEFAULT NULL,
-                `meta_value` longtext,
-                PRIMARY KEY (`meta_id`),
-                KEY `meta_key` (`meta_key`),
-                KEY `entry_id` (`weforms_entry_id`)
-            ) $collate;",
-        );
-
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        foreach ( $table_schema as $table ) {
-            dbDelta( $table );
-        }
-
-        $this->maybe_set_default_settings();
-        $this->create_default_form();
-
-        update_option( 'weforms_installed', time() );
-        update_option( 'weforms_version', WEFORMS_VERSION );
+        $installer = new WeForms_Installer();
+        $installer->install();
     }
 
     /**
@@ -198,29 +180,45 @@ final class WeForms {
      */
     public function includes() {
 
+        require_once WEFORMS_INCLUDES . '/compat/class-abstract-wpuf-integration.php';
+
         if ( is_admin() ) {
+            // compatibility
+            require_once WEFORMS_INCLUDES . '/class-template-manager.php';
+
             require_once WEFORMS_INCLUDES . '/admin/class-admin.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-admin-welcome.php';
+            require_once WEFORMS_INCLUDES . '/class-importer-manager.php';
 
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-abstract.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-cf7.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-gf.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-wpforms.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-ninja-forms.php';
-            require_once WEFORMS_INCLUDES . '/importer/class-importer-caldera-forms.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
 
-            require_once WEFORMS_INCLUDES . '/admin/class-form-template.php';
-            require_once WEFORMS_INCLUDES . '/admin/class-pro-integrations.php';
         } else {
-            require_once WPUF_ROOT . '/class/render-form.php';
+
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
+
+            // add reCaptcha library if not found
+            if ( ! function_exists( 'recaptcha_get_html' ) ) {
+                require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
+                require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
+            }
         }
 
+        require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
+        require_once WEFORMS_INCLUDES . '/class-field-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-form-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-form-entry-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-form-entry.php';
+        require_once WEFORMS_INCLUDES . '/class-form.php';
+
+        require_once WEFORMS_INCLUDES . '/integrations/class-abstract-integration.php';
+        require_once WEFORMS_INCLUDES . '/class-integration-manager.php';
+
         require_once WEFORMS_INCLUDES . '/class-ajax.php';
+        require_once WEFORMS_INCLUDES . '/class-ajax-upload.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
-        require_once WEFORMS_INCLUDES . '/functions-template-contact-form.php';
     }
 
     /**
@@ -237,8 +235,6 @@ final class WeForms {
         add_action( 'init', array( $this, 'init_classes' ) );
         add_action( 'init', array( $this, 'wpdb_table_shortcuts' ), 0 );
 
-        add_filter( 'wpuf_integrations', array( $this, 'register_default_integrations' ) );
-
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
     }
 
@@ -252,93 +248,6 @@ final class WeForms {
 
         $wpdb->weforms_entries   = $wpdb->prefix . 'weforms_entries';
         $wpdb->weforms_entrymeta = $wpdb->prefix . 'weforms_entrymeta';
-    }
-
-    /**
-     * Check if the core WP User Frontend is installed
-     *
-     * @return boolean
-     */
-    public function is_core_installed() {
-        return class_exists( 'WP_User_Frontend' );
-    }
-
-    /**
-     * If the core isn't installed
-     *
-     * @return void
-     */
-    public function maybe_requires_core() {
-        if ( $this->is_core_installed() ) {
-            return;
-        }
-
-        // show the notice
-        add_action( 'admin_notices', array( $this, 'core_activation_notice' ) );
-
-        // install the core
-        add_action( 'wp_ajax_wpuf_cf_install_wpuf', array( $this, 'install_wp_user_frontend' ) );
-    }
-
-    /**
-     * The prompt to install the core plugin
-     *
-     * @return void
-     */
-    public function core_activation_notice() {
-        ?>
-        <div class="updated" id="wpuf-contact-form-installer-notice" style="padding: 1em; position: relative;">
-            <h2><?php _e( 'weForms is almost ready!', 'weforms' ); ?></h2>
-
-            <?php
-                $plugin_file      = basename( dirname( __FILE__ ) ) . '/weforms.php';
-                $core_plugin_file = 'wp-user-frontend/wpuf.php';
-            ?>
-            <a href="<?php echo wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'deactivate-plugin_' . $plugin_file ); ?>" class="notice-dismiss" style="text-decoration: none;" title="<?php _e( 'Dismiss this notice', 'weforms' ); ?>"></a>
-
-            <?php if ( file_exists( WP_PLUGIN_DIR . '/' . $core_plugin_file ) && is_plugin_inactive( 'wpuf-user-frontend' ) ): ?>
-                <p><?php _e( 'You just need to activate the Core Plugin to make it functional.', 'weforms' ); ?></p>
-                <p>
-                    <a class="button button-primary" href="<?php echo wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $core_plugin_file . '&amp;plugin_status=all&amp;paged=1&amp;s=', 'activate-plugin_' . $core_plugin_file ); ?>"  title="<?php _e( 'Activate this plugin', 'weforms' ); ?>"><?php _e( 'Activate', 'weforms' ); ?></a>
-                </p>
-            <?php else: ?>
-                <p><?php echo sprintf( __( "You just need to install the %sCore Plugin%s to make it functional.", "wpuf-contact-form" ), '<a target="_blank" href="https://wordpress.org/plugins/wp-user-frontend/">', '</a>' ); ?></p>
-
-                <p>
-                    <button id="wpuf-contact-form-installer" class="button"><?php _e( 'Install Now', 'weforms' ); ?></button>
-                </p>
-            <?php endif; ?>
-        </div>
-
-        <script type="text/javascript">
-            (function ($) {
-                var wrapper = $('#wpuf-contact-form-installer-notice');
-
-                wrapper.on('click', '#wpuf-contact-form-installer', function (e) {
-                    var self = $(this);
-
-                    e.preventDefault();
-                    self.addClass('install-now updating-message');
-                    self.text('<?php echo esc_js( 'Installing...', 'weforms' ); ?>');
-
-                    var data = {
-                        action: 'wpuf_cf_install_wpuf',
-                        _wpnonce: '<?php echo wp_create_nonce('wpuf-installer-nonce'); ?>'
-                    };
-
-                    $.post(ajaxurl, data, function (response) {
-                        if (response.success) {
-                            self.attr('disabled', 'disabled');
-                            self.removeClass('install-now updating-message');
-                            self.text('<?php echo esc_js( 'Installed', 'weforms' ); ?>');
-
-                            window.location.href = '<?php echo admin_url( 'admin.php?page=weforms' ); ?>';
-                        }
-                    });
-                });
-            })(jQuery);
-        </script>
-        <?php
     }
 
     /**
@@ -358,62 +267,29 @@ final class WeForms {
     public function init_classes() {
 
         if ( is_admin() ) {
-            new WeForms_Admin();
-            new WeForms_Form_Template();
-            new WeForms_Pro_Integrations();
-            new WeForms_Importer_CF7();
-            new WeForms_Importer_GF();
-            // new WeForms_Importer_WPForms();
-            new WeForms_Importer_WPForms();
-            new WeForms_Importer_Ninja_Forms();
-            new WeForms_Importer_Caldera_Forms();
+            $this->container['admin']        = new WeForms_Admin();
+            // $this->container['welcome']      = new WeForms_Admin_Welcome();
+            $this->container['templates']    = new WeForms_Template_Manager();
+            $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
+            $this->container['importer']     = new WeForms_Importer_Manager();
         } else {
-            new WeForms_Frontend();
+            $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
-        $this->emailer = new WeForms_Emailer();
-        new WeForms_Form_Preview();
+        $this->container['emailer']      = new WeForms_Emailer();
+        $this->container['form']         = new WeForms_Form_Manager();
+        $this->container['fields']       = new WeForms_Field_Manager();
+        $this->container['integrations'] = new WeForms_Integration_Manager();
+        $this->container['preview']      = new WeForms_Form_Preview();
+        $this->container['scripts']      = new WeForms_Scripts_Styles();
+
+        // instantiate the integrations
+        $this->integrations->get_integrations();
 
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            new WeForms_Ajax();
+            $this->container['ajax']        = new WeForms_Ajax();
+            $this->container['ajax_upload'] = new WeForms_Ajax_Upload();
         }
-    }
-
-    /**
-     * Install the WP User Frontend plugin via ajax
-     *
-     * @return void
-     */
-    public function install_wp_user_frontend() {
-
-        if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'wpuf-installer-nonce' ) ) {
-            wp_send_json_error( __( 'Error: Nonce verification failed', 'weforms' ) );
-        }
-
-        include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-        include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-
-        $plugin = 'wp-user-frontend';
-        $api    = plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) );
-
-        $upgrader = new Plugin_Upgrader( new WP_Ajax_Upgrader_Skin() );
-        $result   = $upgrader->install( $api->download_link );
-
-        if ( is_wp_error( $result ) ) {
-            wp_send_json_error( $result );
-        }
-
-        $result = activate_plugin( 'wp-user-frontend/wpuf.php' );
-
-        if ( is_wp_error( $result ) ) {
-            wp_send_json_error( $result );
-        }
-
-        // hide wpuf page creation notice and tracking
-        update_option( '_wpuf_page_created', '1' );
-        update_option( 'wp-user-frontend_tracking_notice', 'hide' );
-
-        wp_send_json_success();
     }
 
     /**
@@ -425,101 +301,10 @@ final class WeForms {
      */
     function plugin_action_links( $links ) {
 
+        $links[] = '<a href="https://wedevs.com/docs/weforms/?utm_source=weforms-action-link&utm_medium=textlink&utm_campaign=plugin-docs-link" target="_blank">' . __( 'Docs', 'weforms' ) . '</a>';
         $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
         return $links;
-    }
-
-    /**
-     * Register default integrations
-     *
-     * @param  array $integrations
-     *
-     * @return array
-     */
-    public function register_default_integrations( $integrations ) {
-        require_once WEFORMS_INCLUDES . '/integrations/slack/class-integration-slack.php';
-
-        $integrations = array_merge( $integrations, array( 'WeForms_Integration_Slack' ) );
-
-        return $integrations;
-    }
-
-    /**
-     * Set the required default settings key if not present
-     *
-     * This is required for setting up the component settings data
-     *
-     * @return void
-     */
-    public function maybe_set_default_settings() {
-        $requires_update = false;
-        $settings        = get_option( 'weforms_settings', array() );
-        $additional_keys = array(
-            'email_gateway' => 'wordpress',
-            'credit'        => false,
-            'recaptcha'     => array( 'key' => '', 'secret' => '' )
-        );
-
-        foreach ($additional_keys as $key => $value) {
-            if ( ! isset( $settings[ $key ] ) ) {
-                $settings[ $key ] = $value;
-
-                $requires_update = true;
-            }
-        }
-
-        if ( $requires_update ) {
-            update_option( 'weforms_settings', $settings );
-        }
-    }
-
-    /**
-     * Create a default form
-     *
-     * @return void
-     */
-    public function create_default_form() {
-        $version = get_option( 'weforms_version' );
-
-        // seems like it's already installed
-        if ( $version ) {
-            return;
-        }
-
-        if ( ! function_exists( 'weforms_get_contactform_template_fields' ) ) {
-            require_once dirname( __FILE__ ) . '/includes/functions-template-contact-form.php';
-        }
-
-        $form_post_data = array(
-            'post_title'  => __( 'Contact Form', 'weforms' ),
-            'post_type'   => 'wpuf_contact_form',
-            'post_status' => 'publish',
-            'post_author' => get_current_user_id()
-        );
-
-        $form_id = wp_insert_post( $form_post_data );
-
-        if ( is_wp_error( $form_id ) ) {
-            return;
-        }
-
-        update_post_meta( $form_id, 'wpuf_form_settings', weforms_get_contactform_template_settings() );
-        update_post_meta( $form_id, 'notifications', weforms_get_contactform_template_notification() );
-
-        $form_fields = weforms_get_contactform_template_fields();
-
-        if ( $form_fields ) {
-            foreach ($form_fields as $menu_order => $field) {
-                wp_insert_post( array(
-                    'post_type'    => 'wpuf_input',
-                    'post_status'  => 'publish',
-                    'post_content' => maybe_serialize( $field ),
-                    'post_parent'  => $form_id,
-                    'menu_order'   => $menu_order
-                ) );
-            }
-        }
     }
 
 } // WeForms

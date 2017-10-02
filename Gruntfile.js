@@ -152,7 +152,8 @@ module.exports = function (grunt) {
 
         // Clean up build directory
         clean: {
-            main: ['build/']
+            build: ['build/'],
+            wpuf: ['assets/wpuf']
         },
 
         // Copy the plugin into the build directory
@@ -195,10 +196,37 @@ module.exports = function (grunt) {
                     '!assets/src/**',
                 ],
                 dest: 'build/'
+            },
+
+            wpuf: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: false,
+                        src: [
+                            'js/wpuf-form-builder-components.js',
+                            'js/wpuf-form-builder-mixins.js',
+                            'js/jquery-ui-timepicker-addon.js',
+                            'js/frontend-form.js',
+                            'js/frontend-form.min.js',
+                            'js/upload.js',
+                            'js/upload.min.js',
+                            'css/wpuf-form-builder.css',
+                            'css/frontend-forms.css',
+                            'css/jquery-ui-1.9.1.custom.css',
+                            'css/images/**',
+                            'images/wpspin_light.gif',
+                            'js-templates/form-components.php',
+                            'vendor/**',
+                        ],
+                        cwd: '../wp-user-frontend/assets',
+                        dest: 'assets/wpuf/'
+                    }
+                ]
             }
         },
 
-        //Compress build directory into <name>.zip and <name>-<version>.zip
+        // Compress build directory into <name>.zip and <name>-<version>.zip
         compress: {
             main: {
                 options: {
@@ -226,8 +254,10 @@ module.exports = function (grunt) {
 
     // grunt tasks
     grunt.registerTask('default', ['watch']);
+    grunt.registerTask('wpuf', ['clean:wpuf', 'copy:wpuf']);
 
-    grunt.registerTask('release', ['makepot']);
+    grunt.registerTask('release', [ 'wpuf', 'makepot']);
 
-    grunt.registerTask('zip', ['clean', 'copy', 'compress']);
+
+    grunt.registerTask('zip', ['clean:build', 'wpuf', 'copy', 'compress']);
 };

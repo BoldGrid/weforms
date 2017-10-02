@@ -15,6 +15,9 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
         add_action( 'wp_ajax_weforms_form_duplicate', array( $this, 'duplicate_form' ) );
 
+        // create from a template
+        add_filter( 'wp_ajax_weforms_contact_form_template', array( $this, 'create_form_from_template' ) );
+
         // form settings
         add_action( 'wp_ajax_weforms_save_settings', array( $this, 'save_settings' ) );
         add_action( 'wp_ajax_weforms_get_settings', array( $this, 'get_settings' ) );
@@ -24,6 +27,7 @@ class WeForms_Ajax {
 
         // form editing
         add_action( 'wp_ajax_weforms_get_form', array( $this, 'get_form' ) );
+        add_action( 'wp_ajax_wpuf_form_builder_save_form', array( $this, 'save_form' ) );
 
         // entries
         add_action( 'wp_ajax_weforms_form_entries', array( $this, 'get_entries' ) );
@@ -32,8 +36,8 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
 
         // frontend requests
-        add_action( 'wp_ajax_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
-        add_action( 'wp_ajax_nopriv_wpuf_submit_contact', array( $this, 'handle_frontend_submission' ) );
+        add_action( 'wp_ajax_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
+        add_action( 'wp_ajax_nopriv_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
     }
 
     /**
@@ -42,7 +46,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function check_admin() {
-        if ( !current_user_can( 'administrator' ) ) {
+        if ( !current_user_can( weforms_form_access_capability() ) ) {
             wp_send_json_error( __( 'You do not have sufficient permission.', 'weforms' ) );
         }
     }
@@ -58,15 +62,69 @@ class WeForms_Ajax {
 
         $form_id = isset( $_REQUEST['form_id'] ) ? absint( $_REQUEST['form_id'] ) : 0;
 
+        $form = weforms()->form->get( $form_id );
+
         $data = array(
-            'post'          => get_post( $form_id ),
-            'form_fields'   => wpuf_get_form_fields( $form_id ),
-            'settings'      => wpuf_get_form_settings( $form_id ),
-            'notifications' => wpuf_get_form_notifications( $form_id ),
-            'integrations'  => wpuf_get_form_integrations( $form_id )
+            'post'          => $form->data,
+            'form_fields'   => $form->get_fields(),
+            'settings'      => $form->get_settings(),
+            'notifications' => $form->get_notifications(),
+            'integrations'  => $form->get_integrations()
         );
 
         wp_send_json_success( $data );
+    }
+
+    /**
+     * Save the form
+     *
+     * @return void
+     */
+    public function save_form() {
+        parse_str( $_POST['form_data'], $form_data );
+
+        if ( ! wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'wpuf' ) );
+        }
+
+        if ( empty( $form_data['wpuf_form_id'] ) ) {
+            wp_send_json_error( __( 'Invalid form id', 'wpuf' ) );
+        }
+
+        $form_fields   = isset( $_POST['form_fields'] ) ? $_POST['form_fields'] : '';
+        $notifications = isset( $_POST['notifications'] ) ? $_POST['notifications'] : '';
+        $settings      = array();
+        $integrations  = array();
+
+        if ( isset( $_POST['settings'] ) ) {
+            $settings = (array) json_decode( wp_unslash( $_POST['settings'] ) );
+        } else {
+            $settings = isset( $form_data['wpuf_settings'] ) ? $form_data['wpuf_settings'] : array();
+        }
+
+        if ( isset( $_POST['integrations'] ) ) {
+            $integrations = (array) json_decode( wp_unslash( $_POST['integrations'] ) );
+        }
+
+        $form_fields   = wp_unslash( $form_fields );
+        $notifications = wp_unslash( $notifications );
+
+        $form_fields   = json_decode( $form_fields, true );
+        $notifications = json_decode( $notifications, true );
+
+        $data = array(
+            'form_id'           => absint( $form_data['wpuf_form_id'] ),
+            'post_title'        => sanitize_text_field( $form_data['post_title'] ),
+            'form_fields'       => $form_fields,
+            'form_settings'     => $settings,
+            'form_settings_key' => isset( $form_data['form_settings_key'] ) ? $form_data['form_settings_key'] : '',
+            'notifications'     => $notifications,
+            'integrations'      => $integrations
+        );
+
+        $form_fields = weforms()->form->save( $data );
+
+        wp_send_json_success( array( 'form_fields' => $form_fields ) );
     }
 
     /**
@@ -80,30 +138,22 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $args = array(
-            'post_type'      => 'wpuf_contact_form',
             'posts_per_page' => 10,
             'paged'          => isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1,
             'order'          => 'DESC',
             'orderby'        => 'post_date'
         );
 
-        $forms         = new WP_Query( $args );
-        $contact_forms = $forms->get_posts();
+        $contact_forms = weforms()->form->get_forms( $args );
 
         array_map( function($form) {
-            $form->entries = weforms_count_form_entries( $form->ID );
-            $form->views   = weforms_get_form_views( $form->ID );
-        }, $contact_forms);
+            $form->entries = $form->num_form_entries();
+            $form->views   = $form->num_form_views();
+        }, $contact_forms['forms'] );
 
-        // var_dump( $forms->get_posts() );
-        // var_dump( $forms );
-        $response = array(
-            'forms' => $contact_forms,
-            'total' => (int) $forms->found_posts,
-            'pages' => (int) $forms->max_num_pages
-        );
+        $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $contact_forms );
 
-        wp_send_json_success( $response );
+        wp_send_json_success( $contact_forms );
     }
 
     /**
@@ -116,22 +166,13 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $args = array(
-            'post_type'      => 'wpuf_contact_form',
-            'posts_per_page' => -1,
-            'post_status'    => 'publish',
-            'order'          => 'ASC',
-            'orderby'        => 'post_title'
-        );
-
+        $contact_forms = weforms()->form->all();
         $response      = array();
-        $forms         = new WP_Query( $args );
-        $contact_forms = $forms->get_posts();
 
-        foreach ($contact_forms as $form) {
+        foreach ($contact_forms['forms'] as $form) {
             $response[] = array(
-                'id'    => $form->ID,
-                'title' => $form->post_title . ' (#' . $form->ID . ')'
+                'id'    => $form->get_id(),
+                'title' => $form->get_name() . ' (#' . $form->get_id() . ')'
             );
         }
 
@@ -154,18 +195,14 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'Please provide a form name', 'weforms' ) );
         }
 
-        $post_id = wp_insert_post( array(
-            'post_title'  => $form_name,
-            'post_type'   => 'wpuf_contact_form',
-            'post_status' => 'publish'
-        ) );
+        $form_id = weforms()->form->create( $form_name );
 
-        if ( is_wp_error( $post_id )) {
-            wp_send_json_error( $post_id->get_error_message() );
+        if ( is_wp_error( $form_id )) {
+            wp_send_json_error( $form_id->get_error_message() );
         }
 
         wp_send_json_success( array(
-            'form_id'   => $post_id,
+            'form_id'   => $form_id,
             'form_name' => $form_name
         ) );
     }
@@ -186,7 +223,8 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No form id provided!', 'weforms' ) );
         }
 
-        wpuf_delete_form( $form_id, true );
+        weforms()->form->delete( $form_id );
+
         wp_send_json_success();
     }
 
@@ -202,7 +240,7 @@ class WeForms_Ajax {
         }
 
         foreach ($form_ids as $form_id) {
-            wpuf_delete_form( $form_id, true );
+            weforms()->form->delete( $form_id );
         }
 
         wp_send_json_success();
@@ -220,13 +258,30 @@ class WeForms_Ajax {
 
         $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
 
-        $duplicate_id = wpuf_duplicate_form( $form_id );
-        $form = get_post( $duplicate_id );
-
-        $form->entires = 0;
-        $form->views   = 0;
+        $form = weforms()->form->duplicate( $form_id );
 
         wp_send_json_success( $form );
+    }
+
+    /**
+     * Create form from a template
+     *
+     * @return void
+     */
+    public function create_form_from_template() {
+        check_ajax_referer( 'weforms' );
+
+        $template = isset( $_REQUEST['template'] ) ? sanitize_text_field( $_REQUEST['template'] ) : '';
+
+        $form_id = weforms()->templates->create( $template );
+
+        if ( is_wp_error( $form_id ) ) {
+            wp_send_json_error( __( 'Could not create the form', 'weforms' ) );
+        }
+
+        wp_send_json_success( array(
+            'id' => $form_id
+        ) );
     }
 
     /**
@@ -279,11 +334,15 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $settings = get_option( 'weforms_settings', array() );
+        $settings = weforms_get_settings();
 
         // checking to prevent js error, will be removed in future
         if ( ! isset( $settings['credit'] ) ) {
             $settings['credit'] = false;
+        }
+
+        if ( ! isset( $settings['permission'] ) ) {
+            $settings['permission'] = 'manage_options';
         }
 
         wp_send_json_success( $settings );
@@ -322,9 +381,11 @@ class WeForms_Ajax {
 
             foreach ($columns as $meta_key => $label) {
                 $value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
-                $entry->fields[$meta_key] = str_replace( WPUF_Render_Form::$separator, ' ', $value );
+                $entry->fields[$meta_key] = str_replace( WeForms::$field_separator, ' ', $value );
             }
         }, $entries );
+
+        $entries = apply_filters('weforms_get_entries', $entries, $form_id );
 
         $response = array(
             'columns'    => $columns,
@@ -351,32 +412,21 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
+        $form_id  = isset( $_REQUEST['form_id'] ) ? intval( $_REQUEST['form_id'] ) : 0;
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
-        $entry    = weforms_get_entry( $entry_id );
 
-        if ( !$entry ) {
-            wp_send_json_error( __( 'No such entry found!', 'weforms' ) );
-        }
-
-        $info   = array(
-            'form_title' => get_post_field( 'post_title', $entry->form_id ),
-            'created'    => date_i18n( 'F j, Y g:i a', strtotime( $entry->created_at ) ),
-            'ip'         => $entry->ip_address,
-            'user'       => $entry->user_id ? get_user_by( 'id', $entry->user_id )->display_name : false,
-            'referer'    => $entry->referer,
-            'device'     => $entry->user_device
-        );
-
-        $data = weforms_get_entry_data( $entry_id );
+        $form     = weforms()->form->get( $form_id );
+        $entry    = $form->entries()->get( $entry_id );
+        $fields   = $entry->get_fields();
+        $metadata = $entry->get_metadata();
 
         if ( false === $data ) {
             wp_send_json_error( __( 'No form fields found!', 'weforms' ) );
         }
 
         $response = array(
-            'form_fields' => $data['fields'],
-            'meta_data'   => $data['data'],
-            'info'        => $info
+            'form_fields' => $fields,
+            'meta_data'   => $metadata
         );
 
         wp_send_json_success( $response );
@@ -432,20 +482,21 @@ class WeForms_Ajax {
         $form_id       = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
         $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
 
-        $form_vars     = WPUF_Render_Form::get_input_fields( $form_id );
-        $form_settings = wpuf_get_form_settings( $form_id );
+        $form          = weforms()->form->get( $form_id );
+        $form_fields   = $form->get_fields();
+        $entry_fields  = $form->prepare_entries();
+        $form_settings = $form->get_settings();
 
-        list( $post_vars, $taxonomy_vars, $meta_vars ) = $form_vars;
-
-        if ( !$meta_vars ) {
+        if ( !$form_fields ) {
             wp_send_json( array(
                 'success'     => false,
                 'error'       => __( 'No form field was found.', 'weforms' ),
             ) );
         }
 
-        // process the form fields
-        $entry_fields = $this->prepare_entry_fields( $meta_vars );
+        if ( $form->has_field( 'recaptcha' ) ) {
+            $this->validate_reCaptcha();
+        }
 
         $entry_id = weforms_insert_entry( array(
             'form_id' => $form_id
@@ -480,7 +531,8 @@ class WeForms_Ajax {
             'success'      => true,
             'redirect_to'  => $redirect_to,
             'show_message' => $show_message,
-            'message'      => $form_settings['message']
+            'message'      => $form_settings['message'],
+            'data'         => $_POST
         );
 
         $notification = new WeForms_Notification( array(
@@ -491,36 +543,61 @@ class WeForms_Ajax {
 
         $notification->send_notifications();
 
-        wpuf_clear_buffer();
+        weforms_clear_buffer();
         wp_send_json( $response );
     }
 
     /**
-     * Prepare meta fields by it's types
+     * reCaptcha Validation
      *
-     * @param  array $form_fields
-     *
-     * @return array
+     * @return void
      */
-    public function prepare_entry_fields( $form_fields ) {
-        $entry_fields = array();
+    function validate_reCaptcha() {
 
-        list( $meta_key_value, $multi_repeated, $files ) = WPUF_Render_Form::prepare_meta_fields( $form_fields );
+        // add reCaptcha library if not found
+        if ( !function_exists( 'recaptcha_get_html' ) ) {
+            require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
+            require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
+        }
 
-        // var_dump( $meta_key_value, $multi_repeated, $files );
-        if ( $meta_key_value ) {
-            foreach ($meta_key_value as $key => $value) {
-                $entry_fields[ $key ] = $value;
+
+        $invisible = isset( $_POST["g-recaptcha-response"] ) ? false : true;
+
+        $recaptcha_settings = weforms_get_settings( 'recaptcha' );
+        $secret             = isset( $recaptcha_settings->secret ) ? $recaptcha_settings->secret : '';
+
+        if ( ! $invisible ) {
+
+            $response = null;
+            $reCaptcha = new ReCaptcha($secret);
+
+            $resp = $reCaptcha->verifyResponse(
+                $_SERVER["REMOTE_ADDR"],
+                $_POST["g-recaptcha-response"]
+            );
+
+            if ( !$resp->success ) {
+                wp_send_json( array(
+                    'success'     => false,
+                    'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
+                ) );
+            }
+
+        } else {
+
+            $recap_challenge = isset( $_POST['recaptcha_challenge_field'] ) ? $_POST['recaptcha_challenge_field'] : '';
+            $recap_response  = isset( $_POST['recaptcha_response_field'] ) ? $_POST['recaptcha_response_field'] : '';
+
+            $resp            = recaptcha_check_answer( $secret, $_SERVER["REMOTE_ADDR"], $recap_challenge, $recap_response );
+
+            if ( !$resp->is_valid ) {
+                wp_send_json( array(
+                    'success'     => false,
+                    'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
+                ) );
             }
         }
 
-        if ( $files ) {
-            foreach ( $files as $file_input ) {
-                $entry_fields[ $file_input['name'] ] = $file_input['value'];
-            }
-        }
-
-        return $entry_fields;
     }
 
     public static function prepare_meta_fields( $meta_vars ) {
@@ -535,7 +612,7 @@ class WeForms_Ajax {
 
         foreach ($meta_vars as $key => $value) {
 
-            switch ( $value['input_type'] ) {
+            switch ( $value['template'] ) {
 
                 // put files in a separate array, we'll process it later
                 case 'file_upload':
@@ -548,7 +625,7 @@ class WeForms_Ajax {
                     );
                     break;
 
-                case 'repeat':
+                case 'repeat_field':
 
                     // if it is a multi column repeat field
                     if ( isset( $value['multiple'] ) && $value['multiple'] == 'true' ) {
@@ -571,8 +648,8 @@ class WeForms_Ajax {
                                     $temp[] = $_POST[$value['name']][$j][$i];
                                 }
 
-                                // store all fields in a row with WPUF_Render_Form::$separator separated
-                                $ref_arr[] = implode( WPUF_Render_Form::$separator, $temp );
+                                // store all fields in a row with WeForms::$field_separator separated
+                                $ref_arr[] = implode( WeForms::$field_separator, $temp );
                             }
 
                             // now, if we found anything in $ref_arr, store to $multi_repeated
@@ -581,12 +658,12 @@ class WeForms_Ajax {
                             }
                         }
                     } else {
-                        $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $_POST[$value['name']] );
+                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $_POST[$value['name']] );
                     }
 
                     break;
 
-                case 'address':
+                case 'address_field':
 
                     if ( isset( $_POST[ $value['name'] ] ) && is_array( $_POST[ $value['name'] ] ) ) {
                         foreach ( $_POST[ $value['name'] ] as $address_field => $field_value ) {
@@ -596,30 +673,30 @@ class WeForms_Ajax {
 
                     break;
 
-                case 'text':
-                case 'email':
-                case 'number':
-                case 'date':
+                case 'text_field':
+                case 'email_address':
+                case 'numeric_text_field':
+                case 'date_field':
 
                     $meta_key_value[$value['name']] = sanitize_text_field( trim( $_POST[$value['name']] ) );
 
                     break;
 
-                case 'textarea':
+                case 'textarea_field':
 
                     $meta_key_value[$value['name']] = wp_kses_post( $_POST[$value['name']] );
 
                     break;
 
-                case 'select':
-                case 'radio':
+                case 'dropdown_field':
+                case 'radio_field':
 
                     $val                            = $_POST[$value['name']];
                     $meta_key_value[$value['name']] = isset( $value['options'][$val] ) ? $value['options'][$val] : '';
                     break;
 
-                case 'multiselect':
-                case 'checkbox':
+                case 'multiple_select':
+                case 'checkbox_field':
 
                     $val                            = ( is_array( $_POST[$value['name']] ) && $_POST[$value['name']] ) ? $_POST[$value['name']] : array();
                     $meta_key_value[$value['name']] = $val;
@@ -631,7 +708,7 @@ class WeForms_Ajax {
                             $new_val[] = isset( $value['options'][$option_key] ) ? $value['options'][$option_key] : '';
                         }
 
-                        $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $new_val );
+                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $new_val );
                     }
                     break;
 
@@ -639,11 +716,8 @@ class WeForms_Ajax {
                     // if it's an array, implode with this->separator
                     if ( is_array( $_POST[$value['name']] ) ) {
 
-                        if ( $value['input_type'] == 'address' ) {
-                            $meta_key_value[$value['name']] = $_POST[$value['name']];
-                        } else {
-                            $meta_key_value[$value['name']] = implode( WPUF_Render_Form::$separator, $_POST[$value['name']] );
-                        }
+                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $_POST[$value['name']] );
+
                     } else {
                         $meta_key_value[$value['name']] = trim( $_POST[$value['name']] );
                     }
@@ -674,13 +748,13 @@ class WeForms_Ajax {
 
         $file_ext  = pathinfo( $the_file['name'], PATHINFO_EXTENSION );
 
-        if ( ! class_exists( 'WPUF_Admin_Tools' ) ) {
-            require_once WPUF_ROOT . '/admin/class-tools.php';
+        if ( ! class_exists( 'WeForms_Admin_Tools' ) ) {
+            require_once dirname( __FILE__ ) . '/admin/class-admin-tools.php';
         }
 
         if ( ( $file_ext == 'json' ) && ( $the_file['size'] < 500000 ) ) {
 
-            $status = WPUF_Admin_Tools::import_json_file( $the_file['tmp_name'] );
+            $status = WeForms_Admin_Tools::import_json_file( $the_file['tmp_name'] );
 
             if ( $status ) {
                 wp_send_json_success( __( 'The forms have been imported successfully!', 'weforms' ) );

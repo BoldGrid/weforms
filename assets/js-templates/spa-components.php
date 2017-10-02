@@ -74,7 +74,7 @@
                 <th class="col-entry-id">
                     <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
                 </th>
-                <td v-for="(header, index) in columns">{{ entry.fields[index] }}</td>
+                <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
                 <th class="col-entry-details">
                     <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}"><?php _e( 'Details', 'weforms' ); ?></router-link>
                 </th>
@@ -156,6 +156,12 @@
                         </span>
 
                         <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
+
+                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>"> 
+                            <i class="fa fa-share-alt" aria-hidden="true"></i> 
+                            <?php _e('Share', 'Share' ); ?>
+                        </span>
+
                     </header>
 
                     <ul v-if="is_form_switcher" class="form-switcher-content">
@@ -247,7 +253,7 @@
 
         <div class="wpuf-contact-form-entry-left">
             <div class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span>{{ entry.info.form_title }} : Entry # {{ $route.params.entryid }}</span></h2>
+                <h2 class="hndle ui-sortable-handle"><span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span></h2>
 
                 <div class="main">
                     <table v-if="hasFormFields" class="wp-list-table widefat fixed striped posts">
@@ -259,12 +265,12 @@
                                 <tr class="field-value">
                                     <td>
                                         <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
-                                        <div v-else-if="field.type === 'checkbox' || field.type === 'multiselect'">
+                                        <div v-else-if="field.type === 'checkbox_field' || field.type === 'multiple_select'">
                                             <ul style="margin: 0;">
-                                                <li v-for="item in entry.meta_data[index]">- {{ item }}</li>
+                                                <li v-for="item in field.value">- {{ item }}</li>
                                             </ul>
                                         </div>
-                                        <div v-else v-html="entry.meta_data[index]"></div>
+                                        <div v-else v-html="field.value"></div>
                                     </td>
                                 </tr>
                             </template>
@@ -291,22 +297,22 @@
                             <li>
                                 <span class="label"><?php _e( 'User IP', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value">{{ entry.info.ip }}</span>
+                                <span class="value">{{ entry.meta_data.ip_address }}</span>
                             </li>
                             <li>
                                 <span class="label"><?php _e( 'Page', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value"><a :href="entry.info.referer">{{ entry.info.referer }}</a></span>
+                                <span class="value"><a :href="entry.meta_data.referer">{{ entry.meta_data.referer }}</a></span>
                             </li>
-                            <li v-if="entry.info.user">
+                            <li v-if="entry.meta_data.user">
                                 <span class="label"><?php _e( 'From', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value">{{ entry.info.user }}</span>
+                                <span class="value">{{ entry.meta_data.user }}</span>
                             </li>
                             <li>
                                 <span class="label"><?php _e( 'Submitted On', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
-                                <span class="value">{{ entry.info.created }}</span>
+                                <span class="value">{{ entry.meta_data.created }}</span>
                             </li>
                         </ul>
                     </div>
@@ -350,10 +356,10 @@
 
                 <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
-                <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
+                <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
                 <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
-                <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
+                <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
                 <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
@@ -382,21 +388,21 @@
             </tr>
             <tr v-for="(form, index) in items">
                 <th scope="row" class="check-column">
-                    <input type="checkbox" name="post[]" v-model="checkedItems" :value="form.ID">
+                    <input type="checkbox" name="post[]" v-model="checkedItems" :value="form.id">
                 </th>
                 <td class="title column-title has-row-actions column-primary page-title">
-                    <strong><router-link :to="{ name: 'edit', params: { id: form.ID }}">{{ form.post_title }}</router-link> <span v-if="form.post_status != 'publish'">({{ form.post_status }})</span></strong>
+                    <strong><router-link :to="{ name: 'edit', params: { id: form.id }}">{{ form.name }}</router-link> <span v-if="form.data.post_status != 'publish'">({{ form.data.post_status }})</span></strong>
 
                     <div class="row-actions">
-                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.ID }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
+                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.id }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'weforms' ); ?></a> | </span>
-                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.ID, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
-                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
+                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.id, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
+                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
                     </div>
                 </td>
-                <td><code>[weforms id="{{ form.ID }}"]</code></td>
+                <td><code>[weforms id="{{ form.id }}"]</code></td>
                 <td>
-                    <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.ID }}">{{ form.entries }}</router-link>
+                    <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}">{{ form.entries }}</router-link>
                     <span v-else>&mdash;</span>
                 </td>
                 <td>{{ form.views }}</td>
@@ -446,10 +452,10 @@
 
                 <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
-                <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
+                <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
                 <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
-                <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
+                <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
                 <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
@@ -626,7 +632,7 @@
 
         <p><?php _e( 'We have detailed documentation on every aspects of weForms.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://docs.wedevs.com/docs/weforms/"><?php _e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://wedevs.com/docs/weforms/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=plugin-docs-link"><?php _e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -636,7 +642,7 @@
 
         <p><?php _e( 'Our EXPERT Support Team is always ready to Help you out.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/account/tickets/"><?php _e( 'Contact Support', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://wedevs.com/account/tickets/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php _e( 'Contact Support', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -656,7 +662,7 @@
 
         <p><?php _e( 'We would Love to hear your Integration and Customization Ideas.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/contact/"><?php _e( 'Contact Our Services', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://wedevs.com/contact/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=requires-customization"><?php _e( 'Contact Our Services', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -804,38 +810,40 @@
                             </select>
                         </td>
                     </tr>
-                    <tr v-if="settings.email_gateway == 'sendgrid'">
-                        <th><?php _e( 'SendGrid API Key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.sendgrid" class="regular-text">
+                    <template v-if="is_pro">
+                        <tr v-if="settings.email_gateway == 'sendgrid'">
+                            <th><?php _e( 'SendGrid API Key', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.sendgrid" class="regular-text">
 
-                            <p class="description"><?php printf( __( 'Fill your SendGrid <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sendgrid.com/settings/api_keys' ); ?></p>
-                        </td>
-                    </tr>
-                    <tr v-if="settings.email_gateway == 'mailgun'">
-                        <th><?php _e( 'Domain Name', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.mailgun_domain" class="regular-text">
+                                <p class="description"><?php printf( __( 'Fill your SendGrid <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sendgrid.com/settings/api_keys' ); ?></p>
+                            </td>
+                        </tr>
+                        <tr v-if="settings.email_gateway == 'mailgun'">
+                            <th><?php _e( 'Domain Name', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.mailgun_domain" class="regular-text">
 
-                            <p class="description"><?php _e( 'Your Mailgun domain name', 'weforms' ); ?></p>
-                        </td>
-                    </tr>
-                    <tr v-if="settings.email_gateway == 'mailgun'">
-                        <th><?php _e( 'API Key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
+                                <p class="description"><?php _e( 'Your Mailgun domain name', 'weforms' ); ?></p>
+                            </td>
+                        </tr>
+                        <tr v-if="settings.email_gateway == 'mailgun'">
+                            <th><?php _e( 'API Key', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
 
-                            <p class="description"><?php printf( __( 'Fill your Mailgun <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.mailgun.com/app/account/security' ); ?></p>
-                        </td>
-                    </tr>
-                    <tr v-if="settings.email_gateway == 'sparkpost'">
-                        <th><?php _e( 'SparkPost API Key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
+                                <p class="description"><?php printf( __( 'Fill your Mailgun <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.mailgun.com/app/account/security' ); ?></p>
+                            </td>
+                        </tr>
+                        <tr v-if="settings.email_gateway == 'sparkpost'">
+                            <th><?php _e( 'SparkPost API Key', 'weforms' ); ?></th>
+                            <td>
+                                <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
 
-                            <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
-                        </td>
-                    </tr>
+                                <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
+                            </td>
+                        </tr>
+                    </template>
                     <tr>
                         <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
                         <td>
@@ -843,6 +851,20 @@
                                 <input type="checkbox" v-model="settings.credit">
                                 <?php _e( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ); ?>
                             </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e( 'Form Permission', 'weforms' ); ?></th>
+                        <td>
+                            <select :disabled="!is_pro" v-model="settings.permission">
+                                <option value="manage_options"><?php _e( 'Admins Only', 'weforms' ); ?></option>
+                                <option value="edit_others_posts"><?php _e( 'Admins, Editors', 'weforms' ); ?></option>
+                                <option value="publish_posts"><?php _e( 'Admins, Editors, Authors', 'weforms' ); ?></option>
+                                <option value="edit_posts"><?php _e( 'Admins, Editors, Authors, Contributors', 'weforms' ); ?></option>
+                            </select>
+
+                            <p v-if="!is_pro" class="description"><?php _e( 'Available in PRO version.', 'weforms' ); ?></p>
+                            <p v-else class="description"><?php _e( 'Which user roles can access and create forms, manage form submissions.', 'weforms' ); ?></p>
                         </td>
                     </tr>
                 </table>

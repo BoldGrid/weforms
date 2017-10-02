@@ -428,3 +428,147 @@ a.add-notification .dashicons {
     0%   { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+@keyframes color-me-in {
+  /* You could think of as "step 1" */
+  0% {
+    background: orange;
+  }
+  /* You could think of as "step 2" */
+  100% {
+    background: black;
+  }
+}
+
+
+@keyframes weFormsZoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes weFormsFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.wefroms-form-templates .wpuf-form-template-modal{
+
+    .choose-form-categroy{
+        float: right;
+        font-size: 14px;
+        margin-right: 70px;
+        font-weight: normal;
+    }
+
+    .content{
+
+        h2{
+            font-size: 15px;
+            color: #5d6d74;
+            width: 100%;
+        }
+
+        max-width: 985px;
+
+        ul li:nth-child(3n+1) {
+            margin-left: 3.0612244897959% !important;
+            clear: none !important;
+        }
+
+        ul li:nth-child(4n+1) {
+            margin-left: 0 !important;;
+            clear: both !important;;
+        }
+
+        .blank-form .blank-form-text{
+            margin-top: 70px;
+            font-size: 15px;
+
+            .title{
+                color: rgb(146, 146, 146);
+            }
+        }
+    }
+
+
+    .content ul li {
+        text-align: center;
+        min-height: 280px;
+        width: 220px;
+        border: 0px;
+        box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
+        position: relative;
+        border-radius: 3px;
+
+        img{
+            width: 100%;
+        }
+
+        .form-create-overlay{
+            position: absolute;
+            display: none;
+        }
+
+        &:hover {
+
+            background: #fff;
+
+            .form-create-overlay{
+                animation: weFormsFadeIn .25s;
+                padding: 10px;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.7);
+                height: 100%;
+                width: 100%;
+                top: 0px;
+                left: 0px;
+                color: #fff;
+                border-radius: 3px;
+
+                .title {
+                    color: #fff;
+                }
+                .description {
+                    color: #fff;
+                }
+
+                button{
+                    height: 30px;
+                }
+            }
+        }
+
+        h3 {
+            margin-top: 0px;
+            border: 0px;
+            background: #1E87B6;
+            padding: 13px;
+            font-weight: normal;
+            font-size: 13px;
+            color: #fff;
+            border-radius: 3px 3px 0px 0px;
+            text-align: left;
+        }
+    }
+}
+
+.ann-form-btn{
+    background: rgb(231, 76, 60) !important;
+}
+.ann-form-btn.sharing_on{
+    background: rgb(39, 174, 96) !important;
+}

@@ -37,6 +37,12 @@
                         </span>
 
                         <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
+
+                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>"> 
+                            <i class="fa fa-share-alt" aria-hidden="true"></i> 
+                            <?php _e('Share', 'Share' ); ?>
+                        </span>
+
                     </header>
 
                     <ul v-if="is_form_switcher" class="form-switcher-content">

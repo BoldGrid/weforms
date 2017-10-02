@@ -6,10 +6,9 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
-            bulkDeleteAction: 'weforms_form_delete_bulk'
+            bulkDeleteAction: 'weforms_form_delete_bulk',
         };
     },
-
     created: function() {
         this.fetchData();
     },
@@ -28,8 +27,8 @@ Vue.component('form-list-table', {
                 success: function(response) {
                     self.loading = false;
                     self.items = response.forms;
-                    self.totalItems = response.total;
-                    self.totalPage = response.pages;
+                    self.totalItems = response.meta.total;
+                    self.totalPage = response.meta.pages;
                 },
                 error: function(error) {
                     self.loading = false;
@@ -46,7 +45,7 @@ Vue.component('form-list-table', {
 
                 wp.ajax.send( 'weforms_form_delete', {
                     data: {
-                        form_id: this.items[index].ID,
+                        form_id: this.items[index].id,
                         _wpnonce: weForms.nonce
                     },
                     success: function(response) {
