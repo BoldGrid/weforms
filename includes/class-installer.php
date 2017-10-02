@@ -135,38 +135,6 @@ class WeForms_Installer {
             return;
         }
 
-        if ( ! function_exists( 'weforms_get_contactform_template_fields' ) ) {
-            require_once dirname( __FILE__ ) . '/functions-template-contact-form.php';
-        }
-
-        $form_post_data = array(
-            'post_title'  => __( 'Contact Form', 'weforms' ),
-            'post_type'   => 'wpuf_contact_form',
-            'post_status' => 'publish',
-            'post_author' => get_current_user_id()
-        );
-
-        $form_id = wp_insert_post( $form_post_data );
-
-        if ( is_wp_error( $form_id ) ) {
-            return;
-        }
-
-        update_post_meta( $form_id, 'wpuf_form_settings', weforms_get_contactform_template_settings() );
-        update_post_meta( $form_id, 'notifications', weforms_get_contactform_template_notification() );
-
-        $form_fields = weforms_get_contactform_template_fields();
-
-        if ( $form_fields ) {
-            foreach ($form_fields as $menu_order => $field) {
-                wp_insert_post( array(
-                    'post_type'    => 'wpuf_input',
-                    'post_status'  => 'publish',
-                    'post_content' => maybe_serialize( $field ),
-                    'post_parent'  => $form_id,
-                    'menu_order'   => $menu_order
-                ) );
-            }
-        }
+        weforms()->templates->create( 'contact' );
     }
 }

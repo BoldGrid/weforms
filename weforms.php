@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.1.0
+ * Version: 1.1.1
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.1.0';
+    public $version = '1.1.1';
 
     /**
      * Form field value seperator
@@ -154,11 +154,26 @@ final class WeForms {
 
     /**
      * Placeholder for activation function
-     *
-     * Nothing being called here yet.
      */
     public function activate() {
+
+        // prepare the environment
         require_once WEFORMS_INCLUDES . '/class-installer.php';
+        require_once WEFORMS_INCLUDES . '/class-field-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-form-manager.php';
+        require_once WEFORMS_INCLUDES . '/class-template-manager.php';
+
+        if ( ! array_key_exists( 'fields', $this->container ) ) {
+            $this->container['fields'] = new WeForms_Field_Manager();
+        }
+
+        if ( ! array_key_exists( 'form', $this->container ) ) {
+            $this->container['form'] = new WeForms_Form_Manager();
+        }
+
+        if ( ! array_key_exists( 'templates', $this->container ) ) {
+            $this->container['templates'] = new WeForms_Template_Manager();
+        }
 
         $installer = new WeForms_Installer();
         $installer->install();

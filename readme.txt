@@ -3,8 +3,9 @@ Contributors: tareq1988, wedevs
 Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
+Requires PHP: 5.4
 Tested up to: 4.8.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,55 +73,68 @@ Losing out potential users and clients trying to reach you is no more a concern 
 Import your form submissions easily in an organized spreadsheet. Now you can use this data to create reports or export to your CRM or Email marketing solutions.
 
 = reCaptcha Support for Form Security =
+
 Keep your forms free of spam and your submissions organic with the reCaptcha feature, which is one of the most effective detection tools out there. weForms also comes with an Anti-Spam feature in all its versions.
 
 = Customizable Email Notifications for Admins =
+
 Stay alert with every submission. Create multiple custom notification settings on each form with advanced mail forwarding and quickly create templates with hooks.
 
 = Form Entry Restrictions, Scheduling & Expiry Times =
+
 You have full control over your forms! What is the point otherwise, right? Create exclusive campaigns by allowing only a limited number of entries, controlling user access, and adding a start and expiry date. Form with an expiry date will automatically disappear after the time you want.
 
 = Form Redirection Page/Custom URL =
+
 When a contact completes the form, you can redirect with a custom link or a page to guide the contact to the desired landing page. It’s very useful when you want to direct the visitor’s attention.
 
 Craft your next form without a hitch. With weForms, stay organized. And hassle-free.
 
 = Demo Site =
+
 Want to see what it feels like? Experience weForms first-hand with the [weForms demo](https://weformsdemo.wedevs.com/wp-admin/admin.php?page=weforms#/).
 
 = weForms PRO WordPress Plugin Features =
-The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Professional, Developer. It contains more important and advanced features, such as:
-* Advanced fields
-* Conditional logic
-* Multistep form
-* License Checker
-* Webhooks
-* Country List Field
-* File uploader
-* PDF form submissions
-* Geolocation tracking
-* SMS notification
-* Email Marketing Integrations
-* * MailChimp
-* * MailPoet
-* * AWeber
-* * Constant Contact
-* * Campaign Monitor
-* * Get Response
-* * Convert Kit
-* Productivity Tool Integration
-* * Google Analytics
-* * Zapier
-* * Trello
-* Payment Integration
-* * Paypal
-* * Stripe
-* CRM Integration
-* * Salesforce
-* * Zoho
-* * Hubspot
 
-=== Want to unlock new features? [Upgrade to weForms PRO](https://wedevs.com/weforms/pricing/). ===
+<strong>Want to unlock new features?</strong>
+
+[Upgrade to weForms PRO](https://wedevs.com/weforms/pricing/)
+
+The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Professional, Developer. It contains more important and advanced features, such as:
+
+ * Advanced fields
+ * Conditional logic
+ * Multistep form
+ * License Checker
+ * Webhooks
+ * Country List Field
+ * File uploader
+ * PDF form submissions
+ * Geolocation tracking
+ * SMS notification
+ * **Email Marketing Integrations**
+    * MailChimp
+    * MailPoet
+    * AWeber
+    * Constant Contact
+    * Campaign Monitor
+    * Get Response
+    * Convert Kit
+ * **Productivity Tool Integration**
+    * Google Analytics
+    * Zapier
+    * Trello
+ * **Payment Integration**
+    * Paypal
+    * Stripe
+ * **CRM Integration**
+    * Salesforce
+    * Zoho
+    * Hubspot
+
+<strong>Want to unlock new features?</strong>
+
+[Upgrade to weForms PRO](https://wedevs.com/weforms/pricing/)
 
 == Installation ==
 
@@ -177,6 +191,10 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.1.1 (3 October, 2017) =
+
+ * **Fix**: Fatal error on completely new installation. As default form creation format has been changed, it was giving a fatal error.
 
 = Version 1.1.0 (2 October, 2017) =
 
