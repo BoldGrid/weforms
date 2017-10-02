@@ -742,18 +742,6 @@ function weforms_allowed_extensions() {
     return apply_filters( 'weforms_allowed_extensions', $extesions );
 }
 
-
-/**
- * Allowed upload extensions
- *
- * @return array
- */
-if( ! function_exists( 'wpuf_allowed_extensions' )) {
-    function wpuf_allowed_extensions() {
-        return weforms_allowed_extensions();
-    }
-}
-
 /**
  * Get form integration settings
  *
