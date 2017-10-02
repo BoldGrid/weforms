@@ -26,7 +26,17 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
-                <input class="textfield <?php echo 'wpuf_' . $field_settings['name'] . '_' . $form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" type="text" data-required="<?php echo $field_settings['required'] ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="<?php echo esc_attr( $field_settings['size'] ) ?>" />
+                <input
+                    class="textfield <?php echo 'wpuf_' . $field_settings['name'] . '_' . $form_id; ?>"
+                    id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
+                    type="text"
+                    data-required="<?php echo $field_settings['required'] ?>"
+                    data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>"
+                    placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
+                    value="<?php echo esc_attr( $value ) ?>"
+                    size="<?php echo esc_attr( $field_settings['size'] ) ?>"
+                />
+
                 <span class="wpuf-wordlimit-message wpuf-help"></span>
                 <?php $this->help_text( $field_settings ); ?>
             </div>

@@ -36,6 +36,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                             data-required="<?php echo $field_settings['required'] ?>"
                             data-type="text"
                             class="textfield wpuf_<?php echo $field_settings['name']; ?>_<?php echo $form_id; ?>"
+                            autocomplete="given-name"
                         >
 
                         <?php if ( ! $field_settings['hide_subs'] ) : ?>
@@ -51,6 +52,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                                 placeholder="<?php echo esc_attr( $field_settings['middle_name']['placeholder'] ); ?>"
                                 value="<?php echo esc_attr( $field_settings['middle_name']['default'] ); ?>"
                                 size="40"
+                                autocomplete="additional-name"
                             >
 
                             <?php if ( ! $field_settings['hide_subs'] ) : ?>
@@ -68,6 +70,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                             placeholder="<?php echo esc_attr( $field_settings['last_name']['placeholder'] ); ?>"
                             value="<?php echo esc_attr( $field_settings['last_name']['default'] ); ?>"
                             size="40"
+                            autocomplete="family-name"
                         >
                         <?php if ( ! $field_settings['hide_subs'] ) : ?>
                             <label class="wpuf-form-sub-label"><?php _e( 'Last', 'weforms' ); ?></label>

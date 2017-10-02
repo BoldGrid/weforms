@@ -27,7 +27,12 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
-                <select class="<?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" name="<?php echo $name; ?>" data-required="<?php echo $field_settings['required'] ?>" data-type="select">
+                <select
+                    class="<?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>"
+                    id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
+                    name="<?php echo $name; ?>"
+                    data-required="<?php echo $field_settings['required'] ?>"
+                    data-type="select">
 
                     <?php if ( !empty( $field_settings['first'] ) ) { ?>
                         <option value=""><?php echo $field_settings['first']; ?></option>

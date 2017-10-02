@@ -33,7 +33,12 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
                         ?>
 
                         <label <?php echo $field_settings['inline'] == 'yes' ? 'class="wpuf-radio-inline"' : 'class="wpuf-radio-block"'; ?>>
-                            <input name="<?php echo $field_settings['name']; ?>" class="<?php echo 'wpuf_'.$field_settings['name']. '_'. $form_id; ?>" type="radio" value="<?php echo esc_attr( $value ); ?>"<?php checked( $selected, $value ); ?> />
+                            <input
+                                name="<?php echo $field_settings['name']; ?>"
+                                class="<?php echo 'wpuf_'.$field_settings['name']. '_'. $form_id; ?>"
+                                type="radio"
+                                value="<?php echo esc_attr( $value ); ?>"<?php checked( $selected, $value ); ?>
+                            />
                             <?php echo $option; ?>
                         </label>
                         <?php

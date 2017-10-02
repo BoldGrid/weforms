@@ -63,7 +63,16 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
 
                 } else {
                     ?>
-                    <textarea class="textareafield <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" name="<?php echo $field_settings['name']; ?>" data-required="<?php echo $field_settings['required'] ?>" data-type="textarea" placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>" rows="<?php echo $field_settings['rows']; ?>" cols="<?php echo $field_settings['cols']; ?>"><?php echo esc_textarea( $value ) ?></textarea>
+                    <textarea
+                        class="textareafield <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>"
+                        id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
+                        name="<?php echo $field_settings['name']; ?>"
+                        data-required="<?php echo $field_settings['required'] ?>"
+                        data-type="textarea"
+                        placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
+                        rows="<?php echo $field_settings['rows']; ?>"
+                        cols="<?php echo $field_settings['cols']; ?>"
+                    ><?php echo esc_textarea( $value ) ?></textarea>
                     <span class="wpuf-wordlimit-message wpuf-help"></span>
 
                 <?php } ?>
