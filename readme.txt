@@ -3,8 +3,8 @@ Contributors: tareq1988, wedevs
 Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
-Tested up to: 4.8.1
-Stable tag: 1.0.4
+Tested up to: 4.8.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop
 
 == Description ==
 
-weForms is the fastest and easiest WordPress form plugin with breakthrough performance. And it’s more than a contact form maker. weForms is an all-in-one form builder created with the general users in mind. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Feel no delay – because your time is precious! 
+weForms is the fastest and easiest WordPress form plugin with breakthrough performance. And it’s more than a contact form maker. weForms is an all-in-one form builder created with the general users in mind. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Feel no delay – because your time is precious!
 
 [youtube https://www.youtube.com/watch?v=sqP-nvyqUdQ]
 
@@ -56,10 +56,10 @@ Quickly create rich contact forms to generate leads, make conversions and sales,
 Design forms faster with weForms’ drag and drop function. The live preview feature enhances this feature tremendously. Get an instant view from the dashboard of how your form is going to look like when you publish it!
 
 = Enhanced with the most popular WordPress Frontend Submission solution =
-weForms comes with the best frontend post submission plugin, WP User Frontend. Post your forms seamlessly on your website or business with a clean look. 
+weForms comes with the best frontend post submission plugin, WP User Frontend. Post your forms seamlessly on your website or business with a clean look.
 
 = It’s Easy to Use and Extensible! =
-Get started with just a few clicks because weForms’ intuitive interface relies on a smooth drag & drag function. Save more time with pre-installed ready-made templates. 
+Get started with just a few clicks because weForms’ intuitive interface relies on a smooth drag & drag function. Save more time with pre-installed ready-made templates.
 And though weForms looks great on any WordPress theme, you can easily customize your form design as you like with a little bit of custom CSS code!
 
 = Templates for Quick Action =
@@ -78,7 +78,7 @@ Keep your forms free of spam and your submissions organic with the reCaptcha fea
 Stay alert with every submission. Create multiple custom notification settings on each form with advanced mail forwarding and quickly create templates with hooks.
 
 = Form Entry Restrictions, Scheduling & Expiry Times =
-You have full control over your forms! What is the point otherwise, right? Create exclusive campaigns by allowing only a limited number of entries, controlling user access, and adding a start and expiry date. Form with an expiry date will automatically disappear after the time you want. 
+You have full control over your forms! What is the point otherwise, right? Create exclusive campaigns by allowing only a limited number of entries, controlling user access, and adding a start and expiry date. Form with an expiry date will automatically disappear after the time you want.
 
 = Form Redirection Page/Custom URL =
 When a contact completes the form, you can redirect with a custom link or a page to guide the contact to the desired landing page. It’s very useful when you want to direct the visitor’s attention.
@@ -89,7 +89,7 @@ Craft your next form without a hitch. With weForms, stay organized. And hassle-f
 Want to see what it feels like? Experience weForms first-hand with the [weForms demo](https://weformsdemo.wedevs.com/wp-admin/admin.php?page=weforms#/).
 
 = weForms PRO WordPress Plugin Features =
-The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Professional, Developer. It contains more important and advanced features, such as: 
+The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Professional, Developer. It contains more important and advanced features, such as:
 * Advanced fields
 * Conditional logic
 * Multistep form
@@ -101,7 +101,7 @@ The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Profess
 * Geolocation tracking
 * SMS notification
 * Email Marketing Integrations
-* * MailChimp 
+* * MailChimp
 * * MailPoet
 * * AWeber
 * * Constant Contact
@@ -111,9 +111,9 @@ The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Profess
 * Productivity Tool Integration
 * * Google Analytics
 * * Zapier
-* * Trello 
+* * Trello
 * Payment Integration
-* * Paypal 
+* * Paypal
 * * Stripe
 * CRM Integration
 * * Salesforce
@@ -177,6 +177,18 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.1.0 (2 October, 2017) =
+
+ * **New:** Added WP ERP integration. You can subscribe a user to a contact group in ERP when submitting a form.
+ * **New:** Form sharing. You can share a form without inserting the shortcode to a page. A hashed URL will be provided for privacy.
+ * **Improved**: Removed WP User Frontend dependency. Now you can use weForms without requiring WPUF.
+ * **Improved**: Core API rewrites. Now it's easier to manage the internals with more OOP code improvements.
+ * **Improved**: Every fields are now a separate class, and managed via a field manager class. Creating a new form field is way more easier than previous.
+ * **Improved**: Importer's are managed by a separate importer manager class.
+ * **Improved**: The form templates are now more simpler to create. The modal template popup has been redesigned by grouping the templates and now shows a form preview image.
+ * **Improved**: Added autocomplete attributes to field attributes so form fills can detect the fields and auto-populate with related content.
+ * **Fix**: reCaptcha validtion wasn't working.
 
 = v1.0.4 (5 September, 2017) =
 

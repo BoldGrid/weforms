@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.0.4\n"
+"Project-Id-Version: weForms 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2017-09-24 10:14:09+00:00\n"
+"POT-Creation-Date: 2017-10-02 17:04:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:50 includes/functions.php:537
+#: includes/admin/class-admin.php:50 includes/functions.php:533
 msgid "Form"
 msgstr ""
 
@@ -93,385 +93,193 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: includes/admin/class-admin.php:98 weforms.php:317
+#: includes/admin/class-admin.php:98 weforms.php:305
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:177 includes/functions.php:557
+#: includes/admin/class-admin.php:177 includes/functions.php:553
 msgid "IP Address"
 msgstr ""
 
-#: includes/admin/class-admin.php:178 includes/functions.php:548
+#: includes/admin/class-admin.php:178 includes/functions.php:544
 msgid "Date"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:69
-#: includes/class-scripts-styles.php:286
+#: includes/class-scripts-styles.php:287
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:230
+#: includes/admin/class-form-builder-assets.php:232
 msgid "Advanced Options"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:231
+#: includes/admin/class-form-builder-assets.php:233
 msgid "Are you sure you want to delete this field?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:232
+#: includes/admin/class-form-builder-assets.php:234
 msgid "Yes, delete it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:233
+#: includes/admin/class-form-builder-assets.php:235
 msgid "No, cancel it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:234
+#: includes/admin/class-form-builder-assets.php:236
 msgid "OK"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:235
+#: includes/admin/class-form-builder-assets.php:237
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:236
+#: includes/admin/class-form-builder-assets.php:238
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:237
+#: includes/admin/class-form-builder-assets.php:239
 msgid "This field must contain at least one choice"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:238
+#: includes/admin/class-form-builder-assets.php:240
 #: includes/fields/class-field-checkbox.php:91
-#: includes/fields/class-field-dropdown.php:86
+#: includes/fields/class-field-dropdown.php:91
 #: includes/fields/class-field-multidropdown.php:64
-#: includes/fields/class-field-radio.php:90
+#: includes/fields/class-field-radio.php:95
 msgid "Option"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:239
+#: includes/admin/class-form-builder-assets.php:241
 msgid "Column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:240
+#: includes/admin/class-form-builder-assets.php:242
 msgid "This field must contain at least one column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:241
+#: includes/admin/class-form-builder-assets.php:243
 msgid "is available in Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:242
+#: includes/admin/class-form-builder-assets.php:244
 msgid "Please upgrade to the Pro version to unlock all these awesome features"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:243
+#: includes/admin/class-form-builder-assets.php:245
 msgid "Get the Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:244
+#: includes/admin/class-form-builder-assets.php:246
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:245
+#: includes/admin/class-form-builder-assets.php:247
 msgid "Saved form data"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:246
+#: includes/admin/class-form-builder-assets.php:248
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:247
+#: includes/admin/class-form-builder-assets.php:249
 msgid "Click to copy shortcode"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:269
+#: includes/admin/class-form-builder-assets.php:271
 msgid "Notifications"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:270
+#: includes/admin/class-form-builder-assets.php:272
 msgid "Integrations"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:292
+#: includes/admin/class-form-builder-assets.php:294
 msgid "Form Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:293
+#: includes/admin/class-form-builder-assets.php:295
 msgid "Submission Restriction"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:294
+#: includes/admin/class-form-builder-assets.php:296
 msgid "Display Settings"
 msgstr ""
 
-#: includes/admin/class-pro-integrations.php:31
+#: includes/admin/class-pro-upgrade-fields.php:9
+msgid "Address Field"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:21
+msgid "Country List"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:33
+msgid "Date / Time"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:45
+msgid "File Upload"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:57
+msgid "Google Map"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:69
+msgid "Action Hook"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:81
+msgid "Numeric Field"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:93
+msgid "Ratings"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:105
+msgid "Repeat Field"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:117
+msgid "Shortcode"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:129
+msgid "Step Start"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-fields.php:141
+msgid "Terms & Conditions"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:25
 msgid "MailChimp"
 msgstr ""
 
-#: includes/admin/class-pro-integrations.php:47
+#: includes/admin/class-pro-upgrade-integrations.php:37
 msgid "Campaign Monitor"
 msgstr ""
 
-#: includes/admin/class-pro-integrations.php:53
+#: includes/admin/class-pro-upgrade-integrations.php:49
 msgid "Constant Contact"
 msgstr ""
 
-#: includes/admin/class-pro-integrations.php:59
+#: includes/admin/class-pro-upgrade-integrations.php:62
 msgid "MailPoet"
 msgstr ""
 
-#: includes/admin/class-pro-integrations.php:65
+#: includes/admin/class-pro-upgrade-integrations.php:75
 msgid "AWeber"
 msgstr ""
 
-#: includes/admin/class-pro-integrations.php:71
-msgid "Get Response"
-msgstr ""
-
-#: includes/admin/class-pro-integrations.php:77
+#: includes/admin/class-pro-upgrade-integrations.php:88
 msgid "ConvertKit"
 msgstr ""
 
-#: includes/admin/form-templates/contact-form.php:9
-#: includes/class-installer.php:129
-msgid "Contact Form"
-msgstr ""
-
-#: includes/admin/form-templates/contact-form.php:10
-msgid "Create a simple contact form for your site."
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:9
-msgid "Event Registration"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:10
-msgid ""
-"Get your visitors to register for an upcoming event quickly with this "
-"registration form template."
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:17
-#: includes/admin/form-templates/support-form.php:17
-#: includes/fields/class-field-name.php:9
-#: includes/functions-template-contact-form.php:24
-msgid "Name"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:24
-#: includes/admin/form-templates/support-form.php:24
-#: includes/fields/class-field-name.php:42
-#: includes/fields/class-field-name.php:141
-#: includes/functions-template-contact-form.php:31
-#: includes/importer/class-importer-abstract.php:758
-#: includes/importer/class-importer-wpforms.php:157
-msgid "First"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:29
-#: includes/admin/form-templates/support-form.php:29
-#: includes/fields/class-field-name.php:57
-#: includes/fields/class-field-name.php:146
-#: includes/functions-template-contact-form.php:36
-#: includes/importer/class-importer-abstract.php:763
-#: includes/importer/class-importer-wpforms.php:162
-msgid "Middle"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:34
-#: includes/admin/form-templates/support-form.php:34
-#: includes/fields/class-field-name.php:73
-#: includes/fields/class-field-name.php:151
-#: includes/functions-template-contact-form.php:41
-#: includes/importer/class-importer-abstract.php:768
-#: includes/importer/class-importer-wpforms.php:167
-msgid "Last"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:45
-#: includes/admin/form-templates/support-form.php:45
-#: includes/functions-template-contact-form.php:52 includes/functions.php:562
-msgid "Email"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:59
-msgid "Phone"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:74
-msgid "Company"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:89
-msgid "Website"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:103
-msgid "Have you attended before?"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:111
-#: includes/admin/form-templates/event-registration-form.php:151
-#: includes/fields/class-abstract-fields.php:186
-#: includes/fields/class-field-checkbox.php:67
-#: includes/fields/class-field-radio.php:66
-msgid "Yes"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:112
-#: includes/admin/form-templates/event-registration-form.php:152
-#: includes/fields/class-abstract-fields.php:187
-#: includes/fields/class-field-checkbox.php:68
-#: includes/fields/class-field-radio.php:67
-msgid "No"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:120
-msgid "Dietary Requirements"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:128
-msgid "None"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:129
-msgid "Vegeterian"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:130
-msgid "Vegan"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:131
-msgid "Lactose-free"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:132
-msgid "Gluten-free"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:133
-msgid "Kosher"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:134
-msgid "Halal"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:135
-msgid "Allergies/Other"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:160
-msgid "Comments or Questions"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:177
-msgid "Thanks for signing up! We will get in touch with you shortly."
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:180
-msgid "Register"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:184
-#: includes/admin/form-templates/support-form.php:117
-#: includes/functions-template-contact-form.php:99
-#: includes/importer/class-importer-abstract.php:796
-msgid "Form submission hasn't been started yet"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:185
-#: includes/admin/form-templates/support-form.php:118
-#: includes/functions-template-contact-form.php:100
-#: includes/importer/class-importer-abstract.php:797
-msgid "Form submission is now closed."
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:187
-#: includes/admin/form-templates/support-form.php:120
-#: includes/functions-template-contact-form.php:102
-#: includes/importer/class-importer-abstract.php:799
-msgid "You need to login to submit a query."
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:190
-#: includes/admin/form-templates/support-form.php:123
-#: includes/functions-template-contact-form.php:105
-#: includes/importer/class-importer-abstract.php:802
-msgid "Sorry, we have reached the maximum number of submissions."
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:197
-#: includes/functions-template-contact-form.php:121
-msgid "Admin Notification"
-msgstr ""
-
-#: includes/admin/form-templates/event-registration-form.php:198
-#: includes/admin/form-templates/support-form.php:131
-#: includes/functions-template-contact-form.php:122
-msgid "New Form Submission"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:9
-msgid "Support Form"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:10
-msgid "Enable your users for asking support questions."
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:48
-msgid "Please provide a valid email address so we can get back to you"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:59
-msgid "Department"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:67
-msgid "Sales"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:68
-msgid "Customer Support"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:69
-msgid "Product Development"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:70
-msgid "Other"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:78
-msgid "Subject"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:93
-#: includes/functions-template-contact-form.php:66
-msgid "Message"
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:96
-msgid "How may we help you? Please be brief as much as possible."
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:110
-#: includes/functions-template-contact-form.php:92
-#: includes/importer/class-importer-abstract.php:789
-#: includes/importer/class-importer-gf.php:272
-msgid "Thanks for contacting us! We will get in touch with you shortly."
-msgstr ""
-
-#: includes/admin/form-templates/support-form.php:113
-#: includes/functions-template-contact-form.php:95
-#: includes/importer/class-importer-abstract.php:792
-#: includes/importer/class-importer-gf.php:275
-msgid "Submit Query"
+#: includes/admin/class-pro-upgrades.php:114
+msgid "Conditional Logic"
 msgstr ""
 
 #: includes/admin/views/display-settings.php:4
@@ -602,88 +410,68 @@ msgstr ""
 msgid "Limit Reached Message"
 msgstr ""
 
-#: includes/class-ajax.php:47
+#: includes/class-ajax-upload.php:144
+msgid "Delete"
+msgstr ""
+
+#: includes/class-ajax.php:50
 msgid "You do not have sufficient permission."
 msgstr ""
 
-#: includes/class-ajax.php:84
+#: includes/class-ajax.php:87
 msgid "Unauthorized operation"
 msgstr ""
 
-#: includes/class-ajax.php:88
+#: includes/class-ajax.php:91
 msgid "Invalid form id"
 msgstr ""
 
-#: includes/class-ajax.php:190
+#: includes/class-ajax.php:195
 msgid "Please provide a form name"
 msgstr ""
 
-#: includes/class-ajax.php:218 includes/class-ajax.php:345
+#: includes/class-ajax.php:223 includes/class-ajax.php:367
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:234
+#: includes/class-ajax.php:239
 msgid "No form ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:402
+#: includes/class-ajax.php:279
+msgid "Could not create the form"
+msgstr ""
+
+#: includes/class-ajax.php:424
 msgid "No form fields found!"
 msgstr ""
 
-#: includes/class-ajax.php:442
+#: includes/class-ajax.php:464
 msgid "No entry ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:470
+#: includes/class-ajax.php:493
 msgid "No form field was found."
 msgstr ""
 
-#: includes/class-ajax.php:802
+#: includes/class-ajax.php:582 includes/class-ajax.php:596
+msgid "reCAPTCHA validation failed"
+msgstr ""
+
+#: includes/class-ajax.php:746
 msgid "No file found to import."
 msgstr ""
 
-#: includes/class-ajax.php:816
+#: includes/class-ajax.php:760
 msgid "The forms have been imported successfully!"
 msgstr ""
 
-#: includes/class-ajax.php:818
+#: includes/class-ajax.php:762
 msgid "Something went wrong importing the file."
 msgstr ""
 
-#: includes/class-ajax.php:822
+#: includes/class-ajax.php:766
 msgid "Invalid file or file size too big."
-msgstr ""
-
-#: includes/class-core-check.php:51
-msgid "weForms is almost ready!"
-msgstr ""
-
-#: includes/class-core-check.php:57
-msgid "Dismiss this notice"
-msgstr ""
-
-#: includes/class-core-check.php:60
-msgid "You just need to activate the Core Plugin to make it functional."
-msgstr ""
-
-#: includes/class-core-check.php:62
-msgid "Activate this plugin"
-msgstr ""
-
-#: includes/class-core-check.php:62
-msgid "Activate"
-msgstr ""
-
-#: includes/class-core-check.php:65
-msgid "You just need to install the %sCore Plugin%s to make it functional."
-msgstr ""
-
-#: includes/class-core-check.php:68
-msgid "Install Now"
-msgstr ""
-
-#: includes/class-core-check.php:112
-msgid "Error: Nonce verification failed"
 msgstr ""
 
 #: includes/class-field-manager.php:85
@@ -694,19 +482,15 @@ msgstr ""
 msgid "Others"
 msgstr ""
 
-#: includes/class-form-preview.php:61
-msgid "Preview"
-msgstr ""
-
-#: includes/class-form-preview.php:74
+#: includes/class-form-preview.php:111
 msgid "You must be logged in to preview this form."
 msgstr ""
 
-#: includes/class-form-preview.php:80
+#: includes/class-form-preview.php:117
 msgid "Sorry, you are not eligible to preview this form."
 msgstr ""
 
-#: includes/class-form.php:214
+#: includes/class-form.php:232
 msgid "The form is not published yet."
 msgstr ""
 
@@ -714,159 +498,180 @@ msgstr ""
 msgid "The form couldn't be found."
 msgstr ""
 
-#: includes/class-frontend-form.php:96
+#: includes/class-frontend-form.php:107
 msgid "Powered by <a href=\"%s\" target=\"_blank\">weForms</a>"
 msgstr ""
 
-#: includes/class-scripts-styles.php:280
+#: includes/class-installer.php:143
+#: includes/templates/class-template-contact.php:12
+msgid "Contact Form"
+msgstr ""
+
+#: includes/class-scripts-styles.php:281
 msgid "Please fix the errors to proceed"
 msgstr ""
 
-#: includes/class-scripts-styles.php:282
+#: includes/class-scripts-styles.php:283
 msgid "Word limit reached"
 msgstr ""
 
-#: includes/class-scripts-styles.php:292
+#: includes/class-scripts-styles.php:293
 msgid "Allowed Files"
 msgstr ""
 
-#: includes/class-scripts-styles.php:295
+#: includes/class-scripts-styles.php:296
 msgid "Maximum number of files reached!"
 msgstr ""
 
-#: includes/class-scripts-styles.php:296
+#: includes/class-scripts-styles.php:297
 msgid "The file you have uploaded exceeds the file size limit. Please try again."
 msgstr ""
 
-#: includes/class-scripts-styles.php:297
+#: includes/class-scripts-styles.php:298
 msgid "You have uploaded an incorrect file type. Please try again."
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:124
+#: includes/fields/class-abstract-fields.php:146
 #: includes/importer/class-importer-abstract.php:567
 msgid "- select -"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:165
+#: includes/fields/class-abstract-fields.php:187
 msgid "Field Label"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:169
+#: includes/fields/class-abstract-fields.php:191
 msgid "Enter a title of this field"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:174
+#: includes/fields/class-abstract-fields.php:196
 msgid "Help text"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:178
+#: includes/fields/class-abstract-fields.php:200
 msgid "Give the user some information about this field"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:183
+#: includes/fields/class-abstract-fields.php:205
 msgid "Required"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:193
+#: includes/fields/class-abstract-fields.php:208
+#: includes/fields/class-field-checkbox.php:67
+#: includes/fields/class-field-radio.php:71
+#: includes/templates/class-template-event-registration.php:56
+#: includes/templates/class-template-event-registration.php:82
+msgid "Yes"
+msgstr ""
+
+#: includes/fields/class-abstract-fields.php:209
+#: includes/fields/class-field-checkbox.php:68
+#: includes/fields/class-field-radio.php:72
+#: includes/templates/class-template-event-registration.php:57
+#: includes/templates/class-template-event-registration.php:83
+msgid "No"
+msgstr ""
+
+#: includes/fields/class-abstract-fields.php:215
 msgid ""
 "Check this option to mark the field required. A form will not submit unless "
 "all required fields are provided."
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:198
+#: includes/fields/class-abstract-fields.php:220
 msgid "CSS Class Name"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:202
+#: includes/fields/class-abstract-fields.php:224
 msgid "Provide a container class name for this field."
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:209
+#: includes/fields/class-abstract-fields.php:231
 #: includes/fields/class-field-hidden.php:37
 msgid "Meta Key"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:213
+#: includes/fields/class-abstract-fields.php:235
 #: includes/fields/class-field-hidden.php:41
 msgid "Name of the meta key this field will save to"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:231
-#: includes/fields/class-abstract-fields.php:318
+#: includes/fields/class-abstract-fields.php:253
+#: includes/fields/class-abstract-fields.php:340
 msgid "Placeholder text"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:235
-#: includes/fields/class-abstract-fields.php:322
+#: includes/fields/class-abstract-fields.php:257
+#: includes/fields/class-abstract-fields.php:344
 msgid "Text for HTML5 placeholder attribute"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:240
-#: includes/fields/class-abstract-fields.php:330
+#: includes/fields/class-abstract-fields.php:262
+#: includes/fields/class-abstract-fields.php:352
 msgid "Default value"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:244
-#: includes/fields/class-abstract-fields.php:334
+#: includes/fields/class-abstract-fields.php:266
+#: includes/fields/class-abstract-fields.php:356
 msgid "The default value this field will have"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:249
+#: includes/fields/class-abstract-fields.php:271
 msgid "Size"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:254
+#: includes/fields/class-abstract-fields.php:276
 msgid "Size of this input field"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:261
-#: includes/fields/class-abstract-fields.php:353
+#: includes/fields/class-abstract-fields.php:283
+#: includes/fields/class-abstract-fields.php:375
 msgid "Word Restriction"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:265
-#: includes/fields/class-abstract-fields.php:357
+#: includes/fields/class-abstract-fields.php:287
+#: includes/fields/class-abstract-fields.php:379
 msgid "Numebr of words the author to be restricted in"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:282
+#: includes/fields/class-abstract-fields.php:304
 msgid "Options"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:287
+#: includes/fields/class-abstract-fields.php:309
 msgid "Add options for the form field"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:300
+#: includes/fields/class-abstract-fields.php:322
 msgid "Rows"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:304
+#: includes/fields/class-abstract-fields.php:326
 msgid "Number of rows in textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:309
+#: includes/fields/class-abstract-fields.php:331
 msgid "Columns"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:313
+#: includes/fields/class-abstract-fields.php:335
 msgid "Number of columns in textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:339
+#: includes/fields/class-abstract-fields.php:361
 #: includes/fields/class-field-textarea.php:9
 msgid "Textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:342
+#: includes/fields/class-abstract-fields.php:364
 msgid "Normal"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:343
+#: includes/fields/class-abstract-fields.php:365
 msgid "Rich textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:344
+#: includes/fields/class-abstract-fields.php:366
 msgid "Teeny Rich textarea"
 msgstr ""
 
@@ -875,12 +680,12 @@ msgid "Checkbox"
 msgstr ""
 
 #: includes/fields/class-field-checkbox.php:64
-#: includes/fields/class-field-radio.php:63
+#: includes/fields/class-field-radio.php:68
 msgid "Show in inline list"
 msgstr ""
 
 #: includes/fields/class-field-checkbox.php:74
-#: includes/fields/class-field-radio.php:73
+#: includes/fields/class-field-radio.php:78
 msgid "Show this option in an inline list"
 msgstr ""
 
@@ -888,17 +693,17 @@ msgstr ""
 msgid "Dropdown"
 msgstr ""
 
-#: includes/fields/class-field-dropdown.php:66
+#: includes/fields/class-field-dropdown.php:71
 msgid "Select Text"
 msgstr ""
 
-#: includes/fields/class-field-dropdown.php:70
+#: includes/fields/class-field-dropdown.php:75
 msgid ""
 "First element of the select dropdown. Leave this empty if you don't want to "
 "show this field"
 msgstr ""
 
-#: includes/fields/class-field-dropdown.php:87
+#: includes/fields/class-field-dropdown.php:92
 #: includes/fields/class-field-multidropdown.php:65
 msgid "— Select —"
 msgstr ""
@@ -923,16 +728,16 @@ msgstr ""
 msgid "Custom HTML"
 msgstr ""
 
-#: includes/fields/class-field-html.php:43
+#: includes/fields/class-field-html.php:52
 msgid "HTML Codes"
 msgstr ""
 
-#: includes/fields/class-field-html.php:47
+#: includes/fields/class-field-html.php:56
 msgid "Paste your HTML codes, WordPress shortcodes will also work here"
 msgstr ""
 
-#: includes/fields/class-field-html.php:62
-#: includes/fields/class-field-sectionbreak.php:72
+#: includes/fields/class-field-html.php:71
+#: includes/fields/class-field-sectionbreak.php:83
 msgid "Some description about this section"
 msgstr ""
 
@@ -964,28 +769,53 @@ msgstr ""
 msgid "Multi Select"
 msgstr ""
 
-#: includes/fields/class-field-name.php:93
-msgid "Format"
+#: includes/fields/class-field-name.php:9
+msgid "Name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:96
-msgid "First and Last name"
+#: includes/fields/class-field-name.php:43
+#: includes/fields/class-field-name.php:145
+#: includes/importer/class-importer-abstract.php:759
+#: includes/importer/class-importer-wpforms.php:157
+msgid "First"
+msgstr ""
+
+#: includes/fields/class-field-name.php:59
+#: includes/fields/class-field-name.php:150
+#: includes/importer/class-importer-abstract.php:764
+#: includes/importer/class-importer-wpforms.php:162
+msgid "Middle"
+msgstr ""
+
+#: includes/fields/class-field-name.php:76
+#: includes/fields/class-field-name.php:155
+#: includes/importer/class-importer-abstract.php:769
+#: includes/importer/class-importer-wpforms.php:167
+msgid "Last"
 msgstr ""
 
 #: includes/fields/class-field-name.php:97
+msgid "Format"
+msgstr ""
+
+#: includes/fields/class-field-name.php:100
+msgid "First and Last name"
+msgstr ""
+
+#: includes/fields/class-field-name.php:101
 msgid "First, Middle and Last name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:102
-#: includes/fields/class-field-name.php:110
+#: includes/fields/class-field-name.php:106
+#: includes/fields/class-field-name.php:114
 msgid "Select format to use for the name field"
 msgstr ""
 
-#: includes/fields/class-field-name.php:106
+#: includes/fields/class-field-name.php:110
 msgid "Label"
 msgstr ""
 
-#: includes/fields/class-field-name.php:118
+#: includes/fields/class-field-name.php:122
 msgid "Hide Sub Labels"
 msgstr ""
 
@@ -997,40 +827,40 @@ msgstr ""
 msgid "reCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:36
+#: includes/fields/class-field-recaptcha.php:43
 msgid "reCaptcha API key is missing."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:67
+#: includes/fields/class-field-recaptcha.php:121
 msgid "Site key and Secret key"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:69
+#: includes/fields/class-field-recaptcha.php:123
 msgid ""
 "You need to set Site key and Secret key in <a href=\"%s\" "
 "target=\"_blank\">Settings</a> in order to use \"Recaptcha\" field. <a "
 "href=\"%s\" target=\"_blank\">Click here to get the these key</a>."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:85
-#: includes/fields/class-field-sectionbreak.php:43
+#: includes/fields/class-field-recaptcha.php:139
+#: includes/fields/class-field-sectionbreak.php:54
 msgid "Title"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:89
-#: includes/fields/class-field-sectionbreak.php:47
+#: includes/fields/class-field-recaptcha.php:143
+#: includes/fields/class-field-sectionbreak.php:58
 msgid "Title of the section"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:97
+#: includes/fields/class-field-recaptcha.php:151
 msgid "Enable noCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:98
+#: includes/fields/class-field-recaptcha.php:152
 msgid "Enable Invisible reCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:103
+#: includes/fields/class-field-recaptcha.php:157
 msgid "Select reCaptcha type"
 msgstr ""
 
@@ -1038,11 +868,11 @@ msgstr ""
 msgid "Section Break"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:52
+#: includes/fields/class-field-sectionbreak.php:63
 msgid "Description"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:56
+#: includes/fields/class-field-sectionbreak.php:67
 msgid "Some details text about the section"
 msgstr ""
 
@@ -1054,96 +884,136 @@ msgstr ""
 msgid "Website URL"
 msgstr ""
 
-#: includes/functions.php:127
+#: includes/fields/class-fields-pro.php:17
+msgid "This is a premium field. You need to upgrade."
+msgstr ""
+
+#: includes/functions.php:123
 msgid "No form ID was found."
 msgstr ""
 
-#: includes/functions.php:131
+#: includes/functions.php:127
 msgid "No form fields were found."
 msgstr ""
 
-#: includes/functions.php:137
+#: includes/functions.php:133
 msgid "Could not create an entry"
 msgstr ""
 
-#: includes/functions.php:539
+#: includes/functions.php:535
 msgid "Entry ID"
 msgstr ""
 
-#: includes/functions.php:540
+#: includes/functions.php:536
 msgid "Form ID"
 msgstr ""
 
-#: includes/functions.php:541
+#: includes/functions.php:537
 msgid "Form Name"
 msgstr ""
 
-#: includes/functions.php:545
+#: includes/functions.php:541
 msgid "System"
 msgstr ""
 
-#: includes/functions.php:547
+#: includes/functions.php:543
 msgid "Site Administrator Email"
 msgstr ""
 
-#: includes/functions.php:549
+#: includes/functions.php:545
 msgid "Site Title"
 msgstr ""
 
-#: includes/functions.php:550
+#: includes/functions.php:546
 msgid "Site URL"
 msgstr ""
 
-#: includes/functions.php:551
+#: includes/functions.php:547
 msgid "Embedded Page Title"
 msgstr ""
 
-#: includes/functions.php:555
+#: includes/functions.php:551
 msgid "User"
 msgstr ""
 
-#: includes/functions.php:558
+#: includes/functions.php:554
 msgid "User ID"
 msgstr ""
 
-#: includes/functions.php:559
+#: includes/functions.php:555
 msgid "First Name"
 msgstr ""
 
-#: includes/functions.php:560
+#: includes/functions.php:556
 msgid "Last Name"
 msgstr ""
 
-#: includes/functions.php:561
+#: includes/functions.php:557
 msgid "Display Name"
 msgstr ""
 
-#: includes/functions.php:566
+#: includes/functions.php:558
+msgid "Email"
+msgstr ""
+
+#: includes/functions.php:562
 msgid "URL's"
 msgstr ""
 
-#: includes/functions.php:568
+#: includes/functions.php:564
 msgid "Embeded Page URL"
 msgstr ""
 
-#: includes/functions.php:569
+#: includes/functions.php:565
 msgid "Referer URL"
 msgstr ""
 
-#: includes/functions.php:570
+#: includes/functions.php:566
 msgid "Login URL"
 msgstr ""
 
-#: includes/functions.php:571
+#: includes/functions.php:567
 msgid "Logout URL"
 msgstr ""
 
-#: includes/functions.php:572
+#: includes/functions.php:568
 msgid "Register URL"
 msgstr ""
 
-#: includes/functions.php:573
+#: includes/functions.php:569
 msgid "Lost Password URL"
+msgstr ""
+
+#: includes/functions.php:734
+msgid "Images"
+msgstr ""
+
+#: includes/functions.php:738
+msgid "Audio"
+msgstr ""
+
+#: includes/functions.php:742
+msgid "Videos"
+msgstr ""
+
+#: includes/functions.php:746
+msgid "PDF"
+msgstr ""
+
+#: includes/functions.php:750
+msgid "Office Documents"
+msgstr ""
+
+#: includes/functions.php:754
+msgid "Zip Archives"
+msgstr ""
+
+#: includes/functions.php:758
+msgid "Executable Files"
+msgstr ""
+
+#: includes/functions.php:762
+msgid "CSV"
 msgstr ""
 
 #: includes/importer/class-importer-abstract.php:155
@@ -1216,6 +1086,38 @@ msgstr[1] ""
 msgid "You are not allowed."
 msgstr ""
 
+#: includes/importer/class-importer-abstract.php:790
+#: includes/importer/class-importer-gf.php:272
+#: includes/templates/class-abstract-template.php:159
+msgid "Thanks for contacting us! We will get in touch with you shortly."
+msgstr ""
+
+#: includes/importer/class-importer-abstract.php:793
+#: includes/importer/class-importer-gf.php:275
+#: includes/templates/class-abstract-template.php:162
+msgid "Submit Query"
+msgstr ""
+
+#: includes/importer/class-importer-abstract.php:797
+#: includes/templates/class-abstract-template.php:166
+msgid "Form submission hasn't been started yet"
+msgstr ""
+
+#: includes/importer/class-importer-abstract.php:798
+#: includes/templates/class-abstract-template.php:167
+msgid "Form submission is now closed."
+msgstr ""
+
+#: includes/importer/class-importer-abstract.php:800
+#: includes/templates/class-abstract-template.php:169
+msgid "You need to login to submit a query."
+msgstr ""
+
+#: includes/importer/class-importer-abstract.php:803
+#: includes/templates/class-abstract-template.php:172
+msgid "Sorry, we have reached the maximum number of submissions."
+msgstr ""
+
 #: includes/integrations/erp/class-integration-erp.php:15
 msgid "WP ERP"
 msgstr ""
@@ -1224,11 +1126,150 @@ msgstr ""
 msgid "Slack"
 msgstr ""
 
-#: includes/integrations/slack/class-integration-slack.php:50
+#: includes/integrations/slack/class-integration-slack.php:49
 msgid "#%d New submission on %s"
 msgstr ""
 
-#: weforms.php:316
+#: includes/templates/class-abstract-template.php:189
+msgid "Admin Notification"
+msgstr ""
+
+#: includes/templates/class-abstract-template.php:190
+msgid "New Form Submission"
+msgstr ""
+
+#: includes/templates/class-template-blank.php:12
+msgid "Blank Form"
+msgstr ""
+
+#: includes/templates/class-template-blank.php:13
+msgid "Start from a blank slate"
+msgstr ""
+
+#: includes/templates/class-template-contact.php:13
+msgid "Create a simple contact form for your site."
+msgstr ""
+
+#: includes/templates/class-template-contact.php:36
+#: includes/templates/class-template-support.php:53
+msgid "Message"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:12
+msgid "Event Registration"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:13
+msgid ""
+"Get your visitors to register for an upcoming event quickly with this "
+"registration form template."
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:37
+msgid "Phone"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:41
+msgid "Company"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:46
+msgid "Website"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:52
+msgid "Have you attended before?"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:62
+msgid "Dietary Requirements"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:66
+msgid "None"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:67
+msgid "Vegeterian"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:68
+msgid "Vegan"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:69
+msgid "Lactose-free"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:70
+msgid "Gluten-free"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:71
+msgid "Kosher"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:72
+msgid "Halal"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:73
+msgid "Allergies/Other"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:88
+msgid "Comments or Questions"
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:105
+msgid "Thanks for signing up! We will get in touch with you shortly."
+msgstr ""
+
+#: includes/templates/class-template-event-registration.php:106
+msgid "Register"
+msgstr ""
+
+#: includes/templates/class-template-support.php:12
+msgid "Support Form"
+msgstr ""
+
+#: includes/templates/class-template-support.php:13
+msgid "Enable your users for asking support questions."
+msgstr ""
+
+#: includes/templates/class-template-support.php:34
+msgid "Please provide a valid email address so we can get back to you"
+msgstr ""
+
+#: includes/templates/class-template-support.php:38
+msgid "Department"
+msgstr ""
+
+#: includes/templates/class-template-support.php:41
+msgid "Sales"
+msgstr ""
+
+#: includes/templates/class-template-support.php:42
+msgid "Customer Support"
+msgstr ""
+
+#: includes/templates/class-template-support.php:43
+msgid "Product Development"
+msgstr ""
+
+#: includes/templates/class-template-support.php:44
+msgid "Other"
+msgstr ""
+
+#: includes/templates/class-template-support.php:49
+msgid "Subject"
+msgstr ""
+
+#: includes/templates/class-template-support.php:55
+msgid "How may we help you? Please be brief as much as possible."
+msgstr ""
+
+#: weforms.php:304
 msgid "Docs"
 msgstr ""
 
