@@ -729,14 +729,38 @@ function weforms_insert_form_field( $form_id, $field = array(), $field_id = null
  */
 function weforms_allowed_extensions() {
     $extesions = array(
-        'images' => array('ext' => 'jpg,jpeg,gif,png,bmp', 'label' => __( 'Images', 'wpuf' )),
-        'audio'  => array('ext' => 'mp3,wav,ogg,wma,mka,m4a,ra,mid,midi', 'label' => __( 'Audio', 'wpuf' )),
-        'video'  => array('ext' => 'avi,divx,flv,mov,ogv,mkv,mp4,m4v,divx,mpg,mpeg,mpe', 'label' => __( 'Videos', 'wpuf' )),
-        'pdf'    => array('ext' => 'pdf', 'label' => __( 'PDF', 'wpuf' )),
-        'office' => array('ext' => 'doc,ppt,pps,xls,mdb,docx,xlsx,pptx,odt,odp,ods,odg,odc,odb,odf,rtf,txt', 'label' => __( 'Office Documents', 'wpuf' )),
-        'zip'    => array('ext' => 'zip,gz,gzip,rar,7z', 'label' => __( 'Zip Archives' )),
-        'exe'    => array('ext' => 'exe', 'label' => __( 'Executable Files', 'wpuf' )),
-        'csv'    => array('ext' => 'csv', 'label' => __( 'CSV', 'wpuf' ))
+        'images' => array(
+            'ext'   => 'jpg,jpeg,gif,png,bmp',
+            'label' => __( 'Images', 'weforms' )
+        ),
+        'audio'  => array(
+            'ext'   => 'mp3,wav,ogg,wma,mka,m4a,ra,mid,midi',
+            'label' => __( 'Audio', 'weforms' )
+        ),
+        'video'  => array(
+            'ext'   => 'avi,divx,flv,mov,ogv,mkv,mp4,m4v,divx,mpg,mpeg,mpe',
+            'label' => __( 'Videos', 'weforms' )
+        ),
+        'pdf'    => array(
+            'ext'   => 'pdf',
+            'label' => __( 'PDF', 'weforms' )
+        ),
+        'office' => array(
+            'ext'   => 'doc,ppt,pps,xls,mdb,docx,xlsx,pptx,odt,odp,ods,odg,odc,odb,odf,rtf,txt',
+            'label' => __( 'Office Documents', 'weforms' )
+        ),
+        'zip'    => array(
+            'ext'   => 'zip,gz,gzip,rar,7z',
+            'label' => __( 'Zip Archives' )
+        ),
+        'exe'    => array(
+            'ext'   => 'exe',
+            'label' => __( 'Executable Files', 'weforms' )
+        ),
+        'csv'    => array(
+            'ext'   => 'csv',
+            'label' => __( 'CSV', 'weforms' )
+        )
     );
 
     return apply_filters( 'weforms_allowed_extensions', $extesions );

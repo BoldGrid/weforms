@@ -20,7 +20,6 @@ class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
             'url'     => '',
         );
 
-        add_filter( 'weforms_form_builder_integrations', array( $this, 'register_integration_settings' ) );
         add_action( 'weforms_entry_submission', array( $this, 'send_notification' ), 10, 4 );
     }
 

@@ -564,7 +564,7 @@ abstract class WeForms_Importer_Abstract {
                     'help'       => '',
                     'css'        => $args['css_class'],
                     'selected'   => '',
-                    'first'      => __( '- select -', 'wpuf' ),
+                    'first'      => __( '- select -', 'weforms' ),
                     'options'    => $args['options'],
                     'wpuf_cond'  => $this->conditionals
                 );

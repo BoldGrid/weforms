@@ -79,6 +79,15 @@ abstract class WeForms_Abstract_Integration {
     }
 
     /**
+     * Check if it's a pro field
+     *
+     * @return boolean
+     */
+    public function is_pro() {
+        return false;
+    }
+
+    /**
      * Get the settings fields
      *
      * @return array
@@ -97,7 +106,8 @@ abstract class WeForms_Abstract_Integration {
             'id'       => $this->get_id(),
             'title'    => $this->get_title(),
             'icon'     => $this->get_icon(),
-            'settings' => $this->get_settings_fields()
+            'settings' => $this->get_settings_fields(),
+            'pro'      => $this->is_pro()
         );
     }
 

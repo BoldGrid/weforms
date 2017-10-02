@@ -26,7 +26,6 @@ class WeForms_Integration_ERP extends WeForms_Abstract_Integration {
             )
         );
 
-        add_filter( 'weforms_form_builder_integrations', array( $this, 'register_integration_settings' ) );
         add_action( 'weforms_entry_submission', array( $this, 'subscribe_user' ), 10, 4 );
     }
 
