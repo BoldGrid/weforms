@@ -78,12 +78,13 @@ class WeForms_Installer {
                 `entry_id` bigint(20) unsigned DEFAULT NULL,
                 `user_id` bigint(20) unsigned DEFAULT NULL,
                 `total` float(20) unsigned DEFAULT NULL,
-                `gatewat` varchar(50) DEFAULT NULL,
+                `gateway` varchar(50) DEFAULT NULL,
                 `transaction_id` varchar(50) DEFAULT NULL,
                 `status` varchar(10) DEFAULT 'completed',
                 `created_at` datetime DEFAULT NULL,
                 PRIMARY KEY (`id`),
-                KEY `form_id` (`form_id`)
+                KEY `form_id` (`form_id`),
+                KEY `entry_id` (`entry_id`)
             ) $collate;",
         );
 
