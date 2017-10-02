@@ -92,7 +92,7 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
 
     /**
      * Prepare entry
-     * 
+     *
      * @param $field
      *
      * @return mixed

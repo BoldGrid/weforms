@@ -139,6 +139,10 @@ class WeForms_Form {
 
             }
 
+            if ( 'custom_html' === $field['template'] ) {
+                $field['name'] = 'custom_html';
+            }
+
             $form_fields[] = apply_filters( 'weforms-get-form-fields', $field );
         }
 

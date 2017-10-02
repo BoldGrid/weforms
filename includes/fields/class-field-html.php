@@ -23,7 +23,7 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
 
-            <div class="wpuf-fields <?php echo 'html_' . $form_id; ?>">
+            <div class="wpuf-fields <?php echo 'html_' . $form_id; ?><?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>">
                 <?php echo $field_settings['html']; ?>
             </div>
 
