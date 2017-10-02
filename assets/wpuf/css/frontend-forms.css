@@ -1,7 +1,7 @@
 .wpuf-loading {
   width: 16px;
   height: 16px;
-  background: url('../css/images/wpspin_light.gif') no-repeat;
+  background: url('../images/wpspin_light.gif') no-repeat;
   display: inline-block;
 }
 .wpuf-loading.hide {
@@ -529,7 +529,7 @@ ul.wpuf-form:not(.form-label-left) .wpuf-submit .wpuf-label {
   margin-bottom: 20px;
 }
 .wpuf-coupon-info-wrap .wpuf-coupon-field-spinner {
-  background: url('../css/images/wpspin_light.gif') no-repeat right scroll rgba(0, 0, 0, 0);
+  background: url('../images/wpspin_light.gif') no-repeat right scroll rgba(0, 0, 0, 0);
 }
 .wpuf-coupon-info-wrap .wpuf-copon-show {
   background: #EEEEEE;

@@ -215,6 +215,7 @@ module.exports = function (grunt) {
                             'css/frontend-forms.css',
                             'css/jquery-ui-1.9.1.custom.css',
                             'css/images/**',
+                            'images/wpspin_light.gif',
                             'js-templates/form-components.php',
                             'vendor/**',
                         ],
