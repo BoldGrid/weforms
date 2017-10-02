@@ -155,22 +155,25 @@ abstract class WeForms_Form_Template {
      */
     public function get_default_settings() {
         return array(
-            'redirect_to'        => 'same',
-            'message'            => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
-            'page_id'            => '',
-            'url'                => '',
-            'submit_text'        => __( 'Submit Query', 'weforms' ),
-            'schedule_form'      => 'false',
-            'schedule_start'     => '',
-            'schedule_end'       => '',
-            'sc_pending_message' => __( 'Form submission hasn\'t been started yet', 'weforms' ),
-            'sc_expired_message' => __( 'Form submission is now closed.', 'weforms' ),
-            'require_login'      => 'false',
-            'req_login_message'  => __( 'You need to login to submit a query.', 'weforms' ),
-            'limit_entries'      => 'false',
-            'limit_number'       => '100',
-            'limit_message'      => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
-            'label_position'     => 'above',
+            'redirect_to'                => 'same',
+            'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
+            'page_id'                    => '',
+            'url'                        => '',
+            'submit_text'                => __( 'Submit Query', 'weforms' ),
+            'schedule_form'              => 'false',
+            'schedule_start'             => '',
+            'schedule_end'               => '',
+            'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
+            'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
+            'require_login'              => 'false',
+            'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
+            'limit_entries'              => 'false',
+            'limit_number'               => '100',
+            'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
+            'label_position'             => 'above',
+
+            'enable_multistep'           => false,
+            'multistep_progressbar_type' => 'progressive',
         );
     }
 
