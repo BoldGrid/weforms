@@ -20,6 +20,8 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
+
+        $field_settings['description'] = isset( $field_settings['description'] ) ? $field_settings['description'] : '';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <div class="wpuf-section-wrap <?php echo 'section_' . $form_id; ?>">

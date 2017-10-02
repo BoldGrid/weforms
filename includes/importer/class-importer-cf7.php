@@ -104,6 +104,8 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                         'options'   => $this->get_options( $cf_field ),
                     ) );
 
+                    break;
+
                 case 'range':
                 case 'number':
 

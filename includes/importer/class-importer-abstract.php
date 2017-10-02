@@ -690,6 +690,7 @@ abstract class WeForms_Importer_Abstract {
                     'template'         => 'custom_html',
                     'label'            => $args['label'],
                     'name'             => $args['name'],
+                    'html'             => $args['default'],
                     'wpuf_cond'        => $this->conditionals
                 );
                 break;
