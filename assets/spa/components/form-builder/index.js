@@ -225,7 +225,7 @@ weForms.routeComponents.FormEditComponent = {
 
                 swal({
                     title: 'Share Your Form',
-                    html: '<p> Anyone with this URL will able to view and submit the form. </p> <p> <input type ="text" class="regular-text" value="'+post_link+'"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="'+post_link+'"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p> ',
+                    html: '<p>Anyone with this URL will be able to view and submit this form.</p> <p><input type ="text" class="regular-text" value="' + post_link + '"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="' + post_link + '"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p>',
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonClass: 'btn btn-success',
@@ -238,7 +238,7 @@ weForms.routeComponents.FormEditComponent = {
                 }).then(function () {
                     swal({
                         title: 'Are you sure?',
-                        html: "<p>Anyone with existing URL won't able to view and submit the form anymroe.</p>",
+                        html: "<p>Anyone with existing URL won't be able to view and submit the form anymore.</p>",
                         type: 'info',
                         confirmButtonColor: '#d54e21',
                         showCancelButton: true,
