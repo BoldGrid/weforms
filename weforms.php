@@ -301,7 +301,7 @@ final class WeForms {
      */
     function plugin_action_links( $links ) {
 
-        $links[] = '<a href="https://wedevs.com/docs/weforms/contact-forms/?utm_source=weforms-action-link&utm_medium=textlink&utm_campaign=plugin-docs-link" target="_blank">' . __( 'Docs', 'weforms' ) . '</a>';
+        $links[] = '<a href="https://wedevs.com/docs/weforms/?utm_source=weforms-action-link&utm_medium=textlink&utm_campaign=plugin-docs-link" target="_blank">' . __( 'Docs', 'weforms' ) . '</a>';
         $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
         return $links;
