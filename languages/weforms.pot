@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.1.0\n"
+"Project-Id-Version: weForms 1.1.1\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2017-10-02 17:04:47+00:00\n"
+"POT-Creation-Date: 2017-10-02 18:14:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: includes/admin/class-admin.php:98 weforms.php:305
+#: includes/admin/class-admin.php:98 weforms.php:320
 msgid "Settings"
 msgstr ""
 
@@ -500,11 +500,6 @@ msgstr ""
 
 #: includes/class-frontend-form.php:107
 msgid "Powered by <a href=\"%s\" target=\"_blank\">weForms</a>"
-msgstr ""
-
-#: includes/class-installer.php:143
-#: includes/templates/class-template-contact.php:12
-msgid "Contact Form"
 msgstr ""
 
 #: includes/class-scripts-styles.php:281
@@ -1146,6 +1141,10 @@ msgstr ""
 msgid "Start from a blank slate"
 msgstr ""
 
+#: includes/templates/class-template-contact.php:12
+msgid "Contact Form"
+msgstr ""
+
 #: includes/templates/class-template-contact.php:13
 msgid "Create a simple contact form for your site."
 msgstr ""
@@ -1269,7 +1268,7 @@ msgstr ""
 msgid "How may we help you? Please be brief as much as possible."
 msgstr ""
 
-#: weforms.php:304
+#: weforms.php:319
 msgid "Docs"
 msgstr ""
 
