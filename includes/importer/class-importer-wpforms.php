@@ -108,6 +108,10 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
         }
 
         foreach ( $parsed['fields'] as $menu_order => $field ) {
+
+            // avoid empty meta_key
+            $field['id'] = $field['type'] . '_' . $field['id'];
+
             switch ( $field['type'] ) {
                 case 'text':
                 case 'email':

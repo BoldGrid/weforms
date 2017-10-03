@@ -454,27 +454,30 @@ abstract class WeForms_Importer_Abstract {
      */
     public function get_form_field( $type, $args = array() ) {
         $defaults = array(
-            'required'           => 'no',
-            'label'              => '',
-            'name'               => '',
-            'help'               => '',
-            'css_class'          => '',
-            'placeholder'        => '',
-            'value'              => '',
-            'default'            => '',
-            'options'            => array(),
-            'step'               => '',
-            'min'                => '',
-            'max'                => '',
-            'extension'          => '',
-            'max_size'           => '', // file size
-            'size'               => '', // file size
-            'first_placeholder'  => '',
-            'first_default'      => '',
-            'middle_placeholder' => '',
-            'middle_default'     => '',
-            'last_placeholder'   => '',
-            'last_default'       => '',
+             'required'           => 'no',
+             'label'              => '',
+             'name'               => '',
+             'help'               => '',
+             'css_class'          => '',
+             'placeholder'        => '',
+             'value'              => '',
+             'default'            => '',
+             'options'            => array(),
+             'step'               => '',
+             'min'                => '',
+             'max'                => '',
+             'extension'          => '',
+             'max_size'           => '', // file size
+             'size'               => '', // file size
+             'first_placeholder'  => '',
+             'first_default'      => '',
+             'middle_placeholder' => '',
+             'middle_default'     => '',
+             'last_placeholder'   => '',
+             'last_default'       => '',
+             'first_name'         => '',
+             'middle_name'        => '',
+             'last_name'          => '',
         );
 
         $args = wp_parse_args( $args, $defaults );
@@ -746,32 +749,20 @@ abstract class WeForms_Importer_Abstract {
 
             case 'name':
                 $field_content = array(
-                    'input_type' => 'name',
-                    'template'   => 'name_field',
-                    'required'   => $args['required'],
-                    'label'      => $args['label'],
-                    'name'       => $args['name'],
-                    'is_meta'    => 'yes',
-                    'format'     => $args['format'],
-                    'first_name' => array(
-                        'placeholder' => $args['first_placeholder'],
-                        'default'     => $args['first_default'],
-                        'sub'         => __( 'First', 'weforms' )
-                    ),
-                    'middle_name' => array(
-                        'placeholder' => $args['middle_placeholder'],
-                        'default'     => $args['middle_default'],
-                        'sub'         => __( 'Middle', 'weforms' )
-                    ),
-                    'last_name' => array(
-                        'placeholder' => $args['last_placeholder'],
-                        'default'     => $args['last_default'],
-                        'sub'         => __( 'Last', 'weforms' )
-                    ),
-                    'hide_subs'        => false,
-                    'help'             => $args['description'],
-                    'css'              => $args['css_class'],
-                    'wpuf_cond'        => $this->conditionals
+                    'input_type'  => 'name',
+                    'template'    => 'name_field',
+                    'required'    => $args['required'],
+                    'label'       => $args['label'],
+                    'name'        => $args['name'],
+                    'is_meta'     => 'yes',
+                    'format'      => $args['format'],
+                    'first_name'  => $args['first_name'],
+                    'middle_name' => $args['middle_name'],
+                    'last_name'   => $args['last_name'],
+                    'hide_subs'   => false,
+                    'help'        => $args['description'],
+                    'css'         => $args['css_class'],
+                    'wpuf_cond'   => $this->conditionals,
                 );
                 break;
 
