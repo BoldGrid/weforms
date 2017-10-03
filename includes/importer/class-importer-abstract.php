@@ -735,7 +735,7 @@ abstract class WeForms_Importer_Abstract {
                     'label'      => $args['label'],
                     'name'       => $args['name'],
                     'is_meta'    => 'yes',
-                    'help'       => '',
+                    'help'       => $args['help'],
                     'css'        => $args['css_class'],
                     'max_size'   => $args['max_size'],
                     'count'      => '1',
@@ -772,6 +772,21 @@ abstract class WeForms_Importer_Abstract {
                     'help'             => $args['description'],
                     'css'              => $args['css_class'],
                     'wpuf_cond'        => $this->conditionals
+                );
+                break;
+
+            case 'ratings':
+                $field_content = array(
+                    'input_type' => 'ratings',
+                    'template'   => 'ratings',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
                 );
                 break;
         }

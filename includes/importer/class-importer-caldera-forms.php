@@ -7,6 +7,13 @@
  */
 class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
 
+    /**
+     * Will store submit button label
+     *
+     * @var string
+     */
+    private $submit_text;
+
     function __construct() {
         $this->id        = 'caldera-forms';
         $this->title     = 'Caldera Forms';
@@ -73,13 +80,31 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     public function get_form_fields( $form ) {
         $form_fields = array();
         $fields      = Caldera_Forms_Forms::get_fields( $form );
+
         foreach ( $fields as $name => $field ) {
+
+            if ( isset( $field['config']['type_override'] ) && $field['config']['type_override'] ) {
+
+               $field['type'] = $field['config']['type_override'];
+            }
+
             switch ( $field['type'] ) {
                 case 'text':
                 case 'email':
                 case 'textarea':
                 case 'date':
                 case 'url':
+                case 'phone_better':
+                case 'paragraph':
+
+                    if ( $field['type'] == 'phone_better' ) {
+                        $field['type'] = 'text';
+                    }
+
+                    if ( $field['type'] == 'paragraph' ) {
+                        $field['type'] = 'textarea';
+                    }
+
                     $form_fields[] = $this->get_form_field( $field['type'], array(
                         'required' => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'    => $field['label'],
@@ -91,18 +116,24 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
                 case 'select':
                 case 'radio':
                 case 'checkbox':
+                case 'dropdown':
+
+                    if ( $field['type'] == 'dropdown' ) {
+                        $field['type'] = 'select';
+                    }
+
                     $form_fields[] = $this->get_form_field( $field['type'], array(
                         'required' => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'    => $field['label'],
                         'name'     => $field['slug'],
                         'css'      => $field['config']['custom_class'],
-                        'options'  => $field['config']['option'],
+                        'options'  => $this->get_option( $field['config']['option'] ),
                     ) );
                     break;
 
                 case 'range':
                 case 'number':
-                    $field_content[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], array(
                         'required'        => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'           => $field['label'],
                         'name'            => $field['slug'],
@@ -111,6 +142,42 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
                         'min_value_field' => $field['config']['min'],
                         'max_value_field' => $field['config']['max'],
                     ) );
+
+                    break;
+
+                case 'star_rating':
+
+                    if ( empty( $field['config']['number'] ) ) {
+                        $field['config']['number'] = 5;
+                    }
+
+                    $form_fields[] = $this->get_form_field( 'ratings', array(
+                        'required'        => isset( $field['required'] ) ? 'yes' : 'no',
+                        'label'           => $field['label'],
+                        'name'            => $field['slug'],
+                        'css'             => $field['config']['custom_class'],
+                        'options'         => array_combine( range( 1, $field['config']['number'] ), range( 1, $field['config']['number'] ) ),
+                    ) );
+
+                    break;
+
+                case 'advanced_file':
+
+                    $form_fields[] = $this->get_form_field( 'file', array(
+                        'required'        => isset( $field['required'] ) ? 'yes' : 'no',
+                        'label'           => $field['label'],
+                        'name'            => $field['slug'],
+                        'css'             => $field['config']['custom_class'],
+                        'help'            => $field['caption'],
+                    ) );
+
+                    break;
+
+                case 'button':
+
+                    $this->submit_text = $field['label'];
+
+                    break;
 
             }
         }
@@ -131,7 +198,35 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
             'message' => $form['success'],
         ), $default );
 
+
+        if ( $this->submit_text ) {
+            $settings['submit_text'] = $this->submit_text;
+        }
+
         return $settings;
+    }
+
+
+    /**
+     * Format options
+     *
+     * @param  object $options
+     *
+     * @return array
+     */
+    public function get_option( $options ) {
+
+        $_options = array();
+
+        foreach ( $options as $key => $option) {
+
+            $label = !empty( $option['label'] ) ? $option['label'] : 'Option - ' . $key;
+            $value = !empty( $option['value'] )  ? $option['value'] : $label;
+
+            $_options[$value] = $label;
+        }
+
+        return $_options;
     }
 
     /**
