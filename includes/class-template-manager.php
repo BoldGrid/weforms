@@ -43,12 +43,14 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-contact.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-event-registration.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-support.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-tell-a-friend.php';
 
         $templates = array(
             'blank'              => new WeForms_Template_Blank(),
             'contact'            => new WeForms_Template_Contact(),
             'event_registration' => new WeForms_Template_Event_Registration(),
-            'support'            => new WeForms_Template_Support()
+            'support'            => new WeForms_Template_Support(),
+            'tell_a_friend'      => new WeForms_Template_Tell_A_Friend()
         );
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );
