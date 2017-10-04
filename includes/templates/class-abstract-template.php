@@ -185,16 +185,27 @@ abstract class WeForms_Form_Template {
     function get_default_notification() {
         return array(
             array(
-                'active'      => 'true',
-                'name'        => __( 'Admin Notification', 'weforms' ),
-                'subject'     => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
-                'to'          => '{admin_email}',
-                'replyTo'     => '{field:email}',
-                'message'     => '{all_fields}',
-                'fromName'    => '{site_name}',
-                'fromAddress' => '{admin_email}',
-                'cc'          => '',
-                'bcc'         => '',
+                'active'       => 'true',
+                'name'         => __( 'Admin Notification', 'weforms' ),
+                'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+                'to'           => '{admin_email}',
+                'replyTo'      => '{field:email}',
+                'message'      => '{all_fields}',
+                'fromName'     => '{site_name}',
+                'fromAddress'  => '{admin_email}',
+                'cc'           => '',
+                'bcc'          => '',
+                'weforms_cond' => array(
+                    'condition_status' => 'no',
+                    'cond_logic'       => 'any',
+                    'conditions'       => array(
+                        array(
+                            'name'             => '',
+                            'operator'         => '=',
+                            'option'           => ''
+                        )
+                    )
+                )
             ),
         );
     }

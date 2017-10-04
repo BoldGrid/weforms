@@ -1,6 +1,6 @@
 <?php
 /**
- * A simple contact form for sending message 
+ * A simple contact form for sending message
  */
 class WeForms_Template_Tell_A_Friend extends WeForms_Form_Template {
 
@@ -67,33 +67,33 @@ class WeForms_Template_Tell_A_Friend extends WeForms_Form_Template {
     	$defaults = $this->get_default_notification();
 
     	$form_notifications = array(
-    		array_merge($defaults, array(
-    			'active' 				=> 'true', 
-        		'name' 					=> 'Admin Notification', 
-        		'subject' 				=> '[{form_name}] New Form Submission #{entry_id}', 
-        		'to' 					=> '{admin_email}', 
-        		'replyTo' 				=> '{field:email}', 
-        		'message' 				=> '{all_fields}', 
-        		'fromName' 				=> '{site_name}', 
-        		'fromAddress' 			=> '{admin_email}', 
-        		'cc' 					=> '', 
-        		'bcc' 					=> '', 
+    		array_merge($defaults[0], array(
+    			'active' 				=> 'true',
+        		'name' 					=> 'Admin Notification',
+        		'subject' 				=> '[{form_name}] New Form Submission #{entry_id}',
+        		'to' 					=> '{admin_email}',
+        		'replyTo' 				=> '{field:email}',
+        		'message' 				=> '{all_fields}',
+        		'fromName' 				=> '{site_name}',
+        		'fromAddress' 			=> '{admin_email}',
+        		'cc' 					=> '',
+        		'bcc' 					=> '',
     		) ),
-    		array_merge($defaults, array(
-    			'active' 				=> 'true', 
-				'name' 					=> 'To Notification', 
-				'subject' 				=> 'New Message From [{field:from}] ', 
-				'to' 					=> '{field:to}', 
-				'replyTo' 				=> '{field:from}', 
-				'message' 				=> '{field:message}', 
-				'fromName' 				=> 'From Name', 
-				'fromAddress' 			=> '{field:from}', 
-				'cc' 					=> '', 
-				'bcc' 					=> '', 
+    		array_merge($defaults[0], array(
+    			'active' 				=> 'true',
+				'name' 					=> 'To Notification',
+				'subject' 				=> 'New Message From [{field:from}] ',
+				'to' 					=> '{field:to}',
+				'replyTo' 				=> '{field:from}',
+				'message' 				=> '{field:message}',
+				'fromName' 				=> 'From Name',
+				'fromAddress' 			=> '{field:from}',
+				'cc' 					=> '',
+				'bcc' 					=> '',
     		) ),
     	);
 
     	return $form_notifications;
     }
-    
+
 }
