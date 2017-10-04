@@ -422,7 +422,7 @@
         },
 
         validateForm: function( self ) {
-
+// console.log(self.find($("input[name=form_id]")).val());
             var temp,
                 temp_val    = '',
                 error       = false,
@@ -678,6 +678,11 @@
         isValidURL: function(url) {
             var urlregex = new RegExp("^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.|http:\/\/|https:\/\/){1}([0-9A-Za-z]+\.)");
             return urlregex.test(url);
+        },
+
+        isDuplicate: function(id,) {
+            $.post(wpuf_frontend.ajaxurl, form_data, function(res) {
+            });
         },
 
         insertImage: function(button, form_id) {
