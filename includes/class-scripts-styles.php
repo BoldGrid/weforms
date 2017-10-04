@@ -283,6 +283,12 @@ class WeForms_Scripts_Styles {
             'word_limit'    => __( 'Word limit reached', 'wpuf' )
         ) );
 
+        wp_localize_script( 'wpuf-form', 'error_str_obj', array(
+            'required'   => __( 'is required', 'wpuf' ),
+            'mismatch'   => __( 'does not match', 'wpuf' ),
+            'validation' => __( 'is not valid', 'wpuf' ),
+        ) );
+
         wp_localize_script( 'wpuf-upload', 'wpuf_frontend_upload', array(
             'confirmMsg' => __( 'Are you sure?', 'wpuf' ),
             'nonce'      => wp_create_nonce( 'wpuf_nonce' ),
