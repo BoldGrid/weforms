@@ -1,6 +1,6 @@
 /*!
-weForms - v1.0.4
-Generated: 2017-10-02 (1506919369473)
+weForms - v1.1.1
+Generated: 2017-10-04 (1507096320682)
 */
 
 ;(function($) {
@@ -1109,7 +1109,7 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         // notifications
         addNotification: function(state, payload) {
-            state.notifications.push(payload);
+            state.notifications.push(_.clone(payload));
         },
 
         deleteNotification: function(state, index) {

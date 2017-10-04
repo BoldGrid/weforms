@@ -205,7 +205,7 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         // notifications
         addNotification: function(state, payload) {
-            state.notifications.push(payload);
+            state.notifications.push(_.clone(payload));
         },
 
         deleteNotification: function(state, index) {

@@ -40,16 +40,27 @@ class WeForms_Form_Builder_Assets {
             'pro_link'            => self::get_pro_url(),
             'site_url'            => site_url('/'),
             'defaultNotification' => array(
-                'active'      => 'true',
-                'name'        => 'Admin Notification',
-                'subject'     => '[{from_name}] New Form Submission #{entry_id}',
-                'to'          => '{admin_email}',
-                'replyTo'     => '',
-                'message'     => '{all_fields}',
-                'fromName'    => '',
-                'fromAddress' => '{admin_email}',
-                'cc'          => '',
-                'bcc'         => ''
+                'active'              => 'true',
+                'name'                => 'Admin Notification',
+                'subject'             => '[{from_name}] New Form Submission #{entry_id}',
+                'to'                  => '{admin_email}',
+                'replyTo'             => '',
+                'message'             => '{all_fields}',
+                'fromName'            => '',
+                'fromAddress'         => '{admin_email}',
+                'cc'                  => '',
+                'bcc'                 => '',
+                'weforms_cond'        => array(
+                    'condition_status' => 'no',
+                    'cond_logic'       => 'any',
+                    'conditions'       => array(
+                        array(
+                            'name'     => '',
+                            'operator' => '=',
+                            'option'   => ''
+                        )
+                    )
+                )
             ),
             'integrations'     => weforms()->integrations->get_integration_js_settings(),
             'recaptcha_site'   => isset( $recaptcha->key ) ? $recaptcha->key : '',

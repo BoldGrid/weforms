@@ -179,6 +179,9 @@ a.add-notification .dashicons {
   width: 100%;
   padding: 6px 25px 6px 6px;
 }
+.notification-wrap .notification-edit-area .form-fields input[type='radio'] {
+  width: auto;
+}
 .notification-wrap .notification-edit-area .form-fields .notification-row {
   margin-bottom: 10px;
   position: relative;
@@ -203,11 +206,21 @@ a.add-notification .dashicons {
 .notification-wrap .notification-edit-area .form-fields .advanced-field-wrap {
   display: none;
 }
+.notification-wrap .notification-edit-area .form-fields .notification-conditional-logic .help {
+  margin-bottom: 0px;
+}
+.notification-wrap .notification-edit-area .form-fields .notification-conditional-logic .condition-status {
+  margin-bottom: 0px;
+  margin-top: 8px;
+}
+.notification-wrap .notification-edit-area .form-fields .notification-conditional-logic .condiotional-logic-repeater {
+  margin: 8px 0px;
+}
 .notification-wrap .notification-edit-area .submit-area {
   padding: 8px 10px;
   background: #f9f9f9;
   border-top: 1px solid #e1e1e1;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 .notification-wrap .notification-edit-area .submit-area:after {
   clear: both;
