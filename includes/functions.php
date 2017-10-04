@@ -33,6 +33,10 @@ function weforms_get_form_template_categories() {
             'name'         => 'Event Templates',
             'icon'         => 'fa fa-calendar',
         ),
+        'application'        => array(
+            'name'         => 'Application Templates',
+            'icon'         => 'fa fa-address-card-o',
+        ),
     );
 
     return apply_filters( 'weforms_form_template_categories', $categories );
