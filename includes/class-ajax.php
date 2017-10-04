@@ -35,6 +35,11 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_entry_trash', array( $this, 'trash_entry' ) );
         add_action( 'wp_ajax_weforms_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
 
+
+        // frontend duplicate value
+        add_action( 'wp_ajax_duplicate_insert_value', array( $this, 'duplicate_insert_value' ) );
+        add_action( 'wp_ajax_nopriv_duplicate_insert_value', array( $this, 'duplicate_insert_value' ) );
+
         // frontend requests
         add_action( 'wp_ajax_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
         add_action( 'wp_ajax_nopriv_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
@@ -472,6 +477,26 @@ class WeForms_Ajax {
     }
 
     /**
+     * Handle frontend duplicate submission
+     *
+     * @return void
+     */
+    public function duplicate_insert_value() {
+        $form_entries  = weforms_get_form_entries( $_POST['form_id'], array( 'number'  => '', 'offset'  => '' ) );
+        $check = false;
+        $existing = '';
+        if ( count( $form_entries ) ) {
+            foreach ( $form_entries as $entry ) {
+                $existing = weforms_get_entry_meta( $entry->id, $_POST['field_name'], true );
+                if ( '' != $existing && $_POST['field_value'] == $existing ) {
+                    $check = true;
+                }
+            }
+        }
+        wp_send_json( array( 'success'=> $check ) );
+    }
+
+    /**
      * Handle the frontend submission
      *
      * @return void
@@ -486,21 +511,7 @@ class WeForms_Ajax {
         $form_settings = $form->get_settings();
         $form_fields   = $form->get_fields();
         $entry_fields  = $form->prepare_entries();
-        $form_entries  = weforms_get_form_entries( $form_id, array( 'number'  => '', 'offset'  => '' ) );
 
-        if ( count( $form_entries ) && count( $entry_fields ) ) {
-            foreach ( $form_entries as $entry ) {
-                foreach ( $entry_fields as $field_key => $field_value ) {
-                    $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
-                    if ( !empty( $existing ) && $field_value == $existing ) {
-                        wp_send_json( array(
-                            'success'     => false,
-                            'error'       => sprintf( __( 'ERROR: "%s" is a duplicate value of "%s" field.', 'weforms' ), $field_value, $field_key )
-                        ) );
-                    }
-                }
-            }
-        }
 
         if ( !$form_fields ) {
             wp_send_json( array(

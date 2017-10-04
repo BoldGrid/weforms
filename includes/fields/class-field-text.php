@@ -30,7 +30,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                     class="textfield <?php echo 'wpuf_' . $field_settings['name'] . '_' . $form_id; ?>"
                     id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
                     type="text"
-                    data-duplicate="<?php echo $field_settings['duplicate'] ?>"
+                    data-duplicate="<?php echo $field_settings['duplicate'] ? $field_settings['duplicate'] : 'no'; ?>"
                     data-required="<?php echo $field_settings['required'] ?>"
                     data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>"
                     placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
@@ -69,12 +69,12 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
                 'options'       => array(
-                    'true'   => __( 'Allow duplicate', 'weforms' )
+                    'yes'   => __( 'Allow duplicate', 'weforms' )
                 ),
                 'default'       => 'true',
                 'section'       => 'advanced',
                 'priority'      => 23,
-                'help_text'     => __( 'Set "yes" value for this option to allow duplicate value. By selecting "no" the form will not submit unless the value is unique.', 'weforms' ),
+                'help_text'     => __( 'Check this option to allow duplicate value.', 'weforms' ),
             )
         );
         return array_merge( $default_options, $default_text_options, $check_duplicate );
@@ -89,7 +89,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
         $defaults = $this->default_attributes();
         $props    = array(
             'word_restriction' => '',
-            'duplicate' => 'true',
+            'duplicate' => 'yes',
         );
 
         return array_merge( $defaults, $props );

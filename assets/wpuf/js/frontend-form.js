@@ -422,7 +422,7 @@
         },
 
         validateForm: function( self ) {
-// console.log(self.find($("input[name=form_id]")).val());
+
             var temp,
                 temp_val    = '',
                 error       = false,
@@ -595,6 +595,36 @@
                 };
 
             });
+            
+            var form_id = self.find($("input[name=form_id]")).val();
+            var duplicate = self.find('[data-duplicate="no"]:visible');
+
+            duplicate.each(function(i, item) {
+
+                var field_name = $(item).attr("name");
+                var field_value = $(item).val();
+
+                $.post(wpuf_frontend.ajaxurl,{
+                    action: 'duplicate_insert_value',
+                    form_id: form_id,
+                    field_name: field_name,
+                    field_value: field_value
+                },
+                function(res) {
+
+                    if (res.success) {
+
+                        error = true;
+                        error_type = 'duplicate';
+                        WP_User_Frontend.markError( item, error_type );
+
+                        return false;
+
+                    } 
+
+                });
+
+            });
 
             // if already some error found, bail out
             if (error) {
@@ -657,6 +687,9 @@
                     case 'validation' :
                         error_string = error_string + ' ' + error_str_obj[error_type];
                         break
+                    case 'duplicate' :
+                        error_string = error_string + ' ' + error_str_obj[error_type];
+                        break
                 }
                 $(item).siblings('.wpuf-error-msg').remove();
                 $(item).after('<div class="wpuf-error-msg">'+ error_string +'</div>')
@@ -678,11 +711,6 @@
         isValidURL: function(url) {
             var urlregex = new RegExp("^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.|http:\/\/|https:\/\/){1}([0-9A-Za-z]+\.)");
             return urlregex.test(url);
-        },
-
-        isDuplicate: function(id,) {
-            $.post(wpuf_frontend.ajaxurl, form_data, function(res) {
-            });
         },
 
         insertImage: function(button, form_id) {

@@ -30,7 +30,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
                     id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
                     type="email"
                     class="email <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>"
-                    data-duplicate="<?php echo $field_settings['duplicate'] ?>"
+                    data-duplicate="<?php echo $field_settings['duplicate'] ? $field_settings['duplicate'] : 'no'; ?>"
                     data-required="<?php echo $field_settings['required'] ?>"
                     data-type="email"
                     name="<?php echo esc_attr( $field_settings['name'] ); ?>"
@@ -60,12 +60,12 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
                 'options'       => array(
-                    'true'   => __( 'Allow duplicate', 'weforms' )
+                    'yes'   => __( 'Allow duplicate', 'weforms' )
                 ),
                 'selected'       => 'true',
                 'section'       => 'advanced',
                 'priority'      => 23,
-                'help_text'     => __( 'Set "yes" value for this option to allow duplicate value. By selecting "no" the form will not submit unless the value is unique.', 'weforms' ),
+                'help_text'     => __( 'Check this option to allow duplicate value.', 'weforms' ),
             )
         );
 
@@ -79,7 +79,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $defaults['duplicate'] = 'true';
+        $defaults['duplicate'] = 'yes';
         return $defaults;
     }
 
