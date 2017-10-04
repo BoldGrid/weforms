@@ -483,9 +483,24 @@ class WeForms_Ajax {
         $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
 
         $form          = weforms()->form->get( $form_id );
+        $form_settings = $form->get_settings();
         $form_fields   = $form->get_fields();
         $entry_fields  = $form->prepare_entries();
-        $form_settings = $form->get_settings();
+        $form_entries  = weforms_get_form_entries( $form_id, array( 'number'  => '', 'offset'  => '' ) );
+
+        if ( count( $form_entries ) && count( $entry_fields ) ) {
+            foreach ( $form_entries as $entry ) {
+                foreach ( $entry_fields as $field_key => $field_value ) {
+                    $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
+                    if ( !empty( $existing ) && $field_value == $existing ) {
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => sprintf( __( 'ERROR: "%s" is a duplicate value of "%s" field.', 'weforms' ), $field_value, $field_key )
+                        ) );
+                    }
+                }
+            }
+        }
 
         if ( !$form_fields ) {
             wp_send_json( array(

@@ -62,8 +62,11 @@ function weforms_get_form_entries( $form_id, $args = array() ) {
     $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
             FROM ' . $wpdb->weforms_entries .
             ' WHERE form_id = ' . $form_id . ' AND status = \'' . $r['status'] . '\''.
-            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'] .
-            ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
+            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'];
+
+    if ( !empty( $r['offset'] ) && !empty( $r['number'] ) ) {
+        $query .= ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
+    }
 
     $results = $wpdb->get_results( $query );
 

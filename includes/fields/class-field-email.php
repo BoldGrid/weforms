@@ -30,6 +30,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
                     id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
                     type="email"
                     class="email <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>"
+                    data-duplicate="<?php echo $field_settings['duplicate'] ?>"
                     data-required="<?php echo $field_settings['required'] ?>"
                     data-type="email"
                     name="<?php echo esc_attr( $field_settings['name'] ); ?>"
@@ -52,8 +53,23 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
     public function get_options_settings() {
         $default_options      = $this->get_default_option_settings();
         $default_text_options = $this->get_default_text_option_settings();
+        $check_duplicate      = array(
+            array(
+                'name'          => 'duplicate',
+                'title'         => '',
+                'type'          => 'checkbox',
+                'is_single_opt' => true,
+                'options'       => array(
+                    'true'   => __( 'Allow duplicate', 'weforms' )
+                ),
+                'selected'       => 'true',
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'Set "yes" value for this option to allow duplicate value. By selecting "no" the form will not submit unless the value is unique.', 'weforms' ),
+            )
+        );
 
-        return array_merge( $default_options, $default_text_options );
+        return array_merge( $default_options, $default_text_options, $check_duplicate );
     }
 
     /**
@@ -63,7 +79,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-
+        $defaults['duplicate'] = 'true';
         return $defaults;
     }
 
