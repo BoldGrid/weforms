@@ -57,7 +57,7 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings();
+        $default_options      = $this->get_default_option_settings(true, array('dynamic') ); // exclude dynamic
 
         $settings = array(
             array(

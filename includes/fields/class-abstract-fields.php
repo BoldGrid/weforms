@@ -180,7 +180,7 @@ abstract class WeForms_Field_Contract {
      *
      * @return array
      */
-    public static function get_default_option_settings( $is_meta = true ) {
+    public static function get_default_option_settings( $is_meta = true, $exclude = array() ) {
         $common_properties = array(
             array(
                 'name'      => 'label',
@@ -223,6 +223,14 @@ abstract class WeForms_Field_Contract {
                 'priority'  => 22,
                 'help_text' => __( 'Provide a container class name for this field.', 'weforms' ),
             ),
+            array(
+                'name'          => 'dynamic',
+                'title'         => '',
+                'type'          => 'dynamic-field',
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'Check this option to allow field to be populated dynamically using hooks/query string/shortcode', 'weforms' ),
+            ),
         );
 
         if ( $is_meta ) {
@@ -234,6 +242,16 @@ abstract class WeForms_Field_Contract {
                 'priority'  => 11,
                 'help_text' => __( 'Name of the meta key this field will save to', 'weforms' ),
             );
+        }
+
+        if ( count( $exclude ) ) {
+            foreach ( $common_properties as $key => &$option ) {
+
+                if ( in_array( $option['name'] , $exclude) ) {
+                    unset( $common_properties[$key] );
+                }
+            }
+
         }
 
         return $common_properties;

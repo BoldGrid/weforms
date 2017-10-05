@@ -144,9 +144,44 @@ class WeForms_Field_Manager {
                 continue;
             }
 
+            $field = $this->dynamic_fields( $field, $form_id );
+
             $field_object->render( $field, $form_id );
             $field_object->conditional_logic( $field, $form_id );
         }
+    }
+
+    /**
+     * Filter dynamic fields
+     *
+     * @param  array $form_field
+     * @param  integer $form_id
+     *
+     * @return void
+     */
+    function dynamic_fields( $form_field, $form_id ) {
+
+        if ( !isset( $form_field['dynamic'] ) || empty( $form_field['dynamic']['status']) || empty( $form_field['dynamic']['param_name'] ) ) {
+            return $form_field;
+        }
+
+        $param_name = $form_field['dynamic']['param_name'];
+
+        if ( isset( $form_field['options'] ) ) {
+
+            $form_field['options'] = apply_filters( 'weforms_field_value_' . $param_name , $form_field['options'] );
+
+        } elseif ( isset( $form_field['default'] ) ) {
+
+            $form_field['default'] = apply_filters( 'weforms_field_value_' . $param_name , $form_field['default'] );
+
+            if ( isset( $_GET[$param_name] ) ) {
+
+                $form_field['default'] = $_GET[$param_name];
+            }
+        }
+
+        return $form_field;
     }
 
     /**
