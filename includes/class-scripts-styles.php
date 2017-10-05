@@ -287,6 +287,7 @@ class WeForms_Scripts_Styles {
             'required'   => __( 'is required', 'wpuf' ),
             'mismatch'   => __( 'does not match', 'wpuf' ),
             'validation' => __( 'is not valid', 'wpuf' ),
+            'duplicate'  => __( 'requires a unique entry and this value has already been used', 'wpuf' ),
         ) );
 
         wp_localize_script( 'wpuf-upload', 'wpuf_frontend_upload', array(

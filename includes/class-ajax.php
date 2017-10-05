@@ -493,7 +493,7 @@ class WeForms_Ajax {
                 }
             }
         }
-        wp_send_json( array( 'success'=> $check ) );
+        wp_send_json( array( 'duplicate'=> $check ) );
     }
 
     /**

@@ -361,6 +361,7 @@
             var form = $(this),
                 submitButton = form.find('input[type=submit]')
                 form_data = WP_User_Frontend.validateForm(form);
+                form_data = WP_User_Frontend.isDuplicate(form);
 
             if (form_data) {
 
@@ -595,36 +596,6 @@
                 };
 
             });
-            
-            var form_id = self.find($("input[name=form_id]")).val();
-            var duplicate = self.find('[data-duplicate="no"]:visible');
-
-            duplicate.each(function(i, item) {
-
-                var field_name = $(item).attr("name");
-                var field_value = $(item).val();
-
-                $.post(wpuf_frontend.ajaxurl,{
-                    action: 'duplicate_insert_value',
-                    form_id: form_id,
-                    field_name: field_name,
-                    field_value: field_value
-                },
-                function(res) {
-
-                    if (res.success) {
-
-                        error = true;
-                        error_type = 'duplicate';
-                        WP_User_Frontend.markError( item, error_type );
-
-                        return false;
-
-                    } 
-
-                });
-
-            });
 
             // if already some error found, bail out
             if (error) {
@@ -650,6 +621,39 @@
             // append them to the form var
             form_data = form_data + '&' + rich_texts.join('&');
             return form_data;
+        },
+
+        isDuplicate: function(self) {
+
+            var form_id = self.find($("input[name=form_id]")).val();
+            var duplicate = self.find('[data-duplicate="no"]:visible');
+
+            duplicate.each(function(i, item) {
+
+                var field_name = $(item).attr("name");
+                var field_value = $(item).val();
+
+                $.post(wpuf_frontend.ajaxurl,{
+                    action: 'duplicate_insert_value',
+                    form_id: form_id,
+                    field_name: field_name,
+                    field_value: field_value
+                },
+                function(res) {
+
+                    if (res.duplicate) {
+
+                        error = true;
+                        error_type = 'duplicate';
+                        WP_User_Frontend.markError( item, error_type );
+
+                        return false;
+
+                    } 
+
+                });
+
+            });
         },
 
         /**
@@ -686,7 +690,7 @@
                         break;
                     case 'validation' :
                         error_string = error_string + ' ' + error_str_obj[error_type];
-                        break
+                        break;
                     case 'duplicate' :
                         error_string = error_string + ' ' + error_str_obj[error_type];
                         break
