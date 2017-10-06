@@ -45,6 +45,7 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-support.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-tell-a-friend.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-job-application.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-comment-and-rating.php';
 
         $templates = array(
             'blank'              => new WeForms_Template_Blank(),
@@ -52,7 +53,8 @@ class WeForms_Template_Manager {
             'event_registration' => new WeForms_Template_Event_Registration(),
             'support'            => new WeForms_Template_Support(),
             'tell_a_friend'      => new WeForms_Template_Tell_A_Friend(),
-            'job_application'    => new WeForms_Template_Job_Application()
+            'job_application'    => new WeForms_Template_Job_Application(),
+            'job_application'    => new WeForms_Template_Comment_Rating()
         );
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );
