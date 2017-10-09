@@ -361,65 +361,66 @@
             var form = $(this),
                 submitButton = form.find('input[type=submit]')
                 form_data = WP_User_Frontend.validateForm(form);
-                form_data = WP_User_Frontend.isDuplicate(form);
+                WP_User_Frontend.isDuplicate(form, function (isDuplicate) {
+                    if (!isDuplicate) {
 
-            if (form_data) {
+                        // send the request
+                        form.find('li.wpuf-submit').append('<span class="wpuf-loading"></span>');
+                        submitButton.attr('disabled', 'disabled').addClass('button-primary-disabled');
 
-                // send the request
-                form.find('li.wpuf-submit').append('<span class="wpuf-loading"></span>');
-                submitButton.attr('disabled', 'disabled').addClass('button-primary-disabled');
+                        $.post(wpuf_frontend.ajaxurl, form_data, function(res) {
+                            // var res = $.parseJSON(res);
 
-                $.post(wpuf_frontend.ajaxurl, form_data, function(res) {
-                    // var res = $.parseJSON(res);
+                            if ( res.success) {
 
-                    if ( res.success) {
+                                // enable external plugins to use events
+                                $('body').trigger('wpuf:postform:success', res);
 
-                        // enable external plugins to use events
-                        $('body').trigger('wpuf:postform:success', res);
+                                if ( res.show_message == true) {
+                                    form.before( '<div class="wpuf-success">' + res.message + '</div>');
+                                    form.slideUp( 'fast', function() {
+                                        form.remove();
+                                    });
 
-                        if ( res.show_message == true) {
-                            form.before( '<div class="wpuf-success">' + res.message + '</div>');
-                            form.slideUp( 'fast', function() {
-                                form.remove();
-                            });
+                                    //focus
+                                    $('html, body').animate({
+                                        scrollTop: $('.wpuf-success').offset().top - 100
+                                    }, 'fast');
 
-                            //focus
-                            $('html, body').animate({
-                                scrollTop: $('.wpuf-success').offset().top - 100
-                            }, 'fast');
+                                } else {
+                                    window.location = res.redirect_to;
+                                }
 
-                        } else {
-                            window.location = res.redirect_to;
-                        }
-
-                    } else {
-
-                        if ( typeof res.type !== 'undefined' && res.type === 'login' ) {
-
-                            if ( confirm(res.error) ) {
-                                window.location = res.redirect_to;
                             } else {
+
+                                if ( typeof res.type !== 'undefined' && res.type === 'login' ) {
+
+                                    if ( confirm(res.error) ) {
+                                        window.location = res.redirect_to;
+                                    } else {
+                                        submitButton.removeAttr('disabled');
+                                        submitButton.removeClass('button-primary-disabled');
+                                        form.find('span.wpuf-loading').remove();
+                                    }
+
+                                    return;
+                                } else {
+                                    if ( form.find('.g-recaptcha').length > 0 ) {
+                                        grecaptcha.reset();
+                                    }
+
+                                    alert( res.error );
+                                }
+
                                 submitButton.removeAttr('disabled');
-                                submitButton.removeClass('button-primary-disabled');
-                                form.find('span.wpuf-loading').remove();
                             }
 
-                            return;
-                        } else {
-                            if ( form.find('.g-recaptcha').length > 0 ) {
-                                grecaptcha.reset();
-                            }
-
-                            alert( res.error );
-                        }
-
-                        submitButton.removeAttr('disabled');
+                            submitButton.removeClass('button-primary-disabled');
+                            form.find('span.wpuf-loading').remove();
+                        });
                     }
-
-                    submitButton.removeClass('button-primary-disabled');
-                    form.find('span.wpuf-loading').remove();
                 });
-            }
+
         },
 
         validateForm: function( self ) {
@@ -623,7 +624,7 @@
             return form_data;
         },
 
-        isDuplicate: function(self) {
+        isDuplicate: function(self, callback) {
 
             var form_id = self.find($("input[name=form_id]")).val();
             var duplicate = self.find('[data-duplicate="no"]:visible');
@@ -647,11 +648,11 @@
                         error_type = 'duplicate';
                         WP_User_Frontend.markError( item, error_type );
 
-                        return false;
+                        return callback(true);
 
                     } else {
 
-                        return true;
+                        return callback(false);
                         
                     }
 
