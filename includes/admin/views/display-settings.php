@@ -23,7 +23,7 @@
             </p>
         </td>
     </tr>
-    <tr class="wpuf-limit-entries">
+    <tr class="wpuf-modal-form">
         <th><?php _e( 'Modal Form', 'weforms' ); ?></th>
         <td>
             <label>

@@ -65,21 +65,16 @@ class WeForms_Frontend_Form {
         $form_settings = $form->get_settings();
         $show_credit   = weforms_get_settings( 'credit', false );
 
-        if ( $form_settings['modal_form'] ) {
-            /**
-             * Enqueue scripts
-             *
-             * @param string $handle Script name
-             * @param string $src Script url
-             * @param array $deps (optional) Array of script names on which this script depends
-             * @param string|bool $ver (optional) Script version (used for cache busting), set to null to disable
-             * @param bool $in_footer (optional) Whether to enqueue the script before </head> or before </body>
-             */
+        if ( 'true' == $form_settings['modal_form'] ) {
+
             wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', array( 'jquery', 'wpuf-form' ), false, false );
             wp_enqueue_style( 'weforms_modal_styles', WEFORMS_ASSET_URI . '/modal/jquery.modal.css' );
-            
-            // add_filter( 'weforms_frontend_scripts', array( $this, 'weforms_modal_frontend_script' ) );
-            // add_filter( 'weforms_admin_styles', array( $this, 'weforms_modal_frontend_style' ) );
+
+            $modal_class = 'modal';
+            $modal_id = 'modal-form';
+            $modal_style = 'style="display:none"';
+        } else {
+            $modal_class = $modal_id = $modal_style = '';
         }
         ?>
 
@@ -97,7 +92,7 @@ class WeForms_Frontend_Form {
             }
         </script>
 
-        <form class="wpuf-form-add <?php echo $form_settings['modal_form'] ? 'modal' : ''; ?>" action="" method="post" id="<?php echo $form_settings['modal_form'] ? 'modal-form' : ''; ?>" <?php echo $form_settings['modal_form'] ? 'style="display:none"' : ''; ?>>
+        <form class="wpuf-form-add <?php echo $modal_class; ?>" action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
 
             <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
 
@@ -120,7 +115,7 @@ class WeForms_Frontend_Form {
         </form>
 
         <?php
-        if ( $form_settings['modal_form'] ) {
+        if ( 'true' == $form_settings['modal_form'] ) {
             if ( 'link' == $form_settings['appearance'] ) {
                 printf('<p><a href="#modal-form" rel="modal:open">%s</a></p>', $form_settings['modal_text'] );
             } else if ( 'button' == $form_settings['appearance'] ) {
@@ -159,35 +154,5 @@ class WeForms_Frontend_Form {
             <input type="submit" class="weforms_submit_btn" name="submit" value="<?php echo $form_settings['submit_text']; ?>" />
         </li>
     <?php
-    }
-
-    /**
-     * Get all modal scripts
-     * 
-     * @param  array   $scripts
-     *
-     * @return array
-     */
-    public function weforms_modal_frontend_script( $scripts ) {
-        $scripts['weforms-modal-js'] = array(
-            'src'       => WEFORMS_ASSET_URI . '/modal/jquery.modal.js',
-            'deps'      => array( 'wpuf-form', 'jquery' ),
-            'in_footer' => false
-        );
-        return $scripts;
-    }
-
-    /**
-     * Get all modal style
-     * 
-     * @param  array   $style
-     *
-     * @return array
-     */
-    public function weforms_modal_frontend_style( $style ) {
-        $style['weforms-modal-css'] = array(
-            'src'  => WEFORMS_ASSET_URI . '/modal/jquery.modal.css',
-        );
-        return $style;
     }
 }
