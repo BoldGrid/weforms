@@ -362,7 +362,7 @@
                 submitButton = form.find('input[type=submit]')
                 form_data = WP_User_Frontend.validateForm(form);
                 WP_User_Frontend.isDuplicate(form, function (isDuplicate) {
-                    if (!isDuplicate) {
+                    if (!isDuplicate && form_data) {
 
                         // send the request
                         form.find('li.wpuf-submit').append('<span class="wpuf-loading"></span>');
@@ -628,7 +628,9 @@
 
             var form_id = self.find($("input[name=form_id]")).val();
             var duplicate = self.find('[data-duplicate="no"]:visible');
-
+            if ( duplicate.length == 0 ) {
+                return callback(false);
+            }
             duplicate.each(function(i, item) {
 
                 var field_name = $(item).attr("name");
