@@ -59,18 +59,21 @@ class WeForms_Pro_Upgrades {
 
         require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrade-fields.php';
 
-        $fields['repeat_field']       = new WeForms_Form_Field_Repeat();
-        $fields['date_field']         = new WeForms_Form_Field_Date();
-        $fields['file_upload']        = new WeForms_Form_Field_File();
-        $fields['country_list_field'] = new WeForms_Form_Field_Country();
-        $fields['numeric_text_field'] = new WeForms_Form_Field_Numeric();
-        $fields['address_field']      = new WeForms_Form_Field_Address();
-        $fields['google_map']         = new WeForms_Form_Field_GMap();
-        $fields['shortcode']          = new WeForms_Form_Field_Shortcode();
-        $fields['action_hook']        = new WeForms_Form_Field_Hook();
-        $fields['toc']                = new WeForms_Form_Field_Toc();
-        $fields['ratings']            = new WeForms_Form_Field_Rating();
-        $fields['step_start']         = new WeForms_Form_Field_Step();
+        $fields['repeat_field']         = new WeForms_Form_Field_Repeat();
+        $fields['date_field']           = new WeForms_Form_Field_Date();
+        $fields['file_upload']          = new WeForms_Form_Field_File();
+        $fields['country_list_field']   = new WeForms_Form_Field_Country();
+        $fields['numeric_text_field']   = new WeForms_Form_Field_Numeric();
+        $fields['address_field']        = new WeForms_Form_Field_Address();
+        $fields['google_map']           = new WeForms_Form_Field_GMap();
+        $fields['shortcode']            = new WeForms_Form_Field_Shortcode();
+        $fields['action_hook']          = new WeForms_Form_Field_Hook();
+        $fields['toc']                  = new WeForms_Form_Field_Toc();
+        $fields['ratings']              = new WeForms_Form_Field_Rating();
+        $fields['linear_scale']              = new WeForms_Form_Field_Linear_Scale();
+        $fields['checkbox_grid']        = new WeForms_Form_Field_Checkbox_Grid();
+        $fields['multiple_choice_grid'] = new WeForms_Form_Field_Multiple_Choice_Grid();
+        $fields['step_start']           = new WeForms_Form_Field_Step();
 
         return $fields;
     }
@@ -96,7 +99,7 @@ class WeForms_Pro_Upgrades {
      */
     public function add_to_others_fields( $fields ) {
         $pro_fields = array(
-            'shortcode', 'action_hook', 'toc', 'ratings'
+            'shortcode', 'action_hook', 'toc', 'ratings', 'linear_scale', 'checkbox_grid', 'multiple_choice_grid'
         );
 
         return array_merge( $fields, $pro_fields );

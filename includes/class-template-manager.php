@@ -54,7 +54,7 @@ class WeForms_Template_Manager {
             'support'            => new WeForms_Template_Support(),
             'tell_a_friend'      => new WeForms_Template_Tell_A_Friend(),
             'job_application'    => new WeForms_Template_Job_Application(),
-            'job_application'    => new WeForms_Template_Comment_Rating()
+            'comment_rating'     => new WeForms_Template_Comment_Rating()
         );
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );

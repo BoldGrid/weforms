@@ -780,6 +780,96 @@ abstract class WeForms_Importer_Abstract {
                     'wpuf_cond'  => $this->conditionals
                 );
                 break;
+
+            case 'linear_scale':
+                $field_content = array(
+                    'input_type' => 'linear_scale',
+                    'template'   => 'linear_scale',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'single_product':
+                $field_content = array(
+                    'input_type' => 'single_product',
+                    'template'   => 'single_product',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'multiple_product':
+                $field_content = array(
+                    'input_type' => 'multiple_product',
+                    'template'   => 'multiple_product',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'payment_method':
+                $field_content = array(
+                    'input_type' => 'payment_method',
+                    'template'   => 'payment_method',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'total':
+                $field_content = array(
+                    'input_type' => 'total',
+                    'template'   => 'total',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'grids':
+                $field_content = array(
+                    'input_type' => 'grids',
+                    'template'   => 'grids',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
         }
 
         return $field_content;
