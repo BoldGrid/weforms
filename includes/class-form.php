@@ -107,7 +107,7 @@ class WeForms_Form {
             $field['id'] = $content->ID;
 
             // Add inline property for radio and checkbox fields
-            $inline_supported_fields = array( 'radio_field', 'checkbox_field' );
+            $inline_supported_fields = apply_filters( 'inline_supported_fields_list', array( 'radio_field', 'checkbox_field' ) );
             if ( in_array( $field['template'] , $inline_supported_fields ) ) {
                 if ( ! isset( $field['inline'] ) ) {
                     $field['inline'] = 'no';
@@ -115,7 +115,7 @@ class WeForms_Form {
             }
 
             // Add 'selected' property
-            $option_based_fields = array( 'dropdown_field', 'multiple_select', 'radio_field', 'checkbox_field' );
+            $option_based_fields = apply_filters( 'option_based_fields_list', array( 'dropdown_field', 'multiple_select', 'radio_field', 'checkbox_field' ) );
             if ( in_array( $field['template'] , $option_based_fields ) ) {
                 if ( ! isset( $field['selected'] ) ) {
 
@@ -178,8 +178,8 @@ class WeForms_Form {
             return $values;
         }
 
-        $ignore_fields  = array( 'recaptcha', 'section_break' );
-        $options_fields = array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' );
+        $ignore_fields  = pply_filters( 'ignore_fields_list', array( 'recaptcha', 'section_break' ) );
+        $options_fields = apply_filters( 'option_fields_list', array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' ) );
 
         foreach ($fields as $field) {
 
