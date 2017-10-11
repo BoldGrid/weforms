@@ -176,6 +176,17 @@ abstract class WeForms_Form_Template {
             'modal_text'                 => 'Open Form',
             'enable_multistep'           => false,
             'multistep_progressbar_type' => 'progressive',
+
+            'stripe_page_id'             =>             '',
+            'stripe_email'               =>             '',
+            'stripe_message'             =>             '',
+            'stripe_key'                 =>             '',
+            'stripe_secret_key'          =>             '',
+
+            'paypal_sandbox'             =>             '',
+            'paypal_email'               =>             '',
+            'paypal_message'             =>             '',
+            'paypal_page_id'             =>             '',
         );
     }
 

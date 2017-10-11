@@ -209,7 +209,7 @@ class WeForms_Form {
             return $values;
         }
 
-        $ignore_fields  = pply_filters( 'ignore_fields_list', array( 'recaptcha', 'section_break' ) );
+        $ignore_fields  = apply_filters( 'ignore_fields_list', array( 'recaptcha', 'section_break' ) );
         $options_fields = apply_filters( 'option_fields_list', array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' ) );
 
         foreach ($fields as $field) {
