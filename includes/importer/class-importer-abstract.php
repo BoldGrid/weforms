@@ -796,6 +796,36 @@ abstract class WeForms_Importer_Abstract {
                 );
                 break;
 
+            case 'checkbox_grid':
+                $field_content = array(
+                    'input_type' => 'checkbox_grid',
+                    'template'   => 'checkbox_grid',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'multiple_choice_grid':
+                $field_content = array(
+                    'input_type' => 'multiple_choice_grid',
+                    'template'   => 'multiple_choice_grid',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
             case 'single_product':
                 $field_content = array(
                     'input_type' => 'single_product',
@@ -845,21 +875,6 @@ abstract class WeForms_Importer_Abstract {
                 $field_content = array(
                     'input_type' => 'total',
                     'template'   => 'total',
-                    'required'   => $args['required'],
-                    'label'      => $args['label'],
-                    'name'       => $args['name'],
-                    'is_meta'    => 'yes',
-                    'help'       => '',
-                    'css'        => $args['css_class'],
-                    'options'    => $args['options'],
-                    'wpuf_cond'  => $this->conditionals
-                );
-                break;
-
-            case 'grids':
-                $field_content = array(
-                    'input_type' => 'grids',
-                    'template'   => 'grids',
                     'required'   => $args['required'],
                     'label'      => $args['label'],
                     'name'       => $args['name'],

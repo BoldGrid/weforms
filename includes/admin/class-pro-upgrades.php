@@ -70,7 +70,7 @@ class WeForms_Pro_Upgrades {
         $fields['action_hook']          = new WeForms_Form_Field_Hook();
         $fields['toc']                  = new WeForms_Form_Field_Toc();
         $fields['ratings']              = new WeForms_Form_Field_Rating();
-        $fields['linear_scale']              = new WeForms_Form_Field_Linear_Scale();
+        $fields['linear_scale']         = new WeForms_Form_Field_Linear_Scale();
         $fields['checkbox_grid']        = new WeForms_Form_Field_Checkbox_Grid();
         $fields['multiple_choice_grid'] = new WeForms_Form_Field_Multiple_Choice_Grid();
         $fields['step_start']           = new WeForms_Form_Field_Step();
