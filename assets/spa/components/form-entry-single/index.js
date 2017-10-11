@@ -6,7 +6,8 @@ weForms.routeComponents.FormEntriesSingle = {
             loading: false,
             entry: {
                 form_fields: {},
-                meta_data: {}
+                meta_data: {},
+                payment_data: {},
             }
         };
     },

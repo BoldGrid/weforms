@@ -1,6 +1,6 @@
 /*!
 weForms - v1.1.1
-Generated: 2017-10-04 (1507096320682)
+Generated: 2017-10-10 (1507632060038)
 */
 
 ;(function($) {
@@ -431,7 +431,8 @@ weForms.routeComponents.FormEntriesSingle = {
             loading: false,
             entry: {
                 form_fields: {},
-                meta_data: {}
+                meta_data: {},
+                payment_data: {},
             }
         };
     },
@@ -856,7 +857,7 @@ weForms.routeComponents.Settings = {
                     if ( response === undefined ){
                         return;
                     }
-                    
+
                     // set defaults if undefined
                     $.each( self.settings, function( key, value ) {
                         if( response[key] === undefined ) {

@@ -424,14 +424,16 @@ class WeForms_Ajax {
         $entry    = $form->entries()->get( $entry_id );
         $fields   = $entry->get_fields();
         $metadata = $entry->get_metadata();
+        $payment  = $entry->get_payment_data();
 
-        if ( false === $data ) {
+        if ( false === $fields ) {
             wp_send_json_error( __( 'No form fields found!', 'weforms' ) );
         }
 
         $response = array(
-            'form_fields' => $fields,
-            'meta_data'   => $metadata
+            'form_fields'  => $fields,
+            'meta_data'    => $metadata,
+            'payment_data' => $payment,
         );
 
         wp_send_json_success( $response );
@@ -512,7 +514,6 @@ class WeForms_Ajax {
         $form_fields   = $form->get_fields();
         $entry_fields  = $form->prepare_entries();
 
-
         if ( !$form_fields ) {
             wp_send_json( array(
                 'success'     => false,
@@ -553,13 +554,15 @@ class WeForms_Ajax {
         do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
 
         // send the response
-        $response = array(
+        $response = apply_filters( 'weforms_entry_submission_response', array(
             'success'      => true,
             'redirect_to'  => $redirect_to,
             'show_message' => $show_message,
             'message'      => $form_settings['message'],
-            'data'         => $_POST
-        );
+            'data'         => $_POST,
+            'form_id'      => $form_id,
+            'entry_id'     => $entry_id,
+        ) );
 
         $notification = new WeForms_Notification( array(
             'form_id'  => $form_id,
@@ -617,6 +620,9 @@ class WeForms_Ajax {
             $resp            = recaptcha_check_answer( $secret, $_SERVER["REMOTE_ADDR"], $recap_challenge, $recap_response );
 
             if ( !$resp->is_valid ) {
+
+                ob_clean();
+
                 wp_send_json( array(
                     'success'     => false,
                     'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),

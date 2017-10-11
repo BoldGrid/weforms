@@ -71,6 +71,13 @@ class WeForms_Form_Entry {
     public $fields = array();
 
     /**
+     * Form fields raw data
+     *
+     * @var array
+     */
+    public $raw_fields = array();
+
+    /**
      * The constructor
      *
      * @param integer $entry_id
@@ -118,6 +125,7 @@ class WeForms_Form_Entry {
             $this->created    = $first_row->created_at;
 
             $this->fields     = $this->form->get_field_values();
+            $this->raw_fields = $this->fields;
 
             foreach ($results as $result) {
 
@@ -125,6 +133,8 @@ class WeForms_Form_Entry {
 
                     $field = $this->fields[ $result->meta_key ];
                     $value = $result->meta_value;
+
+                    $this->raw_fields[ $result->meta_key ]['value'] = $value;
 
                     if ( $field['type'] == 'textarea_field' ) {
 
@@ -191,7 +201,9 @@ class WeForms_Form_Entry {
 
                         $value = array( 'lat' => $lat, 'long' => $long );
 
-                    } elseif ( $field['type'] == 'address_field' ) {
+                    } elseif ( $field['type'] == 'multiple_product' ) {
+
+                        // TODO: refactor
 
                         $field_value = unserialize( $value );
 
@@ -199,11 +211,41 @@ class WeForms_Form_Entry {
 
                         if ( is_array( $field_value ) ) {
 
-                            foreach ( $field_value as $key => $single_value ) {
+                            foreach ( $field_value as $key => $sfv ) {
 
-                                $single_value = str_replace( array( "_", "-" ), " ", $key) . ': ' . $single_value;
-                                $single_value = ucwords( $single_value );
-                                $serialized_value[] = $single_value;
+                                if ( is_array( $sfv ) ) {
+
+                                    $v = array();
+
+                                    foreach ($sfv as $key => $sv) {
+
+                                        $sv = str_replace( array( "_", "-" ), " ", $key) . ': ' . $sv;
+                                        $sv = ucwords( $sv );
+                                        $v[] = $sv;
+                                    }
+
+                                    $serialized_value[] = implode( "<br> ", $v );
+
+                                }
+                            }
+
+                            $value =  implode( "<br> <br> ", $serialized_value );
+                        }
+                    }
+
+                    elseif ( $field['type'] == 'address_field' || is_serialized( $value ) ) {
+
+                        $field_value = unserialize( $value );
+
+                        $serialized_value = array();
+
+                        if ( is_array( $field_value ) ) {
+
+                            foreach ( $field_value as $key => $sfv ) {
+
+                                $sfv = str_replace( array( "_", "-" ), " ", $key) . ': ' . $sfv;
+                                $sfv = ucwords( $sfv );
+                                $serialized_value[] = $sfv;
                             }
 
                             $value =  implode( "<br> ", $serialized_value );
@@ -216,6 +258,7 @@ class WeForms_Form_Entry {
         }
     }
 
+
     /**
      * Get entry fields
      *
@@ -223,6 +266,15 @@ class WeForms_Form_Entry {
      */
     public function get_fields() {
         return $this->fields;
+    }
+
+    /**
+     * Get entry fields
+     *
+     * @return array
+     */
+    public function get_raw_fields() {
+        return $this->raw_fields;
     }
 
     /**
@@ -241,6 +293,17 @@ class WeForms_Form_Entry {
             'referer'    => $this->referer,
             'created'    => date_i18n( 'F j, Y g:i a', strtotime( $this->created ) )
         );
+    }
+
+    /**
+     * Get entry metadata
+     *
+     * @return array
+     */
+    public function get_payment_data() {
+        global $wpdb;
+
+        return $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}weforms_payments WHERE entry_id = {$this->id} " );
     }
 
 }

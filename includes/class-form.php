@@ -165,6 +165,37 @@ class WeForms_Form {
         }
     }
 
+
+    /**
+     * Get all fields by a template
+     *
+     * @return array
+     */
+    public function search_fields( $field_template ) {
+
+        $fields = array();
+
+        foreach ( $this->get_fields() as $key => $field) {
+            if ( isset( $field['template'] ) && $field['template'] == $field_template) {
+                $fields[] = $field;
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Search fileds and get the first one
+     *
+     * @return array
+     */
+    public function search_field( $field_template ) {
+
+        $fields = $this->search_fields($field_template);
+
+        return isset($fields[0]) ? $fields[0] : array();
+    }
+
     /**
      * Get formatted field name/values
      *
@@ -352,6 +383,6 @@ class WeForms_Form {
             $entry_fields[ $field['name'] ] = $field_class->prepare_entry( $field );
         }
 
-        return $entry_fields;
+        return apply_filters( 'weforms_prepare_entries', $entry_fields );
     }
 }
