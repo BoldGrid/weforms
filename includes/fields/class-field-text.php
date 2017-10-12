@@ -65,16 +65,16 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
         $check_duplicate      = array(
             array(
                 'name'          => 'duplicate',
-                'title'         => '',
+                'title'         => 'No Duplicates',
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
                 'options'       => array(
-                    'yes'   => __( 'Allow duplicate', 'weforms' )
+                    'no'   => __( 'Unique Values Only', 'weforms' )
                 ),
-                'default'       => 'true',
+                'default'       => '',
                 'section'       => 'advanced',
                 'priority'      => 23,
-                'help_text'     => __( 'Check this option to allow duplicate value.', 'weforms' ),
+                'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
             )
         );
         return array_merge( $default_options, $default_text_options, $check_duplicate );
@@ -89,7 +89,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
         $defaults = $this->default_attributes();
         $props    = array(
             'word_restriction' => '',
-            'duplicate' => 'yes',
+            'duplicate' => '',
         );
 
         return array_merge( $defaults, $props );

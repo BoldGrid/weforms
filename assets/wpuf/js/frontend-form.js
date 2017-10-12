@@ -361,66 +361,64 @@
             var form = $(this),
                 submitButton = form.find('input[type=submit]')
                 form_data = WP_User_Frontend.validateForm(form);
-                WP_User_Frontend.isDuplicate(form, function (isDuplicate) {
-                    if (!isDuplicate && form_data) {
 
-                        // send the request
-                        form.find('li.wpuf-submit').append('<span class="wpuf-loading"></span>');
-                        submitButton.attr('disabled', 'disabled').addClass('button-primary-disabled');
+            if (form_data) {
 
-                        $.post(wpuf_frontend.ajaxurl, form_data, function(res) {
-                            // var res = $.parseJSON(res);
+                // send the request
+                form.find('li.wpuf-submit').append('<span class="wpuf-loading"></span>');
+                submitButton.attr('disabled', 'disabled').addClass('button-primary-disabled');
 
-                            if ( res.success) {
+                $.post(wpuf_frontend.ajaxurl, form_data, function(res) {
+                    // var res = $.parseJSON(res);
 
-                                // enable external plugins to use events
-                                $('body').trigger('wpuf:postform:success', res);
+                    if ( res.success) {
 
-                                if ( res.show_message == true) {
-                                    form.before( '<div class="wpuf-success">' + res.message + '</div>');
-                                    form.slideUp( 'fast', function() {
-                                        form.remove();
-                                    });
+                        // enable external plugins to use events
+                        $('body').trigger('wpuf:postform:success', res);
 
-                                    //focus
-                                    $('html, body').animate({
-                                        scrollTop: $('.wpuf-success').offset().top - 100
-                                    }, 'fast');
+                        if ( res.show_message == true) {
+                            form.before( '<div class="wpuf-success">' + res.message + '</div>');
+                            form.slideUp( 'fast', function() {
+                                form.remove();
+                            });
 
-                                } else {
-                                    window.location = res.redirect_to;
-                                }
+                            //focus
+                            $('html, body').animate({
+                                scrollTop: $('.wpuf-success').offset().top - 100
+                            }, 'fast');
 
+                        } else {
+                            window.location = res.redirect_to;
+                        }
+
+                    } else {
+
+                        if ( typeof res.type !== 'undefined' && res.type === 'login' ) {
+
+                            if ( confirm(res.error) ) {
+                                window.location = res.redirect_to;
                             } else {
-
-                                if ( typeof res.type !== 'undefined' && res.type === 'login' ) {
-
-                                    if ( confirm(res.error) ) {
-                                        window.location = res.redirect_to;
-                                    } else {
-                                        submitButton.removeAttr('disabled');
-                                        submitButton.removeClass('button-primary-disabled');
-                                        form.find('span.wpuf-loading').remove();
-                                    }
-
-                                    return;
-                                } else {
-                                    if ( form.find('.g-recaptcha').length > 0 ) {
-                                        grecaptcha.reset();
-                                    }
-
-                                    alert( res.error );
-                                }
-
                                 submitButton.removeAttr('disabled');
+                                submitButton.removeClass('button-primary-disabled');
+                                form.find('span.wpuf-loading').remove();
                             }
 
-                            submitButton.removeClass('button-primary-disabled');
-                            form.find('span.wpuf-loading').remove();
-                        });
-                    }
-                });
+                            return;
+                        } else {
+                            if ( form.find('.g-recaptcha').length > 0 ) {
+                                grecaptcha.reset();
+                            }
 
+                            alert( res.error );
+                        }
+
+                        submitButton.removeAttr('disabled');
+                    }
+
+                    submitButton.removeClass('button-primary-disabled');
+                    form.find('span.wpuf-loading').remove();
+                });
+            }
         },
 
         validateForm: function( self ) {
@@ -624,45 +622,6 @@
             return form_data;
         },
 
-        isDuplicate: function(self, callback) {
-
-            var form_id = self.find($("input[name=form_id]")).val();
-            var duplicate = self.find('[data-duplicate="no"]:visible');
-            if ( duplicate.length == 0 ) {
-                return callback(false);
-            }
-            duplicate.each(function(i, item) {
-
-                var field_name = $(item).attr("name");
-                var field_value = $(item).val();
-
-                $.post(wpuf_frontend.ajaxurl,{
-                    action: 'duplicate_insert_value',
-                    form_id: form_id,
-                    field_name: field_name,
-                    field_value: field_value
-                },
-                function(res) {
-
-                    if (res.duplicate) {
-
-                        error = true;
-                        error_type = 'duplicate';
-                        WP_User_Frontend.markError( item, error_type );
-
-                        return callback(true);
-
-                    } else {
-
-                        return callback(false);
-
-                    }
-
-                });
-
-            });
-        },
-
         /**
          *
          * @param form
@@ -698,9 +657,6 @@
                     case 'validation' :
                         error_string = error_string + ' ' + error_str_obj[error_type];
                         break;
-                    case 'duplicate' :
-                        error_string = error_string + ' ' + error_str_obj[error_type];
-                        break
                 }
                 $(item).siblings('.wpuf-error-msg').remove();
                 $(item).after('<div class="wpuf-error-msg">'+ error_string +'</div>')

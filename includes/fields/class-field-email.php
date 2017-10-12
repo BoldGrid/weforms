@@ -56,16 +56,16 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
         $check_duplicate      = array(
             array(
                 'name'          => 'duplicate',
-                'title'         => '',
+                'title'         => 'No Duplicates',
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
                 'options'       => array(
-                    'yes'   => __( 'Allow duplicate', 'weforms' )
+                    'no'   => __( 'Unique Values Only', 'weforms' )
                 ),
-                'selected'       => 'true',
+                'default'       => '',
                 'section'       => 'advanced',
                 'priority'      => 23,
-                'help_text'     => __( 'Check this option to allow duplicate value.', 'weforms' ),
+                'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
             )
         );
 
@@ -79,7 +79,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $defaults['duplicate'] = 'yes';
+        $defaults['duplicate'] = '';
         return $defaults;
     }
 

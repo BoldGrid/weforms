@@ -35,11 +35,6 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_entry_trash', array( $this, 'trash_entry' ) );
         add_action( 'wp_ajax_weforms_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
 
-
-        // frontend duplicate value
-        add_action( 'wp_ajax_duplicate_insert_value', array( $this, 'duplicate_insert_value' ) );
-        add_action( 'wp_ajax_nopriv_duplicate_insert_value', array( $this, 'duplicate_insert_value' ) );
-
         // frontend requests
         add_action( 'wp_ajax_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
         add_action( 'wp_ajax_nopriv_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
@@ -479,26 +474,6 @@ class WeForms_Ajax {
     }
 
     /**
-     * Handle frontend duplicate submission
-     *
-     * @return void
-     */
-    public function duplicate_insert_value() {
-        $form_entries  = weforms_get_form_entries( $_POST['form_id'], array( 'number'  => '', 'offset'  => '' ) );
-        $check = false;
-        $existing = '';
-        if ( count( $form_entries ) ) {
-            foreach ( $form_entries as $entry ) {
-                $existing = weforms_get_entry_meta( $entry->id, $_POST['field_name'], true );
-                if ( '' != $existing && $_POST['field_value'] == $existing ) {
-                    $check = true;
-                }
-            }
-        }
-        wp_send_json( array( 'duplicate'=> $check ) );
-    }
-
-    /**
      * Handle the frontend submission
      *
      * @return void
@@ -513,6 +488,33 @@ class WeForms_Ajax {
         $form_settings = $form->get_settings();
         $form_fields   = $form->get_fields();
         $entry_fields  = $form->prepare_entries();
+        $form_entries  = weforms_get_form_entries( $form_id, array( 'number'  => '', 'offset'  => '' ) );
+
+        if ( $form_fields && count( $form_entries ) && count( $entry_fields ) ) {
+
+            foreach ( $entry_fields as $field_key => $field_value ) {
+                $duplicate_check = false;
+                $field_label = 'This';
+                foreach ( $form_fields as $form_field ) {
+                    if ( in_array( $form_field['template'], array( 'text_field', 'website_url', 'numeric_text_field', 'email_address' ) ) && $form_field['name'] == $field_key && isset( $form_field['duplicate'] ) && 'no' == $form_field['duplicate'] ) {
+                        $duplicate_check = true;
+                        $field_label = $form_field['label'];
+                    }
+                }
+
+                if ( $duplicate_check ) {
+                    foreach ( $form_entries as $entry ) {
+                        $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
+                        if ( $existing && $field_value == $existing ) {
+                            wp_send_json( array(
+                                'success'     => false,
+                                'error'       => sprintf( __( '"%s" field requires a unique entry and "%s" has already been used.', 'weforms' ), $field_label, $field_value )
+                            ) );
+                        }
+                    }
+                }
+            }
+        }
 
         if ( !$form_fields ) {
             wp_send_json( array(
