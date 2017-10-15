@@ -249,6 +249,7 @@ class WeForms_Form_Builder_Assets {
             'close'                 => __( 'Close', 'wpuf' ),
             'last_choice_warn_msg'  => __( 'This field must contain at least one choice', 'wpuf' ),
             'option'                => __( 'Option', 'wpuf' ),
+            'row'                   => __( 'Row', 'wpuf' ),
             'column'                => __( 'Column', 'wpuf' ),
             'last_column_warn_msg'  => __( 'This field must contain at least one column', 'wpuf' ),
             'is_a_pro_feature'      => __( 'is available in Pro version', 'wpuf' ),
