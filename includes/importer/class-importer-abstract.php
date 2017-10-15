@@ -913,9 +913,6 @@ abstract class WeForms_Importer_Abstract {
             'limit_number'       => '1000',
             'limit_message'      => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
             'label_position'     => 'above',
-            'modal_form'         => 'false',
-            'appearance'         => 'button',
-            'modal_text'         => 'Open Form'
         );
 
         return $form_settings;

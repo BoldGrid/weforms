@@ -48,7 +48,7 @@ class WeForms_Frontend_Form {
             return $this->show_error( $is_open->get_error_message() );
         }
 
-        $this->render_form( $form );
+        $this->render_form( $form, $atts );
 
         return ob_get_clean();
     }
@@ -60,12 +60,12 @@ class WeForms_Frontend_Form {
      *
      * @return void
      */
-    function render_form( $form ) {
+    function render_form( $form, $atts ) {
         $form_fields   = $form->get_fields();
         $form_settings = $form->get_settings();
         $show_credit   = weforms_get_settings( 'credit', false );
 
-        if ( 'true' == $form_settings['modal_form'] ) {
+        if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
 
             wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', array( 'jquery', 'wpuf-form' ), false, false );
             wp_enqueue_style( 'weforms_modal_styles', WEFORMS_ASSET_URI . '/modal/jquery.modal.css' );
@@ -115,11 +115,16 @@ class WeForms_Frontend_Form {
         </form>
 
         <?php
-        if ( 'true' == $form_settings['modal_form'] ) {
-            if ( 'link' == $form_settings['appearance'] ) {
-                printf('<p><a href="#modal-form" rel="modal:open">%s</a></p>', $form_settings['modal_text'] );
-            } else if ( 'button' == $form_settings['appearance'] ) {
-                printf('<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $form_settings['modal_text'] );
+        if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
+            if ( isset( $atts['link'] ) ) {
+                printf('<p><a href="#modal-form" rel="modal:open">%s</a></p>', $atts['link'] );
+            } else {
+                if ( isset( $atts['button'] ) ) {
+                    $button_text = $atts['button'];
+                } else {
+                    $button_text = __( 'Open Form', 'weforms' );
+                }
+                printf('<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $button_text );
             }
         }
 

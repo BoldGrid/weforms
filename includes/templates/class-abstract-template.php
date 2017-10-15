@@ -171,9 +171,6 @@ abstract class WeForms_Form_Template {
             'limit_number'               => '100',
             'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
             'label_position'             => 'above',
-            'modal_form'                 => 'false',
-            'appearance'                 => 'button',
-            'modal_text'                 => 'Open Form',
             'enable_multistep'           => false,
             'multistep_progressbar_type' => 'progressive',
 
