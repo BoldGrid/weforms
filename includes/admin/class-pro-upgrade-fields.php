@@ -68,7 +68,7 @@ class WeForms_Form_Field_Hook extends WeForms_Form_Field_Pro {
     function __construct() {
         $this->name       = __( 'Action Hook', 'weforms' );
         $this->input_type = 'action_hook';
-        $this->icon       = 'calendar-o';
+        $this->icon       = 'anchor';
     }
 }
 

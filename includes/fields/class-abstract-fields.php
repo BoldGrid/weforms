@@ -162,6 +162,7 @@ abstract class WeForms_Field_Contract {
             'label'       => $this->get_name(),
             'required'    => 'no',
             'id'          => 0,
+            'width'       => 'large',
             'css'         => '',
             'placeholder' => '',
             'default'     => '',
@@ -216,6 +217,21 @@ abstract class WeForms_Field_Contract {
             ),
 
             array(
+                'name'      => 'width',
+                'title'     => __( 'Field Size', 'weforms' ),
+                'type'      => 'radio',
+                'options'   => array(
+                    'small'     => __( 'Small', 'weforms' ),
+                    'medium'    => __( 'Medium', 'weforms' ),
+                    'large'     => __( 'Large', 'weforms' ),
+                ),
+                'section'   => 'advanced',
+                'priority'  => 21,
+                'default'   => 'large',
+                'inline'    => true,
+            ),
+
+            array(
                 'name'      => 'css',
                 'title'     => __( 'CSS Class Name', 'weforms' ),
                 'type'      => 'text',
@@ -223,6 +239,7 @@ abstract class WeForms_Field_Contract {
                 'priority'  => 22,
                 'help_text' => __( 'Provide a container class name for this field.', 'weforms' ),
             ),
+
             array(
                 'name'          => 'dynamic',
                 'title'         => '',
@@ -411,8 +428,9 @@ abstract class WeForms_Field_Contract {
         $label      = isset( $field['label'] ) ? $field['label'] : '';
         $el_name    = !empty( $field['name'] ) ? $field['name'] : '';
         $class_name = !empty( $field['css'] ) ? ' ' . $field['css'] : '';
+        $field_size = !empty( $field['width'] ) ? ' field-size-' . $field['width'] : '';
 
-        printf( 'class="wpuf-el %s%s" data-label="%s"', $el_name, $class_name, $label );
+        printf( 'class="wpuf-el %s%s%s" data-label="%s"', $el_name, $class_name, $field_size, $label );
     }
 
     /**

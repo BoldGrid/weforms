@@ -656,7 +656,7 @@
                         break;
                     case 'validation' :
                         error_string = error_string + ' ' + error_str_obj[error_type];
-                        break;
+                        break
                 }
                 $(item).siblings('.wpuf-error-msg').remove();
                 $(item).after('<div class="wpuf-error-msg">'+ error_string +'</div>')
