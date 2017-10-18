@@ -158,6 +158,7 @@ final class WeForms {
     public function activate() {
 
         // prepare the environment
+        require_once WEFORMS_INCLUDES . '/functions.php';
         require_once WEFORMS_INCLUDES . '/class-installer.php';
         require_once WEFORMS_INCLUDES . '/class-field-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-manager.php';
