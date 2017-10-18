@@ -235,7 +235,7 @@ class WeForms_Form {
             $values[ $field['name'] ] = $value;
         }
 
-        return $values;
+        return apply_filters( 'weforms_get_field_values', $values );;
     }
 
     /**
