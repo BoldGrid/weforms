@@ -752,13 +752,13 @@ class WeForms_Ajax {
 
             $value = $entry_fields[$field['name']];
 
-            if ( isset( $field['required'] ) && $field['required'] && empty( $value ) ) {
+            // if ( isset( $field['required'] ) && $field['required'] && empty( $value ) ) {
 
-                wp_send_json( array(
-                    'success'     => false,
-                    'error'       => __( sprintf( '%s field is required', $field['label'] ), 'weforms' ),
-                ) );
-            }
+            //     wp_send_json( array(
+            //         'success'     => false,
+            //         'error'       => __( sprintf( '%s field is required', $field['label'] ), 'weforms' ),
+            //     ) );
+            // }
 
             if ( 'single_product' === $field['template']  ) {
 
