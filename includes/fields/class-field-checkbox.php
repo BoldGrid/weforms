@@ -55,7 +55,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options  = $this->get_default_option_settings();
+        $default_options  = $this->get_default_option_settings( true, array( 'width' ) );
         $dropdown_options = array(
             $this->get_default_option_dropdown_settings( true ),
 
