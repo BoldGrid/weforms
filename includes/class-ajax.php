@@ -624,6 +624,9 @@ class WeForms_Ajax {
             $this->validate_reCaptcha();
         }
 
+        // vaidate submission
+        $this->validate_submission( $entry_fields, $form, $form_settings, $form_fields );
+
         $entry_fields = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields);
 
         $entry_id = weforms_insert_entry( array(
@@ -731,6 +734,107 @@ class WeForms_Ajax {
             }
         }
 
+    }
+
+    /**
+     * Validate submission
+     *
+     * @param array $entry_fields
+     * @param object $form
+     * @param array $form_settings
+     * @param array $form_fields
+     *
+     * @return bool|json
+     */
+    function validate_submission( $entry_fields, $form, $form_settings, $form_fields ) {
+
+        foreach ( $form_fields as $key => $field ) {
+
+            $value = $entry_fields[$field['name']];
+
+            if ( isset( $field['required'] ) && $field['required'] && empty( $value ) ) {
+
+                wp_send_json( array(
+                    'success'     => false,
+                    'error'       => __( sprintf( '%s field is required', $field['label'] ), 'weforms' ),
+                ) );
+            }
+
+            if ( 'single_product' === $field['template']  ) {
+
+                if ( ! $value ) {
+                    $value = array();
+                }
+
+                $value['price']    = isset( $value['price'] ) ? floatval( $value['price'] ) : 0;
+                $value['quantity'] = isset( $value['quantity'] ) ? floatval( $value['quantity'] ) : 0;
+                $quantity          = isset( $field['quantity'] ) ? $field['quantity'] : array();
+                $price             = isset( $field['price'] ) ? $field['price'] : array();
+
+
+                if ( isset($price['is_flexible']) && $price['is_flexible'] ) {
+
+                    $min = isset( $price['min'] ) ? floatval( $price['min']  ) : 0;
+                    $max = isset( $price['max'] ) ? floatval( $price['max']  ) : 0;
+
+                    if ( $value['price'] < $min ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s price must be equal or greater than %s',
+                                $field['label'],
+                                $min),
+                            'weforms' ),
+                        ) );
+                    }
+
+
+                    if ( $max && $value['price'] > $max ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s price must be equal or less than %s',
+                                $field['label'],
+                                $max),
+                            'weforms' ),
+                        ) );
+                    }
+                }
+
+                if ( isset($quantity['status']) && $quantity['status'] ) {
+
+                    $min = isset( $quantity['min'] ) ? floatval( $quantity['min']  ) : 0;
+                    $max = isset( $quantity['max'] ) ? floatval( $quantity['max']  ) : 0;
+
+                    if ( $value['quantity'] < $max ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s quantity must be equal or greater than %s',
+                                $field['label'],
+                                $min),
+                            'weforms' ),
+                        ) );
+                    }
+
+                    if ( $max && $value['quantity'] > $max ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s quantity must be equal or less than %s',
+                                $field['label'],
+                                $max),
+                            'weforms' ),
+                        ) );
+                    }
+                }
+
+            }
+        }
     }
 
     public static function prepare_meta_fields( $meta_vars ) {
