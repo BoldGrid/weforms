@@ -143,10 +143,10 @@ class WeForms_Form {
                 $field['name'] = 'custom_html';
             }
 
-            $form_fields[] = apply_filters( 'weforms-get-form-fields', $field );
+            $form_fields[] = apply_filters( 'weforms-get-form-field', $field );
         }
 
-        $this->form_fields = $form_fields;
+        $this->form_fields = apply_filters( 'weforms-get-form-fields', $form_fields );
 
         return $this->form_fields;
     }
