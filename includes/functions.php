@@ -78,6 +78,36 @@ function weforms_get_form_entries( $form_id, $args = array() ) {
 }
 
 /**
+ * Get payments by a form_id
+ *
+ * @param  int $form_id
+ * @param  array  $args
+ *
+ * @return Object
+ */
+function weforms_get_form_payments( $form_id, $args = array() ) {
+    global $wpdb;
+
+    $defaults = array(
+        'number'  => 10,
+        'offset'  => 0,
+        'orderby' => 'created_at',
+        'order'   => 'DESC',
+    );
+
+    $r = wp_parse_args( $args, $defaults );
+
+    $query = 'SELECT * FROM ' . $wpdb->prefix . 'weforms_payments' .
+            ' WHERE form_id = ' . $form_id .
+            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'] .
+            ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
+
+    $results = $wpdb->get_results( $query );
+
+    return $results;
+}
+
+/**
  * Get an entry by id
  *
  * @param  int $entry_id
@@ -290,6 +320,19 @@ function weforms_count_form_entries( $form_id, $status = 'publish' ) {
 }
 
 /**
+ * Get the number of entries count on a form
+ *
+ * @param  int $form_id
+ *
+ * @return int
+ */
+function weforms_count_form_payments( $form_id ) {
+    global $wpdb;
+
+    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->prefix . 'weforms_payments' . ' WHERE form_id = %d', $form_id) );
+}
+
+/**
  * Get table column heads for a form
  *
  * For now, return only text type fields
@@ -299,6 +342,41 @@ function weforms_count_form_entries( $form_id, $status = 'publish' ) {
  * @return array
  */
 function weforms_get_entry_columns( $form_id, $limit = 6 ) {
+    $fields  = weforms()->form->get( $form_id )->get_fields();
+    $columns = array();
+
+    // filter by input types
+    if ( $limit ) {
+
+        $fields = array_filter( $fields, function($item) {
+            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
+        } );
+    }
+
+    if ( $fields ) {
+        foreach ($fields as $field) {
+            $columns[ $field['name'] ] = $field['label'];
+        }
+    }
+
+    // if passed 0/false, return all collumns
+    if ( $limit && sizeof($columns) > $limit ) {
+       $columns = array_slice( $columns, 0, $limit ); // max 6 columns
+    }
+
+    return apply_filters('weforms_get_entry_columns', $columns, $form_id);
+}
+
+/**
+ * Get table column heads for a form
+ *
+ * For now, return only text type fields
+ *
+ * @param  int $form_id
+ *
+ * @return array
+ */
+function weforms_get_payment_columns( $form_id, $limit = 6 ) {
     $fields  = weforms()->form->get( $form_id )->get_fields();
     $columns = array();
 
@@ -827,4 +905,101 @@ function weforms_is_integration_active( $form_id, $integration_id ) {
  */
 function weforms_get_flat_ui_colors() {
     return array( '#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e' );
+}
+
+/**
+ * Get default form settings
+ *
+ * @return array
+ */
+function weforms_get_default_form_settings() {
+    return apply_filters( 'weforms_get_default_form_settings', array(
+        'redirect_to'                => 'same',
+        'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
+        'page_id'                    => '',
+        'url'                        => '',
+        'submit_text'                => __( 'Submit Query', 'weforms' ),
+        'schedule_form'              => 'false',
+        'schedule_start'             => '',
+        'schedule_end'               => '',
+        'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
+        'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
+        'require_login'              => 'false',
+        'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
+        'limit_entries'              => 'false',
+        'limit_number'               => '100',
+        'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
+        'label_position'             => 'above',
+        'enable_multistep'           => false,
+        'multistep_progressbar_type' => 'progressive',
+
+        // payment
+
+        'stripe_status'              => '',
+        'stripe_mode'                => 'live',
+        'stripe_page_id'             => '',
+        'stripe_message'             => __( "Please wait while the payment popup is loading.", 'weforms' ),
+
+        'stripe_override_keys'       => '',
+        'stripe_email'               => '',
+        'stripe_key'                 => '',
+        'stripe_secret_key'          => '',
+        'stripe_key_test'            => '',
+        'stripe_secret_key_test'     => '',
+
+        'stripe_prefill_email'       => '',
+        'stripe_user_email_field'    => '',
+        'stripe_logo'                => '',
+        'stripe_company_name'        => get_bloginfo( 'name' ),
+        'stripe_company_desc'        => get_bloginfo( 'description' ),
+        'stripe_ask_billing'         => '',
+        'stripe_ask_shipping'        => '',
+
+        'paypal_status'              => '',
+        'paypal_mode'                => 'live',
+        'paypal_type'                => '_cart',
+
+        'paypal_override'            => '',
+        'paypal_email'               => '',
+
+        'paypal_message'             => 'You are being redirected to a PayPal page for the payment.',
+        'paypal_page_id'             => '',
+
+        'paypal_logo'                => '',
+        'paypal_prefill_email'       => '',
+        'paypal_user_email_field'    => '',
+        'paypal_ask_shipping'        => 0,
+    ));
+}
+
+/**
+ * Get default form settings
+ *
+ * @return array
+ */
+function weforms_get_default_form_notification() {
+    return apply_filters( 'weforms_get_default_form_notification', array(
+            'active'       => 'true',
+            'name'         => __( 'Admin Notification', 'weforms' ),
+            'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+            'to'           => '{admin_email}',
+            'replyTo'      => '{field:email}',
+            'message'      => '{all_fields}',
+            'fromName'     => '{site_name}',
+            'fromAddress'  => '{admin_email}',
+            'cc'           => '',
+            'bcc'          => '',
+            'weforms_cond' => array(
+                'condition_status' => 'no',
+                'cond_logic'       => 'any',
+                'conditions'       => array(
+                    array(
+                        'name'             => '',
+                        'operator'         => '=',
+                        'option'           => ''
+                    )
+                )
+            )
+        )
+    );
 }

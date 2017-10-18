@@ -1,6 +1,6 @@
 /*!
 weForms - v1.1.1
-Generated: 2017-10-10 (1507632060038)
+Generated: 2017-10-18 (1508299084718)
 */
 
 ;(function($) {
@@ -10,6 +10,7 @@ Vue.component( 'wpuf-table', {
     mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
         action: String,
+        delete: String,
         id: [String, Number]
     },
 
@@ -21,7 +22,7 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: weForms.nonce,
             index: 'id',
-            bulkDeleteAction: 'weforms_form_entry_trash_bulk'
+            bulkDeleteAction: this.delete ? this.delete : 'weforms_form_entry_trash_bulk'
         };
     },
 
@@ -429,6 +430,7 @@ weForms.routeComponents.FormEntriesSingle = {
     data: function() {
         return {
             loading: false,
+            show_payment_data: false,
             entry: {
                 form_fields: {},
                 meta_data: {},
@@ -509,6 +511,11 @@ Vue.component('form-list-table', {
     },
     created: function() {
         this.fetchData();
+    },
+    computed: {
+        is_pro: function() {
+            return 'true' === weForms.is_pro;
+        },
     },
 
     methods: {
@@ -598,6 +605,19 @@ Vue.component('form-list-table', {
         },
     }
 });
+/* ./assets/spa/components/form-payments/index.js */
+weForms.routeComponents.FormPayments = {
+    props: {
+        id: [String, Number]
+    },
+    template: '#tmpl-wpuf-form-payments',
+    data: function() {
+        return {
+            form_title: 'Loading...'
+        };
+    }
+};
+
 /* ./assets/spa/components/home-page/index.js */
 weForms.routeComponents.Home = {
     template: '#tmpl-wpuf-home-page',
@@ -857,7 +877,7 @@ weForms.routeComponents.Settings = {
                     if ( response === undefined ){
                         return;
                     }
-
+                    
                     // set defaults if undefined
                     $.each( self.settings, function( key, value ) {
                         if( response[key] === undefined ) {

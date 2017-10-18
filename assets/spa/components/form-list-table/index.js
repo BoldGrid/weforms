@@ -12,6 +12,11 @@ Vue.component('form-list-table', {
     created: function() {
         this.fetchData();
     },
+    computed: {
+        is_pro: function() {
+            return 'true' === weForms.is_pro;
+        },
+    },
 
     methods: {
         fetchData: function() {

@@ -4,6 +4,7 @@ weForms.routeComponents.FormEntriesSingle = {
     data: function() {
         return {
             loading: false,
+            show_payment_data: false,
             entry: {
                 form_fields: {},
                 meta_data: {},

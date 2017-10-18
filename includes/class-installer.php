@@ -72,7 +72,8 @@ class WeForms_Installer {
                 KEY `entry_id` (`weforms_entry_id`)
             ) $collate;",
 
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}weforms_payments` (
+            // removed IF NOT EXISTS
+            "CREATE TABLE `{$wpdb->prefix}weforms_payments` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 `form_id` bigint(20) unsigned DEFAULT NULL,
                 `entry_id` bigint(20) unsigned DEFAULT NULL,
@@ -81,6 +82,7 @@ class WeForms_Installer {
                 `gateway` varchar(50) DEFAULT NULL,
                 `transaction_id` varchar(50) DEFAULT NULL,
                 `status` varchar(10) DEFAULT 'completed',
+                `payment_data` longtext,
                 `created_at` datetime DEFAULT NULL,
                 PRIMARY KEY (`id`),
                 KEY `form_id` (`form_id`),

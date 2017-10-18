@@ -157,8 +157,8 @@
 
                         <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
 
-                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>">
-                            <i class="fa fa-share-alt" aria-hidden="true"></i>
+                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>"> 
+                            <i class="fa fa-share-alt" aria-hidden="true"></i> 
                             <?php _e('Share', 'Share' ); ?>
                         </span>
 
@@ -327,7 +327,7 @@
             </div>
         </div>
 
-        <div class="wpuf-contact-form-entry-right" v-if="entry.payment_data">
+        <div class="wpuf-contact-form-entry-right" v-if="entry.payment_data" style=" clear: right;">
             <div class="postbox">
                 <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Payment Info', 'weforms' ); ?></span></h2>
                 <div class="inside">
@@ -364,6 +364,23 @@
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.payment_data.created_at }}</span>
                             </li>
+
+                            <li v-if="entry.payment_data.payment_data">
+
+                                <template v-if="show_payment_data" class="value" v-for="(val,key) in entry.payment_data.payment_data">
+                                    <template v-if="key && (val === false || val)">
+                                        <li>
+                                            <span class="label">{{ key }}</span>
+                                            <span class="sep"> : </span>
+                                            <span class="value"> {{ val }}</span>
+                                        </li>
+                                    </template>
+                                </template>
+
+                                <span class="value"> <a href="#" @click.prevent="show_payment_data = !show_payment_data"> {{ show_payment_data ? 'Hide' : 'Show More' }} </a> </span>
+
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -438,9 +455,19 @@
 
                     <div class="row-actions">
                         <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.id }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
+
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'weforms' ); ?></a> | </span>
+
                         <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.id, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
+
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
+
+                        <template v-if="is_pro && form.payments">
+                            <span>
+                                <template>|</template>
+                                <router-link :to="{ name: 'formPayments', params: { id: form.id }}"><?php _e( 'Transactions', 'weforms' ); ?></router-link>
+                            </span>
+                        </template>
                     </div>
                 </td>
                 <td><code>[weforms id="{{ form.id }}"]</code></td>
@@ -503,6 +530,26 @@
             </span>
         </div>
     </div>
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-form-payments">
+<div class="wpuf-contact-form-payments">
+    <h1 class="wp-heading-inline">
+        <?php _e( 'Transactions', 'weforms' ); ?>
+        <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
+        <span style="color: #999;" class="form-name">{{ form_title }}</span>
+    </h1>
+
+    <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
+
+    <wpuf-table
+    	action="weforms_form_payments"
+    	delete="weforms_form_payments_trash_bulk"
+    	:id="id"
+    	v-on:ajaxsuccess="form_title = $event.form_title"
+    >
+    </wpuf-table>
+
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-home-page">

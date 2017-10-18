@@ -154,37 +154,7 @@ abstract class WeForms_Form_Template {
      * @return array
      */
     public function get_default_settings() {
-        return array(
-            'redirect_to'                => 'same',
-            'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
-            'page_id'                    => '',
-            'url'                        => '',
-            'submit_text'                => __( 'Submit Query', 'weforms' ),
-            'schedule_form'              => 'false',
-            'schedule_start'             => '',
-            'schedule_end'               => '',
-            'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
-            'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
-            'require_login'              => 'false',
-            'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
-            'limit_entries'              => 'false',
-            'limit_number'               => '100',
-            'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
-            'label_position'             => 'above',
-            'enable_multistep'           => false,
-            'multistep_progressbar_type' => 'progressive',
-
-            'stripe_page_id'             =>             '',
-            'stripe_email'               =>             '',
-            'stripe_message'             =>             '',
-            'stripe_key'                 =>             '',
-            'stripe_secret_key'          =>             '',
-
-            'paypal_sandbox'             =>             '',
-            'paypal_email'               =>             '',
-            'paypal_message'             =>             '',
-            'paypal_page_id'             =>             '',
-        );
+        return weforms_get_default_form_settings();
     }
 
     /**
@@ -193,31 +163,7 @@ abstract class WeForms_Form_Template {
      * @return array
      */
     function get_default_notification() {
-        return array(
-            array(
-                'active'       => 'true',
-                'name'         => __( 'Admin Notification', 'weforms' ),
-                'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
-                'to'           => '{admin_email}',
-                'replyTo'      => '{field:email}',
-                'message'      => '{all_fields}',
-                'fromName'     => '{site_name}',
-                'fromAddress'  => '{admin_email}',
-                'cc'           => '',
-                'bcc'          => '',
-                'weforms_cond' => array(
-                    'condition_status' => 'no',
-                    'cond_logic'       => 'any',
-                    'conditions'       => array(
-                        array(
-                            'name'             => '',
-                            'operator'         => '=',
-                            'option'           => ''
-                        )
-                    )
-                )
-            ),
-        );
+        return array( weforms_get_default_form_notification() );
     }
 
 }

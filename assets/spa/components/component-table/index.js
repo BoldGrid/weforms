@@ -3,6 +3,7 @@ Vue.component( 'wpuf-table', {
     mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
         action: String,
+        delete: String,
         id: [String, Number]
     },
 
@@ -14,7 +15,7 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: weForms.nonce,
             index: 'id',
-            bulkDeleteAction: 'weforms_form_entry_trash_bulk'
+            bulkDeleteAction: this.delete ? this.delete : 'weforms_form_entry_trash_bulk'
         };
     },
 

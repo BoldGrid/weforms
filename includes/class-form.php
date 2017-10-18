@@ -244,7 +244,11 @@ class WeForms_Form {
      * @return array
      */
     public function get_settings() {
-        return get_post_meta( $this->id, 'wpuf_form_settings', true );
+
+        $settings = get_post_meta( $this->id, 'wpuf_form_settings', true );
+        $default  = weforms_get_default_form_settings();
+
+        return array_merge( $default, $settings);
     }
 
     /**
@@ -299,10 +303,15 @@ class WeForms_Form {
      */
     public function get_notifications() {
         $notifications =  get_post_meta( $this->id, 'notifications', true );
+        $defualt       = weforms_get_default_form_notification();
 
         if ( ! $notifications ) {
-            return array();
+            $notifications = array();
         }
+
+        $notifications = array_map( function( $notification ) use ( $defualt ) {
+            return array_merge( $defualt, $notification);
+        }, $notifications);
 
         return $notifications;
     }
@@ -338,6 +347,15 @@ class WeForms_Form {
      */
     public function num_form_entries() {
         return weforms_count_form_entries( $this->id );
+    }
+
+    /**
+     * Get number of form payments
+     *
+     * @return integer
+     */
+    public function num_form_payments() {
+        return weforms_count_form_payments( $this->id );
     }
 
     /**
