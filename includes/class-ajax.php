@@ -31,7 +31,6 @@ class WeForms_Ajax {
 
         // entries
         add_action( 'wp_ajax_weforms_form_entries', array( $this, 'get_entries' ) );
-        add_action( 'wp_ajax_weforms_form_payments', array( $this, 'get_payments' ) ); // mayb will need to move to payment module
 
         add_action( 'wp_ajax_weforms_form_entry_details', array( $this, 'get_entry_detail' ) );
         add_action( 'wp_ajax_weforms_form_entry_trash', array( $this, 'trash_entry' ) );
@@ -405,95 +404,7 @@ class WeForms_Ajax {
         wp_send_json_success( $response );
     }
 
-    /**
-     * Get all payments
-     *
-     * @return void
-     */
-    public function get_payments() {
-        check_ajax_referer( 'weforms' );
 
-        $this->check_admin();
-
-        $form_id      = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
-        $current_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
-        $per_page     = 20;
-        $offset       = ( $current_page - 1 ) * $per_page;
-
-        if ( ! $form_id ) {
-            wp_send_json_error( __( 'No form id provided!', 'weforms' ) );
-        }
-
-        $entries = weforms_get_form_payments( $form_id, array(
-            'number' => $per_page,
-            'offset' => $offset
-        ) );
-
-        $total_entries   = weforms_count_form_payments( $form_id );
-
-        $columns         = array(
-            'total'          => 'Ammount',
-            'status'         => 'Status',
-            'transaction_id' => 'Transaction ID',
-            'created_at'     => 'Created',
-        );
-
-
-        array_map( function( $entry ) use ($columns) {
-            $entry->id = $entry->entry_id;
-            $entry->fields = array();
-
-            foreach ($columns as $meta_key => $label) {
-
-                switch ($meta_key) {
-                    case 'transaction_id':
-
-                        if ( 'paypal' === $entry->gateway ) {
-                            $value = $entry->{$meta_key};
-
-                        } elseif ( 'stripe' === $entry->gateway ){
-                            $value = sprintf(
-                                "<a href='https://dashboard.stripe.com/payments/%s' target='_blank'>%s</a>",
-                                $entry->$meta_key,
-                                $entry->$meta_key
-                            );
-                        }
-                        break;
-
-                    case 'total':
-                        $value = weforms_format_price( $entry->{$meta_key} );
-                        break;
-
-                    case 'status':
-                        $value = ucfirst($entry->{$meta_key});
-                        break;
-
-                    default:
-                        $value = $entry->{$meta_key};
-                        break;
-                }
-
-                $entry->fields[$meta_key] = $value;
-            }
-
-        }, $entries );
-
-        $entries         = apply_filters('weforms_get_payments', $entries, $form_id );
-
-        $response = array(
-            'columns'    => $columns,
-            'entries'    => $entries,
-            'form_title' => get_post_field( 'post_title', $form_id ),
-            'pagination' => array(
-                'total'    => $total_entries,
-                'per_page' => $per_page,
-                'pages'    => ceil( $total_entries / $per_page ),
-                'current'  => $current_page
-            )
-        );
-
-        wp_send_json_success( $response );
-    }
 
     /**
      * Get an entry details

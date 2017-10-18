@@ -81,6 +81,7 @@ final class WeForms {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
+        add_action( 'plugins_loaded', array( $this, 'plugin_upgrades') );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
     }
 
@@ -235,6 +236,28 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
+    }
+
+    /**
+     * Do plugin upgrades
+     *
+     * @since 1.1.2
+     *
+     * @return void
+     */
+    function plugin_upgrades() {
+
+        if ( ! is_admin() && ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        require_once WEFORMS_INCLUDES . '/class-upgrades.php';
+
+        $upgrader = new WeForms_Upgrades();
+
+        if ( $upgrader->needs_update() ) {
+            $upgrader->perform_updates();
+        }
     }
 
     /**
