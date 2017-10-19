@@ -78,6 +78,7 @@ class WeForms_Admin {
 
         if ( current_user_can( $capability ) ) {
             $submenu['weforms'][] = array( __( 'All Forms', 'weforms' ), $capability, 'admin.php?page=weforms#/' );
+            $submenu['weforms'][] = array( __( 'Entries', 'weforms' ), $capability, 'admin.php?page=weforms#/entries' );
             $submenu['weforms'][] = array( __( 'Tools', 'weforms' ), $capability, 'admin.php?page=weforms#/tools' );
 
             if ( class_exists( 'WeForms_Pro' ) ) {

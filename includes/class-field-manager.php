@@ -126,10 +126,11 @@ class WeForms_Field_Manager {
      *
      * @param  integer $form_id
      * @param  array $fields
+     * @param  array $atts
      *
      * @return void
      */
-    public function render_fields( $fields, $form_id ) {
+    public function render_fields( $fields, $form_id, $atts = array() ) {
         if ( ! $fields ) {
             return;
         }
@@ -144,7 +145,7 @@ class WeForms_Field_Manager {
                 continue;
             }
 
-            $field = $this->dynamic_fields( $field, $form_id );
+            $field = $this->dynamic_fields( $field, $form_id, $atts );
 
             $field_object->render( $field, $form_id );
             $field_object->conditional_logic( $field, $form_id );
@@ -159,7 +160,7 @@ class WeForms_Field_Manager {
      *
      * @return void
      */
-    function dynamic_fields( $form_field, $form_id ) {
+    function dynamic_fields( $form_field, $form_id, $atts = array() ) {
 
         if ( !isset( $form_field['dynamic'] ) || empty( $form_field['dynamic']['status']) || empty( $form_field['dynamic']['param_name'] ) ) {
             return $form_field;
@@ -169,15 +170,38 @@ class WeForms_Field_Manager {
 
         if ( isset( $form_field['options'] ) ) {
 
-            $form_field['options'] = apply_filters( 'weforms_field_value_' . $param_name , $form_field['options'] );
+            $form_field['options'] = apply_filters( 'weforms_field_options_' . $param_name , $form_field['options'], $form_id );
 
-        } elseif ( isset( $form_field['default'] ) ) {
+            if ( isset( $_GET[$param_name] ) && is_array( $_GET[$param_name] ) ) {
 
-            $form_field['default'] = apply_filters( 'weforms_field_value_' . $param_name , $form_field['default'] );
+                $form_field['default'] = array_merge( $form_field['options'], $_GET[$param_name] );
+            }
 
-            if ( isset( $_GET[$param_name] ) ) {
+        }
 
-                $form_field['default'] = $_GET[$param_name];
+
+        foreach ( array( 'default', 'selected' ) as $key => $default_key) {
+
+            if ( isset( $form_field[$default_key] ) ) {
+
+                $form_field[$default_key] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field['default'], $form_id );
+
+                if ( isset( $atts[$param_name] ) ) {
+
+                    $form_field[$default_key] = $atts[$param_name];
+                }
+
+                if ( isset( $_GET[$param_name] ) ) {
+
+                    if ( is_array( $form_field[$default_key] ) == is_array( $_GET[$param_name] ) ) {
+                        $form_field[$default_key] = $_GET[$param_name];
+                    }
+
+                    if ( ! is_array( $form_field[$default_key] ) == ! is_array( $_GET[$param_name] ) ) {
+                        $form_field[$default_key] = $_GET[$param_name];
+                    }
+
+                }
             }
         }
 

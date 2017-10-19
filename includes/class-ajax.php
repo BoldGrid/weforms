@@ -719,7 +719,7 @@ class WeForms_Ajax {
                     $min = isset( $quantity['min'] ) ? floatval( $quantity['min']  ) : 0;
                     $max = isset( $quantity['max'] ) ? floatval( $quantity['max']  ) : 0;
 
-                    if ( $value['quantity'] < $max ) {
+                    if ( $value['quantity'] < $min ) {
 
                         wp_send_json( array(
                             'success'     => false,

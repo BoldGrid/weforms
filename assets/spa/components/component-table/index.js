@@ -75,5 +75,11 @@ Vue.component( 'wpuf-table', {
                 }
             }
         }
+    },
+
+    watch: {
+        id: function(){
+            this.fetchData();
+        }
     }
 } );

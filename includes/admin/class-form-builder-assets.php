@@ -157,6 +157,11 @@ class WeForms_Form_Builder_Assets {
                 'component' => 'Tools'
             ),
             array(
+                'path'      => '/entries',
+                'name'      => 'entries',
+                'component' => 'Entries'
+            ),
+            array(
                 'path'      => '/help',
                 'name'      => 'help',
                 'component' => 'Help'
