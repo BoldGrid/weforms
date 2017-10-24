@@ -935,10 +935,11 @@ function weforms_get_default_form_settings() {
 
         // payment
 
-        'stripe_status'              => '',
+        'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
+        'payment_stripe_images'      => array('visa','mastercard','amex','discover'),
+        'payment_stripe_deactivate'  => '',
         'stripe_mode'                => 'live',
         'stripe_page_id'             => '',
-        'stripe_message'             => __( "Please wait while the payment popup is loading.", 'weforms' ),
 
         'stripe_override_keys'       => '',
         'stripe_email'               => '',
@@ -949,26 +950,18 @@ function weforms_get_default_form_settings() {
 
         'stripe_prefill_email'       => '',
         'stripe_user_email_field'    => '',
-        'stripe_logo'                => '',
-        'stripe_company_name'        => get_bloginfo( 'name' ),
-        'stripe_company_desc'        => get_bloginfo( 'description' ),
-        'stripe_ask_billing'         => '',
-        'stripe_ask_shipping'        => '',
 
-        'paypal_status'              => '',
+        'payment_paypal_deactivate'  => '',
         'paypal_mode'                => 'live',
         'paypal_type'                => '_cart',
 
         'paypal_override'            => '',
         'paypal_email'               => '',
 
-        'paypal_message'             => 'You are being redirected to a PayPal page for the payment.',
         'paypal_page_id'             => '',
 
-        'paypal_logo'                => '',
         'paypal_prefill_email'       => '',
         'paypal_user_email_field'    => '',
-        'paypal_ask_shipping'        => 0,
     ));
 }
 

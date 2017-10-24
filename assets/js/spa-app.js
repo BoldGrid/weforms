@@ -1,6 +1,6 @@
 /*!
 weForms - v1.1.1
-Generated: 2017-10-19 (1508391011415)
+Generated: 2017-10-24 (1508825061240)
 */
 
 ;(function($) {
@@ -859,6 +859,43 @@ weForms.routeComponents.Tools = {
             });
         }
     }
+};
+
+/* ./assets/spa/components/transactions/index.js */
+weForms.routeComponents.Transactions = {
+    template: '#tmpl-wpuf-transactions',
+    data: function() {
+        return {
+            selected: 0,
+            forms: {},
+            form_title: 'Loading...',
+        };
+    },
+
+    created: function(){
+        this.get_forms();
+    },
+
+    methods: {
+        get_forms: function(){
+            var self = this;
+
+            wp.ajax.send( 'weforms_form_list', {
+                data: {
+                    _wpnonce: weForms.nonce,
+                    page: self.currentPage,
+                    filter: 'transactions',
+                },
+                success: function(response) {
+                    self.forms = response.forms;
+                    self.selected = self.forms[0].id;
+                },
+                error: function(error) {
+                    alert(error);
+                }
+            });
+        },
+    },
 };
 
 /* ./assets/spa/components/weforms-page-help/index.js */

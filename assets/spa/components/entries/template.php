@@ -12,9 +12,14 @@
         </select>
     </h1>
 
-    <!-- <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link> -->
     <template v-if="selected">
-        <wpuf-table action="weforms_form_entries" :id="selected" v-on:ajaxsuccess="form_title = $event.form_title; $route.params.id = selected"></wpuf-table>
+
+        <wpuf-table
+            action="weforms_form_entries"
+            :id="selected"
+            v-on:ajaxsuccess="form_title = $event.form_title; $route.params.id = selected"
+        >
+        </wpuf-table>
     </template>
 
 </div>

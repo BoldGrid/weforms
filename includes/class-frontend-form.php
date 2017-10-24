@@ -103,6 +103,12 @@ class WeForms_Frontend_Form {
                 do_action( 'weforms_form_fields_top', $form, $form_fields );
 
                 weforms()->fields->render_fields( $form_fields, $form->id, $atts );
+
+                /**
+                 * @since 1.1.1
+                 */
+                do_action( 'weforms_form_fields_before_submit_button', $form, $form_fields, $form_settings );
+
                 $this->submit_button( $form->id, $form_settings );
 
                 /**
