@@ -11,7 +11,7 @@ class WeForms_Template_Loan_Application_Form extends WeForms_Form_Template {
         $this->enabled     = class_exists( 'WeForms_Pro' );
         $this->title       = __( 'Loan Application Form', 'weforms' );
         $this->description = __( 'Use this load application to quickly process loan applications much smoother!', 'weforms' );
-        $this->image       = WEFORMS_ASSET_URI . '/images/form-template/contact.png';
+        $this->image       = WEFORMS_ASSET_URI . '/images/form-template/loan-application.png';
     }
 
     /**
