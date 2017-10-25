@@ -20,8 +20,8 @@ class WeForms_Template_Website_Feedback extends WeForms_Form_Template {
      * @return array
      */
     public function get_form_fields() {
-
         $all_fields      = $this->get_available_fields();
+
         $get_form_fields = array(
             array_merge( $all_fields['custom_html']->get_field_props(), array(
                 'html'      => sprintf( '<h3>%s</h3>', __( 'Website Feedback' ) ),
@@ -98,7 +98,7 @@ class WeForms_Template_Website_Feedback extends WeForms_Form_Template {
             ) ),
         );
 
-        return $form_fields;
+        return $get_form_fields;
     }
 
 }
