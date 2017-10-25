@@ -79,6 +79,7 @@ class WeForms_Form_Builder_Assets {
             'nonce'           => wp_create_nonce( 'weforms' ),
             'confirm'         => __( 'Are you sure?', 'weforms' ),
             'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
+            'has_payment'     => class_exists( 'WeForms_Payment' ) ? 'true' : 'false',
             'routes'          => $this->get_vue_routes(),
             'routeComponents' => array( 'default' => null ),
             'mixins'          => array( 'default' => null )

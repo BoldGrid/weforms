@@ -1076,7 +1076,7 @@ Vue.component('help-text', {
     },
 
     mounted: function () {
-        $(".wpuf-tooltip").tooltip();
+        jQuery(".wpuf-tooltip").tooltip();
     }
 });
 

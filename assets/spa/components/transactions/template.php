@@ -12,6 +12,7 @@
     </h1>
 
     <wpuf-table v-if="selected"
+        has_export="no"
         action="weforms_form_payments"
         delete="weforms_form_payments_trash_bulk"
         :id="selected"

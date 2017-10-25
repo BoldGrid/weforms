@@ -2,6 +2,7 @@ Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
     mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
+        has_export: String,
         action: String,
         delete: String,
         id: [String, Number]

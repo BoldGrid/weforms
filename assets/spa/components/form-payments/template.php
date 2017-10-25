@@ -8,6 +8,7 @@
     <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
 
     <wpuf-table
+        has_export="no"
     	action="weforms_form_payments"
     	delete="weforms_form_payments_trash_bulk"
     	:id="id"

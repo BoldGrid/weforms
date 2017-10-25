@@ -936,7 +936,11 @@ function weforms_get_default_form_settings() {
         // payment
 
         'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
+
+        'payment_paypal_label'       => __( 'PayPal', 'weforms' ),
+        'payment_stripe_label'       => __( 'Credit Card', 'weforms' ),
         'payment_stripe_images'      => array('visa','mastercard','amex','discover'),
+
         'payment_stripe_deactivate'  => '',
         'stripe_mode'                => 'live',
         'stripe_page_id'             => '',

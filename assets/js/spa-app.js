@@ -1,6 +1,6 @@
 /*!
 weForms - v1.1.1
-Generated: 2017-10-25 (1508901686965)
+Generated: 2017-10-25 (1508911563753)
 */
 
 ;(function($) {
@@ -9,6 +9,7 @@ Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
     mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
+        has_export: String,
         action: String,
         delete: String,
         id: [String, Number]
@@ -560,6 +561,9 @@ Vue.component('form-list-table', {
     computed: {
         is_pro: function() {
             return 'true' === weForms.is_pro;
+        },
+        has_payment: function() {
+            return 'true' === weForms.has_payment;
         },
     },
 
