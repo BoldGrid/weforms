@@ -37,7 +37,7 @@ class WeForms_Pro_Upgrades {
             WeForms_Pro_Integration_MailChimp::class,
             WeForms_Pro_Integration_CM::class,
             WeForms_Pro_Integration_CC::class,
-            WeForms_Pro_Integration_MailPoet::class,
+            // WeForms_Pro_Integration_MailPoet::class,
             WeForms_Pro_Integration_AWeber::class,
             WeForms_Pro_Integration_ConvertKit::class
         );

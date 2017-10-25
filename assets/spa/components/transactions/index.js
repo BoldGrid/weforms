@@ -24,7 +24,7 @@ weForms.routeComponents.Transactions = {
                 },
                 success: function(response) {
                     self.forms = response.forms;
-                    self.selected = self.forms[0].id;
+                    self.selected = self.forms[Object.keys(self.forms)[0]].id;
                 },
                 error: function(error) {
                     alert(error);

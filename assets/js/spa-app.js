@@ -1,6 +1,6 @@
 /*!
 weForms - v1.1.1
-Generated: 2017-10-24 (1508825061240)
+Generated: 2017-10-25 (1508901686965)
 */
 
 ;(function($) {
@@ -888,7 +888,7 @@ weForms.routeComponents.Transactions = {
                 },
                 success: function(response) {
                     self.forms = response.forms;
-                    self.selected = self.forms[0].id;
+                    self.selected = self.forms[Object.keys(self.forms)[0]].id;
                 },
                 error: function(error) {
                     alert(error);

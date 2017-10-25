@@ -43,6 +43,13 @@ abstract class WeForms_Abstract_Integration {
     public $settings_fields = array();
 
     /**
+     * The settings fields for this integrations
+     *
+     * @var array
+     */
+    protected $template = null;
+
+    /**
      * Get the integration title
      *
      * @return string
@@ -111,4 +118,36 @@ abstract class WeForms_Abstract_Integration {
         );
     }
 
+
+    /**
+     * Check if it's the forms page
+     *
+     * @return boolean
+     */
+    public function is_weforms_page() {
+        if ( get_current_screen()->base != 'toplevel_page_weforms' ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Load the individual template file if exists
+     *
+     * @return void
+     */
+    public function load_template() {
+        if ( ! $this->is_weforms_page() ) {
+            return;
+        }
+
+        if ( ! $this->template ) {
+            return;
+        }
+
+        echo '<script type="text/x-template" id="tmpl-wpuf-integration-' . $this->id . '">';
+        include $this->template;
+        echo '</script>';
+    }
 }

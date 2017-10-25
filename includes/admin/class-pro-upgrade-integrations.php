@@ -53,19 +53,6 @@ class WeForms_Pro_Integration_CC extends WeForms_Pro_Integration_Prompt {
 
 
 /**
- * MailPoet
- */
-class WeForms_Pro_Integration_MailPoet extends WeForms_Pro_Integration_Prompt {
-
-    function __construct() {
-        $this->id    = 'mailpoet';
-        $this->title = __( 'MailPoet', 'weforms' );
-        $this->icon  = WEFORMS_ASSET_URI . '/images/icon-mailpoet.png';
-    }
-}
-
-
-/**
  * AWeber
  */
 class WeForms_Pro_Integration_AWeber extends WeForms_Pro_Integration_Prompt {
