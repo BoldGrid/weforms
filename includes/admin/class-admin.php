@@ -15,6 +15,11 @@ class WeForms_Admin {
 
         add_filter( 'admin_post_weforms_export_forms', array( $this, 'export_forms' ) );
         add_filter( 'admin_post_weforms_export_form_entries', array( $this, 'export_form_entries' ) );
+
+        // load default settings tabs
+        add_filter( 'weforms_settings_tabs', array( $this, 'set_default_settings' ), 5 );
+        add_action( 'weforms_settings_tab_content_general', array( $this, 'settings_tab_general' ) );
+        add_action( 'weforms_settings_tab_content_recaptcha', array( $this, 'settings_tab_recaptcha' ) );
     }
 
     /**
@@ -272,5 +277,28 @@ class WeForms_Admin {
         }
 
         return $settings;
+    }
+
+    function set_default_settings( $tabs = array() ) {
+
+        $tabs['general']   = array(
+            'label' => 'General Settings',
+            'icon'  => '',
+        );
+
+        $tabs['recaptcha'] = array(
+            'label' => 'reCaptcha',
+            'icon'  => '',
+        );
+
+        return $tabs;
+    }
+
+    function settings_tab_general( $tab ) {
+        include dirname( __FILE__ ) . '/views/weforms-settings-general.php';
+    }
+
+    function settings_tab_recaptcha( $tab ) {
+        include dirname( __FILE__ ) . '/views/weforms-settings-recaptcha.php';
     }
 }

@@ -1,6 +1,6 @@
 /*!
 weForms - v1.1.1
-Generated: 2017-10-25 (1508911563753)
+Generated: 2017-10-26 (1509001375885)
 */
 
 ;(function($) {
@@ -931,7 +931,9 @@ weForms.routeComponents.Settings = {
                     key: '',
                     secret: ''
                 }
-            }
+            },
+
+            activeTab: 'general',
         };
     },
 
@@ -948,6 +950,14 @@ weForms.routeComponents.Settings = {
 
     methods: {
 
+        makeActive: function(val) {
+            this.activeTab = val;
+        },
+
+        isActiveTab: function(val) {
+          return this.activeTab === val;
+        },
+
         fetchSettings: function() {
             var self = this;
 
@@ -963,7 +973,7 @@ weForms.routeComponents.Settings = {
                     if ( response === undefined ){
                         return;
                     }
-                    
+
                     // set defaults if undefined
                     $.each( self.settings, function( key, value ) {
                         if( response[key] === undefined ) {

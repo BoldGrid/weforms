@@ -49,6 +49,15 @@ abstract class WeForms_Abstract_Integration {
      */
     protected $template = null;
 
+
+    /**
+     * The settings settings_template
+     *
+     * @var array
+     */
+    protected $settings_template = null;
+
+
     /**
      * Get the integration title
      *
@@ -149,5 +158,47 @@ abstract class WeForms_Abstract_Integration {
         echo '<script type="text/x-template" id="tmpl-wpuf-integration-' . $this->id . '">';
         include $this->template;
         echo '</script>';
+    }
+
+    /**
+     * Load settings
+     *
+     * @return void
+     */
+    public function load_settings() {
+
+        if ( ! $this->settings_template ) {
+            return;
+        }
+
+        add_action( 'weforms_settings_tabs', array( $this, 'settings_tabs' ) );
+        add_action( 'weforms_settings_tab_content_' . $this->id, array( $this, 'settings_panel' ) );
+    }
+
+
+    /**
+     * Render the settings panel
+     *
+     * @return void
+     */
+    public function settings_panel() {
+        if( file_exists( $this->settings_template )) {
+            include $this->settings_template;
+        }
+    }
+
+    /**
+     * Add new tab at settings
+     *
+     * @return void
+     */
+    public function settings_tabs( $tabs ) {
+
+        $tabs[ $this->id ] = array(
+            'label' => $this->title,
+            'icon' => $this->icon,
+        );
+
+        return $tabs;
     }
 }
