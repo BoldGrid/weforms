@@ -279,25 +279,46 @@ class WeForms_Admin {
         return $settings;
     }
 
+    /**
+     * Set default settings tabs
+     *
+     * @param array $tabs
+     *
+     * @return array
+     */
     function set_default_settings( $tabs = array() ) {
 
         $tabs['general']   = array(
             'label' => 'General Settings',
-            'icon'  => '',
+            'icon'  => WEFORMS_ASSET_URI . '/images/integrations/general-setting.svg',
         );
 
         $tabs['recaptcha'] = array(
             'label' => 'reCaptcha',
-            'icon'  => '',
+            'icon'  => WEFORMS_ASSET_URI . '/images/integrations/reCaptcha.svg',
         );
 
         return $tabs;
     }
 
+    /**
+     * General tab content
+     *
+     * @param array $tab
+     *
+     * @return void
+     */
     function settings_tab_general( $tab ) {
         include dirname( __FILE__ ) . '/views/weforms-settings-general.php';
     }
 
+    /**
+     * recaptcha tab content
+     *
+     * @param array $tab
+     *
+     * @return void
+     */
     function settings_tab_recaptcha( $tab ) {
         include dirname( __FILE__ ) . '/views/weforms-settings-recaptcha.php';
     }

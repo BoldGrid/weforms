@@ -506,42 +506,89 @@ a.add-notification .dashicons {
   width: 99%;
   margin: 0px;
 }
+#weforms-settings {
+  position: relative;
+}
 #weforms-settings fieldset {
   position: relative;
   margin-top: 15px;
-  min-height: 380px;
+  margin-bottom: 15px;
+  min-height: 500px;
+  box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  clear: both;
 }
 #weforms-settings fieldset .nav-tab-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 170px;
-  border-bottom: 0px;
+  margin-bottom: 50px;
+  position: relative;
+  width: 220px;
+  border-radius: 2px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid #dcdcdc;
+  border-bottom: 2px solid #dcdcdc;
+  border-top: 2px solid #dcdcdc;
+  float: left;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
-#weforms-settings fieldset .nav-tab-wrapper a {
-  width: calc(101%);
+#weforms-settings fieldset .nav-tab-wrapper a.nav-tab {
+  width: 188px;
   margin-left: 0;
-  margin-bottom: .5em;
-  border-right: 1px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
   font-weight: 400;
   font-size: 13px;
+  padding: 10px 15px;
+  border: 0px;
+  border-right: 2px solid #dcdcdc;
+  transition: 0s;
+  background: #f1f1f1;
 }
-#weforms-settings fieldset .nav-tab-wrapper a.nav-tab-active {
-  border-right-color: #f1f1f1;
+#weforms-settings fieldset .nav-tab-wrapper a.nav-tab img {
+  width: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
-#weforms-settings fieldset .nav-tab-wrapper a:focus {
+#weforms-settings fieldset .nav-tab-wrapper a.nav-tab.nav-tab-active {
+  background: #fff;
+  border-right: 1px solid #eff4f6;
+  padding-right: 16px;
+}
+#weforms-settings fieldset .nav-tab-wrapper a.nav-tab:focus {
   outline: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
 #weforms-settings fieldset .tab-contents {
-  margin-left: 193px;
-  border-left: 1px solid #cccccc;
-  padding-left: 20px;
+  position: relative;
+  padding-left: 0px;
+  width: calc(100% - 221px);
+  margin-left: 222px;
+  border-left: 1px solid #eff4f6;
 }
-#weforms-settings fieldset .nav-tab-wrapper .nav-tab:focus {
-  outline: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+#weforms-settings fieldset .tab-contents .tab-content {
+  min-height: 500px;
+}
+#weforms-settings fieldset .tab-contents .inside {
+  padding: 0px 20px;
+}
+#weforms-settings fieldset .tab-contents .inside .form-table {
+  clear: right;
+}
+#weforms-settings fieldset .tab-contents h3.hndle {
+  border-bottom: 1px solid #eff4f6;
+  padding-left: 24px;
+  margin: 0px;
+}
+#weforms-settings fieldset .tab-contents .submit-wrapper {
+  border-top: 1px solid #eff4f6;
+  margin-top: 10px;
+}
+#weforms-settings fieldset .tab-contents .submit-wrapper,
+#weforms-settings fieldset .tab-contents h3.hndle {
+  padding: 13.5px 20px;
+  margin-right: 22px;
+}
+.wpuf-integrations-wrap .wpuf-integration .wpuf-integration-header .wpuf-integration-header-label img.icon {
+  width: 24px;
 }

@@ -1,10 +1,9 @@
-<div class="weforms-settings" id="weforms-settings">
+<div class="weforms-settings clearfix" id="weforms-settings">
 
     <h1><?php _e( 'Settings', 'weforms' ); ?></h1>
 
-    <div class="clearfix">
-
-        <fieldset>
+    <div>
+        <fieldset class="clearfix">
             <h2 id="weforms-settings-tabs" class="nav-tab-wrapper">
 
                 <?php
@@ -19,13 +18,18 @@
                         v-on:click.prevent="makeActive( '<?php echo $key; ?>' )"
                         class="nav-tab"
                     >
+                        <?php
+
+                        if ( ! empty($tab['icon'] ) ) {
+                            printf('<img src="%s">', $tab['icon']);
+                        }
+                        ?>
                         <?php _e( $tab['label'], 'weforms' ); ?>
                     </a>
 
                     <?php
 
                 endforeach;
-
 
                 do_action( 'weforms_settings_tabs_area' );
                 ?>
