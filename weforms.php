@@ -69,6 +69,15 @@ final class WeForms {
      */
     private $container = array();
 
+
+    /**
+     * Minimum PHP version required
+     *
+     * @var string
+     */
+    private $min_php = '5.4.0';
+
+
     /**
      * Constructor for the WeForms class
      *
@@ -76,6 +85,14 @@ final class WeForms {
      * within our plugin.
      */
     public function __construct() {
+
+        if ( ! $this->is_supported_php() ) {
+
+            add_action( 'admin_notices', array( $this, 'php_version_notice' ) );
+
+            return;
+        }
+
         $this->define_constants();
 
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
@@ -344,6 +361,42 @@ final class WeForms {
         $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
         return $links;
+    }
+
+    /**
+     * Check if the PHP version is supported
+     *
+     * @return bool
+     */
+    public function is_supported_php( $min_php = null ) {
+
+        $min_php = $min_php ? $min_php : $this->min_php;
+
+        if ( version_compare( PHP_VERSION, $min_php , '<=' ) ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Show notice about PHP version
+     *
+     * @return void
+     */
+    function php_version_notice() {
+
+        if ( $this->is_supported_php() ) {
+            return;
+        }
+
+        $error = __( 'Your installed PHP Version is: ', 'erp' ) . PHP_VERSION . '. ';
+        $error .= __( 'The <strong>weForms</strong> plugin requires PHP version <strong>', 'weforms' ) . $this->min_php . __( '</strong> or greater.', 'weforms' );
+        ?>
+        <div class="error">
+            <p><?php printf( $error ); ?></p>
+        </div>
+        <?php
     }
 
 } // WeForms

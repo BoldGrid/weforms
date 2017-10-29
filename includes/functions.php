@@ -329,6 +329,10 @@ function weforms_count_form_entries( $form_id, $status = 'publish' ) {
 function weforms_count_form_payments( $form_id ) {
     global $wpdb;
 
+    if ( ! class_exists( 'WeForms_Payment' ) ) {
+        return 0;
+    }
+
     return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->prefix . 'weforms_payments' . ' WHERE form_id = %d', $form_id) );
 }
 
