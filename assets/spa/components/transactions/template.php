@@ -6,7 +6,7 @@
             {{ form_title }}
         </span>
 
-        <select v-if="forms" v-model="selected">
+        <select v-if="forms.length" v-model="selected">
             <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
         </select>
     </h1>

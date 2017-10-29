@@ -507,89 +507,94 @@ a.add-notification .dashicons {
   margin: 0px;
 }
 #weforms-settings {
-  position: relative;
+  height: 100%;
 }
-#weforms-settings fieldset {
-  position: relative;
+#weforms-settings #weforms-settings-tabs-warp {
   margin-top: 15px;
   margin-bottom: 15px;
-  min-height: 500px;
   box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.1);
   background: #fff;
-  clear: both;
   border-radius: 2px;
+  display: flex;
 }
-#weforms-settings fieldset .nav-tab-wrapper {
-  margin-bottom: 50px;
-  position: relative;
-  width: 220px;
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs {
+  background: #f1f1f1;
+  min-width: 220px;
   border-radius: 2px;
-  display: inline-block;
   margin: 0;
   padding: 0;
-  float: left;
   border-bottom: 0px;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
+  border-right: 1px solid #e5e5e5;
 }
-#weforms-settings fieldset .nav-tab-wrapper a.nav-tab {
-  width: 188px;
-  margin-left: 0;
-  font-weight: 400;
-  font-size: 13px;
-  padding: 10px 15px;
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  min-height: 200px;
+}
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li {
+  margin: 0;
+  padding: 0;
+}
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li a {
+  display: block;
+  padding: 13px 25px;
+  text-decoration: none;
+  color: #444;
   border: 0px;
-  transition: 0s;
-  background: #fff;
-  border-bottom: 1px solid #eff4f6;
-  margin-bottom: 0px;
+  border-bottom: 1px solid #e5e5e5;
 }
-#weforms-settings fieldset .nav-tab-wrapper a.nav-tab img {
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li a img {
   width: 20px;
   margin-right: 10px;
   vertical-align: middle;
+  max-height: 20px;
 }
-#weforms-settings fieldset .nav-tab-wrapper a.nav-tab.nav-tab-active {
-  background: #f1f1f1;
-  border-right: 1px solid #eff4f6;
-  border-bottom: 1px solid #f1f1f1;
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li a.we-settings-nav-tab-active {
+  background: #fff;
 }
-#weforms-settings fieldset .nav-tab-wrapper a.nav-tab:focus {
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li:last-child a {
+  border-bottom: 0;
+}
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li:last-child a.we-settings-nav-tab-active {
+  border-bottom: 1px solid #e5e5e5;
+}
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li:focus,
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li a:focus {
   outline: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-#weforms-settings fieldset .tab-contents {
-  position: relative;
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents {
+  width: 100%;
   padding-left: 0px;
-  width: calc(100% - 221px);
-  margin-left: 218px;
-  border-left: 1px solid #eff4f6;
+  margin-left: 0px;
 }
-#weforms-settings fieldset .tab-contents .tab-content {
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents .tab-content {
   min-height: 500px;
 }
-#weforms-settings fieldset .tab-contents .inside {
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents .inside {
   padding: 0px 20px;
 }
-#weforms-settings fieldset .tab-contents .inside .form-table {
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents .inside .form-table {
   clear: right;
 }
-#weforms-settings fieldset .tab-contents h3.hndle {
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents h3.hndle {
   border-bottom: 1px solid #eff4f6;
   padding-left: 24px;
   margin: 0px;
   font-weight: normal;
   font-size: 14px;
 }
-#weforms-settings fieldset .tab-contents .submit-wrapper {
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents .submit-wrapper {
   border-top: 1px solid #eff4f6;
   margin-top: 10px;
 }
-#weforms-settings fieldset .tab-contents .submit-wrapper,
-#weforms-settings fieldset .tab-contents h3.hndle {
-  padding: 13px 20px;
-  margin-right: -2px;
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents .submit-wrapper,
+#weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents h3.hndle {
+  padding: 14.5px 20px;
 }
 .wpuf-integrations-wrap .wpuf-integration .wpuf-integration-header .wpuf-integration-header-label img.icon {
   width: 24px;

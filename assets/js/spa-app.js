@@ -1,6 +1,6 @@
 /*!
 weForms - v1.1.1
-Generated: 2017-10-26 (1509009288830)
+Generated: 2017-10-29 (1509261842221)
 */
 
 ;(function($) {
@@ -117,11 +117,12 @@ weForms.routeComponents.Entries = {
                     page: self.currentPage,
                 },
                 success: function(response) {
-                    self.forms = response.forms;
-                    self.selected = self.forms[0].id;
-
-                    // self.totalItems = response.meta.total;
-                    // self.totalPage = response.meta.pages;
+                    if ( response.forms.length ) {
+                        self.forms = response.forms;
+                        self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    } else {
+                        self.form_title = 'No entry found';
+                    }
                 },
                 error: function(error) {
                     alert(error);
@@ -891,8 +892,12 @@ weForms.routeComponents.Transactions = {
                     filter: 'transactions',
                 },
                 success: function(response) {
-                    self.forms = response.forms;
-                    self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    if ( response.forms.length ) {
+                        self.forms = response.forms;
+                        self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    } else {
+                        self.form_title = 'No transaction found';
+                    }
                 },
                 error: function(error) {
                     alert(error);

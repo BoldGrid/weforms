@@ -22,11 +22,12 @@ weForms.routeComponents.Entries = {
                     page: self.currentPage,
                 },
                 success: function(response) {
-                    self.forms = response.forms;
-                    self.selected = self.forms[0].id;
-
-                    // self.totalItems = response.meta.total;
-                    // self.totalPage = response.meta.pages;
+                    if ( response.forms.length ) {
+                        self.forms = response.forms;
+                        self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    } else {
+                        self.form_title = 'No entry found';
+                    }
                 },
                 error: function(error) {
                     alert(error);

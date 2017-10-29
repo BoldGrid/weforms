@@ -34,11 +34,11 @@ class WeForms_Pro_Upgrades {
         require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrade-integrations.php';
 
         $pro = array(
-            WeForms_Pro_Integration_MailChimp::class,
-            WeForms_Pro_Integration_CM::class,
-            WeForms_Pro_Integration_CC::class,
-            WeForms_Pro_Integration_AWeber::class,
-            WeForms_Pro_Integration_ConvertKit::class
+            'WeForms_Pro_Integration_MailChimp',
+            'WeForms_Pro_Integration_CM',
+            'WeForms_Pro_Integration_CC',
+            'WeForms_Pro_Integration_AWeber',
+            'WeForms_Pro_Integration_ConvertKit'
         );
 
         return array_merge( $integrations, $pro );

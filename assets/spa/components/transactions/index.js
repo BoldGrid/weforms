@@ -23,8 +23,12 @@ weForms.routeComponents.Transactions = {
                     filter: 'transactions',
                 },
                 success: function(response) {
-                    self.forms = response.forms;
-                    self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    if ( response.forms.length ) {
+                        self.forms = response.forms;
+                        self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    } else {
+                        self.form_title = 'No transaction found';
+                    }
                 },
                 error: function(error) {
                     alert(error);
