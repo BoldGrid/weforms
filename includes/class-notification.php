@@ -578,7 +578,7 @@ class WeForms_Notification {
                     $table .= '<tr class="field-value">';
                         $table .= '<td>';
 
-                            $field_value = $value[ 'value' ];
+                            $field_value = isset( $value[ 'value' ] ) ? $value[ 'value' ] : '';
 
                             if ( in_array( $value['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
                                 $field_value = is_array( $field_value ) ? $field_value : array();

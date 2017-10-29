@@ -537,12 +537,14 @@ abstract class WeForms_Field_Contract {
      */
     public function prepare_entry( $field ) {
 
-        if ( is_array( $_POST[$field['name']] ) ) {
+        $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
+
+        if ( is_array( $value ) ) {
 
             $entry_value = implode( WeForms::$field_separator, $_POST[$field['name']] );
 
         } else {
-            $entry_value = trim( $_POST[$field['name']] );
+            $entry_value = trim( $value  );
         }
 
         return $entry_value;
