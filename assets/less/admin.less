@@ -636,6 +636,7 @@ a.add-notification .dashicons {
         box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.1);
         background: #fff;
         clear: both;
+        border-radius: 2px;
 
         .nav-tab-wrapper {
             margin-bottom: 50px;
@@ -645,10 +646,8 @@ a.add-notification .dashicons {
             display: inline-block;
             margin: 0;
             padding: 0;
-            border-left: 2px solid #dcdcdc;
-            border-bottom: 2px solid #dcdcdc;
-            border-top: 2px solid #dcdcdc;
             float: left;
+            border-bottom: 0px;
 
 
             border-top-right-radius: 0px;
@@ -661,9 +660,10 @@ a.add-notification .dashicons {
                 font-size: 13px;
                 padding: 10px 15px;
                 border: 0px;
-                border-right: 2px solid #dcdcdc;
                 transition: 0s;
-                background: #f1f1f1;
+                background: #fff;
+                border-bottom: 1px solid #eff4f6;
+                margin-bottom: 0px;
 
                 img {
                     width: 20px;
@@ -675,10 +675,14 @@ a.add-notification .dashicons {
 
                 }
 
+                &.nav-tab-active:first-child{
+
+                }
+
                 &.nav-tab-active{
-                  background: #fff;
+                  background: #f1f1f1;
                   border-right: 1px solid #eff4f6;
-                  padding-right: 16px;
+                  border-bottom: 1px solid #f1f1f1;
                 }
 
 
@@ -696,7 +700,7 @@ a.add-notification .dashicons {
             padding-left: 0px;
             width: ~"calc(100% - 221px)";
 
-            margin-left: 222px;
+            margin-left: 218px;
             border-left: 1px solid #eff4f6;
 
             .tab-content{
@@ -715,6 +719,8 @@ a.add-notification .dashicons {
                 border-bottom: 1px solid #eff4f6;
                 padding-left: 24px;
                 margin: 0px;
+                font-weight: normal;
+                font-size: 14px;
             }
 
             .submit-wrapper {
@@ -723,8 +729,8 @@ a.add-notification .dashicons {
             }
 
             .submit-wrapper, h3.hndle{
-                padding: 13.5px 20px;
-                margin-right: 22px;
+                padding: 13px 20px;
+                margin-right: -2px;
             }
         }
     }
