@@ -3,7 +3,7 @@
 /**
  * Mailpoet Integration
  */
-class WeForms_Integration_MailPoet extends WeForms_Abstract_Integration {
+class WeForms_Integration_MailPoet_Free extends WeForms_Abstract_Integration {
 
     function __construct() {
         $this->id              = 'mailpoet';

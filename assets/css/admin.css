@@ -512,7 +512,7 @@ a.add-notification .dashicons {
 #weforms-settings #weforms-settings-tabs-warp {
   margin-top: 15px;
   margin-bottom: 15px;
-  box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
   background: #fff;
   border-radius: 2px;
   display: flex;
@@ -544,7 +544,9 @@ a.add-notification .dashicons {
   text-decoration: none;
   color: #444;
   border: 0px;
+  transition: 0s;
   border-bottom: 1px solid #e5e5e5;
+  margin-right: 0px;
 }
 #weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs ul li a img {
   width: 20px;
@@ -585,8 +587,6 @@ a.add-notification .dashicons {
   border-bottom: 1px solid #eff4f6;
   padding-left: 24px;
   margin: 0px;
-  font-weight: normal;
-  font-size: 14px;
 }
 #weforms-settings #weforms-settings-tabs-warp #weforms-settings-tabs-contents .submit-wrapper {
   border-top: 1px solid #eff4f6;

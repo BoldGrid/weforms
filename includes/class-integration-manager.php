@@ -36,7 +36,7 @@ class WeForms_Integration_Manager {
         require_once WEFORMS_INCLUDES . '/integrations/mailpoet/class-integration-mailpoet.php';
 
         $integrations = apply_filters( 'weforms_integrations', array(
-            'WeForms_Integration_Slack', 'WeForms_Integration_ERP', 'WeForms_Integration_MailPoet',
+            'WeForms_Integration_Slack', 'WeForms_Integration_ERP', 'WeForms_Integration_MailPoet_Free',
         ) );
 
         // Load integration classes
