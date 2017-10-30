@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.1.1
+ * Version: 1.2.0
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -53,7 +53,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.1.1';
+    public $version = '1.2.0';
 
     /**
      * Form field value seperator
@@ -149,7 +149,7 @@ final class WeForms {
      * @return void
      */
     private function define_constants() {
-        define( 'WEFORMS_VERSION', '1.1.0' );
+        define( 'WEFORMS_VERSION', $this->version );
         define( 'WEFORMS_FILE', __FILE__ );
         define( 'WEFORMS_ROOT', dirname( __FILE__ ) );
         define( 'WEFORMS_INCLUDES', WEFORMS_ROOT . '/includes' );
