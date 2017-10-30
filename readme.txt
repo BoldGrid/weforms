@@ -5,7 +5,7 @@ Tags: form, forms, contact form, custom form, form builder, form creator, form m
 Requires at least: 4.4
 Requires PHP: 5.4
 Tested up to: 4.8.2
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,19 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.2.0 (30 October, 2017) =
+
+ * **New**: We added a lot's of ready to use form templates. So you can just select the form template you need and your form will be ready.
+ * **New**: Added an Entries page in admin menu. Now you can access the form entries directly without going through few clicks.
+ * **New**: MailPoet Integration added from premium version. We thought to give it away for free.
+ * **New**: Date / Time field added from premium version. As it's a very commonly used field, it provides a lot more value in the free version.
+ * **New**: Pop-up/Modal form option added. Can be used through shortcode like `[weforms id="ID" modal='true' button='Open Form']`.
+ * **New**: Dynamic field population added. Field options or default values can be pre-populated by hooks or query string.
+ * **New**: Unique entry checking for fields like email, phone, text, number, URL added. Now, you can prevent duplicate submissions if you want.
+ * **Improved**: Settings page re-designed. New settings page is more user friendly and easy to use.
+ * **Fix**: Previously created forms sometimes failed work with new features. We added a new filter, now all new features are going to work smoothly  even with old forms.
+ * **Fix**: There was a small issue on showing validation error message on front-end. We've Fixed that.
 
 = Version 1.1.1 (3 October, 2017) =
 
