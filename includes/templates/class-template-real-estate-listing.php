@@ -8,7 +8,7 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
     public function __construct() {
         parent::__construct();
 
-        $this->enabled     = true;
+        $this->enabled     = class_exists('WeForms_Pro');
         $this->title       = __( 'Real Estate Listing', 'weforms' );
         $this->description = __( 'Take on bigger projects Right Now.You can do far more. Earn more clients and grow your business', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/real_state_list.png';

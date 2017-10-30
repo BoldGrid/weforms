@@ -25,18 +25,6 @@ class WeForms_Form_Field_Country extends WeForms_Form_Field_Pro {
 }
 
 /**
- * Date Field Class
- */
-class WeForms_Form_Field_Date extends WeForms_Form_Field_Pro {
-
-    function __construct() {
-        $this->name       = __( 'Date / Time', 'weforms' );
-        $this->input_type = 'date_field';
-        $this->icon       = 'calendar-o';
-    }
-}
-
-/**
  * File Field Class
  */
 class WeForms_Form_Field_File extends WeForms_Form_Field_Pro {

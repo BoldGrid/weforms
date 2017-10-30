@@ -64,6 +64,18 @@ Vue.component('field-name', {
     }
 });
 
+/* ./assets/components/form-date_field/index.js */
+/**
+ * Field template: Date
+ */
+Vue.component('form-date_field', {
+    template: '#tmpl-wpuf-form-date_field',
+
+    mixins: [
+        wpuf_mixins.form_field_mixin
+    ]
+});
+
 /* ./assets/components/form-name_field/index.js */
 /**
  * Field template: First Name

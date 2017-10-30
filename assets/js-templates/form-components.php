@@ -71,6 +71,18 @@
     </div>
 </div></script>
 
+<script type="text/x-template" id="tmpl-wpuf-form-date_field">
+<div class="wpuf-fields">
+    <input
+        type="text"
+        :class="class_names('datepicker')"
+        :placeholder="field.format"
+        :value="field.default"
+        :size="field.size"
+    >
+    <span v-if="field.help" class="wpuf-help">{{ field.help }}</span>
+</div></script>
+
 <script type="text/x-template" id="tmpl-wpuf-form-name_field">
 <div class="wpuf-fields">
 
@@ -553,14 +565,18 @@
                             continue;
                         }
 
-                        $class = 'template-active';
-                        $title = $template->title;
-                        $image = $template->image ? $template->image : '';
+                        $is_available = true;
+                        $class        = 'template-active';
+                        $title        = $template->title;
+                        $image        = $template->image ? $template->image : '';
 
-                        if ( ! $template->is_enabled() ) {
-                            $class = 'template-inactive';
-                            $title = __( 'This integration is not installed.', 'weforms' );
-                        }
+                         if ( ! $template->is_enabled() ) {
+
+                            $title        = __( 'This integration is not installed.', 'weforms' );
+                            $class        = 'template-inactive';
+                            $is_available = false;
+                         }
+
 
                         ?>
 
@@ -574,12 +590,13 @@
                                 <div class="title"><?php echo $template->get_title(); ?></div>
                                 <div class="description"><?php echo $template->get_description(); ?></div>
                                 <br>
-                                <button
-                                <?php echo ! $template->is_enabled() ? ' disabled="disabled" ' : ''; ?>
-                                class="button button-primary"
-                                @click.prevent="createForm('<?php echo $key; ?>', $event.target)"
-                                title="<?php echo esc_attr( $title ); ?>">
-                                    <?php _e('Create Form', 'weforms' );  ?>
+
+                                <button class="button button-primary" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>" <?php echo $is_available ? '' : 'disabled="disabled"'; ?>>
+                                  <?php if ( $is_available ) : ?>
+                                       <?php _e('Create Form', 'weforms' );  ?>
+                                    <?php else : ?>
+                                        <?php _e('Require Pro Upgrade', 'weforms' );  ?>
+                                    <?php endif; ?>
                                 </button>
                             </div>
                         </li>

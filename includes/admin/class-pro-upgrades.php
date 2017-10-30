@@ -59,7 +59,6 @@ class WeForms_Pro_Upgrades {
         require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrade-fields.php';
 
         $fields['repeat_field']         = new WeForms_Form_Field_Repeat();
-        $fields['date_field']           = new WeForms_Form_Field_Date();
         $fields['file_upload']          = new WeForms_Form_Field_File();
         $fields['country_list_field']   = new WeForms_Form_Field_Country();
         $fields['numeric_text_field']   = new WeForms_Form_Field_Numeric();

@@ -165,14 +165,14 @@ abstract class WeForms_Abstract_Integration {
      *
      * @return void
      */
-    public function load_settings() {
+    public function load_settings( $priority = 10 ) {
 
         if ( ! $this->settings_template ) {
             return;
         }
 
-        add_action( 'weforms_settings_tabs', array( $this, 'settings_tabs' ) );
-        add_action( 'weforms_settings_tab_content_' . $this->id, array( $this, 'settings_panel' ) );
+        add_action( 'weforms_settings_tabs', array( $this, 'settings_tabs' ), $priority );
+        add_action( 'weforms_settings_tab_content_' . $this->id, array( $this, 'settings_panel' ), $priority );
     }
 
 

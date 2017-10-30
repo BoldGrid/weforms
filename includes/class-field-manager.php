@@ -37,7 +37,6 @@ class WeForms_Field_Manager {
      */
     private function register_field_types() {
         require_once dirname( __FILE__ ) . '/fields/class-abstract-fields.php';
-
         require_once dirname( __FILE__ ) . '/fields/class-field-text.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-name.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-email.php';
@@ -52,10 +51,12 @@ class WeForms_Field_Manager {
         require_once dirname( __FILE__ ) . '/fields/class-field-hidden.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-image.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-recaptcha.php';
+        require_once dirname( __FILE__ ) . '/fields/class-field-date.php';
 
         $fields = array(
             'text_field'          => new WeForms_Form_Field_Text(),
             'name_field'          => new WeForms_Form_Field_Name(),
+            'date_field'          => new WeForms_Form_Field_Date_Free(),
             'email_address'       => new WeForms_Form_Field_Email(),
             'textarea_field'      => new WeForms_Form_Field_Textarea(),
             'radio_field'         => new WeForms_Form_Field_Radio(),
