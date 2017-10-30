@@ -20,7 +20,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : array();
+        $selected = !empty( $field_settings['selected'] ) ? $field_settings['selected'] : array();
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
@@ -55,7 +55,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options  = $this->get_default_option_settings();
+        $default_options  = $this->get_default_option_settings( true, array( 'width' ) );
         $dropdown_options = array(
             $this->get_default_option_dropdown_settings( true ),
 

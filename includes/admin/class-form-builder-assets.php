@@ -40,16 +40,27 @@ class WeForms_Form_Builder_Assets {
             'pro_link'            => self::get_pro_url(),
             'site_url'            => site_url('/'),
             'defaultNotification' => array(
-                'active'      => 'true',
-                'name'        => 'Admin Notification',
-                'subject'     => '[{from_name}] New Form Submission #{entry_id}',
-                'to'          => '{admin_email}',
-                'replyTo'     => '',
-                'message'     => '{all_fields}',
-                'fromName'    => '',
-                'fromAddress' => '{admin_email}',
-                'cc'          => '',
-                'bcc'         => ''
+                'active'              => 'true',
+                'name'                => 'Admin Notification',
+                'subject'             => '[{from_name}] New Form Submission #{entry_id}',
+                'to'                  => '{admin_email}',
+                'replyTo'             => '',
+                'message'             => '{all_fields}',
+                'fromName'            => '',
+                'fromAddress'         => '{admin_email}',
+                'cc'                  => '',
+                'bcc'                 => '',
+                'weforms_cond'        => array(
+                    'condition_status' => 'no',
+                    'cond_logic'       => 'any',
+                    'conditions'       => array(
+                        array(
+                            'name'     => '',
+                            'operator' => '=',
+                            'option'   => ''
+                        )
+                    )
+                )
             ),
             'integrations'     => weforms()->integrations->get_integration_js_settings(),
             'recaptcha_site'   => isset( $recaptcha->key ) ? $recaptcha->key : '',
@@ -68,6 +79,7 @@ class WeForms_Form_Builder_Assets {
             'nonce'           => wp_create_nonce( 'weforms' ),
             'confirm'         => __( 'Are you sure?', 'weforms' ),
             'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
+            'has_payment'     => class_exists( 'WeForms_Payment' ) ? 'true' : 'false',
             'routes'          => $this->get_vue_routes(),
             'routeComponents' => array( 'default' => null ),
             'mixins'          => array( 'default' => null )
@@ -144,6 +156,11 @@ class WeForms_Form_Builder_Assets {
                 'path'      => '/tools',
                 'name'      => 'tools',
                 'component' => 'Tools'
+            ),
+            array(
+                'path'      => '/entries',
+                'name'      => 'entries',
+                'component' => 'Entries'
             ),
             array(
                 'path'      => '/help',
@@ -238,6 +255,7 @@ class WeForms_Form_Builder_Assets {
             'close'                 => __( 'Close', 'wpuf' ),
             'last_choice_warn_msg'  => __( 'This field must contain at least one choice', 'wpuf' ),
             'option'                => __( 'Option', 'wpuf' ),
+            'row'                   => __( 'Row', 'wpuf' ),
             'column'                => __( 'Column', 'wpuf' ),
             'last_column_warn_msg'  => __( 'This field must contain at least one column', 'wpuf' ),
             'is_a_pro_feature'      => __( 'is available in Pro version', 'wpuf' ),

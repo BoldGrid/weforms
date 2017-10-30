@@ -80,5 +80,65 @@
                 </div>
             </div>
         </div>
+
+        <div class="wpuf-contact-form-entry-right" v-if="entry.payment_data" style=" clear: right;">
+            <div class="postbox">
+                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Payment Info', 'weforms' ); ?></span></h2>
+                <div class="inside">
+                    <div class="main">
+
+                        <ul>
+                            <li>
+                                <span class="label"><?php _e( 'Payment ID', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">#{{ entry.payment_data.id }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Gateway', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.gateway }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Status', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.status }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Total', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.total }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Transaction ID', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.transaction_id ? entry.payment_data.transaction_id : 'N/A' }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Created at', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.created_at }}</span>
+                            </li>
+
+                            <li v-if="entry.payment_data.payment_data">
+
+                                <template v-if="show_payment_data" class="value" v-for="(val,key) in entry.payment_data.payment_data">
+                                    <template v-if="key && (val === false || val)">
+                                        <li>
+                                            <span class="label">{{ key }}</span>
+                                            <span class="sep"> : </span>
+                                            <span class="value"> {{ val }}</span>
+                                        </li>
+                                    </template>
+                                </template>
+
+                                <span class="value"> <a href="#" @click.prevent="show_payment_data = !show_payment_data"> {{ show_payment_data ? 'Hide' : 'Show More' }} </a> </span>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

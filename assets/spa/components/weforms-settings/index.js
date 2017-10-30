@@ -18,7 +18,9 @@ weForms.routeComponents.Settings = {
                     key: '',
                     secret: ''
                 }
-            }
+            },
+
+            activeTab: 'general',
         };
     },
 
@@ -35,6 +37,14 @@ weForms.routeComponents.Settings = {
 
     methods: {
 
+        makeActive: function(val) {
+            this.activeTab = val;
+        },
+
+        isActiveTab: function(val) {
+          return this.activeTab === val;
+        },
+
         fetchSettings: function() {
             var self = this;
 
@@ -50,7 +60,7 @@ weForms.routeComponents.Settings = {
                     if ( response === undefined ){
                         return;
                     }
-                    
+
                     // set defaults if undefined
                     $.each( self.settings, function( key, value ) {
                         if( response[key] === undefined ) {

@@ -12,6 +12,14 @@ Vue.component('form-list-table', {
     created: function() {
         this.fetchData();
     },
+    computed: {
+        is_pro: function() {
+            return 'true' === weForms.is_pro;
+        },
+        has_payment: function() {
+            return 'true' === weForms.has_payment;
+        },
+    },
 
     methods: {
         fetchData: function() {

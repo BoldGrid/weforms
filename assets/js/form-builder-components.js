@@ -2,6 +2,38 @@
 ;(function($) {
 'use strict';
 
+/* ./assets/components/dynamic-field/index.js */
+Vue.component('field-dynamic-field', {
+    mixins: [wpuf_mixins.option_field_mixin],
+    template: '#tmpl-wpuf-dynamic-field',
+    data: function(){
+        return {
+            dynamic: {
+                status: false,
+                param_name: '',
+            }
+        }
+    },
+    computed: {
+        dynamic: function(){
+            return this.editing_form_field.dynamic;
+        }
+    },
+
+    created: function () {
+        this.dynamic = $.extend(false, this.dynamic, this.editing_form_field.dynamic);
+    },
+
+    methods: {
+
+    },
+
+    watch: {
+        dynamic: function(){
+            this.update_value('dynamic', this.dynamic);
+        }
+    },
+});
 /* ./assets/components/field-name/index.js */
 Vue.component('field-name', {
     template: '#tmpl-wpuf-field-name',
@@ -32,6 +64,18 @@ Vue.component('field-name', {
     }
 });
 
+/* ./assets/components/form-date_field/index.js */
+/**
+ * Field template: Date
+ */
+Vue.component('form-date_field', {
+    template: '#tmpl-wpuf-form-date_field',
+
+    mixins: [
+        wpuf_mixins.form_field_mixin
+    ]
+});
+
 /* ./assets/components/form-name_field/index.js */
 /**
  * Field template: First Name
@@ -42,6 +86,86 @@ Vue.component('form-name_field', {
     mixins: [
         wpuf_mixins.form_field_mixin
     ]
+});
+
+/* ./assets/components/form-notification/index.js */
+Vue.component('wpuf-cf-form-notification', {
+    template: '#tmpl-wpuf-form-notification',
+    mixins: [weForms.mixins.Loading],
+    data: function() {
+        return {
+            editing: false,
+            editingIndex: 0,
+        };
+    },
+
+    computed: {
+        is_pro: function() {
+            return 'true' === weForms.is_pro;
+        },
+        pro_link: function() {
+            return wpuf_form_builder.pro_link;
+        },
+        notifications: function() {
+            return this.$store.state.notifications;
+        },
+
+        hasNotifications: function() {
+            return Object.keys( this.$store.state.notifications ).length;
+        }
+    },
+
+    methods: {
+        addNew: function() {
+            this.$store.commit('addNotification', wpuf_form_builder.defaultNotification);
+        },
+
+        editItem: function(index) {
+            this.editing = true;
+            this.editingIndex = index;
+        },
+
+        editDone: function() {
+            this.editing = false;
+
+            this.$store.commit('updateNotification', {
+                index: this.editingIndex,
+                value: this.notifications[this.editingIndex]
+            });
+
+            jQuery('.advanced-field-wrap').slideUp('fast');
+        },
+
+        deleteItem: function(index) {
+            if ( confirm( 'Are you sure' ) ) {
+                this.editing = false;
+                this.$store.commit( 'deleteNotification', index);
+            }
+        },
+
+        toggelNotification: function(index) {
+            this.$store.commit('updateNotificationProperty', {
+                index: index,
+                property: 'active',
+                value: !this.notifications[index].active
+            });
+        },
+
+        duplicate: function(index) {
+            this.$store.commit('cloneNotification', index);
+        },
+
+        toggleAdvanced: function() {
+            jQuery('.advanced-field-wrap').slideToggle('fast');
+        },
+
+        insertValue: function(type, field, property) {
+            var notification = this.notifications[this.editingIndex],
+                value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
+
+            notification[property] = notification[property] + value;
+        }
+    }
 });
 
 /* ./assets/components/integration/index.js */

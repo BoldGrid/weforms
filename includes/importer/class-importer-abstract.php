@@ -454,27 +454,30 @@ abstract class WeForms_Importer_Abstract {
      */
     public function get_form_field( $type, $args = array() ) {
         $defaults = array(
-            'required'           => 'no',
-            'label'              => '',
-            'name'               => '',
-            'help'               => '',
-            'css_class'          => '',
-            'placeholder'        => '',
-            'value'              => '',
-            'default'            => '',
-            'options'            => array(),
-            'step'               => '',
-            'min'                => '',
-            'max'                => '',
-            'extension'          => '',
-            'max_size'           => '', // file size
-            'size'               => '', // file size
-            'first_placeholder'  => '',
-            'first_default'      => '',
-            'middle_placeholder' => '',
-            'middle_default'     => '',
-            'last_placeholder'   => '',
-            'last_default'       => '',
+             'required'           => 'no',
+             'label'              => '',
+             'name'               => '',
+             'help'               => '',
+             'css_class'          => '',
+             'placeholder'        => '',
+             'value'              => '',
+             'default'            => '',
+             'options'            => array(),
+             'step'               => '',
+             'min'                => '',
+             'max'                => '',
+             'extension'          => '',
+             'max_size'           => '', // file size
+             'size'               => '', // file size
+             'first_placeholder'  => '',
+             'first_default'      => '',
+             'middle_placeholder' => '',
+             'middle_default'     => '',
+             'last_placeholder'   => '',
+             'last_default'       => '',
+             'first_name'         => '',
+             'middle_name'        => '',
+             'last_name'          => '',
         );
 
         $args = wp_parse_args( $args, $defaults );
@@ -735,7 +738,7 @@ abstract class WeForms_Importer_Abstract {
                     'label'      => $args['label'],
                     'name'       => $args['name'],
                     'is_meta'    => 'yes',
-                    'help'       => '',
+                    'help'       => $args['help'],
                     'css'        => $args['css_class'],
                     'max_size'   => $args['max_size'],
                     'count'      => '1',
@@ -746,32 +749,140 @@ abstract class WeForms_Importer_Abstract {
 
             case 'name':
                 $field_content = array(
-                    'input_type' => 'name',
-                    'template'   => 'name_field',
+                    'input_type'  => 'name',
+                    'template'    => 'name_field',
+                    'required'    => $args['required'],
+                    'label'       => $args['label'],
+                    'name'        => $args['name'],
+                    'is_meta'     => 'yes',
+                    'format'      => $args['format'],
+                    'first_name'  => $args['first_name'],
+                    'middle_name' => $args['middle_name'],
+                    'last_name'   => $args['last_name'],
+                    'hide_subs'   => false,
+                    'help'        => $args['description'],
+                    'css'         => $args['css_class'],
+                    'wpuf_cond'   => $this->conditionals,
+                );
+                break;
+
+            case 'ratings':
+                $field_content = array(
+                    'input_type' => 'ratings',
+                    'template'   => 'ratings',
                     'required'   => $args['required'],
                     'label'      => $args['label'],
                     'name'       => $args['name'],
                     'is_meta'    => 'yes',
-                    'format'     => $args['format'],
-                    'first_name' => array(
-                        'placeholder' => $args['first_placeholder'],
-                        'default'     => $args['first_default'],
-                        'sub'         => __( 'First', 'weforms' )
-                    ),
-                    'middle_name' => array(
-                        'placeholder' => $args['middle_placeholder'],
-                        'default'     => $args['middle_default'],
-                        'sub'         => __( 'Middle', 'weforms' )
-                    ),
-                    'last_name' => array(
-                        'placeholder' => $args['last_placeholder'],
-                        'default'     => $args['last_default'],
-                        'sub'         => __( 'Last', 'weforms' )
-                    ),
-                    'hide_subs'        => false,
-                    'help'             => $args['description'],
-                    'css'              => $args['css_class'],
-                    'wpuf_cond'        => $this->conditionals
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'linear_scale':
+                $field_content = array(
+                    'input_type' => 'linear_scale',
+                    'template'   => 'linear_scale',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'checkbox_grid':
+                $field_content = array(
+                    'input_type' => 'checkbox_grid',
+                    'template'   => 'checkbox_grid',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'multiple_choice_grid':
+                $field_content = array(
+                    'input_type' => 'multiple_choice_grid',
+                    'template'   => 'multiple_choice_grid',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'single_product':
+                $field_content = array(
+                    'input_type' => 'single_product',
+                    'template'   => 'single_product',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'multiple_product':
+                $field_content = array(
+                    'input_type' => 'multiple_product',
+                    'template'   => 'multiple_product',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'payment_method':
+                $field_content = array(
+                    'input_type' => 'payment_method',
+                    'template'   => 'payment_method',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
+                );
+                break;
+
+            case 'total':
+                $field_content = array(
+                    'input_type' => 'total',
+                    'template'   => 'total',
+                    'required'   => $args['required'],
+                    'label'      => $args['label'],
+                    'name'       => $args['name'],
+                    'is_meta'    => 'yes',
+                    'help'       => '',
+                    'css'        => $args['css_class'],
+                    'options'    => $args['options'],
+                    'wpuf_cond'  => $this->conditionals
                 );
                 break;
         }

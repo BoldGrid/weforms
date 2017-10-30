@@ -30,6 +30,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                     class="textfield <?php echo 'wpuf_' . $field_settings['name'] . '_' . $form_id; ?>"
                     id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
                     type="text"
+                    data-duplicate="<?php echo $field_settings['duplicate'] ? $field_settings['duplicate'] : 'no'; ?>"
                     data-required="<?php echo $field_settings['required'] ?>"
                     data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>"
                     placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
@@ -61,8 +62,22 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
     public function get_options_settings() {
         $default_options      = $this->get_default_option_settings();
         $default_text_options = $this->get_default_text_option_settings( true );
-
-        return array_merge( $default_options, $default_text_options );
+        $check_duplicate      = array(
+            array(
+                'name'          => 'duplicate',
+                'title'         => 'No Duplicates',
+                'type'          => 'checkbox',
+                'is_single_opt' => true,
+                'options'       => array(
+                    'no'   => __( 'Unique Values Only', 'weforms' )
+                ),
+                'default'       => '',
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
+            )
+        );
+        return array_merge( $default_options, $default_text_options, $check_duplicate );
     }
 
     /**
@@ -74,6 +89,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
         $defaults = $this->default_attributes();
         $props    = array(
             'word_restriction' => '',
+            'duplicate' => '',
         );
 
         return array_merge( $defaults, $props );

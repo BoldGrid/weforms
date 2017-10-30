@@ -43,12 +43,44 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-contact.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-event-registration.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-support.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-tell-a-friend.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-job-application.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-comment-and-rating.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-employee-information.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-to-do-list.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-real-estate-listing.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-my-directory-information.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-request-for-quote.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-leave-request.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-admission-form.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-patient-itake-form.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-loan-application-form.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-website-feedback-form.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-volunteer-application.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-bug-report.php';
+		require_once WEFORMS_INCLUDES . '/templates/class-template-job-listing.php';
 
         $templates = array(
-            'blank'              => new WeForms_Template_Blank(),
-            'contact'            => new WeForms_Template_Contact(),
-            'event_registration' => new WeForms_Template_Event_Registration(),
-            'support'            => new WeForms_Template_Support()
+            'blank'                    => new WeForms_Template_Blank(),
+            'contact'                  => new WeForms_Template_Contact(),
+            'event_registration'       => new WeForms_Template_Event_Registration(),
+            'support'                  => new WeForms_Template_Support(),
+            'tell_a_friend'            => new WeForms_Template_Tell_A_Friend(),
+            'job_application'          => new WeForms_Template_Job_Application(),
+            'my_directory_information' => new WeForms_Template_My_Directory_Information(),
+            'volunteer_application'    => new WeForms_Template_Volunteer_Application(),
+            'bug_report'               => new WeForms_Template_Bug_Report(),
+            'job_listing'              => new WeForms_Template_Job_Listing(),
+            'leave_request'            => new WeForms_Template_Leave_Request(),
+            'real_estate_listing'      => new WeForms_Template_Real_Estate_Listing(),
+            'website_feedback'         => new WeForms_Template_Website_Feedback(),
+            'request_for_quote'        => new WeForms_Template_Request_For_Quote(),
+            'comment_rating'           => new WeForms_Template_Comment_Rating(),
+            'employee_information'     => new WeForms_Template_Employee_Information(),
+            'todo_list'                => new WeForms_Template_Todo_List(),
+            'admission_form'           => new WeForms_Template_Admission_Form(),
+            'patient_intake_form'      => new WeForms_Template_Patient_Intake_Form(),
+            'loan_application_form'    => new WeForms_Template_Loan_Application_Form(),
         );
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );

@@ -89,7 +89,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options = $this->get_default_option_settings();
+        $default_options = $this->get_default_option_settings( true, array( 'width' ) );
 
         $name_settings = array(
             array(
@@ -125,6 +125,20 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                 'priority'      => 23,
                 'help_text'     => '',
             ),
+            array(
+                'name'          => 'inline',
+                'title'         => __( 'Show in inline list', 'wpuf' ),
+                'type'          => 'radio',
+                'options'       => array(
+                    'yes'   => __( 'Yes', 'wpuf' ),
+                    'no'    => __( 'No', 'wpuf' ),
+                ),
+                'default'       => 'no',
+                'inline'        => true,
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'Show this option in an inline list', 'wpuf' ),
+            )
         );
 
         return array_merge( $default_options, $name_settings );
@@ -154,6 +168,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                 'default'     => '',
                 'sub'         => __( 'Last', 'weforms' )
             ),
+            'inline'   => 'yes',
             'hide_subs'        => false,
         );
 

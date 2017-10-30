@@ -37,7 +37,6 @@ class WeForms_Field_Manager {
      */
     private function register_field_types() {
         require_once dirname( __FILE__ ) . '/fields/class-abstract-fields.php';
-
         require_once dirname( __FILE__ ) . '/fields/class-field-text.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-name.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-email.php';
@@ -52,10 +51,12 @@ class WeForms_Field_Manager {
         require_once dirname( __FILE__ ) . '/fields/class-field-hidden.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-image.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-recaptcha.php';
+        require_once dirname( __FILE__ ) . '/fields/class-field-date.php';
 
         $fields = array(
             'text_field'          => new WeForms_Form_Field_Text(),
             'name_field'          => new WeForms_Form_Field_Name(),
+            'date_field'          => new WeForms_Form_Field_Date_Free(),
             'email_address'       => new WeForms_Form_Field_Email(),
             'textarea_field'      => new WeForms_Form_Field_Textarea(),
             'radio_field'         => new WeForms_Form_Field_Radio(),
@@ -126,10 +127,11 @@ class WeForms_Field_Manager {
      *
      * @param  integer $form_id
      * @param  array $fields
+     * @param  array $atts
      *
      * @return void
      */
-    public function render_fields( $fields, $form_id ) {
+    public function render_fields( $fields, $form_id, $atts = array() ) {
         if ( ! $fields ) {
             return;
         }
@@ -144,9 +146,67 @@ class WeForms_Field_Manager {
                 continue;
             }
 
+            $field = $this->dynamic_fields( $field, $form_id, $atts );
+
             $field_object->render( $field, $form_id );
             $field_object->conditional_logic( $field, $form_id );
         }
+    }
+
+    /**
+     * Filter dynamic fields
+     *
+     * @param  array $form_field
+     * @param  integer $form_id
+     *
+     * @return void
+     */
+    function dynamic_fields( $form_field, $form_id, $atts = array() ) {
+
+        if ( !isset( $form_field['dynamic'] ) || empty( $form_field['dynamic']['status']) || empty( $form_field['dynamic']['param_name'] ) ) {
+            return $form_field;
+        }
+
+        $param_name = $form_field['dynamic']['param_name'];
+
+        if ( isset( $form_field['options'] ) ) {
+
+            $form_field['options'] = apply_filters( 'weforms_field_options_' . $param_name , $form_field['options'], $form_id );
+
+            if ( isset( $_GET[$param_name] ) && is_array( $_GET[$param_name] ) ) {
+
+                $form_field['default'] = array_merge( $form_field['options'], $_GET[$param_name] );
+            }
+
+        }
+
+
+        foreach ( array( 'default', 'selected' ) as $key => $default_key) {
+
+            if ( isset( $form_field[$default_key] ) ) {
+
+                $form_field[$default_key] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field['default'], $form_id );
+
+                if ( isset( $atts[$param_name] ) ) {
+
+                    $form_field[$default_key] = $atts[$param_name];
+                }
+
+                if ( isset( $_GET[$param_name] ) ) {
+
+                    if ( is_array( $form_field[$default_key] ) == is_array( $_GET[$param_name] ) ) {
+                        $form_field[$default_key] = $_GET[$param_name];
+                    }
+
+                    if ( ! is_array( $form_field[$default_key] ) == ! is_array( $_GET[$param_name] ) ) {
+                        $form_field[$default_key] = $_GET[$param_name];
+                    }
+
+                }
+            }
+        }
+
+        return $form_field;
     }
 
     /**

@@ -71,20 +71,6 @@ class WeForms_Installer {
                 KEY `meta_key` (`meta_key`),
                 KEY `entry_id` (`weforms_entry_id`)
             ) $collate;",
-
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}weforms_payments` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `form_id` bigint(20) unsigned DEFAULT NULL,
-                `entry_id` bigint(20) unsigned DEFAULT NULL,
-                `user_id` bigint(20) unsigned DEFAULT NULL,
-                `total` float(20) unsigned DEFAULT NULL,
-                `gatewat` varchar(50) DEFAULT NULL,
-                `transaction_id` varchar(50) DEFAULT NULL,
-                `status` varchar(10) DEFAULT 'completed',
-                `created_at` datetime DEFAULT NULL,
-                PRIMARY KEY (`id`),
-                KEY `form_id` (`form_id`)
-            ) $collate;",
         );
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';

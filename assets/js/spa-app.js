@@ -1,6 +1,6 @@
 /*!
-weForms - v1.0.4
-Generated: 2017-10-02 (1506919369473)
+weForms - v1.1.1
+Generated: 2017-10-29 (1509261842221)
 */
 
 ;(function($) {
@@ -9,7 +9,9 @@ Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
     mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
+        has_export: String,
         action: String,
+        delete: String,
         id: [String, Number]
     },
 
@@ -21,7 +23,7 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: weForms.nonce,
             index: 'id',
-            bulkDeleteAction: 'weforms_form_entry_trash_bulk'
+            bulkDeleteAction: this.delete ? this.delete : 'weforms_form_entry_trash_bulk'
         };
     },
 
@@ -81,8 +83,54 @@ Vue.component( 'wpuf-table', {
                 }
             }
         }
+    },
+
+    watch: {
+        id: function(){
+            this.fetchData();
+        }
     }
 } );
+
+/* ./assets/spa/components/entries/index.js */
+weForms.routeComponents.Entries = {
+    template: '#tmpl-wpuf-entries',
+    data: function() {
+        return {
+            selected: 0,
+            forms: {},
+            form_title: 'Loading...',
+        };
+    },
+
+    created: function(){
+        this.get_forms();
+    },
+
+    methods: {
+        get_forms: function(){
+            var self = this;
+
+            wp.ajax.send( 'weforms_form_list', {
+                data: {
+                    _wpnonce: weForms.nonce,
+                    page: self.currentPage,
+                },
+                success: function(response) {
+                    if ( response.forms.length ) {
+                        self.forms = response.forms;
+                        self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    } else {
+                        self.form_title = 'No entry found';
+                    }
+                },
+                error: function(error) {
+                    alert(error);
+                }
+            });
+        },
+    },
+};
 
 /* ./assets/spa/components/form-builder/index.js */
 weForms.routeComponents.FormEditComponent = {
@@ -429,9 +477,11 @@ weForms.routeComponents.FormEntriesSingle = {
     data: function() {
         return {
             loading: false,
+            show_payment_data: false,
             entry: {
                 form_fields: {},
-                meta_data: {}
+                meta_data: {},
+                payment_data: {},
             }
         };
     },
@@ -508,6 +558,14 @@ Vue.component('form-list-table', {
     },
     created: function() {
         this.fetchData();
+    },
+    computed: {
+        is_pro: function() {
+            return 'true' === weForms.is_pro;
+        },
+        has_payment: function() {
+            return 'true' === weForms.has_payment;
+        },
     },
 
     methods: {
@@ -597,6 +655,19 @@ Vue.component('form-list-table', {
         },
     }
 });
+/* ./assets/spa/components/form-payments/index.js */
+weForms.routeComponents.FormPayments = {
+    props: {
+        id: [String, Number]
+    },
+    template: '#tmpl-wpuf-form-payments',
+    data: function() {
+        return {
+            form_title: 'Loading...'
+        };
+    }
+};
+
 /* ./assets/spa/components/home-page/index.js */
 weForms.routeComponents.Home = {
     template: '#tmpl-wpuf-home-page',
@@ -795,6 +866,47 @@ weForms.routeComponents.Tools = {
     }
 };
 
+/* ./assets/spa/components/transactions/index.js */
+weForms.routeComponents.Transactions = {
+    template: '#tmpl-wpuf-transactions',
+    data: function() {
+        return {
+            selected: 0,
+            forms: {},
+            form_title: 'Loading...',
+        };
+    },
+
+    created: function(){
+        this.get_forms();
+    },
+
+    methods: {
+        get_forms: function(){
+            var self = this;
+
+            wp.ajax.send( 'weforms_form_list', {
+                data: {
+                    _wpnonce: weForms.nonce,
+                    page: self.currentPage,
+                    filter: 'transactions',
+                },
+                success: function(response) {
+                    if ( response.forms.length ) {
+                        self.forms = response.forms;
+                        self.selected = self.forms[Object.keys(self.forms)[0]].id;
+                    } else {
+                        self.form_title = 'No transaction found';
+                    }
+                },
+                error: function(error) {
+                    alert(error);
+                }
+            });
+        },
+    },
+};
+
 /* ./assets/spa/components/weforms-page-help/index.js */
 weForms.routeComponents.Help = {
     template: '#tmpl-wpuf-weforms-page-help'
@@ -824,7 +936,9 @@ weForms.routeComponents.Settings = {
                     key: '',
                     secret: ''
                 }
-            }
+            },
+
+            activeTab: 'general',
         };
     },
 
@@ -841,6 +955,14 @@ weForms.routeComponents.Settings = {
 
     methods: {
 
+        makeActive: function(val) {
+            this.activeTab = val;
+        },
+
+        isActiveTab: function(val) {
+          return this.activeTab === val;
+        },
+
         fetchSettings: function() {
             var self = this;
 
@@ -856,7 +978,7 @@ weForms.routeComponents.Settings = {
                     if ( response === undefined ){
                         return;
                     }
-                    
+
                     // set defaults if undefined
                     $.each( self.settings, function( key, value ) {
                         if( response[key] === undefined ) {
@@ -1109,7 +1231,7 @@ var wpuf_form_builder_store = new Vuex.Store({
 
         // notifications
         addNotification: function(state, payload) {
-            state.notifications.push(payload);
+            state.notifications.push(_.clone(payload));
         },
 
         deleteNotification: function(state, index) {

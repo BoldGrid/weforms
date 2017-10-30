@@ -1,3 +1,22 @@
+<script type="text/x-template" id="tmpl-wpuf-dynamic-field">
+<div>
+
+	<div class="panel-field-opt panel-field-opt-text">
+		<label><input type="checkbox" value="yes" v-model="dynamic.status"> Allow field to be populated dynamically</label>
+	</div>
+
+	<template v-if="dynamic.status">
+
+		<div class="panel-field-opt panel-field-opt-text"><label>
+	        Parameter Name
+	        <help-text text="<?php _e( "Enter a Parameter Name, using that the field value can be populated through filter hook or query string", 'weforms' ) ?>"></help-text>
+	         <input type="text" v-model="dynamic.param_name">
+	     	</label>
+     	</div>
+	</template>
+
+</div></script>
+
 <script type="text/x-template" id="tmpl-wpuf-field-name">
 <div>
     <div class="panel-field-opt panel-field-name clearfix">
@@ -52,6 +71,18 @@
     </div>
 </div></script>
 
+<script type="text/x-template" id="tmpl-wpuf-form-date_field">
+<div class="wpuf-fields">
+    <input
+        type="text"
+        :class="class_names('datepicker')"
+        :placeholder="field.format"
+        :value="field.default"
+        :size="field.size"
+    >
+    <span v-if="field.help" class="wpuf-help">{{ field.help }}</span>
+</div></script>
+
 <script type="text/x-template" id="tmpl-wpuf-form-name_field">
 <div class="wpuf-fields">
 
@@ -93,6 +124,134 @@
     <span v-if="field.help" class="wpuf-help">{{ field.help }}</span>
 </div>
 </script>
+
+<script type="text/x-template" id="tmpl-wpuf-form-notification">
+<div>
+    <!-- <pre>{{ notifications.length }}</pre> -->
+    <a href="#" class="button button-secondary add-notification" v-on:click.prevent="addNew"><span class="dashicons dashicons-plus-alt"></span> <?php _e( 'Add Notification', 'best-contact-form' ); ?></a>
+
+    <div :class="[editing ? 'editing' : '', 'notification-wrap']">
+    <!-- notification-wrap -->
+
+        <div class="notification-table-wrap">
+            <table class="wp-list-table widefat fixed striped posts wpuf-cf-notification-table">
+                <thead>
+                    <tr>
+                        <th class="col-toggle">&nbsp;</th>
+                        <th class="col-name"><?php _e( 'Name', 'best-contact-form' ); ?></th>
+                        <th class="col-subject"><?php _e( 'Subject', 'best-contact-form' ); ?></th>
+                        <th class="col-action">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(notification, index) in notifications">
+                        <td class="col-toggle">
+                            <a href="#" v-on:click.prevent="toggelNotification(index)">
+                                <img v-if="notification.active" src="<?php echo WPUF_ASSET_URI; ?>/images/active.png" width="24" alt="status">
+                                <img v-else src="<?php echo WPUF_ASSET_URI; ?>/images/inactive.png" width="24" alt="status">
+                            </a>
+                        </td>
+                        <td class="col-name"><a href="#" v-on:click.prevent="editItem(index)">{{ notification.name }}</a></td>
+                        <td class="col-subject">{{ notification.subject }}</td>
+                        <td class="col-action">
+                            <a href="#" v-on:click.prevent="duplicate(index)" title="<?php esc_attr_e( 'Duplicate', 'best-contact-form' ); ?>"><span class="dashicons dashicons-admin-page"></span></a>
+                            <a href="#" v-on:click.prevent="editItem(index)" title="<?php esc_attr_e( 'Settings', 'best-contact-form' ); ?>"><span class="dashicons dashicons-admin-generic"></span></a>
+                        </td>
+                    </tr>
+                    <tr v-if="!notifications.length">
+                        <td colspan="4"><?php _e( 'No notifications found', 'best-contact-form' ); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!-- .notification-table-wrap -->
+
+        <div class="notification-edit-area" v-if="notifications[editingIndex]">
+
+            <div class="notification-head">
+                <input type="text" name="" v-model="notifications[editingIndex].name" v-on:keyup.enter="editDone()" value="Admin Notification">
+            </div>
+
+            <div class="form-fields">
+                <div class="notification-row">
+                    <div class="row-one-half notification-field first">
+                        <label for="notification-title"><?php _e( 'To', 'best-contact-form' ); ?></label>
+                        <input type="text" v-model="notifications[editingIndex].to">
+                        <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="to"></wpuf-merge-tags>
+                    </div>
+
+                    <div class="row-one-half notification-field">
+                        <label for="notification-title"><?php _e( 'Reply To', 'best-contact-form' ); ?></label>
+                        <input type="email" v-model="notifications[editingIndex].replyTo">
+                        <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="replyTo"></wpuf-merge-tags>
+                    </div>
+                </div>
+
+                <div class="notification-row notification-field">
+                    <label for="notification-title"><?php _e( 'Subject', 'best-contact-form' ); ?></label>
+                    <input type="text" v-model="notifications[editingIndex].subject">
+                    <wpuf-merge-tags v-on:insert="insertValue" field="subject"></wpuf-merge-tags>
+                </div>
+
+                <div class="notification-row notification-field">
+                    <label for="notification-title"><?php _e( 'Email Message', 'best-contact-form' ); ?></label>
+                    <textarea name="" rows="6" v-model="notifications[editingIndex].message"></textarea>
+                    <wpuf-merge-tags v-on:insert="insertValue" field="message"></wpuf-merge-tags>
+                </div>
+
+                <section class="advanced-fields">
+                    <a href="#" class="field-toggle" v-on:click.prevent="toggleAdvanced()"><span class="dashicons dashicons-arrow-right"></span><?php _e( ' Advanced', 'best-contact-form' ); ?></a>
+
+                    <div class="advanced-field-wrap">
+                        <div class="notification-row">
+                            <div class="row-one-half notification-field first">
+                                <label for="notification-title"><?php _e( 'From Name', 'best-contact-form' ); ?></label>
+                                <input type="text" v-model="notifications[editingIndex].fromName">
+                                <wpuf-merge-tags v-on:insert="insertValue" field="fromName"></wpuf-merge-tags>
+                            </div>
+
+                            <div class="row-one-half notification-field">
+                                <label for="notification-title"><?php _e( 'From Address', 'best-contact-form' ); ?></label>
+                                <input type="email" name="" v-model="notifications[editingIndex].fromAddress">
+                                <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="fromAddress"></wpuf-merge-tags>
+                            </div>
+                        </div>
+
+                        <div class="notification-row">
+                            <div class="row-one-half notification-field first">
+                                <label for="notification-title"><?php _e( 'CC', 'best-contact-form' ); ?></label>
+                                <input type="email" name="" v-model="notifications[editingIndex].cc">
+                                <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="cc"></wpuf-merge-tags>
+                            </div>
+
+                            <div class="row-one-half notification-field">
+                                <label for="notification-title"><?php _e( 'BCC', 'best-contact-form' ); ?></label>
+                                <input type="email" name="" v-model="notifications[editingIndex].bcc">
+                                <wpuf-merge-tags filter="email_address" v-on:insert="insertValue" field="bcc"></wpuf-merge-tags>
+                            </div>
+                        </div>
+
+                        <div class="notification-row notification-field">
+                            <template v-if="is_pro">
+                                <notification-conditional-logics :notification="notifications[editingIndex]"></notification-conditional-logics>
+                            </template>
+                            <template v-else>
+                                <label class="wpuf-pro-text-alert">
+                                    <a :href="pro_link" target="_blank">Conditional Logics <?php _e( ' available in Pro Version', 'wpuf' ); ?></a>
+                                </label>
+                            </template>
+                        </div>
+                    </div>
+                </section><!-- .advanced-fields -->
+            </div>
+
+            <div class="submit-area">
+                <a href="#" v-on:click.prevent="deleteItem(editingIndex)" title="<?php esc_attr_e( 'Delete', 'best-contact-form' ); ?>"><span class="dashicons dashicons-trash"></span></a>
+                <button class="button button-secondary" v-on:click.prevent="editDone()"><?php _e( 'Done', 'best-contact-form' ); ?></button>
+            </div>
+        </div><!-- .notification-edit-area -->
+
+    </div><!-- .notification-wrap -->
+</div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-integration">
 <div class="wpuf-integrations-wrap">
@@ -237,7 +396,7 @@
         </div>
         <div class="wpuf-int-field">
             <input type="url" class="regular-text" v-model="settings.url" placeholder="https://hooks.slack.com/services/...">
-            <p class="help"><?php _e( 'Slack webhook URL to send our JSON payloads', 'weforms' ); ?></p>
+            <p class="help"><?php printf( __( '%sSlack webhook URL%s to send our JSON payloads (%sView documentation%s)', 'weforms' ), '<a href="https://api.slack.com/incoming-webhooks" target="_blank" >', '</a>', '<a href="https://wedevs.com/docs/weforms/integrations/slack/" target="_blank" >', '</a>' ); ?></p>
         </div>
     </div>
 </div></script>
@@ -406,18 +565,22 @@
                             continue;
                         }
 
-                        $class = 'template-active';
-                        $title = $template->title;
-                        $image = $template->image ? $template->image : '';
+                        $is_available = true;
+                        $class        = 'template-active';
+                        $title        = $template->title;
+                        $image        = $template->image ? $template->image : '';
 
-                        if ( ! $template->is_enabled() ) {
-                            $class = 'template-inactive';
-                            $title = __( 'This integration is not installed.', 'weforms' );
-                        }
+                         if ( ! $template->is_enabled() ) {
+
+                            $title        = __( 'This integration is not installed.', 'weforms' );
+                            $class        = 'template-inactive';
+                            $is_available = false;
+                         }
+
 
                         ?>
 
-                        <li>
+                        <li class="<?php echo $class; ?>">
                             <h3><?php _e( $title, 'weforms' ); ?></h3>
 
                             <?php  if ( $image ) { printf( '<img src="%s" alt="%s">', $image, $title );   }  ?>
@@ -427,8 +590,13 @@
                                 <div class="title"><?php echo $template->get_title(); ?></div>
                                 <div class="description"><?php echo $template->get_description(); ?></div>
                                 <br>
-                                <button class="button button-primary" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>">
-                                    <?php _e('Create Form', 'weforms' );  ?>
+
+                                <button class="button button-primary" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>" <?php echo $is_available ? '' : 'disabled="disabled"'; ?>>
+                                  <?php if ( $is_available ) : ?>
+                                       <?php _e('Create Form', 'weforms' );  ?>
+                                    <?php else : ?>
+                                        <?php _e('Require Pro Upgrade', 'weforms' );  ?>
+                                    <?php endif; ?>
                                 </button>
                             </div>
                         </li>

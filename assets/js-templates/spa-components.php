@@ -13,7 +13,7 @@
             <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
         </div>
 
-        <div class="alignleft actions">
+        <div class="alignleft actions" v-if="has_export !== 'no'">
             <a class="button" :href="'admin-post.php?action=weforms_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php _e( 'Export Entries', 'weforms' ); ?></a>
         </div>
 
@@ -114,6 +114,33 @@
             </span>
         </div>
     </div>
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-entries">
+<div class="wpuf-contact-form-entries">
+    <h1 class="wp-heading-inline">
+        <?php _e( 'Entries', 'weforms' ); ?>
+        <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
+
+        <span style="color: #999;" class="form-name">
+            {{ form_title }}
+        </span>
+
+        <select v-if="forms.length" v-model="selected">
+            <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
+        </select>
+    </h1>
+
+    <template v-if="selected">
+
+        <wpuf-table
+            action="weforms_form_entries"
+            :id="selected"
+            v-on:ajaxsuccess="form_title = $event.form_title; $route.params.id = selected"
+        >
+        </wpuf-table>
+    </template>
+
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-builder">
@@ -326,6 +353,66 @@
                 </div>
             </div>
         </div>
+
+        <div class="wpuf-contact-form-entry-right" v-if="entry.payment_data" style=" clear: right;">
+            <div class="postbox">
+                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Payment Info', 'weforms' ); ?></span></h2>
+                <div class="inside">
+                    <div class="main">
+
+                        <ul>
+                            <li>
+                                <span class="label"><?php _e( 'Payment ID', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">#{{ entry.payment_data.id }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Gateway', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.gateway }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Status', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.status }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Total', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.total }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Transaction ID', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.transaction_id ? entry.payment_data.transaction_id : 'N/A' }}</span>
+                            </li>
+                            <li>
+                                <span class="label"><?php _e( 'Created at', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.payment_data.created_at }}</span>
+                            </li>
+
+                            <li v-if="entry.payment_data.payment_data">
+
+                                <template v-if="show_payment_data" class="value" v-for="(val,key) in entry.payment_data.payment_data">
+                                    <template v-if="key && (val === false || val)">
+                                        <li>
+                                            <span class="label">{{ key }}</span>
+                                            <span class="sep"> : </span>
+                                            <span class="value"> {{ val }}</span>
+                                        </li>
+                                    </template>
+                                </template>
+
+                                <span class="value"> <a href="#" @click.prevent="show_payment_data = !show_payment_data"> {{ show_payment_data ? 'Hide' : 'Show More' }} </a> </span>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div></script>
 
@@ -395,9 +482,19 @@
 
                     <div class="row-actions">
                         <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.id }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
+
                         <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'weforms' ); ?></a> | </span>
+
                         <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.id, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
+
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
+
+                        <template v-if="is_pro && has_payment && form.payments">
+                            <span>
+                                <template>|</template>
+                                <router-link :to="{ name: 'formPayments', params: { id: form.id }}"><?php _e( 'Transactions', 'weforms' ); ?></router-link>
+                            </span>
+                        </template>
                     </div>
                 </td>
                 <td><code>[weforms id="{{ form.id }}"]</code></td>
@@ -460,6 +557,27 @@
             </span>
         </div>
     </div>
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-form-payments">
+<div class="wpuf-contact-form-payments">
+    <h1 class="wp-heading-inline">
+        <?php _e( 'Transactions', 'weforms' ); ?>
+        <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
+        <span style="color: #999;" class="form-name">{{ form_title }}</span>
+    </h1>
+
+    <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
+
+    <wpuf-table
+        has_export="no"
+    	action="weforms_form_payments"
+    	delete="weforms_form_payments_trash_bulk"
+    	:id="id"
+    	v-on:ajaxsuccess="form_title = $event.form_title"
+    >
+    </wpuf-table>
+
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-home-page">
@@ -620,6 +738,31 @@
             </table>
         </div>
     </div>
+</div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-transactions">
+<div class="wpuf-contact-form-transactions">
+    <h1 class="wp-heading-inline">
+        <?php _e( 'Transactions', 'weforms' ); ?>
+        <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
+           <span style="color: #999;" class="form-name">
+            {{ form_title }}
+        </span>
+
+        <select v-if="forms.length" v-model="selected">
+            <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
+        </select>
+    </h1>
+
+    <wpuf-table v-if="selected"
+        has_export="no"
+        action="weforms_form_payments"
+        delete="weforms_form_payments_trash_bulk"
+        :id="selected"
+        v-on:ajaxsuccess="form_title = $event.form_title; $route.params.id = selected"
+    >
+    </wpuf-table>
+
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-page-help">
@@ -786,124 +929,59 @@
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-settings">
-<div class="weforms-settings">
+<div class="weforms-settings clearfix" id="weforms-settings">
+
     <h1><?php _e( 'Settings', 'weforms' ); ?></h1>
+    <div id="weforms-settings-tabs-warp">
+        <div id="weforms-settings-tabs">
+            <ul>
+                <?php
 
-    <div class="postboxes metabox-holder two-col">
-        <div class="postbox">
-            <h3 class="hndle"><?php _e( 'General Settings', 'weforms' ); ?></h3>
+                $tabs = apply_filters( 'weforms_settings_tabs', array() );
 
-            <div class="inside">
-                <p class="help">
-                    <?php _e( 'For better email deliverability choose a email provider that will ensure the email reaches your inbox, as well as reducing your server load.', 'weforms' ); ?>
-                </p>
+                foreach ( $tabs as $key => $tab ) :
+                    ?>
+                    <li>
+                        <a
+                            href="#"
+                            :class="['we-settings-nav-tab', isActiveTab( '<?php echo $key; ?>' ) ? 'we-settings-nav-tab-active' : '']"
+                            v-on:click.prevent="makeActive( '<?php echo $key; ?>' )"
+                        >
+                            <?php
 
-                <table class="form-table">
-                    <tr>
-                        <th><?php _e( 'Send Email Via', 'weforms' ); ?></th>
-                        <td>
-                            <select v-model="settings.email_gateway">
-                                <option value="wordpress"><?php _e( 'WordPress', 'weforms' ); ?></option>
-                                <option value="sendgrid" :disabled="is_pro ? false : true"><?php _e( 'SendGrid', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
-                                <option value="mailgun" :disabled="is_pro ? false : true"><?php _e( 'Mailgun', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
-                                <option value="sparkpost" :disabled="is_pro ? false : true"><?php _e( 'SparkPost', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <template v-if="is_pro">
-                        <tr v-if="settings.email_gateway == 'sendgrid'">
-                            <th><?php _e( 'SendGrid API Key', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.sendgrid" class="regular-text">
+                            if ( ! empty($tab['icon'] ) ) {
+                                printf('<img src="%s">', $tab['icon']);
+                            }
+                            ?>
+                            <?php _e( $tab['label'], 'weforms' ); ?>
+                        </a>
+                    </li>
 
-                                <p class="description"><?php printf( __( 'Fill your SendGrid <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sendgrid.com/settings/api_keys' ); ?></p>
-                            </td>
-                        </tr>
-                        <tr v-if="settings.email_gateway == 'mailgun'">
-                            <th><?php _e( 'Domain Name', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.mailgun_domain" class="regular-text">
+                    <?php
 
-                                <p class="description"><?php _e( 'Your Mailgun domain name', 'weforms' ); ?></p>
-                            </td>
-                        </tr>
-                        <tr v-if="settings.email_gateway == 'mailgun'">
-                            <th><?php _e( 'API Key', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
+                endforeach;
 
-                                <p class="description"><?php printf( __( 'Fill your Mailgun <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.mailgun.com/app/account/security' ); ?></p>
-                            </td>
-                        </tr>
-                        <tr v-if="settings.email_gateway == 'sparkpost'">
-                            <th><?php _e( 'SparkPost API Key', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
-
-                                <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
-                            </td>
-                        </tr>
-                    </template>
-                    <tr>
-                        <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
-                        <td>
-                            <label>
-                                <input type="checkbox" v-model="settings.credit">
-                                <?php _e( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ); ?>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><?php _e( 'Form Permission', 'weforms' ); ?></th>
-                        <td>
-                            <select :disabled="!is_pro" v-model="settings.permission">
-                                <option value="manage_options"><?php _e( 'Admins Only', 'weforms' ); ?></option>
-                                <option value="edit_others_posts"><?php _e( 'Admins, Editors', 'weforms' ); ?></option>
-                                <option value="publish_posts"><?php _e( 'Admins, Editors, Authors', 'weforms' ); ?></option>
-                                <option value="edit_posts"><?php _e( 'Admins, Editors, Authors, Contributors', 'weforms' ); ?></option>
-                            </select>
-
-                            <p v-if="!is_pro" class="description"><?php _e( 'Available in PRO version.', 'weforms' ); ?></p>
-                            <p v-else class="description"><?php _e( 'Which user roles can access and create forms, manage form submissions.', 'weforms' ); ?></p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="submit-wrapper">
-                <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
-            </div>
+                do_action( 'weforms_settings_tabs_area' );
+                ?>
+            </ul>
         </div>
 
-        <div class="postbox">
-            <h3 class="hndle"><?php _e( 'reCaptcha', 'weforms' ); ?></h3>
+        <div id="weforms-settings-tabs-contents">
 
-            <div class="inside">
-                <p class="help">
-                    <?php printf( __( '<a href="%s" target="_blank">reCAPTCHA</a> is a free anti-spam service from Google which helps to protect your website from spam and abuse. Get <a href="%s" target="_blank">your API Keys</a>.', 'weforms' ), 'https://www.google.com/recaptcha/intro/', 'https://www.google.com/recaptcha/admin#list' ); ?>
-                </p>
+            <?php
 
-                <table class="form-table">
-                    <tr>
-                        <th><?php _e( 'Site key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.recaptcha.key" class="regular-text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><?php _e( 'Secret key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.recaptcha.secret" class="regular-text">
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                foreach ( $tabs as $key => $tab ) :
+                    ?>
+                    <div id="weforms-settings-<?php echo $key; ?>" class="tab-content" v-show="isActiveTab('<?php echo $key; ?>')">
+                        <?php do_action( 'weforms_settings_tab_content_' . $key, $tab ); ?>
+                    </div>
+                    <?php
 
-            <div class="submit-wrapper">
-                <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
-            </div>
+                endforeach;
+
+                do_action( 'weforms_settings_tabs_contents' );
+            ?>
+
         </div>
-
-        <?php do_action( 'weforms_settings' ); ?>
     </div>
 </div></script>

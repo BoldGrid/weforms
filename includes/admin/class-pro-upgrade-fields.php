@@ -25,18 +25,6 @@ class WeForms_Form_Field_Country extends WeForms_Form_Field_Pro {
 }
 
 /**
- * Date Field Class
- */
-class WeForms_Form_Field_Date extends WeForms_Form_Field_Pro {
-
-    function __construct() {
-        $this->name       = __( 'Date / Time', 'weforms' );
-        $this->input_type = 'date_field';
-        $this->icon       = 'calendar-o';
-    }
-}
-
-/**
  * File Field Class
  */
 class WeForms_Form_Field_File extends WeForms_Form_Field_Pro {
@@ -68,7 +56,7 @@ class WeForms_Form_Field_Hook extends WeForms_Form_Field_Pro {
     function __construct() {
         $this->name       = __( 'Action Hook', 'weforms' );
         $this->input_type = 'action_hook';
-        $this->icon       = 'calendar-o';
+        $this->icon       = 'anchor';
     }
 }
 
@@ -92,7 +80,43 @@ class WeForms_Form_Field_Rating extends WeForms_Form_Field_Pro {
     function __construct() {
         $this->name       = __( 'Ratings', 'weforms' );
         $this->input_type = 'ratings';
-        $this->icon       = 'hashtag';
+        $this->icon       = 'star-half-o';
+    }
+}
+
+/**
+ * Rating Field Class
+ */
+class WeForms_Form_Field_Linear_Scale extends WeForms_Form_Field_Pro {
+
+    function __construct() {
+        $this->name       = __( 'Linear Scale', 'weforms' );
+        $this->input_type = 'linear_scale';
+        $this->icon       = 'ellipsis-h';
+    }
+}
+
+/**
+ * Checkbox Grids Field Class
+ */
+class WeForms_Form_Field_Checkbox_Grid extends WeForms_Form_Field_Pro {
+
+    function __construct() {
+        $this->name       = __( 'Checkbox Grid', 'weforms' );
+        $this->input_type = 'checkbox_grid';
+        $this->icon       = 'th';
+    }
+}
+
+/**
+ * Multiple Choice Grids Field Class
+ */
+class WeForms_Form_Field_Multiple_Choice_Grid extends WeForms_Form_Field_Pro {
+
+    function __construct() {
+        $this->name       = __( 'Multiple Choice Grid', 'weforms' );
+        $this->input_type = 'multiple_choice_grid';
+        $this->icon       = 'braille';
     }
 }
 
@@ -140,6 +164,6 @@ class WeForms_Form_Field_Toc extends WeForms_Form_Field_Pro {
     function __construct() {
         $this->name       = __( 'Terms & Conditions', 'weforms' );
         $this->input_type = 'toc';
-        $this->icon       = 'hashtag';
+        $this->icon       = 'file-text';
     }
 }

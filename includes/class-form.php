@@ -104,10 +104,15 @@ class WeForms_Form {
 
             $field = maybe_unserialize( $content->post_content );
 
+            if ( empty( $field['template']  ) ) {
+                continue;
+            }
+
+
             $field['id'] = $content->ID;
 
             // Add inline property for radio and checkbox fields
-            $inline_supported_fields = array( 'radio_field', 'checkbox_field' );
+            $inline_supported_fields = apply_filters( 'inline_supported_fields_list', array( 'radio_field', 'checkbox_field' ) );
             if ( in_array( $field['template'] , $inline_supported_fields ) ) {
                 if ( ! isset( $field['inline'] ) ) {
                     $field['inline'] = 'no';
@@ -115,7 +120,7 @@ class WeForms_Form {
             }
 
             // Add 'selected' property
-            $option_based_fields = array( 'dropdown_field', 'multiple_select', 'radio_field', 'checkbox_field' );
+            $option_based_fields = apply_filters( 'option_based_fields_list', array( 'dropdown_field', 'multiple_select', 'radio_field', 'checkbox_field' ) );
             if ( in_array( $field['template'] , $option_based_fields ) ) {
                 if ( ! isset( $field['selected'] ) ) {
 
@@ -143,10 +148,10 @@ class WeForms_Form {
                 $field['name'] = 'custom_html';
             }
 
-            $form_fields[] = apply_filters( 'weforms-get-form-fields', $field );
+            $form_fields[] = apply_filters( 'weforms-get-form-field', $field );
         }
 
-        $this->form_fields = $form_fields;
+        $this->form_fields = apply_filters( 'weforms-get-form-fields', $form_fields );
 
         return $this->form_fields;
     }
@@ -165,6 +170,37 @@ class WeForms_Form {
         }
     }
 
+
+    /**
+     * Get all fields by a template
+     *
+     * @return array
+     */
+    public function search_fields( $field_template ) {
+
+        $fields = array();
+
+        foreach ( $this->get_fields() as $key => $field) {
+            if ( isset( $field['template'] ) && $field['template'] == $field_template) {
+                $fields[] = $field;
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Search fileds and get the first one
+     *
+     * @return array
+     */
+    public function search_field( $field_template ) {
+
+        $fields = $this->search_fields($field_template);
+
+        return isset($fields[0]) ? $fields[0] : array();
+    }
+
     /**
      * Get formatted field name/values
      *
@@ -178,8 +214,8 @@ class WeForms_Form {
             return $values;
         }
 
-        $ignore_fields  = array( 'recaptcha', 'section_break' );
-        $options_fields = array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' );
+        $ignore_fields  = apply_filters( 'ignore_fields_list', array( 'recaptcha', 'section_break' ) );
+        $options_fields = apply_filters( 'option_fields_list', array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' ) );
 
         foreach ($fields as $field) {
 
@@ -201,10 +237,10 @@ class WeForms_Form {
                 $value['options'] = $field['options'];
             }
 
-            $values[ $field['name'] ] = $value;
+            $values[ $field['name'] ] = array_merge( $field, $value);
         }
 
-        return $values;
+        return apply_filters( 'weforms_get_field_values', $values );;
     }
 
     /**
@@ -213,7 +249,11 @@ class WeForms_Form {
      * @return array
      */
     public function get_settings() {
-        return get_post_meta( $this->id, 'wpuf_form_settings', true );
+
+        $settings = get_post_meta( $this->id, 'wpuf_form_settings', true );
+        $default  = weforms_get_default_form_settings();
+
+        return array_merge( $default, $settings);
     }
 
     /**
@@ -268,10 +308,15 @@ class WeForms_Form {
      */
     public function get_notifications() {
         $notifications =  get_post_meta( $this->id, 'notifications', true );
+        $defualt       = weforms_get_default_form_notification();
 
         if ( ! $notifications ) {
-            return array();
+            $notifications = array();
         }
+
+        $notifications = array_map( function( $notification ) use ( $defualt ) {
+            return array_merge( $defualt, $notification);
+        }, $notifications);
 
         return $notifications;
     }
@@ -307,6 +352,15 @@ class WeForms_Form {
      */
     public function num_form_entries() {
         return weforms_count_form_entries( $this->id );
+    }
+
+    /**
+     * Get number of form payments
+     *
+     * @return integer
+     */
+    public function num_form_payments() {
+        return weforms_count_form_payments( $this->id );
     }
 
     /**
@@ -352,6 +406,6 @@ class WeForms_Form {
             $entry_fields[ $field['name'] ] = $field_class->prepare_entry( $field );
         }
 
-        return $entry_fields;
+        return apply_filters( 'weforms_prepare_entries', $entry_fields );
     }
 }

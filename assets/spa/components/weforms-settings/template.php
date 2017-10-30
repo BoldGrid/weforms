@@ -1,121 +1,56 @@
-<div class="weforms-settings">
+<div class="weforms-settings clearfix" id="weforms-settings">
+
     <h1><?php _e( 'Settings', 'weforms' ); ?></h1>
+    <div id="weforms-settings-tabs-warp">
+        <div id="weforms-settings-tabs">
+            <ul>
+                <?php
 
-    <div class="postboxes metabox-holder two-col">
-        <div class="postbox">
-            <h3 class="hndle"><?php _e( 'General Settings', 'weforms' ); ?></h3>
+                $tabs = apply_filters( 'weforms_settings_tabs', array() );
 
-            <div class="inside">
-                <p class="help">
-                    <?php _e( 'For better email deliverability choose a email provider that will ensure the email reaches your inbox, as well as reducing your server load.', 'weforms' ); ?>
-                </p>
+                foreach ( $tabs as $key => $tab ) :
+                    ?>
+                    <li>
+                        <a
+                            href="#"
+                            :class="['we-settings-nav-tab', isActiveTab( '<?php echo $key; ?>' ) ? 'we-settings-nav-tab-active' : '']"
+                            v-on:click.prevent="makeActive( '<?php echo $key; ?>' )"
+                        >
+                            <?php
 
-                <table class="form-table">
-                    <tr>
-                        <th><?php _e( 'Send Email Via', 'weforms' ); ?></th>
-                        <td>
-                            <select v-model="settings.email_gateway">
-                                <option value="wordpress"><?php _e( 'WordPress', 'weforms' ); ?></option>
-                                <option value="sendgrid" :disabled="is_pro ? false : true"><?php _e( 'SendGrid', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
-                                <option value="mailgun" :disabled="is_pro ? false : true"><?php _e( 'Mailgun', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
-                                <option value="sparkpost" :disabled="is_pro ? false : true"><?php _e( 'SparkPost', 'weforms' ); ?> <span v-if="!is_pro">(<?php _e( 'Premium', 'weforms' ); ?>)</span></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <template v-if="is_pro">
-                        <tr v-if="settings.email_gateway == 'sendgrid'">
-                            <th><?php _e( 'SendGrid API Key', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.sendgrid" class="regular-text">
+                            if ( ! empty($tab['icon'] ) ) {
+                                printf('<img src="%s">', $tab['icon']);
+                            }
+                            ?>
+                            <?php _e( $tab['label'], 'weforms' ); ?>
+                        </a>
+                    </li>
 
-                                <p class="description"><?php printf( __( 'Fill your SendGrid <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sendgrid.com/settings/api_keys' ); ?></p>
-                            </td>
-                        </tr>
-                        <tr v-if="settings.email_gateway == 'mailgun'">
-                            <th><?php _e( 'Domain Name', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.mailgun_domain" class="regular-text">
+                    <?php
 
-                                <p class="description"><?php _e( 'Your Mailgun domain name', 'weforms' ); ?></p>
-                            </td>
-                        </tr>
-                        <tr v-if="settings.email_gateway == 'mailgun'">
-                            <th><?php _e( 'API Key', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.mailgun" class="regular-text">
+                endforeach;
 
-                                <p class="description"><?php printf( __( 'Fill your Mailgun <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.mailgun.com/app/account/security' ); ?></p>
-                            </td>
-                        </tr>
-                        <tr v-if="settings.email_gateway == 'sparkpost'">
-                            <th><?php _e( 'SparkPost API Key', 'weforms' ); ?></th>
-                            <td>
-                                <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
-
-                                <p class="description"><?php printf( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
-                            </td>
-                        </tr>
-                    </template>
-                    <tr>
-                        <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
-                        <td>
-                            <label>
-                                <input type="checkbox" v-model="settings.credit">
-                                <?php _e( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ); ?>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><?php _e( 'Form Permission', 'weforms' ); ?></th>
-                        <td>
-                            <select :disabled="!is_pro" v-model="settings.permission">
-                                <option value="manage_options"><?php _e( 'Admins Only', 'weforms' ); ?></option>
-                                <option value="edit_others_posts"><?php _e( 'Admins, Editors', 'weforms' ); ?></option>
-                                <option value="publish_posts"><?php _e( 'Admins, Editors, Authors', 'weforms' ); ?></option>
-                                <option value="edit_posts"><?php _e( 'Admins, Editors, Authors, Contributors', 'weforms' ); ?></option>
-                            </select>
-
-                            <p v-if="!is_pro" class="description"><?php _e( 'Available in PRO version.', 'weforms' ); ?></p>
-                            <p v-else class="description"><?php _e( 'Which user roles can access and create forms, manage form submissions.', 'weforms' ); ?></p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="submit-wrapper">
-                <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
-            </div>
+                do_action( 'weforms_settings_tabs_area' );
+                ?>
+            </ul>
         </div>
 
-        <div class="postbox">
-            <h3 class="hndle"><?php _e( 'reCaptcha', 'weforms' ); ?></h3>
+        <div id="weforms-settings-tabs-contents">
 
-            <div class="inside">
-                <p class="help">
-                    <?php printf( __( '<a href="%s" target="_blank">reCAPTCHA</a> is a free anti-spam service from Google which helps to protect your website from spam and abuse. Get <a href="%s" target="_blank">your API Keys</a>.', 'weforms' ), 'https://www.google.com/recaptcha/intro/', 'https://www.google.com/recaptcha/admin#list' ); ?>
-                </p>
+            <?php
 
-                <table class="form-table">
-                    <tr>
-                        <th><?php _e( 'Site key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.recaptcha.key" class="regular-text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><?php _e( 'Secret key', 'weforms' ); ?></th>
-                        <td>
-                            <input type="text" v-model="settings.recaptcha.secret" class="regular-text">
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                foreach ( $tabs as $key => $tab ) :
+                    ?>
+                    <div id="weforms-settings-<?php echo $key; ?>" class="tab-content" v-show="isActiveTab('<?php echo $key; ?>')">
+                        <?php do_action( 'weforms_settings_tab_content_' . $key, $tab ); ?>
+                    </div>
+                    <?php
 
-            <div class="submit-wrapper">
-                <button v-on:click.prevent="saveSettings($event.target)" class="button button-primary"><?php _e( 'Save Changes', 'weforms' ); ?></button>
-            </div>
+                endforeach;
+
+                do_action( 'weforms_settings_tabs_contents' );
+            ?>
+
         </div>
-
-        <?php do_action( 'weforms_settings' ); ?>
     </div>
 </div>

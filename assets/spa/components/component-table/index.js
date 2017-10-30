@@ -2,7 +2,9 @@ Vue.component( 'wpuf-table', {
     template: '#tmpl-wpuf-component-table',
     mixins: [weForms.mixins.Loading, weForms.mixins.Paginate, weForms.mixins.BulkAction],
     props: {
+        has_export: String,
         action: String,
+        delete: String,
         id: [String, Number]
     },
 
@@ -14,7 +16,7 @@ Vue.component( 'wpuf-table', {
             ajaxAction: this.action,
             nonce: weForms.nonce,
             index: 'id',
-            bulkDeleteAction: 'weforms_form_entry_trash_bulk'
+            bulkDeleteAction: this.delete ? this.delete : 'weforms_form_entry_trash_bulk'
         };
     },
 
@@ -73,6 +75,12 @@ Vue.component( 'wpuf-table', {
                     this.deleteBulk();
                 }
             }
+        }
+    },
+
+    watch: {
+        id: function(){
+            this.fetchData();
         }
     }
 } );

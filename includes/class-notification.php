@@ -38,7 +38,11 @@ class WeForms_Notification {
         $this->set_merge_tags();
 
         foreach ($notifications as $notification) {
-            $this->send_notification( $notification );
+
+            if ( $this->meet_conditions( $notification ) ) {
+
+                $this->send_notification( $notification );
+            }
         }
     }
 
@@ -93,6 +97,94 @@ class WeForms_Notification {
         $email_body = apply_filters( 'weforms_email_message', $this->get_formatted_body( $message ), $notification['message'], $headers );
 
         weforms()->emailer->send( $to, $subject, $email_body, $headers );
+    }
+
+    /**
+     * Check conditional logics
+     *
+     * @param  array $notification
+     *
+     * @return boolean
+     */
+    public function meet_conditions( $notification ) {
+
+        $form     = weforms()->form->get( $this->args['form_id'] );
+        $entry    = $form->entries()->get( $this->args['entry_id'] );
+        $fields   = $entry->get_fields();
+
+        $cond = !empty( $notification['weforms_cond'] ) ? $notification['weforms_cond'] : array();
+
+        if ( isset($cond['condition_status']) && 'yes' === $cond['condition_status'] ) {
+
+            $cond_logic = !empty( $cond['cond_logic'] ) ? $cond['cond_logic'] : 'any';
+
+            if ( !empty( $cond['conditions'] ) && is_array( $cond['conditions'] )) {
+
+                $status = array(); // going to store all condition result as boolean
+
+                foreach ( $cond['conditions'] as $k => $condition ) {
+
+                    $field    = $fields[$condition['name']];
+                    $value    = $field['value'];
+                    $options  = $field['options'];
+                    $operator = $condition['operator'] == '=' ? true : false;
+
+                    // probably from checkbox
+                    if( is_array( $value ) ) {
+
+                        // search by value
+                        if ( in_array( $condition['option'], $value ) ) {
+
+                            $status[$k] = $operator ? true : false;
+
+                        } else {
+
+                            // search by key
+                            foreach ( $value as $single_value ) {
+
+                                if( $condition['option'] == array_search( $single_value , $options ) ) {
+
+                                    $status[$k] = $operator ? true : false;
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ( ! isset( $status[$k] ) ) {
+
+                            $status[$k] = $operator ? false : true;
+                        }
+
+                    } else {
+
+                        if ( $condition['option'] == $value || $condition['option'] == array_search( $value , $options ) ) {
+
+                            $status[$k] = $operator ? true : false;
+
+                        } else {
+
+                            $status[$k] = $operator ? false : true;
+                        }
+                    }
+                }
+
+                if ( $cond_logic == 'any' ) {
+
+                    return in_array( true, $status) ? true : false; // any true? then true
+
+
+                 } elseif ( $cond_logic == 'all' ) {
+
+                    return in_array( false, $status) ? false : true; // any false? then false
+
+                }
+
+            }
+
+        }
+
+        return true;
     }
 
     /**
@@ -309,7 +401,7 @@ class WeForms_Notification {
 
         foreach ($matches[1] as $index => $meta_key) {
             $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
-            
+
             if ( is_array( $meta_value ) ) {
                 $meta_value = implode(WeForms::$field_separator, $meta_value);
             }
@@ -364,7 +456,7 @@ class WeForms_Notification {
         }
 
         return $text;
-    }    
+    }
 
 
     /**
@@ -391,7 +483,7 @@ class WeForms_Notification {
             $files = array();
 
             if ( is_array( $meta_value ) ) {
-                
+
                 foreach ( $meta_value as $key => $attachment_id ) {
 
                     $file_url = wp_get_attachment_url( $attachment_id );
@@ -406,7 +498,7 @@ class WeForms_Notification {
                 $file_url = wp_get_attachment_url( $attachment_id );
 
                 if ( $file_url ) {
-                    
+
                    $files[] = $file_url;
                 }
             }
@@ -486,7 +578,7 @@ class WeForms_Notification {
                     $table .= '<tr class="field-value">';
                         $table .= '<td>';
 
-                            $field_value = $value[ 'value' ];
+                            $field_value = isset( $value[ 'value' ] ) ? $value[ 'value' ] : '';
 
                             if ( in_array( $value['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
                                 $field_value = is_array( $field_value ) ? $field_value : array();

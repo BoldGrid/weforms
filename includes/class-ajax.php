@@ -31,6 +31,7 @@ class WeForms_Ajax {
 
         // entries
         add_action( 'wp_ajax_weforms_form_entries', array( $this, 'get_entries' ) );
+
         add_action( 'wp_ajax_weforms_form_entry_details', array( $this, 'get_entry_detail' ) );
         add_action( 'wp_ajax_weforms_form_entry_trash', array( $this, 'trash_entry' ) );
         add_action( 'wp_ajax_weforms_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
@@ -147,8 +148,9 @@ class WeForms_Ajax {
         $contact_forms = weforms()->form->get_forms( $args );
 
         array_map( function($form) {
-            $form->entries = $form->num_form_entries();
-            $form->views   = $form->num_form_views();
+            $form->entries  = $form->num_form_entries();
+            $form->views    = $form->num_form_views();
+            $form->payments = $form->num_form_payments();
         }, $contact_forms['forms'] );
 
         $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $contact_forms );
@@ -402,6 +404,8 @@ class WeForms_Ajax {
         wp_send_json_success( $response );
     }
 
+
+
     /**
      * Get an entry details
      *
@@ -419,14 +423,20 @@ class WeForms_Ajax {
         $entry    = $form->entries()->get( $entry_id );
         $fields   = $entry->get_fields();
         $metadata = $entry->get_metadata();
+        $payment  = $entry->get_payment_data();
 
-        if ( false === $data ) {
+        if ( isset($payment->payment_data) && is_serialized( $payment->payment_data ) ) {
+            $payment->payment_data = unserialize( $payment->payment_data );
+        }
+
+        if ( false === $fields ) {
             wp_send_json_error( __( 'No form fields found!', 'weforms' ) );
         }
 
         $response = array(
-            'form_fields' => $fields,
-            'meta_data'   => $metadata
+            'form_fields'  => $fields,
+            'meta_data'    => $metadata,
+            'payment_data' => $payment,
         );
 
         wp_send_json_success( $response );
@@ -483,9 +493,36 @@ class WeForms_Ajax {
         $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
 
         $form          = weforms()->form->get( $form_id );
+        $form_settings = $form->get_settings();
         $form_fields   = $form->get_fields();
         $entry_fields  = $form->prepare_entries();
-        $form_settings = $form->get_settings();
+        $form_entries  = weforms_get_form_entries( $form_id, array( 'number'  => '', 'offset'  => '' ) );
+
+        if ( $form_fields && count( $form_entries ) && count( $entry_fields ) ) {
+
+            foreach ( $entry_fields as $field_key => $field_value ) {
+                $duplicate_check = false;
+                $field_label = 'This';
+                foreach ( $form_fields as $form_field ) {
+                    if ( in_array( $form_field['template'], array( 'text_field', 'website_url', 'numeric_text_field', 'email_address' ) ) && $form_field['name'] == $field_key && isset( $form_field['duplicate'] ) && 'no' == $form_field['duplicate'] ) {
+                        $duplicate_check = true;
+                        $field_label = $form_field['label'];
+                    }
+                }
+
+                if ( $duplicate_check ) {
+                    foreach ( $form_entries as $entry ) {
+                        $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
+                        if ( $existing && $field_value == $existing ) {
+                            wp_send_json( array(
+                                'success'     => false,
+                                'error'       => sprintf( __( '"%s" field requires a unique entry and "%s" has already been used.', 'weforms' ), $field_label, $field_value )
+                            ) );
+                        }
+                    }
+                }
+            }
+        }
 
         if ( !$form_fields ) {
             wp_send_json( array(
@@ -497,6 +534,11 @@ class WeForms_Ajax {
         if ( $form->has_field( 'recaptcha' ) ) {
             $this->validate_reCaptcha();
         }
+
+        // vaidate submission
+        $this->validate_submission( $entry_fields, $form, $form_settings, $form_fields );
+
+        $entry_fields = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields);
 
         $entry_id = weforms_insert_entry( array(
             'form_id' => $form_id
@@ -527,13 +569,15 @@ class WeForms_Ajax {
         do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
 
         // send the response
-        $response = array(
+        $response = apply_filters( 'weforms_entry_submission_response', array(
             'success'      => true,
             'redirect_to'  => $redirect_to,
             'show_message' => $show_message,
             'message'      => $form_settings['message'],
-            'data'         => $_POST
-        );
+            'data'         => $_POST,
+            'form_id'      => $form_id,
+            'entry_id'     => $entry_id,
+        ) );
 
         $notification = new WeForms_Notification( array(
             'form_id'  => $form_id,
@@ -591,6 +635,9 @@ class WeForms_Ajax {
             $resp            = recaptcha_check_answer( $secret, $_SERVER["REMOTE_ADDR"], $recap_challenge, $recap_response );
 
             if ( !$resp->is_valid ) {
+
+                ob_clean();
+
                 wp_send_json( array(
                     'success'     => false,
                     'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
@@ -598,6 +645,107 @@ class WeForms_Ajax {
             }
         }
 
+    }
+
+    /**
+     * Validate submission
+     *
+     * @param array $entry_fields
+     * @param object $form
+     * @param array $form_settings
+     * @param array $form_fields
+     *
+     * @return bool|json
+     */
+    function validate_submission( $entry_fields, $form, $form_settings, $form_fields ) {
+
+        foreach ( $form_fields as $key => $field ) {
+
+            $value = $entry_fields[$field['name']];
+
+            // if ( isset( $field['required'] ) && $field['required'] && empty( $value ) ) {
+
+            //     wp_send_json( array(
+            //         'success'     => false,
+            //         'error'       => __( sprintf( '%s field is required', $field['label'] ), 'weforms' ),
+            //     ) );
+            // }
+
+            if ( 'single_product' === $field['template']  ) {
+
+                if ( ! $value ) {
+                    $value = array();
+                }
+
+                $value['price']    = isset( $value['price'] ) ? floatval( $value['price'] ) : 0;
+                $value['quantity'] = isset( $value['quantity'] ) ? floatval( $value['quantity'] ) : 0;
+                $quantity          = isset( $field['quantity'] ) ? $field['quantity'] : array();
+                $price             = isset( $field['price'] ) ? $field['price'] : array();
+
+
+                if ( isset($price['is_flexible']) && $price['is_flexible'] ) {
+
+                    $min = isset( $price['min'] ) ? floatval( $price['min']  ) : 0;
+                    $max = isset( $price['max'] ) ? floatval( $price['max']  ) : 0;
+
+                    if ( $value['price'] < $min ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s price must be equal or greater than %s',
+                                $field['label'],
+                                $min),
+                            'weforms' ),
+                        ) );
+                    }
+
+
+                    if ( $max && $value['price'] > $max ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s price must be equal or less than %s',
+                                $field['label'],
+                                $max),
+                            'weforms' ),
+                        ) );
+                    }
+                }
+
+                if ( isset($quantity['status']) && $quantity['status'] ) {
+
+                    $min = isset( $quantity['min'] ) ? floatval( $quantity['min']  ) : 0;
+                    $max = isset( $quantity['max'] ) ? floatval( $quantity['max']  ) : 0;
+
+                    if ( $value['quantity'] < $min ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s quantity must be equal or greater than %s',
+                                $field['label'],
+                                $min),
+                            'weforms' ),
+                        ) );
+                    }
+
+                    if ( $max && $value['quantity'] > $max ) {
+
+                        wp_send_json( array(
+                            'success'     => false,
+                            'error'       => __( sprintf(
+                                '%s quantity must be equal or less than %s',
+                                $field['label'],
+                                $max),
+                            'weforms' ),
+                        ) );
+                    }
+                }
+
+            }
+        }
     }
 
     public static function prepare_meta_fields( $meta_vars ) {

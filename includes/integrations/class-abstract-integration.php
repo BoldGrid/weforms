@@ -43,6 +43,22 @@ abstract class WeForms_Abstract_Integration {
     public $settings_fields = array();
 
     /**
+     * The settings fields for this integrations
+     *
+     * @var array
+     */
+    protected $template = null;
+
+
+    /**
+     * The settings settings_template
+     *
+     * @var array
+     */
+    protected $settings_template = null;
+
+
+    /**
      * Get the integration title
      *
      * @return string
@@ -111,4 +127,78 @@ abstract class WeForms_Abstract_Integration {
         );
     }
 
+
+    /**
+     * Check if it's the forms page
+     *
+     * @return boolean
+     */
+    public function is_weforms_page() {
+        if ( get_current_screen()->base != 'toplevel_page_weforms' ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Load the individual template file if exists
+     *
+     * @return void
+     */
+    public function load_template() {
+        if ( ! $this->is_weforms_page() ) {
+            return;
+        }
+
+        if ( ! $this->template ) {
+            return;
+        }
+
+        echo '<script type="text/x-template" id="tmpl-wpuf-integration-' . $this->id . '">';
+        include $this->template;
+        echo '</script>';
+    }
+
+    /**
+     * Load settings
+     *
+     * @return void
+     */
+    public function load_settings( $priority = 10 ) {
+
+        if ( ! $this->settings_template ) {
+            return;
+        }
+
+        add_action( 'weforms_settings_tabs', array( $this, 'settings_tabs' ), $priority );
+        add_action( 'weforms_settings_tab_content_' . $this->id, array( $this, 'settings_panel' ), $priority );
+    }
+
+
+    /**
+     * Render the settings panel
+     *
+     * @return void
+     */
+    public function settings_panel() {
+        if( file_exists( $this->settings_template )) {
+            include $this->settings_template;
+        }
+    }
+
+    /**
+     * Add new tab at settings
+     *
+     * @return void
+     */
+    public function settings_tabs( $tabs ) {
+
+        $tabs[ $this->id ] = array(
+            'label' => $this->title,
+            'icon' => $this->icon,
+        );
+
+        return $tabs;
+    }
 }
