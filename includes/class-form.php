@@ -237,7 +237,7 @@ class WeForms_Form {
                 $value['options'] = $field['options'];
             }
 
-            $values[ $field['name'] ] = $value;
+            $values[ $field['name'] ] = array_merge( $field, $value);
         }
 
         return apply_filters( 'weforms_get_field_values', $values );;
