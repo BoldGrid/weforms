@@ -86,14 +86,13 @@ final class WeForms {
      */
     public function __construct() {
 
+        $this->define_constants();
+
         if ( ! $this->is_supported_php() ) {
-
+            register_activation_hook( __FILE__, array( $this, 'auto_deactivate' ) );
             add_action( 'admin_notices', array( $this, 'php_version_notice' ) );
-
             return;
         }
-
-        $this->define_constants();
 
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
@@ -164,6 +163,7 @@ final class WeForms {
      * @return void
      */
     public function init_plugin() {
+
         $this->includes();
         $this->init_hooks();
 
@@ -398,6 +398,30 @@ final class WeForms {
         </div>
         <?php
     }
+
+
+
+    /**
+     * Bail out if the php version is lower than
+     *
+     * @return void
+     */
+    function auto_deactivate() {
+        if ( $this->is_supported_php() ) {
+            return;
+        }
+
+        deactivate_plugins( plugin_basename( __FILE__ ) );
+
+        $error = __( '<h1>An Error Occured</h1>', 'weforms' );
+        $error .= __( '<h2>Your installed PHP Version is: ', 'weforms' ) . PHP_VERSION . '</h2>';
+        $error .= __( '<p>The <strong>weforms</strong> plugin requires PHP version <strong>', 'weforms' ) . $this->min_php . __( '</strong> or greater', 'weforms' );
+        $error .= __( '<p>The version of your PHP is ', 'weforms' ) . '<a href="http://php.net/supported-versions.php" target="_blank"><strong>' . __( 'unsupported and old', 'weforms' ) . '</strong></a>.';
+        $error .= __( 'You should update your PHP software or contact your host regarding this matter.</p>', 'weforms' );
+
+        wp_die( $error, __( 'Plugin Activation Error', 'weforms' ), array( 'back_link' => true ) );
+    }
+
 
 } // WeForms
 

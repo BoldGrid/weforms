@@ -303,6 +303,10 @@ class WeForms_Form_Entry {
     public function get_payment_data() {
         global $wpdb;
 
+        if ( ! class_exists( 'WeForms_Payment' ) ) {
+            return;
+        }
+
         return $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}weforms_payments WHERE entry_id = {$this->id} " );
     }
 
