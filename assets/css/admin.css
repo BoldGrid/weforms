@@ -474,6 +474,9 @@ a.add-notification .dashicons {
   border-radius: 3px 3px 0px 0px;
   text-align: left;
 }
+.wefroms-form-templates .wpuf-form-template-modal .content ul li.template-inactive h3 {
+  background: #747c80;
+}
 .ann-form-btn {
   background: #e74c3c !important;
 }

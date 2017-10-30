@@ -104,6 +104,11 @@ class WeForms_Form {
 
             $field = maybe_unserialize( $content->post_content );
 
+            if ( empty( $field['template']  ) ) {
+                continue;
+            }
+
+
             $field['id'] = $content->ID;
 
             // Add inline property for radio and checkbox fields

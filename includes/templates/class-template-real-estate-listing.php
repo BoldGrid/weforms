@@ -22,12 +22,12 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array( 
+        $form_fields = array(
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => ' ',
                 'name'      => 'featured',
-                'options'   => array( 
+                'options'   => array(
                     'feature'   => 'Featured'
                 ),
             ) ),
@@ -55,7 +55,7 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
                 'required'  => 'yes',
                 'label'     => __( 'State', 'weforms' ),
                 'name'      => 'state',
-                'options'   => array( 
+                'options'   => array(
                     'example1'  => 'Example One',
                     'example2'  => 'Example Two',
                     'example3'  => 'Example Trhee',
@@ -74,21 +74,20 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
                 'required'  => 'yes',
                 'label'     => __( 'Type', 'weforms' ),
                 'name'      => 'type',
-                'options'   => array( 
+                'options'   => array(
                     'example1'  => 'Example One',
                     'example2'  => 'Example Two',
                     'example3'  => 'Example Trhee',
                     'example4'  => 'Example Four',
                     'example5'  => 'Example Five'
                 ),
-                'first'    => ' '
             ) ),
 
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'required'  => 'yes',
                 'label'     => __( 'Property Status', 'weforms' ),
                 'name'      => 'property_status',
-                'options'   => array( 
+                'options'   => array(
                     'active'         => 'Active',
                     'sale_pending'   => 'Sale Pending',
                     'sold'           => 'Sold',
@@ -109,7 +108,7 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['text_field']->get_field_props(), array(
-                'required'  =>  'yes', 
+                'required'  =>  'yes',
                 'label'     => __( 'Brief Blurb', 'weforms' ),
                 'name'      => 'brief_blurb',
             ) ),
@@ -160,8 +159,8 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'General Features', 'weforms' ),
                 'name'      => 'general_feature',
-                'options'   => array( 
-                    'balcony'           => 'Balcony',                
+                'options'   => array(
+                    'balcony'           => 'Balcony',
                     'bbq'               => 'BBQ',
                     'courtyard'         => 'Courtyard',
                     'horse_facilitie'   => 'Horse Facilities',
@@ -177,7 +176,7 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'Rooms', 'weforms' ),
                 'name'      => 'rooms',
-                'options'   => array( 
+                'options'   => array(
                     'dining_room'   => 'Dining Room',
                     'family_Room'   => 'Family Room',
                     'den_office'    => 'Den/Office',
@@ -190,7 +189,7 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'Lot Features', 'weforms' ),
                 'name'      => 'lot_features',
-                'options'   => array( 
+                'options'   => array(
                     'corner_lot'                => 'Corner Lot',
                     'cul_de_sac'                =>  'Cul-de-Sac',
                     'golf_course_lot_frontage'  => 'Golf Course Lot/Frontage',
@@ -211,8 +210,8 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'Air Conditioning', 'weforms' ),
                 'name'      => 'air_conditioning',
-                'options'   => array( 
-                    'central_air'   => 'Central Air', 
+                'options'   => array(
+                    'central_air'   => 'Central Air',
                     'forced_air'    =>  'Forced Air',
                 ),
             ) ),
@@ -220,7 +219,7 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'Interior', 'weforms' ),
                 'name'      => 'interior',
-                'options'   => array( 
+                'options'   => array(
                     'ceiling_fans'              =>  'Ceiling Fans',
                     'custom_window_covering'    =>  'Custom Window Covering',
                     'disability_features'       =>  'Disability Features',
@@ -241,7 +240,7 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'Heat', 'weforms' ),
                 'name'      => 'heat',
-                'options'   => array( 
+                'options'   => array(
                     'central'            =>  'Central',
                     'electric'           =>  'Electric',
                     'multiple_units'     =>  'Multiple Units',
@@ -256,19 +255,19 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'Fireplace', 'weforms' ),
                 'name'      => 'fireplace',
-                'options'   => array( 
+                'options'   => array(
                     'freestanding'      =>  'Freestanding',
                     'gas_burning'       =>  'Gas Burning',
                     'two_way'           =>  'Two-way',
                     'wood_burning'      =>  'Natural Gas',
-                   
+
                 ),
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __( 'Community Features', 'weforms' ),
                 'name'      => 'community_features',
-                'options'   => array( 
+                'options'   => array(
                     'recreation_facilities'         =>  'Recreation Facilities',
                     'community_security_features'   =>  'Community Security Features',
                     'community_swimming_pool'       =>  'Community Swimming Pool(s)',
@@ -281,9 +280,9 @@ class WeForms_Template_Real_Estate_Listing extends WeForms_Form_Template {
                     'senior_community'              =>  'Senior Community',
                     'community_spa_hot_tub'         =>  'Community Spa/Hot Tub(s)',
                 ),
- 
+
             ) ),
-        
+
         );
 
         return $form_fields;

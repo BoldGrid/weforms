@@ -81,7 +81,7 @@
 
                         ?>
 
-                        <li>
+                        <li class="<?php echo $class; ?>">
                             <h3><?php _e( $title, 'weforms' ); ?></h3>
 
                             <?php  if ( $image ) { printf( '<img src="%s" alt="%s">', $image, $title );   }  ?>
@@ -91,7 +91,11 @@
                                 <div class="title"><?php echo $template->get_title(); ?></div>
                                 <div class="description"><?php echo $template->get_description(); ?></div>
                                 <br>
-                                <button class="button button-primary" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>">
+                                <button
+                                <?php echo ! $template->is_enabled() ? ' disabled="disabled" ' : ''; ?>
+                                class="button button-primary"
+                                @click.prevent="createForm('<?php echo $key; ?>', $event.target)"
+                                title="<?php echo esc_attr( $title ); ?>">
                                     <?php _e('Create Form', 'weforms' );  ?>
                                 </button>
                             </div>
