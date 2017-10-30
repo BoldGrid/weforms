@@ -106,6 +106,9 @@ class WeForms_Form_Entry {
             return;
         }
 
+        $grid_css_added = false;
+        $grid_css       = '<style>.wpufTable {display: table; width: 100%; } .wpufTableRow {display: table-row; } .wpufTableRow:nth-child(even) {background-color: #f5f5f5; } .wpufTableHeading {background-color: #eee; display: table-header-group; font-weight: bold; } .wpufTableCell, .wpufTableHead {border: none; display: table-cell; padding: 3px 10px; } .wpufTableFoot {background-color: #eee; display: table-footer-group; font-weight: bold; } .wpufTableBody {display: table-row-group; }</style>';
+
         $values = array();
 
         $query = "SELECT * FROM {$wpdb->weforms_entries} as entry
@@ -203,8 +206,6 @@ class WeForms_Form_Entry {
 
                     } elseif ( $field['type'] == 'multiple_product' ) {
 
-                        // TODO: refactor
-
                         $field_value = unserialize( $value );
 
                         $serialized_value = array();
@@ -237,7 +238,16 @@ class WeForms_Form_Entry {
                         $entry_value = unserialize( $value );
 
                         if ( $entry_value ) {
-                            $return = $check = '';
+
+
+                            $return = '';
+                            $check = '';
+
+                            if ( ! $grid_css_added ) {
+                                $return = $grid_css;
+                                $grid_css_added = true;
+                            }
+
                             $new_val = array();
 
                             foreach ($entry_value as $key => $option_value ) {
@@ -302,7 +312,14 @@ class WeForms_Form_Entry {
 
                         if ( $entry_value ) {
 
-                            $return = $check = '';
+                            $return = '';
+                            $check = '';
+
+                            if ( ! $grid_css_added ) {
+                                $return = $grid_css;
+                                $grid_css_added = true;
+                            }
+
                             $new_val = array();
 
                             foreach ($entry_value as $key => $option_value ) {
