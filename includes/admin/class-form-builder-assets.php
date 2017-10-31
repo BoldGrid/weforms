@@ -40,17 +40,22 @@ class WeForms_Form_Builder_Assets {
             'pro_link'            => self::get_pro_url(),
             'site_url'            => site_url('/'),
             'defaultNotification' => array(
-                'active'              => 'true',
-                'name'                => 'Admin Notification',
-                'subject'             => '[{from_name}] New Form Submission #{entry_id}',
-                'to'                  => '{admin_email}',
-                'replyTo'             => '',
-                'message'             => '{all_fields}',
-                'fromName'            => '',
-                'fromAddress'         => '{admin_email}',
-                'cc'                  => '',
-                'bcc'                 => '',
-                'weforms_cond'        => array(
+                'active'       => 'true',
+
+                'type'         => 'email',
+                'smsTo'        => '',
+                'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+
+                'name'         => 'Admin Notification',
+                'subject'      => '[{from_name}] New Form Submission #{entry_id}',
+                'to'           => '{admin_email}',
+                'replyTo'      => '',
+                'message'      => '{all_fields}',
+                'fromName'     => '',
+                'fromAddress'  => '{admin_email}',
+                'cc'           => '',
+                'bcc'          => '',
+                'weforms_cond' => array(
                     'condition_status' => 'no',
                     'cond_logic'       => 'any',
                     'conditions'       => array(
@@ -80,6 +85,7 @@ class WeForms_Form_Builder_Assets {
             'confirm'         => __( 'Are you sure?', 'weforms' ),
             'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
             'has_payment'     => class_exists( 'WeForms_Payment' ) ? 'true' : 'false',
+            'has_sms'         => class_exists( 'WeForms_SMS_Notification' ) ? 'true' : 'false',
             'routes'          => $this->get_vue_routes(),
             'routeComponents' => array( 'default' => null ),
             'mixins'          => array( 'default' => null )

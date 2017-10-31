@@ -12,6 +12,9 @@ Vue.component('wpuf-cf-form-notification', {
         is_pro: function() {
             return 'true' === weForms.is_pro;
         },
+        has_sms: function() {
+            return 'true' === weForms.has_sms;
+        },
         pro_link: function() {
             return wpuf_form_builder.pro_link;
         },

@@ -386,7 +386,7 @@ final class WeForms {
      */
     function php_version_notice() {
 
-        if ( $this->is_supported_php() ) {
+        if ( $this->is_supported_php() || !current_user_can( 'manage_options' ) ) {
             return;
         }
 

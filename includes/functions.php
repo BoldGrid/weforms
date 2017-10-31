@@ -981,6 +981,11 @@ function weforms_get_default_form_settings() {
 function weforms_get_default_form_notification() {
     return apply_filters( 'weforms_get_default_form_notification', array(
             'active'       => 'true',
+
+            'type'         => 'email',
+            'smsTo'        => '',
+            'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+
             'name'         => __( 'Admin Notification', 'weforms' ),
             'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
             'to'           => '{admin_email}',

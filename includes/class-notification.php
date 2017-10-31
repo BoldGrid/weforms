@@ -41,7 +41,14 @@ class WeForms_Notification {
 
             if ( $this->meet_conditions( $notification ) ) {
 
-                $this->send_notification( $notification );
+                if ( $notification['type'] == 'email' ) {
+
+                    $this->send_notification( $notification );
+
+                } elseif( $notification['type'] == 'sms' ) {
+
+                    $this->send_sms( $notification );
+                }
             }
         }
     }
@@ -97,6 +104,30 @@ class WeForms_Notification {
         $email_body = apply_filters( 'weforms_email_message', $this->get_formatted_body( $message ), $notification['message'], $headers );
 
         weforms()->emailer->send( $to, $subject, $email_body, $headers );
+    }
+
+
+    /**
+     * Send a single sms notification
+     *
+     * @param  array $notification
+     *
+     * @return void
+     */
+    public function send_sms( $notification ) {
+
+        if ( ! class_exists('WeForms_SMS_Notification') ) {
+            return;
+        }
+
+        $to          = $this->replace_tags( $notification['smsTo'] );
+        $message     = $this->replace_tags( $notification['smsText'] );
+        $message     = static::replace_name_tag( $message, $this->args['entry_id'] );
+        $message     = $this->replace_all_fields( $message );
+
+        $email_body = apply_filters( 'weforms_sms_message', $this->get_formatted_sms_body( $message ) );
+
+        weforms_sms()->send_sms( array( $to ), $message );
     }
 
     /**
@@ -254,6 +285,24 @@ class WeForms_Notification {
         }
 
         return $content;
+    }
+
+    /**
+     * Get formatted HTML email
+     *
+     * @param  string $message
+     *
+     * @return string
+     */
+    public function get_formatted_sms_body( $message ) {
+        $message = strip_tags( $message );
+
+        if ( strlen( $message )  > apply_filters( 'wefroms_sms_char_length', 153 ) ) {
+            $message = substr( $message, 0, apply_filters( 'wefroms_sms_char_length', 153 ) );
+            $message .= __('..', 'weforms');
+        }
+
+        return $message;
     }
 
     /**
