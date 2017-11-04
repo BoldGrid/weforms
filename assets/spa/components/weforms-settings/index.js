@@ -1,6 +1,6 @@
 weForms.routeComponents.Settings = {
     template: '#tmpl-wpuf-weforms-settings',
-    mixins: [weForms.mixins.Loading],
+    mixins: [weForms.mixins.Loading, weForms.mixins.Cookie],
     data: function() {
         return {
             loading: false,
@@ -33,6 +33,10 @@ weForms.routeComponents.Settings = {
 
     created: function() {
         this.fetchSettings();
+
+        if ( this.getCookie('weforms_settings_active_tab') ) {
+            this.activeTab = this.getCookie('weforms_settings_active_tab');
+        }
     },
 
     methods: {
@@ -102,6 +106,34 @@ weForms.routeComponents.Settings = {
                 }
             });
 
+        },
+
+        post: function( action, data , success ){
+            data = data || {};
+            success = success || function(){ };
+            data._wpnonce =  weForms.nonce;
+
+            wp.ajax.send(action, {
+                data: data,
+
+                success: function(response) {
+                    success(response);
+                },
+
+                error: function(error) {
+                    console.log(error);
+                },
+
+                complete: function() {
+
+                }
+            });
+        },
+    },
+
+    watch: {
+        activeTab: function(value){
+            this.setCookie('weforms_settings_active_tab', value, '365');
         }
     }
 };

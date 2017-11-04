@@ -81,16 +81,25 @@
                     </div>
                 </template>
                 <template v-else>
-                    <div class="notification-row notification-field">
-                        <label for="notification-title"><?php _e( 'To', 'weforms' ); ?></label>
-                        <input type="text" v-model="notifications[editingIndex].smsTo">
-                        <wpuf-merge-tags v-on:insert="insertValue" field="smsTo"></wpuf-merge-tags>
-                    </div>
-                    <div class="notification-row notification-field">
-                        <label for="notification-title"><?php _e( 'SMS Message', 'weforms' ); ?></label>
-                        <textarea name="" rows="6" v-model="notifications[editingIndex].smsText"></textarea>
-                        <wpuf-merge-tags v-on:insert="insertValue" field="smsText"></wpuf-merge-tags>
-                    </div>
+                    <template v-if="has_sms">
+                        <div class="notification-row notification-field">
+                            <label for="notification-title"><?php _e( 'To', 'weforms' ); ?></label>
+                            <input type="text" v-model="notifications[editingIndex].smsTo">
+                            <wpuf-merge-tags v-on:insert="insertValue" field="smsTo"></wpuf-merge-tags>
+                        </div>
+                        <div class="notification-row notification-field">
+                            <label for="notification-title"><?php _e( 'SMS Text', 'weforms' ); ?></label>
+                            <textarea name="" rows="6" v-model="notifications[editingIndex].smsText"></textarea>
+                            <wpuf-merge-tags v-on:insert="insertValue" field="smsText"></wpuf-merge-tags>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <p>
+                            <label class="wpuf-pro-text-alert">
+                                <a :href="pro_link" target="_blank"><?php _e( 'SMS notification moule not found', 'wpuf' ); ?></a>
+                            </label>
+                        </p>
+                    </template>
                 </template>
 
                 <section class="advanced-fields">

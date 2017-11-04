@@ -1,6 +1,6 @@
 /*!
-weForms - v1.1.1
-Generated: 2017-10-29 (1509261842221)
+weForms - v1.2.0
+Generated: 2017-11-02 (1509598730860)
 */
 
 ;(function($) {
@@ -892,7 +892,8 @@ weForms.routeComponents.Transactions = {
                     filter: 'transactions',
                 },
                 success: function(response) {
-                    if ( response.forms.length ) {
+
+                    if ( Object.keys(response.forms).length ) {
                         self.forms = response.forms;
                         self.selected = self.forms[Object.keys(self.forms)[0]].id;
                     } else {
@@ -918,7 +919,7 @@ weForms.routeComponents.Premium = {
 /* ./assets/spa/components/weforms-settings/index.js */
 weForms.routeComponents.Settings = {
     template: '#tmpl-wpuf-weforms-settings',
-    mixins: [weForms.mixins.Loading],
+    mixins: [weForms.mixins.Loading, weForms.mixins.Cookie],
     data: function() {
         return {
             loading: false,
@@ -951,6 +952,10 @@ weForms.routeComponents.Settings = {
 
     created: function() {
         this.fetchSettings();
+
+        if ( this.getCookie('weforms_settings_active_tab') ) {
+            this.activeTab = this.getCookie('weforms_settings_active_tab');
+        }
     },
 
     methods: {
@@ -1020,6 +1025,34 @@ weForms.routeComponents.Settings = {
                 }
             });
 
+        },
+
+        post: function( action, data , success ){
+            data = data || {};
+            success = success || function(){ };
+            data._wpnonce =  weForms.nonce;
+
+            wp.ajax.send(action, {
+                data: data,
+
+                success: function(response) {
+                    success(response);
+                },
+
+                error: function(error) {
+                    console.log(error);
+                },
+
+                complete: function() {
+
+                }
+            });
+        },
+    },
+
+    watch: {
+        activeTab: function(value){
+            this.setCookie('weforms_settings_active_tab', value, '365');
         }
     }
 };
