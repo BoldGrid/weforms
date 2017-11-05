@@ -323,6 +323,8 @@ class WeForms_Ajax {
 
         do_action( 'weforms_save_settings', $settings );
 
+        $settings = apply_filters( 'weforms_after_save_settings', $settings );
+
         wp_send_json_success( $settings );
     }
 

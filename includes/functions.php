@@ -725,6 +725,25 @@ function weforms_get_settings( $key = '', $default = '' ) {
     return $default;
 }
 
+
+/**
+ * Update Settings
+ *
+ * @param array $updated_settings
+ *
+ * @return array
+ */
+function weforms_update_settings( $updated_settings = array() ) {
+
+    $previuos_settings = weforms_get_settings();
+
+    $settings = array_merge( $previuos_settings, $updated_settings );
+
+    update_option( 'weforms_settings', $settings );
+
+    return $settings;
+}
+
 /**
  * Form access capability for forms
  *
