@@ -602,3 +602,34 @@ a.add-notification .dashicons {
 .wpuf-integrations-wrap .wpuf-integration .wpuf-integration-header .wpuf-integration-header-label img.icon {
   width: 24px;
 }
+.weforms-field-mapping-custom table td {
+  min-width: 300px;
+  vertical-align: top;
+}
+.weforms-field-mapping-custom table select,
+.weforms-field-mapping-custom table input {
+  width: 100%;
+}
+.weforms-field-mapping-custom table .fa-minus-circle {
+  color: #000;
+}
+.weforms-field-mapping-custom table .remove {
+  margin-top: 5px;
+  margin-left: 5px;
+  display: inline-block;
+}
+.weforms-field-mapping-custom table .custom-field-input input {
+  width: 90%;
+  float: right;
+}
+.weforms-field-mapping-custom .wpuf-int-form-row::before,
+.weforms-field-mapping-custom .wpuf-int-form-row::after {
+  display: inline-block !important;
+}
+.weforms-field-mapping-custom a.merge-tag-link {
+  margin-top: -1px;
+}
+.weforms-field-mapping-custom button.add {
+  margin-top: 10px;
+  margin-left: 5px;
+}

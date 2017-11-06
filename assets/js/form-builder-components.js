@@ -283,7 +283,7 @@ Vue.component('wpuf-integration-slack', {
 Vue.component('wpuf-merge-tags', {
     template: '#tmpl-wpuf-merge-tags',
     props: {
-        field: String,
+        field: [String, Number],
         filter: {
             type: String,
             default: null
@@ -334,6 +334,7 @@ Vue.component('wpuf-merge-tags', {
         }
     }
 });
+
 /* ./assets/components/modal/index.js */
 Vue.component('wpuf-modal', {
     template: '#tmpl-wpuf-modal',
