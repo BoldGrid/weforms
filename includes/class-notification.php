@@ -621,13 +621,18 @@ class WeForms_Notification {
             $table .= '<tbody>';
 
                 foreach ($fields as $key => $value) {
+
+                    $field_value = isset( $value[ 'value' ] ) ? $value[ 'value' ] : '';
+
+                    if ( ! $field_value ) {
+                        continue; // let's skip empty fields
+                    }
+
                     $table .= '<tr class="field-label">';
                         $table .= '<th><strong>' . $value['label'] . '</strong></th>';
                     $table .= '</tr>';
                     $table .= '<tr class="field-value">';
                         $table .= '<td>';
-
-                            $field_value = isset( $value[ 'value' ] ) ? $value[ 'value' ] : '';
 
                             if ( in_array( $value['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
                                 $field_value = is_array( $field_value ) ? $field_value : array();

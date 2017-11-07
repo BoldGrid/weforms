@@ -285,7 +285,8 @@
         </div><!-- .notification-edit-area -->
 
     </div><!-- .notification-wrap -->
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-integration">
 <div class="wpuf-integrations-wrap">

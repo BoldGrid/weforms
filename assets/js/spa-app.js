@@ -1,6 +1,6 @@
 /*!
 weForms - v1.2.0
-Generated: 2017-11-07 (1510033595559)
+Generated: 2017-11-07 (1510047960996)
 */
 
 ;(function($) {
@@ -474,10 +474,11 @@ weForms.routeComponents.FormEntries = {
 /* ./assets/spa/components/form-entry-single/index.js */
 weForms.routeComponents.FormEntriesSingle = {
     template: '#tmpl-wpuf-form-entry-single',
-    mixins: [weForms.mixins.Loading],
+    mixins: [weForms.mixins.Loading,weForms.mixins.Cookie],
     data: function() {
         return {
             loading: false,
+            hideEmpty: true,
             show_payment_data: false,
             entry: {
                 form_fields: {},
@@ -487,12 +488,13 @@ weForms.routeComponents.FormEntriesSingle = {
         };
     },
     created: function() {
+        this.hideEmpty = this.hideEmptyStatus();
         this.fetchData();
     },
     computed: {
         hasFormFields: function() {
             return Object.keys(this.entry.form_fields).length;
-        }
+        },
     },
     methods: {
         fetchData: function() {
@@ -541,6 +543,14 @@ weForms.routeComponents.FormEntriesSingle = {
                     alert(error);
                 }
             });
+        },
+        hideEmptyStatus: function(){
+            return this.getCookie('weFormsEntryHideEmpty') === 'false' ? false : true;
+        },
+    },
+    watch: {
+        hideEmpty: function(value){
+            this.setCookie('weFormsEntryHideEmpty',value,356);
         }
     }
 };
