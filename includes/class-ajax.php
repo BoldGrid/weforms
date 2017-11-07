@@ -145,6 +145,8 @@ class WeForms_Ajax {
             'orderby'        => 'post_date'
         );
 
+        $args = apply_filters( 'weforms_ajax_get_contact_forms_args', $args );
+
         $contact_forms = weforms()->form->get_forms( $args );
 
         array_map( function($form) {

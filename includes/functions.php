@@ -1038,25 +1038,30 @@ function weforms_get_default_form_notification() {
  **/
 function weforms_get_pain_text( $value ) {
 
-    if ( is_array( $value ) ) {
-        $value = implode( WeForms::$field_separator, $value );
-    } elseif ( is_serialized( $value ) ) {
-
+    if ( is_serialized( $value ) ) {
         $value = unserialize( $value );
+    }
 
-        $serialized_value = array();
+    if ( is_array( $value ) ) {
+
+        $string_value = array();
 
         if ( is_array( $value ) ) {
 
             foreach ( $value as $key => $single_value ) {
 
-                $single_value = str_replace( array( "_", "-" ), " ", $key) . ': ' . $single_value;
-                $single_value = ucwords( $single_value );
-                $serialized_value[] = $single_value;
+                if ( is_array( $single_value ) || is_serialized( $single_value ) ) {
+                    $single_value = weforms_get_pain_text( $single_value );
+                }
+
+                $single_value = ucwords( str_replace( array( "_", "-" ), " ", $key) ) . ': ' . ucwords( $single_value );
+
+                $string_value[] = $single_value;
             }
 
-            $value =  implode( WeForms::$field_separator , $serialized_value);
+            $value =  implode( WeForms::$field_separator , $string_value);
         }
+
     }
 
     $value = trim( strip_tags( $value ) );

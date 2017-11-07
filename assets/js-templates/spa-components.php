@@ -754,6 +754,15 @@
         </select>
     </h1>
 
+    <p v-if="no_transactions">
+       <?php printf(
+            __('You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.'),
+            '<a target="_blank" href="https://wedevs.com/docs/weforms/integrations/payment/">',
+            '</a>'
+            );
+        ?>
+    </p>
+
     <wpuf-table v-if="selected"
         has_export="no"
         action="weforms_form_payments"
@@ -763,7 +772,8 @@
     >
     </wpuf-table>
 
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-page-help">
 <div class="weforms-help-page">

@@ -213,9 +213,6 @@ class WeForms_Admin {
                 }
             }
 
-
-
-
             $entry_array[] = $temp;
         }
 

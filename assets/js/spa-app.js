@@ -1,6 +1,6 @@
 /*!
 weForms - v1.2.0
-Generated: 2017-11-02 (1509598730860)
+Generated: 2017-11-07 (1510033595559)
 */
 
 ;(function($) {
@@ -162,6 +162,7 @@ weForms.routeComponents.FormEditComponent = {
     },
 
     created: function() {
+        this.set_current_panel('form-fields');
         this.fetchForm();
 
         this.$store.commit('panel_add_show_prop');
@@ -872,6 +873,7 @@ weForms.routeComponents.Transactions = {
     data: function() {
         return {
             selected: 0,
+            no_transactions: false,
             forms: {},
             form_title: 'Loading...',
         };
@@ -898,6 +900,7 @@ weForms.routeComponents.Transactions = {
                         self.selected = self.forms[Object.keys(self.forms)[0]].id;
                     } else {
                         self.form_title = 'No transaction found';
+                        self.no_transactions = true;
                     }
                 },
                 error: function(error) {

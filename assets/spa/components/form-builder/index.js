@@ -27,6 +27,7 @@ weForms.routeComponents.FormEditComponent = {
     },
 
     created: function() {
+        this.set_current_panel('form-fields');
         this.fetchForm();
 
         this.$store.commit('panel_add_show_prop');
