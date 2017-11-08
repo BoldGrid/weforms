@@ -548,12 +548,12 @@ Vue.component('weforms-text-editor', {
                     //     menu: shortcodeMenuItems
                     // });
 
-                    editor.addButton('image', {
-                        icon: 'image',
-                        onclick() {
-                            vm.browseImage(editor);
-                        }
-                    });
+                    // editor.addButton('image', {
+                    //     icon: 'image',
+                    //     onclick() {
+                    //         vm.browseImage(editor);
+                    //     }
+                    // });
 
                     // editor change triggers
                     editor.on('change keyup NodeChange', () => {
