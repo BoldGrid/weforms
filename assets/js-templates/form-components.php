@@ -208,7 +208,7 @@
                         <weforms-text-editor
                             v-model="notifications[editingIndex].message"
                             :i18n="i18n"
-                            :editorId="editingIndex"
+                            :editingIndex="editingIndex"
                         >
                         </weforms-text-editor>
 
