@@ -52,6 +52,7 @@ Vue.component('wpuf-cf-form-notification', {
             if ( confirm( 'Are you sure' ) ) {
                 this.editing = false;
                 this.$store.commit( 'deleteNotification', index);
+                this.$emit('deleteNotification', index);
             }
         },
 

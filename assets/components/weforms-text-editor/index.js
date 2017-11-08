@@ -27,11 +27,21 @@ Vue.component('weforms-text-editor', {
     },
 
     mounted() {
+        var vm = this;
         this.setupEditor();
+
+        this.$parent.$on('deleteNotification',function(){
+            setTimeout(function(){
+                if ( vm.editor ) {
+                    vm.editor.setContent(vm.value);
+                }
+            },500);
+        });
     },
 
     beforeDestroy() {
         this.$parent.$off('insertValueEditor');
+        this.$parent.$off('deleteNotification');
     },
 
     methods: {
@@ -210,7 +220,6 @@ Vue.component('weforms-text-editor', {
 
     watch: {
         editingIndex: function(new_val, old_val){
-
             if ( ! this.editor ) {
                 this.setupEditor();
             } else {

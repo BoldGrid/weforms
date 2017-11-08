@@ -47,7 +47,7 @@ class WeForms_Form_Builder_Assets {
                 'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
 
                 'name'         => 'Admin Notification',
-                'subject'      => '[{from_name}] New Form Submission #{entry_id}',
+                'subject'      => '[{form_name}] New Form Submission #{entry_id}',
                 'to'           => '{admin_email}',
                 'replyTo'      => '',
                 'message'      => '{all_fields}',
