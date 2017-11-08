@@ -13,7 +13,7 @@ Vue.component('weforms-text-editor', {
         },
 
         editingIndex: {
-            type: String,
+            type: Number,
             required: true
         }
     },
@@ -50,7 +50,7 @@ Vue.component('weforms-text-editor', {
             window.tinymce.init({
                 selector: `#wefroms-tinymce-${this.editorId}`,
                 branding: false,
-                height: 300,
+                height: 150,
                 menubar: false,
                 convert_urls: false,
                 theme: 'modern',
