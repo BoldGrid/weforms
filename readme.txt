@@ -5,7 +5,7 @@ Tags: form, forms, contact form, custom form, form builder, form creator, form m
 Requires at least: 4.4
 Requires PHP: 5.4
 Tested up to: 4.8.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,13 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.2.1 (8 November, 2017) =
+
+ * **New**: We’ve added a rich text editor for notification email template editing area. It’s going to help you write better HTML email with less effort.
+ * **Improved**: Now you can decide if you would like to hide or show the empty fields on Entry Page. We’ve added a checkbox to toggle that.
+ * **Improved**: We’ve added a little filter on {all_fields} shortcode. When sending email notification it’s going to exclude all the empty fields. So it becomes more readable.
+ * **Fix**: There was some issue with CSV exporting. We fixed that.
 
 = Version 1.2.0 (30 October, 2017) =
 

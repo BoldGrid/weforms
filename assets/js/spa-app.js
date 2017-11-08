@@ -1,6 +1,6 @@
 /*!
-weForms - v1.1.1
-Generated: 2017-10-29 (1509261842221)
+weForms - v1.2.0
+Generated: 2017-11-08 (1510114179522)
 */
 
 ;(function($) {
@@ -162,6 +162,7 @@ weForms.routeComponents.FormEditComponent = {
     },
 
     created: function() {
+        this.set_current_panel('form-fields');
         this.fetchForm();
 
         this.$store.commit('panel_add_show_prop');
@@ -473,10 +474,11 @@ weForms.routeComponents.FormEntries = {
 /* ./assets/spa/components/form-entry-single/index.js */
 weForms.routeComponents.FormEntriesSingle = {
     template: '#tmpl-wpuf-form-entry-single',
-    mixins: [weForms.mixins.Loading],
+    mixins: [weForms.mixins.Loading,weForms.mixins.Cookie],
     data: function() {
         return {
             loading: false,
+            hideEmpty: true,
             show_payment_data: false,
             entry: {
                 form_fields: {},
@@ -486,12 +488,13 @@ weForms.routeComponents.FormEntriesSingle = {
         };
     },
     created: function() {
+        this.hideEmpty = this.hideEmptyStatus();
         this.fetchData();
     },
     computed: {
         hasFormFields: function() {
             return Object.keys(this.entry.form_fields).length;
-        }
+        },
     },
     methods: {
         fetchData: function() {
@@ -540,6 +543,14 @@ weForms.routeComponents.FormEntriesSingle = {
                     alert(error);
                 }
             });
+        },
+        hideEmptyStatus: function(){
+            return this.getCookie('weFormsEntryHideEmpty') === 'false' ? false : true;
+        },
+    },
+    watch: {
+        hideEmpty: function(value){
+            this.setCookie('weFormsEntryHideEmpty',value,356);
         }
     }
 };
@@ -872,6 +883,7 @@ weForms.routeComponents.Transactions = {
     data: function() {
         return {
             selected: 0,
+            no_transactions: false,
             forms: {},
             form_title: 'Loading...',
         };
@@ -892,11 +904,13 @@ weForms.routeComponents.Transactions = {
                     filter: 'transactions',
                 },
                 success: function(response) {
-                    if ( response.forms.length ) {
+
+                    if ( Object.keys(response.forms).length ) {
                         self.forms = response.forms;
                         self.selected = self.forms[Object.keys(self.forms)[0]].id;
                     } else {
                         self.form_title = 'No transaction found';
+                        self.no_transactions = true;
                     }
                 },
                 error: function(error) {
@@ -918,7 +932,7 @@ weForms.routeComponents.Premium = {
 /* ./assets/spa/components/weforms-settings/index.js */
 weForms.routeComponents.Settings = {
     template: '#tmpl-wpuf-weforms-settings',
-    mixins: [weForms.mixins.Loading],
+    mixins: [weForms.mixins.Loading, weForms.mixins.Cookie],
     data: function() {
         return {
             loading: false,
@@ -951,6 +965,10 @@ weForms.routeComponents.Settings = {
 
     created: function() {
         this.fetchSettings();
+
+        if ( this.getCookie('weforms_settings_active_tab') ) {
+            this.activeTab = this.getCookie('weforms_settings_active_tab');
+        }
     },
 
     methods: {
@@ -1020,6 +1038,34 @@ weForms.routeComponents.Settings = {
                 }
             });
 
+        },
+
+        post: function( action, data , success ){
+            data = data || {};
+            success = success || function(){ };
+            data._wpnonce =  weForms.nonce;
+
+            wp.ajax.send(action, {
+                data: data,
+
+                success: function(response) {
+                    success(response);
+                },
+
+                error: function(error) {
+                    console.log(error);
+                },
+
+                complete: function() {
+
+                }
+            });
+        },
+    },
+
+    watch: {
+        activeTab: function(value){
+            this.setCookie('weforms_settings_active_tab', value, '365');
         }
     }
 };

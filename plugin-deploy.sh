@@ -18,7 +18,8 @@ fi
 
 # check version in readme.txt is the same as plugin file
 READMEVERSION=`grep "Stable tag" $SRC_DIR/readme.txt | awk '{ print $NF}'`
-PLUGINVERSION=`grep "Version" $SRC_DIR/$MAINFILE | awk '{ print $NF}'`
+PLUGINVERSION=`grep "Version:" $SRC_DIR/$MAINFILE | awk '{ print $NF}'`
+
 
 echo ".........................................."
 echo

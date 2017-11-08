@@ -1,7 +1,7 @@
 Vue.component('wpuf-merge-tags', {
     template: '#tmpl-wpuf-merge-tags',
     props: {
-        field: String,
+        field: [String, Number],
         filter: {
             type: String,
             default: null

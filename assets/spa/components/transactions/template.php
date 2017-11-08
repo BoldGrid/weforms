@@ -6,10 +6,19 @@
             {{ form_title }}
         </span>
 
-        <select v-if="forms.length" v-model="selected">
+        <select v-if="Object.keys(forms).length " v-model="selected">
             <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
         </select>
     </h1>
+
+    <p v-if="no_transactions">
+       <?php printf(
+            __('You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.'),
+            '<a target="_blank" href="https://wedevs.com/docs/weforms/integrations/payment/">',
+            '</a>'
+            );
+        ?>
+    </p>
 
     <wpuf-table v-if="selected"
         has_export="no"

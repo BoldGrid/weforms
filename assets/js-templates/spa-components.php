@@ -280,26 +280,35 @@
 
         <div class="wpuf-contact-form-entry-left">
             <div class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span></h2>
+                <h2 class="hndle ui-sortable-handle">
+                    <span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span>
+                    <span class="pull-right">
+                        <label style="font-weight: normal; font-size: 12px">
+                            <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ) ?>
+                        </label>
+                    </span>
+                </h2>
 
                 <div class="main">
                     <table v-if="hasFormFields" class="wp-list-table widefat fixed striped posts">
                         <tbody>
                             <template v-for="(field, index) in entry.form_fields">
-                                <tr class="field-label">
-                                    <th><strong>{{ field.label }}</strong></th>
-                                </tr>
-                                <tr class="field-value">
-                                    <td>
-                                        <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
-                                        <div v-else-if="field.type === 'checkbox_field' || field.type === 'multiple_select'">
-                                            <ul style="margin: 0;">
-                                                <li v-for="item in field.value">- {{ item }}</li>
-                                            </ul>
-                                        </div>
-                                        <div v-else v-html="field.value"></div>
-                                    </td>
-                                </tr>
+                                <template v-if="field.value || ! hideEmpty ">
+                                    <tr class="field-label">
+                                        <th><strong>{{ field.label }}</strong></th>
+                                    </tr>
+                                    <tr class="field-value">
+                                        <td>
+                                            <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
+                                            <div v-else-if="field.type === 'checkbox_field' || field.type === 'multiple_select'">
+                                                <ul style="margin: 0;">
+                                                    <li v-for="item in field.value">- {{ item }}</li>
+                                                </ul>
+                                            </div>
+                                            <div v-else v-html="field.value"></div>
+                                        </td>
+                                    </tr>
+                                </template>
                             </template>
                         </tbody>
                     </table>
@@ -414,7 +423,8 @@
             </div>
         </div>
     </div>
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-list-table">
 <div class="content table-responsive table-full-width" style="margin-top: 20px;">
@@ -749,10 +759,19 @@
             {{ form_title }}
         </span>
 
-        <select v-if="forms.length" v-model="selected">
+        <select v-if="Object.keys(forms).length " v-model="selected">
             <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
         </select>
     </h1>
+
+    <p v-if="no_transactions">
+       <?php printf(
+            __('You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.'),
+            '<a target="_blank" href="https://wedevs.com/docs/weforms/integrations/payment/">',
+            '</a>'
+            );
+        ?>
+    </p>
 
     <wpuf-table v-if="selected"
         has_export="no"
@@ -763,7 +782,8 @@
     >
     </wpuf-table>
 
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-page-help">
 <div class="weforms-help-page">

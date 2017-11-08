@@ -145,6 +145,8 @@ class WeForms_Ajax {
             'orderby'        => 'post_date'
         );
 
+        $args = apply_filters( 'weforms_ajax_get_contact_forms_args', $args );
+
         $contact_forms = weforms()->form->get_forms( $args );
 
         array_map( function($form) {
@@ -322,6 +324,8 @@ class WeForms_Ajax {
         }
 
         do_action( 'weforms_save_settings', $settings );
+
+        $settings = apply_filters( 'weforms_after_save_settings', $settings );
 
         wp_send_json_success( $settings );
     }

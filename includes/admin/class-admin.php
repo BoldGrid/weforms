@@ -204,8 +204,11 @@ class WeForms_Admin {
                         break;
 
                     default:
+
                         $value              = weforms_get_entry_meta( $entry->id, $column_id, true );
+                        $value              = weforms_get_pain_text( $value );
                         $temp[ $column_id ] = str_replace( WeForms::$field_separator, ' ', $value );
+
                         break;
                 }
             }
@@ -289,12 +292,12 @@ class WeForms_Admin {
     function set_default_settings( $tabs = array() ) {
 
         $tabs['general']   = array(
-            'label' => 'General Settings',
+            'label' => __('General Settings', 'weforms'),
             'icon'  => WEFORMS_ASSET_URI . '/images/integrations/general-setting.svg',
         );
 
         $tabs['recaptcha'] = array(
-            'label' => 'reCaptcha',
+            'label' => __('reCaptcha', 'weforms'),
             'icon'  => WEFORMS_ASSET_URI . '/images/integrations/reCaptcha.svg',
         );
 

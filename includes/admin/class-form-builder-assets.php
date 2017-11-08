@@ -40,17 +40,22 @@ class WeForms_Form_Builder_Assets {
             'pro_link'            => self::get_pro_url(),
             'site_url'            => site_url('/'),
             'defaultNotification' => array(
-                'active'              => 'true',
-                'name'                => 'Admin Notification',
-                'subject'             => '[{from_name}] New Form Submission #{entry_id}',
-                'to'                  => '{admin_email}',
-                'replyTo'             => '',
-                'message'             => '{all_fields}',
-                'fromName'            => '',
-                'fromAddress'         => '{admin_email}',
-                'cc'                  => '',
-                'bcc'                 => '',
-                'weforms_cond'        => array(
+                'active'       => 'true',
+
+                'type'         => 'email',
+                'smsTo'        => '',
+                'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+
+                'name'         => 'Admin Notification',
+                'subject'      => '[{form_name}] New Form Submission #{entry_id}',
+                'to'           => '{admin_email}',
+                'replyTo'      => '',
+                'message'      => '{all_fields}',
+                'fromName'     => '',
+                'fromAddress'  => '{admin_email}',
+                'cc'           => '',
+                'bcc'          => '',
+                'weforms_cond' => array(
                     'condition_status' => 'no',
                     'cond_logic'       => 'any',
                     'conditions'       => array(
@@ -80,9 +85,12 @@ class WeForms_Form_Builder_Assets {
             'confirm'         => __( 'Are you sure?', 'weforms' ),
             'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
             'has_payment'     => class_exists( 'WeForms_Payment' ) ? 'true' : 'false',
+            'has_sms'         => class_exists( 'WeForms_SMS_Notification' ) ? 'true' : 'false',
             'routes'          => $this->get_vue_routes(),
             'routeComponents' => array( 'default' => null ),
-            'mixins'          => array( 'default' => null )
+            'mixins'          => array( 'default' => null ),
+            'assetsURL'       => WEFORMS_ASSET_URI,
+            'shortcodes'      => $this->shortcodes(),
         ) );
 
         wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
@@ -265,6 +273,10 @@ class WeForms_Form_Builder_Assets {
             'saved_form_data'       => __( 'Saved form data', 'wpuf' ),
             'unsaved_changes'       => __( 'You have unsaved changes.', 'wpuf' ),
             'copy_shortcode'        => __( 'Click to copy shortcode', 'wpuf' ),
+
+            'selectAnImage'         => __( 'Select an image', 'wpuf' ),
+            'pleaseSelectAnImage'   => __( 'Please select an image', 'wpuf' ),
+            'uploadAnImage'         => __( 'Upload an image', 'wpuf' ),
         ) );
     }
 
@@ -340,5 +352,23 @@ class WeForms_Form_Builder_Assets {
             <?php do_action( 'wpuf_contact_form_settings_tab_content' ); ?>
 
         <?php
+    }
+
+
+    public function shortcodes( $type = '' ) {
+        $shortcodes = [];
+
+        $shortcodes['user'] = [
+            'title' => __( 'User', 'wemail' ),
+            'codes' => [
+                'first_name'        => [ 'title' => __( 'First Name', 'wemail' ), 'default' => 'reader' ],
+            ]
+        ];
+
+        if ( !empty( $type ) && !empty( $shortcodes[ $type ] ) ) {
+            return $shortcodes[ $type ];
+        }
+
+        return $shortcodes;
     }
 }

@@ -159,6 +159,21 @@ class WeForms_Scripts_Styles {
                 'deps'      => array( 'wpuf-form-builder-mixins', 'wpuf-form-builder-mixins-form' ),
                 'in_footer' => true
             ),
+            'weforms-tiny-mce' => array(
+                'src'       => site_url( '/wp-includes/js/tinymce/tinymce.min.js' ),
+                'deps'      => array(),
+                'in_footer' => true
+            ),
+            'weforms-tiny-mce-code' => array(
+                'src'       => WEFORMS_ASSET_URI . '/js/vendor/tinymce/plugins/code/plugin.min.js',
+                'deps'      => array('weforms-tiny-mce'),
+                'in_footer' => true
+            ),
+            'weforms-tiny-mce-hr' => array(
+                'src'       => WEFORMS_ASSET_URI . '/js/vendor/tinymce/plugins/hr/plugin.min.js',
+                'deps'      => array('weforms-tiny-mce-code'),
+                'in_footer' => true
+            ),
 
         ) );
 
@@ -217,7 +232,12 @@ class WeForms_Scripts_Styles {
             ),
             'weforms-style' => array(
                 'src'  => WEFORMS_ASSET_URI . '/css/admin.css',
+            ),
+            'weforms-tiny-mce-css' => array(
+                'src'  => site_url( '/wp-includes/css/editor.css' ),
+                'deps' => array('wp-color-picker')
             )
+
         );
 
         $styles = array_merge( $frontend_styles, $backend_styles );

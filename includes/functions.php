@@ -725,6 +725,25 @@ function weforms_get_settings( $key = '', $default = '' ) {
     return $default;
 }
 
+
+/**
+ * Update Settings
+ *
+ * @param array $updated_settings
+ *
+ * @return array
+ */
+function weforms_update_settings( $updated_settings = array() ) {
+
+    $previuos_settings = weforms_get_settings();
+
+    $settings = array_merge( $previuos_settings, $updated_settings );
+
+    update_option( 'weforms_settings', $settings );
+
+    return $settings;
+}
+
 /**
  * Form access capability for forms
  *
@@ -981,6 +1000,11 @@ function weforms_get_default_form_settings() {
 function weforms_get_default_form_notification() {
     return apply_filters( 'weforms_get_default_form_notification', array(
             'active'       => 'true',
+
+            'type'         => 'email',
+            'smsTo'        => '',
+            'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+
             'name'         => __( 'Admin Notification', 'weforms' ),
             'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
             'to'           => '{admin_email}',
@@ -1003,4 +1027,44 @@ function weforms_get_default_form_notification() {
             )
         )
     );
+}
+
+/**
+ * weforms_get_pain_text
+ *
+ * @param $value mixed
+ *
+ * @return string
+ **/
+function weforms_get_pain_text( $value ) {
+
+    if ( is_serialized( $value ) ) {
+        $value = unserialize( $value );
+    }
+
+    if ( is_array( $value ) ) {
+
+        $string_value = array();
+
+        if ( is_array( $value ) ) {
+
+            foreach ( $value as $key => $single_value ) {
+
+                if ( is_array( $single_value ) || is_serialized( $single_value ) ) {
+                    $single_value = weforms_get_pain_text( $single_value );
+                }
+
+                $single_value = ucwords( str_replace( array( "_", "-" ), " ", $key) ) . ': ' . ucwords( $single_value );
+
+                $string_value[] = $single_value;
+            }
+
+            $value =  implode( WeForms::$field_separator , $string_value);
+        }
+
+    }
+
+    $value = trim( strip_tags( $value ) );
+
+    return $value;
 }

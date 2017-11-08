@@ -12,6 +12,9 @@ Vue.component('wpuf-cf-form-notification', {
         is_pro: function() {
             return 'true' === weForms.is_pro;
         },
+        has_sms: function() {
+            return 'true' === weForms.has_sms;
+        },
         pro_link: function() {
             return wpuf_form_builder.pro_link;
         },
@@ -49,6 +52,7 @@ Vue.component('wpuf-cf-form-notification', {
             if ( confirm( 'Are you sure' ) ) {
                 this.editing = false;
                 this.$store.commit( 'deleteNotification', index);
+                this.$emit('deleteNotification', index);
             }
         },
 
@@ -73,6 +77,11 @@ Vue.component('wpuf-cf-form-notification', {
                 value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
 
             notification[property] = notification[property] + value;
-        }
+        },
+
+        insertValueEditor: function(type, field, property) {
+            var value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
+            this.$emit('insertValueEditor', value);
+        },
     }
 });
