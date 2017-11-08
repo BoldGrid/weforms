@@ -132,6 +132,13 @@ a.add-notification .dashicons {
   display: block;
   margin-top: 20px;
 }
+.notification-wrap .notification-row.notification-field .mce-tinymce {
+  border: 1px solid #ddd;
+}
+.notification-wrap .notification-row.notification-field .mce-tinymce .mce-i-shortcode::before {
+  font-family: dashicons;
+  content: "\f475";
+}
 .notification-wrap .notification-table-wrap {
   width: 100%;
 }

@@ -204,8 +204,15 @@
 
                     <div class="notification-row notification-field">
                         <label for="notification-title"><?php _e( 'Email Message', 'weforms' ); ?></label>
-                        <textarea name="" rows="6" v-model="notifications[editingIndex].message"></textarea>
-                        <wpuf-merge-tags v-on:insert="insertValue" field="message"></wpuf-merge-tags>
+
+                        <weforms-text-editor
+                            v-model="notifications[editingIndex].message"
+                            :i18n="i18n"
+                            :editorId="editingIndex"
+                        >
+                        </weforms-text-editor>
+
+                        <wpuf-merge-tags v-on:insert="insertValueEditor" field="message"></wpuf-merge-tags>
                     </div>
                 </template>
                 <template v-else>
@@ -266,7 +273,12 @@
 
                         <div class="notification-row notification-field">
                             <template v-if="is_pro">
-                                <notification-conditional-logics :notification="notifications[editingIndex]"></notification-conditional-logics>
+
+                                <notification-conditional-logics
+                                    :notification="notifications[editingIndex]"
+                                >
+                                </notification-conditional-logics>
+
                             </template>
                             <template v-else>
                                 <label class="wpuf-pro-text-alert">
@@ -649,3 +661,9 @@
         </div>
     </wpuf-modal>
 </div></script>
+
+<script type="text/x-template" id="tmpl-wpuf-weforms-text-editor">
+<div>
+    <textarea :value="value" :id="'wefroms-tinymce-' + editorId"></textarea>
+</div>
+</script>

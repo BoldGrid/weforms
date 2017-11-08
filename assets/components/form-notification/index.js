@@ -76,6 +76,11 @@ Vue.component('wpuf-cf-form-notification', {
                 value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
 
             notification[property] = notification[property] + value;
-        }
+        },
+
+        insertValueEditor: function(type, field, property) {
+            var value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
+            this.$emit('insertValueEditor', value);
+        },
     }
 });
