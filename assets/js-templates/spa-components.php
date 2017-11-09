@@ -355,7 +355,6 @@
                 :id="id"
                 v-on:ajaxsuccess="
                 form_title       = $event.form_title;
-                $route.params.id = selected;
                 total            = $event.meta.total;
                 totalTrash       = $event.meta.totalTrash
                 "
@@ -379,7 +378,7 @@
             <div class="postbox">
                 <h2 class="hndle ui-sortable-handle">
                     <span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span>
-                    <span class="pull-right">
+                    <span class="pull-right" v-if="hasEmpty">
                         <label style="font-weight: normal; font-size: 12px">
                             <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ) ?>
                         </label>

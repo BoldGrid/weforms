@@ -1,6 +1,6 @@
 /*!
 weForms - v1.2.1
-Generated: 2017-11-09 (1510217905430)
+Generated: 2017-11-09 (1510222595387)
 */
 
 ;(function($) {
@@ -547,6 +547,7 @@ weForms.routeComponents.FormEntriesSingle = {
         return {
             loading: false,
             hideEmpty: true,
+            hasEmpty: false,
             show_payment_data: false,
             entry: {
                 form_fields: {},
@@ -577,9 +578,9 @@ weForms.routeComponents.FormEntriesSingle = {
                     _wpnonce: weForms.nonce
                 },
                 success: function(response) {
-                    // console.log(response);
                     self.loading = false;
                     self.entry = response;
+                    self.hasEmpty = response.has_empty;
                 },
                 error: function(error) {
                     self.loading = false;

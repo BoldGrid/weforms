@@ -41,7 +41,6 @@
                 :id="id"
                 v-on:ajaxsuccess="
                 form_title       = $event.form_title;
-                $route.params.id = selected;
                 total            = $event.meta.total;
                 totalTrash       = $event.meta.totalTrash
                 "

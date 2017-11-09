@@ -468,10 +468,20 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No form fields found!', 'weforms' ) );
         }
 
+        $has_empty = false;
+
+        foreach ( $fields as $key => $field ) {
+            if ( empty( $field['value'] ) ) {
+               $has_empty = true;
+               break;
+            }
+        }
+
         $response = array(
             'form_fields'  => $fields,
             'meta_data'    => $metadata,
             'payment_data' => $payment,
+            'has_empty'    => $has_empty,
         );
 
         wp_send_json_success( $response );
