@@ -39,6 +39,7 @@ weForms.mixins.BulkAction = {
 
             wp.ajax.send( self.bulkDeleteAction, {
                 data: {
+                    permanent: this.status == 'trash' ? 1 : 0,
                     ids: this.checkedItems,
                     _wpnonce: weForms.nonce
                 },
@@ -50,6 +51,28 @@ weForms.mixins.BulkAction = {
                     alert(error);
                 },
 
+                complete: function(resp) {
+                    self.loading = false;
+                }
+            });
+        },
+        restoreBulk: function() {
+            var self = this;
+
+            self.loading = true;
+
+            wp.ajax.send('weforms_form_entry_restore_bulk', {
+                data: {
+                    ids: this.checkedItems,
+                    _wpnonce: weForms.nonce
+                },
+                success: function(response) {
+                    self.checkedItems = [];
+                    self.fetchData();
+                },
+                error: function(error) {
+                    alert(error);
+                },
                 complete: function(resp) {
                     self.loading = false;
                 }

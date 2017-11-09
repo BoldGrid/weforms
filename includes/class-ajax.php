@@ -34,7 +34,11 @@ class WeForms_Ajax {
 
         add_action( 'wp_ajax_weforms_form_entry_details', array( $this, 'get_entry_detail' ) );
         add_action( 'wp_ajax_weforms_form_entry_trash', array( $this, 'trash_entry' ) );
+        add_action( 'wp_ajax_weforms_form_entry_delete', array( $this, 'delete_entry' ) );
+        add_action( 'wp_ajax_weforms_form_entry_restore', array( $this, 'restore_entry' ) );
+
         add_action( 'wp_ajax_weforms_form_entry_trash_bulk', array( $this, 'bulk_delete_entry' ) );
+        add_action( 'wp_ajax_weforms_form_entry_restore_bulk', array( $this, 'bulk_restore_entry' ) );
 
         // frontend requests
         add_action( 'wp_ajax_weforms_frontend_submit', array( $this, 'handle_frontend_submission' ) );
@@ -139,7 +143,7 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $args = array(
-            'posts_per_page' => 10,
+            'posts_per_page' => isset( $_POST['posts_per_page'] ) ? intval( $_POST['posts_per_page'] ) : 10,
             'paged'          => isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1,
             'order'          => 'DESC',
             'orderby'        => 'post_date'
@@ -155,9 +159,30 @@ class WeForms_Ajax {
             $form->payments = $form->num_form_payments();
         }, $contact_forms['forms'] );
 
+        $contact_forms = $this->filter_contact_forms( $contact_forms );
         $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $contact_forms );
 
         wp_send_json_success( $contact_forms );
+    }
+
+    /**
+     * Filter
+     *
+     * @return void
+     */
+    public function filter_contact_forms( &$contact_forms ) {
+
+        if ( isset($_REQUEST['filter'] ) && $_REQUEST['filter'] == 'entries' ) {
+            foreach ($contact_forms['forms'] as $key => &$form) {
+                if ( isset($form->entries) && ! $form->entries ) {
+                    unset($contact_forms['forms'][$key]);
+                }
+            }
+
+            $contact_forms['meta']['total'] = count($contact_forms['forms']);
+        }
+
+        return $contact_forms;
     }
 
     /**
@@ -366,6 +391,7 @@ class WeForms_Ajax {
 
         $form_id      = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
         $current_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
+        $status       = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : 'publish';
         $per_page     = 20;
         $offset       = ( $current_page - 1 ) * $per_page;
 
@@ -375,11 +401,12 @@ class WeForms_Ajax {
 
         $entries = weforms_get_form_entries( $form_id, array(
             'number' => $per_page,
-            'offset' => $offset
+            'offset' => $offset,
+            'status' => $status,
         ) );
 
         $columns       = weforms_get_entry_columns( $form_id );
-        $total_entries = weforms_count_form_entries( $form_id );
+        $total_entries = weforms_count_form_entries( $form_id, $status );
 
         array_map( function( $entry ) use ($columns) {
             $entry_id = $entry->id;
@@ -402,7 +429,11 @@ class WeForms_Ajax {
                 'per_page' => $per_page,
                 'pages'    => ceil( $total_entries / $per_page ),
                 'current'  => $current_page
-            )
+            ),
+            'meta' => array(
+                'total'      => weforms_count_form_entries( $form_id ),
+                'totalTrash' => weforms_count_form_entries( $form_id, 'trash'),
+            ),
         );
 
         wp_send_json_success( $response );
@@ -463,11 +494,73 @@ class WeForms_Ajax {
     }
 
     /**
+     * Trash an entry
+     *
+     * @return void
+     */
+    public function delete_entry() {
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
+
+        weforms_delete_entry( $entry_id );
+
+        wp_send_json_success();
+    }
+
+    /**
+     * Restore Entry
+     *
+     * @return void
+     */
+    public function restore_entry() {
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
+
+        weforms_change_entry_status( $entry_id, 'publish' );
+        wp_send_json_success();
+    }
+
+    /**
      * Bulk trash entries
      *
      * @return void
      */
     public function bulk_delete_entry() {
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $entry_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
+        $permanent = isset( $_POST['permanent'] ) && boolval($_POST['permanent']) ? true : false;
+
+        if ( ! $entry_ids ) {
+            wp_send_json_error( __( 'No entry ids provided!', 'weforms' ) );
+        }
+
+
+        foreach ($entry_ids as $entry_id) {
+            if ( $permanent ) {
+                weforms_delete_entry( $entry_id );
+            } else {
+                weforms_change_entry_status( $entry_id, 'trash' );
+            }
+        }
+
+        wp_send_json_success();
+    }
+
+    /**
+     * Bulk trash entries
+     *
+     * @return void
+     */
+    public function bulk_restore_entry() {
         check_ajax_referer( 'weforms' );
 
         $this->check_admin();
@@ -479,7 +572,7 @@ class WeForms_Ajax {
         }
 
         foreach ($entry_ids as $entry_id) {
-            weforms_change_entry_status( $entry_id, 'trash' );
+            weforms_change_entry_status( $entry_id, 'publish' );
         }
 
         wp_send_json_success();

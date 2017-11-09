@@ -1,6 +1,6 @@
 /*!
-weForms - v1.2.0
-Generated: 2017-11-08 (1510114179522)
+weForms - v1.2.1
+Generated: 2017-11-09 (1510217905430)
 */
 
 ;(function($) {
@@ -12,7 +12,8 @@ Vue.component( 'wpuf-table', {
         has_export: String,
         action: String,
         delete: String,
-        id: [String, Number]
+        id: [String, Number],
+        status: [String],
     },
 
     data: function() {
@@ -47,6 +48,7 @@ Vue.component( 'wpuf-table', {
                 data: {
                     id: self.id,
                     page: self.currentPage,
+                    status: self.status,
                     _wpnonce: weForms.nonce
                 },
                 success: function(response) {
@@ -82,13 +84,69 @@ Vue.component( 'wpuf-table', {
                     this.deleteBulk();
                 }
             }
+
+            if ( 'restore' === this.bulkAction ) {
+                if ( ! this.checkedItems.length ) {
+                    alert( 'Please select atleast one entry to restore.' );
+                    return;
+                }
+
+                this.restoreBulk();
+            }
+        },
+        restore: function(entry_id){
+            var self = this;
+            self.loading = true;
+
+            wp.ajax.send( 'weforms_form_entry_restore', {
+                data: {
+                    entry_id: entry_id,
+                    _wpnonce: weForms.nonce
+                },
+                success: function(response) {
+                    self.loading = false;
+                    self.fetchData();
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        },
+        deletePermanently: function(entry_id){
+
+            if ( confirm( 'Are you sure to delete this entry?' ) ) {
+
+                var self = this;
+                self.loading = true;
+
+                wp.ajax.send( 'weforms_form_entry_delete', {
+                    data: {
+                        entry_id: entry_id,
+                        _wpnonce: weForms.nonce
+                    },
+                    success: function(response) {
+                        self.loading = false;
+                        self.fetchData();
+                    },
+                    error: function(error) {
+                        self.loading = false;
+                        alert(error);
+                    }
+                });
+            }
         }
     },
 
     watch: {
         id: function(){
             this.fetchData();
-        }
+        },
+        status: function(){
+            this.currentPage = 1;
+            this.bulkAction = -1;
+            this.fetchData();
+        },
     }
 } );
 
@@ -100,6 +158,9 @@ weForms.routeComponents.Entries = {
             selected: 0,
             forms: {},
             form_title: 'Loading...',
+            status: 'publish',
+            total: 0,
+            totalTrash: 0,
         };
     },
 
@@ -115,9 +176,11 @@ weForms.routeComponents.Entries = {
                 data: {
                     _wpnonce: weForms.nonce,
                     page: self.currentPage,
+                    posts_per_page: -1,
+                    filter: 'entries',
                 },
                 success: function(response) {
-                    if ( response.forms.length ) {
+                    if ( Object.keys( response.forms ).length ) {
                         self.forms = response.forms;
                         self.selected = self.forms[Object.keys(self.forms)[0]].id;
                     } else {
@@ -467,10 +530,15 @@ weForms.routeComponents.FormEntries = {
     template: '#tmpl-wpuf-form-entries',
     data: function() {
         return {
-            form_title: 'Loading...'
+            selected: 0,
+            form_title: 'Loading...',
+            status: 'publish',
+            total: 0,
+            totalTrash: 0,
         };
     }
 };
+
 /* ./assets/spa/components/form-entry-single/index.js */
 weForms.routeComponents.FormEntriesSingle = {
     template: '#tmpl-wpuf-form-entry-single',

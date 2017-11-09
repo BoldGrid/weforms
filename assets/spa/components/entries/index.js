@@ -5,6 +5,9 @@ weForms.routeComponents.Entries = {
             selected: 0,
             forms: {},
             form_title: 'Loading...',
+            status: 'publish',
+            total: 0,
+            totalTrash: 0,
         };
     },
 
@@ -20,9 +23,11 @@ weForms.routeComponents.Entries = {
                 data: {
                     _wpnonce: weForms.nonce,
                     page: self.currentPage,
+                    posts_per_page: -1,
+                    filter: 'entries',
                 },
                 success: function(response) {
-                    if ( response.forms.length ) {
+                    if ( Object.keys( response.forms ).length ) {
                         self.forms = response.forms;
                         self.selected = self.forms[Object.keys(self.forms)[0]].id;
                     } else {

@@ -6,13 +6,19 @@
             <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Entries', 'weforms' ); ?></option>
+                <option value="restore" v-if="status == 'trash' ">
+                    <?php _e('Restore Entries', 'weforms'); ?>
+                </option>
+                <option value="delete">
+                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
+                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                </option>
             </select>
 
             <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
         </div>
 
-        <div class="alignleft actions" v-if="has_export !== 'no'">
+        <div class="alignleft actions" v-if="has_export !== 'no' &&  status != 'trash' ">
             <a class="button" :href="'admin-post.php?action=weforms_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php _e( 'Export Entries', 'weforms' ); ?></a>
         </div>
 
@@ -75,7 +81,18 @@
                 </th>
                 <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
                 <th class="col-entry-details">
-                    <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}"><?php _e( 'Details', 'weforms' ); ?></router-link>
+
+                    <template v-if="status == 'trash'">
+                        <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
+                        <span style="color: #ddd">|</span>
+                        <a href="#" @click.prevent="deletePermanently(entry.id)"><?php _e( 'Delete Permanently', 'weforms' ); ?></a>
+                    </template>
+                    <template  v-else>
+                        <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">
+                            <?php _e( 'Details', 'weforms' ); ?>
+                        </router-link>
+                    </template>
+
                 </th>
             </tr>
         </tbody>
@@ -86,7 +103,13 @@
             <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Entries', 'weforms' ); ?></option>
+                <option value="restore" v-if="status == 'trash' ">
+                    <?php _e('Restore Entries', 'weforms'); ?>
+                </option>
+                <option value="delete">
+                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
+                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                </option>
             </select>
 
             <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>

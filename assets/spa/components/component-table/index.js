@@ -5,7 +5,8 @@ Vue.component( 'wpuf-table', {
         has_export: String,
         action: String,
         delete: String,
-        id: [String, Number]
+        id: [String, Number],
+        status: [String],
     },
 
     data: function() {
@@ -40,6 +41,7 @@ Vue.component( 'wpuf-table', {
                 data: {
                     id: self.id,
                     page: self.currentPage,
+                    status: self.status,
                     _wpnonce: weForms.nonce
                 },
                 success: function(response) {
@@ -75,12 +77,68 @@ Vue.component( 'wpuf-table', {
                     this.deleteBulk();
                 }
             }
+
+            if ( 'restore' === this.bulkAction ) {
+                if ( ! this.checkedItems.length ) {
+                    alert( 'Please select atleast one entry to restore.' );
+                    return;
+                }
+
+                this.restoreBulk();
+            }
+        },
+        restore: function(entry_id){
+            var self = this;
+            self.loading = true;
+
+            wp.ajax.send( 'weforms_form_entry_restore', {
+                data: {
+                    entry_id: entry_id,
+                    _wpnonce: weForms.nonce
+                },
+                success: function(response) {
+                    self.loading = false;
+                    self.fetchData();
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        },
+        deletePermanently: function(entry_id){
+
+            if ( confirm( 'Are you sure to delete this entry?' ) ) {
+
+                var self = this;
+                self.loading = true;
+
+                wp.ajax.send( 'weforms_form_entry_delete', {
+                    data: {
+                        entry_id: entry_id,
+                        _wpnonce: weForms.nonce
+                    },
+                    success: function(response) {
+                        self.loading = false;
+                        self.fetchData();
+                    },
+                    error: function(error) {
+                        self.loading = false;
+                        alert(error);
+                    }
+                });
+            }
         }
     },
 
     watch: {
         id: function(){
             this.fetchData();
-        }
+        },
+        status: function(){
+            this.currentPage = 1;
+            this.bulkAction = -1;
+            this.fetchData();
+        },
     }
 } );
