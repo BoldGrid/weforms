@@ -14,6 +14,14 @@ class WeForms_Field_Manager {
      */
     private $fields = array();
 
+
+    /**
+     * Going to store WeForms_Notification instance for tmp. Will refactor
+     *
+     * @var array
+     */
+    private $notification = null;
+
     /**
      * Get all the registered fields
      *
@@ -136,6 +144,9 @@ class WeForms_Field_Manager {
             return;
         }
 
+        $this->notification =  new WeForms_Notification();
+        $this->notification->set_merge_tags();
+
         foreach ($fields as $field) {
             if ( ! $field_object = $this->field_exists( $field['template'] ) ) {
 
@@ -147,7 +158,7 @@ class WeForms_Field_Manager {
             }
 
             $field = $this->dynamic_fields( $field, $form_id, $atts );
-
+            $field = $this->replace_tags( $field, $form_id, $atts );
             $field_object->render( $field, $form_id );
             $field_object->conditional_logic( $field, $form_id );
         }
@@ -170,30 +181,24 @@ class WeForms_Field_Manager {
         $param_name = $form_field['dynamic']['param_name'];
 
         if ( isset( $form_field['options'] ) ) {
-
             $form_field['options'] = apply_filters( 'weforms_field_options_' . $param_name , $form_field['options'], $form_id );
 
             if ( isset( $_GET[$param_name] ) && is_array( $_GET[$param_name] ) ) {
-
                 $form_field['default'] = array_merge( $form_field['options'], $_GET[$param_name] );
             }
-
         }
 
 
         foreach ( array( 'default', 'selected' ) as $key => $default_key) {
 
             if ( isset( $form_field[$default_key] ) ) {
-
                 $form_field[$default_key] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field['default'], $form_id );
 
                 if ( isset( $atts[$param_name] ) ) {
-
                     $form_field[$default_key] = $atts[$param_name];
                 }
 
                 if ( isset( $_GET[$param_name] ) ) {
-
                     if ( is_array( $form_field[$default_key] ) == is_array( $_GET[$param_name] ) ) {
                         $form_field[$default_key] = $_GET[$param_name];
                     }
@@ -201,9 +206,29 @@ class WeForms_Field_Manager {
                     if ( ! is_array( $form_field[$default_key] ) == ! is_array( $_GET[$param_name] ) ) {
                         $form_field[$default_key] = $_GET[$param_name];
                     }
-
                 }
             }
+        }
+
+        return $form_field;
+    }
+
+    /**
+     * Replace merge tags
+     *
+     * @param  array $form_field
+     * @param  integer $form_id
+     *
+     * @return void
+     */
+    function replace_tags( $form_field, $form_id, $atts = array() ) {
+
+        if ( ! empty( $form_field['default'] ) ) {
+            $form_field['default'] = $this->notification->replace_tags( $form_field['default'] );
+        }
+
+        if ( ! empty( $form_field['placeholder'] ) ) {
+            $form_field['placeholder'] = $this->notification->replace_tags( $form_field['placeholder'] );
         }
 
         return $form_field;

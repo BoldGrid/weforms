@@ -7,6 +7,7 @@
 
         <div class="name-field-placeholder">
             <input type="text" v-model="editing_form_field.first_name.placeholder">
+            <!-- <wpuf-merge-tags :filter="option_field.tag_filter" v-on:insert="insertValue"></wpuf-merge-tags> -->
             <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 

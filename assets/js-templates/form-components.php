@@ -15,7 +15,8 @@
      	</div>
 	</template>
 
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-field-name">
 <div>
@@ -27,6 +28,7 @@
 
         <div class="name-field-placeholder">
             <input type="text" v-model="editing_form_field.first_name.placeholder">
+            <!-- <wpuf-merge-tags :filter="option_field.tag_filter" v-on:insert="insertValue"></wpuf-merge-tags> -->
             <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 
@@ -69,7 +71,34 @@
             <label><?php _e( 'Default Value', 'weforms' ); ?></label>
         </div>
     </div>
-</div></script>
+</div>
+</script>
+
+<script type="text/x-template" id="tmpl-wpuf-field-text-with-tag">
+<div v-if="met_dependencies" class="panel-field-opt panel-field-opt-text field-text-with-tag">
+    <label>
+        {{ option_field.title }} <help-text v-if="option_field.help_text" :text="option_field.help_text"></help-text>
+
+        <input
+            v-if="option_field.variation && 'number' === option_field.variation"
+            type="number"
+            v-model="value"
+            @focusout="on_focusout"
+            @keyup="on_keyup"
+        >
+
+        <input
+            v-if="!option_field.variation"
+            type="text"
+            v-model="value"
+            @focusout="on_focusout"
+            @keyup="on_keyup"
+        >
+
+       <wpuf-merge-tags :filter="option_field.tag_filter" v-on:insert="insertValue"></wpuf-merge-tags>
+    </label>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-date_field">
 <div class="wpuf-fields">
@@ -455,7 +484,7 @@
     <!-- <pre>{{ form_fields.length }}</pre> -->
 
     <div class="wpuf-merge-tags">
-        <div class="merge-tag-section">
+        <div class="merge-tag-section" v-if="!filter || filter !== 'no_fields' ">
             <div class="merge-tag-head"><?php _e( 'Form Fields', 'wpuf' ); ?></div>
 
             <ul>
@@ -469,7 +498,7 @@
                             <a href="#" v-on:click.prevent="insertField('name-middle', field.name);"><?php _e( 'middle', 'wpuf' ); ?></a> |
                             <a href="#" v-on:click.prevent="insertField('name-last', field.name);"><?php _e( 'last', 'wpuf' ); ?></a>
                             )
-                        </template> 
+                        </template>
 
                         <template v-else-if="field.template === 'image_upload'">
                             <a href="#" v-on:click.prevent="insertField('image', field.name);">{{ field.label }}</a>
@@ -483,7 +512,9 @@
 
                     </li>
                 </template>
-                <li v-else><?php _e( 'No fields available', 'wpuf' ); ?></li>
+                <li v-else>
+                   <?php _e( 'No fields available', 'wpuf' ); ?>
+                </li>
             </ul>
         </div><!-- .merge-tag-section -->
 
@@ -512,7 +543,8 @@
         }
         ?>
     </div><!-- .merge-tags -->
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-modal">
 <div>

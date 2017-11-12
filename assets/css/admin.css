@@ -644,3 +644,6 @@ a.add-notification .dashicons {
 .wpuf-contact-form-entries .subsubsub a:focus {
   box-shadow: none;
 }
+.field-text-with-tag {
+  position: relative;
+}

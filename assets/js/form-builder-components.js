@@ -17,7 +17,10 @@ Vue.component('field-dynamic-field', {
     computed: {
         dynamic: function(){
             return this.editing_form_field.dynamic;
-        }
+        },
+        editing_field: function(){
+            return this.editing_form_field;
+        },
     },
 
     created: function () {
@@ -34,6 +37,7 @@ Vue.component('field-dynamic-field', {
         }
     },
 });
+
 /* ./assets/components/field-name/index.js */
 Vue.component('field-name', {
     template: '#tmpl-wpuf-field-name',
@@ -61,6 +65,40 @@ Vue.component('field-name', {
         on_keyup: function (e) {
             wpuf_form_builder.event_hub.$emit('field-text-keyup', e, this);
         }
+    }
+});
+
+/* ./assets/components/field-text-with-tag/index.js */
+Vue.component('field-text-with-tag', {
+    template: '#tmpl-wpuf-field-text-with-tag',
+
+    mixins: [
+        wpuf_mixins.option_field_mixin
+    ],
+
+    computed: {
+        value: {
+            get: function () {
+                return this.editing_form_field[this.option_field.name];
+            },
+
+            set: function (value) {
+                this.update_value(this.option_field.name, value);
+            }
+        }
+    },
+
+    methods: {
+        on_focusout: function (e) {
+            wpuf_form_builder.event_hub.$emit('field-text-focusout', e, this);
+        },
+        on_keyup: function (e) {
+            wpuf_form_builder.event_hub.$emit('field-text-keyup', e, this);
+        },
+        insertValue: function(type, field, property) {
+            var value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
+            this.value = value;
+        },
     }
 });
 

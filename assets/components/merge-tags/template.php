@@ -4,7 +4,7 @@
     <!-- <pre>{{ form_fields.length }}</pre> -->
 
     <div class="wpuf-merge-tags">
-        <div class="merge-tag-section">
+        <div class="merge-tag-section" v-if="!filter || filter !== 'no_fields' ">
             <div class="merge-tag-head"><?php _e( 'Form Fields', 'wpuf' ); ?></div>
 
             <ul>
@@ -18,7 +18,7 @@
                             <a href="#" v-on:click.prevent="insertField('name-middle', field.name);"><?php _e( 'middle', 'wpuf' ); ?></a> |
                             <a href="#" v-on:click.prevent="insertField('name-last', field.name);"><?php _e( 'last', 'wpuf' ); ?></a>
                             )
-                        </template> 
+                        </template>
 
                         <template v-else-if="field.template === 'image_upload'">
                             <a href="#" v-on:click.prevent="insertField('image', field.name);">{{ field.label }}</a>
@@ -32,7 +32,9 @@
 
                     </li>
                 </template>
-                <li v-else><?php _e( 'No fields available', 'wpuf' ); ?></li>
+                <li v-else>
+                   <?php _e( 'No fields available', 'wpuf' ); ?>
+                </li>
             </ul>
         </div><!-- .merge-tag-section -->
 
