@@ -1,6 +1,6 @@
 /*!
 weForms - v1.2.1
-Generated: 2017-11-12 (1510462566552)
+Generated: 2017-11-12 (1510469483925)
 */
 
 ;(function($) {
@@ -782,6 +782,7 @@ weForms.routeComponents.Tools = {
             importButton: 'Import',
             currentStatus: 0,
             responseMessage: '',
+            logs: [],
             ximport: {
                 current: '',
                 title: '',
@@ -813,14 +814,79 @@ weForms.routeComponents.Tools = {
 
         hasRefs: function() {
             return Object.keys(this.ximport.refs).length;
+        },
+        hasLogs: function() {
+            return Object.keys(this.logs).length;
         }
     },
 
     created: function() {
         this.fetchData();
+        this.fetchLogs();
     },
 
     methods: {
+        fetchLogs: function(target) {
+            var self = this;
+
+            self.startLoading(target);
+
+            wp.ajax.send( 'weforms_read_logs', {
+                data: {
+                    _wpnonce: weForms.nonce
+                },
+                success: function(response) {
+                    self.stopLoading(target);
+                    self.logs = response;
+                },error: function(){
+                    self.stopLoading(target);
+                    self.logs = [];
+                }
+            });
+        },
+        deleteLogs: function(target) {
+            var self = this;
+
+            if ( confirm('Are you sure to clear the log file?') ) {
+
+                self.startLoading(target);
+
+                wp.ajax.send( 'weforms_delete_logs', {
+                    data: {
+                        _wpnonce: weForms.nonce
+                    },
+                    success: function(response) {
+                        self.logs = [];
+                        self.stopLoading(target);
+                        self.fetchLogs();
+                    },
+                    error: function(response) {
+                        self.logs = [];
+                        self.stopLoading(target);
+                        self.fetchLogs();
+                    }
+                });
+            }
+        },
+        stopLoading: function(target){
+            target = $(target);
+
+            if (target.is('button')) {
+                target.removeClass('updating-message').find('span').show();
+            }else if(target.is('span')){
+                target.show().parent().removeClass('updating-message');
+            }
+        },
+        startLoading: function(target){
+
+            target = $(target);
+
+            if (target.is('button')) {
+                target.addClass('updating-message').find('span').hide();
+            }else if(target.is('span')){
+                target.hide().parent().addClass('updating-message');
+            }
+        },
         fetchData: function() {
             var self = this;
 

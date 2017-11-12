@@ -15,6 +15,10 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_delete_bulk', array( $this, 'delete_form_bulk' ) );
         add_action( 'wp_ajax_weforms_form_duplicate', array( $this, 'duplicate_form' ) );
 
+        // read logs
+        add_action( 'wp_ajax_weforms_read_logs', array( $this, 'get_logs' ) );
+        add_action( 'wp_ajax_weforms_delete_logs', array( $this, 'delete_logs' ) );
+
         // create from a template
         add_filter( 'wp_ajax_weforms_contact_form_template', array( $this, 'create_form_from_template' ) );
 
@@ -1024,6 +1028,76 @@ class WeForms_Ajax {
         } else {
             wp_send_json_error( __( 'Invalid file or file size too big.', 'weforms' ) );
         }
+    }
+
+    /**
+     * Read Log file
+     *
+     * @return json
+     **/
+    function get_logs( ) {
+
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $file =  WP_CONTENT_DIR . '/weforms_log.txt';
+
+        if ( ! file_exists(  $file ) ) {
+           return;
+        }
+
+        $data = file_get_contents( $file );
+        $data = explode( "\n", $data );
+        $data = array_reverse( $data );
+        $data = array_filter( $data );
+
+        if ( empty( $data ) ) {
+           return;
+        }
+
+        $logs = array();
+
+        foreach ( $data as $key => $row ) {
+
+            preg_match("/\[(?<time>.+?)\]\[(?<type>.+?)\](?<message>.+)/im", $row, $log);
+
+            if ( empty( $log['message'] ) ) {
+                $log = array();
+                $log['message'] = !empty( $log['message'] ) ? $log['message'] : $row;
+            }
+
+            if ( ! empty( $log['time'] ) ) {
+               $human_time = human_time_diff( strtotime( $log['time'] ) , current_time('timestamp') );
+               $log['time'] = $human_time ? $human_time . ' ' . __( 'ago', 'weforms' ) : $log['time'];
+            }
+
+            $logs[] = $log;
+        }
+
+        wp_send_json_success( $logs );
+    }
+
+    /**
+     * Read Log file
+     *
+     * @return json
+     **/
+    function delete_logs( ) {
+
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $file =  WP_CONTENT_DIR . '/weforms_log.txt';
+
+        if ( ! file_exists(  $file ) ) {
+           return;
+        }
+
+        @unlink($file);
+
+        wp_send_json_success();
     }
 
 }

@@ -702,6 +702,7 @@
     <h2 class="nav-tab-wrapper">
         <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
         <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'logs' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('logs')"><?php _e( 'Logs', 'wpuf' ); ?></a>
     </h2>
 
     <div class="nav-tab-content">
@@ -843,8 +844,45 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="nav-tab-inside" v-show="isActiveTab('logs')">
+            <h3>
+                <?php _e( 'Logs', 'weforms' ); ?>
+
+                <span class="pull-right">
+
+                    <button class="button button-large button-secondary" @click.prevent="fetchLogs($event.target)">
+                        <span style="margin-top: 4px" class="dashicons dashicons-image-rotate"></span> Reload
+                    </button>
+
+                    <button class="button button-large button-secondary" @click.prevent="deleteLogs($event.target)" v-if="hasLogs">
+                        <span style="margin-top: 4px" class="dashicons dashicons-trash"></span> Delete
+                    </button>
+                </span>
+            </h3>
+
+            <table class="wp-list-table widefat fixed striped wpuf-contact-form" v-if="hasLogs">
+                <thead>
+                    <tr>
+                        <th style="width: 10%"> Type </th>
+                        <th style="width: 15%"> Time </th>
+                        <th style="width: 75%"> Details </th> </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="log in logs">
+                        <td> <span> {{ log.type }} </span> </td>
+                        <td> <span> {{ log.time }} </span> </td>
+                        <td> {{ log.message }} </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div v-else>
+                <p><?php _e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms') ?></p>
+            </div>
+        </div>
     </div>
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-transactions">
 <div class="wpuf-contact-form-transactions">

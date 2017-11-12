@@ -349,6 +349,18 @@ final class WeForms {
     }
 
     /**
+     * The main logging function
+     *
+     * @uses error_log
+     * @param string $type type of the error. e.g: debug, error, info
+     * @param string $msg
+     */
+    public static function log( $type = '', $msg = '' ) {
+        $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, $msg );
+        @error_log( $msg, 3, WP_CONTENT_DIR . '/weforms_log.txt' );
+    }
+
+    /**
      * Plugin action links
      *
      * @param  array  $links
@@ -398,8 +410,6 @@ final class WeForms {
         </div>
         <?php
     }
-
-
 
     /**
      * Bail out if the php version is lower than
