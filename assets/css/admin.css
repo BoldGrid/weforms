@@ -327,6 +327,12 @@ a.add-notification .dashicons {
   height: 96px;
   margin: 0 20px 0px 0;
 }
+.weforms-modules .activate-deactivate-all {
+  margin-top: 15px;
+}
+.weforms-modules .activate-deactivate-all a {
+  text-decoration: none;
+}
 .weforms-help-page {
   display: flex;
   flex-wrap: wrap;
