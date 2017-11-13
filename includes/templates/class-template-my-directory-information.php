@@ -43,13 +43,13 @@ class WeForms_Template_My_Directory_Information extends WeForms_Form_Template {
                 'name'            => 'format',
             ) ),
 
-            array_merge( $all_fields['text_field']->get_field_props(), array( 
+            array_merge( $all_fields['text_field']->get_field_props(), array(
                 'required'   => 'yes',
                 'label'      => 'Username',
                 'name'       => 'username',
             ) ),
 
-            array_merge( $all_fields['text_field']->get_field_props(), array( 
+            array_merge( $all_fields['website_url']->get_field_props(), array(
                 'required'   => 'yes',
                 'label'      => 'Website',
                 'name'       => 'website',
