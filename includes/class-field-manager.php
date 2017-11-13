@@ -223,12 +223,31 @@ class WeForms_Field_Manager {
      */
     function replace_tags( $form_field, $form_id, $atts = array() ) {
 
-        if ( ! empty( $form_field['default'] ) ) {
-            $form_field['default'] = $this->notification->replace_tags( $form_field['default'] );
-        }
+        $fields       = array(
+            'default',
+            'placeholder',
+            'first_name'  => array( 'placeholder', 'default' ),
+            'middle_name' => array( 'placeholder', 'default' ),
+            'last_name'   => array( 'placeholder', 'default' ),
+        );
 
-        if ( ! empty( $form_field['placeholder'] ) ) {
-            $form_field['placeholder'] = $this->notification->replace_tags( $form_field['placeholder'] );
+        foreach ( $fields as $key => $field ) {
+
+            if ( is_array( $field ) ) {
+
+                foreach ( $field as $k => $sub_field) {
+                    if ( ! empty( $form_field[$key] ) && ! empty( $form_field[$key][$sub_field] ) ) {
+                        $form_field[$key][$sub_field] = $this->notification->replace_tags( $form_field[$key][$sub_field] );
+                    }
+                }
+
+            } else {
+
+                if ( ! empty( $form_field[$field ] ) ) {
+                    $form_field[$field ] = $this->notification->replace_tags( $form_field[$field ] );
+                }
+            }
+
         }
 
         return $form_field;

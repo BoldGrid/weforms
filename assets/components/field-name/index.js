@@ -23,6 +23,10 @@ Vue.component('field-name', {
         },
         on_keyup: function (e) {
             wpuf_form_builder.event_hub.$emit('field-text-keyup', e, this);
-        }
+        },
+        insertValue: function(type, field, property) {
+            var value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
+            this.editing_form_field[property.name][property.type] = value;
+        },
     }
 });
