@@ -192,7 +192,7 @@ class WeForms_Field_Manager {
         foreach ( array( 'default', 'selected' ) as $key => $default_key) {
 
             if ( isset( $form_field[$default_key] ) ) {
-                $form_field[$default_key] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field['default'], $form_id );
+                $form_field[$default_key] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field[$default_key], $form_id );
 
                 if ( isset( $atts[$param_name] ) ) {
                     $form_field[$default_key] = $atts[$param_name];
@@ -243,7 +243,7 @@ class WeForms_Field_Manager {
 
             } else {
 
-                if ( ! empty( $form_field[$field ] ) ) {
+                if ( ! empty( $form_field[$field ] ) && is_string( $form_field[$field] )) {
                     $form_field[$field ] = $this->notification->replace_tags( $form_field[$field ] );
                 }
             }
