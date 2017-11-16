@@ -288,6 +288,23 @@ var router = new VueRouter({
     }
 });
 
+window.weFormsBuilderisDirty = false;
+
+router.beforeEach((to, from, next) => {
+    // show warning if builder has unsaved changes
+    if ( window.weFormsBuilderisDirty ) {
+        if ( confirm( wpuf_form_builder.i18n.unsaved_changes + ' ' +wpuf_form_builder.i18n.areYouSureToLeave ) ) {
+            window.weFormsBuilderisDirty = false;
+        } else {
+            next(from.path);
+            return false;
+        }
+    }
+
+    next();
+});
+
+
 var app = new Vue({
     router: router,
     store: wpuf_form_builder_store

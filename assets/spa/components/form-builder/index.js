@@ -23,7 +23,36 @@ weForms.routeComponents.FormEditComponent = {
                 NProgress.done();
             }
         },
-
+        form_fields: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        notifications: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        integrations: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        settings: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        payment: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
     },
 
     created: function() {
@@ -80,7 +109,6 @@ weForms.routeComponents.FormEditComponent = {
 
         var self = this;
 
-        this.isDirty = false;
         this.started = true;
 
         clipboard.on('success', function(e) {
@@ -99,6 +127,16 @@ weForms.routeComponents.FormEditComponent = {
         });
 
         this.initSharingClipBoard();
+
+        setTimeout(function(){
+            window.weFormsBuilderisDirty = false;
+        },500);
+
+        window.onbeforeunload = function () {
+            if ( window.weFormsBuilderisDirty ) {
+                return self.i18n.unsaved_changes;
+            }
+        };
     },
 
     methods: {
@@ -201,6 +239,10 @@ weForms.routeComponents.FormEditComponent = {
                     self.is_form_saving = false;
                     self.is_form_saved = true;
 
+                    setTimeout(function(){
+                        window.weFormsBuilderisDirty = false;
+                    },500);
+
                     toastr.success(self.i18n.saved_form_data);
                 },
 
@@ -225,26 +267,26 @@ weForms.routeComponents.FormEditComponent = {
                 var post_link = site_url + '?weforms=' + btoa( self.getSharingHash() + '_' + Math.floor(Date.now() / 1000)  + '_' + post.ID);
 
                 swal({
-                    title: 'Share Your Form',
-                    html: '<p>Anyone with this URL will be able to view and submit this form.</p> <p><input onClick="this.setSelectionRange(0, this.value.length)" type="text" class="regular-text" value="' + post_link + '"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="' + post_link + '"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p>',
+                    title: self.i18n.shareYourForm,
+                    html: '<p>'+self.i18n.shareYourFormText+'</p> <p><input onClick="this.setSelectionRange(0, this.value.length)" type="text" class="regular-text" value="' + post_link + '"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="' + post_link + '"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p>',
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
                     confirmButtonColor: '#d54e21',
-                    confirmButtonText: 'Disable Sharing',
-                    cancelButtonText: 'Close',
+                    confirmButtonText: self.i18n.disableSharing,
+                    cancelButtonText: self.i18n.close,
                     focusCancel: true,
 
                 }).then(function () {
                     swal({
-                        title: 'Are you sure?',
-                        html: "<p>Anyone with existing URL won't be able to view and submit the form anymore.</p>",
+                        title: self.i18n.areYouSure,
+                        html: "<p>"+self.i18n.areYouSureDesc+"</p>",
                         type: 'info',
                         confirmButtonColor: '#d54e21',
                         showCancelButton: true,
-                        confirmButtonText: 'Disable',
-                        cancelButtonText: 'Cancel',
+                        confirmButtonText: self.i18n.disable,
+                        cancelButtonText: self.i18n.cancel,
                     }).then(function () {
                        self.disableSharing();
                     });
@@ -253,8 +295,8 @@ weForms.routeComponents.FormEditComponent = {
             } else {
 
                 swal({
-                  title: 'Share Your Form',
-                  html: "Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.",
+                  title: self.i18n.shareYourForm,
+                  html: self.i18n.shareYourFormDesc,
                   type: 'info',
                   showCancelButton: true,
                   confirmButtonText: 'Enable',
