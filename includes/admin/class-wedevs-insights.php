@@ -273,6 +273,10 @@ class WeDevs_Insights {
             return;
         }
 
+        if ( get_transient( $this->slug . '_prevent_tracker_notice' ) ) {
+            return;
+        }
+
         // don't show tracking if a local server
         if ( ! $this->is_local_server() ) {
             $optin_url  = add_query_arg( $this->slug . '_tracker_optin', 'true' );

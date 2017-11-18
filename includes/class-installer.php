@@ -25,6 +25,7 @@ class WeForms_Installer {
         }
 
         set_transient( 'weforms_activation_redirect', true, 30 );
+        set_transient( 'weforms_prevent_tracker_notice', true, DAY_IN_SECONDS * 7 ); // don't wanna show tracking notice in first 7 days
         update_option( 'weforms_version', WEFORMS_VERSION );
     }
 
