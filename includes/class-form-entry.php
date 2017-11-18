@@ -80,7 +80,7 @@ class WeForms_Form_Entry {
     /**
      * The constructor
      *
-     * @param integer $entry_id
+     * @param integer       $entry_id
      * @param \WeForms_Form $form
      */
     function __construct( $entry_id, $form ) {
@@ -130,7 +130,7 @@ class WeForms_Form_Entry {
             $this->fields     = $this->form->get_field_values();
             $this->raw_fields = $this->fields;
 
-            foreach ($results as $result) {
+            foreach ( $results as $result ) {
 
                 if ( array_key_exists( $result->meta_key, $this->fields ) ) {
 
@@ -155,8 +155,7 @@ class WeForms_Form_Entry {
                                 $value = $field['options'][ $value ];
                             }
                         }
-
-                    } elseif ( in_array( $field['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
+					} elseif ( in_array( $field['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
                         $value      = explode( WeForms::$field_separator, $value );
                         $temp_value = $value;
 
@@ -173,17 +172,15 @@ class WeForms_Form_Entry {
                             }
 
                             $value = $new_array;
-                        }
-
-
-                    } elseif ( in_array( $field['type'], array( 'image_upload', 'file_upload' ) ) ) {
+						}
+					} elseif ( in_array( $field['type'], array( 'image_upload', 'file_upload' ) ) ) {
 
                         $file_field = '';
                         $value      = maybe_unserialize( $value );
 
                         if ( is_array( $value ) && $value ) {
 
-                            foreach ($value as $attachment_id) {
+                            foreach ( $value as $attachment_id ) {
 
                                 if ( $field['type'] == 'image_upload' ) {
                                     $thumb = wp_get_attachment_image( $attachment_id, 'thumbnail' );
@@ -195,14 +192,17 @@ class WeForms_Form_Entry {
 
                                 $file_field .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
                             }
-                        }
+						}
 
                         $value = $file_field;
 
                     } elseif ( $field['type'] == 'google_map' ) {
                         list( $lat, $long ) = explode( ',', $value );
 
-                        $value = array( 'lat' => $lat, 'long' => $long );
+                        $value = array(
+							'lat' => $lat,
+							'long' => $long
+						);
 
                     } elseif ( $field['type'] == 'multiple_product' ) {
 
@@ -218,27 +218,25 @@ class WeForms_Form_Entry {
 
                                     $v = array();
 
-                                    foreach ($sfv as $key => $sv) {
+                                    foreach ( $sfv as $key => $sv ) {
 
-                                        $sv = str_replace( array( "_", "-" ), " ", $key) . ': ' . $sv;
+                                        $sv = str_replace( array( '_', '-' ), ' ', $key ) . ': ' . $sv;
                                         $sv = ucwords( $sv );
                                         $v[] = $sv;
                                     }
 
-                                    $serialized_value[] = implode( "<br> ", $v );
+                                    $serialized_value[] = implode( '<br> ', $v );
 
                                 }
                             }
 
-                            $value =  implode( "<br> <br> ", $serialized_value );
+                            $value = implode( '<br> <br> ', $serialized_value );
                         }
-                    }
-                    elseif ( $field['type'] == 'checkbox_grid' ) {
+                    } elseif ( $field['type'] == 'checkbox_grid' ) {
 
                         $entry_value = unserialize( $value );
 
                         if ( $entry_value ) {
-
 
                             $return = '';
                             $check = '';
@@ -250,52 +248,52 @@ class WeForms_Form_Entry {
 
                             $new_val = array();
 
-                            foreach ($entry_value as $key => $option_value ) {
-                                $new_val[$key] = $option_value;
+                            foreach ( $entry_value as $key => $option_value ) {
+                                $new_val[ $key ] = $option_value;
                             }
 
-                            if ( $field['grid_rows'] && count( $field['grid_rows'] ) > 0 &&  $field['grid_columns'] && count( $field['grid_columns'] ) > 0 ) {
+                            if ( $field['grid_rows'] && count( $field['grid_rows'] ) > 0 && $field['grid_columns'] && count( $field['grid_columns'] ) > 0 ) {
 
                                 $return .= '<div class="wpufTable">
                                     <div class="wpufTableHeading">
                                         <div class="wpufTableRow">
                                             <div class="wpufTableHead">&nbsp;</div>';
 
-                                            foreach ( $field['grid_columns'] as $column ) {
-                                                $return .= '<div class="wpufTableHead">' . $column . "</div>";
-                                            }
+								foreach ( $field['grid_columns'] as $column ) {
+									$return .= '<div class="wpufTableHead">' . $column . '</div>';
+								}
 
                                         $return .= '</div>
                                     </div>
                                     <div class="wpufTableBody">';
 
-                                        foreach ( $field['grid_rows'] as $row_key => $row_value ) {
+								foreach ( $field['grid_rows'] as $row_key => $row_value ) {
 
-                                            $return .= '<div class="wpufTableRow">
+									$return .= '<div class="wpufTableRow">
                                                 <div class="wpufTableHead">' . $row_value . '</div>';
 
-                                                foreach ( $field['grid_columns'] as $column_key => $column_value ) {
-                                                    if ( isset( $new_val[$row_key] ) ) {
-                                                        $check = ( in_array( $column_value, $new_val[$row_key] ) ) ? 'checked ' : '';
-                                                    }
+									foreach ( $field['grid_columns'] as $column_key => $column_value ) {
+										if ( isset( $new_val[ $row_key ] ) ) {
+											$check = ( in_array( $column_value, $new_val[ $row_key ] ) ) ? 'checked ' : '';
+										}
 
-                                                    $return .= '<div class="wpufTableCell">
+										$return .= '<div class="wpufTableCell">
                                                         <label class="wpuf-radio-inline">
                                                         <input
                                                             name="' . $field['name'] . '[' . $row_key . '][]"
-                                                            class="wpuf_'. $field['name'] . '_' . $this->form_id . '"
+                                                            class="wpuf_' . $field['name'] . '_' . $this->form_id . '"
                                                             type="checkbox"
                                                             value="' . esc_attr( $column_value ) . '"'
-                                                            . $check . 'disabled
+												. $check . 'disabled
                                                         />
                                                     </label>
                                                     </div>';
 
-                                                }
+									}
 
-                                            $return .= '</div>';
+									$return .= '</div>';
 
-                                        }
+								}
 
                                     $return .= '</div>
                                 </div>';
@@ -304,9 +302,7 @@ class WeForms_Form_Entry {
 
                             $value = $return;
                         }
-                    }
-
-                    elseif ( $field['type'] == 'multiple_choice_grid' ) {
+                    } elseif ( $field['type'] == 'multiple_choice_grid' ) {
 
                         $entry_value = unserialize( $value );
 
@@ -322,52 +318,52 @@ class WeForms_Form_Entry {
 
                             $new_val = array();
 
-                            foreach ($entry_value as $key => $option_value ) {
-                                $new_val[$key] = $option_value;
+                            foreach ( $entry_value as $key => $option_value ) {
+                                $new_val[ $key ] = $option_value;
                             }
 
-                            if ( $field['grid_rows'] && count( $field['grid_rows'] ) > 0 &&  $field['grid_columns'] && count( $field['grid_columns'] ) > 0 ) {
+                            if ( $field['grid_rows'] && count( $field['grid_rows'] ) > 0 && $field['grid_columns'] && count( $field['grid_columns'] ) > 0 ) {
 
                                 $return .= '<div class="wpufTable">
                                     <div class="wpufTableHeading">
                                         <div class="wpufTableRow">
                                             <div class="wpufTableHead">&nbsp;</div>';
 
-                                            foreach ( $field['grid_columns'] as $column ) {
-                                                $return .= '<div class="wpufTableHead">' . $column . "</div>";
-                                            }
+								foreach ( $field['grid_columns'] as $column ) {
+									$return .= '<div class="wpufTableHead">' . $column . '</div>';
+								}
 
                                         $return .= '</div>
                                     </div>
                                     <div class="wpufTableBody">';
 
-                                        foreach ( $field['grid_rows'] as $row_key => $row_value ) {
+								foreach ( $field['grid_rows'] as $row_key => $row_value ) {
 
-                                            $return .= '<div class="wpufTableRow">
+									$return .= '<div class="wpufTableRow">
                                                 <div class="wpufTableHead">' . $row_value . '</div>';
 
-                                                foreach ( $field['grid_columns'] as $column_key => $column_value ) {
-                                                    if ( isset( $new_val[$row_key] ) ) {
-                                                        $check = ( $new_val[$row_key] == $column_value ) ? 'checked ' : '';
-                                                    }
+									foreach ( $field['grid_columns'] as $column_key => $column_value ) {
+										if ( isset( $new_val[ $row_key ] ) ) {
+											$check = ( $new_val[ $row_key ] == $column_value ) ? 'checked ' : '';
+										}
 
-                                                    $return .= '<div class="wpufTableCell">
+										$return .= '<div class="wpufTableCell">
                                                         <label class="wpuf-radio-inline">
                                                         <input
                                                             name="' . $field['name'] . '[' . $row_key . ']"
-                                                            class="wpuf_'. $field['name'] . '_' . $this->form_id . '"
+                                                            class="wpuf_' . $field['name'] . '_' . $this->form_id . '"
                                                             type="radio"
                                                             value="' . esc_attr( $column_value ) . '"'
-                                                            . $check . 'disabled
+												. $check . 'disabled
                                                         />
                                                     </label>
                                                     </div>';
 
-                                                }
+									}
 
-                                            $return .= '</div>';
+									$return .= '</div>';
 
-                                        }
+								}
 
                                     $return .= '</div>
                                 </div>';
@@ -376,10 +372,7 @@ class WeForms_Form_Entry {
 
                             $value = $return;
                         }
-
-                    }
-
-                    elseif ( $field['type'] == 'address_field' || is_serialized( $value ) ) {
+					} elseif ( $field['type'] == 'address_field' || is_serialized( $value ) ) {
 
                         $field_value = unserialize( $value );
 
@@ -389,12 +382,12 @@ class WeForms_Form_Entry {
 
                             foreach ( $field_value as $key => $sfv ) {
 
-                                $sfv = str_replace( array( "_", "-" ), " ", $key) . ': ' . $sfv;
+                                $sfv = str_replace( array( '_', '-' ), ' ', $key ) . ': ' . $sfv;
                                 $sfv = ucwords( $sfv );
                                 $serialized_value[] = $sfv;
                             }
 
-                            $value =  implode( "<br> ", $serialized_value );
+                            $value = implode( '<br> ', $serialized_value );
                         }
                     }
 

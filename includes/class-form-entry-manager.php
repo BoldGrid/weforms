@@ -24,7 +24,7 @@ class WeForms_Form_Entry_Manager {
     /**
      * The constructor
      *
-     * @param integer $form_id
+     * @param integer       $form_id
      * @param \WeForms_Form $form
      */
     function __construct( $form_id, $form ) {

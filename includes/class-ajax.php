@@ -55,7 +55,7 @@ class WeForms_Ajax {
      * @return void
      */
     public function check_admin() {
-        if ( !current_user_can( weforms_form_access_capability() ) ) {
+        if ( ! current_user_can( weforms_form_access_capability() ) ) {
             wp_send_json_error( __( 'You do not have sufficient permission.', 'weforms' ) );
         }
     }
@@ -157,11 +157,13 @@ class WeForms_Ajax {
 
         $contact_forms = weforms()->form->get_forms( $args );
 
-        array_map( function($form) {
-            $form->entries  = $form->num_form_entries();
-            $form->views    = $form->num_form_views();
-            $form->payments = $form->num_form_payments();
-        }, $contact_forms['forms'] );
+        array_map(
+            function( $form ) {
+					$form->entries  = $form->num_form_entries();
+					$form->views    = $form->num_form_views();
+					$form->payments = $form->num_form_payments();
+			}, $contact_forms['forms']
+        );
 
         $contact_forms = $this->filter_contact_forms( $contact_forms );
         $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $contact_forms );
@@ -176,14 +178,14 @@ class WeForms_Ajax {
      */
     public function filter_contact_forms( &$contact_forms ) {
 
-        if ( isset($_REQUEST['filter'] ) && $_REQUEST['filter'] == 'entries' ) {
-            foreach ($contact_forms['forms'] as $key => &$form) {
-                if ( isset($form->entries) && ! $form->entries ) {
-                    unset($contact_forms['forms'][$key]);
+        if ( isset( $_REQUEST['filter'] ) && $_REQUEST['filter'] == 'entries' ) {
+            foreach ( $contact_forms['forms'] as $key => &$form ) {
+                if ( isset( $form->entries ) && ! $form->entries ) {
+                    unset( $contact_forms['forms'][ $key ] );
                 }
             }
 
-            $contact_forms['meta']['total'] = count($contact_forms['forms']);
+            $contact_forms['meta']['total'] = count( $contact_forms['forms'] );
         }
 
         return $contact_forms;
@@ -202,7 +204,7 @@ class WeForms_Ajax {
         $contact_forms = weforms()->form->all();
         $response      = array();
 
-        foreach ($contact_forms['forms'] as $form) {
+        foreach ( $contact_forms['forms'] as $form ) {
             $response[] = array(
                 'id'    => $form->get_id(),
                 'title' => $form->get_name() . ' (#' . $form->get_id() . ')'
@@ -230,7 +232,7 @@ class WeForms_Ajax {
 
         $form_id = weforms()->form->create( $form_name );
 
-        if ( is_wp_error( $form_id )) {
+        if ( is_wp_error( $form_id ) ) {
             wp_send_json_error( $form_id->get_error_message() );
         }
 
@@ -272,7 +274,7 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No form ids provided!', 'weforms' ) );
         }
 
-        foreach ($form_ids as $form_id) {
+        foreach ( $form_ids as $form_id ) {
             weforms()->form->delete( $form_id );
         }
 
@@ -403,26 +405,30 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No form id provided!', 'weforms' ) );
         }
 
-        $entries = weforms_get_form_entries( $form_id, array(
-            'number' => $per_page,
-            'offset' => $offset,
-            'status' => $status,
-        ) );
+        $entries = weforms_get_form_entries(
+            $form_id, array(
+				'number' => $per_page,
+				'offset' => $offset,
+				'status' => $status,
+            )
+        );
 
         $columns       = weforms_get_entry_columns( $form_id );
         $total_entries = weforms_count_form_entries( $form_id, $status );
 
-        array_map( function( $entry ) use ($columns) {
-            $entry_id = $entry->id;
-            $entry->fields = array();
+        array_map(
+            function( $entry ) use ( $columns ) {
+					$entry_id = $entry->id;
+					$entry->fields = array();
 
-            foreach ($columns as $meta_key => $label) {
-                $value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
-                $entry->fields[$meta_key] = str_replace( WeForms::$field_separator, ' ', $value );
-            }
-        }, $entries );
+				foreach ( $columns as $meta_key => $label ) {
+					$value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
+					$entry->fields[ $meta_key ] = str_replace( WeForms::$field_separator, ' ', $value );
+				}
+			}, $entries
+        );
 
-        $entries = apply_filters('weforms_get_entries', $entries, $form_id );
+        $entries = apply_filters( 'weforms_get_entries', $entries, $form_id );
 
         $response = array(
             'columns'    => $columns,
@@ -436,7 +442,7 @@ class WeForms_Ajax {
             ),
             'meta' => array(
                 'total'      => weforms_count_form_entries( $form_id ),
-                'totalTrash' => weforms_count_form_entries( $form_id, 'trash'),
+                'totalTrash' => weforms_count_form_entries( $form_id, 'trash' ),
             ),
         );
 
@@ -464,7 +470,7 @@ class WeForms_Ajax {
         $metadata = $entry->get_metadata();
         $payment  = $entry->get_payment_data();
 
-        if ( isset($payment->payment_data) && is_serialized( $payment->payment_data ) ) {
+        if ( isset( $payment->payment_data ) && is_serialized( $payment->payment_data ) ) {
             $payment->payment_data = unserialize( $payment->payment_data );
         }
 
@@ -473,15 +479,17 @@ class WeForms_Ajax {
         }
 
         if ( sizeof( $fields ) < 1 ) {
-            $fields[] =  array( 'label' => __( 'No form fields found!', 'weforms' ) );
+            $fields[] = array(
+				'label' => __( 'No form fields found!', 'weforms' )
+			);
         }
 
         $has_empty = false;
 
         foreach ( $fields as $key => $field ) {
             if ( empty( $field['value'] ) ) {
-               $has_empty = true;
-               break;
+				$has_empty = true;
+				break;
             }
         }
 
@@ -555,14 +563,13 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $entry_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
-        $permanent = isset( $_POST['permanent'] ) && boolval($_POST['permanent']) ? true : false;
+        $permanent = isset( $_POST['permanent'] ) && boolval( $_POST['permanent'] ) ? true : false;
 
         if ( ! $entry_ids ) {
             wp_send_json_error( __( 'No entry ids provided!', 'weforms' ) );
         }
 
-
-        foreach ($entry_ids as $entry_id) {
+        foreach ( $entry_ids as $entry_id ) {
             if ( $permanent ) {
                 weforms_delete_entry( $entry_id );
             } else {
@@ -589,7 +596,7 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'No entry ids provided!', 'weforms' ) );
         }
 
-        foreach ($entry_ids as $entry_id) {
+        foreach ( $entry_ids as $entry_id ) {
             weforms_change_entry_status( $entry_id, 'publish' );
         }
 
@@ -618,20 +625,23 @@ class WeForms_Ajax {
             foreach ( $entry_fields as $field_key => $field_value ) {
                 $duplicate_check = false;
                 $field_label = 'This';
+
                 foreach ( $form_fields as $form_field ) {
                     if ( in_array( $form_field['template'], array( 'text_field', 'website_url', 'numeric_text_field', 'email_address' ) ) && $form_field['name'] == $field_key && isset( $form_field['duplicate'] ) && 'no' == $form_field['duplicate'] ) {
                         $duplicate_check = true;
-                        $field_label = $form_field['label'];
+                        $field_label     = $form_field['label'];
                     }
                 }
 
                 if ( $duplicate_check ) {
+
                     foreach ( $form_entries as $entry ) {
                         $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
+
                         if ( $existing && $field_value == $existing ) {
                             wp_send_json( array(
-                                'success'     => false,
-                                'error'       => sprintf( __( '"%s" field requires a unique entry and "%s" has already been used.', 'weforms' ), $field_label, $field_value )
+                                'success' => false,
+                                'error'   => sprintf( __( '"%s" field requires a unique entry and "%s" has already been used.', 'weforms' ), $field_label, $field_value )
                             ) );
                         }
                     }
@@ -639,7 +649,7 @@ class WeForms_Ajax {
             }
         }
 
-        if ( !$form_fields ) {
+        if ( ! $form_fields ) {
             wp_send_json( array(
                 'success'     => false,
                 'error'       => __( 'No form field was found.', 'weforms' ),
@@ -653,7 +663,7 @@ class WeForms_Ajax {
         // vaidate submission
         $this->validate_submission( $entry_fields, $form, $form_settings, $form_fields );
 
-        $entry_fields = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields);
+        $entry_fields = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields );
 
         $entry_id = weforms_insert_entry( array(
             'form_id' => $form_id
@@ -661,8 +671,8 @@ class WeForms_Ajax {
 
         if ( is_wp_error( $entry_id ) ) {
             wp_send_json( array(
-                'success'     => false,
-                'error'       => $entry_id->get_error_message(),
+                'success' => false,
+                'error'   => $entry_id->get_error_message(),
             ) );
         }
 
@@ -714,13 +724,12 @@ class WeForms_Ajax {
     function validate_reCaptcha() {
 
         // add reCaptcha library if not found
-        if ( !function_exists( 'recaptcha_get_html' ) ) {
+        if ( ! function_exists( 'recaptcha_get_html' ) ) {
             require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
             require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
         }
 
-
-        $invisible = isset( $_POST["g-recaptcha-response"] ) ? false : true;
+        $invisible = isset( $_POST['g-recaptcha-response'] ) ? false : true;
 
         $recaptcha_settings = weforms_get_settings( 'recaptcha' );
         $secret             = isset( $recaptcha_settings->secret ) ? $recaptcha_settings->secret : '';
@@ -728,28 +737,27 @@ class WeForms_Ajax {
         if ( ! $invisible ) {
 
             $response = null;
-            $reCaptcha = new ReCaptcha($secret);
+            $reCaptcha = new ReCaptcha( $secret );
 
             $resp = $reCaptcha->verifyResponse(
-                $_SERVER["REMOTE_ADDR"],
-                $_POST["g-recaptcha-response"]
+                $_SERVER['REMOTE_ADDR'],
+                $_POST['g-recaptcha-response']
             );
 
-            if ( !$resp->success ) {
+            if ( ! $resp->success ) {
                 wp_send_json( array(
                     'success'     => false,
                     'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
                 ) );
             }
-
-        } else {
+		} else {
 
             $recap_challenge = isset( $_POST['recaptcha_challenge_field'] ) ? $_POST['recaptcha_challenge_field'] : '';
             $recap_response  = isset( $_POST['recaptcha_response_field'] ) ? $_POST['recaptcha_response_field'] : '';
 
-            $resp            = recaptcha_check_answer( $secret, $_SERVER["REMOTE_ADDR"], $recap_challenge, $recap_response );
+            $resp            = recaptcha_check_answer( $secret, $_SERVER['REMOTE_ADDR'], $recap_challenge, $recap_response );
 
-            if ( !$resp->is_valid ) {
+            if ( ! $resp->is_valid ) {
 
                 ob_clean();
 
@@ -765,10 +773,10 @@ class WeForms_Ajax {
     /**
      * Validate submission
      *
-     * @param array $entry_fields
+     * @param array  $entry_fields
      * @param object $form
-     * @param array $form_settings
-     * @param array $form_fields
+     * @param array  $form_settings
+     * @param array  $form_fields
      *
      * @return bool|json
      */
@@ -776,17 +784,15 @@ class WeForms_Ajax {
 
         foreach ( $form_fields as $key => $field ) {
 
-            $value = $entry_fields[$field['name']];
+            $value = $entry_fields[ $field['name'] ];
 
             // if ( isset( $field['required'] ) && $field['required'] && empty( $value ) ) {
-
-            //     wp_send_json( array(
-            //         'success'     => false,
-            //         'error'       => __( sprintf( '%s field is required', $field['label'] ), 'weforms' ),
-            //     ) );
+            // wp_send_json( array(
+            // 'success'     => false,
+            // 'error'       => __( sprintf( '%s field is required', $field['label'] ), 'weforms' ),
+            // ) );
             // }
-
-            if ( 'single_product' === $field['template']  ) {
+            if ( 'single_product' === $field['template'] ) {
 
                 if ( ! $value ) {
                     $value = array();
@@ -797,11 +803,10 @@ class WeForms_Ajax {
                 $quantity          = isset( $field['quantity'] ) ? $field['quantity'] : array();
                 $price             = isset( $field['price'] ) ? $field['price'] : array();
 
+                if ( isset( $price['is_flexible'] ) && $price['is_flexible'] ) {
 
-                if ( isset($price['is_flexible']) && $price['is_flexible'] ) {
-
-                    $min = isset( $price['min'] ) ? floatval( $price['min']  ) : 0;
-                    $max = isset( $price['max'] ) ? floatval( $price['max']  ) : 0;
+                    $min = isset( $price['min'] ) ? floatval( $price['min'] ) : 0;
+                    $max = isset( $price['max'] ) ? floatval( $price['max'] ) : 0;
 
                     if ( $value['price'] < $min ) {
 
@@ -814,7 +819,6 @@ class WeForms_Ajax {
                             'weforms' ),
                         ) );
                     }
-
 
                     if ( $max && $value['price'] > $max ) {
 
@@ -829,10 +833,10 @@ class WeForms_Ajax {
                     }
                 }
 
-                if ( isset($quantity['status']) && $quantity['status'] ) {
+                if ( isset( $quantity['status'] ) && $quantity['status'] ) {
 
-                    $min = isset( $quantity['min'] ) ? floatval( $quantity['min']  ) : 0;
-                    $max = isset( $quantity['max'] ) ? floatval( $quantity['max']  ) : 0;
+                    $min = isset( $quantity['min'] ) ? floatval( $quantity['min'] ) : 0;
+                    $max = isset( $quantity['max'] ) ? floatval( $quantity['max'] ) : 0;
 
                     if ( $value['quantity'] < $min ) {
 
@@ -858,8 +862,7 @@ class WeForms_Ajax {
                         ) );
                     }
                 }
-
-            }
+			}
         }
     }
 
@@ -868,47 +871,44 @@ class WeForms_Ajax {
         // skip files, put in a key => value paired array for later executation
         // process repeatable fields separately
         // if the input is array type, implode with separator in a field
-
         $files          = array();
         $meta_key_value = array();
-        $multi_repeated = array(); //multi repeated fields will in sotre duplicated meta key
+        $multi_repeated = array(); // multi repeated fields will in sotre duplicated meta key
 
-        foreach ($meta_vars as $key => $value) {
+        foreach ( $meta_vars as $key => $value ) {
 
             switch ( $value['template'] ) {
 
                 // put files in a separate array, we'll process it later
                 case 'file_upload':
                 case 'image_upload':
-
                     $files[] = array(
                         'name'  => $value['name'],
-                        'value' => isset( $_POST['wpuf_files'][$value['name']] ) ? $_POST['wpuf_files'][$value['name']] : array(),
+                        'value' => isset( $_POST['wpuf_files'][ $value['name'] ] ) ? $_POST['wpuf_files'][ $value['name'] ] : array(),
                         'count' => $value['count']
                     );
                     break;
 
                 case 'repeat_field':
-
                     // if it is a multi column repeat field
                     if ( isset( $value['multiple'] ) && $value['multiple'] == 'true' ) {
 
                         // if there's any items in the array, process it
-                        if ( $_POST[$value['name']] ) {
+                        if ( $_POST[ $value['name'] ] ) {
 
                             $ref_arr = array();
                             $cols    = count( $value['columns'] );
-                            $first   = array_shift( array_values( $_POST[$value['name']] ) ); //first element
+                            $first   = array_shift( array_values( $_POST[ $value['name'] ] ) ); // first element
                             $rows    = count( $first );
 
                             // loop through columns
-                            for ($i = 0; $i < $rows; $i++) {
+                            for ( $i = 0; $i < $rows; $i++ ) {
 
                                 // loop through the rows and store in a temp array
                                 $temp = array();
-                                for ($j = 0; $j < $cols; $j++) {
+                                for ( $j = 0; $j < $cols; $j++ ) {
 
-                                    $temp[] = $_POST[$value['name']][$j][$i];
+                                    $temp[] = $_POST[ $value['name'] ][ $j ][ $i ];
                                 }
 
                                 // store all fields in a row with WeForms::$field_separator separated
@@ -917,17 +917,16 @@ class WeForms_Ajax {
 
                             // now, if we found anything in $ref_arr, store to $multi_repeated
                             if ( $ref_arr ) {
-                                $multi_repeated[$value['name']] = array_slice( $ref_arr, 0, $rows );
+                                $multi_repeated[ $value['name'] ] = array_slice( $ref_arr, 0, $rows );
                             }
                         }
                     } else {
-                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $_POST[$value['name']] );
+                        $meta_key_value[ $value['name'] ] = implode( WeForms::$field_separator, $_POST[ $value['name'] ] );
                     }
 
                     break;
 
                 case 'address_field':
-
                     if ( isset( $_POST[ $value['name'] ] ) && is_array( $_POST[ $value['name'] ] ) ) {
                         foreach ( $_POST[ $value['name'] ] as $address_field => $field_value ) {
                             $meta_key_value[ $value['name'] ][ $address_field ] = sanitize_text_field( $field_value );
@@ -940,57 +939,52 @@ class WeForms_Ajax {
                 case 'email_address':
                 case 'numeric_text_field':
                 case 'date_field':
-
-                    $meta_key_value[$value['name']] = sanitize_text_field( trim( $_POST[$value['name']] ) );
+                    $meta_key_value[ $value['name'] ] = sanitize_text_field( trim( $_POST[ $value['name'] ] ) );
 
                     break;
 
                 case 'textarea_field':
-
-                    $meta_key_value[$value['name']] = wp_kses_post( $_POST[$value['name']] );
+                    $meta_key_value[ $value['name'] ] = wp_kses_post( $_POST[ $value['name'] ] );
 
                     break;
 
                 case 'dropdown_field':
                 case 'radio_field':
-
-                    $val                            = $_POST[$value['name']];
-                    $meta_key_value[$value['name']] = isset( $value['options'][$val] ) ? $value['options'][$val] : '';
+                    $val                            = $_POST[ $value['name'] ];
+                    $meta_key_value[ $value['name'] ] = isset( $value['options'][ $val ] ) ? $value['options'][ $val ] : '';
                     break;
 
                 case 'multiple_select':
                 case 'checkbox_field':
-
-                    $val                            = ( is_array( $_POST[$value['name']] ) && $_POST[$value['name']] ) ? $_POST[$value['name']] : array();
-                    $meta_key_value[$value['name']] = $val;
+                    $val                            = ( is_array( $_POST[ $value['name'] ] ) && $_POST[ $value['name'] ] ) ? $_POST[ $value['name'] ] : array();
+                    $meta_key_value[ $value['name'] ] = $val;
 
                     if ( $val ) {
                         $new_val = array();
 
-                        foreach ($val as $option_key) {
-                            $new_val[] = isset( $value['options'][$option_key] ) ? $value['options'][$option_key] : '';
+                        foreach ( $val as $option_key ) {
+                            $new_val[] = isset( $value['options'][ $option_key ] ) ? $value['options'][ $option_key ] : '';
                         }
 
-                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $new_val );
+                        $meta_key_value[ $value['name'] ] = implode( WeForms::$field_separator, $new_val );
                     }
                     break;
 
                 default:
                     // if it's an array, implode with this->separator
-                    if ( is_array( $_POST[$value['name']] ) ) {
+                    if ( is_array( $_POST[ $value['name'] ] ) ) {
 
-                        $meta_key_value[$value['name']] = implode( WeForms::$field_separator, $_POST[$value['name']] );
+                        $meta_key_value[ $value['name'] ] = implode( WeForms::$field_separator, $_POST[ $value['name'] ] );
 
                     } else {
-                        $meta_key_value[$value['name']] = trim( $_POST[$value['name']] );
+                        $meta_key_value[ $value['name'] ] = trim( $_POST[ $value['name'] ] );
                     }
 
                     break;
             }
+		} //end foreach
 
-        } //end foreach
-
-        return array($meta_key_value, $multi_repeated, $files);
+        return array( $meta_key_value, $multi_repeated, $files );
     }
 
     /**
@@ -1024,8 +1018,7 @@ class WeForms_Ajax {
             } else {
                 wp_send_json_error( __( 'Something went wrong importing the file.', 'weforms' ) );
             }
-
-        } else {
+		} else {
             wp_send_json_error( __( 'Invalid file or file size too big.', 'weforms' ) );
         }
     }
@@ -1035,16 +1028,16 @@ class WeForms_Ajax {
      *
      * @return json
      **/
-    function get_logs( ) {
+    function get_logs() {
 
         check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
-        $file =  WP_CONTENT_DIR . '/weforms_log.txt';
+        $file = WP_CONTENT_DIR . '/weforms_log.txt';
 
-        if ( ! file_exists(  $file ) ) {
-           return;
+        if ( ! file_exists( $file ) ) {
+			return;
         }
 
         $data = file_get_contents( $file );
@@ -1053,23 +1046,23 @@ class WeForms_Ajax {
         $data = array_filter( $data );
 
         if ( empty( $data ) ) {
-           return;
+			return;
         }
 
         $logs = array();
 
         foreach ( $data as $key => $row ) {
 
-            preg_match("/\[(?<time>.+?)\]\[(?<type>.+?)\](?<message>.+)/im", $row, $log);
+            preg_match( '/\[(?<time>.+?)\]\[(?<type>.+?)\](?<message>.+)/im', $row, $log );
 
             if ( empty( $log['message'] ) ) {
                 $log = array();
-                $log['message'] = !empty( $log['message'] ) ? $log['message'] : $row;
+                $log['message'] = ! empty( $log['message'] ) ? $log['message'] : $row;
             }
 
             if ( ! empty( $log['time'] ) ) {
-               $human_time = human_time_diff( strtotime( $log['time'] ) , current_time('timestamp') );
-               $log['time'] = $human_time ? $human_time . ' ' . __( 'ago', 'weforms' ) : $log['time'];
+				$human_time = human_time_diff( strtotime( $log['time'] ) , current_time( 'timestamp' ) );
+				$log['time'] = $human_time ? $human_time . ' ' . __( 'ago', 'weforms' ) : $log['time'];
             }
 
             $logs[] = $log;
@@ -1083,19 +1076,19 @@ class WeForms_Ajax {
      *
      * @return json
      **/
-    function delete_logs( ) {
+    function delete_logs() {
 
         check_ajax_referer( 'weforms' );
 
         $this->check_admin();
 
-        $file =  WP_CONTENT_DIR . '/weforms_log.txt';
+        $file = WP_CONTENT_DIR . '/weforms_log.txt';
 
-        if ( ! file_exists(  $file ) ) {
-           return;
+        if ( ! file_exists( $file ) ) {
+			return;
         }
 
-        @unlink($file);
+        @unlink( $file );
 
         wp_send_json_success();
     }

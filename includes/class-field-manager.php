@@ -93,19 +93,33 @@ class WeForms_Field_Manager {
             array(
                 'title'  => __( 'Custom Fields', 'weforms' ),
                 'id'     => 'custom-fields',
-                'fields' => apply_filters( 'weforms_field_groups_custom', array(
-                    'name_field', 'text_field', 'textarea_field', 'dropdown_field', 'multiple_select',
-                    'radio_field', 'checkbox_field', 'website_url', 'email_address',
-                    'custom_hidden_field', 'image_upload'
-                ) )
+                'fields' => apply_filters( 'weforms_field_groups_custom',
+                    array(
+						'name_field',
+						'text_field',
+						'textarea_field',
+						'dropdown_field',
+						'multiple_select',
+						'radio_field',
+						'checkbox_field',
+						'website_url',
+						'email_address',
+						'custom_hidden_field',
+						'image_upload'
+                    )
+                )
             ),
 
             array(
                 'title'  => __( 'Others', 'weforms' ),
                 'id'     => 'others',
-                'fields' => apply_filters( 'weforms_field_groups_others', array(
-                    'section_break', 'custom_html', 'recaptcha'
-                ) )
+                'fields' => apply_filters( 'weforms_field_groups_others',
+                    array(
+						'section_break',
+						'custom_html',
+						'recaptcha'
+                    )
+                )
             )
         );
 
@@ -122,7 +136,7 @@ class WeForms_Field_Manager {
         $js_array = array();
 
         if ( $fields ) {
-            foreach ($fields as $type => $object) {
+            foreach ( $fields as $type => $object ) {
                 $js_array[ $type ] = $object->get_js_settings();
             }
         }
@@ -134,8 +148,8 @@ class WeForms_Field_Manager {
      * Render the form fields
      *
      * @param  integer $form_id
-     * @param  array $fields
-     * @param  array $atts
+     * @param  array   $fields
+     * @param  array   $atts
      *
      * @return void
      */
@@ -144,10 +158,10 @@ class WeForms_Field_Manager {
             return;
         }
 
-        $this->notification =  new WeForms_Notification();
+        $this->notification = new WeForms_Notification();
         $this->notification->set_merge_tags();
 
-        foreach ($fields as $field) {
+        foreach ( $fields as $field ) {
             if ( ! $field_object = $this->field_exists( $field['template'] ) ) {
 
                 if ( defined( 'WP_DEBUG' && WP_DEBUG ) ) {
@@ -167,14 +181,14 @@ class WeForms_Field_Manager {
     /**
      * Filter dynamic fields
      *
-     * @param  array $form_field
+     * @param  array   $form_field
      * @param  integer $form_id
      *
      * @return void
      */
     function dynamic_fields( $form_field, $form_id, $atts = array() ) {
 
-        if ( !isset( $form_field['dynamic'] ) || empty( $form_field['dynamic']['status']) || empty( $form_field['dynamic']['param_name'] ) ) {
+        if ( ! isset( $form_field['dynamic'] ) || empty( $form_field['dynamic']['status'] ) || empty( $form_field['dynamic']['param_name'] ) ) {
             return $form_field;
         }
 
@@ -183,28 +197,27 @@ class WeForms_Field_Manager {
         if ( isset( $form_field['options'] ) ) {
             $form_field['options'] = apply_filters( 'weforms_field_options_' . $param_name , $form_field['options'], $form_id );
 
-            if ( isset( $_GET[$param_name] ) && is_array( $_GET[$param_name] ) ) {
-                $form_field['default'] = array_merge( $form_field['options'], $_GET[$param_name] );
+            if ( isset( $_GET[ $param_name ] ) && is_array( $_GET[ $param_name ] ) ) {
+                $form_field['default'] = array_merge( $form_field['options'], $_GET[ $param_name ] );
             }
         }
 
+        foreach ( array( 'default', 'selected' ) as $key => $default_key ) {
 
-        foreach ( array( 'default', 'selected' ) as $key => $default_key) {
+            if ( isset( $form_field[ $default_key ] ) ) {
+                $form_field[ $default_key ] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field[ $default_key ], $form_id );
 
-            if ( isset( $form_field[$default_key] ) ) {
-                $form_field[$default_key] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field[$default_key], $form_id );
-
-                if ( isset( $atts[$param_name] ) ) {
-                    $form_field[$default_key] = $atts[$param_name];
+                if ( isset( $atts[ $param_name ] ) ) {
+                    $form_field[ $default_key ] = $atts[ $param_name ];
                 }
 
-                if ( isset( $_GET[$param_name] ) ) {
-                    if ( is_array( $form_field[$default_key] ) == is_array( $_GET[$param_name] ) ) {
-                        $form_field[$default_key] = $_GET[$param_name];
+                if ( isset( $_GET[ $param_name ] ) ) {
+                    if ( is_array( $form_field[ $default_key ] ) == is_array( $_GET[ $param_name ] ) ) {
+                        $form_field[ $default_key ] = $_GET[ $param_name ];
                     }
 
-                    if ( ! is_array( $form_field[$default_key] ) == ! is_array( $_GET[$param_name] ) ) {
-                        $form_field[$default_key] = $_GET[$param_name];
+                    if ( ! is_array( $form_field[ $default_key ] ) == ! is_array( $_GET[ $param_name ] ) ) {
+                        $form_field[ $default_key ] = $_GET[ $param_name ];
                     }
                 }
             }
@@ -216,14 +229,14 @@ class WeForms_Field_Manager {
     /**
      * Replace merge tags
      *
-     * @param  array $form_field
+     * @param  array   $form_field
      * @param  integer $form_id
      *
      * @return void
      */
     function replace_tags( $form_field, $form_id, $atts = array() ) {
 
-        $fields       = array(
+        $fields = array(
             'default',
             'placeholder',
             'first_name'  => array( 'placeholder', 'default' ),
@@ -235,20 +248,18 @@ class WeForms_Field_Manager {
 
             if ( is_array( $field ) ) {
 
-                foreach ( $field as $k => $sub_field) {
-                    if ( ! empty( $form_field[$key] ) && ! empty( $form_field[$key][$sub_field] ) ) {
-                        $form_field[$key][$sub_field] = $this->notification->replace_tags( $form_field[$key][$sub_field] );
+                foreach ( $field as $k => $sub_field ) {
+                    if ( ! empty( $form_field[ $key ] ) && ! empty( $form_field[ $key ][ $sub_field ] ) ) {
+                        $form_field[ $key ][ $sub_field ] = $this->notification->replace_tags( $form_field[ $key ][ $sub_field ] );
                     }
                 }
+			} else {
 
-            } else {
-
-                if ( ! empty( $form_field[$field ] ) && is_string( $form_field[$field] )) {
-                    $form_field[$field ] = $this->notification->replace_tags( $form_field[$field ] );
-                }
+                if ( ! empty( $form_field[ $field ] ) && is_string( $form_field[ $field ] ) ) {
+                    $form_field[ $field ] = $this->notification->replace_tags( $form_field[ $field ] );
+				}
             }
-
-        }
+		}
 
         return $form_field;
     }

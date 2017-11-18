@@ -99,7 +99,7 @@ final class WeForms {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-        add_action( 'plugins_loaded', array( $this, 'plugin_upgrades') );
+        add_action( 'plugins_loaded', array( $this, 'plugin_upgrades' ) );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
     }
 
@@ -367,7 +367,7 @@ final class WeForms {
     /**
      * Plugin action links
      *
-     * @param  array  $links
+     * @param  array $links
      *
      * @return array
      */
@@ -402,7 +402,7 @@ final class WeForms {
      */
     function php_version_notice() {
 
-        if ( $this->is_supported_php() || !current_user_can( 'manage_options' ) ) {
+        if ( $this->is_supported_php() || ! current_user_can( 'manage_options' ) ) {
             return;
         }
 
