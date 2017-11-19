@@ -5,7 +5,7 @@ Tags: form, forms, contact form, custom form, form builder, form creator, form m
 Requires at least: 4.4
 Requires PHP: 5.4
 Tested up to: 4.8.2
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,16 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.2.2 (19 November, 2017) =
+
+ * **New**: Now you can set up the form in a way, so Email and Name fields value can be auto-populated from user's WordPress profile when the user is logged. And those fields will get hidden on front-end.
+ * **New**: We've added trash functionality for entries. When you delete an entry, that will move to trash. And later you can delete those permanently or restore if you need.
+ * **New**: To help debug the integrations API error messages, we’ve added a custom error logging function and a log viewer. Can be found on `WP-Admin > weFroms > Tools > Logs`
+ * **Improved**: Sometimes, we need to show dynamic default or placeholder text on fields. Merge tag support for default and placeholder attribute added.
+ * **Improved**: When you edited a form and leaving the builder without saving, we've added a little warning to let you know, if you leave your changes are going to be discarded.
+ * **Improved**: To help you find the right form template easily, We've re-categorized the form templates.
+
 
 = Version 1.2.1 (8 November, 2017) =
 
