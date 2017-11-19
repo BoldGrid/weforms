@@ -12,6 +12,8 @@ class WeForms_Template_Contact extends WeForms_Form_Template {
         $this->title       = __( 'Contact Form', 'weforms' );
         $this->description = __( 'Create a simple contact form for your site.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/contact.png';
+        $this->category    = 'default';
+
     }
 
     /**

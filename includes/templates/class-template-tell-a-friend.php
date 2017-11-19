@@ -12,6 +12,7 @@ class WeForms_Template_Tell_A_Friend extends WeForms_Form_Template {
         $this->description        = __( 'Form used by a website owner that allows for visitors to " tell a friend".', 'weforms' );
         $this->category    = 'default';
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/tell-a-friend.png';
+        $this->category    = 'others';
     }
 
     /**

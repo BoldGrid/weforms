@@ -25,17 +25,33 @@ function weforms_get_form_template_categories() {
             'name'         => 'Default Templates',
             'icon'         => 'fa fa-bars',
         ),
-        // 'registration' => array(
-        // 'name'         => 'Registration Templates',
-        // 'icon'         => 'fa fa-user-plus',
-        // ),
-        'event'        => array(
-            'name'         => 'Event Templates',
-            'icon'         => 'fa fa-calendar',
+        'registration' => array(
+            'name'         => 'Registration Templates',
+            'icon'         => 'fa fa-user-plus',
         ),
         'application'        => array(
             'name'         => 'Application Templates',
             'icon'         => 'fa fa-address-card-o',
+        ),
+        'request'        => array(
+            'name'         => 'Request Templates',
+            'icon'         => 'fa fa-hand-paper-o',
+        ),
+        'event'        => array(
+            'name'         => 'Event Templates',
+            'icon'         => 'fa fa-calendar',
+        ),
+        'feedback'        => array(
+            'name'         => 'Feedback Templates',
+            'icon'         => 'fa fa-comments',
+        ),
+        'employment'        => array(
+            'name'         => 'Employment Templates',
+            'icon'         => 'fa fa-suitcase',
+        ),
+        'others'        => array(
+            'name'         => 'Others Templates',
+            'icon'         => 'fa fa-info-circle',
         ),
     );
 

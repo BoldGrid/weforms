@@ -12,6 +12,7 @@ class WeForms_Template_Todo_List extends WeForms_Form_Template {
 		$this->title = __('Todo List Form', 'weforms');
 		$this->description = __('Get to do reminders with this online form to remember and track your to do list with the help of your form users.', 'weforms');
 		$this->image = WEFORMS_ASSET_URI . '/images/form-template/to-do-list.png';
+        $this->category    = 'others';
 	}
 
 	/**

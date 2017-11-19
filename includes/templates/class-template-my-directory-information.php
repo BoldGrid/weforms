@@ -12,6 +12,7 @@ class WeForms_Template_My_Directory_Information extends WeForms_Form_Template {
         $this->title       = __( 'My Directory Information', 'weforms' );
         $this->description = __( 'You can do far more. Earn more clients and grow your business.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/my_directory.png';
+        $this->category    = 'others';
     }
 
     /**

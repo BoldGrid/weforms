@@ -13,6 +13,8 @@ class WeForms_Template_Employee_Information extends WeForms_Form_Template {
         $this->description = __( 'Keep a record of your employee’s information with this form. This includes personal information, job information and emergency contact information sections.', 'weforms' );
         $this->category    = 'default';
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/employee_information.png';
+        $this->category    = 'employment';
+
     }
 
     /**
@@ -86,7 +88,7 @@ class WeForms_Template_Employee_Information extends WeForms_Form_Template {
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'    => __( 'Marital Status', 'weforms' ),
                 'name'     => 'marital_status',
-                'options'  => array( 
+                'options'  => array(
                     'single'    => __('Single', 'weforms'),
                     'married'   => __('Married', 'weforms'),
                     'widowed'   => __('Widowed', 'weforms'),

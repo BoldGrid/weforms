@@ -12,6 +12,7 @@ class WeForms_Template_Request_For_Quote extends WeForms_Form_Template {
         $this->title       = __( 'Request for Quote', 'weforms' );
         $this->description = __( 'This form will make your customers request for quote easier.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/qoute_request.png';
+        $this->category    = 'request';
     }
 
     /**
@@ -20,7 +21,7 @@ class WeForms_Template_Request_For_Quote extends WeForms_Form_Template {
      * @return array
      */
     public function get_form_fields() {
-        
+
         $all_fields = $this->get_available_fields();
 
         $form_fields = array(
@@ -78,7 +79,7 @@ class WeForms_Template_Request_For_Quote extends WeForms_Form_Template {
                 'required'  => 'yes',
                 'label'     => __('Number of Passengers', 'weforms'),
                 'name'      =>  'number_of_passengers',
-                'options'   =>  array( 
+                'options'   =>  array(
                     '1'         =>     '1',
                     '2'         =>     '2',
                     '3'         =>     '3',
@@ -100,7 +101,7 @@ class WeForms_Template_Request_For_Quote extends WeForms_Form_Template {
                 'required'  => 'yes',
                 'label'     => __('Number of Hours ', 'weforms'),
                 'name'      =>  'number_of_hours ',
-                'options'   =>  array( 
+                'options'   =>  array(
                     '1'         =>     '1',
                     '2'         =>     '2',
                     '3'         =>     '3',

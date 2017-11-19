@@ -12,6 +12,7 @@ class WeForms_Template_Website_Feedback extends WeForms_Form_Template {
         $this->title       = __( 'Website Feedback', 'weforms' );
         $this->description = __( 'If you have, own, or manage a website then this is a form that is definitely for you. This form allows users and visitors of your website to rate and give feedback including comments about your website which can help you to improve it!', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/website-feedback.png';
+        $this->category    = 'feedback';
     }
 
     /**
