@@ -6,12 +6,29 @@
         </label>
 
         <div class="name-field-placeholder">
-            <input type="text" v-model="editing_form_field.first_name.placeholder">
+
+            <div class="name-merge-tag-holder">
+                <input type="text" v-model="editing_form_field.first_name.placeholder">
+                <wpuf-merge-tags
+                    filter="no_fields"
+                    v-on:insert="insertValue"
+                    :field="{name: 'first_name', type: 'placeholder'}">
+                </wpuf-merge-tags>
+            </div>
+
             <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 
         <div class="name-field-value">
-            <input type="text" v-model="editing_form_field.first_name.default">
+            <div class="name-merge-tag-holder">
+                <input type="text" v-model="editing_form_field.first_name.default">
+                <wpuf-merge-tags
+                    filter="no_fields"
+                    v-on:insert="insertValue"
+                    :field="{name: 'first_name', type: 'default'}">
+                </wpuf-merge-tags>
+            </div>
+
             <label><?php _e( 'Default Value', 'weforms' ); ?></label>
         </div>
     </div>
@@ -23,12 +40,29 @@
         </label>
 
         <div class="name-field-placeholder">
-            <input type="text" v-model="editing_form_field.middle_name.placeholder">
+            <div class="name-merge-tag-holder">
+                <input type="text" v-model="editing_form_field.middle_name.placeholder">
+                <wpuf-merge-tags
+                    filter="no_fields"
+                    v-on:insert="insertValue"
+                    :field="{name: 'middle_name', type: 'placeholder'}">
+                </wpuf-merge-tags>
+            </div>
+
             <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 
         <div class="name-field-value">
-            <input type="text" v-model="editing_form_field.middle_name.default">
+
+            <div class="name-merge-tag-holder">
+                <input type="text" v-model="editing_form_field.middle_name.default">
+                <wpuf-merge-tags
+                    filter="no_fields"
+                    v-on:insert="insertValue"
+                    :field="{name: 'middle_name', type: 'default'}">
+                </wpuf-merge-tags>
+            </div>
+
             <label><?php _e( 'Default Value', 'weforms' ); ?></label>
         </div>
     </div>
@@ -40,12 +74,28 @@
         </label>
 
         <div class="name-field-placeholder">
-            <input type="text" v-model="editing_form_field.last_name.placeholder">
+
+            <div class="name-merge-tag-holder">
+                <input type="text" v-model="editing_form_field.last_name.placeholder">
+                <wpuf-merge-tags
+                    filter="no_fields"
+                    v-on:insert="insertValue"
+                    :field="{name: 'last_name', type: 'placeholder'}">
+                </wpuf-merge-tags>
+            </div>
+
             <label><?php _e( 'Placeholder', 'weforms' ); ?></label>
         </div>
 
         <div class="name-field-value">
-            <input type="text" v-model="editing_form_field.last_name.default">
+            <div class="name-merge-tag-holder">
+                <input type="text" v-model="editing_form_field.last_name.default">
+                <wpuf-merge-tags
+                    filter="no_fields"
+                    v-on:insert="insertValue"
+                    :field="{name: 'last_name', type: 'default'}">
+                </wpuf-merge-tags>
+            </div>
             <label><?php _e( 'Default Value', 'weforms' ); ?></label>
         </div>
     </div>

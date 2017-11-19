@@ -12,6 +12,7 @@ class WeForms_Template_Leave_Request extends WeForms_Form_Template {
         $this->title       = __( 'Request for Leave', 'weforms' );
         $this->description = __( 'Get an instant leave request from your employees with this easy to fill-out a request form and get details without any conflicts.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/leave_request.png';
+        $this->category    = 'employment';
     }
 
     /**
@@ -70,7 +71,7 @@ class WeForms_Template_Leave_Request extends WeForms_Form_Template {
                 'required'  => 'yes',
                 'label'     => __('Leave Type', 'weforms'),
                 'name'      => 'leave_type',
-                'options'   => array( 
+                'options'   => array(
                     'vacation'  => 'Vacation',
                     'sick'      => 'Sick',
                     'quitting'  => 'Quitting',

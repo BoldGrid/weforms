@@ -40,7 +40,7 @@ class WeForms_Emailer {
      * @return WeForms_Mailer_Contract
      */
     public function get_sending_gateway() {
-        $gateway            = weforms_get_settings( 'email_gateway', 'wordpress' );
+        $gateway            = weforms_get_settings( 'email_gateway', 'WordPress' );
         $available_gateways = $this->get_available_gateways();
 
         if ( array_key_exists( $gateway, $available_gateways ) ) {

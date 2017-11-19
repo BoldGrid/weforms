@@ -4,42 +4,42 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weForms 1.2.1\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2017-11-08 12:16:06+00:00\n"
+"POT-Creation-Date: 2017-11-19 02:24:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
-"X-Generator: grunt-wp-i18n1.0.1\n"
-
-#: includes/templates/class-template-website-feedback-form.php:60
-#: includes/templates/class-template-website-feedback-form.php:73
-#: includes/templates/class-template-website-feedback-form.php:86
-msgid "1"
-msgstr ""
+"X-Generator: grunt-wp-i18n1.0.0\n"
 
 #: includes/templates/class-template-website-feedback-form.php:61
 #: includes/templates/class-template-website-feedback-form.php:74
 #: includes/templates/class-template-website-feedback-form.php:87
-msgid "2"
+msgid "1"
 msgstr ""
 
 #: includes/templates/class-template-website-feedback-form.php:62
 #: includes/templates/class-template-website-feedback-form.php:75
 #: includes/templates/class-template-website-feedback-form.php:88
-msgid "3"
+msgid "2"
 msgstr ""
 
 #: includes/templates/class-template-website-feedback-form.php:63
 #: includes/templates/class-template-website-feedback-form.php:76
 #: includes/templates/class-template-website-feedback-form.php:89
-msgid "4"
+msgid "3"
 msgstr ""
 
 #: includes/templates/class-template-website-feedback-form.php:64
 #: includes/templates/class-template-website-feedback-form.php:77
 #: includes/templates/class-template-website-feedback-form.php:90
+msgid "4"
+msgstr ""
+
+#: includes/templates/class-template-website-feedback-form.php:65
+#: includes/templates/class-template-website-feedback-form.php:78
+#: includes/templates/class-template-website-feedback-form.php:91
 msgid "5"
 msgstr ""
 
@@ -55,7 +55,7 @@ msgstr ""
 msgid "Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:55 includes/functions.php:622
+#: includes/admin/class-admin.php:55 includes/functions.php:651
 msgid "Form"
 msgstr ""
 
@@ -130,15 +130,15 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: includes/admin/class-admin.php:104 weforms.php:361
+#: includes/admin/class-admin.php:104 weforms.php:377
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:183 includes/functions.php:642
+#: includes/admin/class-admin.php:183 includes/functions.php:671
 msgid "IP Address"
 msgstr ""
 
-#: includes/admin/class-admin.php:184 includes/functions.php:633
+#: includes/admin/class-admin.php:184 includes/functions.php:662
 msgid "Date"
 msgstr ""
 
@@ -153,13 +153,14 @@ msgstr ""
 msgid "reCaptcha"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:47 includes/functions.php:1006
-#: includes/functions.php:1009
+#: includes/admin/class-form-builder-assets.php:47 includes/functions.php:1037
+#: includes/functions.php:1040
 msgid "New Form Submission"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:85
-#: includes/class-scripts-styles.php:314
+#: includes/admin/class-form-builder-assets.php:286
+#: includes/class-scripts-styles.php:328
 msgid "Are you sure?"
 msgstr ""
 
@@ -184,6 +185,7 @@ msgid "OK"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:262
+#: includes/admin/class-wedevs-insights.php:627
 msgid "Cancel"
 msgstr ""
 
@@ -192,10 +194,14 @@ msgid "Close"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:264
-msgid "This field must contain at least one choice"
+msgid "Disable"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:265
+msgid "This field must contain at least one choice"
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:266
 #: includes/fields/class-field-checkbox.php:91
 #: includes/fields/class-field-dropdown.php:91
 #: includes/fields/class-field-multidropdown.php:64
@@ -203,88 +209,114 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:266
+#: includes/admin/class-form-builder-assets.php:267
 msgid "Row"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:267
+#: includes/admin/class-form-builder-assets.php:268
 msgid "Column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:268
+#: includes/admin/class-form-builder-assets.php:269
 msgid "This field must contain at least one column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:269
+#: includes/admin/class-form-builder-assets.php:270
 msgid "is available in Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:270
+#: includes/admin/class-form-builder-assets.php:271
 msgid "Please upgrade to the Pro version to unlock all these awesome features"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:271
+#: includes/admin/class-form-builder-assets.php:272
 msgid "Get the Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:272
+#: includes/admin/class-form-builder-assets.php:273
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:273
+#: includes/admin/class-form-builder-assets.php:274
 msgid "Saved form data"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:274
+#: includes/admin/class-form-builder-assets.php:275
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:275
-msgid "Click to copy shortcode"
+#: includes/admin/class-form-builder-assets.php:276
+msgid "Are you sure to leave this page?"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:277
-msgid "Select an image"
-msgstr ""
-
-#: includes/admin/class-form-builder-assets.php:278
-msgid "Please select an image"
+msgid "Click to copy shortcode"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:279
+msgid "Select an image"
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:280
+msgid "Please select an image"
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:281
 msgid "Upload an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:301
+#: includes/admin/class-form-builder-assets.php:283
+msgid "Share Your Form"
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:284
+msgid ""
+"Sharing your form enables <strong>anyone</strong> to view and submit the "
+"form without inserting the shortcode to a page."
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:285
+msgid "Anyone with this URL will be able to view and submit this form."
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:287
+msgid "Anyone with existing URL won't be able to view and submit the form anymore."
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:288
+msgid "Disable Sharing"
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:311
 msgid "Notifications"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:302
+#: includes/admin/class-form-builder-assets.php:312
 msgid "Integrations"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:324
+#: includes/admin/class-form-builder-assets.php:334
 msgid "Form Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:325
+#: includes/admin/class-form-builder-assets.php:335
 msgid "Submission Restriction"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:326
+#: includes/admin/class-form-builder-assets.php:336
 msgid "Display Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:362 includes/functions.php:640
+#: includes/admin/class-form-builder-assets.php:372 includes/functions.php:669
 msgid "User"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:364 includes/functions.php:644
+#: includes/admin/class-form-builder-assets.php:374 includes/functions.php:673
 #: includes/integrations/mailpoet/component/template.php:38
-#: includes/templates/class-template-job-listing.php:58
-#: includes/templates/class-template-loan-application-form.php:44
-#: includes/templates/class-template-patient-itake-form.php:32
-#: includes/templates/class-template-volunteer-application.php:36
+#: includes/templates/class-template-job-listing.php:59
+#: includes/templates/class-template-loan-application-form.php:46
+#: includes/templates/class-template-patient-itake-form.php:34
+#: includes/templates/class-template-volunteer-application.php:37
 msgid "First Name"
 msgstr ""
 
@@ -366,6 +398,40 @@ msgstr ""
 
 #: includes/admin/class-pro-upgrades.php:115
 msgid "Conditional Logic"
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:286
+msgid ""
+"Want to help make <strong>%s</strong> even more awesome? Allow weDevs to "
+"collect non-sensitive diagnostic data and usage information."
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:291
+msgid "what we collect"
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:297
+msgid "Allow"
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:298
+msgid "No thanks"
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:475
+msgid "Once Weekly"
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:611
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:625
+msgid "I rather wouldn't say"
+msgstr ""
+
+#: includes/admin/class-wedevs-insights.php:626
+msgid "Submit & Deactivate"
 msgstr ""
 
 #: includes/admin/views/display-settings.php:4
@@ -614,75 +680,79 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: includes/class-ajax.php:51
+#: includes/class-ajax.php:59
 msgid "You do not have sufficient permission."
 msgstr ""
 
-#: includes/class-ajax.php:88
+#: includes/class-ajax.php:96
 msgid "Unauthorized operation"
 msgstr ""
 
-#: includes/class-ajax.php:92
+#: includes/class-ajax.php:100
 msgid "Invalid form id"
 msgstr ""
 
-#: includes/class-ajax.php:199
+#: includes/class-ajax.php:230
 msgid "Please provide a form name"
 msgstr ""
 
-#: includes/class-ajax.php:227 includes/class-ajax.php:373
+#: includes/class-ajax.php:258 includes/class-ajax.php:405
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:243
+#: includes/class-ajax.php:274
 msgid "No form ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:283
+#: includes/class-ajax.php:314
 msgid "Could not create the form"
 msgstr ""
 
-#: includes/class-ajax.php:437
+#: includes/class-ajax.php:478 includes/class-ajax.php:483
 msgid "No form fields found!"
 msgstr ""
 
-#: includes/class-ajax.php:478
+#: includes/class-ajax.php:569 includes/class-ajax.php:596
 msgid "No entry ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:523
+#: includes/class-ajax.php:644
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:534
+#: includes/class-ajax.php:655
 msgid "No form field was found."
 msgstr ""
 
-#: includes/class-ajax.php:630 includes/class-ajax.php:647
+#: includes/class-ajax.php:750 includes/class-ajax.php:766
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
-#: includes/class-ajax.php:898
+#: includes/class-ajax.php:1003
 msgid "No file found to import."
 msgstr ""
 
-#: includes/class-ajax.php:912
+#: includes/class-ajax.php:1017
 msgid "The forms have been imported successfully!"
 msgstr ""
 
-#: includes/class-ajax.php:914
+#: includes/class-ajax.php:1019
 msgid "Something went wrong importing the file."
 msgstr ""
 
-#: includes/class-ajax.php:918
+#: includes/class-ajax.php:1022
 msgid "Invalid file or file size too big."
 msgstr ""
 
-#: includes/class-field-manager.php:86
+#: includes/class-ajax.php:1065
+msgid "ago"
+msgstr ""
+
+#: includes/class-field-manager.php:94
 msgid "Custom Fields"
 msgstr ""
 
-#: includes/class-field-manager.php:96
+#: includes/class-field-manager.php:114
 msgid "Others"
 msgstr ""
 
@@ -714,43 +784,43 @@ msgstr ""
 msgid ".."
 msgstr ""
 
-#: includes/class-scripts-styles.php:301
+#: includes/class-scripts-styles.php:315
 msgid "Please fix the errors to proceed"
 msgstr ""
 
-#: includes/class-scripts-styles.php:303
+#: includes/class-scripts-styles.php:317
 msgid "Word limit reached"
 msgstr ""
 
-#: includes/class-scripts-styles.php:307
+#: includes/class-scripts-styles.php:321
 msgid "is required"
 msgstr ""
 
-#: includes/class-scripts-styles.php:308
+#: includes/class-scripts-styles.php:322
 msgid "does not match"
 msgstr ""
 
-#: includes/class-scripts-styles.php:309
+#: includes/class-scripts-styles.php:323
 msgid "is not valid"
 msgstr ""
 
-#: includes/class-scripts-styles.php:310
+#: includes/class-scripts-styles.php:324
 msgid "requires a unique entry and this value has already been used"
 msgstr ""
 
-#: includes/class-scripts-styles.php:320
+#: includes/class-scripts-styles.php:336
 msgid "Allowed Files"
 msgstr ""
 
-#: includes/class-scripts-styles.php:323
+#: includes/class-scripts-styles.php:342
 msgid "Maximum number of files reached!"
 msgstr ""
 
-#: includes/class-scripts-styles.php:324
+#: includes/class-scripts-styles.php:343
 msgid "The file you have uploaded exceeds the file size limit. Please try again."
 msgstr ""
 
-#: includes/class-scripts-styles.php:325
+#: includes/class-scripts-styles.php:344
 msgid "You have uploaded an incorrect file type. Please try again."
 msgstr ""
 
@@ -781,162 +851,162 @@ msgstr ""
 
 #: includes/fields/class-abstract-fields.php:209
 #: includes/fields/class-field-checkbox.php:67
-#: includes/fields/class-field-name.php:133
+#: includes/fields/class-field-name.php:153
 #: includes/fields/class-field-radio.php:71
 #: includes/templates/class-template-event-registration.php:56
 #: includes/templates/class-template-event-registration.php:82
-#: includes/templates/class-template-loan-application-form.php:132
-#: includes/templates/class-template-loan-application-form.php:145
-#: includes/templates/class-template-patient-itake-form.php:198
-#: includes/templates/class-template-patient-itake-form.php:212
-#: includes/templates/class-template-patient-itake-form.php:231
-#: includes/templates/class-template-patient-itake-form.php:240
-#: includes/templates/class-template-patient-itake-form.php:249
-#: includes/templates/class-template-patient-itake-form.php:258
-#: includes/templates/class-template-patient-itake-form.php:267
-#: includes/templates/class-template-patient-itake-form.php:276
-#: includes/templates/class-template-patient-itake-form.php:285
-#: includes/templates/class-template-patient-itake-form.php:294
-#: includes/templates/class-template-patient-itake-form.php:303
-#: includes/templates/class-template-patient-itake-form.php:312
-#: includes/templates/class-template-patient-itake-form.php:321
-#: includes/templates/class-template-patient-itake-form.php:330
-#: includes/templates/class-template-patient-itake-form.php:339
-#: includes/templates/class-template-patient-itake-form.php:348
-#: includes/templates/class-template-patient-itake-form.php:357
-#: includes/templates/class-template-patient-itake-form.php:366
-#: includes/templates/class-template-patient-itake-form.php:375
-#: includes/templates/class-template-patient-itake-form.php:384
-#: includes/templates/class-template-patient-itake-form.php:393
-#: includes/templates/class-template-patient-itake-form.php:402
-#: includes/templates/class-template-patient-itake-form.php:411
-#: includes/templates/class-template-patient-itake-form.php:420
-#: includes/templates/class-template-patient-itake-form.php:429
-#: includes/templates/class-template-patient-itake-form.php:438
-#: includes/templates/class-template-patient-itake-form.php:447
-#: includes/templates/class-template-patient-itake-form.php:456
-#: includes/templates/class-template-patient-itake-form.php:465
-#: includes/templates/class-template-patient-itake-form.php:474
-#: includes/templates/class-template-patient-itake-form.php:483
-#: includes/templates/class-template-patient-itake-form.php:492
-#: includes/templates/class-template-patient-itake-form.php:501
-#: includes/templates/class-template-patient-itake-form.php:510
-#: includes/templates/class-template-patient-itake-form.php:519
-#: includes/templates/class-template-patient-itake-form.php:528
-#: includes/templates/class-template-patient-itake-form.php:537
-#: includes/templates/class-template-patient-itake-form.php:546
-#: includes/templates/class-template-patient-itake-form.php:555
-#: includes/templates/class-template-patient-itake-form.php:564
-#: includes/templates/class-template-patient-itake-form.php:573
-#: includes/templates/class-template-patient-itake-form.php:582
-#: includes/templates/class-template-patient-itake-form.php:591
-#: includes/templates/class-template-patient-itake-form.php:600
-#: includes/templates/class-template-patient-itake-form.php:609
-#: includes/templates/class-template-patient-itake-form.php:618
-#: includes/templates/class-template-patient-itake-form.php:627
-#: includes/templates/class-template-patient-itake-form.php:636
-#: includes/templates/class-template-patient-itake-form.php:645
-#: includes/templates/class-template-patient-itake-form.php:654
-#: includes/templates/class-template-patient-itake-form.php:663
-#: includes/templates/class-template-patient-itake-form.php:687
-#: includes/templates/class-template-patient-itake-form.php:696
-#: includes/templates/class-template-patient-itake-form.php:705
-#: includes/templates/class-template-patient-itake-form.php:714
-#: includes/templates/class-template-patient-itake-form.php:723
-#: includes/templates/class-template-patient-itake-form.php:732
-#: includes/templates/class-template-patient-itake-form.php:741
-#: includes/templates/class-template-patient-itake-form.php:750
-#: includes/templates/class-template-patient-itake-form.php:759
-#: includes/templates/class-template-patient-itake-form.php:768
-#: includes/templates/class-template-patient-itake-form.php:777
-#: includes/templates/class-template-patient-itake-form.php:786
-#: includes/templates/class-template-patient-itake-form.php:795
-#: includes/templates/class-template-patient-itake-form.php:814
-#: includes/templates/class-template-patient-itake-form.php:823
-#: includes/templates/class-template-patient-itake-form.php:832
-#: includes/templates/class-template-patient-itake-form.php:841
-#: includes/templates/class-template-patient-itake-form.php:850
-#: includes/templates/class-template-patient-itake-form.php:859
+#: includes/templates/class-template-loan-application-form.php:134
+#: includes/templates/class-template-loan-application-form.php:147
+#: includes/templates/class-template-patient-itake-form.php:200
+#: includes/templates/class-template-patient-itake-form.php:214
+#: includes/templates/class-template-patient-itake-form.php:233
+#: includes/templates/class-template-patient-itake-form.php:242
+#: includes/templates/class-template-patient-itake-form.php:251
+#: includes/templates/class-template-patient-itake-form.php:260
+#: includes/templates/class-template-patient-itake-form.php:269
+#: includes/templates/class-template-patient-itake-form.php:278
+#: includes/templates/class-template-patient-itake-form.php:287
+#: includes/templates/class-template-patient-itake-form.php:296
+#: includes/templates/class-template-patient-itake-form.php:305
+#: includes/templates/class-template-patient-itake-form.php:314
+#: includes/templates/class-template-patient-itake-form.php:323
+#: includes/templates/class-template-patient-itake-form.php:332
+#: includes/templates/class-template-patient-itake-form.php:341
+#: includes/templates/class-template-patient-itake-form.php:350
+#: includes/templates/class-template-patient-itake-form.php:359
+#: includes/templates/class-template-patient-itake-form.php:368
+#: includes/templates/class-template-patient-itake-form.php:377
+#: includes/templates/class-template-patient-itake-form.php:386
+#: includes/templates/class-template-patient-itake-form.php:395
+#: includes/templates/class-template-patient-itake-form.php:404
+#: includes/templates/class-template-patient-itake-form.php:413
+#: includes/templates/class-template-patient-itake-form.php:422
+#: includes/templates/class-template-patient-itake-form.php:431
+#: includes/templates/class-template-patient-itake-form.php:440
+#: includes/templates/class-template-patient-itake-form.php:449
+#: includes/templates/class-template-patient-itake-form.php:458
+#: includes/templates/class-template-patient-itake-form.php:467
+#: includes/templates/class-template-patient-itake-form.php:476
+#: includes/templates/class-template-patient-itake-form.php:485
+#: includes/templates/class-template-patient-itake-form.php:494
+#: includes/templates/class-template-patient-itake-form.php:503
+#: includes/templates/class-template-patient-itake-form.php:512
+#: includes/templates/class-template-patient-itake-form.php:521
+#: includes/templates/class-template-patient-itake-form.php:530
+#: includes/templates/class-template-patient-itake-form.php:539
+#: includes/templates/class-template-patient-itake-form.php:548
+#: includes/templates/class-template-patient-itake-form.php:557
+#: includes/templates/class-template-patient-itake-form.php:566
+#: includes/templates/class-template-patient-itake-form.php:575
+#: includes/templates/class-template-patient-itake-form.php:584
+#: includes/templates/class-template-patient-itake-form.php:593
+#: includes/templates/class-template-patient-itake-form.php:602
+#: includes/templates/class-template-patient-itake-form.php:611
+#: includes/templates/class-template-patient-itake-form.php:620
+#: includes/templates/class-template-patient-itake-form.php:629
+#: includes/templates/class-template-patient-itake-form.php:638
+#: includes/templates/class-template-patient-itake-form.php:647
+#: includes/templates/class-template-patient-itake-form.php:656
+#: includes/templates/class-template-patient-itake-form.php:665
+#: includes/templates/class-template-patient-itake-form.php:689
+#: includes/templates/class-template-patient-itake-form.php:698
+#: includes/templates/class-template-patient-itake-form.php:707
+#: includes/templates/class-template-patient-itake-form.php:716
+#: includes/templates/class-template-patient-itake-form.php:725
+#: includes/templates/class-template-patient-itake-form.php:734
+#: includes/templates/class-template-patient-itake-form.php:743
+#: includes/templates/class-template-patient-itake-form.php:752
+#: includes/templates/class-template-patient-itake-form.php:761
+#: includes/templates/class-template-patient-itake-form.php:770
+#: includes/templates/class-template-patient-itake-form.php:779
+#: includes/templates/class-template-patient-itake-form.php:788
+#: includes/templates/class-template-patient-itake-form.php:797
+#: includes/templates/class-template-patient-itake-form.php:816
+#: includes/templates/class-template-patient-itake-form.php:825
+#: includes/templates/class-template-patient-itake-form.php:834
+#: includes/templates/class-template-patient-itake-form.php:843
+#: includes/templates/class-template-patient-itake-form.php:852
+#: includes/templates/class-template-patient-itake-form.php:861
 msgid "Yes"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:210
 #: includes/fields/class-field-checkbox.php:68
-#: includes/fields/class-field-name.php:134
+#: includes/fields/class-field-name.php:154
 #: includes/fields/class-field-radio.php:72
-#: includes/templates/class-template-bug-report.php:111
+#: includes/templates/class-template-bug-report.php:113
 #: includes/templates/class-template-event-registration.php:57
 #: includes/templates/class-template-event-registration.php:83
-#: includes/templates/class-template-patient-itake-form.php:199
-#: includes/templates/class-template-patient-itake-form.php:213
-#: includes/templates/class-template-patient-itake-form.php:232
-#: includes/templates/class-template-patient-itake-form.php:241
-#: includes/templates/class-template-patient-itake-form.php:250
-#: includes/templates/class-template-patient-itake-form.php:259
-#: includes/templates/class-template-patient-itake-form.php:268
-#: includes/templates/class-template-patient-itake-form.php:277
-#: includes/templates/class-template-patient-itake-form.php:286
-#: includes/templates/class-template-patient-itake-form.php:295
-#: includes/templates/class-template-patient-itake-form.php:304
-#: includes/templates/class-template-patient-itake-form.php:313
-#: includes/templates/class-template-patient-itake-form.php:322
-#: includes/templates/class-template-patient-itake-form.php:331
-#: includes/templates/class-template-patient-itake-form.php:340
-#: includes/templates/class-template-patient-itake-form.php:349
-#: includes/templates/class-template-patient-itake-form.php:358
-#: includes/templates/class-template-patient-itake-form.php:367
-#: includes/templates/class-template-patient-itake-form.php:376
-#: includes/templates/class-template-patient-itake-form.php:385
-#: includes/templates/class-template-patient-itake-form.php:394
-#: includes/templates/class-template-patient-itake-form.php:403
-#: includes/templates/class-template-patient-itake-form.php:412
-#: includes/templates/class-template-patient-itake-form.php:421
-#: includes/templates/class-template-patient-itake-form.php:430
-#: includes/templates/class-template-patient-itake-form.php:439
-#: includes/templates/class-template-patient-itake-form.php:448
-#: includes/templates/class-template-patient-itake-form.php:457
-#: includes/templates/class-template-patient-itake-form.php:466
-#: includes/templates/class-template-patient-itake-form.php:475
-#: includes/templates/class-template-patient-itake-form.php:484
-#: includes/templates/class-template-patient-itake-form.php:493
-#: includes/templates/class-template-patient-itake-form.php:502
-#: includes/templates/class-template-patient-itake-form.php:511
-#: includes/templates/class-template-patient-itake-form.php:520
-#: includes/templates/class-template-patient-itake-form.php:529
-#: includes/templates/class-template-patient-itake-form.php:538
-#: includes/templates/class-template-patient-itake-form.php:547
-#: includes/templates/class-template-patient-itake-form.php:556
-#: includes/templates/class-template-patient-itake-form.php:565
-#: includes/templates/class-template-patient-itake-form.php:574
-#: includes/templates/class-template-patient-itake-form.php:583
-#: includes/templates/class-template-patient-itake-form.php:592
-#: includes/templates/class-template-patient-itake-form.php:601
-#: includes/templates/class-template-patient-itake-form.php:610
-#: includes/templates/class-template-patient-itake-form.php:619
-#: includes/templates/class-template-patient-itake-form.php:628
-#: includes/templates/class-template-patient-itake-form.php:637
-#: includes/templates/class-template-patient-itake-form.php:646
-#: includes/templates/class-template-patient-itake-form.php:655
-#: includes/templates/class-template-patient-itake-form.php:664
-#: includes/templates/class-template-patient-itake-form.php:688
-#: includes/templates/class-template-patient-itake-form.php:697
-#: includes/templates/class-template-patient-itake-form.php:706
-#: includes/templates/class-template-patient-itake-form.php:715
-#: includes/templates/class-template-patient-itake-form.php:724
-#: includes/templates/class-template-patient-itake-form.php:733
-#: includes/templates/class-template-patient-itake-form.php:742
-#: includes/templates/class-template-patient-itake-form.php:751
-#: includes/templates/class-template-patient-itake-form.php:760
-#: includes/templates/class-template-patient-itake-form.php:769
-#: includes/templates/class-template-patient-itake-form.php:778
-#: includes/templates/class-template-patient-itake-form.php:787
-#: includes/templates/class-template-patient-itake-form.php:796
-#: includes/templates/class-template-patient-itake-form.php:815
-#: includes/templates/class-template-patient-itake-form.php:824
-#: includes/templates/class-template-patient-itake-form.php:833
-#: includes/templates/class-template-patient-itake-form.php:842
-#: includes/templates/class-template-patient-itake-form.php:851
-#: includes/templates/class-template-patient-itake-form.php:860
+#: includes/templates/class-template-patient-itake-form.php:201
+#: includes/templates/class-template-patient-itake-form.php:215
+#: includes/templates/class-template-patient-itake-form.php:234
+#: includes/templates/class-template-patient-itake-form.php:243
+#: includes/templates/class-template-patient-itake-form.php:252
+#: includes/templates/class-template-patient-itake-form.php:261
+#: includes/templates/class-template-patient-itake-form.php:270
+#: includes/templates/class-template-patient-itake-form.php:279
+#: includes/templates/class-template-patient-itake-form.php:288
+#: includes/templates/class-template-patient-itake-form.php:297
+#: includes/templates/class-template-patient-itake-form.php:306
+#: includes/templates/class-template-patient-itake-form.php:315
+#: includes/templates/class-template-patient-itake-form.php:324
+#: includes/templates/class-template-patient-itake-form.php:333
+#: includes/templates/class-template-patient-itake-form.php:342
+#: includes/templates/class-template-patient-itake-form.php:351
+#: includes/templates/class-template-patient-itake-form.php:360
+#: includes/templates/class-template-patient-itake-form.php:369
+#: includes/templates/class-template-patient-itake-form.php:378
+#: includes/templates/class-template-patient-itake-form.php:387
+#: includes/templates/class-template-patient-itake-form.php:396
+#: includes/templates/class-template-patient-itake-form.php:405
+#: includes/templates/class-template-patient-itake-form.php:414
+#: includes/templates/class-template-patient-itake-form.php:423
+#: includes/templates/class-template-patient-itake-form.php:432
+#: includes/templates/class-template-patient-itake-form.php:441
+#: includes/templates/class-template-patient-itake-form.php:450
+#: includes/templates/class-template-patient-itake-form.php:459
+#: includes/templates/class-template-patient-itake-form.php:468
+#: includes/templates/class-template-patient-itake-form.php:477
+#: includes/templates/class-template-patient-itake-form.php:486
+#: includes/templates/class-template-patient-itake-form.php:495
+#: includes/templates/class-template-patient-itake-form.php:504
+#: includes/templates/class-template-patient-itake-form.php:513
+#: includes/templates/class-template-patient-itake-form.php:522
+#: includes/templates/class-template-patient-itake-form.php:531
+#: includes/templates/class-template-patient-itake-form.php:540
+#: includes/templates/class-template-patient-itake-form.php:549
+#: includes/templates/class-template-patient-itake-form.php:558
+#: includes/templates/class-template-patient-itake-form.php:567
+#: includes/templates/class-template-patient-itake-form.php:576
+#: includes/templates/class-template-patient-itake-form.php:585
+#: includes/templates/class-template-patient-itake-form.php:594
+#: includes/templates/class-template-patient-itake-form.php:603
+#: includes/templates/class-template-patient-itake-form.php:612
+#: includes/templates/class-template-patient-itake-form.php:621
+#: includes/templates/class-template-patient-itake-form.php:630
+#: includes/templates/class-template-patient-itake-form.php:639
+#: includes/templates/class-template-patient-itake-form.php:648
+#: includes/templates/class-template-patient-itake-form.php:657
+#: includes/templates/class-template-patient-itake-form.php:666
+#: includes/templates/class-template-patient-itake-form.php:690
+#: includes/templates/class-template-patient-itake-form.php:699
+#: includes/templates/class-template-patient-itake-form.php:708
+#: includes/templates/class-template-patient-itake-form.php:717
+#: includes/templates/class-template-patient-itake-form.php:726
+#: includes/templates/class-template-patient-itake-form.php:735
+#: includes/templates/class-template-patient-itake-form.php:744
+#: includes/templates/class-template-patient-itake-form.php:753
+#: includes/templates/class-template-patient-itake-form.php:762
+#: includes/templates/class-template-patient-itake-form.php:771
+#: includes/templates/class-template-patient-itake-form.php:780
+#: includes/templates/class-template-patient-itake-form.php:789
+#: includes/templates/class-template-patient-itake-form.php:798
+#: includes/templates/class-template-patient-itake-form.php:817
+#: includes/templates/class-template-patient-itake-form.php:826
+#: includes/templates/class-template-patient-itake-form.php:835
+#: includes/templates/class-template-patient-itake-form.php:844
+#: includes/templates/class-template-patient-itake-form.php:853
+#: includes/templates/class-template-patient-itake-form.php:862
 msgid "No"
 msgstr ""
 
@@ -987,82 +1057,82 @@ msgid "Name of the meta key this field will save to"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:288
-#: includes/fields/class-abstract-fields.php:375
+#: includes/fields/class-abstract-fields.php:377
 msgid "Placeholder text"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:292
-#: includes/fields/class-abstract-fields.php:379
+#: includes/fields/class-abstract-fields.php:293
+#: includes/fields/class-abstract-fields.php:381
 msgid "Text for HTML5 placeholder attribute"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:297
-#: includes/fields/class-abstract-fields.php:387
+#: includes/fields/class-abstract-fields.php:298
+#: includes/fields/class-abstract-fields.php:389
 msgid "Default value"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:301
-#: includes/fields/class-abstract-fields.php:391
+#: includes/fields/class-abstract-fields.php:303
+#: includes/fields/class-abstract-fields.php:393
 msgid "The default value this field will have"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:306
+#: includes/fields/class-abstract-fields.php:308
 msgid "Size"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:311
+#: includes/fields/class-abstract-fields.php:313
 msgid "Size of this input field"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:318
-#: includes/fields/class-abstract-fields.php:410
+#: includes/fields/class-abstract-fields.php:320
+#: includes/fields/class-abstract-fields.php:412
 msgid "Word Restriction"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:322
-#: includes/fields/class-abstract-fields.php:414
+#: includes/fields/class-abstract-fields.php:324
+#: includes/fields/class-abstract-fields.php:416
 msgid "Numebr of words the author to be restricted in"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:339
+#: includes/fields/class-abstract-fields.php:341
 msgid "Options"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:344
+#: includes/fields/class-abstract-fields.php:346
 msgid "Add options for the form field"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:357
+#: includes/fields/class-abstract-fields.php:359
 msgid "Rows"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:361
+#: includes/fields/class-abstract-fields.php:363
 msgid "Number of rows in textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:366
+#: includes/fields/class-abstract-fields.php:368
 msgid "Columns"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:370
+#: includes/fields/class-abstract-fields.php:372
 msgid "Number of columns in textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:396
+#: includes/fields/class-abstract-fields.php:398
 #: includes/fields/class-field-textarea.php:9
 msgid "Textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:399
-#: includes/templates/class-template-bug-report.php:160
+#: includes/fields/class-abstract-fields.php:401
+#: includes/templates/class-template-bug-report.php:162
 msgid "Normal"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:400
+#: includes/fields/class-abstract-fields.php:402
 msgid "Rich textarea"
 msgstr ""
 
-#: includes/fields/class-abstract-fields.php:401
+#: includes/fields/class-abstract-fields.php:403
 msgid "Teeny Rich textarea"
 msgstr ""
 
@@ -1071,13 +1141,13 @@ msgid "Checkbox"
 msgstr ""
 
 #: includes/fields/class-field-checkbox.php:64
-#: includes/fields/class-field-name.php:130
+#: includes/fields/class-field-name.php:150
 #: includes/fields/class-field-radio.php:68
 msgid "Show in inline list"
 msgstr ""
 
 #: includes/fields/class-field-checkbox.php:74
-#: includes/fields/class-field-name.php:140
+#: includes/fields/class-field-name.php:160
 #: includes/fields/class-field-radio.php:78
 msgid "Show this option in an inline list"
 msgstr ""
@@ -1123,29 +1193,39 @@ msgstr ""
 
 #: includes/fields/class-field-email.php:9
 #: includes/integrations/mailpoet/component/template.php:26
-#: includes/templates/class-template-admission-form.php:101
-#: includes/templates/class-template-bug-report.php:48
-#: includes/templates/class-template-employee-information.php:77
-#: includes/templates/class-template-employee-information.php:156
-#: includes/templates/class-template-loan-application-form.php:72
-#: includes/templates/class-template-request-for-quote.php:43
-#: includes/templates/class-template-volunteer-application.php:49
+#: includes/templates/class-template-admission-form.php:102
+#: includes/templates/class-template-bug-report.php:50
+#: includes/templates/class-template-employee-information.php:79
+#: includes/templates/class-template-employee-information.php:158
+#: includes/templates/class-template-loan-application-form.php:74
+#: includes/templates/class-template-request-for-quote.php:44
+#: includes/templates/class-template-volunteer-application.php:50
 msgid "Email Address"
 msgstr ""
 
-#: includes/fields/class-field-email.php:63
+#: includes/fields/class-field-email.php:69
 #: includes/fields/class-field-text.php:72
 #: includes/fields/class-field-url.php:62
 msgid "Unique Values Only"
 msgstr ""
 
-#: includes/fields/class-field-email.php:68
+#: includes/fields/class-field-email.php:74
 #: includes/fields/class-field-text.php:77
 #: includes/fields/class-field-url.php:67
 msgid ""
 "Select this option to limit user input to unique values only. This will "
 "require that a value entered in a field does not currently exist in the "
 "entry database for that field."
+msgstr ""
+
+#: includes/fields/class-field-email.php:82
+msgid "Auto-populate Email"
+msgstr ""
+
+#: includes/fields/class-field-email.php:87
+msgid ""
+"If a user is logged into the site, this email field will be auto-populated "
+"with his email. And form's email field will be hidden."
 msgstr ""
 
 #: includes/fields/class-field-hidden.php:9
@@ -1206,65 +1286,75 @@ msgid "Multi Select"
 msgstr ""
 
 #: includes/fields/class-field-name.php:9
-#: includes/templates/class-template-leave-request.php:29
-#: includes/templates/class-template-request-for-quote.php:30
+#: includes/templates/class-template-leave-request.php:30
+#: includes/templates/class-template-request-for-quote.php:31
 msgid "Name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:43
-#: includes/fields/class-field-name.php:159
+#: includes/fields/class-field-name.php:50
+#: includes/fields/class-field-name.php:179
 #: includes/importer/class-importer-wpforms.php:161
-#: includes/templates/class-template-admission-form.php:34
-#: includes/templates/class-template-employee-information.php:42
-#: includes/templates/class-template-employee-information.php:105
-#: includes/templates/class-template-employee-information.php:195
-#: includes/templates/class-template-my-directory-information.php:34
-#: includes/templates/class-template-website-feedback-form.php:37
+#: includes/templates/class-template-admission-form.php:35
+#: includes/templates/class-template-employee-information.php:44
+#: includes/templates/class-template-employee-information.php:107
+#: includes/templates/class-template-employee-information.php:197
+#: includes/templates/class-template-my-directory-information.php:35
+#: includes/templates/class-template-website-feedback-form.php:38
 msgid "First"
 msgstr ""
 
-#: includes/fields/class-field-name.php:59
-#: includes/fields/class-field-name.php:164
+#: includes/fields/class-field-name.php:66
+#: includes/fields/class-field-name.php:184
 #: includes/importer/class-importer-wpforms.php:166
-#: includes/templates/class-template-admission-form.php:40
-#: includes/templates/class-template-employee-information.php:48
+#: includes/templates/class-template-admission-form.php:41
+#: includes/templates/class-template-employee-information.php:50
 msgid "Middle"
 msgstr ""
 
-#: includes/fields/class-field-name.php:76
-#: includes/fields/class-field-name.php:169
+#: includes/fields/class-field-name.php:83
+#: includes/fields/class-field-name.php:189
 #: includes/importer/class-importer-wpforms.php:171
-#: includes/templates/class-template-admission-form.php:45
-#: includes/templates/class-template-employee-information.php:53
-#: includes/templates/class-template-employee-information.php:110
-#: includes/templates/class-template-employee-information.php:201
-#: includes/templates/class-template-my-directory-information.php:40
-#: includes/templates/class-template-website-feedback-form.php:43
+#: includes/templates/class-template-admission-form.php:46
+#: includes/templates/class-template-employee-information.php:55
+#: includes/templates/class-template-employee-information.php:112
+#: includes/templates/class-template-employee-information.php:203
+#: includes/templates/class-template-my-directory-information.php:41
+#: includes/templates/class-template-website-feedback-form.php:44
 msgid "Last"
 msgstr ""
 
-#: includes/fields/class-field-name.php:97
+#: includes/fields/class-field-name.php:104
 msgid "Format"
 msgstr ""
 
-#: includes/fields/class-field-name.php:100
+#: includes/fields/class-field-name.php:107
 msgid "First and Last name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:101
+#: includes/fields/class-field-name.php:108
 msgid "First, Middle and Last name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:106
-#: includes/fields/class-field-name.php:114
+#: includes/fields/class-field-name.php:113
+#: includes/fields/class-field-name.php:134
 msgid "Select format to use for the name field"
 msgstr ""
 
-#: includes/fields/class-field-name.php:110
+#: includes/fields/class-field-name.php:121
+msgid "Auto-populate Name"
+msgstr ""
+
+#: includes/fields/class-field-name.php:126
+msgid ""
+"If a user is logged into the site, this name field will be auto-populated "
+"with his first-last/display name. And form's name field will be hidden."
+msgstr ""
+
+#: includes/fields/class-field-name.php:130
 msgid "Label"
 msgstr ""
 
-#: includes/fields/class-field-name.php:122
+#: includes/fields/class-field-name.php:142
 msgid "Hide Sub Labels"
 msgstr ""
 
@@ -1289,8 +1379,8 @@ msgstr ""
 
 #: includes/fields/class-field-recaptcha.php:139
 #: includes/fields/class-field-sectionbreak.php:54
-#: includes/templates/class-template-employee-information.php:131
-#: includes/templates/class-template-loan-application-form.php:27
+#: includes/templates/class-template-employee-information.php:133
+#: includes/templates/class-template-loan-application-form.php:29
 msgid "Title"
 msgstr ""
 
@@ -1316,7 +1406,7 @@ msgid "Section Break"
 msgstr ""
 
 #: includes/fields/class-field-sectionbreak.php:63
-#: includes/templates/class-template-real-estate-listing.php:118
+#: includes/templates/class-template-real-estate-listing.php:119
 msgid "Description"
 msgstr ""
 
@@ -1336,167 +1426,167 @@ msgstr ""
 msgid "This is a premium field. You need to upgrade."
 msgstr ""
 
-#: includes/functions.php:160
+#: includes/functions.php:176
 msgid "No form ID was found."
 msgstr ""
 
-#: includes/functions.php:164
+#: includes/functions.php:180
 msgid "No form fields were found."
 msgstr ""
 
-#: includes/functions.php:170
+#: includes/functions.php:186
 msgid "Could not create an entry"
 msgstr ""
 
-#: includes/functions.php:624
+#: includes/functions.php:653
 msgid "Entry ID"
 msgstr ""
 
-#: includes/functions.php:625
+#: includes/functions.php:654
 msgid "Form ID"
 msgstr ""
 
-#: includes/functions.php:626
+#: includes/functions.php:655
 msgid "Form Name"
 msgstr ""
 
-#: includes/functions.php:630
+#: includes/functions.php:659
 msgid "System"
 msgstr ""
 
-#: includes/functions.php:632
+#: includes/functions.php:661
 msgid "Site Administrator Email"
 msgstr ""
 
-#: includes/functions.php:634
+#: includes/functions.php:663
 msgid "Site Title"
 msgstr ""
 
-#: includes/functions.php:635
+#: includes/functions.php:664
 msgid "Site URL"
 msgstr ""
 
-#: includes/functions.php:636
+#: includes/functions.php:665
 msgid "Embedded Page Title"
 msgstr ""
 
-#: includes/functions.php:643
+#: includes/functions.php:672
 msgid "User ID"
 msgstr ""
 
-#: includes/functions.php:645
+#: includes/functions.php:674
 #: includes/integrations/mailpoet/component/template.php:50
-#: includes/templates/class-template-job-listing.php:70
-#: includes/templates/class-template-loan-application-form.php:49
-#: includes/templates/class-template-patient-itake-form.php:43
-#: includes/templates/class-template-volunteer-application.php:41
+#: includes/templates/class-template-job-listing.php:71
+#: includes/templates/class-template-loan-application-form.php:51
+#: includes/templates/class-template-patient-itake-form.php:45
+#: includes/templates/class-template-volunteer-application.php:42
 msgid "Last Name"
 msgstr ""
 
-#: includes/functions.php:646
+#: includes/functions.php:675
 msgid "Display Name"
 msgstr ""
 
-#: includes/functions.php:647
+#: includes/functions.php:676
 msgid "Email"
 msgstr ""
 
-#: includes/functions.php:651
+#: includes/functions.php:680
 msgid "URL's"
 msgstr ""
 
-#: includes/functions.php:653
+#: includes/functions.php:682
 msgid "Embeded Page URL"
 msgstr ""
 
-#: includes/functions.php:654
+#: includes/functions.php:683
 msgid "Referer URL"
 msgstr ""
 
-#: includes/functions.php:655
+#: includes/functions.php:684
 msgid "Login URL"
 msgstr ""
 
-#: includes/functions.php:656
+#: includes/functions.php:685
 msgid "Logout URL"
 msgstr ""
 
-#: includes/functions.php:657
+#: includes/functions.php:686
 msgid "Register URL"
 msgstr ""
 
-#: includes/functions.php:658
+#: includes/functions.php:687
 msgid "Lost Password URL"
 msgstr ""
 
-#: includes/functions.php:842
+#: includes/functions.php:871
 msgid "Images"
 msgstr ""
 
-#: includes/functions.php:846
+#: includes/functions.php:875
 msgid "Audio"
 msgstr ""
 
-#: includes/functions.php:850
+#: includes/functions.php:879
 msgid "Videos"
 msgstr ""
 
-#: includes/functions.php:854
+#: includes/functions.php:883
 msgid "PDF"
 msgstr ""
 
-#: includes/functions.php:858
+#: includes/functions.php:887
 msgid "Office Documents"
 msgstr ""
 
-#: includes/functions.php:862
+#: includes/functions.php:891
 msgid "Zip Archives"
 msgstr ""
 
-#: includes/functions.php:866
+#: includes/functions.php:895
 msgid "Executable Files"
 msgstr ""
 
-#: includes/functions.php:870
+#: includes/functions.php:899
 msgid "CSV"
 msgstr ""
 
-#: includes/functions.php:941 includes/importer/class-importer-abstract.php:901
+#: includes/functions.php:971 includes/importer/class-importer-abstract.php:901
 #: includes/importer/class-importer-gf.php:272
-#: includes/templates/class-template-to-do-list.php:68
+#: includes/templates/class-template-to-do-list.php:69
 msgid "Thanks for contacting us! We will get in touch with you shortly."
 msgstr ""
 
-#: includes/functions.php:944 includes/importer/class-importer-abstract.php:904
+#: includes/functions.php:974 includes/importer/class-importer-abstract.php:904
 #: includes/importer/class-importer-gf.php:275
 msgid "Submit Query"
 msgstr ""
 
-#: includes/functions.php:948 includes/importer/class-importer-abstract.php:908
+#: includes/functions.php:978 includes/importer/class-importer-abstract.php:908
 msgid "Form submission hasn't been started yet"
 msgstr ""
 
-#: includes/functions.php:949 includes/importer/class-importer-abstract.php:909
+#: includes/functions.php:979 includes/importer/class-importer-abstract.php:909
 msgid "Form submission is now closed."
 msgstr ""
 
-#: includes/functions.php:951 includes/importer/class-importer-abstract.php:911
+#: includes/functions.php:981 includes/importer/class-importer-abstract.php:911
 msgid "You need to login to submit a query."
 msgstr ""
 
-#: includes/functions.php:954 includes/importer/class-importer-abstract.php:914
+#: includes/functions.php:984 includes/importer/class-importer-abstract.php:914
 msgid "Sorry, we have reached the maximum number of submissions."
 msgstr ""
 
-#: includes/functions.php:963
+#: includes/functions.php:992
 msgid "PayPal"
 msgstr ""
 
-#: includes/functions.php:964
+#: includes/functions.php:993
 msgid "Credit Card"
 msgstr ""
 
-#: includes/functions.php:1008
+#: includes/functions.php:1039
 msgid "Admin Notification"
 msgstr ""
 
@@ -1621,46 +1711,46 @@ msgid ""
 "application fee."
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:53
-#: includes/templates/class-template-employee-information.php:82
-#: includes/templates/class-template-loan-application-form.php:56
+#: includes/templates/class-template-admission-form.php:54
+#: includes/templates/class-template-employee-information.php:84
+#: includes/templates/class-template-loan-application-form.php:58
 msgid "Birth Date"
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:59
+#: includes/templates/class-template-admission-form.php:60
 msgid "Gender"
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:70
+#: includes/templates/class-template-admission-form.php:71
 msgid "Are you Hispanic or Latino?"
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:81
+#: includes/templates/class-template-admission-form.php:82
 msgid "Race:"
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:95
-#: includes/templates/class-template-employee-information.php:67
-#: includes/templates/class-template-job-listing.php:78
-#: includes/templates/class-template-leave-request.php:42
-#: includes/templates/class-template-request-for-quote.php:37
-#: includes/templates/class-template-volunteer-application.php:55
+#: includes/templates/class-template-admission-form.php:96
+#: includes/templates/class-template-employee-information.php:69
+#: includes/templates/class-template-job-listing.php:79
+#: includes/templates/class-template-leave-request.php:43
+#: includes/templates/class-template-request-for-quote.php:38
+#: includes/templates/class-template-volunteer-application.php:56
 msgid "Phone Number"
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:108
+#: includes/templates/class-template-admission-form.php:109
 msgid "Mailing Address"
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:114
+#: includes/templates/class-template-admission-form.php:115
 msgid "Payment Method"
 msgstr ""
 
-#: includes/templates/class-template-admission-form.php:138
-#: includes/templates/class-template-bug-report.php:183
-#: includes/templates/class-template-comment-and-rating.php:55
-#: includes/templates/class-template-employee-information.php:243
-#: includes/templates/class-template-to-do-list.php:71
+#: includes/templates/class-template-admission-form.php:139
+#: includes/templates/class-template-bug-report.php:185
+#: includes/templates/class-template-comment-and-rating.php:56
+#: includes/templates/class-template-employee-information.php:245
+#: includes/templates/class-template-to-do-list.php:72
 msgid "Submit"
 msgstr ""
 
@@ -1673,7 +1763,7 @@ msgid "Start from a blank slate"
 msgstr ""
 
 #: includes/templates/class-template-bug-report.php:12
-#: includes/templates/class-template-bug-report.php:27
+#: includes/templates/class-template-bug-report.php:29
 msgid "Report a bug"
 msgstr ""
 
@@ -1683,177 +1773,177 @@ msgid ""
 "suggestions, and questions or bugtracking"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:32
+#: includes/templates/class-template-bug-report.php:34
 msgid "First Step"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:35
-#: includes/templates/class-template-bug-report.php:81
-#: includes/templates/class-template-employee-information.php:31
-#: includes/templates/class-template-employee-information.php:125
-#: includes/templates/class-template-employee-information.php:185
+#: includes/templates/class-template-bug-report.php:37
+#: includes/templates/class-template-bug-report.php:83
+#: includes/templates/class-template-employee-information.php:33
+#: includes/templates/class-template-employee-information.php:127
+#: includes/templates/class-template-employee-information.php:187
 msgid "Previous"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:36
-#: includes/templates/class-template-bug-report.php:82
-#: includes/templates/class-template-employee-information.php:32
-#: includes/templates/class-template-employee-information.php:126
-#: includes/templates/class-template-employee-information.php:186
+#: includes/templates/class-template-bug-report.php:38
+#: includes/templates/class-template-bug-report.php:84
+#: includes/templates/class-template-employee-information.php:34
+#: includes/templates/class-template-employee-information.php:128
+#: includes/templates/class-template-employee-information.php:188
 msgid "Next"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:42
+#: includes/templates/class-template-bug-report.php:44
 msgid "Full Name"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:54
+#: includes/templates/class-template-bug-report.php:56
 msgid "Problem Title"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:59
+#: includes/templates/class-template-bug-report.php:61
 msgid "Problem Status"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:62
+#: includes/templates/class-template-bug-report.php:64
 msgid "Open"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:63
+#: includes/templates/class-template-bug-report.php:65
 msgid "Fixed"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:64
+#: includes/templates/class-template-bug-report.php:66
 msgid "Veried"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:65
+#: includes/templates/class-template-bug-report.php:67
 msgid "Closed"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:66
+#: includes/templates/class-template-bug-report.php:68
 msgid "Invalid"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:73
+#: includes/templates/class-template-bug-report.php:75
 msgid "Summary Information"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:78
+#: includes/templates/class-template-bug-report.php:80
 msgid "Second Step"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:88
+#: includes/templates/class-template-bug-report.php:90
 msgid "Steps to Reproduce"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:90
+#: includes/templates/class-template-bug-report.php:92
 msgid ""
 "Include any setup or preparation work and the steps we can take to "
 "reproduce the problem"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:95
+#: includes/templates/class-template-bug-report.php:97
 msgid "Results"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:97
+#: includes/templates/class-template-bug-report.php:99
 msgid "Describe your results and how they differed from what you expected."
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:101
+#: includes/templates/class-template-bug-report.php:103
 msgid "Regression"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:103
+#: includes/templates/class-template-bug-report.php:105
 msgid ""
 "Provide information on steps taken to isolate the problem. Under what "
 "conditions or circumstances does the problem occur or not occur."
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:107
+#: includes/templates/class-template-bug-report.php:109
 msgid "Is there a Workaround?"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:110
+#: includes/templates/class-template-bug-report.php:112
 msgid "yes"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:116
+#: includes/templates/class-template-bug-report.php:118
 msgid "Documentation & Notes"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:118
+#: includes/templates/class-template-bug-report.php:120
 msgid ""
 "Document any additional information that might be useful in resolving the "
 "problem."
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:123
+#: includes/templates/class-template-bug-report.php:125
 msgid "Reproducibility"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:126
+#: includes/templates/class-template-bug-report.php:128
 msgid "I didn't try"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:127
+#: includes/templates/class-template-bug-report.php:129
 msgid "Rarely"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:128
+#: includes/templates/class-template-bug-report.php:130
 msgid "Sometimes"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:129
+#: includes/templates/class-template-bug-report.php:131
 msgid "Always"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:138
+#: includes/templates/class-template-bug-report.php:140
 msgid "Classification"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:141
+#: includes/templates/class-template-bug-report.php:143
 msgid "Security"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:142
+#: includes/templates/class-template-bug-report.php:144
 msgid "Crash/Hang/Data loss"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:143
+#: includes/templates/class-template-bug-report.php:145
 msgid "Performance/UI-Usability"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:144
+#: includes/templates/class-template-bug-report.php:146
 msgid "Serious Bug"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:145
+#: includes/templates/class-template-bug-report.php:147
 msgid "Other Bug"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:146
+#: includes/templates/class-template-bug-report.php:148
 msgid "Feature (New)"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:147
+#: includes/templates/class-template-bug-report.php:149
 msgid "Enhancement"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:156
+#: includes/templates/class-template-bug-report.php:158
 msgid "Severity"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:159
+#: includes/templates/class-template-bug-report.php:161
 msgid "Trivial"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:161
+#: includes/templates/class-template-bug-report.php:163
 msgid "Major"
 msgstr ""
 
-#: includes/templates/class-template-bug-report.php:162
+#: includes/templates/class-template-bug-report.php:164
 msgid "Critical"
 msgstr ""
 
@@ -1861,11 +1951,11 @@ msgstr ""
 msgid "Comment & Rating Form"
 msgstr ""
 
-#: includes/templates/class-template-comment-and-rating.php:32
+#: includes/templates/class-template-comment-and-rating.php:33
 msgid "Comment"
 msgstr ""
 
-#: includes/templates/class-template-comment-and-rating.php:54
+#: includes/templates/class-template-comment-and-rating.php:55
 msgid "Thanks for your rating!"
 msgstr ""
 
@@ -1877,9 +1967,9 @@ msgstr ""
 msgid "Create a simple contact form for your site."
 msgstr ""
 
-#: includes/templates/class-template-contact.php:36
+#: includes/templates/class-template-contact.php:38
 #: includes/templates/class-template-support.php:53
-#: includes/templates/class-template-tell-a-friend.php:38
+#: includes/templates/class-template-tell-a-friend.php:39
 msgid "Message"
 msgstr ""
 
@@ -1894,98 +1984,98 @@ msgid ""
 "sections."
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:28
+#: includes/templates/class-template-employee-information.php:30
 msgid "Personal Information"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:72
+#: includes/templates/class-template-employee-information.php:74
 msgid "Alt. Phone Number"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:87
-#: includes/templates/class-template-loan-application-form.php:61
-#: includes/templates/class-template-patient-itake-form.php:137
+#: includes/templates/class-template-employee-information.php:89
+#: includes/templates/class-template-loan-application-form.php:63
+#: includes/templates/class-template-patient-itake-form.php:139
 msgid "Marital Status"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:90
-#: includes/templates/class-template-loan-application-form.php:64
-#: includes/templates/class-template-patient-itake-form.php:140
+#: includes/templates/class-template-employee-information.php:92
+#: includes/templates/class-template-loan-application-form.php:66
+#: includes/templates/class-template-patient-itake-form.php:142
 msgid "Single"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:91
-#: includes/templates/class-template-loan-application-form.php:65
-#: includes/templates/class-template-patient-itake-form.php:141
+#: includes/templates/class-template-employee-information.php:93
+#: includes/templates/class-template-loan-application-form.php:67
+#: includes/templates/class-template-patient-itake-form.php:143
 msgid "Married"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:92
-#: includes/templates/class-template-patient-itake-form.php:142
+#: includes/templates/class-template-employee-information.php:94
+#: includes/templates/class-template-patient-itake-form.php:144
 msgid "Widowed"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:93
-#: includes/templates/class-template-patient-itake-form.php:143
+#: includes/templates/class-template-employee-information.php:95
+#: includes/templates/class-template-patient-itake-form.php:145
 msgid "Divorced"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:100
+#: includes/templates/class-template-employee-information.php:102
 msgid "Spouse's Name"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:117
+#: includes/templates/class-template-employee-information.php:119
 msgid "Spouse' s Work Phone"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:122
+#: includes/templates/class-template-employee-information.php:124
 msgid "Job Information"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:136
-#: includes/templates/class-template-leave-request.php:36
+#: includes/templates/class-template-employee-information.php:138
+#: includes/templates/class-template-leave-request.php:37
 msgid "Employee ID"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:141
+#: includes/templates/class-template-employee-information.php:143
 msgid "Supervisor"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:146
+#: includes/templates/class-template-employee-information.php:148
 #: includes/templates/class-template-support.php:38
 msgid "Department"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:151
+#: includes/templates/class-template-employee-information.php:153
 msgid "Work Location"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:161
+#: includes/templates/class-template-employee-information.php:163
 msgid "Work Number"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:166
-#: includes/templates/class-template-patient-itake-form.php:104
+#: includes/templates/class-template-employee-information.php:168
+#: includes/templates/class-template-patient-itake-form.php:106
 msgid "Cell Phone"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:171
+#: includes/templates/class-template-employee-information.php:173
 msgid "Start Date"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:176
+#: includes/templates/class-template-employee-information.php:178
 msgid "Salary"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:182
+#: includes/templates/class-template-employee-information.php:184
 msgid "Emergency Contact information"
 msgstr ""
 
-#: includes/templates/class-template-employee-information.php:208
-#: includes/templates/class-template-job-listing.php:89
-#: includes/templates/class-template-loan-application-form.php:84
-#: includes/templates/class-template-patient-itake-form.php:77
-#: includes/templates/class-template-volunteer-application.php:61
+#: includes/templates/class-template-employee-information.php:210
+#: includes/templates/class-template-job-listing.php:90
+#: includes/templates/class-template-loan-application-form.php:86
+#: includes/templates/class-template-patient-itake-form.php:79
+#: includes/templates/class-template-volunteer-application.php:62
 msgid "Address"
 msgstr ""
 
@@ -2000,7 +2090,7 @@ msgid ""
 msgstr ""
 
 #: includes/templates/class-template-event-registration.php:37
-#: includes/templates/class-template-loan-application-form.php:78
+#: includes/templates/class-template-loan-application-form.php:80
 msgid "Phone"
 msgstr ""
 
@@ -2075,27 +2165,27 @@ msgid ""
 "information and upload resume using the form."
 msgstr ""
 
-#: includes/templates/class-template-job-application.php:51
+#: includes/templates/class-template-job-application.php:53
 msgid "Work 1"
 msgstr ""
 
-#: includes/templates/class-template-job-application.php:52
+#: includes/templates/class-template-job-application.php:54
 msgid "Work 2"
 msgstr ""
 
-#: includes/templates/class-template-job-application.php:53
+#: includes/templates/class-template-job-application.php:55
 msgid "Work 3"
 msgstr ""
 
-#: includes/templates/class-template-job-application.php:54
+#: includes/templates/class-template-job-application.php:56
 msgid "Any Position"
 msgstr ""
 
-#: includes/templates/class-template-job-application.php:80
+#: includes/templates/class-template-job-application.php:82
 msgid "Thanks for applying! We will get in touch with you shortly."
 msgstr ""
 
-#: includes/templates/class-template-job-application.php:81
+#: includes/templates/class-template-job-application.php:83
 msgid "Apply"
 msgstr ""
 
@@ -2103,173 +2193,173 @@ msgstr ""
 msgid "Job Listing Form"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:28
+#: includes/templates/class-template-job-listing.php:29
 msgid "Contact Person"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:34
-#: includes/templates/class-template-job-listing.php:127
+#: includes/templates/class-template-job-listing.php:35
+#: includes/templates/class-template-job-listing.php:128
 msgid "Company Name"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:39
+#: includes/templates/class-template-job-listing.php:40
 msgid "Salutation"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:42
-#: includes/templates/class-template-loan-application-form.php:32
+#: includes/templates/class-template-job-listing.php:43
+#: includes/templates/class-template-loan-application-form.php:34
 msgid "Mr"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:43
-#: includes/templates/class-template-loan-application-form.php:31
+#: includes/templates/class-template-job-listing.php:44
+#: includes/templates/class-template-loan-application-form.php:33
 msgid "Mrs"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:44
+#: includes/templates/class-template-job-listing.php:45
 msgid "Miss"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:45
+#: includes/templates/class-template-job-listing.php:46
 msgid "Ms."
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:46
+#: includes/templates/class-template-job-listing.php:47
 msgid "Dr."
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:47
+#: includes/templates/class-template-job-listing.php:48
 msgid "Prof."
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:64
-#: includes/templates/class-template-patient-itake-form.php:38
+#: includes/templates/class-template-job-listing.php:65
+#: includes/templates/class-template-patient-itake-form.php:40
 msgid "Middle Name"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:83
+#: includes/templates/class-template-job-listing.php:84
 msgid "Fax Number"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:95
-#: includes/templates/class-template-job-listing.php:143
+#: includes/templates/class-template-job-listing.php:96
+#: includes/templates/class-template-job-listing.php:144
 msgid "Postal Code"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:101
-#: includes/templates/class-template-job-listing.php:148
+#: includes/templates/class-template-job-listing.php:102
+#: includes/templates/class-template-job-listing.php:149
 msgid "Province"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:107
-#: includes/templates/class-template-job-listing.php:153
+#: includes/templates/class-template-job-listing.php:108
+#: includes/templates/class-template-job-listing.php:154
 msgid "Country"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:115
+#: includes/templates/class-template-job-listing.php:116
 msgid "Show contact information in public posting"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:120
+#: includes/templates/class-template-job-listing.php:121
 msgid "Position Information"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:132
-#: includes/templates/class-template-job-listing.php:138
+#: includes/templates/class-template-job-listing.php:133
+#: includes/templates/class-template-job-listing.php:139
 msgid "Department / Division"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:158
+#: includes/templates/class-template-job-listing.php:159
 msgid "Position Title"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:163
+#: includes/templates/class-template-job-listing.php:164
 msgid "Reference Number"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:168
+#: includes/templates/class-template-job-listing.php:169
 msgid "Job Posting Url"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:173
+#: includes/templates/class-template-job-listing.php:174
 msgid "Min Salary"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:178
+#: includes/templates/class-template-job-listing.php:179
 msgid "Max Salary"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:183
+#: includes/templates/class-template-job-listing.php:184
 msgid "Salary Details"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:191
+#: includes/templates/class-template-job-listing.php:192
 msgid "Salary Negotiable"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:199
+#: includes/templates/class-template-job-listing.php:200
 msgid "Full Time"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:200
+#: includes/templates/class-template-job-listing.php:201
 msgid "Part Time"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:210
+#: includes/templates/class-template-job-listing.php:211
 msgid "Permanent"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:211
+#: includes/templates/class-template-job-listing.php:212
 msgid "Term/Contract"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:212
+#: includes/templates/class-template-job-listing.php:213
 msgid "Locum"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:222
+#: includes/templates/class-template-job-listing.php:223
 msgid "Academic"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:223
+#: includes/templates/class-template-job-listing.php:224
 msgid "Administrative"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:224
+#: includes/templates/class-template-job-listing.php:225
 msgid "Obstetrics"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:225
+#: includes/templates/class-template-job-listing.php:226
 msgid "Gynaecology"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:226
+#: includes/templates/class-template-job-listing.php:227
 msgid "Obstetrics/Gynaecology"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:227
-#: includes/templates/class-template-loan-application-form.php:66
+#: includes/templates/class-template-job-listing.php:228
+#: includes/templates/class-template-loan-application-form.php:68
 #: includes/templates/class-template-support.php:44
 msgid "Other"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:271
+#: includes/templates/class-template-job-listing.php:272
 msgid "Payment Information"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:277
+#: includes/templates/class-template-job-listing.php:278
 msgid "Posting Duration (in Months)"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:280
+#: includes/templates/class-template-job-listing.php:281
 msgid "$ 350.00 - 1 Month Posting Duration"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:281
+#: includes/templates/class-template-job-listing.php:282
 msgid "$ 600.00 - 2 Month Posting Duration"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:282
+#: includes/templates/class-template-job-listing.php:283
 msgid "$ 850.00 - 3 Month Posting Duration"
 msgstr ""
 
@@ -2283,29 +2373,29 @@ msgid ""
 "a request form and get details without any conflicts."
 msgstr ""
 
-#: includes/templates/class-template-leave-request.php:47
+#: includes/templates/class-template-leave-request.php:48
 msgid "Position"
 msgstr ""
 
-#: includes/templates/class-template-leave-request.php:53
+#: includes/templates/class-template-leave-request.php:54
 msgid "Manager"
 msgstr ""
 
-#: includes/templates/class-template-leave-request.php:59
+#: includes/templates/class-template-leave-request.php:60
 msgid "Leave Start"
 msgstr ""
 
-#: includes/templates/class-template-leave-request.php:65
+#: includes/templates/class-template-leave-request.php:66
 msgid "Leave End"
 msgstr ""
 
-#: includes/templates/class-template-leave-request.php:71
+#: includes/templates/class-template-leave-request.php:72
 msgid "Leave Type"
 msgstr ""
 
-#: includes/templates/class-template-leave-request.php:82
-#: includes/templates/class-template-loan-application-form.php:119
-#: includes/templates/class-template-volunteer-application.php:85
+#: includes/templates/class-template-leave-request.php:83
+#: includes/templates/class-template-loan-application-form.php:121
+#: includes/templates/class-template-volunteer-application.php:86
 msgid "Comments"
 msgstr ""
 
@@ -2319,43 +2409,43 @@ msgid ""
 "smoother!"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:30
+#: includes/templates/class-template-loan-application-form.php:32
 msgid "Ms"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:90
+#: includes/templates/class-template-loan-application-form.php:92
 msgid "How long have you lived in your given?"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:93
+#: includes/templates/class-template-loan-application-form.php:95
 msgid "0-1 Year"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:94
+#: includes/templates/class-template-loan-application-form.php:96
 msgid "1-2 Year"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:95
+#: includes/templates/class-template-loan-application-form.php:97
 msgid "3-4 Year"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:96
+#: includes/templates/class-template-loan-application-form.php:98
 msgid "5+ Year"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:102
+#: includes/templates/class-template-loan-application-form.php:104
 msgid "Gross Monthly Income"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:108
+#: includes/templates/class-template-loan-application-form.php:110
 msgid "Monthly rent/mortgage"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:114
+#: includes/templates/class-template-loan-application-form.php:116
 msgid "Down Payment Amount"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:124
+#: includes/templates/class-template-loan-application-form.php:126
 msgid ""
 "I authorize prospective Credit Grantors/Lending/Leasing Companies to obtain "
 "personal and credit information about me from my employer and credit "
@@ -2368,7 +2458,7 @@ msgid ""
 "bureaus or other credit reporting agencies"
 msgstr ""
 
-#: includes/templates/class-template-loan-application-form.php:137
+#: includes/templates/class-template-loan-application-form.php:139
 msgid ""
 "I hereby agree that the information given is true, accurate and complete as "
 "of the date of this application submission. "
@@ -2392,454 +2482,454 @@ msgid ""
 "information."
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:51
+#: includes/templates/class-template-patient-itake-form.php:53
 msgid "Age"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:56
+#: includes/templates/class-template-patient-itake-form.php:58
 msgid "Preferred Name or Nickname"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:61
+#: includes/templates/class-template-patient-itake-form.php:63
 msgid "Patient's gender"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:64
+#: includes/templates/class-template-patient-itake-form.php:66
 msgid "Male"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:65
+#: includes/templates/class-template-patient-itake-form.php:67
 msgid "Female"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:72
+#: includes/templates/class-template-patient-itake-form.php:74
 msgid "Spouses Name"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:83
+#: includes/templates/class-template-patient-itake-form.php:85
 msgid "SSN"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:89
+#: includes/templates/class-template-patient-itake-form.php:91
 msgid "Patient Birth Date"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:94
+#: includes/templates/class-template-patient-itake-form.php:96
 msgid "Home Phone"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:99
+#: includes/templates/class-template-patient-itake-form.php:101
 msgid "Work Phone"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:110
+#: includes/templates/class-template-patient-itake-form.php:112
 msgid "Patient E-Mail"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:115
+#: includes/templates/class-template-patient-itake-form.php:117
 msgid "Work Status"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:119
+#: includes/templates/class-template-patient-itake-form.php:121
 msgid "Employed"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:120
+#: includes/templates/class-template-patient-itake-form.php:122
 msgid "Unemployed"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:121
+#: includes/templates/class-template-patient-itake-form.php:123
 msgid "Retired"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:122
+#: includes/templates/class-template-patient-itake-form.php:124
 msgid "Disabled fom work"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:127
+#: includes/templates/class-template-patient-itake-form.php:129
 msgid "Employer"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:132
+#: includes/templates/class-template-patient-itake-form.php:134
 msgid "Occupation"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:144
+#: includes/templates/class-template-patient-itake-form.php:146
 msgid "Separated"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:145
+#: includes/templates/class-template-patient-itake-form.php:147
 msgid "Domestic Partner"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:150
+#: includes/templates/class-template-patient-itake-form.php:152
 msgid "Subscriber Name"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:155
+#: includes/templates/class-template-patient-itake-form.php:157
 msgid "Subscriber Birth Date"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:160
+#: includes/templates/class-template-patient-itake-form.php:162
 msgid "Subscriber SSN/ID"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:165
+#: includes/templates/class-template-patient-itake-form.php:167
 msgid "Group Number"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:170
+#: includes/templates/class-template-patient-itake-form.php:172
 msgid "Behavioral Health Insurance Carrier (may be different than medical)"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:175
+#: includes/templates/class-template-patient-itake-form.php:177
 msgid "Subscriber Employer"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:180
+#: includes/templates/class-template-patient-itake-form.php:182
 msgid "PCP Name"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:185
+#: includes/templates/class-template-patient-itake-form.php:187
 msgid "PCP Phone Number"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:190
+#: includes/templates/class-template-patient-itake-form.php:192
 msgid "PCP Fax #"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:195
+#: includes/templates/class-template-patient-itake-form.php:197
 msgid "Do you use tobacco in any form?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:204
+#: includes/templates/class-template-patient-itake-form.php:206
 msgid "If yes, please list type , amount and frequency of use"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:209
-#: includes/templates/class-template-patient-itake-form.php:218
+#: includes/templates/class-template-patient-itake-form.php:211
+#: includes/templates/class-template-patient-itake-form.php:220
 msgid "Do you use Alcohol in any form?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:223
+#: includes/templates/class-template-patient-itake-form.php:225
 msgid ""
 "Are you taking any medication? If yes, please list medication and doage per "
 "day"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:228
+#: includes/templates/class-template-patient-itake-form.php:230
 msgid "Abnormal Bleeding"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:237
+#: includes/templates/class-template-patient-itake-form.php:239
 msgid "Alcohol Abuse"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:246
+#: includes/templates/class-template-patient-itake-form.php:248
 msgid "Allergies"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:255
+#: includes/templates/class-template-patient-itake-form.php:257
 msgid "Anemia"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:264
+#: includes/templates/class-template-patient-itake-form.php:266
 msgid "Angina Pectoris"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:273
+#: includes/templates/class-template-patient-itake-form.php:275
 msgid "Arthritis"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:282
+#: includes/templates/class-template-patient-itake-form.php:284
 msgid "Artificial Heart Valve"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:291
+#: includes/templates/class-template-patient-itake-form.php:293
 msgid "Asthma"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:300
+#: includes/templates/class-template-patient-itake-form.php:302
 msgid "Blood Transfusion"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:309
+#: includes/templates/class-template-patient-itake-form.php:311
 msgid "Cancer"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:318
+#: includes/templates/class-template-patient-itake-form.php:320
 msgid "Chemotherapy"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:327
+#: includes/templates/class-template-patient-itake-form.php:329
 msgid "Congenital Heart Defect"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:336
+#: includes/templates/class-template-patient-itake-form.php:338
 msgid "Diabetes"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:345
+#: includes/templates/class-template-patient-itake-form.php:347
 msgid "Difficulty Breathing"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:354
+#: includes/templates/class-template-patient-itake-form.php:356
 msgid "Drug Abuse"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:363
+#: includes/templates/class-template-patient-itake-form.php:365
 msgid "Emphysema"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:372
+#: includes/templates/class-template-patient-itake-form.php:374
 msgid "Epilepsy"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:381
+#: includes/templates/class-template-patient-itake-form.php:383
 msgid "Facial Surgery"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:390
+#: includes/templates/class-template-patient-itake-form.php:392
 msgid "Fainting Spells"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:399
+#: includes/templates/class-template-patient-itake-form.php:401
 msgid "Fever Blisters"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:408
+#: includes/templates/class-template-patient-itake-form.php:410
 msgid "Frequent Headaches"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:417
+#: includes/templates/class-template-patient-itake-form.php:419
 msgid "Glaucoma"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:426
+#: includes/templates/class-template-patient-itake-form.php:428
 msgid "HIV + AIDS"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:435
+#: includes/templates/class-template-patient-itake-form.php:437
 msgid "Heart Attack"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:444
+#: includes/templates/class-template-patient-itake-form.php:446
 msgid "Heart Murmur"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:453
+#: includes/templates/class-template-patient-itake-form.php:455
 msgid "Heart Surgery"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:462
+#: includes/templates/class-template-patient-itake-form.php:464
 msgid "Hemophilia"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:471
+#: includes/templates/class-template-patient-itake-form.php:473
 msgid "Hepatitis A"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:480
+#: includes/templates/class-template-patient-itake-form.php:482
 msgid "Hepatitis B"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:489
+#: includes/templates/class-template-patient-itake-form.php:491
 msgid "Hepatitis C"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:498
+#: includes/templates/class-template-patient-itake-form.php:500
 msgid "High Blood Pressure"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:507
+#: includes/templates/class-template-patient-itake-form.php:509
 msgid "Joint Replacement"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:516
+#: includes/templates/class-template-patient-itake-form.php:518
 msgid "Kidney Problems"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:525
+#: includes/templates/class-template-patient-itake-form.php:527
 msgid "Liver Disease"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:534
+#: includes/templates/class-template-patient-itake-form.php:536
 msgid "Low Blood Pressure"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:543
+#: includes/templates/class-template-patient-itake-form.php:545
 msgid "Mitral Valve Prolaps"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:552
+#: includes/templates/class-template-patient-itake-form.php:554
 msgid "Pace Maker"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:561
+#: includes/templates/class-template-patient-itake-form.php:563
 msgid "Psychiatric Care"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:570
+#: includes/templates/class-template-patient-itake-form.php:572
 msgid "Radiation Therapy"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:579
+#: includes/templates/class-template-patient-itake-form.php:581
 msgid "Rheumatic Fever"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:588
+#: includes/templates/class-template-patient-itake-form.php:590
 msgid "Seizures"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:597
+#: includes/templates/class-template-patient-itake-form.php:599
 msgid "Sexually Transmitted Disease"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:606
+#: includes/templates/class-template-patient-itake-form.php:608
 msgid "Shingles"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:615
+#: includes/templates/class-template-patient-itake-form.php:617
 msgid "Sickle Cell Disease"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:624
+#: includes/templates/class-template-patient-itake-form.php:626
 msgid "Sinus Problems"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:633
+#: includes/templates/class-template-patient-itake-form.php:635
 msgid "Stroke"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:642
+#: includes/templates/class-template-patient-itake-form.php:644
 msgid "Thyroid Problems"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:651
+#: includes/templates/class-template-patient-itake-form.php:653
 msgid "Tuberculosis"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:660
+#: includes/templates/class-template-patient-itake-form.php:662
 msgid "Ulcers"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:669
+#: includes/templates/class-template-patient-itake-form.php:671
 msgid "How may we help you today?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:674
+#: includes/templates/class-template-patient-itake-form.php:676
 msgid "Your current dental health is"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:677
+#: includes/templates/class-template-patient-itake-form.php:679
 msgid "Good"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:678
+#: includes/templates/class-template-patient-itake-form.php:680
 msgid "Fair"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:679
+#: includes/templates/class-template-patient-itake-form.php:681
 msgid "Poor"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:684
+#: includes/templates/class-template-patient-itake-form.php:686
 msgid "Do you require antibiotics before dental treatment?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:693
+#: includes/templates/class-template-patient-itake-form.php:695
 msgid "Are you currently in pain?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:702
+#: includes/templates/class-template-patient-itake-form.php:704
 msgid "Do you now or have you had any pain/discomfort in your jaw joint?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:711
+#: includes/templates/class-template-patient-itake-form.php:713
 msgid "Are you aware of clenching or grinding your teeth?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:720
+#: includes/templates/class-template-patient-itake-form.php:722
 msgid "Does it hurt when you chew or open wide to take a bite?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:729
+#: includes/templates/class-template-patient-itake-form.php:731
 msgid "Do you have any jaw symptoms or headaches upon waking up in the morning?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:738
+#: includes/templates/class-template-patient-itake-form.php:740
 msgid "Do you have pain in the face, cheeks, jaw, joints, throat or temples?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:747
+#: includes/templates/class-template-patient-itake-form.php:749
 msgid "Do you like your smile?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:756
+#: includes/templates/class-template-patient-itake-form.php:758
 msgid "Is there anything you would like to change about your smile?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:765
+#: includes/templates/class-template-patient-itake-form.php:767
 msgid "Are you happy with the color of your teeth?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:774
+#: includes/templates/class-template-patient-itake-form.php:776
 msgid "Have you ever had gum disease?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:783
+#: includes/templates/class-template-patient-itake-form.php:785
 msgid "Do your gums bleed?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:792
+#: includes/templates/class-template-patient-itake-form.php:794
 msgid "Have you ever had a deep cleaning or scaling and root planing?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:801
+#: includes/templates/class-template-patient-itake-form.php:803
 msgid "Floss/Week"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:806
+#: includes/templates/class-template-patient-itake-form.php:808
 msgid "Brush/Day"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:811
+#: includes/templates/class-template-patient-itake-form.php:813
 msgid "Are your teeth sensitive to heat, cold or anything else?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:820
+#: includes/templates/class-template-patient-itake-form.php:822
 msgid "Do you take fluoride supplements?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:829
+#: includes/templates/class-template-patient-itake-form.php:831
 msgid "Have you ever had a serious/difficult problem with any previous dental work?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:838
+#: includes/templates/class-template-patient-itake-form.php:840
 msgid "Have you ever had any unfavorable dental experiences?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:847
+#: includes/templates/class-template-patient-itake-form.php:849
 msgid "Are you apprehensive about dental treatment?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:856
+#: includes/templates/class-template-patient-itake-form.php:858
 msgid "Do you gag easily?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:865
+#: includes/templates/class-template-patient-itake-form.php:867
 msgid "When was your last dental cleaning?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:870
+#: includes/templates/class-template-patient-itake-form.php:872
 msgid "When was you last dental visit?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:875
+#: includes/templates/class-template-patient-itake-form.php:877
 msgid "How can we accommodate you better during your dental visit?"
 msgstr ""
 
-#: includes/templates/class-template-patient-itake-form.php:880
+#: includes/templates/class-template-patient-itake-form.php:882
 msgid ""
 "Is there any specific service and/or concern you would like to inquire "
 "about?"
@@ -2855,103 +2945,103 @@ msgid ""
 "and grow your business"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:37
+#: includes/templates/class-template-real-estate-listing.php:38
 msgid "MLS ID"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:44
+#: includes/templates/class-template-real-estate-listing.php:45
 msgid "Street Address"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:50
+#: includes/templates/class-template-real-estate-listing.php:51
 msgid "City"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:56
+#: includes/templates/class-template-real-estate-listing.php:57
 msgid "State"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:69
+#: includes/templates/class-template-real-estate-listing.php:70
 msgid "Zip Code"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:75
+#: includes/templates/class-template-real-estate-listing.php:76
 msgid "Type"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:88
+#: includes/templates/class-template-real-estate-listing.php:89
 msgid "Property Status"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:101
+#: includes/templates/class-template-real-estate-listing.php:102
 msgid "Price"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:106
+#: includes/templates/class-template-real-estate-listing.php:107
 msgid "List Date"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:112
+#: includes/templates/class-template-real-estate-listing.php:113
 msgid "Brief Blurb"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:124
+#: includes/templates/class-template-real-estate-listing.php:125
 msgid "Bedrooms"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:130
+#: includes/templates/class-template-real-estate-listing.php:131
 msgid "Full Boths"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:135
+#: includes/templates/class-template-real-estate-listing.php:136
 msgid "Garage Spaces"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:140
+#: includes/templates/class-template-real-estate-listing.php:141
 msgid "Sqft (Living)"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:145
+#: includes/templates/class-template-real-estate-listing.php:146
 msgid "Sqft (Total)"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:150
+#: includes/templates/class-template-real-estate-listing.php:151
 msgid "Acres"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:155
+#: includes/templates/class-template-real-estate-listing.php:156
 msgid "Year Built"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:160
+#: includes/templates/class-template-real-estate-listing.php:161
 msgid "General Features"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:177
+#: includes/templates/class-template-real-estate-listing.php:178
 msgid "Rooms"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:190
+#: includes/templates/class-template-real-estate-listing.php:191
 msgid "Lot Features"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:211
+#: includes/templates/class-template-real-estate-listing.php:212
 msgid "Air Conditioning"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:220
+#: includes/templates/class-template-real-estate-listing.php:221
 msgid "Interior"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:241
+#: includes/templates/class-template-real-estate-listing.php:242
 msgid "Heat"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:256
+#: includes/templates/class-template-real-estate-listing.php:257
 msgid "Fireplace"
 msgstr ""
 
-#: includes/templates/class-template-real-estate-listing.php:268
+#: includes/templates/class-template-real-estate-listing.php:269
 msgid "Community Features"
 msgstr ""
 
@@ -2963,27 +3053,27 @@ msgstr ""
 msgid "This form will make your customers request for quote easier."
 msgstr ""
 
-#: includes/templates/class-template-request-for-quote.php:49
+#: includes/templates/class-template-request-for-quote.php:50
 msgid "Preferred Method of Contact"
 msgstr ""
 
-#: includes/templates/class-template-request-for-quote.php:61
+#: includes/templates/class-template-request-for-quote.php:62
 msgid "Preferred Type of Trip"
 msgstr ""
 
-#: includes/templates/class-template-request-for-quote.php:73
+#: includes/templates/class-template-request-for-quote.php:74
 msgid "Pickup Address "
 msgstr ""
 
-#: includes/templates/class-template-request-for-quote.php:79
+#: includes/templates/class-template-request-for-quote.php:80
 msgid "Number of Passengers"
 msgstr ""
 
-#: includes/templates/class-template-request-for-quote.php:101
+#: includes/templates/class-template-request-for-quote.php:102
 msgid "Number of Hours "
 msgstr ""
 
-#: includes/templates/class-template-request-for-quote.php:122
+#: includes/templates/class-template-request-for-quote.php:123
 msgid "Comments/Special Requests"
 msgstr ""
 
@@ -3027,11 +3117,11 @@ msgstr ""
 msgid "Form used by a website owner that allows for visitors to \" tell a friend\"."
 msgstr ""
 
-#: includes/templates/class-template-tell-a-friend.php:55
+#: includes/templates/class-template-tell-a-friend.php:56
 msgid "Thanks for sending your message! I will get in touch with you shortly."
 msgstr ""
 
-#: includes/templates/class-template-tell-a-friend.php:56
+#: includes/templates/class-template-tell-a-friend.php:57
 msgid "Send Message"
 msgstr ""
 
@@ -3045,19 +3135,19 @@ msgid ""
 "list with the help of your form users."
 msgstr ""
 
-#: includes/templates/class-template-to-do-list.php:30
+#: includes/templates/class-template-to-do-list.php:31
 msgid "Item Name"
 msgstr ""
 
-#: includes/templates/class-template-to-do-list.php:35
+#: includes/templates/class-template-to-do-list.php:36
 msgid "Additional Notes"
 msgstr ""
 
-#: includes/templates/class-template-to-do-list.php:41
+#: includes/templates/class-template-to-do-list.php:42
 msgid "Due Date"
 msgstr ""
 
-#: includes/templates/class-template-to-do-list.php:47
+#: includes/templates/class-template-to-do-list.php:48
 msgid "Priority"
 msgstr ""
 
@@ -3071,48 +3161,48 @@ msgid ""
 "want to work according to their particular interests."
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:26
+#: includes/templates/class-template-volunteer-application.php:27
 msgid "Volunteer Application"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:66
+#: includes/templates/class-template-volunteer-application.php:67
 msgid "Skillsets or Area of Interests"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:71
+#: includes/templates/class-template-volunteer-application.php:72
 msgid "Days of Work"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:74
+#: includes/templates/class-template-volunteer-application.php:75
 msgid "Monday"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:75
+#: includes/templates/class-template-volunteer-application.php:76
 msgid "Tuesday"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:76
+#: includes/templates/class-template-volunteer-application.php:77
 msgid "Wednesday"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:77
+#: includes/templates/class-template-volunteer-application.php:78
 msgid "Thursday"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:78
+#: includes/templates/class-template-volunteer-application.php:79
 msgid "Friday"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:79
+#: includes/templates/class-template-volunteer-application.php:80
 msgid "Sunday"
 msgstr ""
 
-#: includes/templates/class-template-volunteer-application.php:80
+#: includes/templates/class-template-volunteer-application.php:81
 msgid "Satarday"
 msgstr ""
 
 #: includes/templates/class-template-website-feedback-form.php:12
-#: includes/templates/class-template-website-feedback-form.php:27
+#: includes/templates/class-template-website-feedback-form.php:28
 msgid "Website Feedback"
 msgstr ""
 
@@ -3124,69 +3214,69 @@ msgid ""
 "you to improve it!"
 msgstr ""
 
-#: includes/templates/class-template-website-feedback-form.php:57
+#: includes/templates/class-template-website-feedback-form.php:58
 msgid "User Friendliness"
 msgstr ""
 
-#: includes/templates/class-template-website-feedback-form.php:70
+#: includes/templates/class-template-website-feedback-form.php:71
 msgid "Visual Appeal"
 msgstr ""
 
-#: includes/templates/class-template-website-feedback-form.php:83
+#: includes/templates/class-template-website-feedback-form.php:84
 msgid "Correct Info"
 msgstr ""
 
-#: includes/templates/class-template-website-feedback-form.php:96
+#: includes/templates/class-template-website-feedback-form.php:97
 msgid "Suggestion, Comments, Or Other Things You Like or Don't Like"
 msgstr ""
 
-#: weforms.php:360
+#: weforms.php:376
 msgid "Docs"
 msgstr ""
 
-#: weforms.php:393
+#: weforms.php:409
 msgid "Your installed PHP Version is: "
 msgstr ""
 
-#: weforms.php:394
+#: weforms.php:410
 msgid "The <strong>weForms</strong> plugin requires PHP version <strong>"
 msgstr ""
 
-#: weforms.php:394
+#: weforms.php:410
 msgid "</strong> or greater."
 msgstr ""
 
-#: weforms.php:416
+#: weforms.php:430
 msgid "<h1>An Error Occured</h1>"
 msgstr ""
 
-#: weforms.php:417
+#: weforms.php:431
 msgid "<h2>Your installed PHP Version is: "
 msgstr ""
 
-#: weforms.php:418
+#: weforms.php:432
 msgid "<p>The <strong>weforms</strong> plugin requires PHP version <strong>"
 msgstr ""
 
-#: weforms.php:418
+#: weforms.php:432
 msgid "</strong> or greater"
 msgstr ""
 
-#: weforms.php:419
+#: weforms.php:433
 msgid "<p>The version of your PHP is "
 msgstr ""
 
-#: weforms.php:419
+#: weforms.php:433
 msgid "unsupported and old"
 msgstr ""
 
-#: weforms.php:420
+#: weforms.php:434
 msgid ""
 "You should update your PHP software or contact your host regarding this "
 "matter.</p>"
 msgstr ""
 
-#: weforms.php:422
+#: weforms.php:436
 msgid "Plugin Activation Error"
 msgstr ""
 

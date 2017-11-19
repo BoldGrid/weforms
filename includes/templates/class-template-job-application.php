@@ -13,6 +13,8 @@ class WeForms_Template_Job_Application extends WeForms_Form_Template {
         $this->description = __( 'This simple template is the easy and fastest way to apply online. Gather information and upload resume using the form.', 'weforms' );
         $this->category    = 'application';
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/job-application.png';
+        $this->category    = 'employment';
+
     }
 
     /**
@@ -28,7 +30,7 @@ class WeForms_Template_Job_Application extends WeForms_Form_Template {
                 'required' => 'yes',
                 'label'    => 'Full Name',
                 'name'     => 'full_name',
-            ) ),            
+            ) ),
             array_merge( $all_fields['address_field']->get_field_props(), array(
                 'required' => 'yes',
                 'label'    => 'Current Address',
@@ -47,17 +49,17 @@ class WeForms_Template_Job_Application extends WeForms_Form_Template {
                 'required' => 'yes',
                 'label'    => 'Applying For Position',
                 'name'     => 'applying_for_position',
-                'options'  => array( 
-                    'work_1' => __( 'Work 1', 'wpuf' ), 
-                    'work_2' => __( 'Work 2', 'wpuf' ), 
-                    'work_3' => __( 'Work 3', 'wpuf' ), 
-                    'any_position' => __( 'Any Position', 'wpuf' ) 
+                'options'  => array(
+                    'work_1' => __( 'Work 1', 'wpuf' ),
+                    'work_2' => __( 'Work 2', 'wpuf' ),
+                    'work_3' => __( 'Work 3', 'wpuf' ),
+                    'any_position' => __( 'Any Position', 'wpuf' )
                 ),
             ) ),
             array_merge( $all_fields['date_field']->get_field_props(), array(
                 'label'    => 'Start Date',
                 'name'     => 'start_date'
-            ) ),            
+            ) ),
             array_merge( $all_fields['file_upload']->get_field_props(), array(
                 'required' => 'yes',
                 'label'    => 'Upload Resume',

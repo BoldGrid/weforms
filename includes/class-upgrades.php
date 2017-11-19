@@ -12,9 +12,7 @@ class WeForms_Upgrades {
      *
      * @var array
      */
-    private static $upgrades = array(
-
-    );
+    private static $upgrades = array();
 
     /**
      * Get the plugin version

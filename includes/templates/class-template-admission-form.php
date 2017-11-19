@@ -12,6 +12,7 @@ class WeForms_Template_Admission_Form extends WeForms_Form_Template {
         $this->title       = __( 'Admissions Form', 'weforms' );
         $this->description = __( 'A sample admissions and registration form for your educational institution on this multi-page admissions form to ask for user details and an application fee.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/admission_form.png';
+        $this->category    = 'registration';
     }
 
     /**
@@ -58,7 +59,7 @@ class WeForms_Template_Admission_Form extends WeForms_Form_Template {
                 'required' => 'yes',
                 'label'    => __( 'Gender', 'weforms' ),
                 'name'     => 'gender',
-                'options'  =>  array( 
+                'options'  =>  array(
                     'male'              =>  'Male',
                     'female'            => 'Female',
                     'decline_to_answer' => 'Decline to Answer'
@@ -69,7 +70,7 @@ class WeForms_Template_Admission_Form extends WeForms_Form_Template {
                 'required' => 'yes',
                 'label'    => __( 'Are you Hispanic or Latino?', 'weforms' ),
                 'name'     => 'latino',
-                'options'  =>  array( 
+                'options'  =>  array(
                     'yes'               =>  'Yes',
                     'no'                => 'No',
                     'decline_to_answer' => 'Decline to Answer'
@@ -80,12 +81,12 @@ class WeForms_Template_Admission_Form extends WeForms_Form_Template {
                 'required' => 'yes',
                 'label'    => __( 'Race:', 'weforms' ),
                 'name'     => 'race',
-                'options'  =>  array( 
+                'options'  =>  array(
                     'american'          => 'American Indian/Alaskan Native ',
-                    'asian'             => 'Asian',  
-                    'black'             => 'Black',  
-                    'native_hawaiian'   => 'Native Hawaiian/Other Pacific Islander',  
-                    'white'             =>  'White',  
+                    'asian'             => 'Asian',
+                    'black'             => 'Black',
+                    'native_hawaiian'   => 'Native Hawaiian/Other Pacific Islander',
+                    'white'             =>  'White',
                     'decline_to_answer' => 'Decline to Answer',
                 ),
             ) ),
@@ -113,7 +114,7 @@ class WeForms_Template_Admission_Form extends WeForms_Form_Template {
                 'required' => 'yes',
                 'label'    => __( 'Payment Method', 'weforms' ),
                 'name'     => 'payment_method',
-                'options'  =>  array( 
+                'options'  =>  array(
                     'credit_card'   => 'Credit Card',
                     'mail_a_check'  =>  'Mail a Check',
                     'in_person'     =>  'In Person at School',

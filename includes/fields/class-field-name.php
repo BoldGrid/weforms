@@ -20,6 +20,13 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
+
+
+        // let's not show the name field if user choose to auto populate for logged users
+        if ( isset( $field_settings['auto_populate'] ) && $field_settings['auto_populate'] == 'yes' && is_user_logged_in() ) {
+            return;
+        }
+
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
@@ -106,6 +113,19 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                 'help_text' => __( 'Select format to use for the name field', 'weforms' ),
             ),
             array(
+                'name'          => 'auto_populate',
+                'title'         => 'Auto-populate name for logged users',
+                'type'          => 'checkbox',
+                'is_single_opt' => true,
+                'options'       => array(
+                    'yes'   => __( 'Auto-populate Name', 'weforms' )
+                ),
+                'default'       => '',
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'If a user is logged into the site, this name field will be auto-populated with his first-last/display name. And form\'s name field will be hidden.', 'weforms' ),
+            ),
+            array(
                 'name'      => 'sub-labels',
                 'title'     => __( 'Label', 'weforms' ),
                 'type'      => 'name',
@@ -174,4 +194,48 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
 
         return array_merge( $defaults, $props );
     }
+
+    /**
+     * Prepare entry default, can be replaced through field classes
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function prepare_entry( $field ) {
+
+        if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
+
+            $user = wp_get_current_user();
+
+            if ( ! empty( $user->ID ) ) {
+
+                if ( $user->first_name || $user->last_name ) {
+
+                    $name = array();
+                    $name[] = $user->first_name;
+                    $name[] = $user->last_name;
+
+                    return implode( WeForms::$field_separator, $name );
+                } else {
+
+                    return $user->display_name;
+                }
+
+            }
+        }
+
+        $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
+
+        if ( is_array( $value ) ) {
+
+            $entry_value = implode( WeForms::$field_separator, $_POST[$field['name']] );
+
+        } else {
+            $entry_value = trim( $value  );
+        }
+
+        return $entry_value;
+    }
+
 }

@@ -25,17 +25,33 @@ function weforms_get_form_template_categories() {
             'name'         => 'Default Templates',
             'icon'         => 'fa fa-bars',
         ),
-        // 'registration' => array(
-        //     'name'         => 'Registration Templates',
-        //     'icon'         => 'fa fa-user-plus',
-        // ),
-        'event'        => array(
-            'name'         => 'Event Templates',
-            'icon'         => 'fa fa-calendar',
+        'registration' => array(
+            'name'         => 'Registration Templates',
+            'icon'         => 'fa fa-user-plus',
         ),
         'application'        => array(
             'name'         => 'Application Templates',
             'icon'         => 'fa fa-address-card-o',
+        ),
+        'request'        => array(
+            'name'         => 'Request Templates',
+            'icon'         => 'fa fa-hand-paper-o',
+        ),
+        'event'        => array(
+            'name'         => 'Event Templates',
+            'icon'         => 'fa fa-calendar',
+        ),
+        'feedback'        => array(
+            'name'         => 'Feedback Templates',
+            'icon'         => 'fa fa-comments',
+        ),
+        'employment'        => array(
+            'name'         => 'Employment Templates',
+            'icon'         => 'fa fa-suitcase',
+        ),
+        'others'        => array(
+            'name'         => 'Others Templates',
+            'icon'         => 'fa fa-info-circle',
         ),
     );
 
@@ -45,8 +61,8 @@ function weforms_get_form_template_categories() {
 /**
  * Get entries by a form_id
  *
- * @param  int $form_id
- * @param  array  $args
+ * @param  int   $form_id
+ * @param  array $args
  *
  * @return Object
  */
@@ -65,10 +81,10 @@ function weforms_get_form_entries( $form_id, $args = array() ) {
 
     $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
             FROM ' . $wpdb->weforms_entries .
-            ' WHERE form_id = ' . $form_id . ' AND status = \'' . $r['status'] . '\''.
+            ' WHERE form_id = ' . $form_id . ' AND status = \'' . $r['status'] . '\'' .
             ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'];
 
-    if ( !empty( $r['offset'] ) && !empty( $r['number'] ) ) {
+    if ( ! empty( $r['offset'] ) && ! empty( $r['number'] ) ) {
         $query .= ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
     }
 
@@ -80,8 +96,8 @@ function weforms_get_form_entries( $form_id, $args = array() ) {
 /**
  * Get payments by a form_id
  *
- * @param  int $form_id
- * @param  array  $args
+ * @param  int   $form_id
+ * @param  array $args
  *
  * @return Object
  */
@@ -122,8 +138,8 @@ function weforms_get_entry( $entry_id ) {
 
     if ( false === $entry ) {
         $query = 'SELECT id, form_id, user_id, user_device, referer, INET_NTOA( user_ip ) as ip_address, created_at
-             FROM ' . $wpdb->weforms_entries . '
-             WHERE id = %d';
+            FROM ' . $wpdb->weforms_entries . '
+            WHERE id = %d';
 
         $entry = $wpdb->get_row( $wpdb->prepare( $query, $entry_id ) );
         wp_cache_set( $cache_key, $entry );
@@ -136,7 +152,7 @@ function weforms_get_entry( $entry_id ) {
  * Insert a new entry
  *
  * @param  array $args
- * @param  array  $fields
+ * @param  array $fields
  *
  * @return WP_Error|integer
  */
@@ -156,23 +172,23 @@ function weforms_insert_entry( $args, $fields = array() ) {
 
     $r = wp_parse_args( $args, $defaults );
 
-    if ( !$r['form_id'] ) {
+    if ( ! $r['form_id'] ) {
         return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'weforms' ) );
     }
 
-    if ( !$fields ) {
+    if ( ! $fields ) {
         return new WP_Error( 'no-fields', __( 'No form fields were found.', 'weforms' ) );
     }
 
     $success = $wpdb->insert( $wpdb->weforms_entries, $r );
 
-    if ( is_wp_error( $success ) || !$success ) {
+    if ( is_wp_error( $success ) || ! $success ) {
         return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'weforms' ) );
     }
 
     $entry_id = $wpdb->insert_id;
 
-    foreach ($fields as $key => $value) {
+    foreach ( $fields as $key => $value ) {
         weforms_add_entry_meta( $entry_id, $key, $value );
     }
 
@@ -182,7 +198,7 @@ function weforms_insert_entry( $args, $fields = array() ) {
 /**
  * Change an entry status
  *
- * @param  int $entry_id
+ * @param  int    $entry_id
  * @param  string $status
  *
  * @return int|boolean
@@ -190,9 +206,14 @@ function weforms_insert_entry( $args, $fields = array() ) {
 function weforms_change_entry_status( $entry_id, $status ) {
     global $wpdb;
 
-    return $wpdb->update( $wpdb->weforms_entries,
-        array( 'status' => $status ),
-        array( 'id' => $entry_id ),
+    return $wpdb->update(
+        $wpdb->weforms_entries,
+        array(
+			'status' => $status
+        ),
+        array(
+			'id' => $entry_id
+        ),
         array( '%s' ),
         array( '%d' )
     );
@@ -208,7 +229,11 @@ function weforms_change_entry_status( $entry_id, $status ) {
 function weforms_delete_entry( $entry_id ) {
     global $wpdb;
 
-    return $wpdb->delete( $wpdb->weforms_entries, array( 'id' => $entry_id ), array( '%d' ) );
+    return $wpdb->delete(
+        $wpdb->weforms_entries, array(
+			'id' => $entry_id
+        ), array( '%d' )
+    );
 }
 
 /**
@@ -222,7 +247,7 @@ function weforms_delete_entry( $entry_id ) {
  * @return int|false Meta ID on success, false on failure.
  */
 function weforms_add_entry_meta( $entry_id, $meta_key, $meta_value, $unique = false ) {
-    return add_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $unique);
+    return add_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $unique );
 }
 
 /**
@@ -256,7 +281,7 @@ function weforms_get_entry_meta( $entry_id, $key = '', $single = false ) {
  *                  false on failure.
  */
 function weforms_update_entry_meta( $entry_id, $meta_key, $meta_value, $prev_value = '' ) {
-    return update_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $prev_value);
+    return update_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $prev_value );
 }
 
 /**
@@ -297,11 +322,11 @@ function weforms_get_entry_custom( $entry_id = 0 ) {
 function weforms_get_entry_custom_keys( $entry_id = 0 ) {
     $custom = weforms_get_entry_custom( $entry_id );
 
-    if ( !is_array( $custom ) ) {
+    if ( ! is_array( $custom ) ) {
         return false;
     }
 
-    if ( $keys = array_keys($custom) ) {
+    if ( $keys = array_keys( $custom ) ) {
         return $keys;
     }
 }
@@ -333,7 +358,7 @@ function weforms_count_form_payments( $form_id ) {
         return 0;
     }
 
-    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->prefix . 'weforms_payments' . ' WHERE form_id = %d', $form_id) );
+    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->prefix . 'weforms_payments' . ' WHERE form_id = %d', $form_id ) );
 }
 
 /**
@@ -352,23 +377,24 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     // filter by input types
     if ( $limit ) {
 
-        $fields = array_filter( $fields, function($item) {
-            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
-        } );
+        $fields = array_filter( $fields, function( $item ) {
+				return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
+			}
+        );
     }
 
     if ( $fields ) {
-        foreach ($fields as $field) {
+        foreach ( $fields as $field ) {
             $columns[ $field['name'] ] = $field['label'];
         }
     }
 
     // if passed 0/false, return all collumns
-    if ( $limit && sizeof($columns) > $limit ) {
-       $columns = array_slice( $columns, 0, $limit ); // max 6 columns
+    if ( $limit && sizeof( $columns ) > $limit ) {
+		$columns = array_slice( $columns, 0, $limit ); // max 6 columns
     }
 
-    return apply_filters('weforms_get_entry_columns', $columns, $form_id);
+    return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
 }
 
 /**
@@ -387,23 +413,24 @@ function weforms_get_payment_columns( $form_id, $limit = 6 ) {
     // filter by input types
     if ( $limit ) {
 
-        $fields = array_filter( $fields, function($item) {
-            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
-        } );
+        $fields = array_filter( $fields, function( $item ) {
+				return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
+			}
+        );
     }
 
     if ( $fields ) {
-        foreach ($fields as $field) {
+        foreach ( $fields as $field ) {
             $columns[ $field['name'] ] = $field['label'];
         }
     }
 
     // if passed 0/false, return all collumns
-    if ( $limit && sizeof($columns) > $limit ) {
-       $columns = array_slice( $columns, 0, $limit ); // max 6 columns
+    if ( $limit && sizeof( $columns ) > $limit ) {
+		$columns = array_slice( $columns, 0, $limit ); // max 6 columns
     }
 
-    return apply_filters('weforms_get_entry_columns', $columns, $form_id);
+    return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
 }
 
 /**
@@ -422,7 +449,7 @@ function weforms_get_form_field_labels( $form_id ) {
     }
 
     $data = array();
-    foreach ($fields as $field) {
+    foreach ( $fields as $field ) {
         if ( empty( $field['name'] ) ) {
             continue;
         }
@@ -458,7 +485,7 @@ function weforms_get_entry_data( $entry_id ) {
         return false;
     }
 
-    foreach ($fields as $meta_key => $field ) {
+    foreach ( $fields as $meta_key => $field ) {
         $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
 
         if ( $field['type'] == 'textarea' ) {
@@ -475,7 +502,7 @@ function weforms_get_entry_data( $entry_id ) {
 
             if ( is_array( $value ) && $value ) {
 
-                foreach ($value as $attachment_id) {
+                foreach ( $value as $attachment_id ) {
 
                     if ( $field['type'] == 'image_upload' ) {
                         $thumb = wp_get_attachment_image( $attachment_id, 'thumbnail' );
@@ -488,8 +515,7 @@ function weforms_get_entry_data( $entry_id ) {
                     $data[ $meta_key ] .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
                 }
             }
-
-        } elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
+		} elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
 
             $data[ $meta_key ] = explode( WeForms::$field_separator, $value );
 
@@ -497,7 +523,10 @@ function weforms_get_entry_data( $entry_id ) {
 
             list( $lat, $long ) = explode( ',', $value );
 
-            $data[ $meta_key ] = array( 'lat' => $lat, 'long' => $long );
+            $data[ $meta_key ] = array(
+				'lat' => $lat,
+				'long' => $long
+			);
 
         } else {
             $data[ $meta_key ] = $value;
@@ -535,64 +564,64 @@ function weforms_get_browser() {
     $u_agent  = $_SERVER['HTTP_USER_AGENT'];
     $bname    = 'Unknown';
     $platform = 'Unknown';
-    $version  = "";
+    $version  = '';
 
     // first get the platform
-    if (preg_match('/linux/i', $u_agent)) {
+    if ( preg_match( '/linux/i', $u_agent ) ) {
         $platform = 'Linux';
-    } elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+    } elseif ( preg_match( '/macintosh|mac os x/i', $u_agent ) ) {
         $platform = 'MAC OS';
-    } elseif (preg_match('/windows|win32/i', $u_agent)) {
+    } elseif ( preg_match( '/windows|win32/i', $u_agent ) ) {
         $platform = 'Windows';
     }
 
     // next get the name of the useragent yes seperately and for good reason
-    if ( preg_match('/MSIE/i',$u_agent) && !preg_match( '/Opera/i',$u_agent ) ) {
+    if ( preg_match( '/MSIE/i',$u_agent ) && ! preg_match( '/Opera/i',$u_agent ) ) {
         $bname = 'Internet Explorer';
-        $ub    = "MSIE";
-    } elseif(preg_match('/Trident/i',$u_agent)) {
+        $ub    = 'MSIE';
+    } elseif ( preg_match( '/Trident/i',$u_agent ) ) {
         // this condition is for IE11
         $bname = 'Internet Explorer';
-        $ub = "rv";
-    } elseif(preg_match('/Firefox/i',$u_agent)) {
+        $ub = 'rv';
+    } elseif ( preg_match( '/Firefox/i',$u_agent ) ) {
         $bname = 'Mozilla Firefox';
-        $ub = "Firefox";
-    } elseif(preg_match('/Chrome/i',$u_agent)) {
+        $ub = 'Firefox';
+    } elseif ( preg_match( '/Chrome/i',$u_agent ) ) {
         $bname = 'Google Chrome';
-        $ub = "Chrome";
-    } elseif(preg_match('/Safari/i',$u_agent)) {
+        $ub = 'Chrome';
+    } elseif ( preg_match( '/Safari/i',$u_agent ) ) {
         $bname = 'Apple Safari';
-        $ub = "Safari";
-    } elseif(preg_match('/Opera/i',$u_agent)) {
+        $ub = 'Safari';
+    } elseif ( preg_match( '/Opera/i',$u_agent ) ) {
         $bname = 'Opera';
-        $ub = "Opera";
-    } elseif(preg_match('/Netscape/i',$u_agent)) {
+        $ub = 'Opera';
+    } elseif ( preg_match( '/Netscape/i',$u_agent ) ) {
         $bname = 'Netscape';
-        $ub = "Netscape";
+        $ub = 'Netscape';
     }
 
     // finally get the correct version number
     // Added "|:"
-    $known = array('Version', $ub, 'other');
-    $pattern = '#(?<browser>' . join('|', $known) .
+    $known = array( 'Version', $ub, 'other' );
+    $pattern = '#(?<browser>' . join( '|', $known ) .
      ')[/|: ]+(?<version>[0-9.|a-zA-Z.]*)#';
-    if (!preg_match_all($pattern, $u_agent, $matches)) {
+    if ( ! preg_match_all( $pattern, $u_agent, $matches ) ) {
         // we have no matching number just continue
     }
 
     // see how many we have
-    $i = count($matches['browser']);
+    $i = count( $matches['browser'] );
 
-    if ($i != 1) {
-        //we will have two since we are not using 'other' argument yet
-        //see if version is before or after the name
-        if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
-            $version= $matches['version'][0];
+    if ( $i != 1 ) {
+        // we will have two since we are not using 'other' argument yet
+        // see if version is before or after the name
+        if ( strripos( $u_agent,'Version' ) < strripos( $u_agent,$ub ) ) {
+            $version = $matches['version'][0];
         } else {
-            $version= $matches['version'][1];
+            $version = $matches['version'][1];
         }
     } else {
-        $version= $matches['version'][0];
+        $version = $matches['version'][0];
     }
 
     // check if we have a number
@@ -679,7 +708,7 @@ function weforms_track_form_view( $form_id ) {
     // ability to turn this off if someone doesn't like this tracking
     $is_enabled = apply_filters( 'weforms_track_form_view', true );
 
-    if ( !$is_enabled ) {
+    if ( ! $is_enabled ) {
         return;
     }
 
@@ -705,7 +734,7 @@ function weforms_get_form_views( $form_id ) {
  * Get the weForms global settings
  *
  * @param string $key
- * @param mixed $default
+ * @param mixed  $default
  *
  * @return mixed
  */
@@ -778,17 +807,17 @@ function weforms_clear_buffer() {
 function weforms_get_client_ip() {
     $ipaddress = '';
 
-    if ( isset($_SERVER['HTTP_CLIENT_IP'] ) ) {
+    if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
         $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    } else if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+    } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
         $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else if ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
+    } elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
         $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    } else if ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
+    } elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
         $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    } else if ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
+    } elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
         $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    } else if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+    } elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
         $ipaddress = $_SERVER['REMOTE_ADDR'];
     } else {
         $ipaddress = 'UNKNOWN';
@@ -802,10 +831,10 @@ function weforms_get_client_ip() {
  *
  * @since 1.1.0
  *
- * @param int $form_id
+ * @param int   $form_id
  * @param array $field
- * @param int $field_id
- * @param int $order
+ * @param int   $field_id
+ * @param int   $order
  *
  * @return int ID of updated or inserted post
  */
@@ -884,7 +913,7 @@ function weforms_allowed_extensions() {
  * @return array
  */
 function weforms_get_form_integrations( $form_id ) {
-    $integrations =  get_post_meta( $form_id, 'integrations', true );
+    $integrations = get_post_meta( $form_id, 'integrations', true );
 
     if ( ! $integrations ) {
         return array();
@@ -899,7 +928,7 @@ function weforms_get_form_integrations( $form_id ) {
  *
  * @since 1.1.0
  *
- * @param  int $form_id
+ * @param  int    $form_id
  * @param  string $integration_id
  *
  * @return boolean
@@ -911,7 +940,7 @@ function weforms_is_integration_active( $form_id, $integration_id ) {
         return false;
     }
 
-    foreach ($integrations as $id => $integration) {
+    foreach ( $integrations as $id => $integration ) {
         if ( $integration_id == $id && $integration->enabled == true ) {
             return $integration;
         }
@@ -936,60 +965,61 @@ function weforms_get_flat_ui_colors() {
  * @return array
  */
 function weforms_get_default_form_settings() {
-    return apply_filters( 'weforms_get_default_form_settings', array(
-        'redirect_to'                => 'same',
-        'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
-        'page_id'                    => '',
-        'url'                        => '',
-        'submit_text'                => __( 'Submit Query', 'weforms' ),
-        'schedule_form'              => 'false',
-        'schedule_start'             => '',
-        'schedule_end'               => '',
-        'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
-        'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
-        'require_login'              => 'false',
-        'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
-        'limit_entries'              => 'false',
-        'limit_number'               => '100',
-        'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
-        'label_position'             => 'above',
-        'enable_multistep'           => false,
-        'multistep_progressbar_type' => 'progressive',
+    return apply_filters(
+        'weforms_get_default_form_settings', array(
+			'redirect_to'                => 'same',
+			'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
+			'page_id'                    => '',
+			'url'                        => '',
+			'submit_text'                => __( 'Submit Query', 'weforms' ),
+			'schedule_form'              => 'false',
+			'schedule_start'             => '',
+			'schedule_end'               => '',
+			'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
+			'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
+			'require_login'              => 'false',
+			'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
+			'limit_entries'              => 'false',
+			'limit_number'               => '100',
+			'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
+			'label_position'             => 'above',
+			'enable_multistep'           => false,
+			'multistep_progressbar_type' => 'progressive',
 
-        // payment
+			// payment
+			'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
 
-        'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
+			'payment_paypal_label'       => __( 'PayPal', 'weforms' ),
+			'payment_stripe_label'       => __( 'Credit Card', 'weforms' ),
+			'payment_stripe_images'      => array( 'visa','mastercard','amex','discover' ),
 
-        'payment_paypal_label'       => __( 'PayPal', 'weforms' ),
-        'payment_stripe_label'       => __( 'Credit Card', 'weforms' ),
-        'payment_stripe_images'      => array('visa','mastercard','amex','discover'),
+			'payment_stripe_deactivate'  => '',
+			'stripe_mode'                => 'live',
+			'stripe_page_id'             => '',
 
-        'payment_stripe_deactivate'  => '',
-        'stripe_mode'                => 'live',
-        'stripe_page_id'             => '',
+			'stripe_override_keys'       => '',
+			'stripe_email'               => '',
+			'stripe_key'                 => '',
+			'stripe_secret_key'          => '',
+			'stripe_key_test'            => '',
+			'stripe_secret_key_test'     => '',
 
-        'stripe_override_keys'       => '',
-        'stripe_email'               => '',
-        'stripe_key'                 => '',
-        'stripe_secret_key'          => '',
-        'stripe_key_test'            => '',
-        'stripe_secret_key_test'     => '',
+			'stripe_prefill_email'       => '',
+			'stripe_user_email_field'    => '',
 
-        'stripe_prefill_email'       => '',
-        'stripe_user_email_field'    => '',
+			'payment_paypal_deactivate'  => '',
+			'paypal_mode'                => 'live',
+			'paypal_type'                => '_cart',
 
-        'payment_paypal_deactivate'  => '',
-        'paypal_mode'                => 'live',
-        'paypal_type'                => '_cart',
+			'paypal_override'            => '',
+			'paypal_email'               => '',
 
-        'paypal_override'            => '',
-        'paypal_email'               => '',
+			'paypal_page_id'             => '',
 
-        'paypal_page_id'             => '',
-
-        'paypal_prefill_email'       => '',
-        'paypal_user_email_field'    => '',
-    ));
+			'paypal_prefill_email'       => '',
+			'paypal_user_email_field'    => '',
+        )
+    );
 }
 
 /**
@@ -998,33 +1028,34 @@ function weforms_get_default_form_settings() {
  * @return array
  */
 function weforms_get_default_form_notification() {
-    return apply_filters( 'weforms_get_default_form_notification', array(
-            'active'       => 'true',
+    return apply_filters(
+        'weforms_get_default_form_notification', array(
+			'active'       => 'true',
 
-            'type'         => 'email',
-            'smsTo'        => '',
-            'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+			'type'         => 'email',
+			'smsTo'        => '',
+			'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
 
-            'name'         => __( 'Admin Notification', 'weforms' ),
-            'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
-            'to'           => '{admin_email}',
-            'replyTo'      => '{field:email}',
-            'message'      => '{all_fields}',
-            'fromName'     => '{site_name}',
-            'fromAddress'  => '{admin_email}',
-            'cc'           => '',
-            'bcc'          => '',
-            'weforms_cond' => array(
-                'condition_status' => 'no',
-                'cond_logic'       => 'any',
-                'conditions'       => array(
-                    array(
-                        'name'             => '',
-                        'operator'         => '=',
-                        'option'           => ''
-                    )
-                )
-            )
+			'name'         => __( 'Admin Notification', 'weforms' ),
+			'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+			'to'           => '{admin_email}',
+			'replyTo'      => '{field:email}',
+			'message'      => '{all_fields}',
+			'fromName'     => '{site_name}',
+			'fromAddress'  => '{admin_email}',
+			'cc'           => '',
+			'bcc'          => '',
+			'weforms_cond' => array(
+				'condition_status' => 'no',
+				'cond_logic'       => 'any',
+				'conditions'       => array(
+					array(
+						'name'             => '',
+						'operator'         => '=',
+						'option'           => ''
+					)
+				)
+			)
         )
     );
 }
@@ -1054,15 +1085,14 @@ function weforms_get_pain_text( $value ) {
                     $single_value = weforms_get_pain_text( $single_value );
                 }
 
-                $single_value = ucwords( str_replace( array( "_", "-" ), " ", $key) ) . ': ' . ucwords( $single_value );
+                $single_value = ucwords( str_replace( array( '_', '-' ), ' ', $key ) ) . ': ' . ucwords( $single_value );
 
                 $string_value[] = $single_value;
             }
 
-            $value =  implode( WeForms::$field_separator , $string_value);
+            $value = implode( WeForms::$field_separator , $string_value );
         }
-
-    }
+	}
 
     $value = trim( strip_tags( $value ) );
 

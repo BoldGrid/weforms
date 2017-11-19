@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.2.1
+ * Version: 1.2.2
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -39,7 +39,9 @@
  */
 
 // don't call the file directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 /**
  * WeForms class
@@ -53,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.2.1';
+    public $version = '1.2.2';
 
     /**
      * Form field value seperator
@@ -97,7 +99,7 @@ final class WeForms {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-        add_action( 'plugins_loaded', array( $this, 'plugin_upgrades') );
+        add_action( 'plugins_loaded', array( $this, 'plugin_upgrades' ) );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
     }
 
@@ -237,6 +239,7 @@ final class WeForms {
             }
         }
 
+        require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
         require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
         require_once WEFORMS_INCLUDES . '/class-field-manager.php';
@@ -332,6 +335,7 @@ final class WeForms {
             $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
+        $this->container['insights']     = new WeDevs_Insights( 'weforms', 'weForms', __FILE__ );
         $this->container['emailer']      = new WeForms_Emailer();
         $this->container['form']         = new WeForms_Form_Manager();
         $this->container['fields']       = new WeForms_Field_Manager();
@@ -349,9 +353,21 @@ final class WeForms {
     }
 
     /**
+     * The main logging function
+     *
+     * @uses error_log
+     * @param string $type type of the error. e.g: debug, error, info
+     * @param string $msg
+     */
+    public static function log( $type = '', $msg = '' ) {
+        $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, $msg );
+        @error_log( $msg, 3, WP_CONTENT_DIR . '/weforms_log.txt' );
+    }
+
+    /**
      * Plugin action links
      *
-     * @param  array  $links
+     * @param  array $links
      *
      * @return array
      */
@@ -386,7 +402,7 @@ final class WeForms {
      */
     function php_version_notice() {
 
-        if ( $this->is_supported_php() || !current_user_can( 'manage_options' ) ) {
+        if ( $this->is_supported_php() || ! current_user_can( 'manage_options' ) ) {
             return;
         }
 
@@ -398,8 +414,6 @@ final class WeForms {
         </div>
         <?php
     }
-
-
 
     /**
      * Bail out if the php version is lower than

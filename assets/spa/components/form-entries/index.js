@@ -5,7 +5,11 @@ weForms.routeComponents.FormEntries = {
     template: '#tmpl-wpuf-form-entries',
     data: function() {
         return {
-            form_title: 'Loading...'
+            selected: 0,
+            form_title: 'Loading...',
+            status: 'publish',
+            total: 0,
+            totalTrash: 0,
         };
     }
 };

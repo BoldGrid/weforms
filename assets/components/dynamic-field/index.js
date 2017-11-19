@@ -12,7 +12,10 @@ Vue.component('field-dynamic-field', {
     computed: {
         dynamic: function(){
             return this.editing_form_field.dynamic;
-        }
+        },
+        editing_field: function(){
+            return this.editing_form_field;
+        },
     },
 
     created: function () {

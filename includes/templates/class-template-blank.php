@@ -12,6 +12,7 @@ class WeForms_Template_Blank extends WeForms_Form_Template {
         $this->title       = __( 'Blank Form', 'weforms' );
         $this->description = __( 'Start from a blank slate', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/contact.png';
+        $this->category       = 'default';
     }
 
     /**

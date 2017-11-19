@@ -12,6 +12,7 @@ class WeForms_Template_Volunteer_Application extends WeForms_Form_Template {
         $this->title       = __( 'Volunteer Application Form', 'weforms' );
         $this->description = __( 'Get volunteer applications easily and find out which days your volunteers want to work according to their particular interests.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/volunteer-application.png';
+        $this->category    = 'application';
     }
 
     /**
@@ -70,7 +71,7 @@ class WeForms_Template_Volunteer_Application extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'     => __('Days of Work', 'weforms'),
                 'name'      =>  'days_of_work',
-                'options'   =>  array( 
+                'options'   =>  array(
                     'monday'        => __('Monday', 'weforms'),
                     'tuesday'       => __('Tuesday', 'weforms'),
                     'wednesday'     => __('Wednesday', 'weforms'),

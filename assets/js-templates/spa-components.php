@@ -7,13 +7,19 @@
             <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Entries', 'weforms' ); ?></option>
+                <option value="restore" v-if="status == 'trash' ">
+                    <?php _e('Restore Entries', 'weforms'); ?>
+                </option>
+                <option value="delete">
+                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
+                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                </option>
             </select>
 
             <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
         </div>
 
-        <div class="alignleft actions" v-if="has_export !== 'no'">
+        <div class="alignleft actions" v-if="has_export !== 'no' &&  status != 'trash' ">
             <a class="button" :href="'admin-post.php?action=weforms_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php _e( 'Export Entries', 'weforms' ); ?></a>
         </div>
 
@@ -76,7 +82,18 @@
                 </th>
                 <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
                 <th class="col-entry-details">
-                    <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}"><?php _e( 'Details', 'weforms' ); ?></router-link>
+
+                    <template v-if="status == 'trash'">
+                        <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
+                        <span style="color: #ddd">|</span>
+                        <a href="#" @click.prevent="deletePermanently(entry.id)"><?php _e( 'Delete Permanently', 'weforms' ); ?></a>
+                    </template>
+                    <template  v-else>
+                        <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">
+                            <?php _e( 'Details', 'weforms' ); ?>
+                        </router-link>
+                    </template>
+
                 </th>
             </tr>
         </tbody>
@@ -87,7 +104,13 @@
             <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Entries', 'weforms' ); ?></option>
+                <option value="restore" v-if="status == 'trash' ">
+                    <?php _e('Restore Entries', 'weforms'); ?>
+                </option>
+                <option value="delete">
+                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
+                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                </option>
             </select>
 
             <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
@@ -114,34 +137,66 @@
             </span>
         </div>
     </div>
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-entries">
 <div class="wpuf-contact-form-entries">
-    <h1 class="wp-heading-inline">
-        <?php _e( 'Entries', 'weforms' ); ?>
-        <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
+    <div>
+        <h1 class="wp-heading-inline">
+            <?php _e( 'Entries', 'weforms' ); ?>
+            <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
 
-        <span style="color: #999;" class="form-name">
-            {{ form_title }}
-        </span>
+            <span style="color: #999;" class="form-name">
+                {{ form_title }}
+            </span>
 
-        <select v-if="forms.length" v-model="selected">
-            <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
-        </select>
-    </h1>
+            <select v-if="Object.keys(forms).length" v-model="selected" @change="status='publish'">
+                <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
+            </select>
+        </h1>
+    </div>
 
-    <template v-if="selected">
+    <div>
+        <ul class="subsubsub">
+            <li class="all">
+                <a href="#" :class="{ current: status =='publish' }" @click.prevent="status='publish'">
+                    All
+                    <span class="count">
+                        ({{total}})
+                    </span>
+                </a> |
+            </li>
+            <li class="trash">
+                <a href="#" :class="{ current: status =='trash' }" @click.prevent="status='trash'">
+                    Trash
+                    <span class="count">
+                        ({{totalTrash}})
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <template v-if="selected">
 
-        <wpuf-table
-            action="weforms_form_entries"
-            :id="selected"
-            v-on:ajaxsuccess="form_title = $event.form_title; $route.params.id = selected"
-        >
-        </wpuf-table>
-    </template>
+            <wpuf-table
+                action="weforms_form_entries"
+                :status="status"
+                :id="selected"
+                v-on:ajaxsuccess="
+                form_title       = $event.form_title;
+                $route.params.id = selected;
+                total            = $event.meta.total;
+                totalTrash       = $event.meta.totalTrash
+                "
+            >
+            </wpuf-table>
+        </template>
+    </div>
 
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-builder">
 <form id="wpuf-form-builder" class="wpuf-form-builder-contact_form" method="post" action="" @submit.prevent="save_form_builder" v-cloak>
@@ -258,17 +313,58 @@
 
 <script type="text/x-template" id="tmpl-wpuf-form-entries">
 <div class="wpuf-contact-form-entries">
-    <h1 class="wp-heading-inline">
-        <?php _e( 'Entries', 'weforms' ); ?>
-        <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
-        <span style="color: #999;" class="form-name">{{ form_title }}</span>
-    </h1>
+    <div>
+        <h1 class="wp-heading-inline">
+            <?php _e( 'Entries', 'weforms' ); ?>
+            <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
 
-    <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
+            <span style="color: #999;" class="form-name">
+                {{ form_title }}
+            </span>
 
-    <wpuf-table action="weforms_form_entries" :id="id" v-on:ajaxsuccess="form_title = $event.form_title"></wpuf-table>
+            <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
+        </h1>
+    </div>
 
-</div></script>
+    <div>
+        <ul class="subsubsub">
+            <li class="all">
+                <a href="#" :class="{ current: status =='publish' }" @click.prevent="status='publish'">
+                    All
+                    <span class="count">
+                        ({{total}})
+                    </span>
+                </a> |
+            </li>
+            <li class="trash">
+                <a href="#" :class="{ current: status =='trash' }" @click.prevent="status='trash'">
+                    Trash
+                    <span class="count">
+                        ({{totalTrash}})
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <template>
+
+            <wpuf-table
+                action="weforms_form_entries"
+                :status="status"
+                :id="id"
+                v-on:ajaxsuccess="
+                form_title       = $event.form_title;
+                total            = $event.meta.total;
+                totalTrash       = $event.meta.totalTrash
+                "
+            >
+            </wpuf-table>
+        </template>
+    </div>
+
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-entry-single">
 <div class="wpuf-contact-form-entry">
@@ -282,7 +378,7 @@
             <div class="postbox">
                 <h2 class="hndle ui-sortable-handle">
                     <span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span>
-                    <span class="pull-right">
+                    <span class="pull-right" v-if="hasEmpty">
                         <label style="font-weight: normal; font-size: 12px">
                             <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ) ?>
                         </label>
@@ -606,6 +702,7 @@
     <h2 class="nav-tab-wrapper">
         <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
         <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'logs' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('logs')"><?php _e( 'Logs', 'wpuf' ); ?></a>
     </h2>
 
     <div class="nav-tab-content">
@@ -747,8 +844,45 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="nav-tab-inside" v-show="isActiveTab('logs')">
+            <h3>
+                <?php _e( 'Logs', 'weforms' ); ?>
+
+                <span class="pull-right">
+
+                    <button class="button button-large button-secondary" @click.prevent="fetchLogs($event.target)">
+                        <span style="margin-top: 4px" class="dashicons dashicons-image-rotate"></span> Reload
+                    </button>
+
+                    <button class="button button-large button-secondary" @click.prevent="deleteLogs($event.target)" v-if="hasLogs">
+                        <span style="margin-top: 4px" class="dashicons dashicons-trash"></span> Delete
+                    </button>
+                </span>
+            </h3>
+
+            <table class="wp-list-table widefat fixed striped wpuf-contact-form" v-if="hasLogs">
+                <thead>
+                    <tr>
+                        <th style="width: 10%"> Type </th>
+                        <th style="width: 15%"> Time </th>
+                        <th style="width: 75%"> Details </th> </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="log in logs">
+                        <td> <span> {{ log.type }} </span> </td>
+                        <td> <span> {{ log.time }} </span> </td>
+                        <td> {{ log.message }} </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div v-else>
+                <p><?php _e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms') ?></p>
+            </div>
+        </div>
     </div>
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-transactions">
 <div class="wpuf-contact-form-transactions">

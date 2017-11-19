@@ -20,6 +20,12 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
+
+        // let's not show the email field if user choose to auto populate for logged users
+        if ( isset( $field_settings['auto_populate'] ) && $field_settings['auto_populate'] == 'yes' && is_user_logged_in() ) {
+            return;
+        }
+
         $value = $field_settings['default'];
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
@@ -66,10 +72,46 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
-            )
+            ),
+            array(
+                'name'          => 'auto_populate',
+                'title'         => 'Auto-populate email for logged users',
+                'type'          => 'checkbox',
+                'is_single_opt' => true,
+                'options'       => array(
+                    'yes'   => __( 'Auto-populate Email', 'weforms' )
+                ),
+                'default'       => '',
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'If a user is logged into the site, this email field will be auto-populated with his email. And form\'s email field will be hidden.', 'weforms' ),
+            ),
         );
 
         return array_merge( $default_options, $default_text_options, $check_duplicate );
+    }
+
+    /**
+     * Prepare entry default, can be replaced through field classes
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function prepare_entry( $field ) {
+
+        if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
+
+            $user = wp_get_current_user();
+
+            if ( ! empty( $user->user_email ) ) {
+                return $user->user_email;
+            }
+        }
+
+        $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
+
+        return sanitize_text_field( trim( $value ) );
     }
 
     /**
@@ -81,16 +123,5 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
         $defaults = $this->default_attributes();
         $defaults['duplicate'] = '';
         return $defaults;
-    }
-
-    /**
-     * Prepare entry
-     *
-     * @param $field
-     *
-     * @return mixed
-     */
-    public function prepare_entry( $field ) {
-       return sanitize_text_field( trim( $_POST[$field['name']] ) );
     }
 }

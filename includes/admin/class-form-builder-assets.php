@@ -261,6 +261,7 @@ class WeForms_Form_Builder_Assets {
             'ok'                    => __( 'OK', 'wpuf' ),
             'cancel'                => __( 'Cancel', 'wpuf' ),
             'close'                 => __( 'Close', 'wpuf' ),
+            'disable'               => __( 'Disable', 'weforms' ),
             'last_choice_warn_msg'  => __( 'This field must contain at least one choice', 'wpuf' ),
             'option'                => __( 'Option', 'wpuf' ),
             'row'                   => __( 'Row', 'wpuf' ),
@@ -272,11 +273,20 @@ class WeForms_Form_Builder_Assets {
             'select'                => __( 'Select', 'wpuf' ),
             'saved_form_data'       => __( 'Saved form data', 'wpuf' ),
             'unsaved_changes'       => __( 'You have unsaved changes.', 'wpuf' ),
+            'areYouSureToLeave'     => __( 'Are you sure to leave this page?', 'wpuf' ),
             'copy_shortcode'        => __( 'Click to copy shortcode', 'wpuf' ),
 
             'selectAnImage'         => __( 'Select an image', 'wpuf' ),
             'pleaseSelectAnImage'   => __( 'Please select an image', 'wpuf' ),
             'uploadAnImage'         => __( 'Upload an image', 'wpuf' ),
+
+            'shareYourForm'         => __( 'Share Your Form', 'weforms' ),
+            'shareYourFormDesc'  => __( "Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.", 'weforms' ),
+            'shareYourFormText'     => __( "Anyone with this URL will be able to view and submit this form.", 'weforms' ),
+            'areYouSure'            => __( 'Are you sure?', 'weforms' ),
+            'areYouSureDesc'        => __( 'Anyone with existing URL won\'t be able to view and submit the form anymore.', 'weforms' ),
+            'disableSharing'        => __( 'Disable Sharing', 'weforms' ),
+
         ) );
     }
 

@@ -1,6 +1,6 @@
 /*!
-weForms - v1.2.0
-Generated: 2017-11-08 (1510114179522)
+weForms - v1.2.1
+Generated: 2017-11-16 (1510818342671)
 */
 
 ;(function($) {
@@ -12,7 +12,8 @@ Vue.component( 'wpuf-table', {
         has_export: String,
         action: String,
         delete: String,
-        id: [String, Number]
+        id: [String, Number],
+        status: [String],
     },
 
     data: function() {
@@ -47,6 +48,7 @@ Vue.component( 'wpuf-table', {
                 data: {
                     id: self.id,
                     page: self.currentPage,
+                    status: self.status,
                     _wpnonce: weForms.nonce
                 },
                 success: function(response) {
@@ -82,13 +84,69 @@ Vue.component( 'wpuf-table', {
                     this.deleteBulk();
                 }
             }
+
+            if ( 'restore' === this.bulkAction ) {
+                if ( ! this.checkedItems.length ) {
+                    alert( 'Please select atleast one entry to restore.' );
+                    return;
+                }
+
+                this.restoreBulk();
+            }
+        },
+        restore: function(entry_id){
+            var self = this;
+            self.loading = true;
+
+            wp.ajax.send( 'weforms_form_entry_restore', {
+                data: {
+                    entry_id: entry_id,
+                    _wpnonce: weForms.nonce
+                },
+                success: function(response) {
+                    self.loading = false;
+                    self.fetchData();
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        },
+        deletePermanently: function(entry_id){
+
+            if ( confirm( 'Are you sure to delete this entry?' ) ) {
+
+                var self = this;
+                self.loading = true;
+
+                wp.ajax.send( 'weforms_form_entry_delete', {
+                    data: {
+                        entry_id: entry_id,
+                        _wpnonce: weForms.nonce
+                    },
+                    success: function(response) {
+                        self.loading = false;
+                        self.fetchData();
+                    },
+                    error: function(error) {
+                        self.loading = false;
+                        alert(error);
+                    }
+                });
+            }
         }
     },
 
     watch: {
         id: function(){
             this.fetchData();
-        }
+        },
+        status: function(){
+            this.currentPage = 1;
+            this.bulkAction = -1;
+            this.fetchData();
+        },
     }
 } );
 
@@ -100,6 +158,9 @@ weForms.routeComponents.Entries = {
             selected: 0,
             forms: {},
             form_title: 'Loading...',
+            status: 'publish',
+            total: 0,
+            totalTrash: 0,
         };
     },
 
@@ -115,9 +176,11 @@ weForms.routeComponents.Entries = {
                 data: {
                     _wpnonce: weForms.nonce,
                     page: self.currentPage,
+                    posts_per_page: -1,
+                    filter: 'entries',
                 },
                 success: function(response) {
-                    if ( response.forms.length ) {
+                    if ( Object.keys( response.forms ).length ) {
                         self.forms = response.forms;
                         self.selected = self.forms[Object.keys(self.forms)[0]].id;
                     } else {
@@ -158,7 +221,36 @@ weForms.routeComponents.FormEditComponent = {
                 NProgress.done();
             }
         },
-
+        form_fields: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        notifications: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        integrations: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        settings: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
+        payment: {
+            handler: function() {
+                window.weFormsBuilderisDirty = true;
+            },
+            deep: true
+        },
     },
 
     created: function() {
@@ -215,7 +307,6 @@ weForms.routeComponents.FormEditComponent = {
 
         var self = this;
 
-        this.isDirty = false;
         this.started = true;
 
         clipboard.on('success', function(e) {
@@ -234,6 +325,16 @@ weForms.routeComponents.FormEditComponent = {
         });
 
         this.initSharingClipBoard();
+
+        setTimeout(function(){
+            window.weFormsBuilderisDirty = false;
+        },500);
+
+        window.onbeforeunload = function () {
+            if ( window.weFormsBuilderisDirty ) {
+                return self.i18n.unsaved_changes;
+            }
+        };
     },
 
     methods: {
@@ -336,6 +437,10 @@ weForms.routeComponents.FormEditComponent = {
                     self.is_form_saving = false;
                     self.is_form_saved = true;
 
+                    setTimeout(function(){
+                        window.weFormsBuilderisDirty = false;
+                    },500);
+
                     toastr.success(self.i18n.saved_form_data);
                 },
 
@@ -360,26 +465,26 @@ weForms.routeComponents.FormEditComponent = {
                 var post_link = site_url + '?weforms=' + btoa( self.getSharingHash() + '_' + Math.floor(Date.now() / 1000)  + '_' + post.ID);
 
                 swal({
-                    title: 'Share Your Form',
-                    html: '<p>Anyone with this URL will be able to view and submit this form.</p> <p><input type ="text" class="regular-text" value="' + post_link + '"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="' + post_link + '"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p>',
+                    title: self.i18n.shareYourForm,
+                    html: '<p>'+self.i18n.shareYourFormText+'</p> <p><input onClick="this.setSelectionRange(0, this.value.length)" type="text" class="regular-text" value="' + post_link + '"/> <button class="anonymous-share-btn button button-primary" title="Copy URL" data-clipboard-text="' + post_link + '"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p>',
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
                     confirmButtonColor: '#d54e21',
-                    confirmButtonText: 'Disable Sharing',
-                    cancelButtonText: 'Close',
+                    confirmButtonText: self.i18n.disableSharing,
+                    cancelButtonText: self.i18n.close,
                     focusCancel: true,
 
                 }).then(function () {
                     swal({
-                        title: 'Are you sure?',
-                        html: "<p>Anyone with existing URL won't be able to view and submit the form anymore.</p>",
+                        title: self.i18n.areYouSure,
+                        html: "<p>"+self.i18n.areYouSureDesc+"</p>",
                         type: 'info',
                         confirmButtonColor: '#d54e21',
                         showCancelButton: true,
-                        confirmButtonText: 'Disable',
-                        cancelButtonText: 'Cancel',
+                        confirmButtonText: self.i18n.disable,
+                        cancelButtonText: self.i18n.cancel,
                     }).then(function () {
                        self.disableSharing();
                     });
@@ -388,8 +493,8 @@ weForms.routeComponents.FormEditComponent = {
             } else {
 
                 swal({
-                  title: 'Share Your Form',
-                  html: "Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.",
+                  title: self.i18n.shareYourForm,
+                  html: self.i18n.shareYourFormDesc,
                   type: 'info',
                   showCancelButton: true,
                   confirmButtonText: 'Enable',
@@ -467,10 +572,15 @@ weForms.routeComponents.FormEntries = {
     template: '#tmpl-wpuf-form-entries',
     data: function() {
         return {
-            form_title: 'Loading...'
+            selected: 0,
+            form_title: 'Loading...',
+            status: 'publish',
+            total: 0,
+            totalTrash: 0,
         };
     }
 };
+
 /* ./assets/spa/components/form-entry-single/index.js */
 weForms.routeComponents.FormEntriesSingle = {
     template: '#tmpl-wpuf-form-entry-single',
@@ -479,6 +589,7 @@ weForms.routeComponents.FormEntriesSingle = {
         return {
             loading: false,
             hideEmpty: true,
+            hasEmpty: false,
             show_payment_data: false,
             entry: {
                 form_fields: {},
@@ -509,9 +620,9 @@ weForms.routeComponents.FormEntriesSingle = {
                     _wpnonce: weForms.nonce
                 },
                 success: function(response) {
-                    // console.log(response);
                     self.loading = false;
                     self.entry = response;
+                    self.hasEmpty = response.has_empty;
                 },
                 error: function(error) {
                     self.loading = false;
@@ -713,6 +824,7 @@ weForms.routeComponents.Tools = {
             importButton: 'Import',
             currentStatus: 0,
             responseMessage: '',
+            logs: [],
             ximport: {
                 current: '',
                 title: '',
@@ -744,14 +856,79 @@ weForms.routeComponents.Tools = {
 
         hasRefs: function() {
             return Object.keys(this.ximport.refs).length;
+        },
+        hasLogs: function() {
+            return Object.keys(this.logs).length;
         }
     },
 
     created: function() {
         this.fetchData();
+        this.fetchLogs();
     },
 
     methods: {
+        fetchLogs: function(target) {
+            var self = this;
+
+            self.startLoading(target);
+
+            wp.ajax.send( 'weforms_read_logs', {
+                data: {
+                    _wpnonce: weForms.nonce
+                },
+                success: function(response) {
+                    self.stopLoading(target);
+                    self.logs = response;
+                },error: function(){
+                    self.stopLoading(target);
+                    self.logs = [];
+                }
+            });
+        },
+        deleteLogs: function(target) {
+            var self = this;
+
+            if ( confirm('Are you sure to clear the log file?') ) {
+
+                self.startLoading(target);
+
+                wp.ajax.send( 'weforms_delete_logs', {
+                    data: {
+                        _wpnonce: weForms.nonce
+                    },
+                    success: function(response) {
+                        self.logs = [];
+                        self.stopLoading(target);
+                        self.fetchLogs();
+                    },
+                    error: function(response) {
+                        self.logs = [];
+                        self.stopLoading(target);
+                        self.fetchLogs();
+                    }
+                });
+            }
+        },
+        stopLoading: function(target){
+            target = $(target);
+
+            if (target.is('button')) {
+                target.removeClass('updating-message').find('span').show();
+            }else if(target.is('span')){
+                target.show().parent().removeClass('updating-message');
+            }
+        },
+        startLoading: function(target){
+
+            target = $(target);
+
+            if (target.is('button')) {
+                target.addClass('updating-message').find('span').hide();
+            }else if(target.is('span')){
+                target.hide().parent().addClass('updating-message');
+            }
+        },
         fetchData: function() {
             var self = this;
 
@@ -1359,6 +1536,23 @@ var router = new VueRouter({
         }
     }
 });
+
+window.weFormsBuilderisDirty = false;
+
+router.beforeEach((to, from, next) => {
+    // show warning if builder has unsaved changes
+    if ( window.weFormsBuilderisDirty ) {
+        if ( confirm( wpuf_form_builder.i18n.unsaved_changes + ' ' +wpuf_form_builder.i18n.areYouSureToLeave ) ) {
+            window.weFormsBuilderisDirty = false;
+        } else {
+            next(from.path);
+            return false;
+        }
+    }
+
+    next();
+});
+
 
 var app = new Vue({
     router: router,

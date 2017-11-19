@@ -1,6 +1,6 @@
 <?php
 /**
- * A simple contact form for sending message 
+ * A simple contact form for sending message
  */
 class WeForms_Template_Comment_Rating extends WeForms_Form_Template {
 
@@ -12,6 +12,7 @@ class WeForms_Template_Comment_Rating extends WeForms_Form_Template {
         $this->description    = '';
         $this->category       = 'default';
         $this->image          = WEFORMS_ASSET_URI . '/images/form-template/comment-and-rating.png';
+        $this->category    = 'feedback';
     }
 
     /**
@@ -56,5 +57,5 @@ class WeForms_Template_Comment_Rating extends WeForms_Form_Template {
             'label_position'    => 'left',
         ) );
     }
-    
+
 }

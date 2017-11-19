@@ -1,5 +1,5 @@
-Vue.component('field-name', {
-    template: '#tmpl-wpuf-field-name',
+Vue.component('field-text-with-tag', {
+    template: '#tmpl-wpuf-field-text-with-tag',
 
     mixins: [
         wpuf_mixins.option_field_mixin
@@ -26,7 +26,7 @@ Vue.component('field-name', {
         },
         insertValue: function(type, field, property) {
             var value = ( field !== undefined ) ? '{' + type + ':' + field + '}' : '{' + type + '}';
-            this.editing_form_field[property.name][property.type] = value;
+            this.value = value;
         },
     }
 });

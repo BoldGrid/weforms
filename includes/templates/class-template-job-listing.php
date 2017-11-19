@@ -12,6 +12,7 @@ class WeForms_Template_Job_Listing extends WeForms_Form_Template {
         $this->title       = __( 'Job Listing Form', 'weforms' );
         $this->description = __( 'This simple template is the easy and fastest way to apply online. Gather information and upload resume using the form.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/job_listing.png';
+        $this->category    = 'employment';
     }
 
     /**
@@ -38,7 +39,7 @@ class WeForms_Template_Job_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'      =>  __('Salutation', 'weforms'),
                 'name'       => 'salutation',
-                'options'    => array( 
+                'options'    => array(
                     'mr'        => __('Mr', 'weforms'),
                     'mrs'       => __('Mrs', 'weforms'),
                     'miss'      => __('Miss', 'weforms'),
@@ -187,7 +188,7 @@ class WeForms_Template_Job_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'      => ' ',
                 'name'       => 'salary_negotiable',
-                'options'    => array( 
+                'options'    => array(
                     'salary_negotiable_check'   =>  __('Salary Negotiable', 'weforms'),
                 ),
             ) ),
@@ -195,7 +196,7 @@ class WeForms_Template_Job_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'      => 'Type of Employment',
                 'name'       => 'type_of_employment',
-                'options'    => array( 
+                'options'    => array(
                     'full_time'   =>  __('Full Time', 'weforms'),
                     'part_time'   =>  __('Part Time', 'weforms'),
                 ),
@@ -206,7 +207,7 @@ class WeForms_Template_Job_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'      => 'Type of Contract',
                 'name'       => 'type_of_Contract',
-                'options'    => array( 
+                'options'    => array(
                     'permanent'   =>  __('Permanent', 'weforms'),
                     'term'        =>  __('Term/Contract', 'weforms'),
                     'locum'       =>  __('Locum', 'weforms'),
@@ -218,7 +219,7 @@ class WeForms_Template_Job_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'      => 'Type Of Position',
                 'name'       => 'type_of_position',
-                'options'    => array( 
+                'options'    => array(
                     'academic'                 =>  __('Academic', 'weforms'),
                     'administrative'           =>  __('Administrative', 'weforms'),
                     'obstetrics'               =>  __('Obstetrics', 'weforms'),
@@ -276,7 +277,7 @@ class WeForms_Template_Job_Listing extends WeForms_Form_Template {
             array_merge( $all_fields['radio_field']->get_field_props(), array(
                 'title'      =>  __('Posting Duration (in Months)', 'weforms'),
                 'name'       => 'posting_duration',
-                'options'    => array( 
+                'options'    => array(
                     'one'    => __('$ 350.00 - 1 Month Posting Duration', 'weforms'),
                     'two'    => __('$ 600.00 - 2 Month Posting Duration', 'weforms'),
                     'three'  => __('$ 850.00 - 3 Month Posting Duration', 'weforms'),

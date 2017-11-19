@@ -406,7 +406,7 @@ class WeForms_Notification {
                 break;
 
             case 'url_referer':
-                return $_SERVER['HTTP_REFERER'];
+                return isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
                 break;
 
             case 'url_login':

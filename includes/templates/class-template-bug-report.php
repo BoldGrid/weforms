@@ -12,6 +12,8 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
         $this->title       = __( 'Report a bug', 'weforms' );
         $this->description = __( 'Here\'s a great way to make a form for use with reporting issues, feedback, suggestions, and questions or bugtracking', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/bug_report.png';
+        $this->category    = 'feedback';
+
     }
 
     /**
@@ -58,7 +60,7 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'            => __( 'Problem Status', 'weforms' ),
                 'name'             => 'problem_status',
-                'options'          => array( 
+                'options'          => array(
                     'open'      => __('Open', 'weforms'),
                     'fixed'     => __('Fixed', 'weforms'),
                     'verified'  => __('Veried', 'weforms'),
@@ -106,7 +108,7 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
                 'label'         => __( 'Is there a Workaround?', 'weforms' ),
                 'name'          => 'workaround',
-                'options'       =>  array( 
+                'options'       =>  array(
                     'yes'       => __('yes', 'weforms'),
                     'no'        => __('No', 'weforms'),
                 ),
@@ -122,22 +124,22 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
                 'required'      => 'yes',
                 'label'         => __( 'Reproducibility', 'weforms' ),
                 'name'          => 'reproducibility',
-                'options'       =>  array( 
+                'options'       =>  array(
                     'try'              => __('I didn\'t try', 'weforms'),
                     'rare'             => __('Rarely', 'weforms'),
                     'sometimes'        => __('Sometimes', 'weforms'),
                     'always'           => __('Always', 'weforms'),
                 ),
-                
+
                 'first'         => ' ',
-                
+
             ) ),
 
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'required'      => 'yes',
                 'label'         => __( 'Classification', 'weforms' ),
                 'name'          => 'classification',
-                'options'       =>  array( 
+                'options'       =>  array(
                     'security'          => __('Security', 'weforms'),
                     'crash'             => __('Crash/Hang/Data loss', 'weforms'),
                     'performance'       => __('Performance/UI-Usability', 'weforms'),
@@ -148,14 +150,14 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
                 ),
 
                 'first'         => ' ',
-                
+
             ) ),
 
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'required'      => 'yes',
                 'label'         => __( 'Severity', 'weforms' ),
                 'name'          => 'severity',
-                'options'       =>  array( 
+                'options'       =>  array(
                     'trivial'   => __('Trivial', 'weforms'),
                     'normal'    => __('Normal', 'weforms'),
                     'major'     => __('Major', 'weforms'),
@@ -163,7 +165,7 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
                 ),
 
                 'first'         => ' ',
-                
+
             ) ),
         );
 
