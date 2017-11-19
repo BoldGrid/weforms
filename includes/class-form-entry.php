@@ -283,7 +283,7 @@ class WeForms_Form_Entry {
                                                         <label class="wpuf-radio-inline">
                                                         <input
                                                             name="' . $field['name'] . '[' . $row_key . '][]"
-                                                            class="wpuf_'. $field['name'] . '_' . $this->form_id . '"
+                                                            class="wpuf_'. $field['name'] . '_' . $form_id . '"
                                                             type="checkbox"
                                                             value="' . esc_attr( $column_value ) . '"'
                                                             . $check . 'disabled
@@ -355,7 +355,7 @@ class WeForms_Form_Entry {
                                                         <label class="wpuf-radio-inline">
                                                         <input
                                                             name="' . $field['name'] . '[' . $row_key . ']"
-                                                            class="wpuf_'. $field['name'] . '_' . $this->form_id . '"
+                                                            class="wpuf_'. $field['name'] . '_' . $form_id . '"
                                                             type="radio"
                                                             value="' . esc_attr( $column_value ) . '"'
                                                             . $check . 'disabled
