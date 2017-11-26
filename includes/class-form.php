@@ -298,7 +298,7 @@ class WeForms_Form {
             }
         }
 
-        return true;
+        return apply_filters( 'weforms_is_submission_open', true, $settings, $this);
     }
 
     /**
