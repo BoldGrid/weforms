@@ -773,7 +773,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Have you ever had gum disease?'),
+                'label'     => __('Have you ever had gum disease?', 'weforms'),
                 'name'      => 'gum_disease',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -782,7 +782,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Do your gums bleed?'),
+                'label'     => __('Do your gums bleed?', 'weforms'),
                 'name'      => 'gums_bleed',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -791,7 +791,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Have you ever had a deep cleaning or scaling and root planing?'),
+                'label'     => __('Have you ever had a deep cleaning or scaling and root planing?', 'weforms'),
                 'name'      => 'root_planing',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -800,17 +800,17 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'     => __('Floss/Week'),
+                'label'     => __('Floss/Week', 'weforms'),
                 'name'      => 'floss_week',
             ) ),
 
             array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'     => __('Brush/Day'),
+                'label'     => __('Brush/Day', 'weforms'),
                 'name'      => 'brush_day',
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Are your teeth sensitive to heat, cold or anything else?'),
+                'label'     => __('Are your teeth sensitive to heat, cold or anything else?', 'weforms'),
                 'name'      => 'teeth_sensitive',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -819,7 +819,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Do you take fluoride supplements?'),
+                'label'     => __('Do you take fluoride supplements?', 'weforms'),
                 'name'      => 'fluoride_supplements',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -828,7 +828,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Have you ever had a serious/difficult problem with any previous dental work?'),
+                'label'     => __('Have you ever had a serious/difficult problem with any previous dental work?', 'weforms'),
                 'name'      => 'previous_dental_work',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -837,7 +837,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Have you ever had any unfavorable dental experiences?'),
+                'label'     => __('Have you ever had any unfavorable dental experiences?', 'weforms'),
                 'name'      => 'unfavorable',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -846,7 +846,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Are you apprehensive about dental treatment?'),
+                'label'     => __('Are you apprehensive about dental treatment?', 'weforms'),
                 'name'      => 'dental_apprehensive',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -855,7 +855,7 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Do you gag easily?'),
+                'label'     => __('Do you gag easily?', 'weforms'),
                 'name'      => 'gag_easily',
                 'options'   =>  array(
                     'yes'       =>  __('Yes', 'weforms'),
@@ -864,22 +864,22 @@ class WeForms_Template_Patient_Intake_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'     => __('When was your last dental cleaning?'),
+                'label'     => __('When was your last dental cleaning?', 'weforms'),
                 'name'      => 'dental cleaning',
             ) ),
 
             array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'     => __('When was you last dental visit?'),
+                'label'     => __('When was you last dental visit?', 'weforms'),
                 'name'      => 'dental_visit',
             ) ),
 
             array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'     => __('How can we accommodate you better during your dental visit?'),
+                'label'     => __('How can we accommodate you better during your dental visit?', 'weforms'),
                 'name'      => 'accommodate_you_better',
             ) ),
 
             array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'     => __('Is there any specific service and/or concern you would like to inquire about?'),
+                'label'     => __('Is there any specific service and/or concern you would like to inquire about?', 'weforms'),
                 'name'      => 'dental_inquire',
             ) ),
         );

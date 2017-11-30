@@ -888,7 +888,7 @@ function weforms_allowed_extensions() {
         ),
         'zip'    => array(
             'ext'   => 'zip,gz,gzip,rar,7z',
-            'label' => __( 'Zip Archives' )
+            'label' => __( 'Zip Archives', 'weforms' )
         ),
         'exe'    => array(
             'ext'   => 'exe',

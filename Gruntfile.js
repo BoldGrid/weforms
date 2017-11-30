@@ -55,6 +55,14 @@ module.exports = function (grunt) {
             },
         },
 
+        wp_readme_to_markdown: {
+            your_target: {
+                files: {
+                    'README.md': 'readme.txt'
+                }
+            },
+        },
+
         watch: {
 
             less: {
@@ -81,17 +89,33 @@ module.exports = function (grunt) {
             }
         },
 
+        addtextdomain: {
+            options: {
+                textdomain: 'weforms',
+            },
+            update_all_domains: {
+                options: {
+                    updateDomains: true
+                },
+                src: [ '*.php', '**/*.php', '!node_modules/**', '!php-tests/**', '!bin/**', '!build/**', '!assets/**' ]
+            }
+        },
+
         // Generate POT files.
         makepot: {
             target: {
                 options: {
                     exclude: ['build/.*', 'node_modules/*', 'assets/*'],
+                    mainFile: 'weforms.php',
                     domainPath: '/languages/',
                     potFilename: 'weforms.pot',
                     type: 'wp-plugin',
+                    updateTimestamp: true,
                     potHeaders: {
                         'report-msgid-bugs-to': 'https://wedevs.com/contact/',
-                        'language-team': 'LANGUAGE <EMAIL@ADDRESS>'
+                        'language-team': 'LANGUAGE <EMAIL@ADDRESS>',
+                        poedit: true,
+                        'x-poedit-keywordslist': true
                     }
                 }
             }
@@ -251,13 +275,19 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-wp-i18n');
     grunt.loadNpmTasks('grunt-contrib-less' );
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 
     // grunt tasks
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('wpuf', ['clean:wpuf', 'copy:wpuf']);
 
-    grunt.registerTask('release', [ 'wpuf', 'makepot']);
+    // file auto generation
+    grunt.registerTask('i18n', ['addtextdomain', 'makepot']);
+    grunt.registerTask('readme', ['wp_readme_to_markdown']);
 
-
+    // build stuff
+    grunt.registerTask('release', ['wpuf', 'i18n', 'readme']);
     grunt.registerTask('zip', ['clean:build', 'wpuf', 'copy', 'compress']);
+
+    grunt.util.linefeed = '\n';
 };

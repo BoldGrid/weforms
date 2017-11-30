@@ -406,7 +406,7 @@ final class WeForms {
             return;
         }
 
-        $error = __( 'Your installed PHP Version is: ', 'erp' ) . PHP_VERSION . '. ';
+        $error = __( 'Your installed PHP Version is: ', 'weforms' ) . PHP_VERSION . '. ';
         $error .= __( 'The <strong>weForms</strong> plugin requires PHP version <strong>', 'weforms' ) . $this->min_php . __( '</strong> or greater.', 'weforms' );
         ?>
         <div class="error">

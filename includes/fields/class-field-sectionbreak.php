@@ -51,20 +51,20 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
         $options = array(
             array(
                 'name'      => 'label',
-                'title'     => __( 'Title', 'wpuf' ),
+                'title'     => __( 'Title', 'weforms' ),
                 'type'      => 'text',
                 'section'   => 'basic',
                 'priority'  => 10,
-                'help_text' => __( 'Title of the section', 'wpuf' ),
+                'help_text' => __( 'Title of the section', 'weforms' ),
             ),
 
             array(
                 'name'      => 'description',
-                'title'     => __( 'Description', 'wpuf' ),
+                'title'     => __( 'Description', 'weforms' ),
                 'type'      => 'textarea',
                 'section'   => 'basic',
                 'priority'  => 11,
-                'help_text' => __( 'Some details text about the section', 'wpuf' ),
+                'help_text' => __( 'Some details text about the section', 'weforms' ),
             ),
         );
 
@@ -80,7 +80,7 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
         $props = array(
             'template'    => $this->get_type(),
             'label'       => $this->get_name(),
-            'description' => __( 'Some description about this section', 'wpuf' ),
+            'description' => __( 'Some description about this section', 'weforms' ),
             'id'          => 0,
             'is_new'      => true,
             'wpuf_cond'   => null

@@ -338,12 +338,12 @@ abstract class WeForms_Field_Contract {
     public function get_default_option_dropdown_settings( $is_multiple = false ) {
         return array(
             'name'          => 'options',
-            'title'         => __( 'Options', 'wpuf' ),
+            'title'         => __( 'Options', 'weforms' ),
             'type'          => 'option-data',
             'is_multiple'   => $is_multiple,
             'section'       => 'basic',
             'priority'      => 12,
-            'help_text'     => __( 'Add options for the form field', 'wpuf' ),
+            'help_text'     => __( 'Add options for the form field', 'weforms' ),
         );
     }
 

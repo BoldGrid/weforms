@@ -136,7 +136,7 @@ class WeForms_Template_Loan_Application_Form extends WeForms_Form_Template {
             ) ),
 
             array_merge( $all_fields['custom_html']->get_field_props(), array(
-                'html'       => sprintf( '<p>%s</p>', __( 'I hereby agree that the information given is true, accurate and complete as of the date of this application submission. ' ) ),
+                'html'       => sprintf( '<p>%s</p>', __( 'I hereby agree that the information given is true, accurate and complete as of the date of this application submission. ', 'weforms' ) ),
             ) ),
 
             array_merge( $all_fields['checkbox_field']->get_field_props(), array(

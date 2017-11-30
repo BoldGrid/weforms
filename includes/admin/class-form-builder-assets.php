@@ -254,31 +254,31 @@ class WeForms_Form_Builder_Assets {
      */
     private function i18n() {
         return apply_filters( 'wpuf-form-builder-i18n', array(
-            'advanced_options'      => __( 'Advanced Options', 'wpuf' ),
-            'delete_field_warn_msg' => __( 'Are you sure you want to delete this field?', 'wpuf' ),
-            'yes_delete_it'         => __( 'Yes, delete it', 'wpuf' ),
-            'no_cancel_it'          => __( 'No, cancel it', 'wpuf' ),
-            'ok'                    => __( 'OK', 'wpuf' ),
-            'cancel'                => __( 'Cancel', 'wpuf' ),
-            'close'                 => __( 'Close', 'wpuf' ),
+            'advanced_options'      => __( 'Advanced Options', 'weforms' ),
+            'delete_field_warn_msg' => __( 'Are you sure you want to delete this field?', 'weforms' ),
+            'yes_delete_it'         => __( 'Yes, delete it', 'weforms' ),
+            'no_cancel_it'          => __( 'No, cancel it', 'weforms' ),
+            'ok'                    => __( 'OK', 'weforms' ),
+            'cancel'                => __( 'Cancel', 'weforms' ),
+            'close'                 => __( 'Close', 'weforms' ),
             'disable'               => __( 'Disable', 'weforms' ),
-            'last_choice_warn_msg'  => __( 'This field must contain at least one choice', 'wpuf' ),
-            'option'                => __( 'Option', 'wpuf' ),
-            'row'                   => __( 'Row', 'wpuf' ),
-            'column'                => __( 'Column', 'wpuf' ),
-            'last_column_warn_msg'  => __( 'This field must contain at least one column', 'wpuf' ),
-            'is_a_pro_feature'      => __( 'is available in Pro version', 'wpuf' ),
-            'pro_feature_msg'       => __( 'Please upgrade to the Pro version to unlock all these awesome features', 'wpuf' ),
-            'upgrade_to_pro'        => __( 'Get the Pro version', 'wpuf' ),
-            'select'                => __( 'Select', 'wpuf' ),
-            'saved_form_data'       => __( 'Saved form data', 'wpuf' ),
-            'unsaved_changes'       => __( 'You have unsaved changes.', 'wpuf' ),
-            'areYouSureToLeave'     => __( 'Are you sure to leave this page?', 'wpuf' ),
-            'copy_shortcode'        => __( 'Click to copy shortcode', 'wpuf' ),
+            'last_choice_warn_msg'  => __( 'This field must contain at least one choice', 'weforms' ),
+            'option'                => __( 'Option', 'weforms' ),
+            'row'                   => __( 'Row', 'weforms' ),
+            'column'                => __( 'Column', 'weforms' ),
+            'last_column_warn_msg'  => __( 'This field must contain at least one column', 'weforms' ),
+            'is_a_pro_feature'      => __( 'is available in Pro version', 'weforms' ),
+            'pro_feature_msg'       => __( 'Please upgrade to the Pro version to unlock all these awesome features', 'weforms' ),
+            'upgrade_to_pro'        => __( 'Get the Pro version', 'weforms' ),
+            'select'                => __( 'Select', 'weforms' ),
+            'saved_form_data'       => __( 'Saved form data', 'weforms' ),
+            'unsaved_changes'       => __( 'You have unsaved changes.', 'weforms' ),
+            'areYouSureToLeave'     => __( 'Are you sure to leave this page?', 'weforms' ),
+            'copy_shortcode'        => __( 'Click to copy shortcode', 'weforms' ),
 
-            'selectAnImage'         => __( 'Select an image', 'wpuf' ),
-            'pleaseSelectAnImage'   => __( 'Please select an image', 'wpuf' ),
-            'uploadAnImage'         => __( 'Upload an image', 'wpuf' ),
+            'selectAnImage'         => __( 'Select an image', 'weforms' ),
+            'pleaseSelectAnImage'   => __( 'Please select an image', 'weforms' ),
+            'uploadAnImage'         => __( 'Upload an image', 'weforms' ),
 
             'shareYourForm'         => __( 'Share Your Form', 'weforms' ),
             'shareYourFormDesc'  => __( "Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.", 'weforms' ),
@@ -369,9 +369,9 @@ class WeForms_Form_Builder_Assets {
         $shortcodes = [];
 
         $shortcodes['user'] = [
-            'title' => __( 'User', 'wemail' ),
+            'title' => __( 'User', 'weforms' ),
             'codes' => [
-                'first_name'        => [ 'title' => __( 'First Name', 'wemail' ), 'default' => 'reader' ],
+                'first_name'        => [ 'title' => __( 'First Name', 'weforms' ), 'default' => 'reader' ],
             ]
         ];
 

@@ -312,20 +312,20 @@ class WeForms_Scripts_Styles {
     public function get_frontend_localized() {
         wp_localize_script( 'wpuf-form', 'wpuf_frontend', array(
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-			'error_message' => __( 'Please fix the errors to proceed', 'wpuf' ),
+			'error_message' => __( 'Please fix the errors to proceed', 'weforms' ),
 			'nonce'         => wp_create_nonce( 'wpuf_nonce' ),
-			'word_limit'    => __( 'Word limit reached', 'wpuf' )
+			'word_limit'    => __( 'Word limit reached', 'weforms' )
         ) );
 
         wp_localize_script( 'wpuf-form', 'error_str_obj', array(
-			'required'   => __( 'is required', 'wpuf' ),
-			'mismatch'   => __( 'does not match', 'wpuf' ),
-			'validation' => __( 'is not valid', 'wpuf' ),
-			'duplicate'  => __( 'requires a unique entry and this value has already been used', 'wpuf' ),
+			'required'   => __( 'is required', 'weforms' ),
+			'mismatch'   => __( 'does not match', 'weforms' ),
+			'validation' => __( 'is not valid', 'weforms' ),
+			'duplicate'  => __( 'requires a unique entry and this value has already been used', 'weforms' ),
         ) );
 
         wp_localize_script( 'wpuf-upload', 'wpuf_frontend_upload', array(
-			'confirmMsg' => __( 'Are you sure?', 'wpuf' ),
+			'confirmMsg' => __( 'Are you sure?', 'weforms' ),
 			'nonce'      => wp_create_nonce( 'wpuf_nonce' ),
 			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 			'plupload'   => array(
@@ -333,15 +333,15 @@ class WeForms_Scripts_Styles {
 				'flash_swf_url'    => includes_url( 'js/plupload/plupload.flash.swf' ),
 				'filters'          => array(
 					array(
-						'title' => __( 'Allowed Files', 'wpuf' ),
+						'title' => __( 'Allowed Files', 'weforms' ),
 						'extensions' => '*'
 					)
 				),
 				'multipart'        => true,
 				'urlstream_upload' => true,
-				'warning'          => __( 'Maximum number of files reached!', 'wpuf' ),
-				'size_error'       => __( 'The file you have uploaded exceeds the file size limit. Please try again.', 'wpuf' ),
-				'type_error'       => __( 'You have uploaded an incorrect file type. Please try again.', 'wpuf' )
+				'warning'          => __( 'Maximum number of files reached!', 'weforms' ),
+				'size_error'       => __( 'The file you have uploaded exceeds the file size limit. Please try again.', 'weforms' ),
+				'type_error'       => __( 'You have uploaded an incorrect file type. Please try again.', 'weforms' )
 			)
         ) );
     }

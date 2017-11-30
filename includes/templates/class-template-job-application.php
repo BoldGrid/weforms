@@ -50,10 +50,10 @@ class WeForms_Template_Job_Application extends WeForms_Form_Template {
                 'label'    => 'Applying For Position',
                 'name'     => 'applying_for_position',
                 'options'  => array(
-                    'work_1' => __( 'Work 1', 'wpuf' ),
-                    'work_2' => __( 'Work 2', 'wpuf' ),
-                    'work_3' => __( 'Work 3', 'wpuf' ),
-                    'any_position' => __( 'Any Position', 'wpuf' )
+                    'work_1' => __( 'Work 1', 'weforms' ),
+                    'work_2' => __( 'Work 2', 'weforms' ),
+                    'work_3' => __( 'Work 3', 'weforms' ),
+                    'any_position' => __( 'Any Position', 'weforms' )
                 ),
             ) ),
             array_merge( $all_fields['date_field']->get_field_props(), array(
