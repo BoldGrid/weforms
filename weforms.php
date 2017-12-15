@@ -218,7 +218,7 @@ final class WeForms {
 
         require_once WEFORMS_INCLUDES . '/compat/class-abstract-wpuf-integration.php';
 
-        if ( is_admin() ) {
+        if ( $this->is_request( 'admin' ) ) {
             // compatibility
             require_once WEFORMS_INCLUDES . '/class-template-manager.php';
 
@@ -230,13 +230,15 @@ final class WeForms {
 
         } else {
 
-            require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
-
             // add reCaptcha library if not found
             if ( ! function_exists( 'recaptcha_get_html' ) ) {
                 require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
                 require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
             }
+        }
+
+        if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
+            require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
         }
 
         require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
@@ -325,13 +327,15 @@ final class WeForms {
      */
     public function init_classes() {
 
-        if ( is_admin() ) {
+        if ( $this->is_request( 'admin' ) ) {
             $this->container['admin']        = new WeForms_Admin();
             // $this->container['welcome']      = new WeForms_Admin_Welcome();
             $this->container['templates']    = new WeForms_Template_Manager();
             $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
-        } else {
+        }
+
+        if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
             $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
@@ -346,7 +350,7 @@ final class WeForms {
         // instantiate the integrations
         $this->integrations->get_integrations();
 
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+        if ( $this->is_request( 'ajax' ) ) {
             $this->container['ajax']        = new WeForms_Ajax();
             $this->container['ajax_upload'] = new WeForms_Ajax_Upload();
         }
@@ -434,6 +438,35 @@ final class WeForms {
         $error .= __( 'You should update your PHP software or contact your host regarding this matter.</p>', 'weforms' );
 
         wp_die( $error, __( 'Plugin Activation Error', 'weforms' ), array( 'back_link' => true ) );
+    }
+
+    /**
+     * What type of request is this?
+     *
+     * @since 1.2.3
+     *
+     * @param  string $type admin, ajax, cron, api or frontend.
+     *
+     * @return bool
+     */
+    private function is_request( $type ) {
+
+        switch ( $type ) {
+            case 'admin' :
+                return is_admin();
+
+            case 'ajax' :
+                return defined( 'DOING_AJAX' );
+
+            case 'cron' :
+                return defined( 'DOING_CRON' );
+
+            case 'api':
+                return defined( 'REST_REQUEST' );
+
+            case 'frontend' :
+                return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+        }
     }
 
 
