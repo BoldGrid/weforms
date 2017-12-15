@@ -40,7 +40,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
             }
 
             if ( ! $public_key ) {
-                _e( 'reCaptcha API key is missing.');
+                _e( 'reCaptcha API key is missing.', 'weforms');
 
             } else {
 
@@ -118,9 +118,9 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
         return array(
             'callback'      => 'has_recaptcha_api_keys',
             'button_class'  => 'button-faded',
-            'msg_title'     => __( 'Site key and Secret key', 'wpuf' ),
+            'msg_title'     => __( 'Site key and Secret key', 'weforms' ),
             'msg'           => sprintf(
-                __( 'You need to set Site key and Secret key in <a href="%s" target="_blank">Settings</a> in order to use "Recaptcha" field. <a href="%s" target="_blank">Click here to get the these key</a>.', 'wpuf' ),
+                __( 'You need to set Site key and Secret key in <a href="%s" target="_blank">Settings</a> in order to use "Recaptcha" field. <a href="%s" target="_blank">Click here to get the these key</a>.', 'weforms' ),
                 admin_url( 'admin.php?page=weforms#/settings' ),
                 'https://www.google.com/recaptcha/'
             ),
@@ -136,11 +136,11 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
         $settings = array(
             array(
                 'name'          => 'label',
-                'title'         => __( 'Title', 'wpuf' ),
+                'title'         => __( 'Title', 'weforms' ),
                 'type'          => 'text',
                 'section'       => 'basic',
                 'priority'      => 10,
-                'help_text'     => __( 'Title of the section', 'wpuf' ),
+                'help_text'     => __( 'Title of the section', 'weforms' ),
             ),
 
             array(
@@ -148,13 +148,13 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                 'title'         => 'reCaptcha type',
                 'type'          => 'radio',
                 'options'       => array(
-                    'enable_no_captcha'    => __( 'Enable noCaptcha', 'wpuf' ),
-                    'invisible_recaptcha'  => __( 'Enable Invisible reCaptcha', 'wpuf' ),
+                    'enable_no_captcha'    => __( 'Enable noCaptcha', 'weforms' ),
+                    'invisible_recaptcha'  => __( 'Enable Invisible reCaptcha', 'weforms' ),
                 ),
                 'default'       => 'enable_no_captcha',
                 'section'       => 'basic',
                 'priority'      => 11,
-                'help_text'     => __( 'Select reCaptcha type', 'wpuf' ),
+                'help_text'     => __( 'Select reCaptcha type', 'weforms' ),
             )
         );
 

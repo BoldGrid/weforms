@@ -7,7 +7,7 @@ class WeForms_Integration_MailPoet_Free extends WeForms_Abstract_Integration {
 
     function __construct() {
         $this->id              = 'mailpoet';
-        $this->title           = __( 'MailPoet', 'weforms-pro' );
+        $this->title           = __( 'MailPoet', 'weforms' );
         $this->icon            = WEFORMS_ASSET_URI . '/images/icon-mailpoet.png';
         $this->template        = dirname( __FILE__ ) . '/component/template.php';
 

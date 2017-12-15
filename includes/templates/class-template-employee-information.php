@@ -30,8 +30,8 @@ class WeForms_Template_Employee_Information extends WeForms_Form_Template {
                 'label'      => __( 'Personal Information', 'weforms' ),
                 'name'       => 'personal_information',
                 'step_start' => array(
-                    'prev_button_text' => __( 'Previous', 'weforms-pro' ),
-                    'next_button_text' => __( 'Next', 'weforms-pro' )
+                    'prev_button_text' => __( 'Previous', 'weforms' ),
+                    'next_button_text' => __( 'Next', 'weforms' )
                 ),
             ) ),
 
@@ -124,8 +124,8 @@ class WeForms_Template_Employee_Information extends WeForms_Form_Template {
                 'label'          => __( 'Job Information', 'weforms' ),
                 'name'           => 'job_information',
                 'step_start'     => array(
-                    'prev_button_text' => __( 'Previous', 'weforms-pro' ),
-                    'next_button_text' => __( 'Next', 'weforms-pro' )
+                    'prev_button_text' => __( 'Previous', 'weforms' ),
+                    'next_button_text' => __( 'Next', 'weforms' )
                 ),
             ) ),
 
@@ -184,8 +184,8 @@ class WeForms_Template_Employee_Information extends WeForms_Form_Template {
                 'label'      => __( 'Emergency Contact information', 'weforms' ),
                 'name'       => 'emergency_contact_information',
                 'step_start' => array(
-                    'prev_button_text' => __( 'Previous', 'weforms-pro' ),
-                    'next_button_text' => __( 'Next', 'weforms-pro' )
+                    'prev_button_text' => __( 'Previous', 'weforms' ),
+                    'next_button_text' => __( 'Next', 'weforms' )
                 ),
             ) ),
 

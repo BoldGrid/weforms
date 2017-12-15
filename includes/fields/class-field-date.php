@@ -54,11 +54,11 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
         $settings = array(
             array(
                 'name'      => 'format',
-                'title'     => __( 'Date Format', 'wpuf-pro' ),
+                'title'     => __( 'Date Format', 'weforms' ),
                 'type'      => 'text',
                 'section'   => 'advanced',
                 'priority'  => 23,
-                'help_text' => __( 'The date format', 'wpuf-pro' ),
+                'help_text' => __( 'The date format', 'weforms' ),
             ),
 
             array(
@@ -67,7 +67,7 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
                 'options'       => array(
-                    'yes'   => __( 'Enable time input', 'wpuf-pro' )
+                    'yes'   => __( 'Enable time input', 'weforms' )
                 ),
                 'section'       => 'advanced',
                 'priority'      => 24,
@@ -80,7 +80,7 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
                 'options'       => array(
-                    'yes'   => __( 'Set this as publish time input', 'wpuf-pro' )
+                    'yes'   => __( 'Set this as publish time input', 'weforms' )
                 ),
                 'section'       => 'advanced',
                 'priority'      => 24,

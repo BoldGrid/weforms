@@ -317,7 +317,7 @@ abstract class WeForms_Importer_Abstract {
         $this->update_refs( $refs );
 
         wp_send_json_success( array(
-            'title'   => sprintf( _n( '%s form imported', '%s forms imported', $imported ), $imported ),
+            'title'   => sprintf( _n( '%s form imported', '%s forms imported', $imported, 'weforms' ), $imported ),
             'message' => __( 'We have successfully imported these forms into weForms. You could check and edit in-case anything weird happended.', 'weforms' ),
             'action'  => sprintf( __( 'Do you want to <strong>replace</strong> %s shortcodes with weForms?', 'weforms' ), $this->get_importer_name() ),
             'refs'    => $refs
@@ -381,7 +381,7 @@ abstract class WeForms_Importer_Abstract {
             }
         }
 
-        wp_send_json_success( sprintf( _n( 'Replaced %d form', 'Replaced %d forms', $count ), $count ) );
+        wp_send_json_success( sprintf( _n( 'Replaced %d form', 'Replaced %d forms', $count, 'weforms' ), $count ) );
     }
 
     /**

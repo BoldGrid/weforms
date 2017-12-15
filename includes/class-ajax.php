@@ -93,11 +93,11 @@ class WeForms_Ajax {
         parse_str( $_POST['form_data'], $form_data );
 
         if ( ! wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
-            wp_send_json_error( __( 'Unauthorized operation', 'wpuf' ) );
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 
         if ( empty( $form_data['wpuf_form_id'] ) ) {
-            wp_send_json_error( __( 'Invalid form id', 'wpuf' ) );
+            wp_send_json_error( __( 'Invalid form id', 'weforms' ) );
         }
 
         $form_fields   = isset( $_POST['form_fields'] ) ? $_POST['form_fields'] : '';
@@ -747,7 +747,7 @@ class WeForms_Ajax {
             if ( ! $resp->success ) {
                 wp_send_json( array(
                     'success'     => false,
-                    'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
+                    'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
                 ) );
             }
 		} else {
@@ -763,7 +763,7 @@ class WeForms_Ajax {
 
                 wp_send_json( array(
                     'success'     => false,
-                    'error'       => __( 'reCAPTCHA validation failed', 'wpuf' ),
+                    'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
                 ) );
             }
         }
@@ -814,7 +814,7 @@ class WeForms_Ajax {
                             'success'     => false,
                             'error'       => __( sprintf(
                                 '%s price must be equal or greater than %s',
-                                $field['label'],
+                                $field['weforms'],
                                 $min),
                             'weforms' ),
                         ) );
@@ -826,7 +826,7 @@ class WeForms_Ajax {
                             'success'     => false,
                             'error'       => __( sprintf(
                                 '%s price must be equal or less than %s',
-                                $field['label'],
+                                $field['weforms'],
                                 $max),
                             'weforms' ),
                         ) );
@@ -844,7 +844,7 @@ class WeForms_Ajax {
                             'success'     => false,
                             'error'       => __( sprintf(
                                 '%s quantity must be equal or greater than %s',
-                                $field['label'],
+                                $field['weforms'],
                                 $min),
                             'weforms' ),
                         ) );
@@ -856,7 +856,7 @@ class WeForms_Ajax {
                             'success'     => false,
                             'error'       => __( sprintf(
                                 '%s quantity must be equal or less than %s',
-                                $field['label'],
+                                $field['weforms'],
                                 $max),
                             'weforms' ),
                         ) );

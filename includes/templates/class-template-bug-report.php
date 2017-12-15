@@ -34,8 +34,8 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
                 'label'      => __( 'First Step', 'weforms' ),
                 'name'       => 'report_bug_step',
                 'step_start' => array(
-                    'prev_button_text' => __( 'Previous', 'weforms-pro' ),
-                    'next_button_text' => __( 'Next', 'weforms-pro' )
+                    'prev_button_text' => __( 'Previous', 'weforms' ),
+                    'next_button_text' => __( 'Next', 'weforms' )
                 ),
             ) ),
 
@@ -80,8 +80,8 @@ class WeForms_Template_Bug_Report extends WeForms_Form_Template {
                 'label'         => __( 'Second Step', 'weforms' ),
                 'name'          => 'report_bug_step_two',
                 'step_start'    => array(
-                    'prev_button_text' => __( 'Previous', 'weforms-pro' ),
-                    'next_button_text' => __( 'Next', 'weforms-pro' )
+                    'prev_button_text' => __( 'Previous', 'weforms' ),
+                    'next_button_text' => __( 'Next', 'weforms' )
                 ),
             ) ),
 
