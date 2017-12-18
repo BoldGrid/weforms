@@ -99,7 +99,7 @@ final class WeForms {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-        add_action( 'plugins_loaded', array( $this, 'plugin_upgrades' ) );
+        add_action( 'admin_init', array( $this, 'plugin_upgrades' ) );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
     }
 
@@ -269,7 +269,7 @@ final class WeForms {
      */
     function plugin_upgrades() {
 
-        if ( ! is_admin() && ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
 
