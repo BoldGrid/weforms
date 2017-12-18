@@ -36,7 +36,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
                     id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
                     type="email"
                     class="email <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>"
-                    data-duplicate="<?php echo $field_settings['duplicate'] ? $field_settings['duplicate'] : 'no'; ?>"
+                    data-duplicate="<?php echo isset( $field_settings['duplicate'] ) ? $field_settings['duplicate'] : 'no'; ?>"
                     data-required="<?php echo $field_settings['required'] ?>"
                     data-type="email"
                     name="<?php echo esc_attr( $field_settings['name'] ); ?>"
