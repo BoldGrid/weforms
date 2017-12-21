@@ -1,6 +1,8 @@
 module.exports = function (grunt) {
     'use strict';
 
+    require('load-grunt-tasks')(grunt);
+
     var formBuilderAssets = require('./assets/js/utils/form-builder-assets.js');
 
     function template_from_path(src, filepath) {
@@ -22,7 +24,8 @@ module.exports = function (grunt) {
             js: 'assets/js',
             less: 'assets/less',
             spa: 'assets/spa',
-            template: 'assets/js-templates'
+            template: 'assets/js-templates',
+            wpuf: 'assets/wpuf',
         },
 
         // jshint
@@ -263,6 +266,32 @@ module.exports = function (grunt) {
                 dest: 'weforms'
             }
         },
+
+
+        uglify: {
+            minify: {
+                files: {
+                    '<%= dirs.js %>/form-builder-components.min.js': ['<%= dirs.js %>/form-builder-components.js'],
+                    '<%= dirs.js %>/spa-app.min.js': '<%= dirs.js %>/spa-app.js',
+                    '<%= dirs.js %>/spa-mixins.min.js': '<%= dirs.js %>/spa-mixins.js',
+                    '<%= dirs.js %>/wpuf-form-builder-contact-forms.min.js': '<%= dirs.js %>/wpuf-form-builder-contact-forms.js',
+                }
+            }
+        },
+
+        babel: {
+            options: {
+                sourceMap: false,
+                presets: ['env']
+            },
+            dist: {
+                files: {
+                    '<%= dirs.js %>/form-builder-components.js': '<%= dirs.js %>/form-builder-components.js',
+                    '<%= dirs.js %>/spa-app.js': '<%= dirs.js %>/spa-app.js',
+                    '<%= dirs.js %>/spa-mixins.js': '<%= dirs.js %>/spa-mixins.js',
+                }
+            }
+        }
     });
 
     // load npm tasks to be used here
@@ -275,7 +304,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-wp-i18n');
     grunt.loadNpmTasks('grunt-contrib-less' );
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
+    grunt.loadNpmTasks('grunt-wp-readme-to-markdown');
 
     // grunt tasks
     grunt.registerTask('default', ['watch']);
@@ -286,8 +315,8 @@ module.exports = function (grunt) {
     grunt.registerTask('readme', ['wp_readme_to_markdown']);
 
     // build stuff
-    grunt.registerTask('release', ['wpuf', 'i18n', 'readme']);
-    grunt.registerTask('zip', ['clean:build', 'wpuf', 'copy', 'compress']);
+    grunt.registerTask('release', ['i18n', 'readme', 'babel', 'uglify']); // 'wpuf',
+    grunt.registerTask('zip', ['clean:build', 'copy', 'compress']); // 'wpuf'
 
     grunt.util.linefeed = '\n';
 };

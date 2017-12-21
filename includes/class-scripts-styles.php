@@ -119,7 +119,7 @@ class WeForms_Scripts_Styles {
 				'in_footer' => true
 			),
 			'wpuf-sweetalert2' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2.js',
+				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2' . $prefix . '.js',
 				'deps'      => false,
 				'in_footer' => true
 			),
@@ -159,7 +159,7 @@ class WeForms_Scripts_Styles {
 				'in_footer' => true
 			),
 			'wpuf-form-builder-mixins-form' => array(
-				'src'       => WEFORMS_ASSET_URI . '/js/wpuf-form-builder-contact-forms.js',
+				'src'       => WEFORMS_ASSET_URI . '/js/wpuf-form-builder-contact-forms' . $prefix . '.js',
 				'deps'      => $form_builder_js_deps,
 				'in_footer' => true
 			),
@@ -188,17 +188,17 @@ class WeForms_Scripts_Styles {
 
         $spa_scripts = array(
             'weforms-mixins' => array(
-                'src'       => WEFORMS_ASSET_URI . '/js/spa-mixins.js',
+                'src'       => WEFORMS_ASSET_URI . '/js/spa-mixins' . $prefix . '.js',
                 'deps'      => array( 'wpuf-vue-router', 'wp-util' ),
                 'in_footer' => true
             ),
             'weforms-components' => array(
-                'src'       => WEFORMS_ASSET_URI . '/js/form-builder-components.js',
+                'src'       => WEFORMS_ASSET_URI . '/js/form-builder-components' . $prefix . '.js',
                 'deps'      => array( 'wpuf-vue', 'wp-util' ),
                 'in_footer' => true
             ),
             'weforms-app' => array(
-                'src'       => WEFORMS_ASSET_URI . '/js/spa-app.js',
+                'src'       => WEFORMS_ASSET_URI . '/js/spa-app' . $prefix . '.js',
                 'deps'      => array( 'wpuf-vue-router', 'wp-util', 'wpuf-form-builder-components' ),
                 'in_footer' => true
             ),
