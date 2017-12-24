@@ -93,12 +93,12 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                         };
                     </script>
 
-                    <div id='recaptcha' class="g-recaptcha" data-sitekey=<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
+                    <div id='recaptcha' class="g-recaptcha" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
 
                 <?php } else { ?>
 
                     <script src="https://www.google.com/recaptcha/api.js"></script>
-                    <div id='recaptcha' class="g-recaptcha" data-sitekey=<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback"></div>
+                    <div id='recaptcha' class="g-recaptcha" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback"></div>
                 <?php } ?>
 
                 </div>
