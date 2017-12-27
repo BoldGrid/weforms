@@ -198,19 +198,22 @@ class WeForms_Scripts_Styles {
      * @return array
      */
     public function get_frontend_scripts() {
+
+        $prefix = $this->get_prefix();
+
         $scripts = array(
             'wpuf-form' => array(
-                'src'       => WEFORMS_ASSET_URI . '/wpuf/js/frontend-form.js',
+                'src'       => WEFORMS_ASSET_URI . '/wpuf/js/frontend-form' . $prefix . '.js',
                 'deps'      => array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider' ),
                 'in_footer' => false
             ),
             'jquery-ui-timepicker' => array(
-                'src'       => WEFORMS_ASSET_URI . '/wpuf/js/jquery-ui-timepicker-addon.js',
+                'src'       => WEFORMS_ASSET_URI . '/wpuf/js/jquery-ui-timepicker-addon' . $prefix . '.js',
                 'deps'      => array( 'jquery-ui-datepicker' ),
                 'in_footer' => false
             ),
             'wpuf-upload' => array(
-                'src'       => WEFORMS_ASSET_URI . '/wpuf/js/upload.js',
+                'src'       => WEFORMS_ASSET_URI . '/wpuf/js/upload' . $prefix . '.js',
                 'deps'      => array( 'jquery', 'plupload-handlers' ),
                 'in_footer' => false
             )

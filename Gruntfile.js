@@ -4,8 +4,8 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     var formBuilderAssets = require('./assets/js/utils/form-builder-assets.js');
-    var vendorAssets = require('./assets/js/utils/vendor-assets.js');
-    var babelConfig = {sourceMap: false, presets: ['env'] };
+    var vendorAssets      = require('./assets/js/utils/vendor-assets.js');
+    var babelConfig       = {sourceMap: false, presets: ['env'] };
 
     function template_from_path(src, filepath) {
         var id = filepath.replace('/template.php', '').split('/').pop();
@@ -295,6 +295,8 @@ module.exports = function (grunt) {
                     '<%= dirs.js %>/spa-app.min.js': '<%= dirs.js %>/spa-app.js',
                     '<%= dirs.js %>/spa-mixins.min.js': '<%= dirs.js %>/spa-mixins.js',
                     '<%= dirs.js %>/wpuf-form-builder-contact-forms.min.js': '<%= dirs.js %>/wpuf-form-builder-contact-forms.js',
+                    '<%= dirs.wpuf %>/js/frontend-form.min.js': '<%= dirs.wpuf %>/js/frontend-form.js',
+                    '<%= dirs.wpuf %>/js/upload.min.js': '<%= dirs.wpuf %>/js/upload.js',
                 }
             },
 
@@ -357,8 +359,8 @@ module.exports = function (grunt) {
     grunt.registerTask('vendor', ['concat:vendor','uglify:vendor']);
 
     // build stuff
-    grunt.registerTask('release', ['i18n', 'readme', 'babel:main', 'uglify:main']); // 'wpuf',
-    grunt.registerTask('zip', ['clean:build', 'copy', 'compress']); // 'wpuf'
+    grunt.registerTask('release', ['i18n', 'readme', 'babel:main', 'uglify:main','vendor']); // 'wpuf' removed
+    grunt.registerTask('zip', ['clean:build', 'copy', 'compress']); // 'wpuf' removed
 
     grunt.util.linefeed = '\n';
 };
