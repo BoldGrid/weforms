@@ -364,8 +364,14 @@ final class WeForms {
      * @param string $msg
      */
     public static function log( $type = '', $msg = '' ) {
+
+        // default we are turning the debug mood on, but can be turned off
+        if ( defined( 'WEFORMS_DEBUG_LOG' ) &&  false === WEFORMS_DEBUG_LOG ) {
+           return;
+        }
+
         $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, $msg );
-        @error_log( $msg, 3, WP_CONTENT_DIR . '/weforms_log.txt' );
+        @error_log( $msg, 3, weforms_log_file_path() );
     }
 
     /**

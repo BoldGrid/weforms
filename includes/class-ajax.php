@@ -1034,7 +1034,7 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $file = WP_CONTENT_DIR . '/weforms_log.txt';
+        $file = weforms_log_file_path();
 
         if ( ! file_exists( $file ) ) {
 			return;
