@@ -85,121 +85,54 @@ class WeForms_Scripts_Styles {
         $form_builder_js_deps = apply_filters( 'wpuf-form-builder-js-deps', array(
 			'jquery',
 			'jquery-ui-sortable',
-			'jquery-ui-draggable',
+            'jquery-ui-draggable',
+            'jquery-ui-datepicker',
+			'weforms-tiny-mce',
 			'underscore',
-			'wpuf-vue',
-			'wpuf-vuex',
-			'wpuf-sweetalert2',
-			'wpuf-jquery-scrollTo',
-			'wpuf-selectize',
-			'wpuf-toastr',
-			'wpuf-clipboard',
-			'wpuf-tooltip'
         ) );
 
         $builder_scripts = apply_filters( 'weforms_builder_scripts', array(
-			'wpuf-vue' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/vue/vue' . $prefix . '.js',
-				'deps'      => false,
-				'in_footer' => true
-			),
-			'wpuf-vuex' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/vuex/vuex' . $prefix . '.js',
-				'deps'      => array( 'wpuf-vue' ),
-				'in_footer' => true
-			),
-			'wpuf-vue-router' => array(
-				'src'       => WEFORMS_ASSET_URI . '/js/vendor/vue-router.js',
-				'deps'      => array( 'jquery', 'wpuf-vue', 'wpuf-vuex' ),
-				'in_footer' => true
-			),
-			'nprogress' => array(
-				'src'       => WEFORMS_ASSET_URI . '/js/vendor/nprogress.js',
-				'deps'      => array( 'jquery' ),
-				'in_footer' => true
-			),
-			'wpuf-sweetalert2' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2' . $prefix . '.js',
-				'deps'      => false,
-				'in_footer' => true
-			),
-			'wpuf-jquery-scrollTo' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/jquery.scrollTo/jquery.scrollTo' . $prefix . '.js',
-				'deps'      => array( 'jquery' ),
-				'in_footer' => true
-			),
-			'wpuf-selectize' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/selectize/js/standalone/selectize' . $prefix . '.js',
-				'deps'      => array( 'jquery' ),
-				'in_footer' => true
-			),
-			'wpuf-toastr' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/toastr/toastr' . $prefix . '.js',
-				'deps'      => false,
-				'in_footer' => true
-			),
-			'wpuf-clipboard' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/clipboard/clipboard' . $prefix . '.js',
-				'deps'      => false,
-				'in_footer' => true
-			),
-			'wpuf-tooltip' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/tooltip/tooltip' . $prefix . '.js',
-				'deps'      => false,
-				'in_footer' => true
-			),
-			'jquery-ui-timepicker' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/js/jquery-ui-timepicker-addon.js',
-				'deps'      => array( 'jquery-ui-datepicker' ),
+            'weforms-tiny-mce' => array(
+                'src'       => site_url( '/wp-includes/js/tinymce/tinymce.min.js' ),
+                'deps'      => array(),
+                'in_footer' => true
+            ),
+            'weforms-vendor' => array(
+				'src'       => WEFORMS_ASSET_URI . '/js/vendor' . $prefix . '.js',
+				'deps'      => $form_builder_js_deps,
 				'in_footer' => true
 			),
 			'wpuf-form-builder-mixins' => array(
 				'src'       => WEFORMS_ASSET_URI . '/wpuf/js/wpuf-form-builder-mixins.js',
-				'deps'      => $form_builder_js_deps,
+				'deps'      => array('weforms-vendor'),
 				'in_footer' => true
 			),
 			'wpuf-form-builder-mixins-form' => array(
 				'src'       => WEFORMS_ASSET_URI . '/js/wpuf-form-builder-contact-forms' . $prefix . '.js',
-				'deps'      => $form_builder_js_deps,
+				'deps'      => array('weforms-vendor'),
 				'in_footer' => true
 			),
 			'wpuf-form-builder-components' => array(
-				'src'       => WEFORMS_ASSET_URI . '/wpuf/js/wpuf-form-builder-components.js',
+				'src'       => WEFORMS_ASSET_URI . '/wpuf/js/wpuf-form-builder-components' . $prefix . '.js',
 				'deps'      => array( 'wpuf-form-builder-mixins', 'wpuf-form-builder-mixins-form' ),
 				'in_footer' => true
 			),
-			'weforms-tiny-mce' => array(
-				'src'       => site_url( '/wp-includes/js/tinymce/tinymce.min.js' ),
-				'deps'      => array(),
-				'in_footer' => true
-			),
-			'weforms-tiny-mce-code' => array(
-				'src'       => WEFORMS_ASSET_URI . '/js/vendor/tinymce/plugins/code/plugin.min.js',
-				'deps'      => array( 'weforms-tiny-mce' ),
-				'in_footer' => true
-			),
-			'weforms-tiny-mce-hr' => array(
-				'src'       => WEFORMS_ASSET_URI . '/js/vendor/tinymce/plugins/hr/plugin.min.js',
-				'deps'      => array( 'weforms-tiny-mce-code' ),
-				'in_footer' => true
-			),
-
         ) );
 
         $spa_scripts = array(
             'weforms-mixins' => array(
                 'src'       => WEFORMS_ASSET_URI . '/js/spa-mixins' . $prefix . '.js',
-                'deps'      => array( 'wpuf-vue-router', 'wp-util' ),
+                'deps'      => array( 'weforms-vendor', 'wp-util' ),
                 'in_footer' => true
             ),
             'weforms-components' => array(
                 'src'       => WEFORMS_ASSET_URI . '/js/form-builder-components' . $prefix . '.js',
-                'deps'      => array( 'wpuf-vue', 'wp-util' ),
+                'deps'      => array( 'weforms-vendor', 'wp-util' ),
                 'in_footer' => true
             ),
             'weforms-app' => array(
                 'src'       => WEFORMS_ASSET_URI . '/js/spa-app' . $prefix . '.js',
-                'deps'      => array( 'wpuf-vue-router', 'wp-util', 'wpuf-form-builder-components' ),
+                'deps'      => array( 'weforms-vendor', 'wp-util', 'wpuf-form-builder-components' ),
                 'in_footer' => true
             ),
         );
