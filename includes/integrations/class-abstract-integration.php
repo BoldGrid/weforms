@@ -201,4 +201,27 @@ abstract class WeForms_Abstract_Integration {
 
         return $tabs;
     }
+
+    /**
+     * Get file prefix
+     *
+     * @return string
+     */
+    public function get_prefix() {
+        $prefix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+        return $prefix;
+    }
+
+    /**
+     * Get default componenet url
+     *
+     * @return string
+     */
+    public function module_component_file( $plugin_file ) {
+
+        $prefix = $this->get_prefix();
+
+        return plugins_url( 'component/index' . $prefix . '.js', $plugin_file );
+    }
 }
