@@ -34,20 +34,20 @@ class WeForms_Form_Field_Hidden extends WeForms_Field_Contract {
         $settings = array(
             array(
                 'name'      => 'name',
-                'title'     => __( 'Meta Key', 'wpuf' ),
+                'title'     => __( 'Meta Key', 'weforms' ),
                 'type'      => 'text',
                 'section'   => 'basic',
                 'priority'  => 10,
-                'help_text' => __( 'Name of the meta key this field will save to', 'wpuf' ),
+                'help_text' => __( 'Name of the meta key this field will save to', 'weforms' ),
             ),
 
             array(
                 'name'      => 'meta_value',
-                'title'     => __( 'Meta Value', 'wpuf' ),
+                'title'     => __( 'Meta Value', 'weforms' ),
                 'type'      => 'text',
                 'section'   => 'basic',
                 'priority'  => 11,
-                'help_text' => __( 'Enter the meta value', 'wpuf' ),
+                'help_text' => __( 'Enter the meta value', 'weforms' ),
             ),
         );
 

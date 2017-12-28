@@ -61,8 +61,8 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
         $defaults = $this->default_attributes();
         $props    = array(
             'selected' => array(),
-            'options'  => array( 'Option' => __( 'Option', 'wpuf' ) ),
-            'first'    => __( '— Select —', 'wpuf' ),
+            'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
+            'first'    => __( '— Select —', 'weforms' ),
         );
 
         return array_merge( $defaults, $props );

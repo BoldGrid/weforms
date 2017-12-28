@@ -1,7 +1,11 @@
 module.exports = function (grunt) {
     'use strict';
 
+    require('load-grunt-tasks')(grunt);
+
     var formBuilderAssets = require('./assets/js/utils/form-builder-assets.js');
+    var vendorAssets      = require('./assets/js/utils/vendor-assets.js');
+    var babelConfig       = {sourceMap: false, presets: ['env'] };
 
     function template_from_path(src, filepath) {
         var id = filepath.replace('/template.php', '').split('/').pop();
@@ -22,7 +26,8 @@ module.exports = function (grunt) {
             js: 'assets/js',
             less: 'assets/less',
             spa: 'assets/spa',
-            template: 'assets/js-templates'
+            template: 'assets/js-templates',
+            wpuf: 'assets/wpuf',
         },
 
         // jshint
@@ -55,6 +60,14 @@ module.exports = function (grunt) {
             },
         },
 
+        wp_readme_to_markdown: {
+            your_target: {
+                files: {
+                    'README.md': 'readme.txt'
+                }
+            },
+        },
+
         watch: {
 
             less: {
@@ -67,7 +80,7 @@ module.exports = function (grunt) {
                     'assets/components/**/*',
                 ],
                 tasks: [
-                    'concat:formBuilder', 'concat:formComponentTemplates', 'jshint:main'
+                    'concat:formBuilder', 'concat:formComponentTemplates', 'jshint:main','babel:components','uglify:components'
                 ]
             },
 
@@ -76,8 +89,20 @@ module.exports = function (grunt) {
                     'assets/spa/**/*',
                 ],
                 tasks: [
-                    'concat:spa', 'concat:spaMixins', 'concat:spaComponentTemplates', 'jshint:main'
+                    'concat:spa', 'concat:spaMixins', 'concat:spaComponentTemplates', 'jshint:main','babel:spa','uglify:spa'
                 ]
+            }
+        },
+
+        addtextdomain: {
+            options: {
+                textdomain: 'weforms',
+            },
+            update_all_domains: {
+                options: {
+                    updateDomains: true
+                },
+                src: [ '*.php', '**/*.php', '!node_modules/**', '!php-tests/**', '!bin/**', '!build/**', '!assets/**' ]
             }
         },
 
@@ -86,12 +111,16 @@ module.exports = function (grunt) {
             target: {
                 options: {
                     exclude: ['build/.*', 'node_modules/*', 'assets/*'],
+                    mainFile: 'weforms.php',
                     domainPath: '/languages/',
                     potFilename: 'weforms.pot',
                     type: 'wp-plugin',
+                    updateTimestamp: true,
                     potHeaders: {
                         'report-msgid-bugs-to': 'https://wedevs.com/contact/',
-                        'language-team': 'LANGUAGE <EMAIL@ADDRESS>'
+                        'language-team': 'LANGUAGE <EMAIL@ADDRESS>',
+                        poedit: true,
+                        'x-poedit-keywordslist': true
                     }
                 }
             }
@@ -147,7 +176,15 @@ module.exports = function (grunt) {
                 files: {
                     '<%= dirs.js %>/spa-app.js': formBuilderAssets.spa.app
                 }
-            }
+            },
+            vendor: {
+                options: {
+                     process: filename_on_concat
+                },
+                files: {
+                    '<%= dirs.js %>/vendor.js': vendorAssets,
+                }
+            },
         },
 
         // Clean up build directory
@@ -239,6 +276,65 @@ module.exports = function (grunt) {
                 dest: 'weforms'
             }
         },
+
+        uglify: {
+            components: {
+                files: {
+                    '<%= dirs.js %>/form-builder-components.min.js': ['<%= dirs.js %>/form-builder-components.js'],
+                }
+            },
+            spa: {
+                files: {
+                    '<%= dirs.js %>/spa-app.min.js': '<%= dirs.js %>/spa-app.js',
+                    '<%= dirs.js %>/spa-mixins.min.js': '<%= dirs.js %>/spa-mixins.js',
+                }
+            },
+            main: {
+                files: {
+                    '<%= dirs.js %>/form-builder-components.min.js': ['<%= dirs.js %>/form-builder-components.js'],
+                    '<%= dirs.js %>/spa-app.min.js': '<%= dirs.js %>/spa-app.js',
+                    '<%= dirs.js %>/spa-mixins.min.js': '<%= dirs.js %>/spa-mixins.js',
+                    '<%= dirs.js %>/wpuf-form-builder-contact-forms.min.js': '<%= dirs.js %>/wpuf-form-builder-contact-forms.js',
+                    '<%= dirs.wpuf %>/js/frontend-form.min.js': '<%= dirs.wpuf %>/js/frontend-form.js',
+                    '<%= dirs.wpuf %>/js/upload.min.js': '<%= dirs.wpuf %>/js/upload.js',
+                }
+            },
+
+            vendor: {
+                files: {
+                    '<%= dirs.js %>/vendor.min.js': '<%= dirs.js %>/vendor.js',
+                }
+            },
+
+        },
+
+        babel: {
+            options: babelConfig,
+            components: {
+                files: {
+                    '<%= dirs.js %>/form-builder-components.js': '<%= dirs.js %>/form-builder-components.js',
+                }
+            },
+            spa: {
+                files: {
+                    '<%= dirs.js %>/spa-app.js': '<%= dirs.js %>/spa-app.js',
+                    '<%= dirs.js %>/spa-mixins.js': '<%= dirs.js %>/spa-mixins.js',
+                }
+            },
+            main: {
+                files: {
+                    '<%= dirs.js %>/form-builder-components.js': '<%= dirs.js %>/form-builder-components.js',
+                    '<%= dirs.js %>/spa-app.js': '<%= dirs.js %>/spa-app.js',
+                    '<%= dirs.js %>/spa-mixins.js': '<%= dirs.js %>/spa-mixins.js',
+                    '<%= dirs.js %>/wpuf-form-builder-contact-forms.js': '<%= dirs.js %>/wpuf-form-builder-contact-forms.js',
+                }
+            },
+            vendor: {
+                files: {
+                    '<%= dirs.js %>/vendor.js': '<%= dirs.js %>/vendor.js',
+                }
+            },
+        }
     });
 
     // load npm tasks to be used here
@@ -251,13 +347,20 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-wp-i18n');
     grunt.loadNpmTasks('grunt-contrib-less' );
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-wp-readme-to-markdown');
 
     // grunt tasks
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('wpuf', ['clean:wpuf', 'copy:wpuf']);
 
-    grunt.registerTask('release', [ 'wpuf', 'makepot']);
+    // file auto generation
+    grunt.registerTask('i18n', ['addtextdomain', 'makepot']);
+    grunt.registerTask('readme', ['wp_readme_to_markdown']);
+    grunt.registerTask('vendor', ['concat:vendor','uglify:vendor']);
 
+    // build stuff
+    grunt.registerTask('release', ['i18n', 'readme', 'babel:main', 'uglify:main','vendor']); // 'wpuf' removed
+    grunt.registerTask('zip', ['clean:build', 'copy', 'compress']); // 'wpuf' removed
 
-    grunt.registerTask('zip', ['clean:build', 'wpuf', 'copy', 'compress']);
+    grunt.util.linefeed = '\n';
 };

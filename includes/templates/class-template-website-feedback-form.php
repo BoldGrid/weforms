@@ -25,7 +25,7 @@ class WeForms_Template_Website_Feedback extends WeForms_Form_Template {
 
         $get_form_fields = array(
             array_merge( $all_fields['custom_html']->get_field_props(), array(
-                'html'      => sprintf( '<h3>%s</h3>', __( 'Website Feedback' ) ),
+                'html'      => sprintf( '<h3>%s</h3>', __( 'Website Feedback', 'weforms' ) ),
             ) ),
             array_merge( $all_fields['name_field']->get_field_props(), array(
                 'required'      => 'yes',

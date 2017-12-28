@@ -9,7 +9,7 @@ Vue.component( 'wpuf-table', {
         status: [String],
     },
 
-    data: function() {
+    data() {
         return {
             loading: false,
             columns: [],
@@ -21,7 +21,7 @@ Vue.component( 'wpuf-table', {
         };
     },
 
-    created: function() {
+    created() {
         this.fetchData();
     },
 

@@ -785,6 +785,17 @@ function weforms_form_access_capability() {
 }
 
 /**
+ * Form access capability for forms
+ *
+ * @since 1.2.4
+ *
+ * @return string
+ */
+function weforms_log_file_path() {
+    return apply_filters( 'weforms_log_file_path', WP_CONTENT_DIR . '/weforms.log' );
+}
+
+/**
  * Clear the buffer
  *
  * prevents ajax breakage and endless loading icon. A LIFE SAVER!!!
@@ -888,7 +899,7 @@ function weforms_allowed_extensions() {
         ),
         'zip'    => array(
             'ext'   => 'zip,gz,gzip,rar,7z',
-            'label' => __( 'Zip Archives' )
+            'label' => __( 'Zip Archives', 'weforms' )
         ),
         'exe'    => array(
             'ext'   => 'exe',

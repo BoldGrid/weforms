@@ -1,0 +1,14 @@
+{
+    "name": "wedevsofficial/weforms",
+    "description": "The fastest contact form plugin for WordPress",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Tareq Hasan",
+            "email": "tareq@wedevs.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

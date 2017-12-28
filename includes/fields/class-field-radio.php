@@ -65,17 +65,17 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
 
             array(
                 'name'          => 'inline',
-                'title'         => __( 'Show in inline list', 'wpuf' ),
+                'title'         => __( 'Show in inline list', 'weforms' ),
                 'type'          => 'radio',
                 'options'       => array(
-                    'yes'   => __( 'Yes', 'wpuf' ),
-                    'no'    => __( 'No', 'wpuf' ),
+                    'yes'   => __( 'Yes', 'weforms' ),
+                    'no'    => __( 'No', 'weforms' ),
                 ),
                 'default'       => 'no',
                 'inline'        => true,
                 'section'       => 'advanced',
                 'priority'      => 23,
-                'help_text'     => __( 'Show this option in an inline list', 'wpuf' ),
+                'help_text'     => __( 'Show this option in an inline list', 'weforms' ),
             )
         );
 
@@ -92,7 +92,7 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
         $props    = array(
             'selected' => '',
             'inline'   => 'no',
-            'options'  => array( 'Option' => __( 'Option', 'wpuf' ) ),
+            'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
         );
 
         return array_merge( $defaults, $props );
