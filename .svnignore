@@ -12,3 +12,5 @@ assets/components
 assets/spa
 assets/less
 .svnignore
+composer.json
+phpcs.xml.dist
