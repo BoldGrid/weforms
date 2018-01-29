@@ -139,9 +139,9 @@ class WeForms_Form {
             }
 
             if ( 'recaptcha' === $field['template'] ) {
-                $field['name'] = 'recaptcha';
+                $field['name']              = 'recaptcha';
                 $field['enable_no_captcha'] = isset( $field['enable_no_captcha'] ) ? $field['enable_no_captcha'] : '';
-
+                $field['recaptcha_theme']   = isset( $field['recaptcha_theme'] ) ? $field['recaptcha_theme'] : 'light';
             }
 
             if ( 'custom_html' === $field['template'] ) {

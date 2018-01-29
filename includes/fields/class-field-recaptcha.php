@@ -24,6 +24,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
         $settings     = weforms_get_settings( 'recaptcha' );
         $is_invisible = false;
         $public_key   = isset( $settings->key ) ? $settings->key : '';
+        $theme        = isset( $field_settings['recaptcha_theme'] ) ? $field_settings['recaptcha_theme'] : 'light';
 
         if ( isset ( $field_settings['recaptcha_type'] ) ) {
             $is_invisible = $field_settings['recaptcha_type'] == 'invisible_recaptcha' ? true : false;
@@ -93,12 +94,12 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                         };
                     </script>
 
-                    <div id='recaptcha' class="g-recaptcha" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
+                    <div id='recaptcha' class="g-recaptcha" data-theme="<?php echo $theme; ?>" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
 
                 <?php } else { ?>
 
                     <script src="https://www.google.com/recaptcha/api.js"></script>
-                    <div id='recaptcha' class="g-recaptcha" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback"></div>
+                    <div id='recaptcha' data-theme="<?php echo $theme; ?>" class="g-recaptcha" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback"></div>
                 <?php } ?>
 
                 </div>
@@ -155,7 +156,21 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                 'section'       => 'basic',
                 'priority'      => 11,
                 'help_text'     => __( 'Select reCaptcha type', 'weforms' ),
-            )
+            ),
+
+            array(
+                'name'          => 'recaptcha_theme',
+                'title'         => 'reCaptcha Theme',
+                'type'          => 'radio',
+                'options'       => array(
+                    'light' => __( 'Light', 'weforms' ),
+                    'dark'  => __( 'Dark', 'weforms' ),
+                ),
+                'default'       => 'light',
+                'section'       => 'advanced',
+                'priority'      => 12,
+                'help_text'     => __( 'Select reCaptcha Theme', 'weforms' ),
+            ),
         );
 
         return $settings;
@@ -168,13 +183,14 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
      */
     public function get_field_props() {
         $props = array(
-            'template'    => $this->get_type(),
-            'label'          => '',
-            'recaptcha_type' => 'enable_no_captcha',
-            'is_meta'       => 'yes',
-            'id'            => 0,
-            'is_new'        => true,
-            'wpuf_cond'     => null
+            'template'        => $this->get_type(),
+            'label'           => '',
+            'recaptcha_type'  => 'enable_no_captcha',
+            'is_meta'         => 'yes',
+            'id'              => 0,
+            'is_new'          => true,
+            'wpuf_cond'       => null,
+            'recaptcha_theme' => 'light',
         );
 
         return $props;
