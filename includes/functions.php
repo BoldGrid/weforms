@@ -49,6 +49,14 @@ function weforms_get_form_template_categories() {
             'name'         => 'Employment Templates',
             'icon'         => 'fa fa-suitcase',
         ),
+        'payment'           =>  array(
+            'name'         =>  'Payment Templates',
+            'icon'         =>   'fa fa-money',
+        ),
+        'reservation'       =>  array(
+            'name'         =>   'Reservation Templates',
+            'icon'         =>   'fa fa-bandcamp',
+        ),
         'others'        => array(
             'name'         => 'Others Templates',
             'icon'         => 'fa fa-info-circle',
@@ -209,10 +217,10 @@ function weforms_change_entry_status( $entry_id, $status ) {
     return $wpdb->update(
         $wpdb->weforms_entries,
         array(
-			'status' => $status
+            'status' => $status
         ),
         array(
-			'id' => $entry_id
+            'id' => $entry_id
         ),
         array( '%s' ),
         array( '%d' )
@@ -231,7 +239,7 @@ function weforms_delete_entry( $entry_id ) {
 
     return $wpdb->delete(
         $wpdb->weforms_entries, array(
-			'id' => $entry_id
+            'id' => $entry_id
         ), array( '%d' )
     );
 }
@@ -378,9 +386,8 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     if ( $limit ) {
 
         $fields = array_filter( $fields, function( $item ) {
-				return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
-			}
-        );
+            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
+        });
     }
 
     if ( $fields ) {
@@ -391,7 +398,7 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
 
     // if passed 0/false, return all collumns
     if ( $limit && sizeof( $columns ) > $limit ) {
-		$columns = array_slice( $columns, 0, $limit ); // max 6 columns
+        $columns = array_slice( $columns, 0, $limit ); // max 6 columns
     }
 
     return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
@@ -414,9 +421,8 @@ function weforms_get_payment_columns( $form_id, $limit = 6 ) {
     if ( $limit ) {
 
         $fields = array_filter( $fields, function( $item ) {
-				return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
-			}
-        );
+            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
+        });
     }
 
     if ( $fields ) {
@@ -427,7 +433,7 @@ function weforms_get_payment_columns( $form_id, $limit = 6 ) {
 
     // if passed 0/false, return all collumns
     if ( $limit && sizeof( $columns ) > $limit ) {
-		$columns = array_slice( $columns, 0, $limit ); // max 6 columns
+        $columns = array_slice( $columns, 0, $limit ); // max 6 columns
     }
 
     return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
@@ -515,7 +521,7 @@ function weforms_get_entry_data( $entry_id ) {
                     $data[ $meta_key ] .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
                 }
             }
-		} elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
+        } elseif ( in_array( $field['type'], array( 'checkbox', 'multiselect' ) ) ) {
 
             $data[ $meta_key ] = explode( WeForms::$field_separator, $value );
 
@@ -524,9 +530,9 @@ function weforms_get_entry_data( $entry_id ) {
             list( $lat, $long ) = explode( ',', $value );
 
             $data[ $meta_key ] = array(
-				'lat' => $lat,
-				'long' => $long
-			);
+                'lat' => $lat,
+                'long' => $long
+            );
 
         } else {
             $data[ $meta_key ] = $value;
@@ -978,57 +984,57 @@ function weforms_get_flat_ui_colors() {
 function weforms_get_default_form_settings() {
     return apply_filters(
         'weforms_get_default_form_settings', array(
-			'redirect_to'                => 'same',
-			'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
-			'page_id'                    => '',
-			'url'                        => '',
-			'submit_text'                => __( 'Submit Query', 'weforms' ),
-			'schedule_form'              => 'false',
-			'schedule_start'             => '',
-			'schedule_end'               => '',
-			'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
-			'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
-			'require_login'              => 'false',
-			'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
-			'limit_entries'              => 'false',
-			'limit_number'               => '100',
-			'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
-			'label_position'             => 'above',
-			'enable_multistep'           => false,
-			'multistep_progressbar_type' => 'progressive',
+            'redirect_to'                => 'same',
+            'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
+            'page_id'                    => '',
+            'url'                        => '',
+            'submit_text'                => __( 'Submit Query', 'weforms' ),
+            'schedule_form'              => 'false',
+            'schedule_start'             => '',
+            'schedule_end'               => '',
+            'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
+            'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
+            'require_login'              => 'false',
+            'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
+            'limit_entries'              => 'false',
+            'limit_number'               => '100',
+            'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
+            'label_position'             => 'above',
+            'enable_multistep'           => false,
+            'multistep_progressbar_type' => 'progressive',
 
-			// payment
-			'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
+            // payment
+            'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
 
-			'payment_paypal_label'       => __( 'PayPal', 'weforms' ),
-			'payment_stripe_label'       => __( 'Credit Card', 'weforms' ),
-			'payment_stripe_images'      => array( 'visa','mastercard','amex','discover' ),
+            'payment_paypal_label'       => __( 'PayPal', 'weforms' ),
+            'payment_stripe_label'       => __( 'Credit Card', 'weforms' ),
+            'payment_stripe_images'      => array( 'visa','mastercard','amex','discover' ),
 
-			'payment_stripe_deactivate'  => '',
-			'stripe_mode'                => 'live',
-			'stripe_page_id'             => '',
+            'payment_stripe_deactivate'  => '',
+            'stripe_mode'                => 'live',
+            'stripe_page_id'             => '',
 
-			'stripe_override_keys'       => '',
-			'stripe_email'               => '',
-			'stripe_key'                 => '',
-			'stripe_secret_key'          => '',
-			'stripe_key_test'            => '',
-			'stripe_secret_key_test'     => '',
+            'stripe_override_keys'       => '',
+            'stripe_email'               => '',
+            'stripe_key'                 => '',
+            'stripe_secret_key'          => '',
+            'stripe_key_test'            => '',
+            'stripe_secret_key_test'     => '',
 
-			'stripe_prefill_email'       => '',
-			'stripe_user_email_field'    => '',
+            'stripe_prefill_email'       => '',
+            'stripe_user_email_field'    => '',
 
-			'payment_paypal_deactivate'  => '',
-			'paypal_mode'                => 'live',
-			'paypal_type'                => '_cart',
+            'payment_paypal_deactivate'  => '',
+            'paypal_mode'                => 'live',
+            'paypal_type'                => '_cart',
 
-			'paypal_override'            => '',
-			'paypal_email'               => '',
+            'paypal_override'            => '',
+            'paypal_email'               => '',
 
-			'paypal_page_id'             => '',
+            'paypal_page_id'             => '',
 
-			'paypal_prefill_email'       => '',
-			'paypal_user_email_field'    => '',
+            'paypal_prefill_email'       => '',
+            'paypal_user_email_field'    => '',
         )
     );
 }
@@ -1041,32 +1047,32 @@ function weforms_get_default_form_settings() {
 function weforms_get_default_form_notification() {
     return apply_filters(
         'weforms_get_default_form_notification', array(
-			'active'       => 'true',
+            'active'       => 'true',
 
-			'type'         => 'email',
-			'smsTo'        => '',
-			'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+            'type'         => 'email',
+            'smsTo'        => '',
+            'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
 
-			'name'         => __( 'Admin Notification', 'weforms' ),
-			'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
-			'to'           => '{admin_email}',
-			'replyTo'      => '{field:email}',
-			'message'      => '{all_fields}',
-			'fromName'     => '{site_name}',
-			'fromAddress'  => '{admin_email}',
-			'cc'           => '',
-			'bcc'          => '',
-			'weforms_cond' => array(
-				'condition_status' => 'no',
-				'cond_logic'       => 'any',
-				'conditions'       => array(
-					array(
-						'name'             => '',
-						'operator'         => '=',
-						'option'           => ''
-					)
-				)
-			)
+            'name'         => __( 'Admin Notification', 'weforms' ),
+            'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+            'to'           => '{admin_email}',
+            'replyTo'      => '{field:email}',
+            'message'      => '{all_fields}',
+            'fromName'     => '{site_name}',
+            'fromAddress'  => '{admin_email}',
+            'cc'           => '',
+            'bcc'          => '',
+            'weforms_cond' => array(
+                'condition_status' => 'no',
+                'cond_logic'       => 'any',
+                'conditions'       => array(
+                    array(
+                        'name'             => '',
+                        'operator'         => '=',
+                        'option'           => ''
+                    )
+                )
+            )
         )
     );
 }
@@ -1103,7 +1109,7 @@ function weforms_get_pain_text( $value ) {
 
             $value = implode( WeForms::$field_separator , $string_value );
         }
-	}
+    }
 
     $value = trim( strip_tags( $value ) );
 
