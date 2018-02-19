@@ -194,7 +194,7 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 = Version 1.2.5 (19 February, 2018) =
 
- * **New:** Added more starter form templates for use like Donation Form, Online Booking Form, Conference Proposal etc. 
+ * **New:** Added more starter form templates for use like Donation Form, Online Booking Form, Conference Proposal etc.
  * **Improved:** Added dark theme support for recaptcha.
  * **Fix:** Google map entry display template fixed.
 
