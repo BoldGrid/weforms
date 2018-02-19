@@ -92,7 +92,7 @@ Craft your next form without a hitch. With weForms, stay organized. And hassle-f
 
 = Demo Site =
 
-Want to see what it feels like? Experience weForms first-hand with the [weForms demo](https://weformsdemo.wedevs.com/wp-admin/admin.php?page=weforms#/).
+Want to see what it feels like? Experience weForms first-hand with the [weForms demo](https://wedevs.com/in/weforms/demo).
 
 = weForms PRO WordPress Plugin Features =
 
