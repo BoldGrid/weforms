@@ -557,7 +557,7 @@
 
     <template v-else>
     	<div v-if="'invisible_recaptcha' != field.recaptcha_type">
-        	<img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder.png' ?>" alt="">
+        	<img class="wpuf-recaptcha-placeholder" :src="'<?php echo WPUF_ASSET_URI . "/images/recaptcha-placeholder-'+field.recaptcha_theme+'.png" ?>'" alt="">
         </div>
     </template>
 </div>

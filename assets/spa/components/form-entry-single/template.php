@@ -26,7 +26,7 @@
                                     </tr>
                                     <tr class="field-value">
                                         <td>
-                                            <weforms-entry-gmap :lat="entry.meta_data[index]['lat']" :long="entry.meta_data[index]['long']" v-if="field.type == 'map'"></weforms-entry-gmap>
+                                            <weforms-entry-gmap :lat="field.value.lat" :long="field.value.long" :zoom="field.zoom" v-if="field.type == 'google_map'"></weforms-entry-gmap>
                                             <div v-else-if="field.type === 'checkbox_field' || field.type === 'multiple_select'">
                                                 <ul style="margin: 0;">
                                                     <li v-for="item in field.value">- {{ item }}</li>

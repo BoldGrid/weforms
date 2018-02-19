@@ -4,7 +4,7 @@
 **Tags:** form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,  
 **Requires at least:** 4.4  
 **Requires PHP:** 5.4  
-**Tested up to:** 4.8.2  
+**Tested up to:** 4.9.1  
 **Stable tag:** 1.2.4  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
@@ -92,7 +92,7 @@ Craft your next form without a hitch. With weForms, stay organized. And hassle-f
 
 ### Demo Site ###
 
-Want to see what it feels like? Experience weForms first-hand with the [weForms demo](https://weformsdemo.wedevs.com/wp-admin/admin.php?page=weforms#/).
+Want to see what it feels like? Experience weForms first-hand with the [weForms demo](https://wedevs.com/in/weforms/demo).
 
 ### weForms PRO WordPress Plugin Features ###
 

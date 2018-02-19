@@ -46,19 +46,24 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-tell-a-friend.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-job-application.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-comment-and-rating.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-employee-information.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-employee-information.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-to-do-list.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-real-estate-listing.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-my-directory-information.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-request-for-quote.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-leave-request.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-admission-form.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-patient-itake-form.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-loan-application-form.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-website-feedback-form.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-volunteer-application.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-bug-report.php';
-		require_once WEFORMS_INCLUDES . '/templates/class-template-job-listing.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-admission-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-patient-itake-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-loan-application-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-website-feedback-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-volunteer-application.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-bug-report.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-job-listing.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-donation-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-product-order-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-online-booking-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-restaurant-reservation.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-conference-proposal.php';
 
         $templates = array(
             'blank'                    => new WeForms_Template_Blank(),
@@ -81,6 +86,11 @@ class WeForms_Template_Manager {
             'admission_form'           => new WeForms_Template_Admission_Form(),
             'patient_intake_form'      => new WeForms_Template_Patient_Intake_Form(),
             'loan_application_form'    => new WeForms_Template_Loan_Application_Form(),
+            'donation_form'            => new Weforms_Donation_Form(),
+            'product_order_form'       => new WeForms_Template_Product_Order_Form(),
+            'online_booking_form'      => new Weforms_Template_Online_Booking_Form(),
+            'restaurant_reservation'   => new WeForms_Template_Restaurant_Reservation(),
+            'conference_proposal'      => new Weforms_Template_Conference_Proposal(),
         );
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );
