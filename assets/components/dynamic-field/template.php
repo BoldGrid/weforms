@@ -8,7 +8,7 @@
 
         <ul>
             <li>
-                <label><input type="checkbox" value="yes" v-model="dynamic.status"> Allow field to be populated dynamically</label>
+                <label><input type="checkbox" value="yes" v-model="dynamic.status"> <?php _e( 'Allow field to be populated dynamically', 'weforms' ); ?></label>
             </li>
         </ul>
     </div>
