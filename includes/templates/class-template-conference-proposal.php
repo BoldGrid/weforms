@@ -81,28 +81,28 @@ class Weforms_Template_Conference_Proposal extends WeForms_Form_Template {
                 'label'    => 'Topics',
                 'name'     => 'topics',
                 'options'  => array(
-                    'firt_opic'     => __( 'Topic First', 'wpuf' ),
-                    'second_topic'  => __( 'Topic Second', 'wpuf' ),
-                    'third_topic'   => __( 'Topic Third', 'wpuf' ),
+                    'firt_opic'     => __( 'Topic First', 'weforms' ),
+                    'second_topic'  => __( 'Topic Second', 'weforms' ),
+                    'third_topic'   => __( 'Topic Third', 'weforms' ),
                 ),
             ) ),
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'    => 'Session Type',
                 'name'     => 'session_type',
                 'options'  => array(
-                    'presentation'     => __( 'Presentation', 'wpuf' ),
-                    'panel'            => __( 'Panel', 'wpuf' ),
-                    'workshop'         => __( 'Work Shop', 'wpuf' ),
-                    'other'            => __( 'Other', 'wpuf' ),
+                    'presentation'     => __( 'Presentation', 'weforms' ),
+                    'panel'            => __( 'Panel', 'weforms' ),
+                    'workshop'         => __( 'Work Shop', 'weforms' ),
+                    'other'            => __( 'Other', 'weforms' ),
                 ),
             ) ),
             array_merge( $all_fields['dropdown_field']->get_field_props(), array(
                 'label'    => 'Audience Level',
                 'name'     => 'audience_level',
                 'options'  => array(
-                    'novice'             => __( 'Novice', 'wpuf' ),
-                    'intermediate'       => __( 'Intermediate', 'wpuf' ),
-                    'expert'             => __( 'Expert', 'wpuf' ),
+                    'novice'             => __( 'Novice', 'weforms' ),
+                    'intermediate'       => __( 'Intermediate', 'weforms' ),
+                    'expert'             => __( 'Expert', 'weforms' ),
                 ),
             ) ),
             array_merge( $all_fields['text_field']->get_field_props(), array(

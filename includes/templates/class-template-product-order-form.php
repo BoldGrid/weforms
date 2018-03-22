@@ -29,8 +29,8 @@ class WeForms_Template_Product_Order_Form extends WeForms_Form_Template {
                 'label'      => __( 'Product Order', 'weforms' ),
                 'name'       => 'personal_order',
                 'step_start' => array(
-                    'prev_button_text' => __( 'Previous', 'weforms-pro' ),
-                    'next_button_text' => __( 'Next', 'weforms-pro' )
+                    'prev_button_text' => __( 'Previous', 'weforms' ),
+                    'next_button_text' => __( 'Next', 'weforms' )
                 ),
             ) ),
             array_merge( $all_fields['name_field']->get_field_props(), array(
@@ -73,8 +73,8 @@ class WeForms_Template_Product_Order_Form extends WeForms_Form_Template {
                 'label'          => __( 'Product', 'weforms' ),
                 'name'           => 'product',
                 'step_start'     => array(
-                    'prev_button_text' => __( 'Previous', 'weforms-pro' ),
-                    'next_button_text' => __( 'Next', 'weforms-pro' )
+                    'prev_button_text' => __( 'Previous', 'weforms' ),
+                    'next_button_text' => __( 'Next', 'weforms' )
                 ),
             ) ),
             array_merge( $all_fields['single_product']->get_field_props(), array(
