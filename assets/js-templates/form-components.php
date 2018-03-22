@@ -9,7 +9,7 @@
 
         <ul>
             <li>
-                <label><input type="checkbox" value="yes" v-model="dynamic.status"> Allow field to be populated dynamically</label>
+                <label><input type="checkbox" value="yes" v-model="dynamic.status"> <?php _e( 'Allow field to be populated dynamically', 'weforms' ); ?></label>
             </li>
         </ul>
     </div>
@@ -329,6 +329,7 @@
                     <a href="#" class="field-toggle" v-on:click.prevent="toggleAdvanced()"><span class="dashicons dashicons-arrow-right"></span><?php _e( ' Advanced', 'weforms' ); ?></a>
 
                     <div class="advanced-field-wrap">
+                        <p class="wpuf-pro-text-alert"><?php _e( 'Make sure that your mail server is configured properly for the following "From" fields',  'weforms' ); ?></p>
                         <template v-if="notifications[editingIndex].type == 'email' ">
                             <div class="notification-row">
                                 <div class="row-one-half notification-field first">
