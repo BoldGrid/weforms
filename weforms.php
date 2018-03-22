@@ -227,6 +227,7 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/class-importer-manager.php';
 
             require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-promotion.php';
 
         } else {
 
@@ -333,6 +334,7 @@ final class WeForms {
             $this->container['templates']    = new WeForms_Template_Manager();
             $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
+            $this->container['promo_offer']     = new WeForms_Admin_Promotion();
         }
 
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
