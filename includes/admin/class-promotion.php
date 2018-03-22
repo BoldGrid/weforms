@@ -25,7 +25,7 @@ class WeForms_Admin_Promotion {
         }
 
         // 2018-03-26 23:59:00
-        if ( time() > 1522053782 ) {
+        if ( time() > 1522108740 ) {
             return;
         }
 
