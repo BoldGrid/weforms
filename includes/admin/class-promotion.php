@@ -31,7 +31,7 @@ class WeForms_Admin_Promotion {
 
         // check if wpuf is showing banner
         if ( class_exists( 'WPUF_Admin_Promotion' ) ) {
-            update_option( 'weforms_promotional_offer_notice', 'hide' );
+            return;
         }
 
         // check if it has already been dismissed
@@ -74,7 +74,7 @@ class WeForms_Admin_Promotion {
 
             <style>
                 #weforms-promotional-offer-notice {
-                    background-color: #45E2D0;
+                    background-image: linear-gradient(35deg,#00c9ff 0%, #92fe9d 100%) !important;
                     border: 0px;
                     padding: 0;
                     opacity: 0;
@@ -157,10 +157,10 @@ class WeForms_Admin_Promotion {
                 }
 
                 #weforms-promotional-offer-notice a.promo-btn{
-                    background: #FAF8F8;
-                    border-color: #fafafa #fafafa #fafafa;
-                    box-shadow: 0 1px 0 #fafafa;
-                    color: #45E2D0;
+                    background: #149269;
+                    border-color: #149269 #149269 #149269;
+                    box-shadow: 0 1px 0 #149269;
+                    /*color: #45E2D0;*/
                     text-decoration: none;
                     text-shadow: none;
                     position: absolute;
