@@ -37,6 +37,12 @@ class WeForms_Scripts_Styles {
      * @return void
      */
     public function register_backend() {
+        // bail out if not weforms screen
+        $screen = get_current_screen();
+        if ( $screen->base != 'toplevel_page_weforms' ) {
+            return;
+        }
+
         $this->register_styles( $this->get_admin_styles() );
         $this->register_scripts( $this->get_admin_scripts() );
 

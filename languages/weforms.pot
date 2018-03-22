@@ -1,14 +1,14 @@
-# Copyright (C) 2017 weDevs
+# Copyright (C) 2018 weDevs
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.2.4\n"
+"Project-Id-Version: weForms 1.2.6\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2017-12-28 04:43:41+00:00\n"
+"POT-Creation-Date: 2018-03-22 12:04:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:55 includes/functions.php:651
+#: includes/admin/class-admin.php:55 includes/functions.php:657
 msgid "Form"
 msgstr ""
 
@@ -141,78 +141,79 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: includes/admin/class-admin.php:104 weforms.php:387
+#: includes/admin/class-admin.php:104 weforms.php:389
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:183 includes/functions.php:671
+#: includes/admin/class-admin.php:183 includes/functions.php:677
 msgid "IP Address"
 msgstr ""
 
-#: includes/admin/class-admin.php:184 includes/functions.php:662
+#: includes/admin/class-admin.php:184 includes/functions.php:668
+#: includes/templates/class-template-restaurant-reservation.php:62
 msgid "Date"
 msgstr ""
 
-#: includes/admin/class-admin.php:295
+#: includes/admin/class-admin.php:298
 #: includes/admin/views/weforms-settings-general.php:1
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:300
+#: includes/admin/class-admin.php:303
 #: includes/admin/views/weforms-settings-recaptcha.php:1
 #: includes/fields/class-field-recaptcha.php:9
 msgid "reCaptcha"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:47 includes/functions.php:1048
-#: includes/functions.php:1051
+#: includes/admin/class-form-builder-assets.php:66 includes/functions.php:1054
+#: includes/functions.php:1057
 msgid "New Form Submission"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:85
-#: includes/admin/class-form-builder-assets.php:286
-#: includes/class-scripts-styles.php:264
+#: includes/admin/class-form-builder-assets.php:104
+#: includes/admin/class-form-builder-assets.php:305
+#: includes/class-scripts-styles.php:270
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:257
+#: includes/admin/class-form-builder-assets.php:276
 msgid "Advanced Options"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:258
+#: includes/admin/class-form-builder-assets.php:277
 msgid "Are you sure you want to delete this field?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:259
+#: includes/admin/class-form-builder-assets.php:278
 msgid "Yes, delete it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:260
+#: includes/admin/class-form-builder-assets.php:279
 msgid "No, cancel it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:261
+#: includes/admin/class-form-builder-assets.php:280
 msgid "OK"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:262
+#: includes/admin/class-form-builder-assets.php:281
 #: includes/admin/class-wedevs-insights.php:627
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:263
+#: includes/admin/class-form-builder-assets.php:282
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:264
+#: includes/admin/class-form-builder-assets.php:283
 msgid "Disable"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:265
+#: includes/admin/class-form-builder-assets.php:284
 msgid "This field must contain at least one choice"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:266
+#: includes/admin/class-form-builder-assets.php:285
 #: includes/fields/class-field-checkbox.php:91
 #: includes/fields/class-field-dropdown.php:91
 #: includes/fields/class-field-multidropdown.php:64
@@ -220,112 +221,115 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:267
+#: includes/admin/class-form-builder-assets.php:286
 msgid "Row"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:268
+#: includes/admin/class-form-builder-assets.php:287
 msgid "Column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:269
+#: includes/admin/class-form-builder-assets.php:288
 msgid "This field must contain at least one column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:270
+#: includes/admin/class-form-builder-assets.php:289
 msgid "is available in Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:271
+#: includes/admin/class-form-builder-assets.php:290
 msgid "Please upgrade to the Pro version to unlock all these awesome features"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:272
+#: includes/admin/class-form-builder-assets.php:291
 msgid "Get the Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:273
+#: includes/admin/class-form-builder-assets.php:292
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:274
+#: includes/admin/class-form-builder-assets.php:293
 msgid "Saved form data"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:275
+#: includes/admin/class-form-builder-assets.php:294
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:276
+#: includes/admin/class-form-builder-assets.php:295
 msgid "Are you sure to leave this page?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:277
+#: includes/admin/class-form-builder-assets.php:296
 msgid "Click to copy shortcode"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:279
+#: includes/admin/class-form-builder-assets.php:298
 msgid "Select an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:280
+#: includes/admin/class-form-builder-assets.php:299
 msgid "Please select an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:281
+#: includes/admin/class-form-builder-assets.php:300
 msgid "Upload an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:283
+#: includes/admin/class-form-builder-assets.php:302
 msgid "Share Your Form"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:284
+#: includes/admin/class-form-builder-assets.php:303
 msgid ""
 "Sharing your form enables <strong>anyone</strong> to view and submit the "
 "form without inserting the shortcode to a page."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:285
+#: includes/admin/class-form-builder-assets.php:304
 msgid "Anyone with this URL will be able to view and submit this form."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:287
+#: includes/admin/class-form-builder-assets.php:306
 msgid "Anyone with existing URL won't be able to view and submit the form anymore."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:288
+#: includes/admin/class-form-builder-assets.php:307
 msgid "Disable Sharing"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:311
+#: includes/admin/class-form-builder-assets.php:330
 msgid "Notifications"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:312
+#: includes/admin/class-form-builder-assets.php:331
 msgid "Integrations"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:334
+#: includes/admin/class-form-builder-assets.php:353
 msgid "Form Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:335
+#: includes/admin/class-form-builder-assets.php:354
 msgid "Submission Restriction"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:336
+#: includes/admin/class-form-builder-assets.php:355
 msgid "Display Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:372 includes/functions.php:669
+#: includes/admin/class-form-builder-assets.php:391 includes/functions.php:675
 msgid "User"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:374 includes/functions.php:673
+#: includes/admin/class-form-builder-assets.php:393 includes/functions.php:679
 #: includes/integrations/mailpoet/component/template.php:38
+#: includes/templates/class-template-conference-proposal.php:33
+#: includes/templates/class-template-donation-form.php:33
 #: includes/templates/class-template-job-listing.php:59
 #: includes/templates/class-template-loan-application-form.php:46
+#: includes/templates/class-template-online-booking-form.php:33
 #: includes/templates/class-template-patient-itake-form.php:34
 #: includes/templates/class-template-volunteer-application.php:37
 msgid "First Name"
@@ -409,6 +413,27 @@ msgstr ""
 
 #: includes/admin/class-pro-upgrades.php:115
 msgid "Conditional Logic"
+msgstr ""
+
+#: includes/admin/class-promotion.php:47
+msgid ""
+"<p>\n"
+"                                        <strong class=\"highlight-text\" "
+"style=\"font-size: 18px\">It’s Our Birthday <span class=\"weforms-cake\" "
+"style=\"font-size: 20px\"> &#x1F382;</span>\n"
+"                                        But You Get The Present <span "
+"class=\"weforms-gift\" style=\"font-size: 20px\"> &#x1F381;</span> "
+"</strong><br>\n"
+"                                        Get 25&#37; Discount with coupon:\n"
+"                                        <a target=\"_blank\" "
+"href=\"%1$s\"><strong> we25 </strong></a>\n"
+"                                        <br>\n"
+"                                        Offer ending soon!\n"
+"                                    </p>"
+msgstr ""
+
+#: includes/admin/class-promotion.php:72
+msgid "Get the Offer"
 msgstr ""
 
 #: includes/admin/class-wedevs-insights.php:286
@@ -795,43 +820,43 @@ msgstr ""
 msgid ".."
 msgstr ""
 
-#: includes/class-scripts-styles.php:251
+#: includes/class-scripts-styles.php:257
 msgid "Please fix the errors to proceed"
 msgstr ""
 
-#: includes/class-scripts-styles.php:253
+#: includes/class-scripts-styles.php:259
 msgid "Word limit reached"
 msgstr ""
 
-#: includes/class-scripts-styles.php:257
+#: includes/class-scripts-styles.php:263
 msgid "is required"
 msgstr ""
 
-#: includes/class-scripts-styles.php:258
+#: includes/class-scripts-styles.php:264
 msgid "does not match"
 msgstr ""
 
-#: includes/class-scripts-styles.php:259
+#: includes/class-scripts-styles.php:265
 msgid "is not valid"
 msgstr ""
 
-#: includes/class-scripts-styles.php:260
+#: includes/class-scripts-styles.php:266
 msgid "requires a unique entry and this value has already been used"
 msgstr ""
 
-#: includes/class-scripts-styles.php:272
+#: includes/class-scripts-styles.php:278
 msgid "Allowed Files"
 msgstr ""
 
-#: includes/class-scripts-styles.php:278
+#: includes/class-scripts-styles.php:284
 msgid "Maximum number of files reached!"
 msgstr ""
 
-#: includes/class-scripts-styles.php:279
+#: includes/class-scripts-styles.php:285
 msgid "The file you have uploaded exceeds the file size limit. Please try again."
 msgstr ""
 
-#: includes/class-scripts-styles.php:280
+#: includes/class-scripts-styles.php:286
 msgid "You have uploaded an incorrect file type. Please try again."
 msgstr ""
 
@@ -938,6 +963,8 @@ msgstr ""
 #: includes/templates/class-template-patient-itake-form.php:843
 #: includes/templates/class-template-patient-itake-form.php:852
 #: includes/templates/class-template-patient-itake-form.php:861
+#: includes/templates/class-template-product-order-form.php:119
+#: includes/templates/class-template-restaurant-reservation.php:70
 msgid "Yes"
 msgstr ""
 
@@ -1018,6 +1045,8 @@ msgstr ""
 #: includes/templates/class-template-patient-itake-form.php:844
 #: includes/templates/class-template-patient-itake-form.php:853
 #: includes/templates/class-template-patient-itake-form.php:862
+#: includes/templates/class-template-product-order-form.php:120
+#: includes/templates/class-template-restaurant-reservation.php:71
 msgid "No"
 msgstr ""
 
@@ -1206,10 +1235,13 @@ msgstr ""
 #: includes/integrations/mailpoet/component/template.php:26
 #: includes/templates/class-template-admission-form.php:102
 #: includes/templates/class-template-bug-report.php:50
+#: includes/templates/class-template-conference-proposal.php:57
 #: includes/templates/class-template-employee-information.php:79
 #: includes/templates/class-template-employee-information.php:158
 #: includes/templates/class-template-loan-application-form.php:74
+#: includes/templates/class-template-product-order-form.php:59
 #: includes/templates/class-template-request-for-quote.php:44
+#: includes/templates/class-template-restaurant-reservation.php:47
 #: includes/templates/class-template-volunteer-application.php:50
 msgid "Email Address"
 msgstr ""
@@ -1310,6 +1342,8 @@ msgstr ""
 #: includes/templates/class-template-employee-information.php:107
 #: includes/templates/class-template-employee-information.php:197
 #: includes/templates/class-template-my-directory-information.php:35
+#: includes/templates/class-template-product-order-form.php:42
+#: includes/templates/class-template-restaurant-reservation.php:36
 #: includes/templates/class-template-website-feedback-form.php:38
 msgid "First"
 msgstr ""
@@ -1319,6 +1353,7 @@ msgstr ""
 #: includes/importer/class-importer-wpforms.php:166
 #: includes/templates/class-template-admission-form.php:41
 #: includes/templates/class-template-employee-information.php:50
+#: includes/templates/class-template-product-order-form.php:48
 msgid "Middle"
 msgstr ""
 
@@ -1330,6 +1365,8 @@ msgstr ""
 #: includes/templates/class-template-employee-information.php:112
 #: includes/templates/class-template-employee-information.php:203
 #: includes/templates/class-template-my-directory-information.php:41
+#: includes/templates/class-template-product-order-form.php:53
+#: includes/templates/class-template-restaurant-reservation.php:41
 #: includes/templates/class-template-website-feedback-form.php:44
 msgid "Last"
 msgstr ""
@@ -1373,43 +1410,55 @@ msgstr ""
 msgid "Radio"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:43
+#: includes/fields/class-field-recaptcha.php:44
 msgid "reCaptcha API key is missing."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:121
+#: includes/fields/class-field-recaptcha.php:122
 msgid "Site key and Secret key"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:123
+#: includes/fields/class-field-recaptcha.php:124
 msgid ""
 "You need to set Site key and Secret key in <a href=\"%s\" "
 "target=\"_blank\">Settings</a> in order to use \"Recaptcha\" field. <a "
 "href=\"%s\" target=\"_blank\">Click here to get the these key</a>."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:139
+#: includes/fields/class-field-recaptcha.php:140
 #: includes/fields/class-field-sectionbreak.php:54
 #: includes/templates/class-template-employee-information.php:133
 #: includes/templates/class-template-loan-application-form.php:29
 msgid "Title"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:143
+#: includes/fields/class-field-recaptcha.php:144
 #: includes/fields/class-field-sectionbreak.php:58
 msgid "Title of the section"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:151
+#: includes/fields/class-field-recaptcha.php:152
 msgid "Enable noCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:152
+#: includes/fields/class-field-recaptcha.php:153
 msgid "Enable Invisible reCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:157
+#: includes/fields/class-field-recaptcha.php:158
 msgid "Select reCaptcha type"
+msgstr ""
+
+#: includes/fields/class-field-recaptcha.php:166
+msgid "Light"
+msgstr ""
+
+#: includes/fields/class-field-recaptcha.php:167
+msgid "Dark"
+msgstr ""
+
+#: includes/fields/class-field-recaptcha.php:172
+msgid "Select reCaptcha Theme"
 msgstr ""
 
 #: includes/fields/class-field-sectionbreak.php:9
@@ -1437,167 +1486,171 @@ msgstr ""
 msgid "This is a premium field. You need to upgrade."
 msgstr ""
 
-#: includes/functions.php:176
+#: includes/functions.php:184
 msgid "No form ID was found."
 msgstr ""
 
-#: includes/functions.php:180
+#: includes/functions.php:188
 msgid "No form fields were found."
 msgstr ""
 
-#: includes/functions.php:186
+#: includes/functions.php:194
 msgid "Could not create an entry"
 msgstr ""
 
-#: includes/functions.php:653
+#: includes/functions.php:659
 msgid "Entry ID"
 msgstr ""
 
-#: includes/functions.php:654
+#: includes/functions.php:660
 msgid "Form ID"
 msgstr ""
 
-#: includes/functions.php:655
+#: includes/functions.php:661
 msgid "Form Name"
 msgstr ""
 
-#: includes/functions.php:659
+#: includes/functions.php:665
 msgid "System"
 msgstr ""
 
-#: includes/functions.php:661
+#: includes/functions.php:667
 msgid "Site Administrator Email"
 msgstr ""
 
-#: includes/functions.php:663
+#: includes/functions.php:669
 msgid "Site Title"
 msgstr ""
 
-#: includes/functions.php:664
+#: includes/functions.php:670
 msgid "Site URL"
 msgstr ""
 
-#: includes/functions.php:665
+#: includes/functions.php:671
 msgid "Embedded Page Title"
 msgstr ""
 
-#: includes/functions.php:672
+#: includes/functions.php:678
 msgid "User ID"
 msgstr ""
 
-#: includes/functions.php:674
+#: includes/functions.php:680
 #: includes/integrations/mailpoet/component/template.php:50
+#: includes/templates/class-template-conference-proposal.php:38
+#: includes/templates/class-template-donation-form.php:38
 #: includes/templates/class-template-job-listing.php:71
 #: includes/templates/class-template-loan-application-form.php:51
+#: includes/templates/class-template-online-booking-form.php:38
 #: includes/templates/class-template-patient-itake-form.php:45
 #: includes/templates/class-template-volunteer-application.php:42
 msgid "Last Name"
 msgstr ""
 
-#: includes/functions.php:675
+#: includes/functions.php:681
 msgid "Display Name"
 msgstr ""
 
-#: includes/functions.php:676
+#: includes/functions.php:682
 msgid "Email"
 msgstr ""
 
-#: includes/functions.php:680
+#: includes/functions.php:686
 msgid "URL's"
 msgstr ""
 
-#: includes/functions.php:682
+#: includes/functions.php:688
 msgid "Embeded Page URL"
 msgstr ""
 
-#: includes/functions.php:683
+#: includes/functions.php:689
 msgid "Referer URL"
 msgstr ""
 
-#: includes/functions.php:684
+#: includes/functions.php:690
 msgid "Login URL"
 msgstr ""
 
-#: includes/functions.php:685
+#: includes/functions.php:691
 msgid "Logout URL"
 msgstr ""
 
-#: includes/functions.php:686
+#: includes/functions.php:692
 msgid "Register URL"
 msgstr ""
 
-#: includes/functions.php:687
+#: includes/functions.php:693
 msgid "Lost Password URL"
 msgstr ""
 
-#: includes/functions.php:882
+#: includes/functions.php:888
 msgid "Images"
 msgstr ""
 
-#: includes/functions.php:886
+#: includes/functions.php:892
 msgid "Audio"
 msgstr ""
 
-#: includes/functions.php:890
+#: includes/functions.php:896
 msgid "Videos"
 msgstr ""
 
-#: includes/functions.php:894
+#: includes/functions.php:900
 msgid "PDF"
 msgstr ""
 
-#: includes/functions.php:898
+#: includes/functions.php:904
 msgid "Office Documents"
 msgstr ""
 
-#: includes/functions.php:902
+#: includes/functions.php:908
 msgid "Zip Archives"
 msgstr ""
 
-#: includes/functions.php:906
+#: includes/functions.php:912
 msgid "Executable Files"
 msgstr ""
 
-#: includes/functions.php:910
+#: includes/functions.php:916
 msgid "CSV"
 msgstr ""
 
-#: includes/functions.php:982 includes/importer/class-importer-abstract.php:901
+#: includes/functions.php:988 includes/importer/class-importer-abstract.php:901
 #: includes/importer/class-importer-gf.php:272
 #: includes/templates/class-template-to-do-list.php:69
 msgid "Thanks for contacting us! We will get in touch with you shortly."
 msgstr ""
 
-#: includes/functions.php:985 includes/importer/class-importer-abstract.php:904
+#: includes/functions.php:991 includes/importer/class-importer-abstract.php:904
 #: includes/importer/class-importer-gf.php:275
 msgid "Submit Query"
 msgstr ""
 
-#: includes/functions.php:989 includes/importer/class-importer-abstract.php:908
+#: includes/functions.php:995 includes/importer/class-importer-abstract.php:908
 msgid "Form submission hasn't been started yet"
 msgstr ""
 
-#: includes/functions.php:990 includes/importer/class-importer-abstract.php:909
+#: includes/functions.php:996 includes/importer/class-importer-abstract.php:909
 msgid "Form submission is now closed."
 msgstr ""
 
-#: includes/functions.php:992 includes/importer/class-importer-abstract.php:911
+#: includes/functions.php:998 includes/importer/class-importer-abstract.php:911
 msgid "You need to login to submit a query."
 msgstr ""
 
-#: includes/functions.php:995 includes/importer/class-importer-abstract.php:914
+#: includes/functions.php:1001
+#: includes/importer/class-importer-abstract.php:914
 msgid "Sorry, we have reached the maximum number of submissions."
 msgstr ""
 
-#: includes/functions.php:1003
+#: includes/functions.php:1009
 msgid "PayPal"
 msgstr ""
 
-#: includes/functions.php:1004
+#: includes/functions.php:1010
 msgid "Credit Card"
 msgstr ""
 
-#: includes/functions.php:1050
+#: includes/functions.php:1056
 msgid "Admin Notification"
 msgstr ""
 
@@ -1741,6 +1794,7 @@ msgid "Race:"
 msgstr ""
 
 #: includes/templates/class-template-admission-form.php:96
+#: includes/templates/class-template-conference-proposal.php:61
 #: includes/templates/class-template-employee-information.php:69
 #: includes/templates/class-template-job-listing.php:79
 #: includes/templates/class-template-leave-request.php:43
@@ -1761,6 +1815,8 @@ msgstr ""
 #: includes/templates/class-template-bug-report.php:185
 #: includes/templates/class-template-comment-and-rating.php:56
 #: includes/templates/class-template-employee-information.php:245
+#: includes/templates/class-template-product-order-form.php:144
+#: includes/templates/class-template-restaurant-reservation.php:114
 #: includes/templates/class-template-to-do-list.php:72
 msgid "Submit"
 msgstr ""
@@ -1793,6 +1849,8 @@ msgstr ""
 #: includes/templates/class-template-employee-information.php:33
 #: includes/templates/class-template-employee-information.php:127
 #: includes/templates/class-template-employee-information.php:187
+#: includes/templates/class-template-product-order-form.php:32
+#: includes/templates/class-template-product-order-form.php:76
 msgid "Previous"
 msgstr ""
 
@@ -1801,6 +1859,8 @@ msgstr ""
 #: includes/templates/class-template-employee-information.php:34
 #: includes/templates/class-template-employee-information.php:128
 #: includes/templates/class-template-employee-information.php:188
+#: includes/templates/class-template-product-order-form.php:33
+#: includes/templates/class-template-product-order-form.php:77
 msgid "Next"
 msgstr ""
 
@@ -1970,6 +2030,89 @@ msgstr ""
 msgid "Thanks for your rating!"
 msgstr ""
 
+#: includes/templates/class-template-conference-proposal.php:11
+msgid "Conference Proposal"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:12
+msgid ""
+"A winning conference in any industry demands the highest quality candidates "
+"and presentations."
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:44
+msgid "Job Title"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:48
+msgid "Company  Name"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:52
+msgid "Biography"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:65
+msgid "Proposal Title"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:69
+msgid "Short Description"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:73
+#: includes/templates/class-template-conference-proposal.php:77
+msgid "Abstract"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:84
+msgid "Topic First"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:85
+msgid "Topic Second"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:86
+msgid "Topic Third"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:93
+msgid "Presentation"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:94
+msgid "Panel"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:95
+msgid "Work Shop"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:96
+#: includes/templates/class-template-job-listing.php:228
+#: includes/templates/class-template-loan-application-form.php:68
+#: includes/templates/class-template-restaurant-reservation.php:87
+#: includes/templates/class-template-support.php:44
+msgid "Other"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:103
+msgid "Novice"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:104
+msgid "Intermediate"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:105
+msgid "Expert"
+msgstr ""
+
+#: includes/templates/class-template-conference-proposal.php:113
+msgid "Additional Information"
+msgstr ""
+
 #: includes/templates/class-template-contact.php:12
 msgid "Contact Form"
 msgstr ""
@@ -1982,6 +2125,26 @@ msgstr ""
 #: includes/templates/class-template-support.php:53
 #: includes/templates/class-template-tell-a-friend.php:39
 msgid "Message"
+msgstr ""
+
+#: includes/templates/class-template-donation-form.php:11
+msgid "Donation Form"
+msgstr ""
+
+#: includes/templates/class-template-donation-form.php:12
+msgid "Inspire people to donate more on your site with this form"
+msgstr ""
+
+#: includes/templates/class-template-donation-form.php:57
+msgid "Donation-1"
+msgstr ""
+
+#: includes/templates/class-template-donation-form.php:58
+msgid "Donation-2"
+msgstr ""
+
+#: includes/templates/class-template-donation-form.php:59
+msgid "Donation-3"
 msgstr ""
 
 #: includes/templates/class-template-employee-information.php:12
@@ -2348,12 +2511,6 @@ msgstr ""
 msgid "Obstetrics/Gynaecology"
 msgstr ""
 
-#: includes/templates/class-template-job-listing.php:228
-#: includes/templates/class-template-loan-application-form.php:68
-#: includes/templates/class-template-support.php:44
-msgid "Other"
-msgstr ""
-
 #: includes/templates/class-template-job-listing.php:272
 msgid "Payment Information"
 msgstr ""
@@ -2481,6 +2638,30 @@ msgstr ""
 
 #: includes/templates/class-template-my-directory-information.php:13
 msgid "You can do far more. Earn more clients and grow your business."
+msgstr ""
+
+#: includes/templates/class-template-online-booking-form.php:11
+msgid "Online Booking Form"
+msgstr ""
+
+#: includes/templates/class-template-online-booking-form.php:12
+msgid "Have more guests book with this easy to fill booking form."
+msgstr ""
+
+#: includes/templates/class-template-online-booking-form.php:54
+msgid "Departure Date/Time"
+msgstr ""
+
+#: includes/templates/class-template-online-booking-form.php:58
+msgid "Return Date/Time"
+msgstr ""
+
+#: includes/templates/class-template-online-booking-form.php:76
+msgid "One Way"
+msgstr ""
+
+#: includes/templates/class-template-online-booking-form.php:77
+msgid "Return"
 msgstr ""
 
 #: includes/templates/class-template-patient-itake-form.php:12
@@ -2946,6 +3127,53 @@ msgid ""
 "about?"
 msgstr ""
 
+#: includes/templates/class-template-product-order-form.php:12
+msgid "Product Order Form"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:13
+msgid ""
+"A simple order form template with quantity, color and size options. Ideal "
+"for preparing an order form in seconds."
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:29
+msgid "Product Order"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:64
+#: includes/templates/class-template-restaurant-reservation.php:52
+msgid "Contact Number"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:73
+msgid "Product"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:81
+msgid "T-Shirt"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:91
+msgid "Sweatshirt"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:101
+msgid "Shoes"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:111
+msgid "Total"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:116
+msgid "Send Gift"
+msgstr ""
+
+#: includes/templates/class-template-product-order-form.php:124
+msgid "Additional Requests"
+msgstr ""
+
 #: includes/templates/class-template-real-estate-listing.php:12
 msgid "Real Estate Listing"
 msgstr ""
@@ -3086,6 +3314,69 @@ msgstr ""
 
 #: includes/templates/class-template-request-for-quote.php:123
 msgid "Comments/Special Requests"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:12
+msgid "Restaurant Reservation Form"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:13
+msgid ""
+"Reservation form for restaurant booking for services. It captures "
+"preliminary booking inputs that are used for preparation. Great for for "
+"hoteliers."
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:57
+msgid "Number of Guest"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:67
+msgid "Table Reservation"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:76
+msgid "Reservation Type"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:79
+msgid "Dinner"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:80
+msgid "VIP/Mezzanine"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:81
+msgid "Birthday/Aniversary"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:82
+msgid "Night Life"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:83
+msgid "Private"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:84
+msgid "Wedding"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:85
+msgid "Corporate"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:86
+msgid "Holiday"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:91
+msgid "If Other above, please specify?"
+msgstr ""
+
+#: includes/templates/class-template-restaurant-reservation.php:95
+msgid "Any Special Request?"
 msgstr ""
 
 #: includes/templates/class-template-support.php:12
@@ -3241,53 +3532,53 @@ msgstr ""
 msgid "Suggestion, Comments, Or Other Things You Like or Don't Like"
 msgstr ""
 
-#: weforms.php:386
+#: weforms.php:388
 msgid "Docs"
 msgstr ""
 
-#: weforms.php:419
+#: weforms.php:421
 msgid "Your installed PHP Version is: "
 msgstr ""
 
-#: weforms.php:420
+#: weforms.php:422
 msgid "The <strong>weForms</strong> plugin requires PHP version <strong>"
 msgstr ""
 
-#: weforms.php:420
+#: weforms.php:422
 msgid "</strong> or greater."
 msgstr ""
 
-#: weforms.php:440
+#: weforms.php:442
 msgid "<h1>An Error Occured</h1>"
 msgstr ""
 
-#: weforms.php:441
+#: weforms.php:443
 msgid "<h2>Your installed PHP Version is: "
 msgstr ""
 
-#: weforms.php:442
+#: weforms.php:444
 msgid "<p>The <strong>weforms</strong> plugin requires PHP version <strong>"
 msgstr ""
 
-#: weforms.php:442
+#: weforms.php:444
 msgid "</strong> or greater"
 msgstr ""
 
-#: weforms.php:443
+#: weforms.php:445
 msgid "<p>The version of your PHP is "
 msgstr ""
 
-#: weforms.php:443
+#: weforms.php:445
 msgid "unsupported and old"
 msgstr ""
 
-#: weforms.php:444
+#: weforms.php:446
 msgid ""
 "You should update your PHP software or contact your host regarding this "
 "matter.</p>"
 msgstr ""
 
-#: weforms.php:446
+#: weforms.php:448
 msgid "Plugin Activation Error"
 msgstr ""
 

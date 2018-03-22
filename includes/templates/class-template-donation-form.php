@@ -54,9 +54,9 @@ class Weforms_Donation_Form extends WeForms_Form_Template {
                 'label'    => 'Type Of Donation',
                 'name'     => 'type_of_donation',
                 'options'  => array(
-                    'donation_1' => __( 'Donation-1', 'wpuf' ),
-                    'donation_2' => __( 'Donation-2', 'wpuf' ),
-                    'donation_3' => __( 'Donation-3', 'wpuf' ),
+                    'donation_1' => __( 'Donation-1', 'weforms' ),
+                    'donation_2' => __( 'Donation-2', 'weforms' ),
+                    'donation_3' => __( 'Donation-3', 'weforms' ),
                 ),
             ) ),
             array_merge( $all_fields['numeric_text_field']->get_field_props(), array(

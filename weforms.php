@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.2.5
+ * Version: 1.2.6
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -55,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.2.5';
+    public $version = '1.2.6';
 
     /**
      * Form field value seperator
@@ -227,6 +227,7 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/class-importer-manager.php';
 
             require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-promotion.php';
 
         } else {
 
@@ -333,6 +334,7 @@ final class WeForms {
             $this->container['templates']    = new WeForms_Template_Manager();
             $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
+            $this->container['promo_offer']     = new WeForms_Admin_Promotion();
         }
 
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {

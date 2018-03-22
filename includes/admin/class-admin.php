@@ -237,11 +237,14 @@ class WeForms_Admin {
 
         $handle = fopen("php://output", 'w');
 
+        //handle UTF-8 chars conversion for CSV
+        fprintf( $handle, chr(0xEF).chr(0xBB).chr(0xBF) );
+
         // put the column headers
         fputcsv( $handle, array_values( $columns ) );
 
         // put the entry values
-        foreach ($entry_array as $row) {
+        foreach ( $entry_array as $row ) {
             fputcsv( $handle, $row );
         }
 
