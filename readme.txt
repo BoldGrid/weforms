@@ -5,7 +5,7 @@ Tags: form, forms, contact form, custom form, form builder, form creator, form m
 Requires at least: 4.4
 Requires PHP: 5.4
 Tested up to: 4.9.4
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
