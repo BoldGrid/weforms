@@ -64,6 +64,7 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-online-booking-form.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-restaurant-reservation.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-conference-proposal.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-polling-form.php';
 
         $templates = array(
             'blank'                    => new WeForms_Template_Blank(),
@@ -91,6 +92,7 @@ class WeForms_Template_Manager {
             'online_booking_form'      => new Weforms_Template_Online_Booking_Form(),
             'restaurant_reservation'   => new WeForms_Template_Restaurant_Reservation(),
             'conference_proposal'      => new Weforms_Template_Conference_Proposal(),
+            'polling_form'             => new WeForms_Template_Polling_Form(),
         );
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );
