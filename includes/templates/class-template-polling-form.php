@@ -26,7 +26,7 @@ class WeForms_Template_Polling_Form extends WeForms_Form_Template {
         $form_fields = array(
             array_merge( $all_fields['radio_field']->get_field_props(), array(
                 'required' => 'yes',
-                'label'    => 'Poll',
+                'label'    => 'Poll Question',
                 'name'     => 'poll_field',
             ) ),
         );
