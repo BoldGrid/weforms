@@ -58,6 +58,7 @@
                 children.push(
                     el( 'div', { style : {width: '100%' } },
                     el( 'img',{ src: weformsblock.block_logo }),
+                    el( 'h3', { className : 'weforms-title' }, 'weForms' ),
                     el( SelectControl, { value: formID, options: weformsblock.forms, onChange: onFormChange })
                 ) );
             } else {
