@@ -70,6 +70,13 @@
 
                         <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
 
+                        <template v-if="is_pro">
+                            <span>
+                                <template>|</template>
+                                <router-link :to="{ name: 'formReports', params: { id: form.id }}"><?php _e( 'Reports', 'weforms' ); ?></router-link>
+                            </span>
+                        </template>
+
                         <template v-if="is_pro && has_payment && form.payments">
                             <span>
                                 <template>|</template>

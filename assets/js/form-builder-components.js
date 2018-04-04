@@ -1,7 +1,6 @@
 'use strict';
 
 /* assets/js/utils/jquery-siaf-start.js */
-
 ;(function ($) {
     'use strict';
 
@@ -507,6 +506,7 @@
             this.$parent.$off('insertValueEditor');
             this.$parent.$off('deleteNotification');
         },
+
 
         methods: {
             setupEditor: function setupEditor() {
