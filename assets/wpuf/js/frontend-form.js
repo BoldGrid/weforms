@@ -388,7 +388,86 @@
                             }, 'fast');
 
                         } else {
-                            window.location = res.redirect_to;
+                            if ( res.show_chart === true ) {
+
+                                form.find('ul').remove();
+                                form.before( '<div class="weforms-chart-container">');
+
+                                this.report_data_parsed = JSON.parse( res.report_data );
+
+                                for ( var index = 0; index < this.report_data_parsed.length; index++ ) {
+                                    var ex_template = this.report_data_parsed[index].template;
+
+                                    if ( ex_template == 'file_upload' || ex_template == 'image_upload' || ex_template == 'repeat_field' || ex_template == 'google_map' || ex_template == 'step_start' || ex_template == 'shortcode' || ex_template == 'action_hook' || ex_template == 'toc' || ex_template == 'custom_hidden_field' || ex_template == 'image_upload' || ex_template == 'section_break' || ex_template == 'custom_html' || ex_template == 'recaptcha' ) {
+                                        continue;
+                                    }
+
+                                    var chart_data = this.report_data_parsed[index];
+                                    var chart_title = chart_data.field_label;
+                                    var data_set = [];
+                                    var chart_data_var = {};
+                                    var chart_options = {};
+                                    var chart_dataset = [
+                                            {
+                                              label: chart_data.field_label,
+                                              backgroundColor: chart_data.bg_color,
+                                              data: chart_data.data,
+                                            }
+                                        ];
+
+                                    if ( chart_data.template === 'checkbox_grid' || chart_data.template === 'multiple_choice_grid' ) {
+                                        for( var index in chart_data.data ) {
+                                            var new_data = chart_data.data[index];
+                                            if ( !Array.isArray( new_data ) ) {
+                                                new_data = [new_data];
+                                            }
+                                            data_set.push( {
+                                              label: index,
+                                              backgroundColor: chart_data.bg_color,
+                                              data: new_data,
+                                            });
+                                        }
+                                        chart_dataset = data_set;
+                                    }
+
+                                    id_name = 'weforms-chart-' + chart_data.template;
+                                    form.append('<div class="' + id_name + '" style="width: 450px; height: 450px"><canvas id="' + id_name + '" width="450" height="450"></canvas></div>');
+
+                                    new Chart( document.getElementById( id_name ), {
+                                        type: 'bar',
+                                        data: {
+                                            labels: chart_data.label,
+                                            datasets: chart_dataset
+                                        },
+                                        options: {
+                                            legend: {
+                                                display: true,
+                                                position: 'top',
+                                                labels: {
+                                                    fontColor: '#333'
+                                                }
+                                            },
+                                            title: {
+                                                display: true,
+                                                text: chart_title
+                                            },
+                                            scales: {
+                                                yAxes: [{
+                                                    ticks: {
+                                                        min: 0,
+                                                        beginAtZero: true,
+                                                        stepSize: 1,
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    });
+                                }
+                                form.after('</div>');
+                            }
+                            else {
+                                window.location = res.redirect_to;
+                            }
                         }
 
                     } else {
@@ -935,7 +1014,7 @@
                     return(myVal);
                 }
             })).join(' ');
-            $('input[name="display_name"]').val(newVal);                                    
+            $('input[name="display_name"]').val(newVal);
         });
     });
 
