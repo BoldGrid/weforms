@@ -4,7 +4,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /*!
 weForms - v1.2.6
-Generated: 2018-03-25 (1521954967830)
+Generated: 2018-04-11 (1523423757861)
 */
 
 ;(function ($) {
@@ -61,6 +61,7 @@ Generated: 2018-03-25 (1521954967830)
                         self.items = response.entries;
                         self.form_title = response.form_title;
                         self.totalItems = response.pagination.total;
+                        self.perPage = response.pagination.per_page;
                         self.totalPage = response.pagination.pages;
 
                         self.$emit('ajaxsuccess', response);
