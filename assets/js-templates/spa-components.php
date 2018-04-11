@@ -74,27 +74,50 @@
                 <td v-bind:colspan="columnLength + 3"><?php _e( 'No entries found!', 'weforms' ); ?></td>
             </tr>
             <tr v-for="(entry, index) in items">
-                <th scope="row" class="check-column">
-                    <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
-                </th>
-                <th class="col-entry-id">
-                    <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
-                </th>
-                <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
-                <th class="col-entry-details">
-
-                    <template v-if="status == 'trash'">
-                        <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
-                        <span style="color: #ddd">|</span>
-                        <a href="#" @click.prevent="deletePermanently(entry.id)"><?php _e( 'Delete Permanently', 'weforms' ); ?></a>
+                <template v-if="currentPage == 1">
+                    <template v-if="index < perPage">
+                        <th scope="row" class="check-column">
+                            <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
+                        </th>
+                        <th class="col-entry-id">
+                            <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
+                        </th>
+                        <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
+                        <th class="col-entry-details">
+                            <template v-if="status == 'trash'">
+                                <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
+                                <span style="color: #ddd">|</span>
+                                <a href="#" @click.prevent="deletePermanently(entry.id)"><?php _e( 'Delete Permanently', 'weforms' ); ?></a>
+                            </template>
+                            <template  v-else>
+                                <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">
+                                    <?php _e( 'Details', 'weforms' ); ?>
+                                </router-link>
+                            </template>
+                        </th>
                     </template>
-                    <template  v-else>
-                        <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">
-                            <?php _e( 'Details', 'weforms' ); ?>
-                        </router-link>
-                    </template>
-
-                </th>
+                </template>
+                <template v-else>
+                    <th scope="row" class="check-column">
+                        <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
+                    </th>
+                    <th class="col-entry-id">
+                        <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
+                    </th>
+                    <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
+                    <th class="col-entry-details">
+                        <template v-if="status == 'trash'">
+                            <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
+                            <span style="color: #ddd">|</span>
+                            <a href="#" @click.prevent="deletePermanently(entry.id)"><?php _e( 'Delete Permanently', 'weforms' ); ?></a>
+                        </template>
+                        <template  v-else>
+                            <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">
+                                <?php _e( 'Details', 'weforms' ); ?>
+                            </router-link>
+                        </template>
+                    </th>
+                </template>
             </tr>
         </tbody>
     </table>

@@ -391,6 +391,7 @@
                             if ( res.show_chart === true ) {
 
                                 form.find('ul').remove();
+                                form.before( '<div class="wpuf-success">' + res.message + '</div>');
                                 form.before( '<div class="weforms-chart-container">');
 
                                 this.report_data_parsed = JSON.parse( res.report_data );
@@ -398,7 +399,11 @@
                                 for ( var index = 0; index < this.report_data_parsed.length; index++ ) {
                                     var ex_template = this.report_data_parsed[index].template;
 
-                                    if ( ex_template == 'file_upload' || ex_template == 'image_upload' || ex_template == 'repeat_field' || ex_template == 'google_map' || ex_template == 'step_start' || ex_template == 'shortcode' || ex_template == 'action_hook' || ex_template == 'toc' || ex_template == 'custom_hidden_field' || ex_template == 'image_upload' || ex_template == 'section_break' || ex_template == 'custom_html' || ex_template == 'recaptcha' ) {
+                                    if ( ex_template == 'file_upload' || ex_template == 'image_upload' || 
+                                    ex_template == 'repeat_field' || ex_template == 'google_map' || ex_template == 'step_start' || 
+                                    ex_template == 'shortcode' || ex_template == 'action_hook' || ex_template == 'toc' || 
+                                    ex_template == 'custom_hidden_field' || ex_template == 'image_upload' || ex_template == 'section_break' || 
+                                    ex_template == 'custom_html' || ex_template == 'recaptcha' ) {
                                         continue;
                                     }
 

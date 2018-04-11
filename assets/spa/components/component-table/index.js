@@ -47,10 +47,11 @@ Vue.component( 'wpuf-table', {
                 success: function(response) {
                     self.loading = false;
                     self.columns = response.columns;
-                    self.items = response.entries;
+                    self.items   = response.entries;
                     self.form_title = response.form_title;
                     self.totalItems = response.pagination.total;
-                    self.totalPage = response.pagination.pages;
+                    self.perPage    = response.pagination.per_page;
+                    self.totalPage  = response.pagination.pages;
 
                     self.$emit('ajaxsuccess', response);
                 },
