@@ -251,6 +251,7 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-form-entry-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-entry.php';
         require_once WEFORMS_INCLUDES . '/class-form.php';
+        require_once WEFORMS_INCLUDES . '/class-form-widget.php';
 
         require_once WEFORMS_INCLUDES . '/integrations/class-abstract-integration.php';
         require_once WEFORMS_INCLUDES . '/class-integration-manager.php';
