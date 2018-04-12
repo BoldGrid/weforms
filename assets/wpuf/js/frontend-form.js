@@ -392,7 +392,11 @@
 
                                 form.find('ul').remove();
                                 form.before( '<div class="wpuf-success">' + res.message + '</div>');
-                                form.before( '<div class="weforms-chart-container">');
+                                form.addClass( 'weforms-chart-container' );
+                                $( '.weforms-chart-container' ).css({
+									"width": "450px",
+									"height": "450px"
+								});
 
                                 this.report_data_parsed = JSON.parse( res.report_data );
                                 var id_num = 1;
@@ -437,9 +441,10 @@
                                     }
 
                                     id_name = 'weforms-chart-' + chart_data.template + id_num;
-                                    form.append('<div class="' + id_name + '" style="width: 450px; height: 450px"><canvas id="' + id_name + '" width="450" height="450"></canvas></div>');
+                                    form.append('<div class="' + id_name + '" style="width: 100%; height: auto"><canvas id="' + id_name + '" width="100" height="100"></canvas></div>');
 
                                     new Chart( document.getElementById( id_name ), {
+										responsive: true,
                                         type: 'bar',
                                         data: {
                                             labels: chart_data.label,
@@ -470,7 +475,6 @@
                                     });
                                     id_num = id_num + 1;
                                 }
-                                form.after('</div>');
                             }
                             else {
                                 window.location = res.redirect_to;
