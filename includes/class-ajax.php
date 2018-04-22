@@ -784,6 +784,10 @@ class WeForms_Ajax {
 
         foreach ( $form_fields as $key => $field ) {
 
+            //skip custom html field as it is not saved
+            if ( 'custom_html' == $field['name'] )
+                continue;
+
             $value = $entry_fields[ $field['name'] ];
 
             // if ( isset( $field['required'] ) && $field['required'] && empty( $value ) ) {
