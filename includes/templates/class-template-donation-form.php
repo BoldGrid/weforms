@@ -59,9 +59,19 @@ class Weforms_Donation_Form extends WeForms_Form_Template {
                     'donation_3' => __( 'Donation-3', 'weforms' ),
                 ),
             ) ),
-            array_merge( $all_fields['numeric_text_field']->get_field_props(), array(
-                'label'    => 'Amount',
-                'name'     => 'amount',
+            array_merge( $all_fields['single_product']->get_field_props(), array(
+                'required'      => 'yes',
+                'label'         =>  __('Donation Amount', 'weforms'),
+                'name'          =>  'price',
+                'price'         =>  array(
+                    'price'     =>  10,
+                    'type'      => 'donation',
+                ),
+            ) ),
+            array_merge( $all_fields['payment_method']->get_field_props(), array(
+                'required'      => 'yes',
+                'label'         =>  __('Payment Method', 'weforms'),
+                'name'          =>  'payment_method',
             ) ),
             array_merge( $all_fields['textarea_field']->get_field_props(), array(
                 'label'    => 'Comments',

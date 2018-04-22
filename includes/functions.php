@@ -237,11 +237,21 @@ function weforms_change_entry_status( $entry_id, $status ) {
 function weforms_delete_entry( $entry_id ) {
     global $wpdb;
 
-    return $wpdb->delete(
+    $deleted = $wpdb->delete(
         $wpdb->weforms_entries, array(
             'id' => $entry_id
         ), array( '%d' )
     );
+
+    if ( $deleted ) {
+        $wpdb->delete(
+            $wpdb->weforms_entrymeta, array(
+                'weforms_entry_id' => $entry_id
+            ), array( '%d' )
+        );
+    }
+
+    return $deleted;
 }
 
 /**

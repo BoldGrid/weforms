@@ -1,0 +1,14 @@
+.weforms-form-container {
+    position: relative;
+}
+.weforms-form-overlay {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+}
+.weforms-title{
+    display: inline;
+    position: absolute;
+    margin: 0px;
+    padding: 5px;
+    top: 20px;
+}

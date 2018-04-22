@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.2.6
+ * Version: 1.2.7
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -55,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.2.6';
+    public $version = '1.2.7';
 
     /**
      * Form field value seperator
@@ -244,12 +244,14 @@ final class WeForms {
 
         require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
         require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
+        require_once WEFORMS_INCLUDES . '/admin/class-gutenblock.php';
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
         require_once WEFORMS_INCLUDES . '/class-field-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-entry-manager.php';
         require_once WEFORMS_INCLUDES . '/class-form-entry.php';
         require_once WEFORMS_INCLUDES . '/class-form.php';
+        require_once WEFORMS_INCLUDES . '/class-form-widget.php';
 
         require_once WEFORMS_INCLUDES . '/integrations/class-abstract-integration.php';
         require_once WEFORMS_INCLUDES . '/class-integration-manager.php';
@@ -334,7 +336,7 @@ final class WeForms {
             $this->container['templates']    = new WeForms_Template_Manager();
             $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
-            $this->container['promo_offer']     = new WeForms_Admin_Promotion();
+            $this->container['promo_offer']  = new WeForms_Admin_Promotion();
         }
 
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
@@ -348,7 +350,7 @@ final class WeForms {
         $this->container['integrations'] = new WeForms_Integration_Manager();
         $this->container['preview']      = new WeForms_Form_Preview();
         $this->container['scripts']      = new WeForms_Scripts_Styles();
-
+        $this->container['block']        = new weForms_FormBlock();
         // instantiate the integrations
         $this->integrations->get_integrations();
 

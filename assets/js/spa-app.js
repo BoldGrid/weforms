@@ -9,8 +9,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 };
 
 /*!
-weForms - v1.2.4
-Generated: 2018-02-04 (1517723286627)
+weForms - v1.2.6
+Generated: 2018-04-11 (1523423757861)
 */
 
 ;(function ($) {
@@ -66,6 +66,7 @@ Generated: 2018-02-04 (1517723286627)
                         self.items = response.entries;
                         self.form_title = response.form_title;
                         self.totalItems = response.pagination.total;
+                        self.perPage = response.pagination.per_page;
                         self.totalPage = response.pagination.pages;
 
                         self.$emit('ajaxsuccess', response);

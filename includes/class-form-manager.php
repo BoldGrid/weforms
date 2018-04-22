@@ -183,6 +183,7 @@ class WeForms_Form_Manager {
         update_post_meta( $data['form_id'], $data['form_settings_key'], $data['form_settings'] );
         update_post_meta( $data['form_id'], 'notifications', $data['notifications'] );
         update_post_meta( $data['form_id'], 'integrations', $data['integrations'] );
+        update_post_meta( $data['form_id'], '_weforms_version', WEFORMS_VERSION );
 
         return $saved_wpuf_inputs;
     }
