@@ -63,6 +63,11 @@
                                 <span class="value">{{ entry.meta_data.ip_address }}</span>
                             </li>
                             <li>
+                                <span class="label"><?php _e( 'Device', 'weforms' ); ?></span>
+                                <span class="sep"> : </span>
+                                <span class="value">{{ entry.meta_data.device }}</span>
+                            </li>
+                            <li>
                                 <span class="label"><?php _e( 'Page', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value"><a :href="entry.meta_data.referer">{{ entry.meta_data.referer }}</a></span>
