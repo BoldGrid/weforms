@@ -749,7 +749,7 @@ class WeForms_Ajax {
         if ( ! $invisible ) {
 
             $response = null;
-            $reCaptcha = new ReCaptcha( $secret );
+            $reCaptcha = new Weforms_ReCaptcha( $secret );
 
             $resp = $reCaptcha->verifyResponse(
                 $_SERVER['REMOTE_ADDR'],
