@@ -693,12 +693,24 @@ class WeForms_Ajax {
         // Fire a hook for integration
         do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
 
+        $field_search = $field_replace = array();
+
+        foreach ( $form_fields as $r_field ) {
+            $field_search[] = '{'.$r_field['name'].'}';
+            if ( $r_field['template'] == 'name_field' ) {
+                $field_replace[] = implode( ' ' , explode( '|', $entry_fields[$r_field['name']] ));
+            } else {
+                $field_replace[] = $entry_fields[$r_field['name']];
+            }
+        }
+        $message = str_replace( $field_search, $field_replace, $form_settings['message'] );
+
         // send the response
         $response = apply_filters( 'weforms_entry_submission_response', array(
             'success'      => true,
             'redirect_to'  => $redirect_to,
             'show_message' => $show_message,
-            'message'      => $form_settings['message'],
+            'message'      => $message,
             'data'         => $_POST,
             'form_id'      => $form_id,
             'entry_id'     => $entry_id,
@@ -737,7 +749,7 @@ class WeForms_Ajax {
         if ( ! $invisible ) {
 
             $response = null;
-            $reCaptcha = new ReCaptcha( $secret );
+            $reCaptcha = new Weforms_ReCaptcha( $secret );
 
             $resp = $reCaptcha->verifyResponse(
                 $_SERVER['REMOTE_ADDR'],

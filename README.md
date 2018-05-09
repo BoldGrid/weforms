@@ -1,11 +1,11 @@
 # weForms - Best Contact Form Plugin for WordPress #
-**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [wedevs](https://profiles.wordpress.org/wedevs), [rafsuntaskin](https://profiles.wordpress.org/rafsuntaskin)  
+**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [wedevs](https://profiles.wordpress.org/wedevs), [rafsuntaskin](https://profiles.wordpress.org/rafsuntaskin), [rabbii](https://profiles.wordpress.org/rabbii), [itowhid06](https://profiles.wordpress.org/itowhid06)  
 **Donate link:** https://tareq.co/donate/  
 **Tags:** form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,  
 **Requires at least:** 4.4  
 **Requires PHP:** 5.4  
 **Tested up to:** 4.9.5  
-**Stable tag:** trunk  
+**Stable tag:** 1.2.8  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -191,6 +191,12 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.2.8 (09 May, 2018) ###
+
+* **New:** Show submitted form data in message after form submission
+* **New:** Added device option in form entry data
+* **Improved:** Nocaptcha recaptcha wasn't working if allow_url_fopen was disabled, now it will.
 
 ### Version 1.2.7 (22 April, 2018) ###
 
