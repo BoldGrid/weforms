@@ -33,17 +33,13 @@
 /**
  * A ReCaptchaResponse is returned from checkAnswer().
  */
-
-if ( !class_exists( 'ReCaptchaResponse' ) ) {
-    class ReCaptchaResponse
-    {
-        public $success;
-        public $errorCodes;
-    }
+class Weforms_ReCaptchaResponse
+{
+    public $success;
+    public $errorCodes;
 }
 
-
-class ReCaptcha
+class Weforms_ReCaptcha
 {
     private static $_signupUrl = "https://www.google.com/recaptcha/admin";
     private static $_siteVerifyUrl =
@@ -51,12 +47,13 @@ class ReCaptcha
     private $_secret;
     private static $_version = "php_1.0";
 
+
     /**
      * Constructor.
      *
      * @param string $secret shared secret between site and ReCAPTCHA server.
      */
-    function __construct($secret)
+    public function __construct($secret)
     {
         if ($secret == null || $secret == "") {
             die("To use reCAPTCHA you must get an API key from <a href='"
@@ -95,7 +92,35 @@ class ReCaptcha
     private function _submitHTTPGet($path, $data)
     {
         $req = $this->_encodeQS($data);
-        $response = file_get_contents($path . $req);
+        $url = $path . $req;
+
+        // Use curl if possible because allow_url_fopen is off in many
+        // environments, making file_get_contents fail.
+        if (function_exists('curl_init')) {
+            $response = $this->_curl($url);
+        } else {
+            $response = file_get_contents($url);
+        }
+        return $response;
+    }
+
+    private function _curl($url)
+    {
+        // Initiate curl.
+        $c = curl_init();
+        // Set timeout.
+        $timeout = 3;
+        curl_setopt($c, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
+        // Set url for call.
+        curl_setopt($c, CURLOPT_URL, $url);
+
+        // Execute curl call.
+        $response = curl_exec($c);
+
+        // Close curl.
+        curl_close($c);
+
         return $response;
     }
 
@@ -106,13 +131,13 @@ class ReCaptcha
      * @param string $remoteIp   IP address of end user.
      * @param string $response   response string from recaptcha verification.
      *
-     * @return ReCaptchaResponse
+     * @return Weforms_ReCaptchaResponse
      */
     public function verifyResponse($remoteIp, $response)
     {
         // Discard empty solution submissions
         if ($response == null || strlen($response) == 0) {
-            $recaptchaResponse = new ReCaptchaResponse();
+            $recaptchaResponse = new Weforms_ReCaptchaResponse();
             $recaptchaResponse->success = false;
             $recaptchaResponse->errorCodes = 'missing-input';
             return $recaptchaResponse;
@@ -128,17 +153,15 @@ class ReCaptcha
             )
         );
         $answers = json_decode($getResponse, true);
-        $recaptchaResponse = new ReCaptchaResponse();
+        $recaptchaResponse = new Weforms_ReCaptchaResponse();
 
         if (trim($answers ['success']) == true) {
             $recaptchaResponse->success = true;
         } else {
             $recaptchaResponse->success = false;
-            $recaptchaResponse->errorCodes = $answers [error-codes];
+            $recaptchaResponse->errorCodes = $answers ['error-codes'];
         }
 
         return $recaptchaResponse;
     }
 }
-
-?>
