@@ -262,8 +262,8 @@
 
                         <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
 
-                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>"> 
-                            <i class="fa fa-share-alt" aria-hidden="true"></i> 
+                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>">
+                            <i class="fa fa-share-alt" aria-hidden="true"></i>
                             <?php _e('Share', 'Share' ); ?>
                         </span>
 
@@ -320,6 +320,7 @@
             <?php do_action( "wpuf-form-builder-tab-contents-contact_form" ); ?>
         </div>
         <div v-else>
+
             <div class="updating-message">
                 <p><?php _e( 'Loading the editor', 'weforms' ); ?></p>
             </div>
