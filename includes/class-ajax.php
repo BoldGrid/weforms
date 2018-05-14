@@ -563,7 +563,7 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $entry_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
-        $permanent = isset( $_POST['permanent'] ) && boolval( $_POST['permanent'] ) ? true : false;
+        $permanent = isset( $_POST['permanent'] ) && ( $_POST['permanent'] ) ? true : false;
 
         if ( ! $entry_ids ) {
             wp_send_json_error( __( 'No entry ids provided!', 'weforms' ) );
