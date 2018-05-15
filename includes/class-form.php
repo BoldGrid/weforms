@@ -144,10 +144,6 @@ class WeForms_Form {
                 $field['recaptcha_theme']   = isset( $field['recaptcha_theme'] ) ? $field['recaptcha_theme'] : 'light';
             }
 
-            if ( 'custom_html' === $field['template'] ) {
-                $field['name'] = 'custom_html';
-            }
-
             $form_fields[] = apply_filters( 'weforms-get-form-field', $field );
         }
 
@@ -214,7 +210,7 @@ class WeForms_Form {
             return $values;
         }
 
-        $ignore_fields  = apply_filters( 'ignore_fields_list', array( 'recaptcha', 'section_break' ) );
+        $ignore_fields  = apply_filters( 'ignore_fields_list', array( 'recaptcha' ) );
         $options_fields = apply_filters( 'option_fields_list', array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' ) );
 
         foreach ($fields as $field) {
@@ -386,8 +382,6 @@ class WeForms_Form {
         $entry_fields = array();
 
         $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
-            'section_break',
-            'custom_html',
             'recaptcha'
         ) );
 
