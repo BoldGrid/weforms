@@ -252,13 +252,14 @@ class WeForms_Scripts_Styles {
      * @return void
      */
     public function get_frontend_localized() {
-        wp_localize_script( 'wpuf-form', 'wpuf_frontend', array(
-			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-			'error_message' => __( 'Please fix the errors to proceed', 'weforms' ),
-			'nonce'         => wp_create_nonce( 'wpuf_nonce' ),
-			'word_limit'    => __( 'Word limit reached', 'weforms' )
-        ) );
 
+        wp_localize_script( 'wpuf-form', 'wpuf_frontend', apply_filters( 'wpuf_frontend_js_data' , array(
+            'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+            'error_message' => __( 'Please fix the errors to proceed', 'weforms' ),
+            'nonce'         => wp_create_nonce( 'wpuf_nonce' ),
+            'word_limit'    => __( 'Word limit reached', 'weforms' )
+        ) ) );
+        
         wp_localize_script( 'wpuf-form', 'error_str_obj', array(
 			'required'   => __( 'is required', 'weforms' ),
 			'mismatch'   => __( 'does not match', 'weforms' ),
