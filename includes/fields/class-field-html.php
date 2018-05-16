@@ -49,11 +49,19 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
         $settings = array(
             array(
                 'name'      => 'html',
-                'title'     => __( 'HTML Codes', 'weforms' ),
+                'title'     => __( 'Html Codes', 'weforms' ),
                 'type'      => 'textarea',
                 'section'   => 'basic',
                 'priority'  => 11,
                 'help_text' => __( 'Paste your HTML codes, WordPress shortcodes will also work here', 'weforms' ),
+            ),
+            array(
+                'name'          => 'name',
+                'title'         => __( 'Meta Key', 'wpuf-pro' ),
+                'type'          => 'text-meta',
+                'section'       => 'basic',
+                'priority'      => 12,
+                'help_text'     => __( 'Name of the meta key this field will save to', 'wpuf-pro' ),
             ),
         );
 
@@ -68,7 +76,8 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
     public function get_field_props() {
         $props = array(
             'template'  => $this->get_type(),
-            'html'      => sprintf( '<p>%s</p>', __( 'Some description about this section', 'weforms' ) ),
+            'label'     => $this->get_name(),
+            'html'      => sprintf( '%s', __( 'HTML Section', 'weforms' ) ),
             'id'        => 0,
             'is_new'    => true,
             'wpuf_cond' => $this->default_conditional_prop()
