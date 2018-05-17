@@ -228,6 +228,7 @@ final class WeForms {
 
             require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
             require_once WEFORMS_INCLUDES . '/admin/class-promotion.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-shortcode-button.php';
 
         } else {
 
