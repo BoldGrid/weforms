@@ -821,7 +821,9 @@ function weforms_log_file_path() {
  * @return void
  */
 function weforms_clear_buffer() {
-    ob_clean();
+    if ( ob_get_length() > 0 ) {
+        ob_clean();
+    }
 }
 
 /**
