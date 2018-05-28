@@ -27,6 +27,8 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
+            <?php do_action( 'weforms_multidropdown_field_after_label', $field_settings ); ?>
+
             <div class="wpuf-fields">
                 <select multiple="multiple" class="multiselect <?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" name="<?php echo $name; ?>" mulitple="multiple" data-required="<?php echo $field_settings['required'] ?>" data-type="multiselect">
 
@@ -64,6 +66,8 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
             'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
             'first'    => __( '— Select —', 'weforms' ),
         );
+
+        $props = apply_filters( 'weforms_multidropdown_field_props', $props );
 
         return array_merge( $defaults, $props );
     }

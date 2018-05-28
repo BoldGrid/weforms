@@ -220,6 +220,8 @@
                 </div>
             </transition>
         </div>
+
+        <?php do_action( 'weforms_builder_field_options' ); ?>
     </div>
 
 </div>

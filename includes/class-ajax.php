@@ -464,11 +464,12 @@ class WeForms_Ajax {
         $form_id  = isset( $_REQUEST['form_id'] ) ? intval( $_REQUEST['form_id'] ) : 0;
         $entry_id = isset( $_REQUEST['entry_id'] ) ? intval( $_REQUEST['entry_id'] ) : 0;
 
-        $form     = weforms()->form->get( $form_id );
-        $entry    = $form->entries()->get( $entry_id );
-        $fields   = $entry->get_fields();
-        $metadata = $entry->get_metadata();
-        $payment  = $entry->get_payment_data();
+        $form           = weforms()->form->get( $form_id );
+        $form_settings  = $form->get_settings();
+        $entry          = $form->entries()->get( $entry_id );
+        $fields         = $entry->get_fields();
+        $metadata       = $entry->get_metadata();
+        $payment        = $entry->get_payment_data();
 
         if ( isset( $payment->payment_data ) && is_serialized( $payment->payment_data ) ) {
             $payment->payment_data = unserialize( $payment->payment_data );
@@ -484,20 +485,70 @@ class WeForms_Ajax {
 			);
         }
 
-        $has_empty = false;
+        $has_empty          = false;
+        $answers            = array();
+        $respondentPoints   = isset($form_settings['total_points']) ? floatval( $form_settings['total_points'] ) : 0 ;
 
         foreach ( $fields as $key => $field ) {
-            if ( empty( $field['value'] ) ) {
-				$has_empty = true;
+
+            if ( $form_settings['quiz_form'] == 'yes' ) {
+                $selectedAnswers    = isset($field['selected_answers']) ? $field['selected_answers'] : '';
+                $givenAnswer        = isset($field['value']) ? $field['value'] : '';
+                $options            = isset($field['options']) ? $field['options'] : '';
+                $template           = $field['template'];
+                $fieldPoints        = isset($field['points']) ? floatval( $field['points'] ) : 0;
+                
+                if ( $template == 'radio_field' || $template == 'dropdown_field' ) {
+                    $answers[$field['name']] = true;
+
+                    if ( empty($givenAnswer) ) {
+                        $answers[$field['name']] = false;
+                        $respondentPoints  -= $fieldPoints;
+                    }else {
+                        foreach ($options as $key => $value) {
+                            if ( $givenAnswer == $value ) {
+                                if ( $key != $selectedAnswers ) {
+                                    $answers[$field['name']] = false;
+                                    $respondentPoints  -= $fieldPoints;
+                                }
+                            } 
+                        }                           
+                    }
+                } elseif ( $template == 'checkbox_field' || $template == 'multiple_select' ) {
+                    $answers[$field['name']] = true;
+                    $userAnswer = [];
+
+                    foreach ($options as $key => $value) {
+                        foreach ($givenAnswer as $answer) {
+                            if ($value == $answer) {
+                                $userAnswer[] = $key;    
+                            }
+                        }
+                    }
+                    
+                    $userAnswer   = implode('|', $userAnswer);
+                    $rightAnswers = implode('|', $selectedAnswers);
+
+                    if ( $userAnswer != $rightAnswers || empty($userAnswer) ) {
+                        $answers[$field['name']] = false;
+                        $respondentPoints  -= $fieldPoints;
+                    } 
+                }
+            } elseif ( empty( $field['value'] ) ) {
+				$has_empty      = true;
 				break;
             }
+
         }
 
         $response = array(
-            'form_fields'  => $fields,
-            'meta_data'    => $metadata,
-            'payment_data' => $payment,
-            'has_empty'    => $has_empty,
+            'form_fields'       => $fields,
+            'form_settings'     => $form_settings,
+            'meta_data'         => $metadata,
+            'payment_data'      => $payment,
+            'has_empty'         => $has_empty,
+            'respondent_points' => $respondentPoints,
+            'answers'           => $answers,
         );
 
         wp_send_json_success( $response );

@@ -11,7 +11,10 @@ weForms.routeComponents.FormEntriesSingle = {
                 form_fields: {},
                 meta_data: {},
                 payment_data: {},
-            }
+            },
+            form_settings: {},
+            respondent_points: 0,
+            answers: {}, 
         };
     },
     created: function() {
@@ -37,8 +40,11 @@ weForms.routeComponents.FormEntriesSingle = {
                 },
                 success: function(response) {
                     self.loading = false;
-                    self.entry = response;
+                    self.entry   = response;
                     self.hasEmpty = response.has_empty;
+                    self.form_settings = response.form_settings;
+                    self.respondent_points = response.respondent_points;
+                    self.answers = response.answers;
                 },
                 error: function(error) {
                     self.loading = false;
@@ -71,6 +77,7 @@ weForms.routeComponents.FormEntriesSingle = {
                 }
             });
         },
+
         hideEmptyStatus: function(){
             return this.getCookie('weFormsEntryHideEmpty') === 'false' ? false : true;
         },

@@ -160,6 +160,8 @@ class WeForms_Field_Manager {
 
         $this->notification = new WeForms_Notification();
         $this->notification->set_merge_tags();
+        
+        $fields = apply_filters( 'weforms_render_fields', $fields, $form_id );
 
         foreach ( $fields as $field ) {
             if ( ! $field_object = $this->field_exists( $field['template'] ) ) {
