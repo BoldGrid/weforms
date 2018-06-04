@@ -347,6 +347,11 @@ class WeForms_Ajax {
             $wpuf_update_array['recaptcha_private'] = $settings['recaptcha']->secret;
         }
 
+        if ( isset( $settings['no_conflict'] ) ) {
+            $requires_wpuf_update              = true;
+            $wpuf_update_array['no_conflict']  = $settings['no_conflict'];
+        }
+
         if ( $requires_wpuf_update ) {
             $wpuf_settings = get_option( 'wpuf_general', array() );
 
