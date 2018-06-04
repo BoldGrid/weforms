@@ -312,7 +312,7 @@ class WeForms_Scripts_Styles {
             'wpuf-form-builder' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/wpuf-form-builder.css',
                 'deps' => array(
-                    'wpuf-css',
+                    'weforms-css',
                     'wpuf-font-awesome',
                     'wpuf-sweetalert2',
                     'wpuf-selectize',
@@ -372,7 +372,7 @@ class WeForms_Scripts_Styles {
      */
     public function get_frontend_styles() {
         $styles = array(
-            'wpuf-css' => array(
+            'weforms-css' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/frontend-forms.css',
             ),
             'jquery-ui' => array(
