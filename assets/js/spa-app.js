@@ -4,7 +4,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /*!
 weForms - v1.2.8
-Generated: 2018-05-10 (1525934212448)
+Generated: 2018-06-01 (1527843697842)
 */
 
 ;(function ($) {
@@ -591,7 +591,10 @@ Generated: 2018-05-10 (1525934212448)
                     form_fields: {},
                     meta_data: {},
                     payment_data: {}
-                }
+                },
+                form_settings: {},
+                respondent_points: 0,
+                answers: {}
             };
         },
         created: function created() {
@@ -619,6 +622,9 @@ Generated: 2018-05-10 (1525934212448)
                         self.loading = false;
                         self.entry = response;
                         self.hasEmpty = response.has_empty;
+                        self.form_settings = response.form_settings;
+                        self.respondent_points = response.respondent_points;
+                        self.answers = response.answers;
                     },
                     error: function error(_error6) {
                         self.loading = false;
@@ -651,6 +657,7 @@ Generated: 2018-05-10 (1525934212448)
                     }
                 });
             },
+
             hideEmptyStatus: function hideEmptyStatus() {
                 return this.getCookie('weFormsEntryHideEmpty') === 'false' ? false : true;
             }

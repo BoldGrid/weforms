@@ -274,6 +274,7 @@ class WeForms_Form_Builder_Assets {
     private function i18n() {
         return apply_filters( 'wpuf-form-builder-i18n', array(
             'advanced_options'      => __( 'Advanced Options', 'weforms' ),
+            'quiz_options'          => __( 'Quiz Options', 'weforms' ),
             'delete_field_warn_msg' => __( 'Are you sure you want to delete this field?', 'weforms' ),
             'yes_delete_it'         => __( 'Yes, delete it', 'weforms' ),
             'no_cancel_it'          => __( 'No, cancel it', 'weforms' ),

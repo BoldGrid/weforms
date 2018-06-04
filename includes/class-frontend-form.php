@@ -171,7 +171,10 @@ class WeForms_Frontend_Form {
                 <input type="hidden" name="weforms-front-report" value="no">
             <?php } ?>
 
+            <?php do_action( 'weforms_submit_btn', $form_id, $form_settings ); ?>
+
             <input type="submit" class="weforms_submit_btn" name="submit" value="<?php echo $form_settings['submit_text']; ?>" />
+
         </li>
     <?php
     }

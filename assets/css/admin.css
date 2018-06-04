@@ -44,6 +44,15 @@ table.wpuf-contact-form th {
   float: left;
   width: 70%;
 }
+.wpuf-contact-form-entry-wrap .wpuf-contact-form-entry-left.weforms-quiz-entry .field-points {
+  float: right;
+}
+.wpuf-contact-form-entry-wrap .wpuf-contact-form-entry-left.weforms-quiz-entry .field-value.right-answer {
+  background: #dff0d8;
+}
+.wpuf-contact-form-entry-wrap .wpuf-contact-form-entry-left.weforms-quiz-entry .field-value.wrong-answer {
+  background: #FFE4E4;
+}
 .wpuf-contact-form-entry-wrap .wpuf-contact-form-entry-right {
   float: right;
   width: 28%;

@@ -1012,6 +1012,11 @@ function weforms_get_default_form_settings() {
             'limit_number'               => '100',
             'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
             'label_position'             => 'above',
+            'quiz_form'                  => 'no',
+            'shuffle_question_order'     => 'no',
+            'release_grade'              => 'after_submission',
+            'respondent_can_see'         => array( 'missed_questions', 'correct_answers', 'point_values' ),
+            'total_points'               => 0,
             'enable_multistep'           => false,
             'multistep_progressbar_type' => 'progressive',
 

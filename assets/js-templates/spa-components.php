@@ -398,7 +398,7 @@
     <div v-if="loading"><?php _e( 'Loading...', 'weforms' ); ?></div>
     <div v-else class="wpuf-contact-form-entry-wrap">
 
-        <div class="wpuf-contact-form-entry-left">
+        <div v-bind:class="['wpuf-contact-form-entry-left', form_settings.quiz_form === 'yes' ? 'weforms-quiz-entry' : '']">
             <div class="postbox">
                 <h2 class="hndle ui-sortable-handle">
                     <span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span>
@@ -414,10 +414,16 @@
                         <tbody>
                             <template v-for="(field, index) in entry.form_fields">
                                 <template v-if="field.value || ! hideEmpty ">
-                                    <tr class="field-label">
-                                        <th><strong>{{ field.label }}</strong></th>
+                                    <tr v-bind:class="['field-label', answers[field.name] ? 'right-answer' : 'wrong-answer']">
+                                        <th>
+                                            <strong>{{ field.label }}</strong>
+                                            <strong v-if="form_settings.quiz_form === 'yes'" class="field-points">
+                                                <template v-if="answers[field.name] === true">{{ field.points}}/{{field.points}}</template>
+                                                <template v-else>0/{{field.points}}</template>
+                                            </strong>
+                                        </th>
                                     </tr>
-                                    <tr class="field-value">
+                                    <tr v-bind:class="['field-value', answers[field.name] ? 'right-answer' : 'wrong-answer']">
                                         <td>
                                             <weforms-entry-gmap :lat="field.value.lat" :long="field.value.long" :zoom="field.zoom" v-if="field.type == 'google_map'"></weforms-entry-gmap>
                                             <div v-else-if="field.type === 'checkbox_field' || field.type === 'multiple_select'">
@@ -484,6 +490,16 @@
                         <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Delete', 'weforms' ); ?></button>
                     </div>
                     <div class="clear"></div>
+                </div>
+            </div>
+
+            <div v-if="form_settings.quiz_form === 'yes'" class="postbox">
+                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Points', 'weforms' ); ?></span></h2>
+                <div class="inside">
+                    <div class="main">
+                        <p><?php _e( 'Total Points:', 'weforms' ); ?> {{ form_settings.total_points }}</p>
+                        <p><?php _e( 'Respondent Points:', 'weforms' ); ?> {{ respondent_points }}</p>
+                    </div>
                 </div>
             </div>
         </div>
