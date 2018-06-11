@@ -106,9 +106,9 @@ class WeForms_Scripts_Styles {
             'weforms-chart-js',
             'weforms-tiny-mce',
             'weforms-vendor',
-            'wpuf-form-builder-mixins',
-            'wpuf-form-builder-mixins-form',
-            'wpuf-form-builder-components',
+            'weforms-form-builder-mixins',
+            'weforms-form-builder-mixins-form',
+            'weforms-form-builder-components',
             'weforms-int-payment-settings',
             'weforms-int-mailpoet',
             'weforms-int-aweber',
@@ -245,19 +245,19 @@ class WeForms_Scripts_Styles {
                 'deps'      => $form_builder_js_deps,
                 'in_footer' => true
             ),
-            'wpuf-form-builder-mixins' => array(
+            'weforms-form-builder-mixins' => array(
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/wpuf-form-builder-mixins.js',
                 'deps'      => array('weforms-vendor'),
                 'in_footer' => true
             ),
-            'wpuf-form-builder-mixins-form' => array(
+            'weforms-form-builder-mixins-form' => array(
                 'src'       => WEFORMS_ASSET_URI . '/js/wpuf-form-builder-contact-forms' . $prefix . '.js',
                 'deps'      => array('weforms-vendor'),
                 'in_footer' => true
             ),
-            'wpuf-form-builder-components' => array(
+            'weforms-form-builder-components' => array(
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/wpuf-form-builder-components' . $prefix . '.js',
-                'deps'      => array( 'wpuf-form-builder-mixins', 'wpuf-form-builder-mixins-form' ),
+                'deps'      => array( 'weforms-form-builder-mixins', 'weforms-form-builder-mixins-form' ),
                 'in_footer' => true
             ),
         ) );
@@ -275,7 +275,7 @@ class WeForms_Scripts_Styles {
             ),
             'weforms-app' => array(
                 'src'       => WEFORMS_ASSET_URI . '/js/spa-app' . $prefix . '.js',
-                'deps'      => array( 'weforms-vendor', 'wp-util', 'wpuf-form-builder-components' ),
+                'deps'      => array( 'weforms-vendor', 'wp-util', 'weforms-form-builder-components' ),
                 'in_footer' => true
             ),
         );
@@ -294,30 +294,30 @@ class WeForms_Scripts_Styles {
         $frontend_styles = $this->get_frontend_styles();
 
         $backend_styles = array(
-            'wpuf-font-awesome' => array(
+            'weforms-font-awesome' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/font-awesome/css/font-awesome.min.css',
             ),
-            'wpuf-sweetalert2' => array(
+            'weforms-sweetalert2' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2.css',
             ),
-            'wpuf-selectize' => array(
+            'weforms-selectize' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/selectize/css/selectize.default.css',
             ),
-            'wpuf-toastr' => array(
+            'weforms-toastr' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/toastr/toastr.min.css',
             ),
-            'wpuf-tooltip' => array(
+            'weforms-tooltip' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/tooltip/tooltip.css',
             ),
-            'wpuf-form-builder' => array(
+            'weforms-form-builder' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/wpuf-form-builder.css',
                 'deps' => array(
-                    'wpuf-css',
-                    'wpuf-font-awesome',
-                    'wpuf-sweetalert2',
-                    'wpuf-selectize',
-                    'wpuf-toastr',
-                    'wpuf-tooltip'
+                    'weforms-css',
+                    'weforms-font-awesome',
+                    'weforms-sweetalert2',
+                    'weforms-selectize',
+                    'weforms-toastr',
+                    'weforms-tooltip'
                 )
             ),
             'weforms-style' => array(
@@ -345,7 +345,7 @@ class WeForms_Scripts_Styles {
         $prefix = $this->get_prefix();
 
         $scripts = array(
-            'wpuf-form' => array(
+            'weforms-form' => array(
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/frontend-form' . $prefix . '.js',
                 'deps'      => array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider' ),
                 'in_footer' => false
@@ -355,7 +355,7 @@ class WeForms_Scripts_Styles {
                 'deps'      => array( 'jquery-ui-datepicker' ),
                 'in_footer' => false
             ),
-            'wpuf-upload' => array(
+            'weforms-upload' => array(
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/upload' . $prefix . '.js',
                 'deps'      => array( 'jquery', 'plupload-handlers' ),
                 'in_footer' => false
@@ -372,7 +372,7 @@ class WeForms_Scripts_Styles {
      */
     public function get_frontend_styles() {
         $styles = array(
-            'wpuf-css' => array(
+            'weforms-css' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/frontend-forms.css',
             ),
             'jquery-ui' => array(
@@ -390,21 +390,21 @@ class WeForms_Scripts_Styles {
      */
     public function get_frontend_localized() {
 
-        wp_localize_script( 'wpuf-form', 'wpuf_frontend', apply_filters( 'wpuf_frontend_js_data' , array(
+        wp_localize_script( 'weforms-form', 'wpuf_frontend', apply_filters( 'wpuf_frontend_js_data' , array(
             'ajaxurl'       => admin_url( 'admin-ajax.php' ),
             'error_message' => __( 'Please fix the errors to proceed', 'weforms' ),
             'nonce'         => wp_create_nonce( 'wpuf_nonce' ),
             'word_limit'    => __( 'Word limit reached', 'weforms' )
         ) ) );
 
-        wp_localize_script( 'wpuf-form', 'error_str_obj', array(
+        wp_localize_script( 'weforms-form', 'error_str_obj', array(
             'required'   => __( 'is required', 'weforms' ),
             'mismatch'   => __( 'does not match', 'weforms' ),
             'validation' => __( 'is not valid', 'weforms' ),
             'duplicate'  => __( 'requires a unique entry and this value has already been used', 'weforms' ),
         ) );
 
-        wp_localize_script( 'wpuf-upload', 'wpuf_frontend_upload', array(
+        wp_localize_script( 'weforms-upload', 'wpuf_frontend_upload', array(
             'confirmMsg' => __( 'Are you sure?', 'weforms' ),
             'nonce'      => wp_create_nonce( 'wpuf_nonce' ),
             'ajaxurl'    => admin_url( 'admin-ajax.php' ),
