@@ -229,6 +229,7 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
             require_once WEFORMS_INCLUDES . '/admin/class-promotion.php';
             require_once WEFORMS_INCLUDES . '/admin/class-shortcode-button.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-privacy.php';
 
         } else {
 
@@ -338,6 +339,7 @@ final class WeForms {
             $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
             $this->container['promo_offer']  = new WeForms_Admin_Promotion();
+            $this->container['privacy']      = new WeForms_Privacy();
         }
 
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
