@@ -68,7 +68,7 @@ class WeForms_Frontend_Form {
 
         if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
 
-            wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', array( 'jquery', 'wpuf-form' ), false, false );
+            wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', array( 'jquery', 'weforms-form' ), false, false );
             wp_enqueue_style( 'weforms_modal_styles', WEFORMS_ASSET_URI . '/modal/jquery.modal.css' );
 
             $modal_class = 'modal';
