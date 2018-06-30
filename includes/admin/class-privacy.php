@@ -154,14 +154,17 @@ Class WeForms_Privacy {
         $payment_data = self::get_form_payments( $weforms_user );
 
         $idx = 0;
-        foreach ( $payment_data as $pay_data ) {
-            $data_to_export[] = array(
-                'group_id'    => 'weforms-payment-data',
-                'group_label' => __( 'weForms Payment Data', 'weforms' ),
-                'item_id'     => "weforms-payment-{$idx}",
-                'data'        => self::process_payment_data( $pay_data ),
-            );
-            $idx++;
+
+        if ( !empty( $payment_data ) ) {
+            foreach ( $payment_data as $pay_data ) {
+                $data_to_export[] = array(
+                    'group_id'    => 'weforms-payment-data',
+                    'group_label' => __( 'weForms Payment Data', 'weforms' ),
+                    'item_id'     => "weforms-payment-{$idx}",
+                    'data'        => self::process_payment_data( $pay_data ),
+                );
+                $idx++;
+            }
         }
 
         /**
@@ -229,7 +232,7 @@ Class WeForms_Privacy {
 
         $user_data = get_userdata( $payment_data->user_id );
 
-        if ( is_array( $field_value ) && !empty( $field_value ) ) {
+        if ( is_array( $field_value ) ) {
 
             foreach ( $field_value as $key => $sfv ) {
                 $sfv = str_replace( array( '_', '-' ), ' ', $key ) . ': ' . $sfv;

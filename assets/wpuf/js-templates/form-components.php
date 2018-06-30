@@ -250,7 +250,7 @@
     </label>
 
     <select class="opt-select-element" v-model="value">
-        <option value=""><?php _e( 'Select an option', 'wpuf' ); ?></option>
+        <option value=""><?php _e( '--Select--', 'wpuf' ); ?></option>
         <option v-for="(option, key) in option_field.options" :value="key">{{ option }}</option>
     </select>
 </div>
