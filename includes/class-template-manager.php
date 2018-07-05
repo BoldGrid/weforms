@@ -65,6 +65,7 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-restaurant-reservation.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-conference-proposal.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-polling-form.php';
+        require_once WEFORMS_INCLUDES . '/templates/dokan/class-vendor-contact-form.php';
 
         $templates = array(
             'blank'                    => new WeForms_Template_Blank(),
@@ -93,6 +94,7 @@ class WeForms_Template_Manager {
             'restaurant_reservation'   => new WeForms_Template_Restaurant_Reservation(),
             'conference_proposal'      => new Weforms_Template_Conference_Proposal(),
             'polling_form'             => new WeForms_Template_Polling_Form(),
+            'vendor_contact_form'      => new WeForms_Vendor_Contact_Form(),
         );
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );
