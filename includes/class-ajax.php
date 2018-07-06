@@ -791,10 +791,12 @@ class WeForms_Ajax {
      */
     function validate_reCaptcha() {
 
-        // add reCaptcha library if not found
-        if ( ! function_exists( 'recaptcha_get_html' ) ) {
+        if ( class_exists( 'WPUF_ReCaptcha' ) ) {
+            $recaptcha_class = 'WPUF_Recaptcha';
+        } else {
             require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
             require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
+            $recaptcha_class = 'Weforms_ReCaptcha';
         }
 
         $invisible = isset( $_POST['g-recaptcha-response'] ) ? false : true;
@@ -805,7 +807,7 @@ class WeForms_Ajax {
         if ( ! $invisible ) {
 
             $response = null;
-            $reCaptcha = new Weforms_ReCaptcha( $secret );
+            $reCaptcha = new $recaptcha_class( $secret );
 
             $resp = $reCaptcha->verifyResponse(
                 $_SERVER['REMOTE_ADDR'],
