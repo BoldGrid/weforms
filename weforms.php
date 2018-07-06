@@ -262,6 +262,7 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-ajax-upload.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
+        require_once WEFORMS_INCLUDES . '/class-dokan-integration.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
     }
 
@@ -346,14 +347,15 @@ final class WeForms {
             $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
-        $this->container['insights']     = new WeDevs_Insights( 'weforms', 'weForms', __FILE__ );
-        $this->container['emailer']      = new WeForms_Emailer();
-        $this->container['form']         = new WeForms_Form_Manager();
-        $this->container['fields']       = new WeForms_Field_Manager();
-        $this->container['integrations'] = new WeForms_Integration_Manager();
-        $this->container['preview']      = new WeForms_Form_Preview();
-        $this->container['scripts']      = new WeForms_Scripts_Styles();
-        $this->container['block']        = new weForms_FormBlock();
+        $this->container['insights']            = new WeDevs_Insights( 'weforms', 'weForms', __FILE__ );
+        $this->container['emailer']             = new WeForms_Emailer();
+        $this->container['form']                = new WeForms_Form_Manager();
+        $this->container['fields']              = new WeForms_Field_Manager();
+        $this->container['integrations']        = new WeForms_Integration_Manager();
+        $this->container['preview']             = new WeForms_Form_Preview();
+        $this->container['scripts']             = new WeForms_Scripts_Styles();
+        $this->container['block']               = new weForms_FormBlock();
+        $this->container['dokan_integration']   = new weForms_Dokan_Integration();
         // instantiate the integrations
         $this->integrations->get_integrations();
 
