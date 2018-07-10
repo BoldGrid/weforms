@@ -305,10 +305,13 @@ class WeForms_Admin {
             'icon'  => WEFORMS_ASSET_URI . '/images/integrations/reCaptcha.svg',
         );
 
-        $tabs['privacy'] = array(
-            'label' => __('Privacy', 'weforms'),
-            'icon'  => WEFORMS_ASSET_URI . '/images/privacy.svg',
-        );
+        /* TODO:  Refactor this block when more options are added in privacy settings*/
+        if ( class_exists( 'WeForms_Pro' ) ) {
+            $tabs['privacy'] = array(
+                'label' => __('Privacy', 'weforms'),
+                'icon'  => WEFORMS_ASSET_URI . '/images/privacy.svg',
+            );
+        }
 
         return $tabs;
     }

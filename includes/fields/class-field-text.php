@@ -101,25 +101,10 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                 'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
             )
         );
-        $mask_options           = array(
-            array(
-                'name'          => 'mask_options',
-                'title'         => 'Mask Options',
-                'type'          => 'select',
-                'options'       => array(
-                    'us_phone' => __( 'US Phone', 'weforms' ),
-                    'date'     => __( 'Date', 'weforms' ),
-                    'tax_id'   => __( 'Tax ID', 'weforms' ),
-                    'ssn'      => __( 'SSN', 'weforms' ),
-                    'zip'      => __( 'ZIP', 'weforms' ),
-                ),
-                'default'       => '',
-                'section'       => 'advanced',
-                'priority'      => 23,
-                'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
-            )
-        );
-        return array_merge( $default_options, $default_text_options, $check_duplicate, $mask_options );
+
+        $text_options = array_merge( $default_options, $default_text_options, $check_duplicate );
+
+        return apply_filters( 'weforms_text_field_option_settings', $text_options );
     }
 
     /**
