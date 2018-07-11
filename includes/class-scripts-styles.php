@@ -14,7 +14,7 @@ class WeForms_Scripts_Styles {
 
         if ( is_admin() ) {
             add_action( 'admin_enqueue_scripts', array( $this, 'register_backend' ), 5 );
-            add_action( 'admin_enqueue_scripts', array( $this, 'no_conflict_mode' ), 999999999 );
+            add_action( 'admin_enqueue_scripts', array( $this, 'no_conflict_mode' ), 999999 );
         } else {
             add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
         }
@@ -132,8 +132,8 @@ class WeForms_Scripts_Styles {
             'weforms-pro-components',
         );
 
-        $wpuf_settings = get_option( 'wpuf_general', array() );
-        $screen = get_current_screen();
+        $wpuf_settings = weforms_get_settings();
+        $screen        = get_current_screen();
 
         if ( isset( $wpuf_settings['no_conflict'] ) && $wpuf_settings['no_conflict'] && $screen->base == 'toplevel_page_weforms' ) {
             $registered_scripts = array_keys( $wp_scripts->registered );
