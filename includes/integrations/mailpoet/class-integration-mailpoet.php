@@ -42,7 +42,7 @@ class WeForms_Integration_MailPoet_Free extends WeForms_Abstract_Integration {
 
         $scripts['weforms-int-mailpoet'] = array(
             'src' => plugins_url( 'component/index.js', __FILE__ ),
-            'deps' => array( 'wpuf-form-builder-components' )
+            'deps' => array( 'weforms-form-builder-components' )
         );
 
         return $scripts;

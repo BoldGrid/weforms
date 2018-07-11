@@ -248,7 +248,7 @@ Vue.component('field-option-data', {
     data: function () {
         return {
             show_value: false,
-            options: [],
+            options: [], 
             selected: []
         };
     },
@@ -377,7 +377,8 @@ Vue.component('field-options', {
     data: function() {
         return {
             show_basic_settings: true,
-            show_advanced_settings: false
+            show_advanced_settings: false,
+            show_quiz_settings: false
         };
     },
 
@@ -385,6 +386,7 @@ Vue.component('field-options', {
         editing_field_id: function () {
             this.show_basic_settings = true;
             this.show_advanced_settings = false;
+            this.show_quiz_settings = false;
 
             return parseInt(this.$store.state.editing_field_id);
         },
@@ -423,6 +425,12 @@ Vue.component('field-options', {
             });
         },
 
+        quiz_settings: function () {
+            return this.settings.filter(function (item) {
+                return 'quiz' === item.section;
+            });
+        },
+
         form_field_type_title: function() {
             var template = this.editing_form_field.template;
 
@@ -431,6 +439,16 @@ Vue.component('field-options', {
             }
 
             return this.$store.state.field_settings[template].title;
+        },
+
+        form_settings: function () {
+            return this.$store.state.settings;
+        },
+    },
+
+    watch: {
+        form_settings: function () {
+            return this.$store.state.settings;
         }
     }
 });

@@ -20,6 +20,7 @@ class WeForms_Admin {
         add_filter( 'weforms_settings_tabs', array( $this, 'set_default_settings' ), 5 );
         add_action( 'weforms_settings_tab_content_general', array( $this, 'settings_tab_general' ) );
         add_action( 'weforms_settings_tab_content_recaptcha', array( $this, 'settings_tab_recaptcha' ) );
+        add_action( 'weforms_settings_tab_content_privacy', array( $this, 'settings_tab_privacy' ) );
     }
 
     /**
@@ -304,6 +305,14 @@ class WeForms_Admin {
             'icon'  => WEFORMS_ASSET_URI . '/images/integrations/reCaptcha.svg',
         );
 
+        /* TODO:  Refactor this block when more options are added in privacy settings*/
+        if ( class_exists( 'WeForms_Pro' ) ) {
+            $tabs['privacy'] = array(
+                'label' => __('Privacy', 'weforms'),
+                'icon'  => WEFORMS_ASSET_URI . '/images/privacy.svg',
+            );
+        }
+
         return $tabs;
     }
 
@@ -327,5 +336,16 @@ class WeForms_Admin {
      */
     function settings_tab_recaptcha( $tab ) {
         include dirname( __FILE__ ) . '/views/weforms-settings-recaptcha.php';
+    }
+
+    /**
+     * Privacy tab content
+     *
+     * @param array $tab
+     *
+     * @return void
+     */
+    function settings_tab_privacy( $tab ) {
+        include dirname( __FILE__ ) . '/views/weforms-settings-privacy.php';
     }
 }

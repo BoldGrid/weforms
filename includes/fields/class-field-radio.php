@@ -25,6 +25,8 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
+            <?php do_action( 'weforms_radio_field_after_label', $field_settings ); ?>
+
             <div class="wpuf-fields" data-required="<?php echo $field_settings['required'] ?>" data-type="radio">
 
                 <?php
@@ -79,6 +81,8 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
             )
         );
 
+        $dropdown_options = apply_filters( 'weforms_radio_field_option_settings', $dropdown_options );
+
         return array_merge( $default_options, $dropdown_options );
     }
 
@@ -94,6 +98,8 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
             'inline'   => 'no',
             'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
         );
+
+        $props = apply_filters( 'weforms_radio_field_props', $props );
 
         return array_merge( $defaults, $props );
     }

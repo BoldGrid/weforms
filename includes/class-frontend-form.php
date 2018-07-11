@@ -68,7 +68,7 @@ class WeForms_Frontend_Form {
 
         if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
 
-            wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', array( 'jquery', 'wpuf-form' ), false, false );
+            wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', array( 'jquery', 'weforms-form' ), false, false );
             wp_enqueue_style( 'weforms_modal_styles', WEFORMS_ASSET_URI . '/modal/jquery.modal.css' );
 
             $modal_class = 'modal';
@@ -171,7 +171,10 @@ class WeForms_Frontend_Form {
                 <input type="hidden" name="weforms-front-report" value="no">
             <?php } ?>
 
+            <?php do_action( 'weforms_submit_btn', $form_id, $form_settings ); ?>
+
             <input type="submit" class="weforms_submit_btn" name="submit" value="<?php echo $form_settings['submit_text']; ?>" />
+
         </li>
     <?php
     }

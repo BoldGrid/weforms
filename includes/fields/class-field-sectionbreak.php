@@ -24,7 +24,7 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
         $field_settings['description'] = isset( $field_settings['description'] ) ? $field_settings['description'] : '';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <div class="wpuf-section-wrap <?php echo 'section_' . $form_id; ?>">
+            <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . $form_id; ?><?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>">
                 <h2 class="wpuf-section-title"><?php echo $field_settings['label']; ?></h2>
                 <div class="wpuf-section-details"><?php echo $field_settings['description']; ?></div>
             </div>
@@ -57,13 +57,20 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
                 'priority'  => 10,
                 'help_text' => __( 'Title of the section', 'weforms' ),
             ),
-
+            array(
+                'name'          => 'name',
+                'title'         => __( 'Meta Key', 'weforms' ),
+                'type'          => 'text-meta',
+                'section'       => 'basic',
+                'priority'      => 11,
+                'help_text'     => __( 'Name of the meta key this field will save to', 'weforms' ),
+            ),
             array(
                 'name'      => 'description',
                 'title'     => __( 'Description', 'weforms' ),
                 'type'      => 'textarea',
                 'section'   => 'basic',
-                'priority'  => 11,
+                'priority'  => 12,
                 'help_text' => __( 'Some details text about the section', 'weforms' ),
             ),
         );
@@ -83,7 +90,7 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
             'description' => __( 'Some description about this section', 'weforms' ),
             'id'          => 0,
             'is_new'      => true,
-            'wpuf_cond'   => null
+            'wpuf_cond'   => $this->default_conditional_prop()
         );
 
         return $props;

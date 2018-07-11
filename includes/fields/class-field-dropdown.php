@@ -26,6 +26,8 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
+            <?php do_action( 'weforms_dropdown_field_after_label', $field_settings ); ?>
+
             <div class="wpuf-fields">
                 <select
                     class="<?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>"
@@ -76,6 +78,8 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
             ),
         );
 
+        $dropdown_options = apply_filters( 'weforms_dropdown_field_option_settings', $dropdown_options );
+
         return array_merge( $default_options, $dropdown_options );
     }
 
@@ -91,6 +95,8 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
             'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
             'first'    => __( '— Select —', 'weforms' ),
         );
+
+        $props = apply_filters( 'weforms_dropdown_field_props', $props );
 
         return array_merge( $defaults, $props );
     }

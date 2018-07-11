@@ -51,6 +51,30 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
             }
             ?>
         </li>
+        <script>
+            jQuery(document).ready(function($){
+                var text_field = $( "input[name*=<?php echo esc_attr( $field_settings['name'] ); ?>]" );
+                switch ( '<?php echo $field_settings['mask_options']; ?>' ) {
+                    case 'us_phone':
+                        text_field.mask('(999) 999-9999');
+                        break;
+                    case 'date':
+                        text_field.mask('99/99/9999');
+                        break;
+                    case 'tax_id':
+                        text_field.mask('99-9999999');
+                        break;
+                    case 'ssn':
+                        text_field.mask('999-99-9999');
+                        break;
+                    case 'zip':
+                        text_field.mask('99999');
+                        break;
+                    default:
+                        break;
+                }
+            });
+        </script>
         <?php
     }
 
@@ -77,7 +101,10 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                 'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
             )
         );
-        return array_merge( $default_options, $default_text_options, $check_duplicate );
+
+        $text_options = array_merge( $default_options, $default_text_options, $check_duplicate );
+
+        return apply_filters( 'weforms_text_field_option_settings', $text_options );
     }
 
     /**

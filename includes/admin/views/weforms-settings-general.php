@@ -61,6 +61,15 @@
             </td>
         </tr>
         <tr>
+            <th><?php _e( 'Enable No-Conflict Mode', 'weforms' ); ?></th>
+            <td>
+                <label>
+                    <input type="checkbox" v-model="settings.no_conflict">
+                    <?php _e( 'Minimize conflict with other plugins in the backend.', 'weforms' ); ?>
+                </label>
+            </td>
+        </tr>
+        <tr>
             <th><?php _e( 'Form Permission', 'weforms' ); ?></th>
             <td>
                 <select :disabled="!is_pro" v-model="settings.permission">

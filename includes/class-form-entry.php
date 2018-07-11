@@ -389,6 +389,15 @@ class WeForms_Form_Entry {
 
                             $value = implode( '<br> ', $serialized_value );
                         }
+                    } elseif ( $field['type'] == 'signature_field' ) {
+                        $url = content_url() . $value;
+                        $value = $url;
+
+                        if ( $_REQUEST['action'] != 'weforms_pdf_download' ) {
+                            $value = sprintf( '<img src="%s">', $url );
+                            $value .= sprintf( '<a style="margin-left: -200px" href="%s">Download</a>', $url );
+                        }
+
                     }
 
                     $this->fields[ $result->meta_key ]['value'] = apply_filters( 'weforms_entry_meta_field', $value, $field );

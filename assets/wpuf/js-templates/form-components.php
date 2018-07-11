@@ -220,6 +220,8 @@
                 </div>
             </transition>
         </div>
+
+        <?php do_action( 'weforms_builder_field_options' ); ?>
     </div>
 
 </div>
@@ -248,7 +250,7 @@
     </label>
 
     <select class="opt-select-element" v-model="value">
-        <option value=""><?php _e( 'Select an option', 'wpuf' ); ?></option>
+        <option value=""><?php _e( '--Select--', 'wpuf' ); ?></option>
         <option v-for="(option, key) in option_field.options" :value="key">{{ option }}</option>
     </select>
 </div>
@@ -557,7 +559,7 @@
 
     <template v-else>
     	<div v-if="'invisible_recaptcha' != field.recaptcha_type">
-        	<img class="wpuf-recaptcha-placeholder" :src="'<?php echo WPUF_ASSET_URI . "/images/recaptcha-placeholder-'+field.recaptcha_theme+'.png" ?>'" alt="">
+        	<img class="wpuf-recaptcha-placeholder" :src="'<?php echo WEFORMS_ASSET_URI . "/images/recaptcha-placeholder-'+field.recaptcha_theme+'.png" ?>'" alt="">
         </div>
     </template>
 </div>

@@ -25,6 +25,8 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
+            <?php do_action( 'weforms_checkbox_field_after_label', $field_settings ); ?>
+
             <div class="wpuf-fields" data-required="<?php echo $field_settings['required'] ?>" data-type="radio">
 
                 <?php
@@ -73,7 +75,10 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
                 'priority'      => 23,
                 'help_text'     => __( 'Show this option in an inline list', 'weforms' ),
             ),
+
         );
+
+        $dropdown_options = apply_filters( 'weforms_checkbox_field_option_settings', $dropdown_options );
 
         return array_merge( $default_options, $dropdown_options );
     }
@@ -86,10 +91,12 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
     public function get_field_props() {
         $defaults = $this->default_attributes();
         $props    = array(
-            'selected' => array(),
-            'inline'   => 'no',
-            'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
+            'selected'          => array(),
+            'inline'            => 'no',
+            'options'           => array( 'Option' => __( 'Option', 'weforms' ) ),
         );
+
+        $props = apply_filters( 'weforms_checkbox_field_props', $props );
 
         return array_merge( $defaults, $props );
     }

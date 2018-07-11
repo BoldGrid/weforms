@@ -12,7 +12,7 @@ class WeForms_Form_Builder_Assets {
     public function init_actions() {
 
         add_action( 'in_admin_header', array( $this, 'remove_admin_notices' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'builder_enqueue_scripts' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'builder_enqueue_scripts' ), 2000 );
         add_action( 'admin_print_scripts', array( $this, 'builder_mixins_script' ) );
         add_action( 'admin_footer', array( $this, 'admin_footer_js_templates' ) );
 
@@ -112,8 +112,8 @@ class WeForms_Form_Builder_Assets {
             'shortcodes'      => $this->shortcodes(),
         ) );
 
-        wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
-        wp_localize_script( 'wpuf-form-builder-mixins', 'wpuf_mixins', $wpuf_mixins );
+        wp_localize_script( 'weforms-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
+        wp_localize_script( 'weforms-form-builder-mixins', 'wpuf_mixins', $wpuf_mixins );
         wp_localize_script( 'weforms-mixins', 'weForms', $weforms );
 
         do_action( 'weforms_admin_after_scripts_loaded' );
@@ -274,6 +274,7 @@ class WeForms_Form_Builder_Assets {
     private function i18n() {
         return apply_filters( 'wpuf-form-builder-i18n', array(
             'advanced_options'      => __( 'Advanced Options', 'weforms' ),
+            'quiz_options'          => __( 'Quiz Options', 'weforms' ),
             'delete_field_warn_msg' => __( 'Are you sure you want to delete this field?', 'weforms' ),
             'yes_delete_it'         => __( 'Yes, delete it', 'weforms' ),
             'no_cancel_it'          => __( 'No, cancel it', 'weforms' ),

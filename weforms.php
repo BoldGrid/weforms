@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.2.8
+ * Version: 1.2.9
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -55,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.2.8';
+    public $version = '1.2.9';
 
     /**
      * Form field value seperator
@@ -228,6 +228,8 @@ final class WeForms {
 
             require_once WEFORMS_INCLUDES . '/admin/class-pro-upgrades.php';
             require_once WEFORMS_INCLUDES . '/admin/class-promotion.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-shortcode-button.php';
+            require_once WEFORMS_INCLUDES . '/admin/class-privacy.php';
 
         } else {
 
@@ -260,6 +262,7 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-ajax-upload.php';
         require_once WEFORMS_INCLUDES . '/class-notification.php';
         require_once WEFORMS_INCLUDES . '/class-form-preview.php';
+        require_once WEFORMS_INCLUDES . '/class-dokan-integration.php';
         require_once WEFORMS_INCLUDES . '/functions.php';
     }
 
@@ -337,20 +340,22 @@ final class WeForms {
             $this->container['pro_upgrades'] = new WeForms_Pro_Upgrades();
             $this->container['importer']     = new WeForms_Importer_Manager();
             $this->container['promo_offer']  = new WeForms_Admin_Promotion();
+            $this->container['privacy']      = new WeForms_Privacy();
         }
 
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
             $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
-        $this->container['insights']     = new WeDevs_Insights( 'weforms', 'weForms', __FILE__ );
-        $this->container['emailer']      = new WeForms_Emailer();
-        $this->container['form']         = new WeForms_Form_Manager();
-        $this->container['fields']       = new WeForms_Field_Manager();
-        $this->container['integrations'] = new WeForms_Integration_Manager();
-        $this->container['preview']      = new WeForms_Form_Preview();
-        $this->container['scripts']      = new WeForms_Scripts_Styles();
-        $this->container['block']        = new weForms_FormBlock();
+        $this->container['insights']            = new WeDevs_Insights( 'weforms', 'weForms', __FILE__ );
+        $this->container['emailer']             = new WeForms_Emailer();
+        $this->container['form']                = new WeForms_Form_Manager();
+        $this->container['fields']              = new WeForms_Field_Manager();
+        $this->container['integrations']        = new WeForms_Integration_Manager();
+        $this->container['preview']             = new WeForms_Form_Preview();
+        $this->container['scripts']             = new WeForms_Scripts_Styles();
+        $this->container['block']               = new weForms_FormBlock();
+        $this->container['dokan_integration']   = new weForms_Dokan_Integration();
         // instantiate the integrations
         $this->integrations->get_integrations();
 

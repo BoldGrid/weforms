@@ -58,6 +58,22 @@ table.wpuf-contact-form {
     .wpuf-contact-form-entry-left {
         float: left;
         width: 70%;
+
+        &.weforms-quiz-entry {
+            .field-points{
+                float: right;
+            }
+
+            .field-value{
+                &.right-answer{
+                    background: #dff0d8;
+                }
+
+                &.wrong-answer{
+                    background: #FFE4E4;
+                }
+            }
+        }
     }
 
     .wpuf-contact-form-entry-right {
