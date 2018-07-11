@@ -13,8 +13,8 @@ class WeForms_Scripts_Styles {
     function __construct() {
 
         if ( is_admin() ) {
-            add_action( 'admin_enqueue_scripts', array( $this, 'register_backend' ), 5 );
-            add_action( 'admin_enqueue_scripts', array( $this, 'no_conflict_mode' ), 999999999 );
+            add_action( 'admin_enqueue_scripts', array( $this, 'register_backend' ), 1800 );
+            add_action( 'admin_enqueue_scripts', array( $this, 'no_conflict_mode' ), 1500 );
         } else {
             add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
         }
@@ -132,8 +132,8 @@ class WeForms_Scripts_Styles {
             'weforms-pro-components',
         );
 
-        $wpuf_settings = get_option( 'wpuf_general', array() );
-        $screen = get_current_screen();
+        $wpuf_settings = weforms_get_settings();
+        $screen        = get_current_screen();
 
         if ( isset( $wpuf_settings['no_conflict'] ) && $wpuf_settings['no_conflict'] && $screen->base == 'toplevel_page_weforms' ) {
             $registered_scripts = array_keys( $wp_scripts->registered );
@@ -145,13 +145,13 @@ class WeForms_Scripts_Styles {
                 }
             }
 
-            $this->enqueue_scripts( $this->get_admin_scripts() );
+//            $this->enqueue_scripts( $this->get_admin_scripts() );
 
-            foreach ( $reg_arr as $reg_obj ) {
-                if ( !in_array( $reg_obj, $wp_scripts->queue ) ) {
-                    wp_enqueue_script( $reg_obj );
-                }
-            }
+//            foreach ( $reg_arr as $reg_obj ) {
+//                if ( !in_array( $reg_obj, $wp_scripts->queue ) ) {
+//                    wp_enqueue_script( $reg_obj );
+//                }
+//            }
         }
 
     }

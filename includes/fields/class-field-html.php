@@ -57,11 +57,11 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
             ),
             array(
                 'name'          => 'name',
-                'title'         => __( 'Meta Key', 'wpuf-pro' ),
+                'title'         => __( 'Meta Key', 'weforms' ),
                 'type'          => 'text-meta',
                 'section'       => 'basic',
                 'priority'      => 12,
-                'help_text'     => __( 'Name of the meta key this field will save to', 'wpuf-pro' ),
+                'help_text'     => __( 'Name of the meta key this field will save to', 'weforms' ),
             ),
         );
 
