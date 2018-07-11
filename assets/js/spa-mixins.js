@@ -1,6 +1,7 @@
 'use strict';
 
 /* ./assets/spa/mixins/bulk-action.js */
+
 weForms.mixins.BulkAction = {
     data: function data() {
         return {
@@ -125,10 +126,9 @@ weForms.mixins.Loading = {
                 NProgress.done();
             }
         }
-    }
 
-    /* ./assets/spa/mixins/paginate.js */
-};weForms.mixins.Paginate = {
+        /* ./assets/spa/mixins/paginate.js */
+    } };weForms.mixins.Paginate = {
     data: function data() {
         return {
             totalItems: 0,
