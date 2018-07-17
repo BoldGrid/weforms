@@ -225,7 +225,7 @@ class WeForms_Scripts_Styles {
     public function get_admin_scripts() {
         $prefix = $this->get_prefix();
 
-        $form_builder_js_deps = apply_filters( 'wpuf-form-builder-js-deps', array(
+        $form_builder_js_deps = apply_filters( 'weforms-form-builder-js-deps', array(
             'jquery',
             'jquery-ui-sortable',
             'jquery-ui-draggable',
