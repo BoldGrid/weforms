@@ -502,6 +502,8 @@
                     </div>
                 </div>
             </div>
+
+            <?php do_action( 'weforms_entry_single_right_metabox' ); ?>
         </div>
 
         <div class="wpuf-contact-form-entry-right" v-if="entry.payment_data" style=" clear: right;">

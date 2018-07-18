@@ -54,6 +54,34 @@ class WeForms_Notification {
     }
 
     /**
+     * Resend entry notifications
+     *
+     * @return void
+     */
+    public function resend_entry_notifications( $notifications ) {
+        if ( !$notifications ) {
+            return;
+        }
+
+        $this->set_merge_tags();
+
+        foreach ($notifications as $notification) {
+
+            if ( $this->meet_conditions( $notification ) ) {
+
+                if ( $notification['type'] == 'email' ) {
+
+                    $this->send_notification( $notification );
+
+                } elseif( $notification['type'] == 'sms' ) {
+
+                    $this->send_sms( $notification );
+                }
+            }
+        }
+    }
+
+    /**
      * Send a single notification
      *
      * @param  array $notification
