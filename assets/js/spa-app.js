@@ -10,7 +10,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
 /*!
 weForms - v1.2.8
-Generated: 2018-06-01 (1527843697842)
+Generated: 2018-07-17 (1531815343485)
 */
 
 ;(function ($) {
