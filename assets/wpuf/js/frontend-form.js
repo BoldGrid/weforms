@@ -409,7 +409,15 @@
                                 grecaptcha.reset();
                             }
 
-                            alert( res.error );
+                            swal({
+                                html: res.error,
+                                type: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#d54e21',
+                                confirmButtonText: 'OK',
+                                cancelButtonClass: 'btn btn-danger',
+                            });
+
                         }
 
                         submitButton.removeAttr('disabled');
@@ -596,6 +604,18 @@
 
             });
 
+            //check Google Map is required
+            var map_required = self.find('[data-required="yes"][name="google_map"]');
+            if ( map_required ) {
+                var val = $(map_required).val();
+                if ( val == ',' ) {
+                    error = true;
+                    error_type = 'required';
+
+                    WP_User_Frontend.markError( map_required,  error_type );
+                }
+            }
+
             // if already some error found, bail out
             if (error) {
                 // add error notice
@@ -781,6 +801,7 @@
             if ( confirm( $(this).data('confirm') ) ) {
                 $.post(wpuf_frontend.ajaxurl, {action: 'wpuf_delete_avatar', _wpnonce: wpuf_frontend.nonce}, function() {
                     $(e.target).parent().remove();
+                    $('[id^=wpuf-avatar]').css("display", "");
                 });
             }
         },
@@ -937,6 +958,68 @@
             })).join(' ');
             $('input[name="display_name"]').val(newVal);
         });
+    });
+
+    // script for Dokan vendor registration template
+    $(function($) {
+
+        $('.wpuf-form-add input[name="dokan_store_name"]').on('focusout', function() {
+            var value = $(this).val().toLowerCase().replace(/-+/g, '').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            $('input[name="shopurl"]').val(value);
+            $('#url-alart').text( value );
+            $('input[name="shopurl"]').focus();
+        });
+
+        $('.wpuf-form-add input[name="shopurl"]').keydown(function(e) {
+            var text = $(this).val();
+
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 91, 109, 110, 173, 189, 190]) !== -1 ||
+                 // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                 // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                     // let it happen, don't do anything
+                    return;
+            }
+
+            if ((e.shiftKey || (e.keyCode < 65 || e.keyCode > 90) && (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105) ) {
+                e.preventDefault();
+            }
+        });
+
+        $('.wpuf-form-add input[name="shopurl"]').keyup(function(e) {
+            $('#url-alart').text( $(this).val() );
+        });
+
+        $('.wpuf-form-add input[name="shopurl"]').on('focusout', function() {
+            var self = $(this),
+            data = {
+                action : 'shop_url',
+                url_slug : self.val(),
+                _nonce : dokan.nonce,
+            };
+
+            if ( self.val() === '' ) {
+                return;
+            }
+
+            $.post( dokan.ajaxurl, data, function(resp) {
+
+                if ( resp == 0){
+                    $('#url-alart').removeClass('text-success').addClass('text-danger');
+                    $('#url-alart-mgs').removeClass('text-success').addClass('text-danger').text(dokan.seller.notAvailable);
+                } else {
+                    $('#url-alart').removeClass('text-danger').addClass('text-success');
+                    $('#url-alart-mgs').removeClass('text-danger').addClass('text-success').text(dokan.seller.available);
+                }
+
+            } );
+
+        });
+
+        // Set name attribute for google map search field
+        $(".wpuf-form-add #wpuf-map-add-location").attr("name", "find_address");
     });
 
 })(jQuery, window);
