@@ -234,6 +234,47 @@ Vue.component('field-html_help_text', {
     ],
 });
 
+Vue.component('field-multiselect', {
+    template: '#tmpl-wpuf-field-multiselect',
+
+    mixins: [
+        wpuf_mixins.option_field_mixin
+    ],
+
+    computed: {
+        value: {
+            get: function () {
+                return this.editing_form_field[this.option_field.name];
+            },
+
+            set: function (value) {
+                this.$store.commit('update_editing_form_field', {
+                    editing_field_id: this.editing_form_field.id,
+                    field_name: this.option_field.name,
+                    value: value
+                });
+            }
+        }
+    },
+
+    mounted: function () {
+        this.bind_selectize();
+    },
+
+    methods: {
+        bind_selectize: function () {
+            var self = this;
+
+            $(this.$el).find('.term-list-selector').selectize({}).on('change', function () {
+                var data = $(this).val();
+
+                self.value = data;
+            });
+        },
+    },
+
+});
+
 /**
  * Common settings component for option based fields
  * like select, multiselect, checkbox, radio
@@ -248,7 +289,7 @@ Vue.component('field-option-data', {
     data: function () {
         return {
             show_value: false,
-            options: [], 
+            options: [],
             selected: []
         };
     },
@@ -443,7 +484,7 @@ Vue.component('field-options', {
 
         form_settings: function () {
             return this.$store.state.settings;
-        },
+        }
     },
 
     watch: {
@@ -591,6 +632,63 @@ Vue.component('field-textarea', {
     },
 });
 
+Vue.component('field-visibility', {
+    template: '#tmpl-wpuf-field-visibility',
+
+    mixins: [
+        wpuf_mixins.option_field_mixin
+    ],
+
+    computed: {
+        selected: {
+            get: function () {
+
+                return this.editing_form_field[this.option_field.name].selected;
+            },
+
+            set: function (value) {
+
+                this.$store.commit('update_editing_form_field', {
+                    editing_field_id: this.editing_form_field.id,
+                    field_name: this.option_field.name,
+                    value: {
+                        selected: value,
+                        choices: [],
+                    }
+                });
+            }
+        },
+
+        choices: {
+            get: function () {
+                return this.editing_form_field[this.option_field.name].choices;
+            },
+
+            set: function (value) {
+
+                this.$store.commit('update_editing_form_field', {
+                    editing_field_id: this.editing_form_field.id,
+                    field_name: this.option_field.name,
+                    value: {
+                        selected: this.selected,
+                        choices: value,
+                    }
+                });
+            }
+        },
+
+    },
+
+    methods: {
+
+    },
+
+    watch: {
+    	selected: function (new_val) {
+            this.update_value('selected', new_val);
+        }
+    }
+});
 /**
  * Field template: Checkbox
  */
@@ -924,13 +1022,16 @@ Vue.component('form-taxonomy', {
 
             // selection type and terms
             if (this.field.exclude_type && this.field.exclude) {
-                var filter_ids = this.field.exclude.split(',').map(function (id) {
-                    id = id.trim();
-                    id = parseInt(id);
-                    return id;
-                }).filter(function (id) {
-                    return isFinite(id);
-                });
+
+                if ( this.field.exclude.length > 1 ) {
+                    var filter_ids = this.field.exclude.split(',').map(function (id) {
+                        id = id.trim();
+                        id = parseInt(id);
+                        return id;
+                    }).filter(function (id) {
+                        return isFinite(id);
+                    });
+                }
 
                 terms = terms.filter(function (term) {
 
@@ -986,6 +1087,10 @@ Vue.component('form-taxonomy', {
         get_term_dropdown_options: function () {
             var self    = this,
                 options = '';
+
+            if ( this.field.type === 'select' ) {
+                options = '<option value="">' + this.field.first + '</option>';
+            }
 
             _.each(self.sorted_terms, function (term) {
                 options += self.get_term_dropdown_options_children(term, 0);
@@ -1049,6 +1154,32 @@ Vue.component('form-taxonomy', {
             }
 
             return li;
+        },
+
+        get_term_checklist_inline: function () {
+            var self      = this,
+                checklist = '';
+
+            _.each(this.sorted_terms, function (term) {
+                checklist += self.get_term_checklist_li_inline(term);
+            });
+
+            return checklist;
+        },
+
+        get_term_checklist_li_inline: function (term) {
+            var self = this,
+                li_inline   = '';
+
+            li_inline += '<label class="wpuf-checkbox-inline"><input type="checkbox"> ' + term.name + '</label>';
+
+            if (term.children.length) {
+                _.each(term.children, function (child_term) {
+                    li_inline += self.get_term_checklist_li_inline(child_term);
+                });
+            }
+
+            return li_inline;
         }
     }
 });

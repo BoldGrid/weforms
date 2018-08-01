@@ -1,7 +1,7 @@
 <script type="text/x-template" id="tmpl-wpuf-builder-stage">
 <div id="form-preview-stage">
     <h4 v-if="!form_fields.length" class="text-center">
-        <?php _e( 'Add fields by dragging the fields from the right sidebar to this area.', 'wpuf' ) ?>
+        <?php _e( 'Add fields by dragging the fields from the right sidebar to this area.', 'wp-user-frontend' ) ?>
     </h4>
 
     <ul :class="['wpuf-form', 'sortable-list', 'form-label-' + label_type]">
@@ -27,7 +27,7 @@
 
             <div v-if="is_pro_feature(field.template)" class="stage-pro-alert">
                 <label class="wpuf-pro-text-alert">
-                    <a :href="pro_link" target="_blank"><strong>{{ get_field_name(field.template) }}</strong> <?php _e( 'is available in Pro Version', 'wpuf' ); ?></a>
+                    <a :href="pro_link" target="_blank"><strong>{{ get_field_name(field.template) }}</strong> <?php _e( 'is available in Pro Version', 'wp-user-frontend' ); ?></a>
                 </label>
             </div>
 
@@ -51,14 +51,14 @@
     </ul><!-- .wpuf-form -->
 
     <div v-if="hidden_fields.length" class="hidden-field-list">
-        <h4><?php _e( 'Hidden Fields', 'wpuf' ); ?></h4>
+        <h4><?php _e( 'Hidden Fields', 'wp-user-frontend' ); ?></h4>
 
         <ul class="wpuf-form">
             <li
                 v-for="(field, index) in hidden_fields"
                 :class="['field-items', parseInt(editing_form_id) === parseInt(field.id) ? 'current-editing' : '']"
             >
-                <strong><?php _e('key', 'wpuf'); ?></strong>: {{ field.name }} | <strong><?php _e( 'value', 'wpuf' ); ?></strong>: {{ field.meta_value }}
+                <strong><?php _e('key', 'wp-user-frontend'); ?></strong>: {{ field.name }} | <strong><?php _e( 'value', 'wp-user-frontend' ); ?></strong>: {{ field.meta_value }}
 
                 <div class="control-buttons">
                     <p>
@@ -94,12 +94,28 @@
 <div class="panel-field-opt panel-field-html-help-text" v-html="option_field.text"></div>
 </script>
 
+<script type="text/x-template" id="tmpl-wpuf-field-multiselect">
+<div class="panel-field-opt panel-field-opt-select">
+    <label v-if="option_field.title">
+        {{ option_field.title }} <help-text v-if="option_field.help_text" :text="option_field.help_text"></help-text>
+    </label>
+
+    <select
+        :class="['term-list-selector']"
+        v-model="value"
+        multiple
+    >
+        <option v-for="(option, key) in option_field.options" :value="key">{{ option }}</option>
+    </select>
+</div>
+</script>
+
 <script type="text/x-template" id="tmpl-wpuf-field-option-data">
 <div class="panel-field-opt panel-field-opt-text">
     <label class="clearfix">
         {{ option_field.title }} <help-text v-if="option_field.help_text" :text="option_field.help_text"></help-text>
         <span class="pull-right">
-            <input type="checkbox" v-model="show_value"> <?php _e( 'Show values', 'wpuf' ); ?>
+            <input type="checkbox" v-model="show_value"> <?php _e( 'Show values', 'wp-user-frontend' ); ?>
         </span>
     </label>
 
@@ -110,11 +126,11 @@
             <div class="sort-handler">&nbsp;</div>
 
             <div class="label">
-                <?php _e( 'Label', 'wpuf' ); ?>
+                <?php _e( 'Label', 'wp-user-frontend' ); ?>
             </div>
 
             <div v-if="show_value" class="value">
-                <?php _e( 'Value', 'wpuf' ) ?>
+                <?php _e( 'Value', 'wp-user-frontend' ) ?>
             </div>
 
             <div class="action-buttons">&nbsp;</div>
@@ -162,7 +178,7 @@
         </li>
     </ul>
 
-    <a v-if="!option_field.is_multiple && selected" href="#clear" @click.prevent="clear_selection"><?php _e( 'Clear Selection', 'wpuf' ); ?></a>
+    <a v-if="!option_field.is_multiple && selected" href="#clear" @click.prevent="clear_selection"><?php _e( 'Clear Selection', 'wp-user-frontend' ); ?></a>
 </div>
 </script>
 
@@ -170,7 +186,7 @@
 <div class="panel-field-opt panel-field-opt-pro-feature">
     <label>{{ option_field.title }}</label><br>
     <label class="wpuf-pro-text-alert">
-        <a :href="pro_link" target="_blank"><?php _e( 'Available in Pro Version', 'wpuf' ); ?></a>
+        <a :href="pro_link" target="_blank"><?php _e( 'Available in Pro Version', 'wp-user-frontend' ); ?></a>
     </label>
 </div>
 </script>
@@ -221,7 +237,7 @@
             </transition>
         </div>
 
-        <?php do_action( 'weforms_builder_field_options' ); ?>
+        <?php do_action( 'wpuf_builder_field_options' ); ?>
     </div>
 
 </div>
@@ -250,7 +266,7 @@
     </label>
 
     <select class="opt-select-element" v-model="value">
-        <option value=""><?php _e( '--Select--', 'wpuf' ); ?></option>
+        <option value=""><?php _e( 'Select an option', 'wp-user-frontend' ); ?></option>
         <option v-for="(option, key) in option_field.options" :value="key">{{ option }}</option>
     </select>
 </div>
@@ -301,6 +317,69 @@
     </label>
 </div>
 </script>
+
+<script type="text/x-template" id="tmpl-wpuf-field-visibility">
+<div class="panel-field-opt panel-field-opt-radio">
+    <label v-if="option_field.title">
+        {{ option_field.title }} <help-text v-if="option_field.help_text" :text="option_field.help_text"></help-text>
+    </label>
+
+    <ul :class="[option_field.inline ? 'list-inline' : '']">
+        <li v-for="(option, key) in option_field.options">
+            <label>
+                <input type="radio" :value="key" v-model="selected"> {{ option }}
+            </label>
+        </li>
+    </ul>
+
+    <div v-if="'logged_in' === selected" class="condiotional-logic-container">
+
+    	<?php $roles = get_editable_roles() ?>
+
+    	<ul>
+			<?php
+				foreach ($roles as $role => $value) {
+
+					$role_name = $value['name'];
+
+					$output  = "<li>";
+					$output .= "<label><input type='checkbox' v-model='choices' value='{$role}'> {$role_name} </label>";
+					$output .= "</li>";
+
+					echo $output;
+
+				}
+			?>
+	    </ul>
+    </div>
+
+    <div v-if="'subscribed_users' === selected" class="condiotional-logic-container">
+
+    	<ul>
+    		<?php
+
+                if ( class_exists( 'WPUF_Subscription' ) ) {
+                    $subscriptions  = WPUF_Subscription::init()->get_subscriptions();
+
+                    if ( $subscriptions ) {
+                        foreach ($subscriptions as $pack) {
+
+                            $output  = "<li>";
+                            $output .= "<label><input type='checkbox' v-model='choices' value='{$pack->ID}' > {$pack->post_title} </label>";
+                            $output .= "</li>";
+
+                            echo $output;
+
+                        }
+                    } else {
+                        _e( 'No subscription plan found.', 'wp-user-frontend' );
+                    }
+                }
+            ?>
+    	</ul>
+
+    </div>
+</div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-checkbox_field">
 <div class="wpuf-fields">
@@ -375,7 +454,12 @@
     <div :id="'wpuf-img_label-' + field.id + '-upload-container'">
         <div class="wpuf-attachment-upload-filelist" data-type="file" data-required="yes">
             <a class="button file-selector" href="#">
-                <?php _e( 'Select Image', 'wpuf' ); ?>
+                <template v-if="field.button_label === ''">
+                    <?php _e( 'Select Image', 'wp-user-frontend' ); ?>
+                </template>
+                <template v-else>
+                    {{ field.button_label }}
+                </template>
             </a>
         </div>
     </div>
@@ -441,7 +525,12 @@
     <div :id="'wpuf-img_label-' + field.id + '-upload-container'">
         <div class="wpuf-attachment-upload-filelist" data-type="file" data-required="yes">
             <a class="button file-selector wpuf_img_label_148" href="#">
-                <?php _e( 'Select Image', 'wpuf' ); ?>
+                <template v-if="field.button_label === ''">
+                    <?php _e( 'Select Image', 'wp-user-frontend' ); ?>
+                </template>
+                <template v-else>
+                    {{ field.button_label }}
+                </template>
             </a>
         </div>
     </div>
@@ -474,7 +563,7 @@
 <div class="wpuf-fields">
     <div class="wp-media-buttons" v-if="field.insert_image == 'yes'">
         <button type="button" class="button insert-media add_media" data-editor="content">
-            <span class="dashicons dashicons-admin-media insert-photo-icon"></span> <?php _e( 'Insert Photo', 'wpuf' ); ?>
+            <span class="dashicons dashicons-admin-media insert-photo-icon"></span> <?php _e( 'Insert Photo', 'wp-user-frontend' ); ?>
         </button>
     </div>
     <br v-if="field.insert_image == 'yes'" />
@@ -559,7 +648,7 @@
 
     <template v-else>
     	<div v-if="'invisible_recaptcha' != field.recaptcha_type">
-        	<img class="wpuf-recaptcha-placeholder" :src="'<?php echo WEFORMS_ASSET_URI . "/images/recaptcha-placeholder-'+field.recaptcha_theme+'.png" ?>'" alt="">
+        	<img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder.png' ?>" alt="">
         </div>
     </template>
 </div>
@@ -575,16 +664,15 @@
 <script type="text/x-template" id="tmpl-wpuf-form-taxonomy">
 <div class="wpuf-fields">
     <select
-        v-if="'select' === field.type"
         :class="field.name"
-        v-html="get_term_dropdown_options()"
+        v-html ="get_term_dropdown_options()"
     >
     </select>
 
     <div v-if="'ajax' === field.type" class="category-wrap">
         <div>
             <select>
-                <option><?php _e( '— Select —', 'wpuf' ); ?></option>
+                <option><?php _e( '— Select —', 'wp-user-frontend' ); ?></option>
                 <option v-for="term in sorted_terms" :value="term.id">{{ term.name }}</option>
             </select>
         </div>
@@ -600,8 +688,14 @@
     </div>
 
     <div v-if="'checkbox' === field.type" class="category-wrap">
-        <div v-html="get_term_checklist()"></div>
+        <div v-if="'yes' === field.show_inline" class="category-wrap">
+            <div v-html="get_term_checklist_inline()"></div>
+        </div>
+        <div v-else-if="'no' === field.show_inline" class="category-wrap">
+            <div v-html="get_term_checklist()"></div>
+        </div>
     </div>
+    
 
     <input
         v-if="'text' === field.type"
