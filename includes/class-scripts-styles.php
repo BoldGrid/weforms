@@ -357,7 +357,7 @@ class WeForms_Scripts_Styles {
             ),
             'wpuf-upload' => array(
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/upload' . $prefix . '.js',
-                'deps'      => array( 'jquery', 'plupload-handlers' ),
+                'deps'      => array( 'jquery', 'plupload-handlers', 'jquery-ui-sortable' ),
                 'in_footer' => false
             )
         );
