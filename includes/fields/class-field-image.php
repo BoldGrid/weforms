@@ -28,7 +28,7 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
             <div class="wpuf-fields">
                 <div id="wpuf-<?php echo $unique_id; ?>-upload-container">
                     <div class="wpuf-attachment-upload-filelist" data-type="file" data-required="<?php echo $field_settings['required']; ?>">
-                        <a id="wpuf-<?php echo $unique_id; ?>-pickfiles" data-form_id="<?php echo $form_id; ?>" class="button file-selector <?php echo ' wpuf_' . $field_settings['name'] . '_' . $form_id; ?>" href="#"><?php _e( 'Select Image', 'weforms' ); ?></a>
+                        <a id="wpuf-<?php echo $unique_id; ?>-pickfiles" data-form_id="<?php echo $form_id; ?>" class="button file-selector <?php echo ' wpuf_' . $field_settings['name'] . '_' . $form_id; ?>" href="#"><?php echo $field_settings['button_label']; ?></a>
 
                         <ul class="wpuf-attachment-list thumbnails"></ul>
                     </div>
@@ -77,6 +77,15 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
                 'priority'      => 21,
                 'help_text'     => __( 'Number of images can be uploaded', 'weforms' ),
             ),
+            array(
+                'name'          => 'button_label',
+                'title'         => __( 'Button Label', 'weforms' ),
+                'type'          => 'text',
+                'default'       => __( 'Select Image', 'weforms' ),
+                'section'       => 'basic',
+                'priority'      => 22,
+                'help_text'     => __( 'Enter a label for the Select button', 'weforms' ),
+            )
         );
 
         return array_merge( $default_options, $settings );
@@ -90,8 +99,9 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
     public function get_field_props() {
         $defaults = $this->default_attributes();
         $props    = array(
-            'max_size' => '1024',
-            'count'    => '1',
+            'max_size'       => '1024',
+            'count'          => '1',
+            'button_label'   => __( 'Select Image', 'weforms' ),
         );
 
         return array_merge( $defaults, $props );
