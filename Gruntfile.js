@@ -296,6 +296,7 @@ module.exports = function (grunt) {
                     '<%= dirs.js %>/spa-mixins.min.js': '<%= dirs.js %>/spa-mixins.js',
                     '<%= dirs.js %>/wpuf-form-builder-contact-forms.min.js': '<%= dirs.js %>/wpuf-form-builder-contact-forms.js',
                     '<%= dirs.wpuf %>/js/frontend-form.min.js': '<%= dirs.wpuf %>/js/frontend-form.js',
+                    '<%= dirs.wpuf %>/js/wpuf-form-builder-components.min.js': '<%= dirs.wpuf %>/js/wpuf-form-builder-components.js',
                     '<%= dirs.wpuf %>/js/upload.min.js': '<%= dirs.wpuf %>/js/upload.js',
                 }
             },

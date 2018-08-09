@@ -14,8 +14,8 @@ class WeForms_Ajax_Upload {
             return;
         }
 
-        add_action( 'wp_ajax_wpuf_file_upload', array($this, 'upload_file') );
-        add_action( 'wp_ajax_nopriv_wpuf_file_upload', array($this, 'upload_file') );
+        add_action( 'wp_ajax_wpuf_upload_file', array($this, 'upload_file') );
+        add_action( 'wp_ajax_nopriv_wpuf_upload_file', array($this, 'upload_file') );
 
         add_action( 'wp_ajax_wpuf_file_del', array($this, 'delete_file') );
         add_action( 'wp_ajax_nopriv_wpuf_file_del', array($this, 'delete_file') );
@@ -137,11 +137,14 @@ class WeForms_Ajax_Upload {
             $image = wp_mime_type_icon( $attach_id );
         }
 
-        $html = '<li class="wpuf-image-wrap thumbnail">';
+        $html = '<li class="ui-state-default wpuf-image-wrap thumbnail">';
         $html .= sprintf( '<div class="attachment-name"><img src="%s" alt="%s" /></div>', $image, esc_attr( $attachment->post_title ) );
 
         $html .= sprintf( '<input type="hidden" name="wpuf_files[%s][]" value="%d">', $type, $attach_id );
-        $html .= sprintf( '<div class="caption"><a href="#" class="btn btn-danger btn-small attachment-delete" data-attach_id="%d">%s</a></div>', $attach_id, __( 'Delete', 'weforms' ) );
+        $html .= '<div class="caption">';
+        $html .= sprintf( '<a href="#" class="attachment-delete" data-attach_id="%d"> <img src="%s" /></a>', $attach_id, WEFORMS_ASSET_URI . '/images/del-img.png' );
+        $html .= sprintf( '<span class="wpuf-drag-file"> <img src="%s" /></span>', WEFORMS_ASSET_URI . '/images/move-img.png' );
+        $html .= '</div>';
         $html .= '</li>';
 
         return $html;

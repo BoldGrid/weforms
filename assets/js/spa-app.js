@@ -9,8 +9,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 };
 
 /*!
-weForms - v1.2.8
-Generated: 2018-06-01 (1527843697842)
+weForms - v1.2.9
+Generated: 2018-07-30 (1532945298532)
 */
 
 ;(function ($) {

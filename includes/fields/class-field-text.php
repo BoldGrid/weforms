@@ -49,32 +49,37 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                     $field_settings['name'] . '_' . $form_id
                 );
             }
-            ?>
+
+            $mask_option = isset( $field_settings['mask_options'] ) ? $field_settings['mask_options'] : '';
+
+            if ( $mask_option ) {
+                ?>
+                <script>
+                    jQuery(document).ready(function($) {
+                        var text_field = $( "input[name*=<?php echo esc_attr( $field_settings['name'] ); ?>]" );
+                        switch ( '<?php echo $mask_option; ?>' ) {
+                            case 'us_phone':
+                                text_field.mask('(999) 999-9999');
+                                break;
+                            case 'date':
+                                text_field.mask('99/99/9999');
+                                break;
+                            case 'tax_id':
+                                text_field.mask('99-9999999');
+                                break;
+                            case 'ssn':
+                                text_field.mask('999-99-9999');
+                                break;
+                            case 'zip':
+                                text_field.mask('99999');
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                </script>
+            <?php } ?>
         </li>
-        <script>
-            jQuery(document).ready(function($){
-                var text_field = $( "input[name*=<?php echo esc_attr( $field_settings['name'] ); ?>]" );
-                switch ( '<?php echo $field_settings['mask_options']; ?>' ) {
-                    case 'us_phone':
-                        text_field.mask('(999) 999-9999');
-                        break;
-                    case 'date':
-                        text_field.mask('99/99/9999');
-                        break;
-                    case 'tax_id':
-                        text_field.mask('99-9999999');
-                        break;
-                    case 'ssn':
-                        text_field.mask('999-99-9999');
-                        break;
-                    case 'zip':
-                        text_field.mask('99999');
-                        break;
-                    default:
-                        break;
-                }
-            });
-        </script>
         <?php
     }
 

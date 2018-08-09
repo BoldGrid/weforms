@@ -502,7 +502,7 @@ class WeForms_Ajax {
                 $options            = isset($field['options']) ? $field['options'] : '';
                 $template           = $field['template'];
                 $fieldPoints        = isset($field['points']) ? floatval( $field['points'] ) : 0;
-                
+
                 if ( $template == 'radio_field' || $template == 'dropdown_field' ) {
                     $answers[$field['name']] = true;
 
@@ -516,8 +516,8 @@ class WeForms_Ajax {
                                     $answers[$field['name']] = false;
                                     $respondentPoints  -= $fieldPoints;
                                 }
-                            } 
-                        }                           
+                            }
+                        }
                     }
                 } elseif ( $template == 'checkbox_field' || $template == 'multiple_select' ) {
                     $answers[$field['name']] = true;
@@ -526,18 +526,18 @@ class WeForms_Ajax {
                     foreach ($options as $key => $value) {
                         foreach ($givenAnswer as $answer) {
                             if ($value == $answer) {
-                                $userAnswer[] = $key;    
+                                $userAnswer[] = $key;
                             }
                         }
                     }
-                    
+
                     $userAnswer   = implode('|', $userAnswer);
                     $rightAnswers = implode('|', $selectedAnswers);
 
                     if ( $userAnswer != $rightAnswers || empty($userAnswer) ) {
                         $answers[$field['name']] = false;
                         $respondentPoints  -= $fieldPoints;
-                    } 
+                    }
                 }
             } elseif ( empty( $field['value'] ) ) {
 				$has_empty      = true;
