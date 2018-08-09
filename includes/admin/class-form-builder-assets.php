@@ -318,7 +318,7 @@ class WeForms_Form_Builder_Assets {
      */
     public function add_form_submit_area() {
         ?>
-            <input @click.prevent="" type="submit" name="submit" v-model="settings.submit_text">
+            <input @click.prevent="" type="submit" name="submit" class="button button-primary" v-model="settings.submit_text">
         <?php
     }
 

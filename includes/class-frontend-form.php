@@ -94,7 +94,7 @@ class WeForms_Frontend_Form {
             }
         </script>
 
-        <form class="wpuf-form-add <?php echo $formid ?> <?php echo $modal_class; ?>" action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
+        <form class="wpuf-form-add wpuf-style <?php echo $formid ?> <?php echo $modal_class; ?> " action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
 
             <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
 
