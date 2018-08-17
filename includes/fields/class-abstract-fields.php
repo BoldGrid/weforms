@@ -237,7 +237,7 @@ abstract class WeForms_Field_Contract {
                 'type'      => 'text',
                 'section'   => 'advanced',
                 'priority'  => 22,
-                'help_text' => __( 'Provide a container class name for this field.', 'weforms' ),
+                'help_text' => __( 'Provide a container class name for this field. Available classes: wpuf-col-half, wpuf-col-half-last, wpuf-col-one-third, wpuf-col-one-third-last', 'weforms' ),
             ),
 
             array(
