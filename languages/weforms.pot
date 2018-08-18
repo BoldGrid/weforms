@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.3.0\n"
+"Project-Id-Version: weForms 1.3.1\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2018-08-09 08:24:10+00:00\n"
+"POT-Creation-Date: 2018-08-18 11:06:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1461,7 +1461,10 @@ msgid "CSS Class Name"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:240
-msgid "Provide a container class name for this field."
+msgid ""
+"Provide a container class name for this field. Available classes: "
+"wpuf-col-half, wpuf-col-half-last, wpuf-col-one-third, "
+"wpuf-col-one-third-last"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:249
