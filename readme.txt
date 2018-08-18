@@ -192,6 +192,11 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
+= Version 1.3.1 (18 August, 2018) =
+
+* **New:** Added custom classes to make two or three columns form
+* **Fix:** Sanitized name field
+
 = Version 1.3.0 (09 August, 2018) =
 
 * **Fix:** Form preview link fixed where site_url and home_url is different
