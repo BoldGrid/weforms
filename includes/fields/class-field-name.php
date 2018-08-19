@@ -228,11 +228,9 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
         $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
 
         if ( is_array( $value ) ) {
-
-            $entry_value = implode( WeForms::$field_separator, $_POST[$field['name']] );
-
+            $entry_value = sanitize_text_field( trim( implode( WeForms::$field_separator, $_POST[$field['name']] ) ) );
         } else {
-            $entry_value = trim( $value  );
+            $entry_value = sanitize_text_field( trim( $value  ) );
         }
 
         return $entry_value;
