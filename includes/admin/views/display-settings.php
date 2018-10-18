@@ -41,7 +41,7 @@
             </select>
 
             <p class="description">
-                <?php _e( "Selecting `Yes` will use your theme's style for form fields.", "weforms" ) ?>
+                <?php _e( "Selecting <strong>Yes</strong> will use your theme's style for form fields.", "weforms" ) ?>
             </p>
         </td>
     </tr>

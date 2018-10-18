@@ -298,6 +298,7 @@ module.exports = function (grunt) {
                     '<%= dirs.wpuf %>/js/frontend-form.min.js': '<%= dirs.wpuf %>/js/frontend-form.js',
                     '<%= dirs.wpuf %>/js/wpuf-form-builder-components.min.js': '<%= dirs.wpuf %>/js/wpuf-form-builder-components.js',
                     '<%= dirs.wpuf %>/js/upload.min.js': '<%= dirs.wpuf %>/js/upload.js',
+                    '<%= dirs.wpuf %>/js/jquery-ui-timepicker-addon.min.js': '<%= dirs.wpuf %>/js/jquery-ui-timepicker-addon.js',
                 }
             },
 
