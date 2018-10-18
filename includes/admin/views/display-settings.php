@@ -24,4 +24,26 @@
         </td>
     </tr>
 
+    <tr class="wpuf-use-theme-css">
+        <th><?php _e( 'Use Theme CSS', 'weforms' ); ?></th>
+        <td>
+            <select v-model="settings.use_theme_css">
+                <?php
+                $options = array(
+                    'wpuf-theme-style'  => __( 'Yes', 'weforms' ),
+                    'wpuf-style'        => __( 'No', 'weforms' ),
+                );
+
+                foreach ($options as $key => $label) {
+                    printf('<option value="%s"%s>%s</option>', $key, '', $label );
+                }
+                ?>
+            </select>
+
+            <p class="description">
+                <?php _e( "Selecting `Yes` will use your theme's style for form fields.", "weforms" ) ?>
+            </p>
+        </td>
+    </tr>
+
 </table>
