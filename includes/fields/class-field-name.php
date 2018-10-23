@@ -216,7 +216,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                     $name[] = $user->first_name;
                     $name[] = $user->last_name;
 
-                    return implode( WeForms::$field_separator, $name );
+                    return implode( ' ', $name );
                 } else {
 
                     return $user->display_name;
@@ -228,7 +228,7 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
         $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
 
         if ( is_array( $value ) ) {
-            $entry_value = sanitize_text_field( trim( implode( WeForms::$field_separator, $_POST[$field['name']] ) ) );
+            $entry_value = sanitize_text_field( trim( implode( ' ', $_POST[$field['name']] ) ) );
         } else {
             $entry_value = sanitize_text_field( trim( $value  ) );
         }

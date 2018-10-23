@@ -61,10 +61,11 @@ class WeForms_Frontend_Form {
      * @return void
      */
     function render_form( $form, $atts ) {
-        $form_fields   = $form->get_fields();
-        $form_settings = $form->get_settings();
-        $show_credit   = weforms_get_settings( 'credit', false );
-        $formid = 'weforms-' . $form->id;
+        $form_fields      = $form->get_fields();
+        $form_settings    = $form->get_settings();
+        $show_credit      = weforms_get_settings( 'credit', false );
+        $formid           = 'weforms-' . $form->id;
+        $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
 
         if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
 
@@ -78,6 +79,7 @@ class WeForms_Frontend_Form {
         } else {
             $modal_class = $modal_id = $modal_style = '';
         }
+
         ?>
 
         <script type="text/javascript">
@@ -94,7 +96,7 @@ class WeForms_Frontend_Form {
             }
         </script>
 
-        <form class="wpuf-form-add wpuf-style <?php echo $formid ?> <?php echo $modal_class; ?> " action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
+        <form class="wpuf-form-add <?php echo $formid ?> <?php echo $modal_class; ?> <?php echo $use_theme_css; ?>" action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
 
             <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
 

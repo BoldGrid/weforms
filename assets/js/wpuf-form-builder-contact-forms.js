@@ -36,6 +36,10 @@
 
             label_type: function label_type() {
                 return this.$store.state.settings.label_position;
+            },
+
+            use_theme_css: function use_theme_css() {
+                return this.$store.state.settings.use_theme_css;
             }
         },
 

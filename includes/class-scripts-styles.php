@@ -350,6 +350,10 @@ class WeForms_Scripts_Styles {
                 'deps'      => array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider' ),
                 'in_footer' => false
             ),
+            'wpuf-sweetalert2' => array(
+                'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2' . $prefix . '.js',
+                'in_footer' => false
+            ),
             'jquery-ui-timepicker' => array(
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/jquery-ui-timepicker-addon' . $prefix . '.js',
                 'deps'      => array( 'jquery-ui-datepicker' ),
@@ -374,6 +378,9 @@ class WeForms_Scripts_Styles {
         $styles = array(
             'weforms-css' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/frontend-forms.css',
+            ),
+            'wpuf-sweetalert2' => array(
+                'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2.css',
             ),
             'jquery-ui' => array(
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/jquery-ui-1.9.1.custom.css',
@@ -406,6 +413,8 @@ class WeForms_Scripts_Styles {
 
         wp_localize_script( 'wpuf-upload', 'wpuf_frontend_upload', array(
             'confirmMsg' => __( 'Are you sure?', 'weforms' ),
+            'delete_it'  => __( 'Yes, delete it', 'weforms' ),
+            'cancel_it'  => __( 'No, cancel it', 'weforms' ),
             'nonce'      => wp_create_nonce( 'wpuf_nonce' ),
             'ajaxurl'    => admin_url( 'admin-ajax.php' ),
             'plupload'   => array(
