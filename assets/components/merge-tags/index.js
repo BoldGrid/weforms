@@ -5,6 +5,10 @@ Vue.component('wpuf-merge-tags', {
         filter: {
             type: String,
             default: null
+        },
+        fieldsonly: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -40,6 +44,7 @@ Vue.component('wpuf-merge-tags', {
                 return !_.contains( [ 'action_hook', 'custom_hidden_field'], item.template );
             });
         },
+
     },
 
     methods: {
@@ -49,6 +54,6 @@ Vue.component('wpuf-merge-tags', {
 
         insertField: function(type, field) {
             this.$emit('insert', type, field, this.field);
-        }
+        },
     }
 });
