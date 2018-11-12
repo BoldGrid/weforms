@@ -328,6 +328,10 @@
             filter: {
                 type: String,
                 default: null
+            },
+            fieldsonly: {
+                type: Boolean,
+                default: false
             }
         },
 
@@ -363,6 +367,7 @@
                     return !_.contains(['action_hook', 'custom_hidden_field'], item.template);
                 });
             }
+
         },
 
         methods: {

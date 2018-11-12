@@ -573,35 +573,38 @@
                     </li>
                 </template>
                 <li v-else>
-                   <?php _e( 'No fields available', 'wpuf' ); ?>
+                    <?php _e( 'No fields available', 'wpuf' ); ?>
                 </li>
             </ul>
         </div><!-- .merge-tag-section -->
 
-        <?php
-        if ( function_exists( 'weforms_get_merge_tags' ) ) {
+        <template v-if="!fieldsonly">
 
-            $merge_tags = weforms_get_merge_tags();
+            <?php
+            if ( function_exists( 'weforms_get_merge_tags' ) ) {
 
-            foreach ($merge_tags as $section_key => $section) {
-                ?>
+                $merge_tags = weforms_get_merge_tags();
 
-                <div class="merge-tag-section">
-                    <div class="merge-tag-head"><?php echo $section['title'] ?></div>
+                foreach ($merge_tags as $section_key => $section) {
+                    ?>
 
-                    <ul>
-                        <?php foreach ($section['tags'] as $key => $value) { ?>
-                            <li>
-                                <a href="#" v-on:click.prevent="insertField('<?php echo $key; ?>');"><?php echo $value; ?></a>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </div><!-- .merge-tag-section -->
+                    <div class="merge-tag-section">
+                        <div class="merge-tag-head"><?php echo $section['title'] ?></div>
 
-                <?php
+                        <ul>
+                            <?php foreach ($section['tags'] as $key => $value) { ?>
+                                <li>
+                                    <a href="#" v-on:click.prevent="insertField('<?php echo $key; ?>');"><?php echo $value; ?></a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div><!-- .merge-tag-section -->
+
+                    <?php
+                }
             }
-        }
-        ?>
+            ?>
+        </template>
     </div><!-- .merge-tags -->
 </div>
 </script>
