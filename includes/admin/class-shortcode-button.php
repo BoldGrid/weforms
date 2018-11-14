@@ -67,7 +67,7 @@ class Weforms_Form_Button {
                 <?php
 
                 $all_forms = weforms()->form->all();
-                $options = sprintf( "<option value='%s'>%s</option>", 0, __('Select Form', 'weforms') );
+                $options = sprintf( "<option value='%s'>%s</option>", 0, __('&mdash; Select Form &mdash;', 'weforms') );
                 foreach ( $all_forms['forms'] as $form ) {
                     $options.= sprintf( "<option value='%s'>%s</option>", $form->id, $form->name );
                 }
@@ -98,7 +98,7 @@ class Weforms_Form_Button {
                 padding: 10px;
                 clear: left;
                 float: left;
-                width: 25%;
+                width: 90%;
             }
         </style>
 
