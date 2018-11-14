@@ -21,12 +21,13 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
      */
     public function render( $field_settings, $form_id ) {
 
-        $field_settings['description'] = isset( $field_settings['description'] ) ? $field_settings['description'] : '';
+        $description = isset( $field_settings['description'] ) ? $field_settings['description'] : '';
+        $name        = isset( $field_settings['name'] ) ? $field_settings['name'] : '';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . $form_id; ?><?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>">
+            <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . $form_id; ?><?php echo ' wpuf_' . $name . '_' . $form_id; ?>">
                 <h2 class="wpuf-section-title"><?php echo $field_settings['label']; ?></h2>
-                <div class="wpuf-section-details"><?php echo $field_settings['description']; ?></div>
+                <div class="wpuf-section-details"><?php echo $description; ?></div>
             </div>
 
         </li>
