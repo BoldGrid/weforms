@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.3.3\n"
+"Project-Id-Version: weForms 1.3.4\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2018-11-12 05:04:59+00:00\n"
+"POT-Creation-Date: 2018-11-22 03:58:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -713,20 +713,17 @@ msgstr ""
 msgid ""
 "<p>\n"
 "                                        <strong class=\"highlight-text\" "
-"style=\"font-size: 18px\">It’s Our Birthday <span class=\"weforms-cake\" "
-"style=\"font-size: 20px\"> &#x1F382;</span>\n"
-"                                        But You Get The Present <span "
-"class=\"weforms-gift\" style=\"font-size: 20px\"> &#x1F381;</span> "
-"</strong><br>\n"
-"                                        Get 25&#37; Discount with coupon:\n"
-"                                        <a target=\"_blank\" "
-"href=\"%1$s\"><strong> we25 </strong></a>\n"
+"style=\"font-size: 18px\">33&#37; flat discount on all our "
+"products</strong><br>\n"
+"                                        Save money this holiday season "
+"while supercharging your WordPress site with plugins that were made to "
+"empower you.\n"
 "                                        <br>\n"
 "                                        Offer ending soon!\n"
 "                                    </p>"
 msgstr ""
 
-#: includes/admin/class-promotion.php:72
+#: includes/admin/class-promotion.php:70
 msgid "Get the Offer"
 msgstr ""
 
@@ -739,8 +736,7 @@ msgid " Add Contact Form"
 msgstr ""
 
 #: includes/admin/class-shortcode-button.php:70
-#: includes/class-form-widget.php:56
-msgid "Select Form"
+msgid "&mdash; Select Form &mdash;"
 msgstr ""
 
 #: includes/admin/class-shortcode-button.php:77
@@ -1353,6 +1349,10 @@ msgstr ""
 msgid "Add weForms Form to Sidebar"
 msgstr ""
 
+#: includes/class-form-widget.php:56
+msgid "Select Form"
+msgstr ""
+
 #: includes/class-form-widget.php:63
 msgid "Title:"
 msgstr ""
@@ -1488,14 +1488,14 @@ msgstr ""
 #: includes/fields/class-abstract-fields.php:256
 #: includes/fields/class-field-hidden.php:37
 #: includes/fields/class-field-html.php:60
-#: includes/fields/class-field-sectionbreak.php:62
+#: includes/fields/class-field-sectionbreak.php:63
 msgid "Meta Key"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:260
 #: includes/fields/class-field-hidden.php:41
 #: includes/fields/class-field-html.php:64
-#: includes/fields/class-field-sectionbreak.php:66
+#: includes/fields/class-field-sectionbreak.php:67
 msgid "Name of the meta key this field will save to"
 msgstr ""
 
@@ -1837,14 +1837,14 @@ msgid ""
 msgstr ""
 
 #: includes/fields/class-field-recaptcha.php:140
-#: includes/fields/class-field-sectionbreak.php:54
+#: includes/fields/class-field-sectionbreak.php:55
 #: includes/templates/class-template-employee-information.php:133
 #: includes/templates/class-template-loan-application-form.php:29
 msgid "Title"
 msgstr ""
 
 #: includes/fields/class-field-recaptcha.php:144
-#: includes/fields/class-field-sectionbreak.php:58
+#: includes/fields/class-field-sectionbreak.php:59
 msgid "Title of the section"
 msgstr ""
 
@@ -1876,16 +1876,16 @@ msgstr ""
 msgid "Section Break"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:70
+#: includes/fields/class-field-sectionbreak.php:71
 #: includes/templates/class-template-real-estate-listing.php:119
 msgid "Description"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:74
+#: includes/fields/class-field-sectionbreak.php:75
 msgid "Some details text about the section"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:90
+#: includes/fields/class-field-sectionbreak.php:91
 msgid "Some description about this section"
 msgstr ""
 

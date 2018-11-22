@@ -25,7 +25,7 @@ class WeForms_Admin_Promotion {
         }
 
         // 2018-03-26 23:59:00
-        if ( time() > 1522108740 ) {
+        if ( time() > 1543276740 ) {
             return;
         }
 
@@ -44,14 +44,12 @@ class WeForms_Admin_Promotion {
         // $product_text = (  weforms()->is_pro() ) ? __( 'Pro upgrade and all extensions, ', 'weforms' ) : __( 'all extensions, ', 'weforms' );
 
         // $offer_msg  = __( '<h2><span class="dashicons dashicons-awards"></span> weDevs 5th Birthday Offer</h2>', 'weforms' );
-        $offer_msg  = sprintf( __( '<p>
-                                        <strong class="highlight-text" style="font-size: 18px">It’s Our Birthday <span class="weforms-cake" style="font-size: 20px"> &#x1F382;</span>
-                                        But You Get The Present <span class="weforms-gift" style="font-size: 20px"> &#x1F381;</span> </strong><br>
-                                        Get 25&#37; Discount with coupon:
-                                        <a target="_blank" href="%1$s"><strong> we25 </strong></a>
+        $offer_msg  = __( '<p>
+                                        <strong class="highlight-text" style="font-size: 18px">33&#37; flat discount on all our products</strong><br>
+                                        Save money this holiday season while supercharging your WordPress site with plugins that were made to empower you.
                                         <br>
                                         Offer ending soon!
-                                    </p>', 'weforms' ), 'https://wedevs.com/in/get-25-off' );
+                                    </p>', 'weforms' );
 
         ?>
             <div class="notice is-dismissible" id="weforms-promotional-offer-notice">
@@ -69,7 +67,7 @@ class WeForms_Admin_Promotion {
                 </table>
 
                 <span class="dashicons dashicons-megaphone"></span>
-                <a href="https://wedevs.com/in/get-25-off" class="button button-primary promo-btn" target="_blank"><?php _e( 'Get the Offer', 'weforms' ); ?></a>
+                <a href="https://wedevs.com/coupons/?utm_campaign=black_friday_cyber_monday&utm_medium=banner&utm_source=inside_plugin" class="button button-primary promo-btn" target="_blank"><?php _e( 'Get the Offer', 'weforms' ); ?></a>
             </div><!-- #weforms-promotional-offer-notice -->
 
             <style>
