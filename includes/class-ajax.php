@@ -756,7 +756,7 @@ class WeForms_Ajax {
             if ( $r_field['template'] == 'name_field' ) {
                 $field_replace[] = implode( ' ' , explode( '|', $entry_fields[$r_field['name']] ));
             } else {
-                $field_replace[] = $entry_fields[$r_field['name']];
+                $field_replace[] = isset( $entry_fields[$r_field['name']] ) ? $entry_fields[$r_field['name']] : '';
             }
         }
         $message = str_replace( $field_search, $field_replace, $form_settings['message'] );
@@ -856,6 +856,10 @@ class WeForms_Ajax {
 
             //skip custom html field as it is not saved
             if ( 'custom_html' == $field['name'] )
+                continue;
+
+            //skip recaptcha field as it is not saved
+            if ( 'recaptcha' == $field['name'] )
                 continue;
 
             $value = $entry_fields[ $field['name'] ];
