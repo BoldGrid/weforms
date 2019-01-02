@@ -76,7 +76,7 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
 
         $form_notifications = array(
             array(
-                'active'      => $settings['notification_enable'] ? true : false,
+                'active'      => $parsed['settings']['notification_enable'] ? true : false,
                 'name'        => 'Admin Notification',
                 'subject'     => $notification['subject'],
                 'to'          => $notification['email'],
@@ -185,7 +185,7 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
         $settings = $parsed['settings'];
 
         // Settings mapping
-        switch ( $settings['confirmation_type'] ) {
+        switch ( $settings['confirmations'][1]['type'] ) {
             case 'redirect':
                 $redirect_to = 'url';
                 break;
@@ -201,9 +201,9 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
         }
 
         $form_settings = wp_parse_args( array(
-            'message'     => $settings['confirmation_message'],
-            'page_id'     => $settings['confirmation_page'],
-            'url'         => $settings['confirmation_redirect'],
+            'message'     => $settings['confirmations'][1]['message'],
+            'page_id'     => $settings['confirmations'][1]['page'],
+            'url'         => $settings['confirmations'][1]['redirect'],
             'submit_text' => $settings['submit_text'],
             'redirect_to' => $redirect_to,
         ), $default );

@@ -760,7 +760,7 @@ abstract class WeForms_Importer_Abstract {
                     'middle_name' => $args['middle_name'],
                     'last_name'   => $args['last_name'],
                     'hide_subs'   => false,
-                    'help'        => $args['description'],
+                    'help'        => $args['help'],
                     'css'         => $args['css_class'],
                     'wpuf_cond'   => $this->conditionals,
                 );
