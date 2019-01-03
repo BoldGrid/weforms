@@ -1,40 +1,10 @@
 'use strict';
 
-var _typeof6 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof5 = typeof Symbol === "function" && _typeof6(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof6(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof6(obj);
-};
-
-var _typeof4 = typeof Symbol === "function" && _typeof5(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-};
-
-var _typeof3 = typeof Symbol === "function" && _typeof4(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-};
-
-var _typeof2 = typeof Symbol === "function" && _typeof3(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-};
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*!
-weForms - v1.2.9
-Generated: 2018-07-30 (1532945298532)
+weForms - v1.3.4
+Generated: 2019-01-03 (1546503702542)
 */
 
 ;(function ($) {
@@ -64,6 +34,7 @@ Generated: 2018-07-30 (1532945298532)
         created: function created() {
             this.fetchData();
         },
+
 
         computed: {
             columnLength: function columnLength() {
@@ -623,7 +594,8 @@ Generated: 2018-07-30 (1532945298532)
                 },
                 form_settings: {},
                 respondent_points: 0,
-                answers: {}
+                answers: {},
+                countries: weForms.countries
             };
         },
         created: function created() {
@@ -689,6 +661,16 @@ Generated: 2018-07-30 (1532945298532)
 
             hideEmptyStatus: function hideEmptyStatus() {
                 return this.getCookie('weFormsEntryHideEmpty') === 'false' ? false : true;
+            },
+
+            findCountry: function findCountry(code) {
+                return this.countries.find(function (country) {
+                    return country.code === code;
+                });
+            },
+
+            getCountryName: function getCountryName(code) {
+                return this.findCountry(code).name;
             }
         },
         watch: {

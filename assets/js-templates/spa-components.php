@@ -431,6 +431,7 @@
                                                     <li v-for="item in field.value">- {{ item }}</li>
                                                 </ul>
                                             </div>
+                                            <div v-else-if="field.type === 'country_list_field'">{{ getCountryName( field.value ) }}</div>
                                             <div v-else v-html="field.value"></div>
                                         </td>
                                     </tr>

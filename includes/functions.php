@@ -1133,3 +1133,35 @@ function weforms_get_pain_text( $value ) {
 
     return $value;
 }
+
+/**
+ * Get countries
+ *
+ * @since 1.1.0
+ *
+ * @param  string $type (optional)
+ *
+ * @return array|string
+ */
+function weforms_pro_get_countries( $type = 'array' ) {
+    $countries = include WEFORMS_INCLUDES . '/country-list.php';
+
+    if ( $type == 'json' ) {
+        $countries = json_encode( $countries );
+    }
+
+    return $countries;
+}
+
+/**
+ * Localize countries
+ *
+ * @since 1.3.5
+ *
+ * @return array
+ */
+function weforms_localized_countries( $script ) {
+    $script['countries'] = weforms_pro_get_countries();
+    return $script;
+}
+add_filter( "weforms_localized_script", "weforms_localized_countries" );
