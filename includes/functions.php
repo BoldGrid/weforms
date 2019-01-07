@@ -237,6 +237,8 @@ function weforms_change_entry_status( $entry_id, $status ) {
 function weforms_delete_entry( $entry_id ) {
     global $wpdb;
 
+    weforms_delete_entry_attachments( $entry_id );
+
     $deleted = $wpdb->delete(
         $wpdb->weforms_entries, array(
             'id' => $entry_id
@@ -252,6 +254,34 @@ function weforms_delete_entry( $entry_id ) {
     }
 
     return $deleted;
+}
+
+/**
+ * Delete attachments of an entry
+ *
+ * @param  int $entry_id
+ *
+ * @since 1.3.5
+ */
+function weforms_delete_entry_attachments( $entry_id ) {
+    $entry  = weforms_get_entry( $entry_id );
+    $fields = weforms_get_form_field_labels( $entry->form_id );
+
+    if ( ! $fields ) {
+        return false;
+    }
+
+    foreach ( $fields as $meta_key => $field ) {
+        $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+
+        if ( in_array( $field['type'], array( 'image_upload', 'file_upload' ) ) ) {
+            if ( is_array( $value ) && $value ) {
+                foreach ( $value as $attachment_id ) {
+                    wp_delete_attachment( $attachment_id, true );
+                }
+            }
+        }
+    }
 }
 
 /**
