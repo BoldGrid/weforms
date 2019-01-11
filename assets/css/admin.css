@@ -671,3 +671,30 @@ a.add-notification .dashicons {
 .name-merge-tag-holder .wpuf-merge-tag-wrap .wpuf-merge-tags {
   top: 27px;
 }
+
+th.weforms-form-status-col-title{
+    text-align: center;
+}
+
+td.weforms-form-status{
+    text-align: center;
+}
+
+td.weforms-form-status p{
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+}
+
+td.weforms-form-status span{
+    display: block;
+    font-style: italic;
+    font-size: 9px;
+    font-weight: 700;
+    margin-left: 8px;
+    margin-bottom: 0;
+}
+
+td.weforms-form-status span.weforms-status-closed{
+  color: red;
+}

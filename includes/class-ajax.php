@@ -160,8 +160,9 @@ class WeForms_Ajax {
         array_map(
             function( $form ) {
 					$form->entries  = $form->num_form_entries();
+                    $form->settings = $form->get_settings();
 					$form->views    = $form->num_form_views();
-					$form->payments = $form->num_form_payments();
+                    $form->payments = $form->num_form_payments();
 			}, $contact_forms['forms']
         );
 

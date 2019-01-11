@@ -106,5 +106,58 @@ Vue.component('form-list-table', {
                 }
             }
         },
+
+        isPendingForm: function( scheduleStart ) {
+            var currentTime = Math.round((new Date()).getTime() / 1000),
+                startTime   = Math.round((new Date( scheduleStart )).getTime() / 1000);
+
+            if ( currentTime < startTime ) {
+                return true;
+            }
+            return false;
+        },
+
+        isExpiredForm: function( scheduleEnd ) {
+            var currentTime = Math.round((new Date()).getTime() / 1000),
+                endTime   = Math.round((new Date( scheduleEnd )).getTime() / 1000);
+
+            if ( currentTime > endTime ) {
+                return true;
+            }
+            return false;
+        },
+
+        isOpenForm: function ( scheduleStart, scheduleEnd ) {
+            var currentTime = Math.round((new Date()).getTime() / 1000),
+                startTime   = Math.round((new Date( scheduleStart )).getTime() / 1000),
+                endTime     = Math.round((new Date( scheduleEnd )).getTime() / 1000);
+
+            if ( currentTime > startTime &&  currentTime < endTime ) {
+                return true;
+            }
+            return false;
+        },
+
+        isFormStatusClosed: function(formSettings, entries) {
+            if ( formSettings.schedule_form === 'true' && this.isPendingForm(formSettings.schedule_start) ) {
+                return true;
+            }
+
+            if ( formSettings.schedule_form === 'true' && this.isExpiredForm(formSettings.schedule_end) ) {
+                return true;
+            }
+
+            if ( formSettings.limit_entries  === 'true' && entries >= formSettings.limit_number ) {
+                return true;
+            }
+            return;
+        },
+
+        formatTime: function ( time ) {
+            var date    = new Date( time ),
+                month   = date.toLocaleString('en-us', { month: 'long' });
+
+            return `${month} ${date.getDate()}, ${date.getFullYear()}`;
+        }
     }
 });
