@@ -6,11 +6,13 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
+            users: [],
             bulkDeleteAction: 'weforms_form_delete_bulk',
         };
     },
     created: function() {
         this.fetchData();
+        this.allUsers();
     },
     computed: {
         is_pro: function() {
@@ -153,11 +155,58 @@ Vue.component('form-list-table', {
             return;
         },
 
-        formatTime: function ( time ) {
+        formatTime: function( time ) {
             var date    = new Date( time ),
-                month   = date.toLocaleString('en-us', { month: 'long' });
+                month   = date.toLocaleString('en-us', { month: 'short' });
 
             return `${month} ${date.getDate()}, ${date.getFullYear()}`;
+        },
+
+        allUsers: function() {
+            var self = this;
+            this.loading = true;
+
+            wp.ajax.send( 'weforms_get_users', {
+                data: {
+                    _wpnonce: weForms.nonce,
+                },
+                success: function(response) {
+                    self.loading = false;
+                    self.users = response;
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        },
+
+        getUserAvatar: function( userId ) {
+            var users = this.users,
+                avatarUrl;
+
+            users.forEach(function(user){
+                if ( user.id === userId ) {
+                    if ( 'user_avatar' in user.data && typeof user.data.user_avatar[0] !== 'undefined' ) {
+                        avatarUrl = user.data.user_avatar[0];
+                    }
+                }
+            });
+
+            return avatarUrl;
+        },
+
+        getUserName: function( userId ) {
+            var users = this.users,
+                userName;
+
+            users.forEach(function(user){
+                if ( user.id === userId ) {
+                    user.id === userId ? userName = user.data.nickname[0] : '';
+                }
+            });
+
+            return userName;
         }
     }
 });

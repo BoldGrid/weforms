@@ -9,6 +9,7 @@ class WeForms_Ajax {
 
         // backend requests
         add_action( 'wp_ajax_weforms_form_list', array( $this, 'get_contact_forms' ) );
+        add_action( 'wp_ajax_weforms_get_users', array( $this, 'get_all_users' ) );
         add_action( 'wp_ajax_weforms_form_names', array( $this, 'get_contact_form_names' ) );
         add_action( 'wp_ajax_weforms_form_create', array( $this, 'create_form' ) );
         add_action( 'wp_ajax_weforms_form_delete', array( $this, 'delete_form' ) );
@@ -159,17 +160,40 @@ class WeForms_Ajax {
 
         array_map(
             function( $form ) {
-					$form->entries  = $form->num_form_entries();
+                    $form->entries  = $form->num_form_entries();
                     $form->settings = $form->get_settings();
-					$form->views    = $form->num_form_views();
+                    $form->views    = $form->num_form_views();
                     $form->payments = $form->num_form_payments();
-			}, $contact_forms['forms']
+            }, $contact_forms['forms']
         );
 
         $contact_forms = $this->filter_contact_forms( $contact_forms );
         $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $contact_forms );
 
         wp_send_json_success( $contact_forms );
+    }
+
+    /**
+     * Get all users
+     *
+     * @return array
+     */
+    public function get_all_users() {
+        check_ajax_referer( 'weforms' );
+
+        $this->check_admin();
+
+        $users_meta = array();
+        $users = get_users( array( 'fields' => array( 'ID' ) ) );
+
+        foreach($users as $user) {
+            $users_meta[] = array(
+                'id'    => $user->ID,
+                'data'  => get_user_meta ( $user->ID )
+            );
+        };
+
+        wp_send_json_success( $users_meta );
     }
 
     /**

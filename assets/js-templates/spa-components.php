@@ -619,6 +619,7 @@
                 <th scope="col" class="col-form-status weforms-form-status-col-title"><?php _e( 'Status', 'weforms' ); ?></th>
                 <th scope="col" class="col-form-views"><?php _e( 'Views', 'weforms' ); ?></th>
                 <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-created-by"><?php _e( 'Created by', 'weforms' ); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -668,27 +669,33 @@
                     <p v-if="isFormStatusClosed(form.settings, form.entries)">
                         <?php _e( "Closed", "weforms" ); ?>
                     </p>
-                    <p v-else><?php _e( "Open", "weforms" ); ?></p>
+                    <p v-else class="open"><?php _e( "Open", "weforms" ); ?></p>
 
-                    <template v-if="form.settings.schedule_form === 'true'">
-                        <span v-if="isPendingForm(form.settings.schedule_start)" class="weforms-status-closed">- Starts at {{formatTime(form.settings.schedule_start)}}</span>
-                        <span v-if="isExpiredForm(form.settings.schedule_end)" class="weforms-status-closed">- Expired at {{formatTime(form.settings.schedule_end)}}</span>
-                        <span v-if="isOpenForm(form.settings.schedule_start, form.settings.schedule_end)">- Expires at {{formatTime(form.settings.schedule_end)}}</span>
+                    <template v-if="form.settings.limit_entries === 'true'">
+                        <span v-if="form.entries >= form.settings.limit_number">(Reached maximum entry limit)</span>
+                        <span v-else>({{form.settings.limit_number - form.entries}} entries remaining)</span>
                     </template>
 
-                    <template v-if="form.settings.require_login  === 'true'">
-                        <span><?php _e( "- Requires login", "weforms" ); ?></span>
+                    <template v-else-if="form.settings.schedule_form === 'true'">
+                        <span v-if="isPendingForm(form.settings.schedule_start)">(Starts at {{formatTime(form.settings.schedule_start)}})</span>
+                        <span v-if="isExpiredForm(form.settings.schedule_end)">(Expired at {{formatTime(form.settings.schedule_end)}})</span>
+                        <span v-if="isOpenForm(form.settings.schedule_start, form.settings.schedule_end)">(Expires at {{formatTime(form.settings.schedule_end)}})</span>
                     </template>
 
-                    <template v-if="form.settings.limit_entries  === 'true'">
-                        <span v-if="form.entries >= form.settings.limit_number" class="weforms-status-closed">- Reached maximum entry limit</span>
-                        <span v-else>- {{form.settings.limit_number - form.entries}} entries remaining</span>
+                    <template v-else-if="form.settings.require_login  === 'true'">
+                        <span><?php _e( "(Requires login)", "weforms" ); ?></span>
                     </template>
                 </td>
                 <td>{{ form.views }}</td>
                 <td>
                     <span v-if="form.views">{{ ((form.entries/form.views) * 100).toFixed(2) }}%</span>
                     <span v-else>0%</span>
+                </td>
+                <td class="weforms-form-creator">
+                    <img v-if="getUserAvatar(form.data.post_author)" v-bind:src="getUserAvatar(form.data.post_author)">
+                    <img v-else src="<?php echo WEFORMS_ASSET_URI . '/images/avatar.png'; ?>">
+                    <span>{{getUserName(form.data.post_author)}}</span>
+                    <span class="date">{{formatTime(form.data.post_date)}}</span>
                 </td>
             </tr>
         </tbody>
@@ -705,6 +712,7 @@
                 <th scope="col" class="col-form-status weforms-form-status-col-title"><?php _e( 'Status', 'weforms' ); ?></th>
                 <th scope="col" class="col-form-views"><?php _e( 'Views', 'weforms' ); ?></th>
                 <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-created-by"><?php _e( 'Created by', 'weforms' ); ?></th>
             </tr>
         </tfoot>
     </table>

@@ -4,7 +4,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /*!
 weForms - v1.3.4
-Generated: 2019-01-14 (1547438274524)
+Generated: 2019-01-15 (1547531774526)
 */
 
 ;(function ($) {
@@ -689,11 +689,13 @@ Generated: 2019-01-14 (1547438274524)
                 loading: false,
                 index: 'ID',
                 items: [],
+                users: [],
                 bulkDeleteAction: 'weforms_form_delete_bulk'
             };
         },
         created: function created() {
             this.fetchData();
+            this.allUsers();
         },
         computed: {
             is_pro: function is_pro() {
@@ -838,9 +840,56 @@ Generated: 2019-01-14 (1547438274524)
 
             formatTime: function formatTime(time) {
                 var date = new Date(time),
-                    month = date.toLocaleString('en-us', { month: 'long' });
+                    month = date.toLocaleString('en-us', { month: 'short' });
 
                 return month + ' ' + date.getDate() + ', ' + date.getFullYear();
+            },
+
+            allUsers: function allUsers() {
+                var self = this;
+                this.loading = true;
+
+                wp.ajax.send('weforms_get_users', {
+                    data: {
+                        _wpnonce: weForms.nonce
+                    },
+                    success: function success(response) {
+                        self.loading = false;
+                        self.users = response;
+                    },
+                    error: function error(_error11) {
+                        self.loading = false;
+                        alert(_error11);
+                    }
+                });
+            },
+
+            getUserAvatar: function getUserAvatar(userId) {
+                var users = this.users,
+                    avatarUrl;
+
+                users.forEach(function (user) {
+                    if (user.id === userId) {
+                        if ('user_avatar' in user.data && typeof user.data.user_avatar[0] !== 'undefined') {
+                            avatarUrl = user.data.user_avatar[0];
+                        }
+                    }
+                });
+
+                return avatarUrl;
+            },
+
+            getUserName: function getUserName(userId) {
+                var users = this.users,
+                    userName;
+
+                users.forEach(function (user) {
+                    if (user.id === userId) {
+                        user.id === userId ? userName = user.data.nickname[0] : '';
+                    }
+                });
+
+                return userName;
             }
         }
     });
@@ -1010,9 +1059,9 @@ Generated: 2019-01-14 (1547438274524)
                         self.loading = false;
                         self.forms = response;
                     },
-                    error: function error(_error11) {
+                    error: function error(_error12) {
                         self.loading = false;
-                        alert(_error11);
+                        alert(_error12);
                     }
                 });
             },
@@ -1080,8 +1129,8 @@ Generated: 2019-01-14 (1547438274524)
                         self.ximport.refs = response.refs;
                     },
 
-                    error: function error(_error12) {
-                        alert(_error12.message);
+                    error: function error(_error13) {
+                        alert(_error13.message);
                     },
 
                     complete: function complete() {
@@ -1108,8 +1157,8 @@ Generated: 2019-01-14 (1547438274524)
                         }
                     },
 
-                    error: function error(_error13) {
-                        alert(_error13);
+                    error: function error(_error14) {
+                        alert(_error14);
                     },
 
                     complete: function complete() {
@@ -1157,8 +1206,8 @@ Generated: 2019-01-14 (1547438274524)
                             self.no_transactions = true;
                         }
                     },
-                    error: function error(_error14) {
-                        alert(_error14);
+                    error: function error(_error15) {
+                        alert(_error15);
                     }
                 });
             }
@@ -1273,8 +1322,8 @@ Generated: 2019-01-14 (1547438274524)
                         toastr.success('Settings has been updated');
                     },
 
-                    error: function error(_error15) {
-                        console.log(_error15);
+                    error: function error(_error16) {
+                        console.log(_error16);
                     },
 
                     complete: function complete() {
@@ -1295,8 +1344,8 @@ Generated: 2019-01-14 (1547438274524)
                         _success(response);
                     },
 
-                    error: function error(_error16) {
-                        console.log(_error16);
+                    error: function error(_error17) {
+                        console.log(_error17);
                     },
 
                     complete: function complete() {}
