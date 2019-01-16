@@ -817,9 +817,12 @@ class WeForms_Ajax {
     function validate_reCaptcha() {
 
         if ( class_exists( 'WPUF_ReCaptcha' ) ) {
-            $recaptcha_class = 'WPUF_Recaptcha';
+            $recaptcha_class = 'WPUF_ReCaptcha';
         } else {
-            require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
+            if ( ! function_exists( 'recaptcha_get_html' ) ) {
+                require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
+            }
+
             require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
             $recaptcha_class = 'Weforms_ReCaptcha';
         }
