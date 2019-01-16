@@ -6,11 +6,13 @@ Vue.component('form-list-table', {
             loading: false,
             index: 'ID',
             items: [],
+            users: [],
             bulkDeleteAction: 'weforms_form_delete_bulk',
         };
     },
     created: function() {
         this.fetchData();
+        this.allUsers();
     },
     computed: {
         is_pro: function() {
@@ -106,5 +108,105 @@ Vue.component('form-list-table', {
                 }
             }
         },
+
+        isPendingForm: function( scheduleStart ) {
+            var currentTime = Math.round((new Date()).getTime() / 1000),
+                startTime   = Math.round((new Date( scheduleStart )).getTime() / 1000);
+
+            if ( currentTime < startTime ) {
+                return true;
+            }
+            return false;
+        },
+
+        isExpiredForm: function( scheduleEnd ) {
+            var currentTime = Math.round((new Date()).getTime() / 1000),
+                endTime   = Math.round((new Date( scheduleEnd )).getTime() / 1000);
+
+            if ( currentTime > endTime ) {
+                return true;
+            }
+            return false;
+        },
+
+        isOpenForm: function ( scheduleStart, scheduleEnd ) {
+            var currentTime = Math.round((new Date()).getTime() / 1000),
+                startTime   = Math.round((new Date( scheduleStart )).getTime() / 1000),
+                endTime     = Math.round((new Date( scheduleEnd )).getTime() / 1000);
+
+            if ( currentTime > startTime &&  currentTime < endTime ) {
+                return true;
+            }
+            return false;
+        },
+
+        isFormStatusClosed: function(formSettings, entries) {
+            if ( formSettings.schedule_form === 'true' && this.isPendingForm(formSettings.schedule_start) ) {
+                return true;
+            }
+
+            if ( formSettings.schedule_form === 'true' && this.isExpiredForm(formSettings.schedule_end) ) {
+                return true;
+            }
+
+            if ( formSettings.limit_entries  === 'true' && entries >= formSettings.limit_number ) {
+                return true;
+            }
+            return;
+        },
+
+        formatTime: function( time ) {
+            var date    = new Date( time ),
+                month   = date.toLocaleString('en-us', { month: 'short' });
+
+            return `${month} ${date.getDate()}, ${date.getFullYear()}`;
+        },
+
+        allUsers: function() {
+            var self = this;
+            this.loading = true;
+
+            wp.ajax.send( 'weforms_get_users', {
+                data: {
+                    _wpnonce: weForms.nonce,
+                },
+                success: function(response) {
+                    self.loading = false;
+                    self.users = response;
+                },
+                error: function(error) {
+                    self.loading = false;
+                    alert(error);
+                }
+            });
+        },
+
+        getUserAvatar: function( userId ) {
+            var users = this.users,
+                avatarUrl;
+
+            users.forEach(function(user){
+                if ( user.id === userId ) {
+                    if ( 'user_avatar' in user.data && typeof user.data.user_avatar[0] !== 'undefined' ) {
+                        avatarUrl = user.data.user_avatar[0];
+                    }
+                }
+            });
+
+            return avatarUrl;
+        },
+
+        getUserName: function( userId ) {
+            var users = this.users,
+                userName;
+
+            users.forEach(function(user){
+                if ( user.id === userId ) {
+                    user.id === userId ? userName = user.data.nickname[0] : '';
+                }
+            });
+
+            return userName;
+        }
     }
 });

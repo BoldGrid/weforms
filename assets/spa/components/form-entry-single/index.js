@@ -14,7 +14,8 @@ weForms.routeComponents.FormEntriesSingle = {
             },
             form_settings: {},
             respondent_points: 0,
-            answers: {}, 
+            answers: {},
+            countries: weForms.countries
         };
     },
     created: function() {
@@ -81,6 +82,14 @@ weForms.routeComponents.FormEntriesSingle = {
         hideEmptyStatus: function(){
             return this.getCookie('weFormsEntryHideEmpty') === 'false' ? false : true;
         },
+
+        findCountry: function( code ) {
+            return this.countries.find( (country) => country.code === code );
+        },
+
+        getCountryName: function( code ) {
+            return this.findCountry( code ).name;
+        }
     },
     watch: {
         hideEmpty: function(value){

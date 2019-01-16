@@ -102,6 +102,40 @@ function weforms_get_form_entries( $form_id, $args = array() ) {
 }
 
 /**
+ * Count all entries from weForms_entries table
+ *
+ * @param  array $args
+ *
+ * @return int $number
+ */
+function weforms_count_entries( $args = array() ) {
+    global $wpdb;
+
+    $defaults = array(
+        'number'  => -1,
+        'offset'  => 0,
+        'orderby' => 'created_at',
+        'status'  => 'publish',
+        'order'   => 'DESC',
+    );
+
+    $r = wp_parse_args( $args, $defaults );
+
+    $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+            FROM ' . $wpdb->weforms_entries .
+            ' WHERE status = \'' . $r['status'] . '\'' .
+            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'];
+
+    if ( ! empty( $r['offset'] ) && ! empty( $r['number'] ) ) {
+        $query .= ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
+    }
+
+    $results = $wpdb->get_results( $query );
+
+    return count($results);
+}
+
+/**
  * Get payments by a form_id
  *
  * @param  int   $form_id
@@ -237,6 +271,8 @@ function weforms_change_entry_status( $entry_id, $status ) {
 function weforms_delete_entry( $entry_id ) {
     global $wpdb;
 
+    weforms_delete_entry_attachments( $entry_id );
+
     $deleted = $wpdb->delete(
         $wpdb->weforms_entries, array(
             'id' => $entry_id
@@ -252,6 +288,34 @@ function weforms_delete_entry( $entry_id ) {
     }
 
     return $deleted;
+}
+
+/**
+ * Delete attachments of an entry
+ *
+ * @param  int $entry_id
+ *
+ * @since 1.3.5
+ */
+function weforms_delete_entry_attachments( $entry_id ) {
+    $entry  = weforms_get_entry( $entry_id );
+    $fields = weforms_get_form_field_labels( $entry->form_id );
+
+    if ( ! $fields ) {
+        return false;
+    }
+
+    foreach ( $fields as $meta_key => $field ) {
+        $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+
+        if ( in_array( $field['type'], array( 'image_upload', 'file_upload' ) ) ) {
+            if ( is_array( $value ) && $value ) {
+                foreach ( $value as $attachment_id ) {
+                    wp_delete_attachment( $attachment_id, true );
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -1133,3 +1197,39 @@ function weforms_get_pain_text( $value ) {
 
     return $value;
 }
+
+/**
+ * Get countries
+ *
+ * @since 1.1.0
+ *
+ * @param  string $type (optional)
+ *
+ * @return array|string
+ */
+if ( !function_exists( "weforms_pro_get_countries" ) ) {
+
+    function weforms_pro_get_countries( $type = 'array' ) {
+        $countries = include WEFORMS_INCLUDES . '/country-list.php';
+
+        if ( $type == 'json' ) {
+            $countries = json_encode( $countries );
+        }
+
+        return $countries;
+    }
+
+}
+
+/**
+ * Localize countries
+ *
+ * @since 1.3.5
+ *
+ * @return array
+ */
+function weforms_localized_countries( $script ) {
+    $script['countries'] = weforms_pro_get_countries();
+    return $script;
+}
+add_filter( "weforms_localized_script", "weforms_localized_countries" );

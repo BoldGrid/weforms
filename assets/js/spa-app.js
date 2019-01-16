@@ -1,30 +1,6 @@
 'use strict';
 
-var _typeof6 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof5 = typeof Symbol === "function" && _typeof6(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof6(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof6(obj);
-};
-
-var _typeof4 = typeof Symbol === "function" && _typeof5(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-};
-
-var _typeof3 = typeof Symbol === "function" && _typeof4(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-};
-
-var _typeof2 = typeof Symbol === "function" && _typeof3(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-};
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
     return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
@@ -33,8 +9,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 };
 
 /*!
-weForms - v1.2.9
-Generated: 2018-07-30 (1532945298532)
+weForms - v1.3.4
+Generated: 2019-01-16 (1547644353022)
 */
 
 ;(function ($) {
@@ -623,7 +599,8 @@ Generated: 2018-07-30 (1532945298532)
                 },
                 form_settings: {},
                 respondent_points: 0,
-                answers: {}
+                answers: {},
+                countries: weForms.countries
             };
         },
         created: function created() {
@@ -689,6 +666,16 @@ Generated: 2018-07-30 (1532945298532)
 
             hideEmptyStatus: function hideEmptyStatus() {
                 return this.getCookie('weFormsEntryHideEmpty') === 'false' ? false : true;
+            },
+
+            findCountry: function findCountry(code) {
+                return this.countries.find(function (country) {
+                    return country.code === code;
+                });
+            },
+
+            getCountryName: function getCountryName(code) {
+                return this.findCountry(code).name;
             }
         },
         watch: {
@@ -707,11 +694,13 @@ Generated: 2018-07-30 (1532945298532)
                 loading: false,
                 index: 'ID',
                 items: [],
+                users: [],
                 bulkDeleteAction: 'weforms_form_delete_bulk'
             };
         },
         created: function created() {
             this.fetchData();
+            this.allUsers();
         },
         computed: {
             is_pro: function is_pro() {
@@ -806,6 +795,106 @@ Generated: 2018-07-30 (1532945298532)
                         this.deleteBulk();
                     }
                 }
+            },
+
+            isPendingForm: function isPendingForm(scheduleStart) {
+                var currentTime = Math.round(new Date().getTime() / 1000),
+                    startTime = Math.round(new Date(scheduleStart).getTime() / 1000);
+
+                if (currentTime < startTime) {
+                    return true;
+                }
+                return false;
+            },
+
+            isExpiredForm: function isExpiredForm(scheduleEnd) {
+                var currentTime = Math.round(new Date().getTime() / 1000),
+                    endTime = Math.round(new Date(scheduleEnd).getTime() / 1000);
+
+                if (currentTime > endTime) {
+                    return true;
+                }
+                return false;
+            },
+
+            isOpenForm: function isOpenForm(scheduleStart, scheduleEnd) {
+                var currentTime = Math.round(new Date().getTime() / 1000),
+                    startTime = Math.round(new Date(scheduleStart).getTime() / 1000),
+                    endTime = Math.round(new Date(scheduleEnd).getTime() / 1000);
+
+                if (currentTime > startTime && currentTime < endTime) {
+                    return true;
+                }
+                return false;
+            },
+
+            isFormStatusClosed: function isFormStatusClosed(formSettings, entries) {
+                if (formSettings.schedule_form === 'true' && this.isPendingForm(formSettings.schedule_start)) {
+                    return true;
+                }
+
+                if (formSettings.schedule_form === 'true' && this.isExpiredForm(formSettings.schedule_end)) {
+                    return true;
+                }
+
+                if (formSettings.limit_entries === 'true' && entries >= formSettings.limit_number) {
+                    return true;
+                }
+                return;
+            },
+
+            formatTime: function formatTime(time) {
+                var date = new Date(time),
+                    month = date.toLocaleString('en-us', { month: 'short' });
+
+                return month + ' ' + date.getDate() + ', ' + date.getFullYear();
+            },
+
+            allUsers: function allUsers() {
+                var self = this;
+                this.loading = true;
+
+                wp.ajax.send('weforms_get_users', {
+                    data: {
+                        _wpnonce: weForms.nonce
+                    },
+                    success: function success(response) {
+                        self.loading = false;
+                        self.users = response;
+                    },
+                    error: function error(_error11) {
+                        self.loading = false;
+                        alert(_error11);
+                    }
+                });
+            },
+
+            getUserAvatar: function getUserAvatar(userId) {
+                var users = this.users,
+                    avatarUrl;
+
+                users.forEach(function (user) {
+                    if (user.id === userId) {
+                        if ('user_avatar' in user.data && typeof user.data.user_avatar[0] !== 'undefined') {
+                            avatarUrl = user.data.user_avatar[0];
+                        }
+                    }
+                });
+
+                return avatarUrl;
+            },
+
+            getUserName: function getUserName(userId) {
+                var users = this.users,
+                    userName;
+
+                users.forEach(function (user) {
+                    if (user.id === userId) {
+                        user.id === userId ? userName = user.data.nickname[0] : '';
+                    }
+                });
+
+                return userName;
             }
         }
     });
@@ -975,9 +1064,9 @@ Generated: 2018-07-30 (1532945298532)
                         self.loading = false;
                         self.forms = response;
                     },
-                    error: function error(_error11) {
+                    error: function error(_error12) {
                         self.loading = false;
-                        alert(_error11);
+                        alert(_error12);
                     }
                 });
             },
@@ -1045,8 +1134,8 @@ Generated: 2018-07-30 (1532945298532)
                         self.ximport.refs = response.refs;
                     },
 
-                    error: function error(_error12) {
-                        alert(_error12.message);
+                    error: function error(_error13) {
+                        alert(_error13.message);
                     },
 
                     complete: function complete() {
@@ -1073,8 +1162,8 @@ Generated: 2018-07-30 (1532945298532)
                         }
                     },
 
-                    error: function error(_error13) {
-                        alert(_error13);
+                    error: function error(_error14) {
+                        alert(_error14);
                     },
 
                     complete: function complete() {
@@ -1122,8 +1211,8 @@ Generated: 2018-07-30 (1532945298532)
                             self.no_transactions = true;
                         }
                     },
-                    error: function error(_error14) {
-                        alert(_error14);
+                    error: function error(_error15) {
+                        alert(_error15);
                     }
                 });
             }
@@ -1238,8 +1327,8 @@ Generated: 2018-07-30 (1532945298532)
                         toastr.success('Settings has been updated');
                     },
 
-                    error: function error(_error15) {
-                        console.log(_error15);
+                    error: function error(_error16) {
+                        console.log(_error16);
                     },
 
                     complete: function complete() {
@@ -1260,8 +1349,8 @@ Generated: 2018-07-30 (1532945298532)
                         _success(response);
                     },
 
-                    error: function error(_error16) {
-                        console.log(_error16);
+                    error: function error(_error17) {
+                        console.log(_error17);
                     },
 
                     complete: function complete() {}

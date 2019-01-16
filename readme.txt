@@ -4,8 +4,8 @@ Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.4
-Tested up to: 4.9.8
-Stable tag: 1.3.4
+Tested up to: 5.0.3
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,17 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.3.5 (16 January, 2019) =
+
+* **Feature:** As per user suggestion, we have added a status column for the form listing table. By this, the admin will be able to see whether the form is 'Open' or 'Close'. In addition to that, the admin will also be able to view or show the reasons behind keeping a form open or close according to the 3 form submission restrictions (scheduling form, requiring login and limiting submission entries) from the form settings.
+* **Feature:** As per client suggestion, we have added a "Created by" column on form listing table. This will allow the admin to know the creator of a form, their gravatar image and the date on which the form was created.
+* **Fix:** Import description and settings from WP Forms.
+* **Fix:** When viewing the entries, country short-name was displayed. With this release, we have changed the short-name to the full name. For example, Now it shows Canada instead of just showing CA.
+* **Fix:** Improved submit button design for the form builder.
+* **Fix:** Deleting form entries didn't remove the media/file from the media library permanently. But now it does.
+* **Fix:** Gutenberg block was not loading on edit post/page which has been fixed.
+* **Fix:** On activating the WP User Frontend, the reCaptcha field of weForms did not work which has been fixed.
 
 = Version 1.3.4 (22 November, 2018) =
 

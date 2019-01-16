@@ -1,14 +1,14 @@
-# Copyright (C) 2018 weDevs
+# Copyright (C) 2019 weDevs
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.3.4\n"
+"Project-Id-Version: weForms 1.3.5\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2018-11-22 03:58:57+00:00\n"
+"POT-Creation-Date: 2019-01-16 14:19:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -58,121 +58,131 @@ msgstr ""
 msgid "Welcome to weForms"
 msgstr ""
 
-#: includes/admin/class-admin.php:35 includes/admin/class-admin.php:57
+#: includes/admin/class-admin.php:34 includes/admin/class-admin.php:56
 msgid "Contact Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:55
+#: includes/admin/class-admin.php:54
 msgid "Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:56 includes/class-form-widget.php:52
-#: includes/functions.php:667
+#: includes/admin/class-admin.php:55 includes/class-form-widget.php:52
+#: includes/functions.php:731
 msgid "Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:58
+#: includes/admin/class-admin.php:57
 msgid "Add Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:59
+#: includes/admin/class-admin.php:58
 msgid "Add New Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:60
+#: includes/admin/class-admin.php:59
 msgid "Edit"
 msgstr ""
 
-#: includes/admin/class-admin.php:61
+#: includes/admin/class-admin.php:60
 msgid "Edit Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:62
+#: includes/admin/class-admin.php:61
 msgid "New Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:63 includes/admin/class-admin.php:64
+#: includes/admin/class-admin.php:62 includes/admin/class-admin.php:63
 msgid "View Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:65
+#: includes/admin/class-admin.php:64
 msgid "Search Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:66
+#: includes/admin/class-admin.php:65
 msgid "No Form Found"
 msgstr ""
 
-#: includes/admin/class-admin.php:67
+#: includes/admin/class-admin.php:66
 msgid "No Form Found in Trash"
 msgstr ""
 
-#: includes/admin/class-admin.php:68
+#: includes/admin/class-admin.php:67
 msgid "Parent Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:83
+#: includes/admin/class-admin.php:82
 msgid "weForms - The Best Contact Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:86
+#: includes/admin/class-admin.php:85
 msgid "All Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:87
+#: includes/admin/class-admin.php:86
 msgid "Entries"
 msgstr ""
 
-#: includes/admin/class-admin.php:88
+#: includes/admin/class-admin.php:87
 msgid "Tools"
 msgstr ""
 
-#: includes/admin/class-admin.php:92
+#: includes/admin/class-admin.php:91
 msgid "Modules"
 msgstr ""
 
-#: includes/admin/class-admin.php:95
+#: includes/admin/class-admin.php:94
 #: includes/admin/views/weforms-settings-general.php:14
 #: includes/admin/views/weforms-settings-general.php:15
 #: includes/admin/views/weforms-settings-general.php:16
 msgid "Premium"
 msgstr ""
 
-#: includes/admin/class-admin.php:100
+#: includes/admin/class-admin.php:99
 msgid "Help"
 msgstr ""
 
-#: includes/admin/class-admin.php:105 weforms.php:396
+#: includes/admin/class-admin.php:104 weforms.php:396
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:184 includes/functions.php:687
+#: includes/admin/class-admin.php:183 includes/functions.php:751
 msgid "IP Address"
 msgstr ""
 
-#: includes/admin/class-admin.php:185 includes/functions.php:678
+#: includes/admin/class-admin.php:184 includes/functions.php:742
 #: includes/templates/class-template-restaurant-reservation.php:62
 msgid "Date"
 msgstr ""
 
-#: includes/admin/class-admin.php:299
+#: includes/admin/class-admin.php:305
+msgid ""
+"If you like %1$s please leave us a %2$s rating. A huge thank you from %3$s "
+"in advance!"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "weForms"
+msgstr ""
+
+#: includes/admin/class-admin.php:325
 #: includes/admin/views/weforms-settings-general.php:1
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:304
+#: includes/admin/class-admin.php:330
 #: includes/admin/views/weforms-settings-recaptcha.php:1
 #: includes/fields/class-field-recaptcha.php:9
 msgid "reCaptcha"
 msgstr ""
 
-#: includes/admin/class-admin.php:311
+#: includes/admin/class-admin.php:337
 #: includes/admin/views/weforms-settings-privacy.php:1
 msgid "Privacy"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:66 includes/functions.php:1072
-#: includes/functions.php:1075
+#: includes/admin/class-form-builder-assets.php:66 includes/functions.php:1136
+#: includes/functions.php:1139
 msgid "New Form Submission"
 msgstr ""
 
@@ -337,11 +347,11 @@ msgid "Display Settings"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:393
-#: includes/admin/class-privacy.php:248 includes/functions.php:685
+#: includes/admin/class-privacy.php:248 includes/functions.php:749
 msgid "User"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:395 includes/functions.php:689
+#: includes/admin/class-form-builder-assets.php:395 includes/functions.php:753
 #: includes/integrations/mailpoet/component/template.php:38
 #: includes/templates/class-template-conference-proposal.php:33
 #: includes/templates/class-template-donation-form.php:33
@@ -709,22 +719,55 @@ msgstr ""
 msgid "Conditional Logic"
 msgstr ""
 
-#: includes/admin/class-promotion.php:47
+#: includes/admin/class-promotion.php:49
 msgid ""
 "<p>\n"
-"                                        <strong class=\"highlight-text\" "
+"                                <strong class=\"highlight-text\" "
 "style=\"font-size: 18px\">33&#37; flat discount on all our "
 "products</strong><br>\n"
-"                                        Save money this holiday season "
-"while supercharging your WordPress site with plugins that were made to "
-"empower you.\n"
-"                                        <br>\n"
-"                                        Offer ending soon!\n"
-"                                    </p>"
+"                                Save money this holiday season while "
+"supercharging your WordPress site with plugins that were made to empower "
+"you.\n"
+"                                <br>\n"
+"                                Offer ending soon!\n"
+"                            </p>"
 msgstr ""
 
-#: includes/admin/class-promotion.php:70
+#: includes/admin/class-promotion.php:72
 msgid "Get the Offer"
+msgstr ""
+
+#: includes/admin/class-promotion.php:223
+#: includes/admin/class-promotion.php:226
+msgid "Enjoying <strong>weForms</strong>?"
+msgstr ""
+
+#: includes/admin/class-promotion.php:224
+msgid ""
+"Seems like you are getting a good response using <strong>weForms</strong>. "
+"Would you please show us a little love by rating us in the <a "
+"href=\"https://wordpress.org/support/plugin/weforms/reviews/#postform\" "
+"target=\"_blank\"><strong>WordPress.org</strong></a>?"
+msgstr ""
+
+#: includes/admin/class-promotion.php:227
+msgid ""
+"Hope that you had a neat and snappy experience with the tool. Would you "
+"please show us a little love by rating us in the <a "
+"href=\"https://wordpress.org/support/plugin/weforms/reviews/#postform\" "
+"target=\"_blank\"><strong>WordPress.org</strong></a>?"
+msgstr ""
+
+#: includes/admin/class-promotion.php:231
+msgid "Sure! I'd love to!"
+msgstr ""
+
+#: includes/admin/class-promotion.php:232
+msgid "I've already left a review"
+msgstr ""
+
+#: includes/admin/class-promotion.php:233
+msgid "Never show again"
 msgstr ""
 
 #: includes/admin/class-shortcode-button.php:44
@@ -1223,71 +1266,71 @@ msgstr ""
 msgid "Secret key"
 msgstr ""
 
-#: includes/class-ajax.php:59
+#: includes/class-ajax.php:60
 msgid "You do not have sufficient permission."
 msgstr ""
 
-#: includes/class-ajax.php:96
+#: includes/class-ajax.php:97
 msgid "Unauthorized operation"
 msgstr ""
 
-#: includes/class-ajax.php:100
+#: includes/class-ajax.php:101
 msgid "Invalid form id"
 msgstr ""
 
-#: includes/class-ajax.php:230
+#: includes/class-ajax.php:255
 msgid "Please provide a form name"
 msgstr ""
 
-#: includes/class-ajax.php:258 includes/class-ajax.php:410
+#: includes/class-ajax.php:283 includes/class-ajax.php:435
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:274
+#: includes/class-ajax.php:299
 msgid "No form ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:314
+#: includes/class-ajax.php:339
 msgid "Could not create the form"
 msgstr ""
 
-#: includes/class-ajax.php:484 includes/class-ajax.php:489
+#: includes/class-ajax.php:509 includes/class-ajax.php:514
 msgid "No form fields found!"
 msgstr ""
 
-#: includes/class-ajax.php:625 includes/class-ajax.php:652
+#: includes/class-ajax.php:650 includes/class-ajax.php:677
 msgid "No entry ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:700
+#: includes/class-ajax.php:725
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:711
+#: includes/class-ajax.php:736
 msgid "No form field was found."
 msgstr ""
 
-#: includes/class-ajax.php:820 includes/class-ajax.php:836
+#: includes/class-ajax.php:848 includes/class-ajax.php:864
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
-#: includes/class-ajax.php:1077
+#: includes/class-ajax.php:1109
 msgid "No file found to import."
 msgstr ""
 
-#: includes/class-ajax.php:1091
+#: includes/class-ajax.php:1123
 msgid "The forms have been imported successfully!"
 msgstr ""
 
-#: includes/class-ajax.php:1093
+#: includes/class-ajax.php:1125
 msgid "Something went wrong importing the file."
 msgstr ""
 
-#: includes/class-ajax.php:1096
+#: includes/class-ajax.php:1128
 msgid "Invalid file or file size too big."
 msgstr ""
 
-#: includes/class-ajax.php:1139
+#: includes/class-ajax.php:1171
 msgid "ago"
 msgstr ""
 
@@ -1901,55 +1944,55 @@ msgstr ""
 msgid "This is a premium field. You need to upgrade."
 msgstr ""
 
-#: includes/functions.php:184
+#: includes/functions.php:218
 msgid "No form ID was found."
 msgstr ""
 
-#: includes/functions.php:188
+#: includes/functions.php:222
 msgid "No form fields were found."
 msgstr ""
 
-#: includes/functions.php:194
+#: includes/functions.php:228
 msgid "Could not create an entry"
 msgstr ""
 
-#: includes/functions.php:669
+#: includes/functions.php:733
 msgid "Entry ID"
 msgstr ""
 
-#: includes/functions.php:670
+#: includes/functions.php:734
 msgid "Form ID"
 msgstr ""
 
-#: includes/functions.php:671
+#: includes/functions.php:735
 msgid "Form Name"
 msgstr ""
 
-#: includes/functions.php:675
+#: includes/functions.php:739
 msgid "System"
 msgstr ""
 
-#: includes/functions.php:677
+#: includes/functions.php:741
 msgid "Site Administrator Email"
 msgstr ""
 
-#: includes/functions.php:679
+#: includes/functions.php:743
 msgid "Site Title"
 msgstr ""
 
-#: includes/functions.php:680
+#: includes/functions.php:744
 msgid "Site URL"
 msgstr ""
 
-#: includes/functions.php:681
+#: includes/functions.php:745
 msgid "Embedded Page Title"
 msgstr ""
 
-#: includes/functions.php:688
+#: includes/functions.php:752
 msgid "User ID"
 msgstr ""
 
-#: includes/functions.php:690
+#: includes/functions.php:754
 #: includes/integrations/mailpoet/component/template.php:50
 #: includes/templates/class-template-conference-proposal.php:38
 #: includes/templates/class-template-donation-form.php:38
@@ -1961,116 +2004,116 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: includes/functions.php:691
+#: includes/functions.php:755
 msgid "Display Name"
 msgstr ""
 
-#: includes/functions.php:692
+#: includes/functions.php:756
 msgid "Email"
 msgstr ""
 
-#: includes/functions.php:696
+#: includes/functions.php:760
 msgid "URL's"
 msgstr ""
 
-#: includes/functions.php:698
+#: includes/functions.php:762
 msgid "Embeded Page URL"
 msgstr ""
 
-#: includes/functions.php:699
+#: includes/functions.php:763
 msgid "Referer URL"
 msgstr ""
 
-#: includes/functions.php:700
+#: includes/functions.php:764
 msgid "Login URL"
 msgstr ""
 
-#: includes/functions.php:701
+#: includes/functions.php:765
 msgid "Logout URL"
 msgstr ""
 
-#: includes/functions.php:702
+#: includes/functions.php:766
 msgid "Register URL"
 msgstr ""
 
-#: includes/functions.php:703
+#: includes/functions.php:767
 msgid "Lost Password URL"
 msgstr ""
 
-#: includes/functions.php:900
+#: includes/functions.php:964
 msgid "Images"
 msgstr ""
 
-#: includes/functions.php:904
+#: includes/functions.php:968
 msgid "Audio"
 msgstr ""
 
-#: includes/functions.php:908
+#: includes/functions.php:972
 msgid "Videos"
 msgstr ""
 
-#: includes/functions.php:912
+#: includes/functions.php:976
 msgid "PDF"
 msgstr ""
 
-#: includes/functions.php:916
+#: includes/functions.php:980
 msgid "Office Documents"
 msgstr ""
 
-#: includes/functions.php:920
+#: includes/functions.php:984
 msgid "Zip Archives"
 msgstr ""
 
-#: includes/functions.php:924
+#: includes/functions.php:988
 msgid "Executable Files"
 msgstr ""
 
-#: includes/functions.php:928
+#: includes/functions.php:992
 msgid "CSV"
 msgstr ""
 
-#: includes/functions.php:1000
+#: includes/functions.php:1064
 #: includes/importer/class-importer-abstract.php:901
 #: includes/importer/class-importer-gf.php:272
 #: includes/templates/class-template-to-do-list.php:69
 msgid "Thanks for contacting us! We will get in touch with you shortly."
 msgstr ""
 
-#: includes/functions.php:1003
+#: includes/functions.php:1067
 #: includes/importer/class-importer-abstract.php:904
 #: includes/importer/class-importer-gf.php:275
 msgid "Submit Query"
 msgstr ""
 
-#: includes/functions.php:1007
+#: includes/functions.php:1071
 #: includes/importer/class-importer-abstract.php:908
 msgid "Form submission hasn't been started yet"
 msgstr ""
 
-#: includes/functions.php:1008
+#: includes/functions.php:1072
 #: includes/importer/class-importer-abstract.php:909
 msgid "Form submission is now closed."
 msgstr ""
 
-#: includes/functions.php:1010
+#: includes/functions.php:1074
 #: includes/importer/class-importer-abstract.php:911
 msgid "You need to login to submit a query."
 msgstr ""
 
-#: includes/functions.php:1013
+#: includes/functions.php:1077
 #: includes/importer/class-importer-abstract.php:914
 msgid "Sorry, we have reached the maximum number of submissions."
 msgstr ""
 
-#: includes/functions.php:1027
+#: includes/functions.php:1091
 msgid "PayPal"
 msgstr ""
 
-#: includes/functions.php:1028
+#: includes/functions.php:1092
 msgid "Credit Card"
 msgstr ""
 
-#: includes/functions.php:1074
+#: includes/functions.php:1138
 msgid "Admin Notification"
 msgstr ""
 
@@ -4019,10 +4062,6 @@ msgstr ""
 
 #: weforms.php:455
 msgid "Plugin Activation Error"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "weForms"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
