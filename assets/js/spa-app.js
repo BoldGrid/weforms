@@ -4,7 +4,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /*!
 weForms - v1.3.4
-Generated: 2019-01-15 (1547531774526)
+Generated: 2019-01-16 (1547644353022)
 */
 
 ;(function ($) {

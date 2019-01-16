@@ -102,6 +102,40 @@ function weforms_get_form_entries( $form_id, $args = array() ) {
 }
 
 /**
+ * Count all entries from weForms_entries table
+ *
+ * @param  array $args
+ *
+ * @return int $number
+ */
+function weforms_count_entries( $args = array() ) {
+    global $wpdb;
+
+    $defaults = array(
+        'number'  => -1,
+        'offset'  => 0,
+        'orderby' => 'created_at',
+        'status'  => 'publish',
+        'order'   => 'DESC',
+    );
+
+    $r = wp_parse_args( $args, $defaults );
+
+    $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+            FROM ' . $wpdb->weforms_entries .
+            ' WHERE status = \'' . $r['status'] . '\'' .
+            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'];
+
+    if ( ! empty( $r['offset'] ) && ! empty( $r['number'] ) ) {
+        $query .= ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
+    }
+
+    $results = $wpdb->get_results( $query );
+
+    return count($results);
+}
+
+/**
  * Get payments by a form_id
  *
  * @param  int   $form_id
@@ -1173,14 +1207,18 @@ function weforms_get_pain_text( $value ) {
  *
  * @return array|string
  */
-function weforms_pro_get_countries( $type = 'array' ) {
-    $countries = include WEFORMS_INCLUDES . '/country-list.php';
+if ( !function_exists( "weforms_pro_get_countries" ) ) {
 
-    if ( $type == 'json' ) {
-        $countries = json_encode( $countries );
+    function weforms_pro_get_countries( $type = 'array' ) {
+        $countries = include WEFORMS_INCLUDES . '/country-list.php';
+
+        if ( $type == 'json' ) {
+            $countries = json_encode( $countries );
+        }
+
+        return $countries;
     }
 
-    return $countries;
 }
 
 /**

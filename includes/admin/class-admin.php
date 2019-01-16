@@ -8,11 +8,10 @@ class WeForms_Admin {
     public function __construct() {
 
         add_action( 'init', array( $this, 'register_post_type' ) );
-
         add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
-
         add_action( 'pre_update_option_wpuf_general', array( $this, 'watch_wpuf_settings' ) );
 
+        add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ) );
         add_filter( 'admin_post_weforms_export_forms', array( $this, 'export_forms' ) );
         add_filter( 'admin_post_weforms_export_form_entries', array( $this, 'export_form_entries' ) );
 
@@ -284,6 +283,33 @@ class WeForms_Admin {
         }
 
         return $settings;
+    }
+
+    /**
+     * Admin footer text.
+     *
+     * Fired by `admin_footer_text` filter.
+     *
+     * @since 1.3.5
+     *
+     * @param string $footer_text The content that will be printed.
+     *
+     * @return string The content that will be printed.
+     **/
+    public function admin_footer_text( $footer_text ) {
+        $current_screen = get_current_screen();
+        $is_weforms_screen = ( $current_screen && false !== strpos( $current_screen->id, 'weforms' ) );
+
+        if ( $is_weforms_screen ) {
+            $footer_text = sprintf(
+                __( 'If you like %1$s please leave us a %2$s rating. A huge thank you from %3$s in advance!', 'weforms' ),
+                '<strong>' . __( 'weForms', 'weforms' ) . '</strong>',
+                '<a href="https://wordpress.org/support/plugin/weforms/reviews/" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>',
+                '<strong>weDevs</strong>'
+            );
+        }
+
+        return $footer_text;
     }
 
     /**

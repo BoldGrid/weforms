@@ -672,7 +672,9 @@
                     <p v-else class="open"><?php _e( "Open", "weforms" ); ?></p>
 
                     <template v-if="form.settings.limit_entries === 'true'">
-                        <span v-if="form.entries >= form.settings.limit_number">(Reached maximum entry limit)</span>
+                        <span v-if="form.settings.schedule_form === 'true' && isExpiredForm(form.settings.schedule_end)">(Expired at {{formatTime(form.settings.schedule_end)}})</span>
+                        <span v-else-if="form.settings.schedule_form === 'true' && isPendingForm(form.settings.schedule_start)">(Starts at {{formatTime(form.settings.schedule_start)}})</span>
+                        <span v-else-if="form.entries >= form.settings.limit_number">(Reached maximum entry limit)</span>
                         <span v-else>({{form.settings.limit_number - form.entries}} entries remaining)</span>
                     </template>
 
