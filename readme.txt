@@ -1,11 +1,11 @@
 === weForms - Best Contact Form Plugin for WordPress ===
-Contributors: tareq1988, wedevs, rafsuntaskin,  rabbii, itowhid06
+Contributors: tareq1988, nizamuddinbabu, wedevs, rafsuntaskin,  rabbii, itowhid06
 Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.4
 Tested up to: 5.0.3
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,10 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.3.6 (17 January, 2019) =
+
+* **Fix:** Changed get countries function name as the same function exists in the professional version and there was a possibility to get an error.
 
 = Version 1.3.5 (16 January, 2019) =
 
