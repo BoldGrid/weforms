@@ -1207,18 +1207,14 @@ function weforms_get_pain_text( $value ) {
  *
  * @return array|string
  */
-if ( !function_exists( "weforms_pro_get_countries" ) ) {
+function weforms_get_countries( $type = 'array' ) {
+    $countries = include WEFORMS_INCLUDES . '/country-list.php';
 
-    function weforms_pro_get_countries( $type = 'array' ) {
-        $countries = include WEFORMS_INCLUDES . '/country-list.php';
-
-        if ( $type == 'json' ) {
-            $countries = json_encode( $countries );
-        }
-
-        return $countries;
+    if ( $type == 'json' ) {
+        $countries = json_encode( $countries );
     }
 
+    return $countries;
 }
 
 /**
@@ -1229,7 +1225,7 @@ if ( !function_exists( "weforms_pro_get_countries" ) ) {
  * @return array
  */
 function weforms_localized_countries( $script ) {
-    $script['countries'] = weforms_pro_get_countries();
+    $script['countries'] = weforms_get_countries();
     return $script;
 }
 add_filter( "weforms_localized_script", "weforms_localized_countries" );
