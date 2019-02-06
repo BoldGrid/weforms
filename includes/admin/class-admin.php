@@ -223,7 +223,7 @@ class WeForms_Admin {
             ob_clean();
         }
 
-        $blogname  = strtolower( str_replace( " ", "-", get_option( 'blogname' ) ) );
+        $blogname  = sanitize_title( strtolower( str_replace( " ", "-", get_option( 'blogname' ) ) ) );
         $file_name = $blogname . "-weforms-entries-" . time() . '.csv';
 
         // force download

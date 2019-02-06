@@ -30,7 +30,7 @@ class Weforms_Form_Button {
             return;
         }
 
-        wp_enqueue_script( 'weforms-shortcode', WEFORMS_ASSET_URI . '/weforms-shortcode.js', array('jquery') );
+        wp_enqueue_script( 'weforms-shortcode', WEFORMS_ASSET_URI . '/js/weforms-shortcode.js', array('jquery') );
     }
 
     /**
