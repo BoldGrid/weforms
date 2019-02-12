@@ -671,9 +671,12 @@ a.add-notification .dashicons {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
         background: #fff;
         border-radius: 2px;
-
         display: flex;
 
+        &.weforms-pro-deactivate{
+            width: 75%;
+            float: left;
+        }
 
         #weforms-settings-tabs {
             background: #f1f1f1;
@@ -773,6 +776,46 @@ a.add-notification .dashicons {
 
             .submit-wrapper, h3.hndle{
                 padding: 14.5px 20px;
+            }
+        }
+    }
+
+    #weforms-settings-page-sidebar{
+        width: 25%;
+        display: inline-block;
+        padding-left: 15px;
+        box-sizing: border-box;
+
+        .weforms-settings-page-sidebar-content{
+            background: #fff;
+            padding: 15px 15px 50px 15px;
+            margin-top: 15px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+            border-radius: 2px;
+
+            h2 {
+                margin-top: 0;
+                font-size: 20px;
+                line-height: 26px;
+            }
+
+            ul{
+                li{
+                    margin-bottom: 20px;
+                    padding-left: 30px;
+                    position: relative;
+
+                    span{
+                        &.dashicons{
+                            color: #fff;
+                            background: #58B99D;
+                            border-radius: 50%;
+                            position: absolute;
+                            left: 0;
+                            top: 2px;
+                        }
+                    }
+                }
             }
         }
     }
