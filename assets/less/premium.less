@@ -1,0 +1,243 @@
+@import 'utility.less';
+@import 'modal.less'; 
+
+
+/**
+ * Banner section styles
+ */
+
+.wf-banner-section {
+	padding: 76px 62px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: nowrap; 
+	background: #12CE66 url('../images/premium/banner-bg.svg');
+	background-size: cover;
+	border-radius: 3px;
+	h1 {
+		color: #fff !important;
+		margin-bottom: 0;
+		letter-spacing: 1.1px;
+		text-shadow: 0 6px 12px rgba(0,0,0,0.10);
+	}
+	p {
+		color: #E8FFF2 !important;
+	}
+	.banner-thumb {
+		position: relative;
+		max-height: 200px;
+	}
+	.banner-icon { 
+		background: #FFFFFF;
+		box-shadow: 0 8px 19px 0 rgba(0,0,0,0.16);
+		display: inline-flex;
+		padding: 12px;
+		border-radius: 10px;
+		margin-bottom: 15px;
+	}
+	.video-play-icon {
+		background: #FFFFFF;
+		box-shadow: 1px 17px 44px 0 rgba(0,0,0,0.11);
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+	    bottom: 0;
+	    right: -25px;
+	    animation: play_effect_btn 3s infinite ease-in-out;
+	}
+	.wf-modal-body iframe {
+		width: 100%;
+	}
+	.wf-modal .modal-close {
+		color: #fff;
+		font-size: 13px;
+	}
+	.banner-left-column, .banner-right-column {
+		
+	}
+	.banner-content {
+		margin-bottom: 30px;
+	}
+	.banner-buttons {
+		a:not(:last-child) {
+			margin-right: 18px;
+		}
+	}
+	@media (max-width: 767px){
+		flex-direction: column;
+		.wf-btn-primary {
+			margin-bottom: 10px;
+		}
+	}
+	@media (max-width: 500px){
+		padding: 50px 25px;
+		.video-play-icon {
+			right: -20px;
+			bottom: 20px;
+		}
+	}
+}
+
+
+/**
+ * Feature section styles
+ */
+.wf-features-wrapper {
+	.section-content {
+		margin-bottom: -42px;
+	}
+	.feature-row{
+		margin: 0 -27px;
+		display: flex;
+		flex-wrap: wrap;
+		.feature-column {
+			flex-basis: 33.33%;
+			max-width: 33.33%;
+			padding: 0 27px;
+		}
+		@media ( max-width: 1200px ){
+			margin: 0 -15px;
+			.feature-column {
+				padding: 0 15px;
+			}
+		}
+		@media ( max-width: 767px ){
+			.feature-column {
+				flex-basis: 50%;
+				max-width: 50%;
+			}
+		}
+		@media ( max-width: 420px ){
+			.feature-column {
+				flex-basis: 100%;
+				max-width: 100%;
+				.feature-thumb {
+					width: 100%;
+				}
+			}
+		}
+	}
+	.feature-thumb {
+		display: inline-block;
+		width: auto;
+		box-shadow: -3px 2px 38px 0 rgba(0,0,0,0.06);
+		img {
+			width: 100%;
+			display: flex;
+		}
+	}
+	.feature-column {
+		margin-bottom: 42px;
+		h3 {
+			margin: 30px 0 17px;
+		}
+		p {
+			margin: 0;
+		}
+	}	
+}
+
+/**
+ * Integration section styles
+ */
+
+.wf-integration-wrapper {
+	padding: 70px 45px;
+	background: #fff;
+	border-radius: 3px 3px 0 0;
+	text-align: center;
+	margin-bottom: 0 !important;
+	.section-header {
+		margin-bottom: 70px !important;
+	}
+	.section-content {
+		margin-bottom: -30px;
+	}
+	.integration-row {
+		margin: 0 -22px;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.integration-column {
+		padding: 0 22px;
+		margin-bottom: 30px;
+		flex-basis: 25%;
+		max-width: 25%;
+		@media (max-width: 1200px){
+			flex-basis: 33.33%;
+			max-width: 33.33%;
+		}
+		@media (max-width: 767px){
+			flex-basis: 50%;
+			max-width: 50%;
+		}
+		@media (max-width: 427px){
+			flex-basis: 100%;
+			max-width: 100%;
+		}
+		h3 {
+			margin: 20px 0 17px;
+		}
+		img {
+			// width: 100%;
+		}
+		p {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.wf-import-wrapper {
+	border-top: 1px solid #E2E2E2;
+	padding: 40px;
+	background: #fff;
+	.section-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		@media (max-width: 767px){
+			flex-direction: column;
+			.import-left {
+				margin-bottom: 30px;
+			}
+			.import-left, .import-right {
+				width: 100%;
+			}
+		}
+	}
+	
+	.import-left {
+		display: flex;
+		flex: 1;
+		p, h2 {
+			margin: 0;
+		}
+		p {
+			color: #1ABC9C;
+			font-size: 16px;
+			line-height: 26px;
+			// padding-bottom: 10px;
+		}
+		h2 {
+			font-size: 25px;
+			line-height: 36px;
+		}
+		.import-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-basis: 65px;
+			height: 65px;
+			background: #12CE66;
+			box-shadow: 0 11px 25px 0 rgba(0,0,0,0.16);
+			border-radius: 8px;
+			margin-right: 30px;
+		}
+	}
+	.import-right {}
+}
