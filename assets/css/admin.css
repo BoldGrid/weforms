@@ -1279,6 +1279,10 @@ label.weforms-switch .switch-slider.round:before {
   padding: 0 10px;
   flex-basis: 25%;
   max-width: 25%;
+  margin-bottom: 0;
+  background-color: transparent;
+  box-shadow: none;
+  border: 0;
 }
 @media (max-width: 767px) {
   .wpuf-integrations-wrap {
