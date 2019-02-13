@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1003px" height="379px" viewBox="0 0 1003 379" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 7</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="16.7124155%" y1="19.6882852%" x2="131.516892%" y2="118.000157%" id="linearGradient-1">
+            <stop stop-color="#12CE66" offset="0%"></stop>
+            <stop stop-color="#7EE6D1" offset="97.7691474%"></stop>
+        </linearGradient>
+        <linearGradient x1="-63.4350854%" y1="-88.4976913%" x2="100.907823%" y2="129.528776%" id="linearGradient-2">
+            <stop stop-color="#7EE6D1" offset="0%"></stop>
+            <stop stop-color="#12CE66" offset="100%"></stop>
+        </linearGradient>
+        <path d="M3,0 L1000,0 C1001.65685,-3.04359188e-16 1003,1.34314575 1003,3 L1003,376 C1003,377.656854 1001.65685,379 1000,379 L3,379 C1.34314575,379 2.02906125e-16,377.656854 0,376 L0,3 C-2.02906125e-16,1.34314575 1.34314575,3.04359188e-16 3,0 Z" id="path-3"></path>
+        <linearGradient x1="33.1340954%" y1="20.4391798%" x2="7.6642383%" y2="72.7965136%" id="linearGradient-5">
+            <stop stop-color="#7EE6D1" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#0ECD78" offset="100%"></stop>
+        </linearGradient>
+        <path d="M490.899582,495.950039 C405.866718,495.950039 309.305804,521.809295 215.611222,493.236531 C90.7703398,455.165503 -191.019779,575.566682 -234.904488,393.177672 C-287.962713,172.662655 -83.8579367,-9.93042565 60.560351,-51.7427776 C160.052351,-80.5525078 317.987021,-36.3076029 402.483401,43.8327383 C404.97546,46.1880217 407.44156,48.6040084 409.899008,51.0564169 C464.69835,106.089922 507.262373,186.230263 527.415171,276.653723 C531.568603,295.301741 536.734434,325.714035 539.183228,358.032409 C544.132734,423.130502 538.127564,495.950039 490.899582,495.950039 Z" id="path-6"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Premium-Page-Design-for-weForms" transform="translate(-221.000000, -87.000000)">
+            <g id="Group-7" transform="translate(221.000000, 87.000000)">
+                <mask id="mask-4" fill="white">
+                    <use xlink:href="#path-3"></use>
+                </mask>
+                <g id="Rectangle-5-Copy-25">
+                    <use fill="url(#linearGradient-1)" xlink:href="#path-3"></use>
+                    <use fill="url(#linearGradient-2)" xlink:href="#path-3"></use>
+                </g>
+                <g id="Fill-1-Copy-7" mask="url(#mask-4)" transform="translate(148.556961, 223.053398) rotate(174.000000) translate(-148.556961, -223.053398) ">
+                    <use fill="url(#linearGradient-1)" xlink:href="#path-6"></use>
+                    <use fill="url(#linearGradient-5)" xlink:href="#path-6"></use>
+                </g>
+                <path d="M1563.56506,590.845707 C1478.53219,590.845707 1381.97128,619.029895 1288.2767,587.888235 C1163.43582,546.394349 881.645696,677.620455 837.760988,478.833369 C784.702762,238.492475 988.807539,39.4829711 1133.22583,-6.08861022 C1232.71783,-37.4885413 1390.6525,10.734297 1475.14888,98.0798278 C1477.64094,100.646868 1480.10704,103.280069 1482.56448,105.952967 C1537.36383,165.934377 1579.92785,253.279908 1600.08065,351.833084 C1604.23408,372.157692 1609.39991,405.304269 1611.8487,440.528296 C1616.79821,511.479173 1610.79304,590.845707 1563.56506,590.845707 Z" id="Fill-1-Copy-8" fill="#000000" opacity="0.03" mask="url(#mask-4)" transform="translate(1221.222437, 293.413706) scale(-1, 1) rotate(174.000000) translate(-1221.222437, -293.413706) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

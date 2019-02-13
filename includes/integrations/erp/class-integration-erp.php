@@ -13,7 +13,7 @@ class WeForms_Integration_ERP extends WeForms_Abstract_Integration {
     function __construct() {
         $this->id    = 'erp';
         $this->title = __( 'WP ERP', 'weforms' );
-        $this->icon  = WEFORMS_ASSET_URI . '/images/icon-weforms.png';
+        $this->icon  = WEFORMS_ASSET_URI . '/images/icon-erp.svg';
 
         $this->settings_fields = array(
             'enabled' => false,

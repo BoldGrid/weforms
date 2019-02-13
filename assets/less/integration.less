@@ -1,0 +1,231 @@
+#wpuf-form-builder .tab-content {
+	overflow-x: hidden;
+}
+
+.wpuf-integrations-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -10px;
+
+	.wpuf-integration {
+		padding: 0 10px;
+		flex-basis: 25%;
+		max-width: 25%;
+		margin-bottom: 0; 
+	   	background-color: transparent;
+	  	box-shadow: none;
+	  	border: 0; 
+	}
+	@media (max-width: 767px){
+		margin: 0;
+		.wpuf-integration {
+			flex-basis: 50%;
+			max-width: 50%;
+		}
+	}
+	@media (max-width: 450px){
+		.wpuf-integration {
+			flex-basis: 100%;
+			max-width: 100%;
+			label {
+				margin: 0 0 10px;
+			}
+			.wpuf-int-form-row {
+				flex-direction: column;
+			}
+			.wpuf-int-field {
+				width: 100%;
+				position: relative;
+				input:not([type='checkbox']), select, textarea {
+					padding: 7px 12px;
+					border-radius: 3px;
+					max-width: 100%;
+					width: 100%;
+				}
+				.wpuf-merge-tag-wrap {
+					.merge-tag-link {
+						position: absolute;
+						top: 7px;
+						right: 7px;
+					}
+					.wpuf-merge-tags {
+						top: 35px;
+					}
+				}
+			}
+		}
+	}
+	.wpuf-setting {
+		display: flex;
+		align-items: center;
+		a {
+			display: inline-flex;
+			margin-right: 10px;
+		}
+		span {
+			font-size: 16px;
+			font-weight: 400;
+		}
+	}
+
+	.wf-modal .wf-modal-dialog {
+		max-width: 600px;
+	}
+	.wf-modal-header {
+		border-bottom: 1px solid #E2E2E2;
+		background: #FBFBFB;
+		padding: 10px 20px;
+		img {
+			opacity: .5;
+			filter: grayscale(100%);
+			transition: all .3s ease-in-out;
+		}
+		.wpuf-toggle-switch{
+			&.checked ~ img {
+				opacity: 1;
+				filter: none;
+			}
+		} 
+		.modal-close {
+			color: #777;
+			width: 52px;
+			height: 52px;
+			border-radius: 0;
+			background: transparent;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			top: 0;
+			right: 0;
+			border-left: 1px solid #ddd;
+			font-size: 18px;
+			font-weight: 300;
+			border-radius: 0 3px 0 0;
+			border-bottom: 0;
+			&:hover {
+				background: #eee;
+    			opacity: 0.8;
+			}
+		}
+		.modal-header-left {
+			display: flex;
+			align-items: center;
+			img {
+				// height: 40px;
+				margin-left: 15px;
+			}
+		}
+	}
+	.wf-modal-footer {
+		border-top: 1px solid #E2E2E2;
+		background: #FBFBFB;
+		padding: 10px 20px;
+	}
+
+	fieldset {
+		border: 1px solid #E2E2E2 !important;
+		padding: 20px;
+		margin-bottom: 10px;
+		legend {
+			font-weight: 600;
+			font-size: 15px;
+			padding: 0 10px;
+		}
+		label {
+			font-weight: 600;
+		}
+	}
+}
+
+// form styles
+.wpuf-int-form-row {
+	display: flex;
+	margin-bottom: 10px;
+	.wpuf-integration-updater {
+		display: inline-flex;
+		margin-left: 5px;
+	}
+	.wpuf-int-field-label {
+		margin-right: 10px;
+		min-width: 120px;
+		display: inline-flex;
+	}
+	.wpuf-int-field {
+		width: calc(100% - 120px);
+		position: relative;
+		input:not([type='checkbox']), select, textarea {
+			padding: 7px 12px;
+			border-radius: 3px;
+			max-width: 100%;
+			width: 100%;
+		}
+		.wpuf-merge-tag-wrap {
+			.merge-tag-link {
+				position: absolute;
+				top: 7px;
+				right: 7px;
+			}
+			.wpuf-merge-tags {
+				top: 35px;
+			}
+		}
+	}
+	.wpuf-int-field-label {
+		label {
+			font-weight: 600;
+			display: block;
+			margin-top: 6px;
+		}
+	}
+}
+
+@panel-border-color: #E2E2E2;
+.wpuf-panel {
+	border: 1px solid @panel-border-color;
+	margin-bottom: 20px;
+	&.panel-checked {
+		.wpuf-panel-body img {
+			filter: none;
+			opacity: 1;
+		}
+	}
+	.wpuf-panel-body {
+		position: relative;
+		background: #fff;
+		height: 163px;
+		padding: 10px 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px 4px 0 0;
+		img {
+			max-height: 100%;
+			max-width: 160px; 
+			filter: grayscale(100%);
+		    opacity: .5;
+		    transition: all .3s ease-in-out;
+		}
+		.premium-badge {
+			font-size: 12px;
+			font-weight: 400;
+			line-height: 20px;
+			color: #fff;
+			background: #7ED321;
+			display: inline-block;
+			padding: 3px 12px;
+			position: absolute;
+			top: 20px;
+			right: -1px;
+			border-radius: 20px 0 0 20px;
+		}
+	}
+	.wpuf-panel-footer {
+		border-radius: 0 0 4px 4px;
+		background: #FBFBFB;
+		border-top: 1px solid @panel-border-color;
+		padding: 10px 20px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}

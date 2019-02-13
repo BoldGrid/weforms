@@ -84,5 +84,19 @@ Vue.component('wpuf-integration', {
         showHide: function(target) {
             $(target).closest('.wpuf-integration').toggleClass('collapsed');
         },
+
+        openModal: function(target){
+            $(target).parents('.wpuf-integration').find('.wf-modal').addClass('wf-modal-open');
+        },
+
+        hideModal: function(target){
+            $(target).parents('.wf-modal').removeClass('wf-modal-open');
+        },
+
+        save_form_builder: function(target){
+            $('.weforms-save-form-builder').trigger('click');
+            this.hideModal(target);
+        }
+        
     }
 });

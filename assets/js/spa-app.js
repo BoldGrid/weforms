@@ -4,7 +4,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /*!
 weForms - v1.3.6
-Generated: 2019-02-12 (1549968631437)
+Generated: 2019-02-13 (1550048451896)
 */
 
 ;(function ($) {
@@ -1220,7 +1220,12 @@ Generated: 2019-02-12 (1549968631437)
     };
     /* ./assets/spa/components/weforms-premium/index.js */
     weForms.routeComponents.Premium = {
-        template: '#tmpl-wpuf-weforms-premium'
+        template: '#tmpl-wpuf-weforms-premium',
+        data: function data() {
+            return {
+                showModal: false
+            };
+        }
     };
     /* ./assets/spa/components/weforms-settings/index.js */
     weForms.routeComponents.Settings = {

@@ -15,7 +15,7 @@
             <span class="pull-right">
                 <a :href="'<?php echo home_url( '/' ); ?>?weforms_preview=1&form_id=' + post.ID" target="_blank" class="button"><span class="dashicons dashicons-visibility" style="padding-top: 3px;"></span> <?php _e( 'Preview', 'weforms' ); ?></a>
 
-                <button v-if="!is_form_saving" type="button" class="button button-primary" @click="save_form_builder">
+                <button v-if="!is_form_saving" type="button" class="button button-primary weforms-save-form-builder" @click="save_form_builder">
                     <?php _e( 'Save Form', 'weforms' ); ?>
                 </button>
 
