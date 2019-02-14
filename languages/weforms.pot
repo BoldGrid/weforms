@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.3.6\n"
+"Project-Id-Version: weForms 1.3.7\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2019-01-17 06:26:08+00:00\n"
+"POT-Creation-Date: 2019-02-14 06:38:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -188,7 +188,7 @@ msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:104
 #: includes/admin/class-form-builder-assets.php:306
-#: includes/class-scripts-styles.php:415
+#: includes/class-scripts-styles.php:428
 msgid "Are you sure?"
 msgstr ""
 
@@ -205,12 +205,12 @@ msgid "Are you sure you want to delete this field?"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:279
-#: includes/class-scripts-styles.php:416
+#: includes/class-scripts-styles.php:429
 msgid "Yes, delete it"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:280
-#: includes/class-scripts-styles.php:417
+#: includes/class-scripts-styles.php:430
 msgid "No, cancel it"
 msgstr ""
 
@@ -715,7 +715,39 @@ msgstr ""
 msgid "ConvertKit"
 msgstr ""
 
-#: includes/admin/class-pro-upgrades.php:115
+#: includes/admin/class-pro-upgrade-integrations.php:87
+msgid "GetResponse"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:99
+msgid "Google Analytics"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:111
+msgid "Google Sheets"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:123
+msgid "HubSpot"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:135
+msgid "SalesForce"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:147
+msgid "Trello"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:159
+msgid "Zapier"
+msgstr ""
+
+#: includes/admin/class-pro-upgrade-integrations.php:171
+msgid "Zoho"
+msgstr ""
+
+#: includes/admin/class-pro-upgrades.php:123
 msgid "Conditional Logic"
 msgstr ""
 
@@ -1040,7 +1072,9 @@ msgid "To a custom URL"
 msgstr ""
 
 #: includes/admin/views/form-settings.php:19
-msgid "After successfull submit, where the page will redirect to"
+msgid ""
+"After successful submit, where the page will redirect to. This redirect "
+"option will not work if Show Report in Frontend option is enabled."
 msgstr ""
 
 #: includes/admin/views/form-settings.php:25
@@ -1067,63 +1101,63 @@ msgstr ""
 msgid "Schedule form"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:8
+#: includes/admin/views/submission-restriction.php:9
 msgid "Schedule form for a period"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:12
+#: includes/admin/views/submission-restriction.php:13
 msgid "Schedule for a time period the form is active."
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:18
+#: includes/admin/views/submission-restriction.php:19
 msgid "Schedule Period"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:21
+#: includes/admin/views/submission-restriction.php:22
 msgid "From"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:24
+#: includes/admin/views/submission-restriction.php:25
 msgid "To"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:30
+#: includes/admin/views/submission-restriction.php:31
 msgid "Form Pending Message"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:37
+#: includes/admin/views/submission-restriction.php:38
 msgid "Form Expired Message"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:44
+#: includes/admin/views/submission-restriction.php:45
 msgid "Require Login"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:48
+#: includes/admin/views/submission-restriction.php:50
 msgid "Require user to be logged in"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:54
+#: includes/admin/views/submission-restriction.php:56
 msgid "Require Login Message"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:61
+#: includes/admin/views/submission-restriction.php:63
 msgid "Limit Entries"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:65
+#: includes/admin/views/submission-restriction.php:68
 msgid "Enable form entry limit"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:69
+#: includes/admin/views/submission-restriction.php:72
 msgid "Limit the number of entries allowed for this form"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:75
+#: includes/admin/views/submission-restriction.php:78
 msgid "Number of Entries"
 msgstr ""
 
-#: includes/admin/views/submission-restriction.php:82
+#: includes/admin/views/submission-restriction.php:85
 msgid "Limit Reached Message"
 msgstr ""
 
@@ -1282,7 +1316,7 @@ msgstr ""
 msgid "Please provide a form name"
 msgstr ""
 
-#: includes/class-ajax.php:283 includes/class-ajax.php:435
+#: includes/class-ajax.php:283 includes/class-ajax.php:436
 msgid "No form id provided!"
 msgstr ""
 
@@ -1290,47 +1324,47 @@ msgstr ""
 msgid "No form ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:339
+#: includes/class-ajax.php:340
 msgid "Could not create the form"
 msgstr ""
 
-#: includes/class-ajax.php:509 includes/class-ajax.php:514
+#: includes/class-ajax.php:510 includes/class-ajax.php:515
 msgid "No form fields found!"
 msgstr ""
 
-#: includes/class-ajax.php:650 includes/class-ajax.php:677
+#: includes/class-ajax.php:651 includes/class-ajax.php:678
 msgid "No entry ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:725
+#: includes/class-ajax.php:726
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:736
+#: includes/class-ajax.php:737
 msgid "No form field was found."
 msgstr ""
 
-#: includes/class-ajax.php:848 includes/class-ajax.php:864
+#: includes/class-ajax.php:849 includes/class-ajax.php:865
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
-#: includes/class-ajax.php:1109
+#: includes/class-ajax.php:1110
 msgid "No file found to import."
 msgstr ""
 
-#: includes/class-ajax.php:1123
+#: includes/class-ajax.php:1124
 msgid "The forms have been imported successfully!"
 msgstr ""
 
-#: includes/class-ajax.php:1125
+#: includes/class-ajax.php:1126
 msgid "Something went wrong importing the file."
 msgstr ""
 
-#: includes/class-ajax.php:1128
+#: includes/class-ajax.php:1129
 msgid "Invalid file or file size too big."
 msgstr ""
 
-#: includes/class-ajax.php:1171
+#: includes/class-ajax.php:1172
 msgid "ago"
 msgstr ""
 
@@ -1424,43 +1458,43 @@ msgstr ""
 msgid ".."
 msgstr ""
 
-#: includes/class-scripts-styles.php:402
+#: includes/class-scripts-styles.php:415
 msgid "Please fix the errors to proceed"
 msgstr ""
 
-#: includes/class-scripts-styles.php:404
+#: includes/class-scripts-styles.php:417
 msgid "Word limit reached"
 msgstr ""
 
-#: includes/class-scripts-styles.php:408
+#: includes/class-scripts-styles.php:421
 msgid "is required"
 msgstr ""
 
-#: includes/class-scripts-styles.php:409
+#: includes/class-scripts-styles.php:422
 msgid "does not match"
 msgstr ""
 
-#: includes/class-scripts-styles.php:410
+#: includes/class-scripts-styles.php:423
 msgid "is not valid"
 msgstr ""
 
-#: includes/class-scripts-styles.php:411
+#: includes/class-scripts-styles.php:424
 msgid "requires a unique entry and this value has already been used"
 msgstr ""
 
-#: includes/class-scripts-styles.php:425
+#: includes/class-scripts-styles.php:438
 msgid "Allowed Files"
 msgstr ""
 
-#: includes/class-scripts-styles.php:431
+#: includes/class-scripts-styles.php:444
 msgid "Maximum number of files reached!"
 msgstr ""
 
-#: includes/class-scripts-styles.php:432
+#: includes/class-scripts-styles.php:445
 msgid "The file you have uploaded exceeds the file size limit. Please try again."
 msgstr ""
 
-#: includes/class-scripts-styles.php:433
+#: includes/class-scripts-styles.php:446
 msgid "You have uploaded an incorrect file type. Please try again."
 msgstr ""
 
