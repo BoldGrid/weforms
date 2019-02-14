@@ -3,8 +3,9 @@
     <tr class="wpuf-schedule-entries">
         <th><?php _e( 'Schedule form', 'weforms' ); ?></th>
         <td>
-            <label>
+            <label class="weforms-switch">
                 <input type="checkbox" v-model="settings.schedule_form" :true-value="'true'" :false-value="'false'">
+                <span class="switch-slider round"></span>
                 <?php _e( 'Schedule form for a period', 'weforms' ); ?>
             </label>
 
@@ -43,8 +44,9 @@
     <tr class="wpuf-require-login">
         <th><?php _e( 'Require Login', 'weforms' ); ?></th>
         <td>
-            <label>
+            <label class="weforms-switch">
                 <input type="checkbox" v-model="settings.require_login" :true-value="'true'" :false-value="'false'">
+                <span class="switch-slider round"></span>
                 <?php _e( 'Require user to be logged in', 'weforms' ); ?>
             </label>
         </td>
@@ -60,8 +62,9 @@
     <tr class="wpuf-limit-entries">
         <th><?php _e( 'Limit Entries', 'weforms' ); ?></th>
         <td>
-            <label>
+            <label class="weforms-switch">
                 <input type="checkbox" v-model="settings.limit_entries" :true-value="'true'" :false-value="'false'">
+                <span class="switch-slider round"></span>
                 <?php _e( 'Enable form entry limit', 'weforms' ); ?>
             </label>
 

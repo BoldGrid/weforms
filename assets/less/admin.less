@@ -671,9 +671,12 @@ a.add-notification .dashicons {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
         background: #fff;
         border-radius: 2px;
-
         display: flex;
 
+        &.weforms-pro-deactivate{
+            width: 75%;
+            float: left;
+        }
 
         #weforms-settings-tabs {
             background: #f1f1f1;
@@ -776,6 +779,46 @@ a.add-notification .dashicons {
             }
         }
     }
+
+    #weforms-settings-page-sidebar{
+        width: 25%;
+        display: inline-block;
+        padding-left: 15px;
+        box-sizing: border-box;
+
+        .weforms-settings-page-sidebar-content{
+            background: #fff;
+            padding: 15px 15px 50px 15px;
+            margin-top: 15px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+            border-radius: 2px;
+
+            h2 {
+                margin-top: 0;
+                font-size: 20px;
+                line-height: 26px;
+            }
+
+            ul{
+                li{
+                    margin-bottom: 20px;
+                    padding-left: 30px;
+                    position: relative;
+
+                    span{
+                        &.dashicons{
+                            color: #fff;
+                            background: #58B99D;
+                            border-radius: 50%;
+                            position: absolute;
+                            left: 0;
+                            top: 2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .wpuf-integrations-wrap .wpuf-integration .wpuf-integration-header .wpuf-integration-header-label img.icon{
@@ -850,3 +893,130 @@ a.add-notification .dashicons {
         top: 27px;
     }
 }
+
+th.weforms-form-status-col-title{
+    text-align: center;
+}
+
+td.weforms-form-status{
+    text-align: center;
+}
+
+td.weforms-form-status p{
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+}
+
+td.weforms-form-status span{
+    display: block;
+    font-style: italic;
+    font-size: 10px;
+    margin-left: 8px;
+    margin-bottom: 0;
+}
+
+td.weforms-form-status span.weforms-status-closed{
+  color: red;
+}
+
+.weforms-form-status .open{
+  color: #3aa73a;
+}
+
+.contact-form-list th.col-form-shortcode{
+  width: 170px;
+}
+
+.contact-form-list th.col-form-entries,
+.contact-form-list th.col-form-views{
+  width: 50px;
+}
+
+.contact-form-list th.col-form-conversion{
+  width: 80px;
+}
+
+td.weforms-form-creator img{
+  max-width: 30px;
+  border-radius: 50%;
+  float: left;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+td.weforms-form-creator span{
+  text-transform: capitalize;
+  display: block;
+}
+
+td.weforms-form-creator span.date{
+  font-size: 10px;
+}
+
+label{
+    &.weforms-switch{
+        position: relative;
+        display: block;
+        padding-left: 20px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+
+        input[type=checkbox]{
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -moz-transition: .4s;
+          -webkit-transition: .4s;
+          transition: .4s;
+          width: 35px;
+          height: 18px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 2px;
+            background-color: white;
+            -moz-transition: .4s;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .switch-slider {
+          background-color: #8DC63F;
+        }
+
+        input:checked + .switch-slider:before {
+          -webkit-transform: translateX(16px);
+          -ms-transform: translateX(16px);
+          transform: translateX(16px);
+        }
+
+        /* Rounded sliders */
+        .switch-slider.round {
+          border-radius: 34px;
+        }
+
+        .switch-slider.round:before {
+          border-radius: 50%;
+        }
+    }
+}
+
+
+@import './premium.less';
+@import './integration.less';

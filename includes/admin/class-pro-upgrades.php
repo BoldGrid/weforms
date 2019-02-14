@@ -38,7 +38,15 @@ class WeForms_Pro_Upgrades {
             'WeForms_Pro_Integration_CM',
             'WeForms_Pro_Integration_CC',
             'WeForms_Pro_Integration_AWeber',
-            'WeForms_Pro_Integration_ConvertKit'
+            'WeForms_Pro_Integration_ConvertKit',
+            'WeForms_Pro_Integration_GetResponse',
+            'WeForms_Pro_Integration_GoogleAnalytics',
+            'WeForms_Pro_Integration_GoogleSheets',
+            'WeForms_Pro_Integration_HubSpot',
+            'WeForms_Pro_Integration_SalesForce',
+            'WeForms_Pro_Integration_Trello',
+            'WeForms_Pro_Integration_Zapier',
+            'WeForms_Pro_Integration_Zoho'
         );
 
         return array_merge( $integrations, $pro );

@@ -13,7 +13,7 @@ class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
     function __construct() {
         $this->id    = 'slack';
         $this->title = __( 'Slack', 'weforms' );
-        $this->icon  = WEFORMS_ASSET_URI . '/images/icon-slack.png';
+        $this->icon  = WEFORMS_ASSET_URI . '/images/icon-slack.svg';
 
         $this->settings_fields = array(
             'enabled' => false,

@@ -319,6 +319,7 @@ class WeForms_Ajax {
         $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
 
         $form = weforms()->form->duplicate( $form_id );
+        $form->settings = $form->get_settings();
 
         wp_send_json_success( $form );
     }

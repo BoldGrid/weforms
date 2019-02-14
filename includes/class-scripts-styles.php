@@ -366,6 +366,19 @@ class WeForms_Scripts_Styles {
             )
         );
 
+        // load single min file of above scripts including chart js when script debug disabled
+        // weforms.min.js/weforms.js file generate by grunt release command
+        // check concat:frontendScripts in Gruntfile.js
+        if ( !SCRIPT_DEBUG ) {
+            $scripts = array(
+                'wpuf-form' => array(
+                    'src'       => WEFORMS_ASSET_URI . '/js/weforms.min.js',
+                    'deps'      => array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider', 'plupload-handlers', 'jquery-ui-sortable' ),
+                    'in_footer' => false
+                )
+            );
+        }
+
         return apply_filters( 'weforms_frontend_scripts', $scripts );
     }
 
@@ -411,7 +424,7 @@ class WeForms_Scripts_Styles {
             'duplicate'  => __( 'requires a unique entry and this value has already been used', 'weforms' ),
         ) );
 
-        wp_localize_script( 'wpuf-upload', 'wpuf_frontend_upload', array(
+        wp_localize_script( 'wpuf-form', 'wpuf_frontend_upload', array(
             'confirmMsg' => __( 'Are you sure?', 'weforms' ),
             'delete_it'  => __( 'Yes, delete it', 'weforms' ),
             'cancel_it'  => __( 'No, cancel it', 'weforms' ),

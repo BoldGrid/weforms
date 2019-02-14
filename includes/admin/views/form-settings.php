@@ -16,7 +16,7 @@
                 ?>
             </select>
             <p class="description">
-                <?php _e( 'After successfull submit, where the page will redirect to', 'weforms' ) ?>
+                <?php _e( 'After successful submit, where the page will redirect to. This redirect option will not work if Show Report in Frontend option is enabled.', 'weforms' ) ?>
             </p>
         </td>
     </tr>

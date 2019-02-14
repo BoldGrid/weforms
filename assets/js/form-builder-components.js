@@ -298,7 +298,21 @@
 
             showHide: function showHide(target) {
                 $(target).closest('.wpuf-integration').toggleClass('collapsed');
+            },
+
+            openModal: function openModal(target) {
+                $(target).parents('.wpuf-integration').find('.wf-modal').addClass('wf-modal-open');
+            },
+
+            hideModal: function hideModal(target) {
+                $(target).parents('.wf-modal').removeClass('wf-modal-open');
+            },
+
+            save_form_builder: function save_form_builder(target) {
+                $('.weforms-save-form-builder').trigger('click');
+                this.hideModal(target);
             }
+
         }
     });
 

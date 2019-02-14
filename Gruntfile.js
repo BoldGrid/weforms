@@ -185,6 +185,14 @@ module.exports = function (grunt) {
                     '<%= dirs.js %>/vendor.js': vendorAssets,
                 }
             },
+            frontendScripts: {
+                options: {
+                     process: filename_on_concat
+                },
+                files: {
+                    '<%= dirs.js %>/weforms.js': ['<%= dirs.wpuf %>/js/frontend-form.js', '<%= dirs.wpuf %>/vendor/sweetalert2/dist/sweetalert2.js', '<%= dirs.wpuf %>/js/jquery-ui-timepicker-addon.js', '<%= dirs.wpuf %>/js/upload.js'],
+                }
+            },
         },
 
         // Clean up build directory
@@ -308,6 +316,12 @@ module.exports = function (grunt) {
                 }
             },
 
+            frontendScripts: {
+                files: {
+                    '<%= dirs.js %>/weforms.min.js': '<%= dirs.js %>/weforms.js',
+                }
+            },
+
         },
 
         babel: {
@@ -359,9 +373,10 @@ module.exports = function (grunt) {
     grunt.registerTask('i18n', ['addtextdomain', 'makepot']);
     grunt.registerTask('readme', ['wp_readme_to_markdown']);
     grunt.registerTask('vendor', ['concat:vendor','uglify:vendor']);
+    grunt.registerTask('frontendassets', ['concat:frontendScripts','uglify:frontendScripts']);
 
     // build stuff
-    grunt.registerTask('release', ['i18n', 'readme', 'babel:main', 'uglify:main','vendor']); // 'wpuf' removed
+    grunt.registerTask('release', ['i18n', 'readme', 'babel:main', 'uglify:main','vendor', 'frontendassets']); // 'wpuf' removed
     grunt.registerTask('zip', ['clean:build', 'copy', 'compress']); // 'wpuf' removed
 
     grunt.util.linefeed = '\n';

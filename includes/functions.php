@@ -1217,6 +1217,31 @@ function weforms_get_countries( $type = 'array' ) {
     return $countries;
 }
 
+
+
+/**
+ * Get country name
+ *
+ * @since 1.3.7
+ *
+ * @param  string $country_code (required)
+ *
+ * @return string
+ */
+function get_country_name( $country_code ) {
+    if ( empty( $country_code ) ) {
+        return;
+    }
+
+    $countries = weforms_get_countries();
+
+    foreach ($countries as $country ) {
+        if ( $country['code'] == $country_code ) {
+            return $country['name'];
+        }
+    }
+}
+
 /**
  * Localize countries
  *
