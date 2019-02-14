@@ -1,6 +1,6 @@
 <div class="weforms-premium">
-    <?php 
-        // _e( 'weForms Pro', 'weforms' ); 
+    <?php
+        // _e( 'weForms Pro', 'weforms' );
         // echo WeForms_Form_Builder_Assets::get_pro_url();
         //  echo WEFORMS_ASSET_URI; /images/integrations/mailchimp.svg"
     ?>
@@ -26,7 +26,7 @@
                 <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' );?></p>
             </div>
             <div class="banner-buttons">
-                <a href="#" class="wf-btn wf-btn-primary"><?php _e( 'Create Your First Form', 'weforms' ); ?></a>
+                <a href="https://wedevs.com/weforms-upgrade/" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
                 <a href="https://wedevs.com/weforms/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
             </div>
         </div><!-- end banner left column -->
@@ -71,7 +71,7 @@
         </div><!-- end banner right column -->
 
     </div><!-- end banner section -->
-    
+
     <!-- start features section -->
     <div id="features" class="wf-features-wrapper wf-section-wrapper">
         <div class="section-header">
@@ -223,7 +223,7 @@
                         <p><?php _e( 'A bunch of more integrations are coming soon.', 'weforms' ); ?></p>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div><!-- end integration section -->
@@ -233,7 +233,7 @@
         <div class="section-content">
             <div class="import-left">
                 <div class="import-icon">
-                    
+
                     <svg width="32px" height="35px" viewBox="0 0 32 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="Premium-Page-Design-for-weForms" transform="translate(-278.000000, -2204.000000)" fill="#FFFFFF">
