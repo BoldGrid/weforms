@@ -5,7 +5,7 @@
 **Requires at least:** 4.4  
 **Requires PHP:** 5.4  
 **Tested up to:** 5.0.3  
-**Stable tag:** 1.3.6  
+**Stable tag:** 1.3.7  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -191,6 +191,12 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.3.7 (14 February, 2019) ###
+
+* **Improvement:** New design for form integrations tab.
+* **Improvement:** Replace single checkbox with switch button.
+* **Fix:** When duplicating a contact form, showing error `schedule_form of undefined`.
 
 ### Version 1.3.6 (17 January, 2019) ###
 
