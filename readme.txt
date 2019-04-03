@@ -4,7 +4,7 @@ Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.4
-Tested up to: 5.0.3
+Tested up to: 5.1.1
 Stable tag: 1.3.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -55,6 +55,9 @@ Quickly create rich contact forms to generate leads, make conversions and sales,
 
 = Drag and Drop Form Builder with Live Preview =
 Design forms faster with weForms’ drag and drop function. The live preview feature enhances this feature tremendously. Get an instant view from the dashboard of how your form is going to look like when you publish it!
+
+= Publish your weForms using Gutenberg =
+Easily add your forms in Gutenberg editor with the weForms block. When users want to publish forms on a page, they can simply select it from the drop-down present in the dedicated weForms block for Gutenberg. The entire form automatically renders within the editor as well as on page. It’s much easier than manually copying and pasting shortcodes! Saves you a ton of time and clicks. But you can also do it the old style using the shortcodes block.
 
 = Enhanced with the most popular WordPress Frontend Submission solution =
 weForms comes with the best frontend post submission plugin, WP User Frontend. Post your forms seamlessly on your website or business with a clean look.
