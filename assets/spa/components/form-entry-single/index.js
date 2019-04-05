@@ -88,7 +88,24 @@ weForms.routeComponents.FormEntriesSingle = {
         },
 
         getCountryName: function( code ) {
-            return this.findCountry( code ).name;
+            if ( this.findCountry( code ) ) {
+                return this.findCountry( code ).name;
+            }
+        },
+
+        getAddressFieldValue: function( value ) {
+            var self = this,
+                countryString = value.match(/Country Select:(\s([A-Z])\w+)/g);
+
+            if (countryString !== null) {
+                var countryCode = countryString[0].substring(15, countryString[0].length).trim(),
+                    countryName = self.getCountryName(countryCode),
+                    strToReplace = countryCode;
+
+                return value.replace(strToReplace, countryName);
+            }
+
+            return value;
         }
     },
     watch: {

@@ -1,16 +1,10 @@
 'use strict';
 
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*!
-weForms - v1.3.6
-Generated: 2019-02-13 (1550048451896)
+weForms - v1.3.7
+Generated: 2019-04-05 (1554465436119)
 */
 
 ;(function ($) {
@@ -40,6 +34,7 @@ Generated: 2019-02-13 (1550048451896)
         created: function created() {
             this.fetchData();
         },
+
 
         computed: {
             columnLength: function columnLength() {
@@ -675,7 +670,24 @@ Generated: 2019-02-13 (1550048451896)
             },
 
             getCountryName: function getCountryName(code) {
-                return this.findCountry(code).name;
+                if (this.findCountry(code)) {
+                    return this.findCountry(code).name;
+                }
+            },
+
+            getAddressFieldValue: function getAddressFieldValue(value) {
+                var self = this,
+                    countryString = value.match(/Country Select:(\s([A-Z])\w+)/g);
+
+                if (countryString !== null) {
+                    var countryCode = countryString[0].substring(15, countryString[0].length).trim(),
+                        countryName = self.getCountryName(countryCode),
+                        strToReplace = countryCode;
+
+                    return value.replace(strToReplace, countryName);
+                }
+
+                return value;
             }
         },
         watch: {
