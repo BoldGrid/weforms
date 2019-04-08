@@ -521,7 +521,6 @@ class WeForms_Ajax {
         $respondentPoints   = isset($form_settings['total_points']) ? floatval( $form_settings['total_points'] ) : 0 ;
 
         foreach ( $fields as $key => $field ) {
-
             if ( $form_settings['quiz_form'] == 'yes' ) {
                 $selectedAnswers    = isset($field['selected_answers']) ? $field['selected_answers'] : '';
                 $givenAnswer        = isset($field['value']) ? $field['value'] : '';
@@ -893,12 +892,6 @@ class WeForms_Ajax {
 
             $value = $entry_fields[ $field['name'] ];
 
-            // if ( isset( $field['required'] ) && $field['required'] && empty( $value ) ) {
-            // wp_send_json( array(
-            // 'success'     => false,
-            // 'error'       => __( sprintf( '%s field is required', $field['label'] ), 'weforms' ),
-            // ) );
-            // }
             if ( 'single_product' === $field['template'] ) {
 
                 if ( ! $value ) {

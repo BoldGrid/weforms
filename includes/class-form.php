@@ -210,13 +210,48 @@ class WeForms_Form {
             return $values;
         }
 
-        $ignore_fields  = apply_filters( 'ignore_fields_list', array( 'recaptcha' ) );
+        $ignore_fields  = apply_filters( 'ignore_fields_list', array( 'recaptcha', 'section_break' ) );
         $options_fields = apply_filters( 'option_fields_list', array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' ) );
 
         foreach ($fields as $field) {
 
             if ( in_array( $field['template'], $ignore_fields ) ) {
                 continue;
+            }
+
+            // Prepare column field data
+            if ( $field['template'] == 'column_field' ) {
+                $inner_columns = $field['inner_fields'];
+
+                if ( !empty( $inner_columns ) ) {
+                    foreach ( $inner_columns as $column => $column_fields ) {
+
+                        if ( !empty( $column_fields ) ) {
+                            foreach ($column_fields as $field_obj) {
+                                if ( in_array( $field_obj['template'], $ignore_fields ) ) {
+                                    continue;
+                                }
+
+                                if ( ! isset( $field_obj['name'] ) ) {
+                                    continue;
+                                }
+
+                                $field_value = array(
+                                    'label' => isset( $field_obj['label'] ) ? $field_obj['label'] : '',
+                                    'type'  => $field_obj['template'],
+                                );
+
+                                // put options if this is an option field
+                                if ( in_array( $field_obj['template'], $options_fields ) ) {
+                                    $field_value['options'] = $field_obj['options'];
+                                }
+
+                                $values[ $field_obj['name'] ] = array_merge( $field_obj, $field_value);
+                            }
+                        }
+
+                    }
+                }
             }
 
             if ( ! isset( $field['name'] ) ) {
@@ -382,7 +417,7 @@ class WeForms_Form {
         $entry_fields = array();
 
         $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
-            'recaptcha'
+            'recaptcha', 'section_break'
         ) );
 
         foreach ($form_fields as $field) {
@@ -393,6 +428,28 @@ class WeForms_Form {
 
             if ( ! array_key_exists( $field['template'], $fields ) ) {
                 continue;
+            }
+
+            // Prepare column field data
+            if ( $field['template'] == 'column_field' ) {
+                $inner_columns = $field['inner_fields'];
+
+                if ( !empty( $inner_columns ) ) {
+                    foreach ( $inner_columns as $column => $column_fields ) {
+
+                        if ( !empty( $column_fields ) ) {
+                            foreach ($column_fields as $field_obj) {
+                                if ( in_array( $field_obj['template'], $ignore_list ) ) {
+                                    continue;
+                                }
+
+                                $fieldClass = $fields[ $field_obj['template'] ];
+                                $entry_fields[ $field_obj['name'] ] = $fieldClass->prepare_entry( $field_obj );
+                            }
+                        }
+
+                    }
+                }
             }
 
             $field_class = $fields[ $field['template'] ];

@@ -1,10 +1,16 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 /*!
 weForms - v1.3.7
-Generated: 2019-04-05 (1554465436119)
+Generated: 2019-04-10 (1554877016847)
 */
 
 ;(function ($) {
@@ -34,7 +40,6 @@ Generated: 2019-04-05 (1554465436119)
         created: function created() {
             this.fetchData();
         },
-
 
         computed: {
             columnLength: function columnLength() {
@@ -1525,11 +1530,32 @@ Generated: 2019-04-05 (1554465436119)
             },
 
             update_editing_form_field: function update_editing_form_field(state, payload) {
-                var editing_field = _.find(state.form_fields, function (item) {
-                    return parseInt(item.id) === parseInt(payload.editing_field_id);
-                });
+                var i = 0;
 
-                editing_field[payload.field_name] = payload.value;
+                for (i = 0; i < state.form_fields.length; i++) {
+                    // check if the editing field exist in normal fields
+                    if (state.form_fields[i].id === parseInt(payload.editing_field_id)) {
+                        state.form_fields[i][payload.field_name] = payload.value;
+                    }
+
+                    // check if the editing field belong to a column field
+                    if (state.form_fields[i].template === 'column_field') {
+                        var innerColumnFields = state.form_fields[i].inner_fields;
+
+                        for (var columnFields in innerColumnFields) {
+                            if (innerColumnFields.hasOwnProperty(columnFields)) {
+                                var columnFieldIndex = 0;
+
+                                while (columnFieldIndex < innerColumnFields[columnFields].length) {
+                                    if (innerColumnFields[columnFields][columnFieldIndex].id === parseInt(payload.editing_field_id)) {
+                                        innerColumnFields[columnFields][columnFieldIndex][payload.field_name] = payload.value;
+                                    }
+                                    columnFieldIndex++;
+                                }
+                            }
+                        }
+                    }
+                }
             },
 
             // add new form field element
@@ -1613,6 +1639,137 @@ Generated: 2019-04-05 (1554465436119)
                 Vue.set(state.integrations, payload.index, payload.value);
 
                 // state.integrations.splice(payload.index, 0, payload.value);
+            },
+
+            // add new form field element to column field
+            add_column_inner_field_element: function add_column_inner_field_element(state, payload) {
+                var columnFieldIndex = state.form_fields.findIndex(function (field) {
+                    return field.id === payload.toWhichColumnField;
+                });
+
+                if (state.form_fields[columnFieldIndex].inner_fields[payload.toWhichColumn] === undefined) {
+                    state.form_fields[columnFieldIndex].inner_fields[payload.toWhichColumn] = [];
+                }
+
+                if (state.form_fields[columnFieldIndex].inner_fields[payload.toWhichColumn] !== undefined) {
+                    var innerColumnFields = state.form_fields[columnFieldIndex].inner_fields[payload.toWhichColumn];
+
+                    if (innerColumnFields.filter(function (innerField) {
+                        return innerField.name === payload.field.name;
+                    }).length <= 0) {
+                        state.form_fields[columnFieldIndex].inner_fields[payload.toWhichColumn].splice(payload.toIndex, 0, payload.field);
+                    }
+                }
+            },
+
+            move_column_inner_fields: function move_column_inner_fields(state, payload) {
+                var columnFieldIndex = state.form_fields.findIndex(function (field) {
+                    return field.id === payload.field_id;
+                }),
+                    innerFields = payload.inner_fields,
+                    mergedFields = [];
+
+                Object.keys(innerFields).forEach(function (column) {
+                    // clear column-1, column-2 and column-3 fields if move_to specified column-1
+                    // add column-1, column-2 and column-3 fields to mergedFields, later mergedFields will move to column-1 field
+                    if (payload.move_to === "column-1") {
+                        innerFields[column].forEach(function (field) {
+                            mergedFields.push(field);
+                        });
+
+                        // clear current column inner fields
+                        state.form_fields[columnFieldIndex].inner_fields[column].splice(0, innerFields[column].length);
+                    }
+
+                    // clear column-2 and column-3 fields if move_to specified column-2
+                    // add column-2 and column-3 fields to mergedFields, later mergedFields will move to column-2 field
+                    if (payload.move_to === "column-2") {
+                        if (column === "column-2" || column === "column-3") {
+                            innerFields[column].forEach(function (field) {
+                                mergedFields.push(field);
+                            });
+
+                            // clear current column inner fields
+                            state.form_fields[columnFieldIndex].inner_fields[column].splice(0, innerFields[column].length);
+                        }
+                    }
+                });
+
+                // move inner fields to specified column
+                if (mergedFields.length !== 0) {
+                    mergedFields.forEach(function (field) {
+                        state.form_fields[columnFieldIndex].inner_fields[payload.move_to].splice(0, 0, field);
+                    });
+                }
+            },
+
+            // sorting inside column field
+            swap_column_field_elements: function swap_column_field_elements(state, payload) {
+                var columnFieldIndex = state.form_fields.findIndex(function (field) {
+                    return field.id === payload.field_id;
+                }),
+                    fieldObj = state.form_fields[columnFieldIndex].inner_fields[payload.fromColumn][payload.fromIndex];
+
+                if (payload.fromColumn !== payload.toColumn) {
+                    // add the field object to the target column
+                    state.form_fields[columnFieldIndex].inner_fields[payload.toColumn].splice(payload.toIndex, 0, fieldObj);
+
+                    // remove the field index from the source column
+                    state.form_fields[columnFieldIndex].inner_fields[payload.fromColumn].splice(payload.fromIndex, 1);
+                } else {
+                    state.form_fields[columnFieldIndex].inner_fields[payload.toColumn].swap(payload.fromIndex, payload.toIndex);
+                }
+            },
+
+            // open field settings panel
+            open_column_field_settings: function open_column_field_settings(state, payload) {
+                var field = payload.column_field;
+
+                if ('field-options' === state.current_panel && field.id === state.editing_field_id) {
+                    return;
+                }
+
+                if (field) {
+                    state.editing_field_id = 0;
+                    state.current_panel = 'field-options';
+                    state.editing_field_type = 'column_field';
+                    state.editing_column_field_id = payload.field_id;
+                    state.edting_field_column = payload.column;
+                    state.editing_inner_field_index = payload.index;
+
+                    setTimeout(function () {
+                        state.editing_field_id = field.id;
+                    }, 400);
+                }
+            },
+
+            clone_column_field_element: function clone_column_field_element(state, payload) {
+                var columnFieldIndex = state.form_fields.findIndex(function (field) {
+                    return field.id === payload.field_id;
+                });
+
+                var field = _.find(state.form_fields[columnFieldIndex].inner_fields[payload.toColumn], function (item) {
+                    return parseInt(item.id) === parseInt(payload.column_field_id);
+                });
+
+                var clone = $.extend(true, {}, field),
+                    index = parseInt(payload.index) + 1;
+
+                clone.id = payload.new_id;
+                clone.name = clone.name + '_copy';
+                clone.is_new = true;
+
+                state.form_fields[columnFieldIndex].inner_fields[payload.toColumn].splice(index, 0, clone);
+            },
+
+            // delete a column field
+            delete_column_field_element: function delete_column_field_element(state, payload) {
+                var columnFieldIndex = state.form_fields.findIndex(function (field) {
+                    return field.id === payload.field_id;
+                });
+
+                state.current_panel = 'form-fields';
+                state.form_fields[columnFieldIndex].inner_fields[payload.fromColumn].splice(payload.index, 1);
             }
         }
     });
