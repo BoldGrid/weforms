@@ -20,8 +20,9 @@ class WeForms_Form_Field_Hidden extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
+        $value = isset($_GET[$field_settings['dynamic']['param_name']]) ? $_GET[$field_settings['dynamic']['param_name']] : $field_settings['meta_value'];
         ?>
-        <input type="hidden" name="<?php echo esc_attr( $field_settings['name'] ); ?>" value="<?php echo esc_attr( $field_settings['meta_value'] ); ?>">
+        <input type="hidden" name="<?php echo esc_attr( $field_settings['name'] ); ?>" value="<?php echo esc_attr( $value ); ?>">
         <?php
     }
 
@@ -48,6 +49,15 @@ class WeForms_Form_Field_Hidden extends WeForms_Field_Contract {
                 'section'   => 'basic',
                 'priority'  => 11,
                 'help_text' => __( 'Enter the meta value', 'weforms' ),
+            ),
+
+            array(
+                'name'          => 'dynamic',
+                'title'         => '',
+                'type'          => 'dynamic-field',
+                'section'       => 'advanced',
+                'priority'      => 23,
+                'help_text'     => __( 'Check this option to allow field to be populated dynamically using hooks/query string/shortcode', 'weforms' ),
             ),
         );
 

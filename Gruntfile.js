@@ -343,6 +343,7 @@ module.exports = function (grunt) {
                     '<%= dirs.js %>/spa-app.js': '<%= dirs.js %>/spa-app.js',
                     '<%= dirs.js %>/spa-mixins.js': '<%= dirs.js %>/spa-mixins.js',
                     '<%= dirs.js %>/wpuf-form-builder-contact-forms.js': '<%= dirs.js %>/wpuf-form-builder-contact-forms.js',
+                    '<%= dirs.wpuf %>/js/wpuf-form-builder-components.js': '<%= dirs.wpuf %>/js/wpuf-form-builder-components.js',
                 }
             },
             vendor: {

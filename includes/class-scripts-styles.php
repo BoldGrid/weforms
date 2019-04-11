@@ -229,6 +229,8 @@ class WeForms_Scripts_Styles {
             'jquery',
             'jquery-ui-sortable',
             'jquery-ui-draggable',
+            'jquery-ui-droppable',
+            'jquery-ui-resizable',
             'jquery-ui-datepicker',
             'weforms-tiny-mce',
             'underscore',

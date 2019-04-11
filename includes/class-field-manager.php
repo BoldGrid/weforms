@@ -49,6 +49,7 @@ class WeForms_Field_Manager {
         require_once dirname( __FILE__ ) . '/fields/class-field-name.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-email.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-textarea.php';
+        require_once dirname( __FILE__ ) . '/fields/class-field-column.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-checkbox.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-radio.php';
         require_once dirname( __FILE__ ) . '/fields/class-field-dropdown.php';
@@ -69,6 +70,7 @@ class WeForms_Field_Manager {
             'textarea_field'      => new WeForms_Form_Field_Textarea(),
             'radio_field'         => new WeForms_Form_Field_Radio(),
             'checkbox_field'      => new WeForms_Form_Field_Checkbox(),
+            'column_field'        => new WeForms_Form_Field_Column(),
             'dropdown_field'      => new WeForms_Form_Field_Dropdown(),
             'multiple_select'     => new WeForms_Form_Field_MultiDropdown(),
             'website_url'         => new WeForms_Form_Field_URL(),
@@ -115,7 +117,8 @@ class WeForms_Field_Manager {
                 'id'     => 'others',
                 'fields' => apply_filters( 'weforms_field_groups_others',
                     array(
-						'section_break',
+						'column_field',
+                        'section_break',
 						'custom_html',
 						'recaptcha'
                     )
@@ -160,7 +163,7 @@ class WeForms_Field_Manager {
 
         $this->notification = new WeForms_Notification();
         $this->notification->set_merge_tags();
-        
+
         $fields = apply_filters( 'weforms_render_fields', $fields, $form_id );
 
         foreach ( $fields as $field ) {
