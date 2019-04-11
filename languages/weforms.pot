@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.3.7\n"
+"Project-Id-Version: weForms 1.3.8\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2019-02-14 06:38:35+00:00\n"
+"POT-Creation-Date: 2019-04-11 12:00:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -188,7 +188,7 @@ msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:104
 #: includes/admin/class-form-builder-assets.php:306
-#: includes/class-scripts-styles.php:428
+#: includes/class-scripts-styles.php:430
 msgid "Are you sure?"
 msgstr ""
 
@@ -205,12 +205,12 @@ msgid "Are you sure you want to delete this field?"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:279
-#: includes/class-scripts-styles.php:429
+#: includes/class-scripts-styles.php:431
 msgid "Yes, delete it"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:280
-#: includes/class-scripts-styles.php:430
+#: includes/class-scripts-styles.php:432
 msgid "No, cancel it"
 msgstr ""
 
@@ -1332,39 +1332,39 @@ msgstr ""
 msgid "No form fields found!"
 msgstr ""
 
-#: includes/class-ajax.php:651 includes/class-ajax.php:678
+#: includes/class-ajax.php:650 includes/class-ajax.php:677
 msgid "No entry ids provided!"
 msgstr ""
 
-#: includes/class-ajax.php:726
+#: includes/class-ajax.php:725
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:737
+#: includes/class-ajax.php:736
 msgid "No form field was found."
 msgstr ""
 
-#: includes/class-ajax.php:849 includes/class-ajax.php:865
+#: includes/class-ajax.php:848 includes/class-ajax.php:864
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
-#: includes/class-ajax.php:1110
+#: includes/class-ajax.php:1103
 msgid "No file found to import."
 msgstr ""
 
-#: includes/class-ajax.php:1124
+#: includes/class-ajax.php:1117
 msgid "The forms have been imported successfully!"
 msgstr ""
 
-#: includes/class-ajax.php:1126
+#: includes/class-ajax.php:1119
 msgid "Something went wrong importing the file."
 msgstr ""
 
-#: includes/class-ajax.php:1129
+#: includes/class-ajax.php:1122
 msgid "Invalid file or file size too big."
 msgstr ""
 
-#: includes/class-ajax.php:1172
+#: includes/class-ajax.php:1165
 msgid "ago"
 msgstr ""
 
@@ -1402,11 +1402,11 @@ msgstr ""
 msgid "Select a contact form that will show on the vendor dashboard."
 msgstr ""
 
-#: includes/class-field-manager.php:94
+#: includes/class-field-manager.php:96
 msgid "Custom Fields"
 msgstr ""
 
-#: includes/class-field-manager.php:114
+#: includes/class-field-manager.php:116
 msgid "Others"
 msgstr ""
 
@@ -1438,7 +1438,7 @@ msgstr ""
 msgid "Form:"
 msgstr ""
 
-#: includes/class-form.php:268
+#: includes/class-form.php:303
 msgid "The form is not published yet."
 msgstr ""
 
@@ -1458,43 +1458,43 @@ msgstr ""
 msgid ".."
 msgstr ""
 
-#: includes/class-scripts-styles.php:415
+#: includes/class-scripts-styles.php:417
 msgid "Please fix the errors to proceed"
 msgstr ""
 
-#: includes/class-scripts-styles.php:417
+#: includes/class-scripts-styles.php:419
 msgid "Word limit reached"
 msgstr ""
 
-#: includes/class-scripts-styles.php:421
+#: includes/class-scripts-styles.php:423
 msgid "is required"
 msgstr ""
 
-#: includes/class-scripts-styles.php:422
+#: includes/class-scripts-styles.php:424
 msgid "does not match"
 msgstr ""
 
-#: includes/class-scripts-styles.php:423
+#: includes/class-scripts-styles.php:425
 msgid "is not valid"
 msgstr ""
 
-#: includes/class-scripts-styles.php:424
+#: includes/class-scripts-styles.php:426
 msgid "requires a unique entry and this value has already been used"
 msgstr ""
 
-#: includes/class-scripts-styles.php:438
+#: includes/class-scripts-styles.php:440
 msgid "Allowed Files"
 msgstr ""
 
-#: includes/class-scripts-styles.php:444
+#: includes/class-scripts-styles.php:446
 msgid "Maximum number of files reached!"
 msgstr ""
 
-#: includes/class-scripts-styles.php:445
+#: includes/class-scripts-styles.php:447
 msgid "The file you have uploaded exceeds the file size limit. Please try again."
 msgstr ""
 
-#: includes/class-scripts-styles.php:446
+#: includes/class-scripts-styles.php:448
 msgid "You have uploaded an incorrect file type. Please try again."
 msgstr ""
 
@@ -1546,10 +1546,12 @@ msgid "Large"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:236
+#: includes/fields/class-field-column.php:87
 msgid "CSS Class Name"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:240
+#: includes/fields/class-field-column.php:91
 msgid ""
 "Provide a container class name for this field. Available classes: "
 "wpuf-col-half, wpuf-col-half-last, wpuf-col-one-third, "
@@ -1557,20 +1559,21 @@ msgid ""
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:249
+#: includes/fields/class-field-hidden.php:60
 msgid ""
 "Check this option to allow field to be populated dynamically using "
 "hooks/query string/shortcode"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:256
-#: includes/fields/class-field-hidden.php:37
+#: includes/fields/class-field-hidden.php:38
 #: includes/fields/class-field-html.php:60
 #: includes/fields/class-field-sectionbreak.php:63
 msgid "Meta Key"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:260
-#: includes/fields/class-field-hidden.php:41
+#: includes/fields/class-field-hidden.php:42
 #: includes/fields/class-field-html.php:64
 #: includes/fields/class-field-sectionbreak.php:67
 msgid "Name of the meta key this field will save to"
@@ -1631,6 +1634,7 @@ msgid "Number of rows in textarea"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:368
+#: includes/fields/class-field-column.php:9
 msgid "Columns"
 msgstr ""
 
@@ -1670,6 +1674,24 @@ msgstr ""
 #: includes/fields/class-field-name.php:160
 #: includes/fields/class-field-radio.php:80
 msgid "Show this option in an inline list"
+msgstr ""
+
+#: includes/fields/class-field-column.php:71
+msgid "Number of Columns"
+msgstr ""
+
+#: includes/fields/class-field-column.php:75
+#: includes/fields/class-field-recaptcha.php:144
+#: includes/fields/class-field-sectionbreak.php:59
+msgid "Title of the section"
+msgstr ""
+
+#: includes/fields/class-field-column.php:79
+msgid "Space Between Columns"
+msgstr ""
+
+#: includes/fields/class-field-column.php:83
+msgid "Add padding space between columns. e.g: 10"
 msgstr ""
 
 #: includes/fields/class-field-date.php:9
@@ -1755,11 +1777,11 @@ msgstr ""
 msgid "Hidden Field"
 msgstr ""
 
-#: includes/fields/class-field-hidden.php:46
+#: includes/fields/class-field-hidden.php:47
 msgid "Meta Value"
 msgstr ""
 
-#: includes/fields/class-field-hidden.php:50
+#: includes/fields/class-field-hidden.php:51
 msgid "Enter the meta value"
 msgstr ""
 
@@ -1918,11 +1940,6 @@ msgstr ""
 #: includes/templates/class-template-employee-information.php:133
 #: includes/templates/class-template-loan-application-form.php:29
 msgid "Title"
-msgstr ""
-
-#: includes/fields/class-field-recaptcha.php:144
-#: includes/fields/class-field-sectionbreak.php:59
-msgid "Title of the section"
 msgstr ""
 
 #: includes/fields/class-field-recaptcha.php:152

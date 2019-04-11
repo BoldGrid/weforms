@@ -840,7 +840,6 @@
             });
         },
 
-
         computed: {
             column_fields: function column_fields() {
                 return this.field.inner_fields;
@@ -849,7 +848,6 @@
             innerColumns: function innerColumns() {
                 return this.field.columns;
             },
-
 
             editing_form_id: function editing_form_id() {
                 return this.$store.state.editing_field_id;
@@ -970,7 +968,6 @@
             getInnerFields: function getInnerFields() {
                 return this.field.inner_fields;
             },
-
 
             open_column_field_settings: function open_column_field_settings(field, index, column) {
                 var self = this,
