@@ -1537,7 +1537,7 @@ ul.wpuf-form .wpuf-field-columns .wpuf-column-field-inner-columns .wpuf-column .
   display: inline-flex;
 }
 .wpuf-int-form-row .wpuf-int-field {
-  width: calc(-20%);
+  width: calc(100% - 120px);
   position: relative;
 }
 .wpuf-int-form-row .wpuf-int-field input:not([type='checkbox']),
