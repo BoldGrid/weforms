@@ -311,7 +311,7 @@ class WeForms_Form {
             $limit        = (int) $settings['limit_number'];
             $form_entries = $this->num_form_entries();
 
-            if ( $limit < $form_entries ) {
+            if ( $limit <= $form_entries ) {
                 return new WP_Error( 'entry-limit', $settings['limit_message'] );
             }
         }
@@ -417,7 +417,7 @@ class WeForms_Form {
         $entry_fields = array();
 
         $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
-            'recaptcha', 'section_break'
+            'recaptcha', 'section_break','step_start'
         ) );
 
         foreach ($form_fields as $field) {
