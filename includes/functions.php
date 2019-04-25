@@ -1064,7 +1064,20 @@ function weforms_get_default_form_settings() {
             'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
             'page_id'                    => '',
             'url'                        => '',
+
             'submit_text'                => __( 'Submit Query', 'weforms' ),
+            'submit_button_cond'         => array(
+                'condition_status' => 'no',
+                'cond_logic'       => 'any',
+                'conditions'       => array(
+                    array(
+                        'name'             => '',
+                        'operator'         => '=',
+                        'option'           => ''
+                    )
+                )
+            ),
+
             'schedule_form'              => 'false',
             'schedule_start'             => '',
             'schedule_end'               => '',

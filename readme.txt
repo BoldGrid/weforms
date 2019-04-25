@@ -1,5 +1,5 @@
 === weForms - Best Contact Form Plugin for WordPress ===
-Contributors: tareq1988, nizamuddinbabu, wedevs, rafsuntaskin,  rabbii, itowhid06
+Contributors: tareq1988, nizamuddinbabu, wedevs, rabbii, itowhid06
 Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
@@ -197,7 +197,7 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 = Version 1.3.8 (11 April, 2019) =
 
-* **Feature:** Added column field: Now, creating multi-column in a single row is super easy with WPUF Column field. Just drag the column field in the builder area, configure columns number, column space and add any fields you want inside that Column field.
+* **Feature:** Added column field: Now, creating multi-column in a single row is super easy with weForms Column field. Just drag the column field in the builder area, configure columns number, column space and add any fields you want inside that Column field.
 * **Enhancement:** Allow dynamic value population for hidden field.
 * **Fix:** Address field country full name not showing in the entries & PDF.
 
