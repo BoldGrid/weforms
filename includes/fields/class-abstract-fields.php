@@ -517,12 +517,6 @@ abstract class WeForms_Field_Contract {
             $condition = '';
         }
 
-        // for section break
-//        if ( $form_field['template'] == 'section_break' ) {
-//            $cond_inputs['name'] = $form_field['name'] .'_'. $form_field['id'];
-//            $condition           = json_encode( $cond_inputs );
-//        }
-
         ?>
         <script type="text/javascript">
             wpuf_conditional_items.push(<?php echo $condition; ?>);
