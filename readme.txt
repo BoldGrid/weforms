@@ -1,10 +1,10 @@
-=== weForms - Best Contact Form Plugin for WordPress ===
+=== weForms - Easy Drag & Drop Contact Form Builder For WordPress ===
 Contributors: tareq1988, nizamuddinbabu, wedevs, rabbii, itowhid06
 Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
-Requires PHP: 5.4
-Tested up to: 5.1.1
+Requires PHP: 5.6.20
+Tested up to: 5.2
 Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,102 +13,157 @@ The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop
 
 == Description ==
 
-weForms is the fastest and easiest WordPress form plugin with breakthrough performance. And it’s more than a contact form maker. weForms is an all-in-one form builder created with the general users in mind. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Feel no delay – because your time is precious!
+=  weForms- The easy-to-use WordPress Contact Form Builder plugin  =
+When we think about using any contact form builder plugin, the first concern is always about how user-friendly and adaptable it actually is. So, we the makers have developed weForms keeping this demand in mind. It is undoubtedly one of the most easy-to-use form builders for WordPress. This contact form plugin is not just a form builder, it can do a lot more than you can imagine. It actually brings all your forms created in your imagination into reality. Think of creating any form in your head and you can build it with a few clicks with weForms absolutely hassle-free.
 
-[youtube https://www.youtube.com/watch?v=sqP-nvyqUdQ]
+Get the best experience of drag & drop form building while creating any form of your imagination. Not to forget its wide range of customizable pre-defined form templates that makes managing and designing any type of form a walk in the park.
 
-= weForms FREE WordPress Form Builder Plugin Features =
-* Unlimited forms
-* Predefined and customizable templates
-* Drag & drop builder
-* Real-time Live Preview
-* Expiry time
-* Entry restrictions
-* One page submission via AJAX
-* Field customization options
-* Form redirection
-* Form submission notification
-* Manage form submissions
-* Export/import forms
-* Mobile-responsive
-* Email submission data
-* Customize mails
-* HTML email template
-* Anti-spam & reCaptcha
-* Slack Integrations
+Moreover, with more than 20+ custom field, you can swiftly build contact forms, leads generating forms, user or event registration forms or any customized form in the simplest way possible without any hitch. Instantly get to view the preview of the form you have created to find out how it is looking for its users.
 
-= The Easiest & Fastest Contact Form Plugin on WordPress  =
-Quickly create rich contact forms to generate leads, taking feedbacks, onboarding visitors and flourishing your imagination! Comes with the best frontend post submission plugin for WordPress, WP User Frontend.
+So weForms is an all-in-one form builder created with the global users in mind. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Feel no delay – because your time is precious!
+
+=  Quick Overview of weForms  =
+[youtube https://www.youtube.com/watch?v=4uYi0833Kjw]
+
+= Key Features =
+* Unlimited forms: Create as many forms as you want and collect all the data you need with as many fields you want.
+* Predefined and customizable templates: Save an ample amount of time using its unique & customizable form templates.
+* Drag & drop builder: Build the form of your dream with its fully featured drag & drop form editing option. v
+* Real-time Live Preview: Preview the form you have created in its live state as it will appear on the website.
+* Expiry time: Set a form expiration date to make the form invalid on a certain date or time.
+* Entry restrictions: Easily limit the number of entries of each individual form by setting the maximum form submission limit.
+* One page submission via AJAX: Form submission without page refresh as it is done using AJAX.
+* Field customization options: Customize the form field available with its bunch of built-in option to make a more custom form.
+* Form redirection: Redirect any submitted form to your website to boost your traffic collection more leads.
+* Form submission notification: Never miss a notification to stay updated when anyone submits a form using weForms.
+* Manage form submissions: Manage the submission of forms to collect data without the hassle of backend coding.
+* Export/import forms: Use the quick form exporting and importing option that lets you start from where you left off.
+* Mobile-friendly forms: 100% mobile responsive when comes to operating your contact forms through any portable devices.
+* Mail support: Get complete mail support feature in the form of customize mails and HTML email template.
+* Email submission data: Connect your forms to several email services to get submitted data in the emails.
+* Anti-spam & reCaptcha: Get rid of spam entries with reCaptcha to eliminate spam messages and registrations with WordPress forms.
+* Slack Integrations: Get notified through your Slack channel whenever any user submits a form using weForms.
+* Column Field: Build form adding any field in column or resize them the way you need it to create a dynamic form for your website.
+
+= KEY ATTRIBUTES THAT MAKE WEFORMS STAND OUT IN THE CROWD =
+
+= DRAG & DROP FORM BUILDER WITH LIVE FORM PREVIEW  =
+If you are not using weForms, then you must be using a slower or a buggy form builder in your WordPress. With its smooth drag and drop form builder, create any type of forms in minutes. You won’t be required to know a single line of coding to create some really powerful forms with the help of its intuitive drag & drop form building features. Just simply drag & drop the fields you want to add to your form from the right panel of the available form fields. Instantly live preview form that you have created in the frontend and make any changes you want right away. Use various types of forms in any department of your company going beyond creating just a simple contact or order form making the workflow totally seamless.
 
 
-= It’s Blazingly Fast! =
-weForms works on everything from a single page, so it is amazingly fast! From creating a form to configuring settings or viewing entries, everything feels real time. No delay - because your time is precious!
+= FULLY RESPONSIVE FORMS FOR ALL YOUR PORTABLE DEVICES =
+Having a completely responsive contact for your WordPress is a must for the users for a user-friendly experience nowadays. weForms ensures that your created forms are all well-responsive even on all mobile devices that help you increase form conversion rates and customer satisfaction. Comparing and testing your forms on different devices might enable you to find the flaws in it. A form might look awesome on the mobile devices, but if the design isn’t properly touch responsive then it might be difficult to use. But with weForms you can be sure that every form you design with it, the forms will be super responsive and look awesome on any screen or devices.
 
-= The Easiest WorkFlow Ever! =
-weForms has the most simplest and easiest user interface over a highly powerful feature set. Since contact forms are needed by everyone from a novice to an expert - it was our first priority to make the form creation, publishing and management easier than any other form builder.
+= PRE-DEFINED FORM TEMPLATES FOR QUICK ACCESS =
+Now, in a lot of cases, you might not want to create every common form that you need. In such a scenario, you would probably want ready-made forms. With weForms you get a variety of pre-built form templates that would totally make your form building easier than ever.
 
-= Single Page Operation =
-Using Vue.js smartly, everything inside weForms actually load in a single page without reloading the page. Which is why, everything happens in an instant. We won’t be surprised if you mistake it for using from your local server.
+Some of the weForms predefined form templates include, Registration forms, Application forms, Payment forms, Reservations forms, Poll and Feedback forms, Request forms, Event registration forms, that quick enables any user to give them enough freedom in generating the form that suits their work or business.
 
-= Do a lot more with weForms! =
-Quickly create rich contact forms to generate leads, make conversions and sales, take feedbacks, and onboard visitors. Configure your settings. View entries. All from a single page! Because weForms is built with the smart Vue.js framework. So everything you do runs smoothly.
-
-= Drag and Drop Form Builder with Live Preview =
-Design forms faster with weForms’ drag and drop function. The live preview feature enhances this feature tremendously. Get an instant view from the dashboard of how your form is going to look like when you publish it!
-
-= Publish your weForms using Gutenberg =
+= PUBLISH YOUR WEFORMS USING GUTENBERG =
 Easily add your forms in Gutenberg editor with the weForms block. When users want to publish forms on a page, they can simply select it from the drop-down present in the dedicated weForms block for Gutenberg. The entire form automatically renders within the editor as well as on page. It’s much easier than manually copying and pasting shortcodes! Saves you a ton of time and clicks. But you can also do it the old style using the shortcodes block.
 
-= Enhanced with the most popular WordPress Frontend Submission solution =
-weForms comes with the best frontend post submission plugin, WP User Frontend. Post your forms seamlessly on your website or business with a clean look.
+= SUPER FAST AND SEO FRIENDLY =
+When it comes to the speed of completing every query from the frontend or in the backend, weForms is something that does this job faster than any other form builder out there. Not to mention the speed it possesses while using its form even from the portable devices.
 
-= It’s Easy to Use and Extensible! =
-Get started with just a few clicks because weForms’ intuitive interface relies on a smooth drag & drag function. Save more time with pre-installed ready-made templates.
-And though weForms looks great on any WordPress theme, you can easily customize your form design as you like with a little bit of custom CSS code!
+More specifically, weForms is the most SEO friendly contact form builder around right now.
 
-= Templates for Quick Action =
-Create industry standard forms quickly with predefined templates or a blank canvas. You can customize it as much as possible to create the perfect form.
 
-= Mobile Responsive =
-Losing out potential users and clients trying to reach you is no more a concern because weForms is mobile-responsive. Let your users fill out weForms that work perfectly on any portable device. You can also access, create, publish, and manage submissions from anywhere. Make your job easier with weForms.
+= EXCEL BY CREATING THE FORMS OF YOUR IMAGINATION =
+Creating the form of your dreams with it is just a walk in the park now. Quickly design any type of forms of your imagination with its custom fields, easy to use field options & user interface.
+
+Instantly, review the form you have created to make any changes required right away. Simply get to improve the quality and standard of your form building and shine your way with the forms that you create with weForms.
+
+= CUSTOM FIELDS TO MAKE THE MOST OUT OF CONTACT FORMS =
+While building a form, using the custom fields available with weForms anyone even without any prior coding knowledge is able to create forms that are suitable for every occasion and purposes. Starting from check-box to image upload fields or radio button to signature field, weForms provides you with every possible form fields including column field option that serve its users in the best & easiest way possible.
+
+= EXTEND & CUSTOMIZE THE FORMS WITHOUT A HITCH =
+As an advanced user, you might want your form to perform in a certain way. This is when the customization capabilities of weForms come in real handy. With its custom CSS, HTML blocks and section dividers, any user is able to customize their forms the way they like it. Not to forget its heaps of filters and hooks that help the developers to easily extend the contact form functionalities.
+
+= EASY FORM IMPORT & EXPORT FACILITY =
+Import your form submissions easily in an organized spreadsheet. Now you can use this data to create reports or export to your CRM or Email marketing solutions.
+
+= FORM ENTRY RESTRICTIONS, SCHEDULING & EXPIRY TIMES =
+You have full control over your forms! What is the point otherwise, right? Create exclusive campaigns by allowing only a limited number of entries, controlling user access, and adding a start and expiry date. Form with an expiry date will automatically disappear after the time you want.
+
+= CUSTOMIZABLE EMAIL NOTIFICATIONS FOR ADMINS =
+Stay alert with every submission. Create multiple custom notification settings on each form with advanced mail forwarding and quickly create templates with hooks.
 
 = Export/Import Option =
 Import your form submissions easily in an organized spreadsheet. Now you can use this data to create reports or export to your CRM or Email marketing solutions.
 
-= reCaptcha Support for Form Security =
-
-Keep your forms free of spam and your submissions organic with the reCaptcha feature, which is one of the most effective detection tools out there. weForms also comes with an Anti-Spam feature in all its versions.
-
-= Customizable Email Notifications for Admins =
-
-Stay alert with every submission. Create multiple custom notification settings on each form with advanced mail forwarding and quickly create templates with hooks.
-
-= Form Entry Restrictions, Scheduling & Expiry Times =
-
-You have full control over your forms! What is the point otherwise, right? Create exclusive campaigns by allowing only a limited number of entries, controlling user access, and adding a start and expiry date. Form with an expiry date will automatically disappear after the time you want.
-
-= Form Redirection Page/Custom URL =
+= FORM REDIRECTION PAGE/CUSTOM URL =
 
 When a contact completes the form, you can redirect with a custom link or a page to guide the contact to the desired landing page. It’s very useful when you want to direct the visitor’s attention.
 
-Craft your next form without a hitch. With weForms, stay organized. And hassle-free.
+Craft your next form without a glitch. With weForms, stay organized and hassle-free.
 
-= Demo Site =
+= Other notable weForms attributes include =
 
-Want to see what it feels like? Experience weForms first-hand with the [weForms demo](https://wedevs.com/in/weforms/demo).
+* ReCaptcha enabled to ensure extra layer of security for forms.
+* Sync email data with MailPoet, MailChimp & Email Campaign.
+* Multi-step/Multi-part Forms.
+* Geolocation & SMS notifications.
+* Free demo site to help users give the perfect idea of how it works.
+* And much more.
 
-= weForms PRO WordPress Plugin Features =
+= Don’t just take our word for it, here is what some of the big names in the community has to say about weForms =
 
-<strong>Want to unlock new features?</strong>
+> weForms is both easy and super fast, even the completely new users can build beautiful WordPress forms without any hassle. - WP Arena
+>
+> The free version offers a host of useful and advanced features that are not available in many existing alternatives. - Cloudways
+>
+> We tried to do some experimentation with weForms and to our utter delight, it looks like we can build all types of contact forms using it! - WPBlog
+>
 
-[Upgrade to weForms PRO](https://wedevs.com/weforms/pricing/)
+Still not convinced? Then...
 
-The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Professional, Developer. It contains more important and advanced features, such as:
+[Check out this contact form comparison including some of the best in the business form builder for WordPress](https://wedevs.com/weforms/compare/)
+
+Or
+
+Try out its [Free Official Demo](https://weformsdemo.wedevs.com/)
+
+= AVAILABLE MODULES & WEFORMS INTEGRATIONS =
+
+* [AWeber:](https://wedevs.com/docs/weforms/integrations/aweber/) Connect weForms with AWeber mail lists to reach submitters via email campaigns. Easily grow your contact base & do more with emails.
+* [Calculation:](https://wedevs.com/weforms/modules/calculation/) Enable users to add calculating capabilities to their forms of numeric fields.
+* [Campaign Monitor:](https://wedevs.com/docs/weforms/integrations/campaign-monitor-integration/) Boost your email marketing by integrating weForms with Campaign Monitor. Quickly generate more leads by syncing your mail lists with submissions.
+* [Constant Contact:](https://wedevs.com/docs/weforms/integrations/constant-contact/) Make your email marketing powerful and simple using Constant Contact integration for weForms.
+* [ConvertKit:](https://wedevs.com/docs/weforms/integrations/convertkit/) Quickly boost up your business by generating more leads syncing the mail lists with submissions by integrating it with weForms.
+* [GetResponse:](https://wedevs.com/docs/weforms/integrations/getresponse/) Supercharge your email marketing to boost up your business by integrating it with weForms.
+* [Google Analytics:](https://wedevs.com/docs/weforms/integrations/google-analytics/) Provides a powerful & complete marketing analytics solution for businesses of all sizes using forms.
+* [Google Sheets:](https://wedevs.com/docs/weforms/integrations/google-sheets/) This awesome integration for weForms will give you the ease of managing submitted information in the familiar Google environment.
+* [HubSpot:](https://wedevs.com/docs/weforms/integrations/hubspot-integration/) Get more opportunities to make deals at your fingertips by integrating HubSpot with weForms and instantly enhance your contact list.
+* [MailChimp:](https://wedevs.com/docs/weforms/integrations/mailchimp/) It makes the already powerful form builder your ultimate lead generating source for any kind of email services.
+* [MailPoet:](https://wedevs.com/docs/weforms/integrations/mailpoet/) It provides you the experience of using the best WordPress Newsletter plugin with the best Form Builder weForms.
+* [Payment (Paypal):](https://wedevs.com/docs/weforms/integrations/payment/) Collect any online PayPal payments with your forms easily by integrating it with weForms.
+* [Payment (Stripe):](https://wedevs.com/weforms/modules/payment-stripe/) Bring online payment collection with credit cards at your fingertips by integrating with the fastest form builder weForms.
+* [PDF Form Submission:](https://wedevs.com/docs/weforms/integrations/pdf-form-submission/) Enable this module to get a better printable PDF version of all your collected submission forms.
+* [Quiz:](https://wedevs.com/docs/weforms/integrations/quiz/) Create simple yet engaging quiz forms and keep your audiences hooked getting a lot of shares by enabling this module.
+* [Salesforce:](https://wedevs.com/docs/weforms/integrations/salesforce/) Integrate with weForms to instantly enhance your user list building more customers and more interactions.
+* [Slack:](https://wedevs.com/docs/weforms/integrations/slack/) Notify your team instantly in Slack when someone submits an entry to your forms created with weForms enabling this free integration.
+* [SMS Notification:](https://wedevs.com/docs/weforms/integrations/sms-notification/) Enable the module to get a notification through SMS every time a form submission occurs.
+* [Trello:](https://wedevs.com/docs/weforms/integrations/trello/) Instantly create task cards from your form submissions enabling this module and save your precious time by integrating it with weForms.
+* [WP ERP:](https://wedevs.com/docs/weforms/integrations/wp-erp/) Integrate your forms with WordPress CRM contact lists & instantly get tons of new leads who you can convert as subscribers or customers.
+* [Zapier:](https://wedevs.com/docs/weforms/integrations/zapier/) The easiest and popular automated workflow management system on the internet integrates with the fastest form builder.
+* [Zoho:](https://wedevs.com/docs/weforms/integrations/zoho/) Enabling it gets you better sales-qualified lead generation. Simply connect it once, pass data instantly & start tracing form subscribers from your CRM as they move through the sales funnel.
+
+=  WEFORMS FORM BUILDER PRO FEATURES  =
+
+Need More Features? Then you might want to upgrade to weForms PRO. This amazing contact form builder for WordPress has been put together with 4 easy, convenient and affordable pricing pack to strengthen your form building functionalities.
+
+=  The four PRO pricing plan includes:  =
+
+* [Personal](https://wedevs.com/weforms/pricing/)
+* [Business](https://wedevs.com/weforms/pricing/)
+* [Professional](https://wedevs.com/weforms/pricing/)
+* [Developer](https://wedevs.com/weforms/pricing/)
+
+=  And these tailored plans consists of some highly essential & cutting-edge PRO features and integrations that include:  =
 
  * Advanced fields
  * Conditional logic
  * Multistep form
- * License Checker
  * Webhooks
  * Country List Field
  * File uploader
@@ -135,9 +190,17 @@ The weForms PRO comes in 4 convenient pricing plans: Personal, Business, Profess
     * Zoho
     * Hubspot
 
-<strong>Want to unlock new features?</strong>
+If you are impressed with weForms so far, then you can also check out its [Official Demo](https://weformsdemo.wedevs.com/wp-admin/) for a much better and practical idea.
 
-[Upgrade to weForms PRO](https://wedevs.com/weforms/pricing/)
+=  Our Other Popular Creations For WordPress  =
+
+If you feel we have a solid contact form builder plugin for WordPress in the form of weForms then you must be wondering what else we are up to. So here is a sneak peek into all the other exclusive & popular WordPress plugins that we have proudly created to serve thousands of our loyal clients worldwide.
+
+* [Dokan:](https://wedevs.com/dokan/) The most popular Multi-vendor marketplace plugin for WordPress enabling any single store WooCommerce site to turn it into a complete multi-seller marketplace like eBay/Amazon in minutes.
+* [WP Project Manager:](https://wedevs.com/wp-project-manager-pro/) Manage & formulate all your task on time using the best project management tool for WordPress.
+* [WP User Frontend:](https://wedevs.com/wp-user-frontend-pro/) Lets your site users or subscribers to manage their account from the frontend without letting them access in the backend to keep the website safe & secure.
+* [WP ERP:](https://wperp.com/) The most complete user-friendly business management solution for WordPress enables you to manage & organize all your company’s HR, CR & Accounting related issues.
+* [WC Conversion Tracking:](https://wedevs.com/woocommerce-conversion-tracking/) Now retargeting your potential customers is easier than ever with this preeminent solution to track your WooCommerce conversion data connecting it with all your favorite ads platforms like Facebook, Twitter, Perfect Audience etc.
 
 == Installation ==
 
