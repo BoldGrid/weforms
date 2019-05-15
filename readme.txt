@@ -26,24 +26,24 @@ So weForms is an all-in-one form builder created with the global users in mind. 
 [youtube https://www.youtube.com/watch?v=4uYi0833Kjw]
 
 = Key Features =
-* Unlimited forms: Create as many forms as you want and collect all the data you need with as many fields you want.
-* Predefined and customizable templates: Save an ample amount of time using its unique & customizable form templates.
-* Drag & drop builder: Build the form of your dream with its fully featured drag & drop form editing option. v
-* Real-time Live Preview: Preview the form you have created in its live state as it will appear on the website.
-* Expiry time: Set a form expiration date to make the form invalid on a certain date or time.
-* Entry restrictions: Easily limit the number of entries of each individual form by setting the maximum form submission limit.
-* One page submission via AJAX: Form submission without page refresh as it is done using AJAX.
-* Field customization options: Customize the form field available with its bunch of built-in option to make a more custom form.
-* Form redirection: Redirect any submitted form to your website to boost your traffic collection more leads.
-* Form submission notification: Never miss a notification to stay updated when anyone submits a form using weForms.
-* Manage form submissions: Manage the submission of forms to collect data without the hassle of backend coding.
-* Export/import forms: Use the quick form exporting and importing option that lets you start from where you left off.
-* Mobile-friendly forms: 100% mobile responsive when comes to operating your contact forms through any portable devices.
-* Mail support: Get complete mail support feature in the form of customize mails and HTML email template.
-* Email submission data: Connect your forms to several email services to get submitted data in the emails.
-* Anti-spam & reCaptcha: Get rid of spam entries with reCaptcha to eliminate spam messages and registrations with WordPress forms.
-* Slack Integrations: Get notified through your Slack channel whenever any user submits a form using weForms.
-* Column Field: Build form adding any field in column or resize them the way you need it to create a dynamic form for your website.
+* **Unlimited forms:** Create as many forms as you want and collect all the data you need with as many fields you want.
+* **Predefined and customizable templates:** Save an ample amount of time using its unique & customizable form templates.
+* **Drag & drop builder:** Build the form of your dream with its fully featured drag & drop form editing option. v
+* **Real-time Live Preview:** Preview the form you have created in its live state as it will appear on the website.
+* **Expiry time:** Set a form expiration date to make the form invalid on a certain date or time.
+* **Entry restrictions:** Easily limit the number of entries of each individual form by setting the maximum form submission limit.
+* **One page submission via AJAX:** Form submission without page refresh as it is done using AJAX.
+* **Field customization options:** Customize the form field available with its bunch of built-in option to make a more custom form.
+* **Form redirection:** Redirect any submitted form to your website to boost your traffic collection more leads.
+* **Form submission notification:** Never miss a notification to stay updated when anyone submits a form using weForms.
+* **Manage form submissions:** Manage the submission of forms to collect data without the hassle of backend coding.
+* **Export/import forms:** Use the quick form exporting and importing option that lets you start from where you left off.
+* **Mobile-friendly forms:** 100% mobile responsive when comes to operating your contact forms through any portable devices.
+* **Mail support:** Get complete mail support feature in the form of customize mails and HTML email template.
+* **Email submission data:** Connect your forms to several email services to get submitted data in the emails.
+* **Anti-spam & reCaptcha:** Get rid of spam entries with reCaptcha to eliminate spam messages and registrations with WordPress forms.
+* **Slack Integrations:** Get notified through your Slack channel whenever any user submits a form using weForms.
+* **Column Field:** Build form adding any field in column or resize them the way you need it to create a dynamic form for your website.
 
 = KEY ATTRIBUTES THAT MAKE WEFORMS STAND OUT IN THE CROWD =
 
