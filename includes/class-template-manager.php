@@ -42,6 +42,8 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-blank.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-contact.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-event-registration.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-delete-data-request.php';
+        require_once WEFORMS_INCLUDES . '/templates/class-template-export-data-request.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-support.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-tell-a-friend.php';
         require_once WEFORMS_INCLUDES . '/templates/class-template-job-application.php';
@@ -71,6 +73,8 @@ class WeForms_Template_Manager {
             'blank'                    => new WeForms_Template_Blank(),
             'contact'                  => new WeForms_Template_Contact(),
             'event_registration'       => new WeForms_Template_Event_Registration(),
+            'delete_data_request'      => new WeForms_Template_Delete_Data_Request(),
+            'export_data_request'      => new WeForms_Template_Export_Data_Request(),
             'support'                  => new WeForms_Template_Support(),
             'tell_a_friend'            => new WeForms_Template_Tell_A_Friend(),
             'job_application'          => new WeForms_Template_Job_Application(),

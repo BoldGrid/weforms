@@ -453,6 +453,48 @@ class WeForms_Notification {
                 return wp_lostpassword_url();
                 break;
 
+            case 'personal_data_erase_confirm_url':
+                $action_type   = 'remove_personal_data';
+                $email_address = weforms_get_entry_meta( $this->args['entry_id'], 'user_email_address', true );
+                $request_id    = wp_create_user_request( $email_address, $action_type );
+
+                if( !empty($email_address) ) {
+
+                    $confirm_url = add_query_arg(
+                        array(
+                            'action'      => 'confirmaction',
+                            'request_id'  => $request_id,
+                            'confirm_key' => wp_generate_user_request_key( $request_id ),
+                        ),
+                        wp_login_url()
+                    );
+
+                    return make_clickable($confirm_url);
+                }
+
+                break;
+
+            case 'personal_data_export_confirm_url':
+                $action_type   = 'export_personal_data';
+                $email_address = weforms_get_entry_meta( $this->args['entry_id'], 'user_email_address', true );
+                $request_id    = wp_create_user_request( $email_address, $action_type );
+
+                if( !empty($email_address) ) {
+
+                    $confirm_url = add_query_arg(
+                        array(
+                            'action'      => 'confirmaction',
+                            'request_id'  => $request_id,
+                            'confirm_key' => wp_generate_user_request_key( $request_id ),
+                        ),
+                        wp_login_url()
+                    );
+
+                    return make_clickable($confirm_url);
+                }
+
+                break;
+
             default:
                 return apply_filters( 'weforms_merge_tag_value', '', $tag, $this->args );
                 break;

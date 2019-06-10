@@ -759,12 +759,14 @@ function weforms_get_merge_tags() {
         'urls' => array(
             'title' => __( 'URL\'s', 'weforms' ),
             'tags'  => array(
-                'url_page'          => __( 'Embeded Page URL', 'weforms' ),
-                'url_referer'       => __( 'Referer URL', 'weforms' ),
-                'url_login'         => __( 'Login URL', 'weforms' ),
-                'url_logout'        => __( 'Logout URL', 'weforms' ),
-                'url_register'      => __( 'Register URL', 'weforms' ),
-                'url_lost_password' => __( 'Lost Password URL', 'weforms' ),
+                'url_page'                          => __( 'Embeded Page URL', 'weforms' ),
+                'url_referer'                       => __( 'Referer URL', 'weforms' ),
+                'url_login'                         => __( 'Login URL', 'weforms' ),
+                'url_logout'                        => __( 'Logout URL', 'weforms' ),
+                'url_register'                      => __( 'Register URL', 'weforms' ),
+                'url_lost_password'                 => __( 'Lost Password URL', 'weforms' ),
+                'personal_data_erase_confirm_url'   => __( 'Personal Data Erase Confirmation URL', 'weforms' ),
+                'personal_data_export_confirm_url'  => __( 'Personal Data Export Confirmation URL', 'weforms' ),
             )
         ),
     );
