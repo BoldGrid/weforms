@@ -5,7 +5,7 @@ Tags: form, forms, contact form, custom form, form builder, form creator, form m
 Requires at least: 4.4
 Requires PHP: 5.6.20
 Tested up to: 5.2
-Stable tag: 1.3.9
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop
 == Description ==
 
 =  weForms- The easy-to-use WordPress Contact Form Builder plugin  =
-When we think about using any contact form builder plugin, the first concern is always about how user-friendly and adaptable it actually is. So, we the makers have developed weForms keeping this demand in mind. It is undoubtedly one of the most easy-to-use form builders for WordPress. This contact form plugin is not just a form builder, it can do a lot more than you can imagine. It actually brings all your forms created in your imagination into reality. Think of creating any form in your head and you can build it with a few clicks with weForms absolutely hassle-free.
+When we think about using any contact form builder plugin, the first concern is always about how user-friendly and adaptable it actually is. So, we the makers have developed [weForms](https://wedevs.com/weforms/) keeping this demand in mind. It is undoubtedly one of the most easy-to-use form builders for WordPress. This contact form plugin is not just a form builder, it can do a lot more than you can imagine. It actually brings all your forms created in your imagination into reality. Think of creating any form in your head and you can build it with a few clicks with weForms absolutely hassle-free.
 
 Get the best experience of drag & drop form building while creating any form of your imagination. Not to forget its wide range of customizable pre-defined form templates that makes managing and designing any type of form a walk in the park.
 
@@ -106,7 +106,7 @@ Craft your next form without a glitch. With weForms, stay organized and hassle-f
 * Free demo site to help users give the perfect idea of how it works.
 * And much more.
 
-= Don’t just take our word for it, here is what some of the big names in the community has to say about weForms =
+= Don’t just take our word for it, here is what some of the big names in the community have to say about weForms =
 
 > weForms is both easy and super fast, even the completely new users can build beautiful WordPress forms without any hassle. - WP Arena
 >
@@ -257,6 +257,11 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.4.0 (17 June, 2019) =
+
+* **Feature:** Added GDPR Export and Delete Requests Forms.
+* **Fix:** Multistep form: scroll to the top of the form when click on Next & Previous buttons.
 
 = Version 1.3.9 (10 May, 2019) =
 
