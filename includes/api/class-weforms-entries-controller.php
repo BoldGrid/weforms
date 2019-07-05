@@ -20,7 +20,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
      *
      * @var string
      */
-    protected $base = 'entries';
+    protected $rest_base = 'entries';
 
     /**
      * Register all routes releated with forms
@@ -31,7 +31,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
 
         register_rest_route(
             $this->namespace,
-            '/'. $this->base . '/(?P<entry_id>[\d]+)',
+            '/'. $this->rest_base . '/(?P<entry_id>[\d]+)',
             array(
                 array(
                     'methods'             => WP_REST_Server::DELETABLE,
@@ -41,6 +41,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
                         'entry_id'  => array(
                             'required'          => true,
                             'type'              => 'integer',
+                            'sanitize_callback' => 'absint',
                             'description'       => __( 'Entry id', 'weforms' ),
                             'validate_callback' => array( $this, 'is_entry_exists' ),
                         ),
@@ -51,14 +52,14 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
 
         register_rest_route(
             $this->namespace,
-            '/'. $this->base . '/bulkdelete',
+            '/'. $this->rest_base,
             array(
                 array(
                     'methods'             => WP_REST_Server::DELETABLE,
                     'callback'            => array( $this, 'bulk_delete_items' ),
                     'permission_callback' => array( $this, 'delete_items_permissions_check' ),
                     'args'                => array(
-                        'entry_ids'  => array(
+                        'entry_id'  => array(
                             'required'          => true,
                             'type'              => 'object',
                             'description'       => __( 'Entry id', 'weforms' ),
@@ -71,7 +72,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
 
         register_rest_route(
             $this->namespace,
-            '/'. $this->base . '/(?P<entry_id>[\d]+)/restore',
+            '/'. $this->rest_base . '/(?P<entry_id>[\d]+)/restore',
             array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
@@ -81,8 +82,9 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
                         'entry_id'  => array(
                             'required'          => true,
                             'type'              => 'integer',
+                            'sanitize_callback' => 'absint',
                             'description'       => __( 'Entry id', 'weforms' ),
-                            'validate_callback' => array( $this, 'is_entry_exists' ),
+                            'validate_callback' => array( $this, 'is_restore_exists' ),
                         )
                     )
                 ),
@@ -91,38 +93,18 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
 
         register_rest_route(
             $this->namespace,
-            '/'. $this->base . '/(?P<entry_id>[\d]+)/trash',
-            array(
-                array(
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'trash_items' ),
-                    'permission_callback' => array( $this, 'update_items_permissions_check' ),
-                    'args'                => array(
-                        'entry_id'  => array(
-                            'required'          => true,
-                            'type'              => 'integer',
-                            'description'       => __( 'Entry id', 'weforms' ),
-                            'validate_callback' => array( $this, 'is_entry_exists' ),
-                        ),
-                    )
-                ),
-            )
-        );
-
-        register_rest_route(
-            $this->namespace,
-            '/'. $this->base . '/bulkrestore',
+            '/'. $this->rest_base . '/restore',
             array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
                     'callback'            => array( $this, 'bulk_restore_items' ),
                     'permission_callback' => array( $this, 'delete_items_permissions_check' ),
                     'args'                => array(
-                        'entry_ids'  => array(
+                        'entry_id'  => array(
                             'required'          => true,
                             'type'              => 'object',
                             'description'       => __( 'Entry id', 'weforms' ),
-                            'validate_callback' => array( $this, 'is_entry_exists' ),
+                            'validate_callback' => array( $this, 'is_restore_exists' ),
                         ),
                     )
                 ),
@@ -141,7 +123,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      **/
     public function bulk_restore_items( $request ) {
-        $entry_ids = isset( $request['entry_ids'] ) ? array_map( 'absint', $request['entry_ids'] ) : array();
+        $entry_ids = isset( $request['entry_id'] ) ? array_map( 'absint', $request['entry_id'] ) : array();
 
         if ( ! $entry_ids ) {
             return new WP_Error( 'rest_invalid_data',__( 'No entry ids provided!','weforms' ),array( 'status' => 404 ) );
@@ -190,30 +172,6 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
     }
 
     /**
-     * Trash Item
-     *
-     * @since 1.4.2
-     *
-     * @param WP_REST_Request $request
-     *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-     **/
-    public function trash_items( $request ) {
-        $entry_id = isset( $request['entry_id'] ) ? intval( $request['entry_id'] ) : 0;
-
-        weforms_change_entry_status( $entry_id, 'trash' );
-
-        $response['id']             = $entry_id;
-        $response['message']        = __( ' Entry Moved To Trash  successfully ', 'weforms' );
-        $response['data']['status'] = 200;
-
-        $response = $this->prepare_response_for_collection( $response );
-        $response = rest_ensure_response( $response );
-
-        return $response;
-    }
-
-    /**
      * Bulk Delele Item
      *
      * @since 1.4.2
@@ -223,7 +181,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      **/
     public function bulk_delete_items( $request ) {
-        $entry_ids = isset( $request['entry_ids'] ) ? array_map( 'absint', $request['entry_ids'] ) : array();
+        $entry_ids = isset( $request['entry_id'] ) ? array_map( 'absint', $request['entry_id'] ) : array();
         $force     = isset( $request['force'] ) && ( $request['force'] ) ? true : false;
 
         if ( ! $entry_ids ) {
@@ -312,19 +270,67 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
     public function is_entry_exists( $param, $request, $key ) {
         global $wpdb;
 
-        if( is_array( $param ) ) {
-           $entry_id = implode( ",", $param );
+        // if( is_array( $param ) ) {
+        if( is_array( $request['entry_id'] ) ) {
+           $entry_id = implode( ",", $request['entry_id'] );
            $querystr = "
                 SELECT $wpdb->weforms_entries.id
                 FROM $wpdb->weforms_entries
                 WHERE $wpdb->weforms_entries.ID  IN ( $entry_id )
             ";
         } else {
-            $entry_id = (int) $param;
+            // $entry_id = (int) $param;
+            $entry_id = (int) $request['entry_id'];
             $querystr = "
                 SELECT $wpdb->weforms_entries.id
                 FROM $wpdb->weforms_entries
                 WHERE $wpdb->weforms_entries.ID = $entry_id
+            ";
+        }
+
+        $result = $wpdb->get_results( $querystr );
+
+        if ( empty( $result ) ) {
+            return false;
+        } else {
+            return true;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Check  is entry in trash exist or not
+     *
+     * @since 1.4.2
+     *
+     * @param string $param
+     * @param WP_REST_Request $request
+     * @param string $key
+     *
+     * @return boolean
+     */
+    public function is_restore_exists( $param, $request, $key ) {
+        global $wpdb;
+
+        // if( is_array( $param ) ) {
+        if( is_array( $request['entry_id'] ) ) {
+           $entry_id = implode( ",", $param );
+           $querystr = "
+                SELECT $wpdb->weforms_entries.id
+                FROM $wpdb->weforms_entries
+                WHERE $wpdb->weforms_entries.ID  IN ( $entry_id )
+                AND $wpdb->weforms_entries.status = \"trash\"
+            ";
+        } else {
+            // $entry_id = (int) $param;
+            $entry_id = (int) $request['entry_id'];
+            $querystr = "
+                SELECT $wpdb->weforms_entries.id
+                FROM $wpdb->weforms_entries
+                WHERE $wpdb->weforms_entries.ID = $entry_id
+                AND $wpdb->weforms_entries.status = \"trash\"
             ";
         }
 
@@ -375,75 +381,6 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
         return (bool) $form->id;
     }
 
-    /**
-     * Retrieves a collection of Entries.
-     *
-     * @since  1.3.9
-     *
-     * @param WP_REST_Request $request Full details about the request.
-     *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-     **/
-    public function get_items( $request ) {
-        $form_id      = isset( $request['id'] ) ? intval( $request['id'] ) : 0;
-        $status       = isset( $request['status'] ) ? $request['status'] : 'publish';
-        $current_page = 1;
-        $per_page     = 1;
-        $offset       = ( $current_page - 1 ) * $per_page;
-
-        if ( ! $form_id ) {
-             return new WP_Error( 'rest_invalid_data', __( 'Please provide a form id', 'weforms'), array( 'status' => 404 ) );
-        }
-
-        $entries = weforms_get_form_entries(
-            $form_id, array(
-                'number' => $per_page,
-                'status' => $status,
-            )
-        );
-
-        $columns       = weforms_get_entry_columns( $form_id );
-        $total_entries = weforms_count_form_entries( $form_id, $status );
-
-        array_map(
-            function( $entry ) use ( $columns ) {
-                    $entry_id = $entry->id;
-                    $entry->fields = array();
-                foreach ( $columns as $meta_key => $label ) {
-                    $value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
-                    $entry->fields[ $meta_key ] = str_replace( WeForms::$field_separator, ' ', $value );
-                }
-            }, $entries
-        );
-
-        $entries = apply_filters( 'weforms_get_entries', $entries, $form_id );
-
-        $response = array(
-            'columns'    => $columns,
-            'entries'    => $entries,
-            'form_title' => get_post_field( 'post_title', $form_id ),
-            'pagination' => array(
-                'total'    => $total_entries,
-                'per_page' => $per_page,
-                'pages'    => ceil( $total_entries / $per_page ),
-                'current'  => $current_page
-            ),
-            'meta' => array(
-                'total'      => weforms_count_form_entries( $form_id ),
-                'totalTrash' => weforms_count_form_entries( $form_id, 'trash' ),
-            ),
-        );
-
-        $max_pages= ceil( $total_entries / $per_page );
-
-        $response = $this->prepare_response_for_collection( $response );
-        $response = rest_ensure_response( $response );
-
-        $response->header( 'X-WP-Total', (int) $total_entries );
-        $response->header( 'X-WP-TotalPages', (int) $max_pages );
-
-        return $response;
-    }
 
     /**
      * Checks if a given request has access to read Entries.
@@ -525,15 +462,80 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
     }
 
     /**
-     * Check Weforms Pro Exist
+     * Get the Form entries schema, conforming to JSON Schema
      *
-     * @return boolean
-     **/
-    public function pro_active() {
-        if( class_exists( 'WeForms_Pro' ) ){
-            return true;
-        }
+     * @since 1.4.2
+     *
+     * @return array
+     */
+    public function get_item_schema() {
+        $schema = array(
+            '$schema'    => 'http://json-schema.org/draft-04/schema#',
+            'title'      => 'entries',
+            'type'       => 'object',
+            'properties' => array(
+                'entry_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_entry_exists' ),
+                    'context'     => array( 'embed', 'view', 'edit' ),
+                    'required'          => true,
+                    'readonly'    => true,
+                ),
+            ),
+        );
 
-        return false;
+        return $schema;
+    }
+
+    /**
+     * prepare_item_for_response
+     * @param  [type] $form    [description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+     */
+    public function prepare_item_for_response( $form, $request ) {
+        $response = rest_ensure_response( $form );
+        $response = $this->add_links( $response, $form );
+        return $response;
+    }
+
+    /**
+     * Adds multiple links to the response.
+     *
+     * @since 1.4.2
+     *
+     * @param   object $response
+     * @param   object $item
+     *
+     * @return  object $response
+     */
+    protected function add_links( $response, $item ) {
+        $response->data['_links'] = $this->prepare_links( $item );
+
+        return $response;
+    }
+
+    /**
+     * Prepare links for the request.
+     *
+     *  @since 1.4.2
+     *
+     * @param  object $item
+     *
+     * @return array Links for the given user.
+     */
+    protected function prepare_links( $item ) {
+        $links = [
+            'self' => [
+                'href' => rest_url( sprintf( '%s/%s/%d', $this->namespace, $this->rest_base, $item['id'] ) ),
+            ],
+            'collection' => [
+                'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
+            ]
+        ];
+
+        return $links;
     }
 }

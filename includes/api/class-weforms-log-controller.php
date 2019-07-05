@@ -20,7 +20,7 @@ class Weforms_Log_Controller extends WP_REST_Controller {
      *
      * @var string
      */
-    protected $base = 'logs';
+    protected $rest_base = 'logs';
 
 
 
@@ -31,7 +31,7 @@ class Weforms_Log_Controller extends WP_REST_Controller {
      */
     public function register_routes() {
 
-        register_rest_route( $this->namespace, '/'. $this->base, array(
+        register_rest_route( $this->namespace, '/'. $this->rest_base, array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
                     'callback'            => array( $this, 'get_items' ),

@@ -21,10 +21,8 @@ class WeForms_Api extends WP_REST_Controller {
             WEFORMS_INCLUDES . '/api/class-weforms-entries-controller.php'     => 'Weforms_Entry_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-forms-controller.php'       => 'Weforms_Forms_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-settings-controller.php'    => 'Weforms_Setting_Controller',
-            WEFORMS_INCLUDES . '/api/class-weforms-tools-controller.php'       => 'Weforms_Tools_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-uploads-controller.php'     => 'Weforms_Upload_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-log-controller.php'         => 'Weforms_Log_Controller',
-            WEFORMS_INCLUDES . '/api/class-weforms-modules-controller.php'     => 'Weforms_Modules_Controller',
         ) );
 
          add_action( 'rest_api_init', array( $this, 'register_routes' ) );

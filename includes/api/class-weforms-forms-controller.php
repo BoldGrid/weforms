@@ -20,7 +20,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      *
      * @var string
      */
-    protected $base = 'forms';
+    protected $rest_base = 'forms';
 
     /**
      * Register all routes releated with forms
@@ -31,17 +31,18 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         register_rest_route(
             $this->namespace,
-            '/'. $this->base,
+            '/'. $this->rest_base,
             array(
                 array(
                     'methods'             => WP_REST_Server::READABLE,
                     'callback'            => array( $this, 'get_items' ),
                     'permission_callback' => array( $this, 'get_items_permissions_check' ),
                     'args' => array(
-                        'posts_per_page' => array(
+                        'per_page' => array(
                             'required'    => false,
                             'type'        => 'integer',
                             'description' => __( 'Post Per Page', 'weforms' ),
+                            'sanitize_callback' => 'absint',
                             'default'     => 10,
                         ),
 
@@ -49,34 +50,117 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                             'required'    => false,
                             'type'        => 'integer',
                             'description' => __( 'Paged', 'weforms' ),
+                            'sanitize_callback' => 'absint',
                             'default'     => 1,
                         ),
+
+                        'status' => array(
+                            'default' => 'publish',
+                            'type'    => 'array',
+                            'items'   => array(
+                                'type' => 'string',
+                                'enum' => array( 'publish', 'draft', 'pending' )
+                            ),
+                        ),
+
+                        'order' => array(
+                            'required'    => false,
+                            'description' => __( 'Order sort attribute ascending or descending.', 'weforms' ),
+                            'type'        => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
+                            'default'     => 'DESC',
+                            'enum'        => array( 'ASC', 'DESC' ),
+                        ),
+
+                        'orderby' => array(
+                            'required'    => false,
+                            'description' => __( 'Sort collection by object attribute.', 'weforms' ),
+                            'type'        => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
+                            'default'     => 'post_date',
+                            'enum'        => array(
+                                'author',
+                                'post_date',
+                                'id',
+                                'title',
+                            ),
+                        ),
+
+                        'search' => array(
+                            'required' => false,
+                            'description' => __( '', 'weforms'),
+                            'type'        => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
+                        )
                     )
                 ),
-
                 array(
                     'methods'             => WP_REST_Server::CREATABLE,
                     'callback'            => array( $this, 'create_item' ),
                     'permission_callback' => array( $this, 'create_item_permissions_check' ),
                     'args' => array(
-                         'template' => array(
-                            'required'          => true,
+                        'template' => array(
+                            'required'          => false,
                             'type'              => 'string',
                             'description'       => 'template name',
+                            'sanitize_callback' => 'sanitize_text_field',
                             'validate_callback' => array( $this, 'is_template_exists' )
                         ),
+                        'name' => array(
+                            'description'       => __( '', 'weforms' ),
+                            'type'              => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
+                            'required'          => false,
+                        ),
+                        "settings" => array(
+                            'description'       => __( '', 'weforms' ),
+                            'type'              => 'object',
+                            'required'          => false,
+                        ),
+                        "notifications" => array(
+                            'description' => __( '', 'weforms' ),
+                            'type'        => 'object',
+                            'required'    => false,
+                        ),
+                        "fields" => array(
+                            'description' => __( '', 'weforms' ),
+                            'type'        => 'object',
+                            'required'    => false,
+                        ),
+                        "integrations" => array(
+                            'description' => __( '', 'weforms' ),
+                            'type'        => 'object',
+                            'required'    => false,
+                        ),
                     )
-
                 ),
+
+                array(
+                    'methods'             => WP_REST_Server::DELETABLE,
+                    'callback'            => array( $this, 'bulk_delete_form' ),
+                    'permission_callback' => array( $this, 'delete_item_permissions_check' ),
+                    'args' => array(
+                        'ids' => array(
+                            'description' => __( 'Unique identifier for the object', 'weforms' ),
+                            'type'    => 'array',
+                            'items'   => array(
+                                'type' => 'integer'
+                            ),
+                            'validate_callback' => array( $this, 'is_bulk_delete_form_exists' ),
+                            'required'          => true,
+                        ),
+                    ),
+                )
             )
         );
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>\d+)', array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>\d+)', array(
 
             'args' => array(
                 'form_id' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'string',
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
@@ -93,18 +177,18 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 'methods'             => WP_REST_Server::DELETABLE,
                 'callback'            => array( $this, 'delete_item' ),
                 'permission_callback' => array( $this, 'delete_item_permissions_check' ),
-
             ),
 
         ) );
 
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>[\d]+)' .'/entries/', array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)' .'/entries/', array(
 
             'args' => array(
                 'form_id' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'integer',
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
                     'validate_callback' => array( $this, 'is_form_exists_field_exists' ),
                     'required'          => true,
                 ),
@@ -114,20 +198,37 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 'methods'             => WP_REST_Server::CREATABLE,
                 'callback'            => array( $this, 'save_entry' ),
                 'permission_callback' => array( $this, 'submit_permissions_check' ),
-
             ),
 
         ) );
 
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>[\d]+)/entries/', array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/entries/', array(
 
             'args' => array(
+
                 'form_id' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'integer',
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
+                ),
+
+                'per_page' => array(
+                    'required'          => false,
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'description'       => __( 'Post Per Page', 'weforms' ),
+                    'default'           => 10,
+                ),
+
+                'page' => array(
+                    'required'          => false,
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'description'       => __( 'Paged', 'weforms' ),
+                    'default'           => 1,
                 ),
             ),
 
@@ -139,7 +240,151 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         ) );
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>[\d]+)/', array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/', array(
+
+            'args' => array(
+
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+
+                'name' => array(
+                    'description'       => __( '', 'weforms' ),
+                    'type'              => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'required'          => true,
+                ),
+
+                "settings_key" => array(
+                    'description'       => __( '', 'weforms' ),
+                    'type'              => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'required'          => false,
+                ),
+
+                "settings" => array(
+                    'description'       => __( '', 'weforms' ),
+                    'type'              => 'object',
+                    'required'          => false,
+                ),
+
+                "notifications" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'        => 'object',
+                    'required'    => true,
+                ),
+
+                "fields" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'        => 'object',
+                    'required'    => true,
+                ),
+
+                "integrations" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'        => 'object',
+                    'required'    => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::EDITABLE,
+                'callback'            => array( $this, 'update_item' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/settings', array(
+
+            'args' => array(
+
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+
+                "settings_key" => array(
+                    'description'       => __( '', 'weforms' ),
+                    'type'              => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'required'          => true,
+                ),
+
+                "settings" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'        => 'object',
+                    'required'    => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::EDITABLE,
+                'callback'            => array( $this, 'update_item_settings' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/settings', array(
+
+            'args' => array(
+
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_item_settings' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/fields', array(
+
+            'args' => array(
+
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+
+                "fields" => array(
+                    'description' => __( '', 'weforms' ),
+                    'key'         => 'object',
+                    'required'    => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::EDITABLE,
+                'callback'            => array( $this, 'update_item_fields' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+
+            ),
+
+        ) );
+
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/fields', array(
 
             'args' => array(
 
@@ -149,38 +394,174 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
+            ),
 
-                'post_title' => array(
-                    'description'       => __( '', 'weforms' ),
-                    'key'               => 'string',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_item_fields' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/fields', array(
+
+            'args' => array(
+
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
 
-                "form_settings_key" => array(
-                    'description'       => __( '', 'weforms' ),
-                    'key'               => 'string',
-                    'required'          => false,
+                "name" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'        => 'array',
+                    'items'       => array(
+                        'type' => 'string'
+                    ),
+                    'required'    => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::DELETABLE,
+                'callback'            => array( $this, 'delete_item_fields' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/fields', array(
+
+            'args' => array(
+
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'key'               => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
                 ),
 
-                "form_settings" => array(
-                    'description'       => __( '', 'weforms' ),
-                    'key'               => 'object',
-                    'required'          => false,
+                "name" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'    => 'array',
+                    'items'   => array(
+                        'type' => 'string'
+                    ),
+                    'required' => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::DELETABLE,
+                'callback'            => array( $this, 'delete_item_fields' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/integrations', array(
+            'args' => array(
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'key'               => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+            ),
+            array(
+                'methods'             => WP_REST_Server::EDITABLE,
+                'callback'            => array( $this, 'update_item_integrations' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+            ),
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/integrations', array(
+
+            'args' => array(
+
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'key'               => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
                 ),
 
-                "form_notifications" => array(
+                "integrations" => array(
                     'description'       => __( '', 'weforms' ),
                     'key'               => 'object',
                     'required'          => true,
                 ),
+            ),
 
-                "form_fields" => array(
-                    'description'       => __( '', 'weforms' ),
-                    'key'               => 'object',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_item_integrations' ),
+                'permission_callback' => array( $this, 'get_item_permissions_check' ),
+
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/notifications', array(
+
+            'args' => array(
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
+            ),
 
-                "form_integrations" => array(
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_item_notification' ),
+                'permission_callback' => array( $this, 'get_item_permissions_check' ),
+
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/notifications', array(
+
+            'args' => array(
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'add_item_notification' ),
+                'permission_callback' => array( $this, 'create_item_permissions_check' ),
+            ),
+
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/notifications', array(
+
+            'args' => array(
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+                "notifications" => array(
                     'description'       => __( '', 'weforms' ),
                     'key'               => 'object',
                     'required'          => true,
@@ -189,20 +570,47 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
             array(
                 'methods'             => WP_REST_Server::EDITABLE,
-                'callback'            => array( $this, 'save_builder_form' ),
+                'callback'            => array( $this, 'update_item_notification' ),
                 'permission_callback' => array( $this, 'create_item_permissions_check' ),
-
             ),
 
         ) );
 
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/notifications', array(
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/bulkdelete/', array(
+            'args' => array(
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'required'          => true,
+                ),
+
+                'index' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'array',
+                    'items'   => array(
+                        'type' => 'integer',
+                    ),
+                    // 'sanitize_callback' => 'absint',
+                    'required'          => true,
+                ),
+            ),
+
+            array(
+                'methods'             => WP_REST_Server::DELETABLE,
+                'callback'            => array( $this, 'delete_item_notification' ),
+                'permission_callback' => array( $this, 'delete_item_permissions_check' ),
+            ),
+        ) );
+
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/bulkdelete/', array(
 
             'args' => array(
                 'ids' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'array',
+                    'type'              => 'array',
                     'validate_callback' => array( $this, 'is_bulk_delete_form_exists' ),
                     'required'          => true,
                 ),
@@ -212,17 +620,16 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 'methods'             => WP_REST_Server::DELETABLE,
                 'callback'            => array( $this, 'bulk_delete_form' ),
                 'permission_callback' => array( $this, 'create_item_permissions_check' ),
-
             ),
-
         ) );
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>[\d]+)' .'/duplicate/', array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)' .'/duplicate/', array(
 
             'args' => array(
                 'form_id' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
                     'key'               => 'integer',
+                    'sanitize_callback' => 'absint',
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
@@ -232,37 +639,15 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 'methods'             => WP_REST_Server::CREATABLE,
                 'callback'            => array( $this, 'duplicate_form' ),
                 'permission_callback' => array( $this, 'create_item_permissions_check' ),
-
-            ),
-
-        ) );
-
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>[\d]+)' .'/reports/', array(
-
-            'args' => array(
-                'form_id' => array(
-                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'integer',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
-                    'required'          => true,
-                ),
-            ),
-
-            array(
-                'methods'             => WP_REST_Server::READABLE,
-                'callback'            => array( $this, 'reports_form' ),
-                'permission_callback' => array( $this, 'create_item_permissions_check' ),
-
             ),
         ) );
 
-
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>[\d]+)' .'/export_entries/', array(
-
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)' .'/export_entries/', array(
             'args' => array(
                 'form_id' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'integer',
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
@@ -272,23 +657,24 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( $this, 'export_form_entries' ),
                 'permission_callback' => array( $this, 'get_items_permissions_check' ),
-
             ),
         ) );
 
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/(?P<form_id>[\d]+)' .'/entries/(?P<entry_id>[\d]+)', array(
-
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)' .'/entries/(?P<entry_id>[\d]+)',
+            array(
             'args' => array(
                 'form_id' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'integer',
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
                 'entry_id' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'integer',
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
                     'validate_callback' => array( $this, 'is_entry_exists' ),
                     'required'          => true,
                 )
@@ -299,11 +685,10 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 'callback'            => array( $this, 'get_entry_details' ),
                 'permission_callback' => array( $this, 'get_item_permissions_check' ),
             ),
-
         ) );
 
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/import', array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/import', array(
             array(
                 'methods'             => WP_REST_Server::CREATABLE,
                 'callback'            => array( $this, 'import_forms' ),
@@ -311,7 +696,26 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             ),
         ) );
 
-        register_rest_route( $this->namespace, '/' . $this->base . '/export',array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/export',array(
+
+            'args' => array(
+                'ids' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'array',
+                    'items'             => array(
+                        'id' => array(
+                            'type'              => 'integer',
+                            'sanitize_callback' => function($param, $request, $key) {
+                                error_log(print_r($param,true));
+                                return is_numeric( $param );
+                            }
+                        ),
+                    ),
+                    'validate_callback' => array( $this, 'is_bulk_delete_form_exists' ),
+                    'required'          => true,
+                ),
+            ),
+
             array (
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( $this, 'export_forms' ),
@@ -332,18 +736,14 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      **/
     public function is_template_exists( $param, $request, $key ) {
         $templates = weforms()->templates->get_templates();
-
         return (bool) array_key_exists( $param,$templates );
     }
 
     /**
      * Export Form Entries
      *
-     * @since 1.4.2
-     *
-     * @param WP_REST_Request $request
-     *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+
+*
      **/
     public function export_form_entries( $request ) {
         $form_id = isset( $request['form_id'] ) ? absint( $request['form_id'] ) : 0;
@@ -440,8 +840,8 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return json
      **/
     public function export_forms( $request ) {
-        $export_type = isset( $request['export_type'] ) ? $request['export_type'] : 'all';
-        $selected    = isset( $request['selected_forms'] ) ? array_map( 'absint', $request['selected_forms'] ) : array();
+        $export_type = isset( $request['type'] ) ? $request['type'] : 'all';
+        $selected    = isset( $request['ids'] ) ? array_map( 'absint', $request['ids'] ) : array();
 
         if ( ! class_exists( 'WeForms_Admin_Tools' ) ) {
             require_once WEFORMS_INCLUDES . '/admin/class-admin-tools.php';
@@ -512,7 +912,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     public function get_entry( $request ) {
         $form_id      = isset( $request['form_id'] ) ? intval( $request['form_id'] ) : 0;
         $current_page = isset( $request['page'] ) ? intval( $request['page'] ) : 1;
-        $per_page     = isset( $request['posts_per_page'] ) ? intval( $request['posts_per_page'] ) : 10;
+        $per_page     = isset( $request['per_page'] ) ? intval( $request['per_page'] ) : 10;
         $status       = isset( $request['status'] ) ? $request['status'] : 'publish';
         $offset       = ( $current_page - 1 ) * $per_page;
 
@@ -551,7 +951,6 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         );
 
         $max_pages= ceil( $total_entries / $per_page );
-
         $response = $this->prepare_response_for_collection( $response );
         $response = rest_ensure_response( $response );
 
@@ -583,11 +982,10 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             $status =  $this->delete( $form_id );
 
             if( is_wp_error( $status ) ) {
-                $response['id'][] = $form_id;
-                $response['message'][] = $status->get_error_message();
+                $response[$form_id] = $status->get_error_message();
+
             } else {
-                $response['id'][] = $form_id;
-                $response['message'][] = __( ' form  deleted successfully ', 'weforms' );
+                $response[$form_id] = __( ' form  deleted successfully ', 'weforms' );
             }
         }
 
@@ -606,18 +1004,17 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      *
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      **/
-    public function save_builder_form( $request ) {
-        $post_title        = $request->get_param('post_title');
+    public function update_item( $request ) {
+        $post_title        = $request->get_param('name');
         $wpuf_settings     = $request->get_param('wpuf_settings');
         $page_id           = $request->get_param('page_id');
-        $form_settings_key = $request->get_param('form_settings_key');
+        $form_settings_key = $request->get_param('settings_key');
         $wpuf_form_id      = $request->get_param('form_id');
         $page              = $request->get_param('page');
-
-        $settings          = $request->get_param('form_settings');
-        $notifications     = $request->get_param('form_notifications');
-        $form_fields       = $request->get_param('form_fields');
-        $integrations      = $request->get_param('form_integrations');
+        $settings          = $request->get_param('settings');
+        $notifications     = $request->get_param('notifications');
+        $form_fields       = $request->get_param('fields');
+        $integrations      = $request->get_param('integrations');
 
         $data = array(
             'form_id'           => $wpuf_form_id,
@@ -629,9 +1026,233 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             'integrations'      => $integrations
         );
 
-        $form_fields = weforms()->form->save( $data );
-        $response    = $this->prepare_response_for_collection( $form_fields );
-        $response    = rest_ensure_response( $form_fields );
+        // $form_fields = weforms()->form->save( $data );
+        $form_fields = $this->weforms_api_save( $data );
+
+        $form = weforms()->form->get( $wpuf_form_id );
+
+        $response_data = array(
+            'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'fields'        => $form->get_fields(),
+            'settings'      => $form->get_settings(),
+            'notifications' => $form->get_notifications(),
+            'integrations'  => $form->get_integrations()
+        );
+
+        $request->set_param( 'context', 'edit' );
+        $response = $this->prepare_item_for_response( $response_data, $request );
+        $response = rest_ensure_response( $response );
+        $response->set_status( 201 );
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
+
+        return $response;
+    }
+
+    /**
+     * [update_item_settingss description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+    */
+    public function update_item_settings( $request ) {
+        $wpuf_form_id      = $request->get_param('form_id');
+        $settings          = $request->get_param('settings');
+        $form_settings_key = $request->get_param('settings_key');
+
+        $data = array(
+            'form_id'           => $wpuf_form_id,
+            'form_settings'     => $settings,
+            'form_settings_key' => $form_settings_key,
+        );
+
+        $form              = weforms()->form->get( $wpuf_form_id );
+        $new_form_settings = array_merge( $data['form_settings'], array_diff_key( $form->get_settings(), $data['form_settings'] ) );
+
+        update_post_meta( $data['form_id'], $data['form_settings_key'], $new_form_settings );
+
+        $form = weforms()->form->get( $wpuf_form_id );
+
+        $response_data = array(
+            'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'settings'      => $form->get_settings(),
+        );
+
+        $request->set_param( 'context', 'edit' );
+        $response = rest_ensure_response( $response_data );
+        $response->set_status( 201 );
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
+
+        return $response;
+    }
+
+    /**
+     * [update_item_settingss description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+    */
+    public function update_item_fields( $request ) {
+        $wpuf_form_id      = $request->get_param('form_id');
+        $form_fields       = $request->get_param('fields');
+
+        $data = array(
+            'form_id'           => $wpuf_form_id,
+            'form_fields'       => $form_fields,
+        );
+
+        $existing_wpuf_input_ids = get_children( array(
+            'post_parent' => $data['form_id'],
+            'post_status' => 'publish',
+            'post_type'   => 'wpuf_input',
+            'numberposts' => '-1',
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
+            'fields'      => 'ids'
+        ) );
+
+        $new_wpuf_input_ids = array();
+
+        if ( ! empty( $data['form_fields'] ) ) {
+
+            foreach ( $data['form_fields'] as $order => $field ) {
+                if ( ! empty( $field['is_new'] ) ) {
+                    unset( $field['is_new'] );
+                    unset( $field['id'] );
+
+                    $field_id = 0;
+
+                } else {
+                    $field_id = $field['id'];
+                }
+
+                $field_id = weforms_insert_form_field( $data['form_id'], $field, $field_id, $order );
+
+                $new_wpuf_input_ids[] = $field_id;
+
+                $field['id'] = $field_id;
+
+                $saved_wpuf_inputs[] = $field;
+            }
+        }
+
+        $form = weforms()->form->get( $wpuf_form_id );
+
+        $response_data = array(
+            'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'fields'        => $form->get_fields(),
+        );
+
+        $request->set_param( 'context', 'edit' );
+        $response = $this->prepare_item_for_response( $response_data, $request );
+        $response = rest_ensure_response( $response );
+        $response->set_status( 201 );
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
+
+        return $response;
+    }
+
+    public function get_item_fields( $request ) {
+        $form_id = $request->get_param('form_id');
+        $form    = weforms()->form->get( $form_id );
+
+        $data = array(
+            'id'            => $form->data->ID,
+            'name'            => $form->name,
+            'fields'        => $form->get_fields(),
+        );
+
+        $response = $this->prepare_response_for_collection( $data, $request );
+        $response = rest_ensure_response( $response );
+        $response->header( 'X-WP-Total', (int) count( $data['fields'] )  );
+
+        return $response;
+    }
+
+    public function delete_item_fields( $request ) {
+        $form_id          = $request->get_param('form_id');
+        $fields_to_delete = $request->get_param('name');
+
+        if ( empty( $fields_to_delete )  ) {
+            return new WP_Error( 'error', __( 'Fields name not provided', 'weforms') , array( 'status' => 404 ) );
+        }
+
+        $fields = get_children( array(
+            'post_parent' => $form_id,
+            'post_status' => 'publish',
+            'post_type'   => 'wpuf_input',
+            'numberposts' => '-1',
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
+            'fields'      => 'All'
+        ) );
+
+        $deleted_fields = array();
+
+        foreach ( $fields as $field ) {
+            $field_data = maybe_unserialize( $field->post_content );
+
+            if ( in_array( $field_data['name'], $fields_to_delete ) ) {
+                $field_id          = $field->ID;
+                $deleted_fields[]  = wp_delete_post( $field_id , true );
+            }
+        }
+
+        if ( empty( $deleted_fields )  ) {
+            return new WP_Error( 'error', __( 'Fields not exist or deleted before.', 'weforms') , array( 'status' => 404 ) );
+        }
+
+        $form_array['message'] = __( 'Fields  deleted successfully ', 'weforms' );
+        $response              = $this->prepare_response_for_collection( $form_array, $request );
+        $response              = rest_ensure_response( $response );
+
+        return $response;
+    }
+
+    /**
+     * [update_item_integrations description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+    */
+    public function update_item_integrations( $request ) {
+        $wpuf_form_id      = $request->get_param('form_id');
+        $integrations      = $request->get_param('integrations');
+
+        $integration_list = weforms()->integrations->get_integration_js_settings();
+
+        $form             = weforms()->form->get( $wpuf_form_id );
+        $form_integration = $form->get_integrations();
+        $integrations     =  array_intersect_key(  $integrations, $integration_list );
+
+        if ( !class_exists( 'WeForms_Pro' ) ) {
+            $integrations = array_udiff_assoc( $integrations, $integration_list,
+                function( $item, $item_list ) {
+                    if( isset( $item_list['pro'] ) && $item_list['pro'] == true ) {
+                        return 0;
+                    }
+                    return $item;
+                }
+            );
+        }
+
+        $data = array(
+            'form_id'           => $wpuf_form_id,
+            'integrations'      => $integrations
+        );
+
+        $new_form_integrations = array_merge( $data['integrations'], array_diff_key( $form->get_integrations(), $data['integrations'] ) );
+
+        update_post_meta( $data['form_id'], 'integrations', $new_form_integrations );
+
+        $response_data = array(
+            'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'integrations'  => $form->get_integrations()
+        );
+
+        $response = rest_ensure_response( $response_data );
+        $response->set_status( 201 );
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
 
         return $response;
     }
@@ -670,13 +1291,19 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $form->settings = $form->get_settings();
 
         $response_data = array(
-            'id'   => $form->id,
-            'form_name' => $form->name,
-            'message'   => __( ' form created successfully ', 'weforms' ),
+            'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'fields'        => $form->get_fields(),
+            'settings'      => $form->get_settings(),
+            'notifications' => $form->get_notifications(),
+            'integrations'  => $form->get_integrations()
         );
 
-        $response = $this->prepare_response_for_collection( $response_data );
+        $request->set_param( 'context', 'edit' );
+        $response = $this->prepare_item_for_response( $response_data, $request );
         $response = rest_ensure_response( $response );
+        $response->set_status( 201 );
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
 
         return $response;
     }
@@ -903,7 +1530,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                     if ( empty($givenAnswer) ) {
                         $answers[$field['name']] = false;
                         $respondentPoints  -= $fieldPoints;
-                    }else {
+                    } else {
                         foreach ($options as $key => $value) {
                             if ( $givenAnswer == $value ) {
                                 if ( $key != $selectedAnswers ) {
@@ -952,7 +1579,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $response = $this->prepare_response_for_collection( $response );
         $response = rest_ensure_response( $response );
-
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d/%s/%d', $this->namespace, $this->rest_base, $form->id, 'entries', $entry->id  ) ) );
         return $response;
     }
 
@@ -967,13 +1594,14 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      **/
     public function get_items( $request ) {
         $args = array(
-            'posts_per_page' => isset( $request['posts_per_page'] ) ? intval( $request['posts_per_page'] ) : 10,
+            'posts_per_page' => isset( $request['per_page'] ) ? intval( $request['per_page'] ) : 10,
             'paged'          => isset( $request['page'] ) ? absint( $request['page'] ) : 1,
-            'order'          => 'DESC',
-            'orderby'        => 'post_date'
+            'order'          => isset( $request['order'] ) ?  $request['order']  : 'DESC',
+            'orderby'        => isset( $request['orderby'] ) ?  $request['orderby']  : 'post_date',
+            'post_status'    => isset( $request['status'] ) ?  $request['status']  : 'any',
+            's'              => isset( $request['search'] ) ?  $request['search']  : '',
         );
 
-        $args         = apply_filters( 'weforms_ajax_get_contact_forms_args', $args );
         $forms_array  = array();
 
         $defaults     = array(
@@ -981,32 +1609,33 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             'post_status' => array( 'publish', 'draft', 'pending' )
         );
 
-        $args  = wp_parse_args( $args, $defaults );
-        $query = new WP_Query( $args );
-        $forms = $query->get_posts();
+        $args           = wp_parse_args( $args, $defaults );
+        $query          = new WP_Query( $args );
+        $forms          = $query->get_posts();
+        $formatted_items = [];
 
         if ( $forms ) {
-            foreach ($forms as $key => $form) {
-                $forms_array[] = new WeForms_Form( $form );
-                unset($forms_array[$key]->data);
+            foreach ( $forms as $form_obj ) {
+                $form              = new WeForms_Form( $form_obj );
+
+                $data              = array();
+                $data['id']        = $form->id;
+                $data['name']      = $form->name;
+                $data['data']      = $form->data;
+                $data['status']    = $form->is_api_form_submission_open();
+                $data['fields']    = $form->get_fields();
+                $data['entries']   = $form->num_form_entries();
+                $data['settings']  = $form->get_settings();
+                $data['views']     = $form->num_form_views();
+                $data['payments']  = $form->num_form_payments();
+                $data              = $this->prepare_item_for_response( (array) $data, $request );
+                $formatted_items[] = $this->prepare_response_for_collection( $data );
             }
         }
 
-        array_map(
-            function( $form ) {
-                    $form->form_entries  = $form->num_form_entries();
-                    $form->form_settings = $form->get_settings();
-                    $form->form_views    = $form->num_form_views();
-                    $form->form_payments = $form->num_form_payments();
-            }, $forms_array
-        );
-
-        $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $forms_array );
-        $contact_forms = $this->prepare_response_for_collection( $contact_forms );
+        $contact_forms = apply_filters( 'weforms_ajax_get_contact_forms', $formatted_items );
         $response      = rest_ensure_response( $contact_forms );
-
-        $response->header( 'X-WP-TotalPages', (int) $query->max_num_pages );
-        $response->header( 'X-WP-Total', (int) $query->found_posts );
+        $response      = $this->format_collection_response( $response, $request, (int) $query->found_posts  );
 
         return $response;
     }
@@ -1021,8 +1650,58 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      **/
     public function create_item( $request ) {
-        $template = isset( $request['template'] ) ? sanitize_text_field( $request['template'] ) : '';
-        $form_id = weforms()->templates->create( $template );
+        $template      = isset( $request['template'] ) ? sanitize_text_field( $request['template'] ) : '';
+        $name          = isset( $request['name'] ) ? sanitize_text_field( $request['name'] ) : '';
+        $setting       = isset( $request['settings'] ) ? $request['settings'] : '';
+        $notifications = isset( $request['notifications'] ) ? $request['notifications'] : '';
+        $fields        = isset( $request['fields'] ) ? $request['fields'] : '';
+        $integrations  = isset( $request['integrations'] ) ? $request['integrations'] : '';
+
+        $default_form_settings     =  weforms_get_default_form_settings();
+        $default_form_notification =  weforms_get_default_form_notification();
+        $integration_list          =  weforms()->integrations->get_integration_js_settings();
+        $field_list                =  weforms()->fields->get_fields();
+
+        foreach ( $fields as $key => $field ) {
+            $f  = in_array(  $field['template'], array_keys( $field_list ) );
+            if( empty( $f ) ) {
+                unset($fields[ $key ] );
+            }
+        }
+
+        if( isset( $template  ) && !empty( $template ) ) {
+            $form_id = weforms()->templates->create( $template );
+        } else {
+            $form_id = weforms()->form->create( $name, $template->get_form_fields() );
+
+            if ( is_wp_error( $form_id ) ) {
+                return new WP_Error( 'rest_invalid_data', __( 'Could not create the form', 'weforms') , array( 'status' => 404 ) );
+            }
+
+            $new_form_settings     =  array_diff_key( $default_form_settings, $setting );
+            $new_form_notification =  array_diff_key( $default_form_notification, $notifications );
+            $integrations          =  array_intersect_key(  $integrations, $integration_list );
+            $fields                =  array_intersect_key(  $fields, $field_list );
+
+            if ( !class_exists( 'WeForms_Pro' ) ) {
+                $integrations = array_udiff_assoc( $integrations, $integration_list,
+                    function( $item, $item_list ) {
+                        if( isset( $item_list['pro'] ) && $item_list['pro'] == true ) {
+                            return 0;
+                        }
+                        return $item;
+                    }
+                );
+            }
+
+            // update_post_meta( $data['form_id'], $data['form_settings_key'], $new_form_settings );
+            // update_post_meta( $data['form_id'], 'notifications', $existing_notifications );
+            // update_post_meta( $data['form_id'], 'integrations', $new_form_integrations );
+
+            return $form_id;
+        }
+
+
 
         if ( is_wp_error( $form_id ) ) {
             return new WP_Error( 'rest_invalid_data', __( 'Could not create the form', 'weforms') , array( 'status' => 404 ) );
@@ -1031,15 +1710,17 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $form = weforms()->form->get( $form_id );
 
         $data = array(
-            'id'   => $form->id,
-            'form_name' => $form->name,
-            'message'   => __( ' form created successfully ', 'weforms' ),
+            'id'            =>  $form->data->ID,
+            'name'          => $form->name,
+            'fields'        => $form->get_fields(),
+            'settings'      => $form->get_settings(),
+            'notifications' => $form->get_notifications(),
+            'integrations'  => $form->get_integrations()
         );
-
-        $response = $this->prepare_response_for_collection( $data );
+        $response = $this->prepare_item_for_response( $data, $request );
         $response = rest_ensure_response( $response );
-
         $response->set_status( 200 );
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
 
         return $response;
     }
@@ -1059,13 +1740,14 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $form = weforms()->form->get( $form_id );
 
         $data = array(
-            'id'                 =>  $form->data->ID,
-            'form_fields'        => $form->get_fields(),
-            'form_settings'      => $form->get_settings(),
-            'form_notifications' => $form->get_notifications(),
-            'form_integrations'  => $form->get_integrations()
+            'id'            => $form->data->ID,
+            'fields'        => $form->get_fields(),
+            'settings'      => $form->get_settings(),
+            'notifications' => $form->get_notifications(),
+            'integrations'  => $form->get_integrations(),
+            'status'        => $form->is_api_form_submission_open()
         );
-
+        $data     = $this->prepare_item_for_response( $data, $request );
         $response = rest_ensure_response( $data );
 
         return $response;
@@ -1598,6 +2280,8 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     /**
      * Delete a form with it's input fields
      *
+     * @since 1.4.2
+     *
      * @param  integer  $form_id
      * @param  boolean $force
      *
@@ -1632,6 +2316,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     /**
      * Insert a new entry
      *
+     * @since 1.4.2
      * @param  array $args
      * @param  array $fields
      *
@@ -1744,362 +2429,426 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     }
 
     /**
-     * get Unique Form Key
+     * Format item's collection for response
      *
-     * @param int $form_id
+     * @since 1.4.2
      *
-     * @return string
-     **/
-    public function get_unique_form_keys( $form_id ) {
-        global $wpdb;
-
-        $form_keys         = array();
-        $form_keys_sql     = "SELECT DISTINCT meta_key FROM " . $wpdb->prefix . "weforms_entries LEFT JOIN " . $wpdb->prefix . "weforms_entrymeta ON " . $wpdb->prefix . "weforms_entries.id = " . $wpdb->prefix . "weforms_entrymeta.weforms_entry_id WHERE form_id={$form_id}";
-        $form_keys_results = $wpdb->get_results( $form_keys_sql );
-        $meta_keys         = array();
-
-        foreach ( $form_keys_results as $form_keys_result ) {
-            $meta_keys[] = $form_keys_result->meta_key;
+     * @param  object $response
+     * @param  object $request
+     * @param  array $items
+     * @param  int $total_items
+     *
+     * @return object
+     */
+    public function format_collection_response( $response, $request, $total_items ) {
+        if ( $total_items === 0 ) {
+            return $response;
         }
 
-        $meta_keys = array_filter( $meta_keys );
+        // Store pagation values for headers then unset for count query.
+        $per_page = (int) ( ! empty( $request['per_page'] ) ? $request['per_page'] : 20 );
+        $page     = (int) ( ! empty( $request['page'] ) ? $request['page'] : 1 );
 
-        return $meta_keys;
+        $response->header( 'X-WP-Total', (int) $total_items );
+
+        $max_pages = ceil( $total_items / $per_page );
+
+        $response->header( 'X-WP-TotalPages', (int) $max_pages );
+        $base = add_query_arg( $request->get_query_params(), rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ) );
+
+        if ( $page > 1 ) {
+            $prev_page = $page - 1;
+            if ( $prev_page > $max_pages ) {
+                $prev_page = $max_pages;
+            }
+            $prev_link = add_query_arg( 'page', $prev_page, $base );
+            $response->link_header( 'prev', $prev_link );
+        }
+        if ( $max_pages > $page ) {
+
+            $next_page = $page + 1;
+            $next_link = add_query_arg( 'page', $next_page, $base );
+            $response->link_header( 'next', $next_link );
+        }
+
+        return $response;
     }
 
     /**
-     * get Chart Data
-     *
-     * @since  1.3.9
-     *
-     * @param int $form_id
-     * @param string $meta_key
-     * @param string $field_name
-     *
-     * @return array
-     **/
-    public function get_chart_data( $form_id, $meta_key, $field_name ) {
-        global $wpdb;
-
-        $field_count_sql       = "SELECT count(*) as value_count, meta_key FROM " . $wpdb->prefix . "weforms_entries LEFT JOIN " . $wpdb->prefix . "weforms_entrymeta ON " . $wpdb->prefix . "weforms_entries.id = " . $wpdb->prefix . "weforms_entrymeta.weforms_entry_id WHERE form_id={$form_id} AND meta_key='{$meta_key}'";
-        $field_entries_sql     = "SELECT meta_key, meta_value FROM " . $wpdb->prefix . "weforms_entries LEFT JOIN " . $wpdb->prefix . "weforms_entrymeta ON " . $wpdb->prefix . "weforms_entries.id = " . $wpdb->prefix . "weforms_entrymeta.weforms_entry_id WHERE form_id={$form_id} AND meta_key='{$meta_key}'";
-        $field_count_results   = $wpdb->get_results( $field_count_sql );
-        $field_entries_results = $wpdb->get_results( $field_entries_sql );
-        $values                = array(); $field_entries = array();
-
-        foreach ( $field_count_results as $field_count_result ) {
-            $field_entries['count'] = $field_count_result->value_count;
-        }
-
-        foreach ( $field_entries_results as $field_entries_result ) {
-            if ( empty( $field_entries_result ) ) {
-                continue;
-            }
-
-            $value = '';
-            $keys = '';
-
-            switch ( $field_name ) {
-                case 'name_field':
-                    $value = implode( ' ', explode( WeForms::$field_separator, $field_entries_result->meta_value ) );
-                    $value = str_replace('  ', ' ', $value);
-                    break;
-
-                case 'textarea_field':
-                case 'text_field' :
-                    $value = strip_tags( weforms_format_text( $field_entries_result->meta_value ) );
-                    break;
-
-                case 'checkbox_grid':
-                    $entry_value = unserialize( $field_entries_result->meta_value );
-                    $value = array();
-
-                    if ( $entry_value ) {
-                        foreach ( $entry_value as $key => $option_value ) {
-                            $value[$key] = $option_value;
-                        }
-                    }
-                    break;
-
-                case 'multiple_choice_grid':
-                    $entry_value = unserialize( $field_entries_result->meta_value );
-                    $value = array();
-
-                    if ( $entry_value ) {
-                        foreach ( $entry_value as $key => $option_value ) {
-                            $value[$key] = $option_value;
-                        }
-                    }
-                    break;
-
-                case 'multiple_select':
-                case 'checkbox_field':
-                    $value  = explode( WeForms::$field_separator, $field_entries_result->meta_value );
-                    $value  = array_filter( $value );
-                    break;
-
-                case 'single_product':
-                    $field_value = maybe_unserialize( $field_entries_result->meta_value );
-                    $value = array();
-
-                    if ( is_array( $field_value ) ) {
-                        foreach ( $field_value as $key => $sv ) {
-                            $value[$key] = $sv;
-                        }
-                    }
-                    break;
-
-                case 'multiple_product':
-                    $field_value = maybe_unserialize( $field_entries_result->meta_value );
-                    $value = array();
-
-                    if ( is_array( $field_value ) ) {
-                        foreach ( $field_value as $key => $sfv ) {
-                            if ( is_array( $sfv ) ) {
-                                foreach ( $sfv as $key => $sv ) {
-                                    $sv = str_replace( array( '_', '-' ), ' ', $key ) . ': ' . $sv;
-                                    $sv = ucwords( $sv );
-                                    $value[] = $sv;
-                                }
-                            }
-                        }
-                    }
-                    break;
-
-                case 'payment_method':
-                    $value = maybe_unserialize( $field_entries_result->meta_value );
-                    break;
-
-                default:
-                    $value = $field_entries_result->meta_value;
-                    break;
-            }
-
-            $values[] = $value;
-        }
-
-        $field_entries['value'] = $values;
-        $field_entries          = $this->process_chart_data( $field_entries, $meta_key, $field_name );
-
-        return $field_entries;
+     * prepare_item_for_response
+     * @param  [type] $form    [description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+     */
+    public function prepare_item_for_response( $form, $request ) {
+        $response = rest_ensure_response( $form );
+        $response = $this->add_links( $response, $form );
+        return $response;
     }
 
     /**
-     * Process chart data of a form
+     * Adds multiple links to the response.
      *
-     * @since  1.3.9
-     * @param array $form_entries
-     * @param string $meta_key
-     * @param string $meta_key
+     * @since 1.4.2
      *
-     * @return array
-     **/
-    public function process_chart_data( $form_entries, $meta_key, $field_name  ) {
-        $color_arr = array( "#EC5657", "#1BCDD1", "#8FAABB", "#B08BEB", "#3EA0DD", "#F5A52A", "#23BFAA", "#FAA586", "#EB8CC6", "#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0", "#4661EE" );
-        $values    = array(); $labels = array(); $colors = array(); $chart_type = 'bar';
+     * @param   object $response
+     * @param   object $item
+     *
+     * @return  object $response
+     */
+    protected function add_links( $response, $item ) {
+        $response->data['_links'] = $this->prepare_links( $item );
 
-        switch( $field_name ) {
+        return $response;
+    }
 
-            case 'multiple_choice_grid':
-                $data = array(); $temp_data = array(); $temp_data2 = array(); $val_count = array();
-                for( $i = 0; $i < count( $form_entries['value'] ); $i++ ) {
-                    $data = array_merge_recursive( $data, $form_entries['value'][$i] );
-                }
-                if ( count( $form_entries['value'] ) == 1 ) {
-                    foreach ( $data as $key => $val ) {
-                        $labels[]          = $key;
-                        $temp_data[$val][] = 1;
-                    }
+    /**
+     * Prepare links for the request.
+     *
+     *  @since 1.4.2
+     *
+     * @param  object $item
+     *
+     * @return array Links for the given user.
+     */
+    protected function prepare_links( $item ) {
+        $links = [
+            'self' => [
+                'href' => rest_url( sprintf( '%s/%s/%d', $this->namespace, $this->rest_base, $item['id'] ) ),
+            ],
+            'collection' => [
+                'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
+            ]
+        ];
 
-                    for ( $i = 0; $i < count( $labels); $i++ ) {
-                        for ( $j = 0; $j < count( $labels ); $j++ ) {
-                            if ( $i == $j ) {
-                                $temp_data2[$i][$j] = 1;
-                            } else {
-                                $temp_data2[$i][$j] = 0;
-                            }
-                        }
-                    }
+        return $links;
+    }
 
-                    $i = 0;
-                    foreach ( $temp_data as $key => $value) {
-                        unset( $value );
-                        $temp_data[$key] = $temp_data2[$i++];
-                    }
+    /**
+     * Save and existing form
+     *
+     * @since 1.4.2
+     *
+     * @param array $data Contains form_fields, form_settings, form_settings_key data
+     *
+     * @return boolean
+     */
+    public function weforms_api_save( $data ) {
+        $saved_wpuf_inputs = array();
 
-                    $values = $temp_data;
+        wp_update_post( array( 'ID' => $data['form_id'], 'post_status' => 'publish', 'post_title' => $data['post_title'] ) );
+
+        $existing_wpuf_input_ids = get_children( array(
+            'post_parent' => $data['form_id'],
+            'post_status' => 'publish',
+            'post_type'   => 'wpuf_input',
+            'numberposts' => '-1',
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
+            'fields'      => 'ids'
+        ) );
+
+        $new_wpuf_input_ids = array();
+
+        if ( ! empty( $data['form_fields'] ) ) {
+
+            foreach ( $data['form_fields'] as $order => $field ) {
+                if ( ! empty( $field['is_new'] ) ) {
+                    unset( $field['is_new'] );
+                    unset( $field['id'] );
+
+                    $field_id = 0;
+
                 } else {
-                    foreach ( $data as $key => $val ) {
-                        $temp_data[$key] = array_count_values( $val );
-                    }
-
-                    $columns = array();
-
-                    foreach ( $temp_data as $key => $val ) {
-                        $labels[] = $key;
-                         foreach ( $val as $k => $v ) {
-                            $columns[] = $k;
-                        }
-                    }
-
-                    $columns = array_unique( $columns );
-                    $columns = array_count_values( $columns );
-
-                    foreach ( $columns as $key => $value ) {
-                        $columns[$key] = 0;
-                    }
-
-                    foreach ( $temp_data as $key => $val ) {
-                        $tmp = array_diff_key( $columns, $val );
-                        $val = array_merge( $val, $tmp );
-                        $temp_data[$key] = $val;
-                    }
-
-                    foreach( $temp_data as $tdata ) {
-                        $temp_data2 = array_merge_recursive( $temp_data2, $tdata );
-                    }
-
-                    $values = $temp_data2;
+                    $field_id = $field['id'];
                 }
 
-                for ($i = 0, $j = 0; $i < count( $labels ) ; $i++, $j++) {
-                    if ( $j == 14 ) {
-                        $j = 0;
-                    }
+                $field_id = weforms_insert_form_field( $data['form_id'], $field, $field_id, $order );
 
-                    $colors[] = $color_arr[$j];
-                }
+                $new_wpuf_input_ids[] = $field_id;
 
-                break;
+                $field['id'] = $field_id;
 
-            case 'checkbox_grid':
-                $data = array(); $temp_data = array(); $temp_data2 = array(); $val_count = array();
-
-                for( $i = 0; $i < count( $form_entries['value'] ); $i++ ) {
-                    $data = array_merge_recursive( $data, $form_entries['value'][$i] );
-                }
-
-                foreach ( $data as $key => $val ) {
-                    $temp_data[$key] = array_count_values( $val );
-                }
-
-                $columns = array();
-
-                foreach ( $temp_data as $key => $val ) {
-                    $labels[] = $key;
-                     foreach ( $val as $k => $v ) {
-                        $columns[] = $k;
-                    }
-                }
-
-                $columns = array_unique( $columns );
-                $columns = array_count_values( $columns );
-
-                foreach ( $columns as $key => $value ) {
-                    $columns[$key] = 0;
-                }
-
-                foreach ( $temp_data as $key => $val ) {
-                    $tmp             = array_diff_key( $columns, $val );
-                    $val             = array_merge( $val, $tmp );
-                    $temp_data[$key] = $val;
-                }
-
-                foreach( $temp_data as $tdata ) {
-                    $temp_data2 = array_merge_recursive( $temp_data2, $tdata );
-                }
-
-                $values = $temp_data2;
-
-                for ($i = 0, $j = 0; $i < count( $labels ) ; $i++, $j++) {
-                    if ( $j == 14 ) {
-                        $j = 0;
-                    }
-                    $colors[] = $color_arr[$j];
-                }
-                break;
-
-            case 'multiple_select':
-            case 'checkbox_field':
-                foreach ( $form_entries['value'] as $entry_value ) {
-                    foreach ( $entry_value as $entry_val ) {
-                        $temp[] = $entry_val;
-                    }
-                }
-                $temp = array_count_values( $temp );
-                foreach ( $temp as $key => $value) {
-                    $labels[] = $key;
-                    $values[] = $value;
-                }
-
-                for ( $i = 0; $i < count( $labels ); $i++ ) {
-                    $colors[$i] = $color_arr[0];
-                }
-                break;
-
-            case 'single_product':
-
-                foreach ( $form_entries['value']  as $entry_value ) {
-                    foreach ( $entry_value as $key => $entry_val ) {
-                        if ( $key == 'product' ) {
-                            $labels[] = $key;
-                        }
-                        if ( $key == 'price' ) {
-                            $values[] = $entry_val;
-                        }
-                    }
-                }
-
-                for ( $i = 0; $i < count( $values ); $i++ ) {
-                    $colors[$i] = $color_arr[0];
-                }
-                break;
-
-            case 'multiple_product':
-                foreach ( $form_entries['value'] as $entry_value ) {
-                    for( $i = 0; $i < count( $entry_value ); $i++) {
-                        if ( $i == 0 ) {
-                            $labels[] = str_replace( "Product: ","","$entry_value[0]" );
-                        }
-
-                        if ( $i == 2 ) {
-                            $values[] = str_replace( "Price: ","","$entry_value[2]" );
-                        }
-                    }
-                }
-
-                for ($i = 0, $j = 0; $i < count( $labels ) ; $i++, $j++) {
-                    if ( $j == 14 ) {
-                        $j = 0;
-                    }
-                    $colors[] = $color_arr[$j];
-                }
-
-                break;
-
-            default:
-                $temp = array_count_values( $form_entries['value'] );
-
-                for ( $i = 0; $i < count( $temp ); $i++ ) {
-                    $colors[$i] = $color_arr[0];
-                }
-                break;
+                $saved_wpuf_inputs[] = $field;
+            }
         }
 
-        if ( !empty( $labels ) ) {
-            $form_entries['label'] = $labels;
+        $form                   = weforms()->form->get( $data['form_id'] );
+        $new_form_settings      = array_merge( $data['form_settings'], array_diff_key( $form->get_settings(), $data['form_settings'] ) );
+        $new_form_notifications = array_merge( $data['notifications'], array_diff_key( $form->get_notifications(), $data['notifications'] ) );
+        $new_form_integrations  = array_merge( $data['integrations'], array_diff_key( $form->get_integrations(), $data['integrations'] ) );
+
+        update_post_meta( $data['form_id'], $data['form_settings_key'], $new_form_settings );
+        update_post_meta( $data['form_id'], 'notifications', $new_form_notifications );
+        update_post_meta( $data['form_id'], 'integrations', $new_form_integrations );
+        update_post_meta( $data['form_id'], '_weforms_version', WEFORMS_VERSION );
+
+        return $saved_wpuf_inputs;
+    }
+
+    /**
+     * get item settings
+     *
+     * @since 1.4.2
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     */
+    public function get_item_settings( $request ) {
+        $form_id = $request->get_param('form_id');
+        $form    = weforms()->form->get( $form_id );
+
+        $data = array(
+            'id'       => $form->data->ID,
+            'name'     => $form->name,
+            'settings' => $form->get_settings(),
+        );
+
+        $response = $this->prepare_response_for_collection( $data, $request );
+        $response = rest_ensure_response( $response );
+        $response->header( 'X-WP-Total', (int) count( $data['fields'] )  );
+
+        return $response;
+    }
+
+    /**
+     * get item integrations
+     *
+     * @since 1.4.2
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     */
+    public function get_item_integrations( $request ) {
+        $form_id = $request->get_param( 'form_id' );
+        $form    = weforms()->form->get( $form_id );
+
+        $data = array(
+            'id'           => $form->data->ID,
+            'name'         => $form->name,
+            'integrations' => $form->get_integrations()
+        );
+
+        $response  = $this->prepare_response_for_collection( $data, $request );
+        $response = rest_ensure_response( $response );
+        $response->header( 'X-WP-Total', (int) count( $data['integrations'] )  );
+
+        return $response;
+    }
+
+    /**
+     * get item notification
+     *
+     * @since 1.4.2
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     */
+    public function get_item_notification( $request ) {
+        $form_id = $request->get_param( 'form_id' );
+        $form    = weforms()->form->get( $form_id );
+
+        $data = array(
+            'id'       => $form->data->ID,
+            'name'     => $form->name,
+            'notifications' => $form->get_notifications(),
+        );
+
+        $response  = $this->prepare_response_for_collection( $data, $request );
+        $response = rest_ensure_response( $response );
+        $response->header( 'X-WP-Total', (int) count( $data['notifications'] )  );
+
+        return $response;
+    }
+
+    /**
+     * add item notification
+     *
+     * @since 1.4.2
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     */
+    public function add_item_notification( $request ) {
+        $form_id = $request->get_param( 'form_id' );
+        $notifications      = $request->get_param('notifications');
+
+        $data = array(
+            'form_id'       => $form_id,
+            'notifications' => $notifications
+        );
+
+        $form                  = weforms()->form->get( $form_id );
+        $new_form_notification = array_merge( $form->get_notifications(), $data['notifications'] );
+
+        update_post_meta( $data['form_id'], 'notifications', $new_form_notification );
+
+        $form = weforms()->form->get( $form_id );
+
+        $response_data = array(
+            'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'notifications' => $form->get_notifications(),
+        );
+
+        $response = rest_ensure_response( $response_data );
+        $response->set_status( 201 );
+        return $response;
+    }
+
+    /**
+     * update item integrations
+     *
+     * @since 1.4.2
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     */
+    public function update_item_notification( $request ) {
+        $wpuf_form_id  = $request->get_param('form_id');
+        $notifications = $request->get_param('notifications');
+
+        $data = array(
+            'form_id'       => $wpuf_form_id,
+            'notifications' => $notifications
+        );
+
+        $form                   = weforms()->form->get( $wpuf_form_id );
+        $existing_notifications = $form->get_notifications();
+        $message = array();
+
+        foreach ( $existing_notifications as $key => $notification ) {
+            if( array_key_exists( $key , $data['notifications'] ) ) {
+                $existing_notifications[ $key ] = $data['notifications'][$key];
+            }
         }
 
-        if ( !empty( $values ) ) {
-            $form_entries['data'] = $values;
+        update_post_meta( $data['form_id'], 'notifications', $existing_notifications );
+
+        $form = weforms()->form->get( $wpuf_form_id );
+
+        $response_data = array(
+            'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'notifications' => $form->get_notifications(),
+            'message'       => $message
+        );
+
+        $response = rest_ensure_response( $response_data );
+        $response->set_status( 201 );
+        $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
+
+        return $response;
+    }
+
+    /**
+     * delete item notification
+     *
+     * @since 1.4.2
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     */
+    public function delete_item_notification( $request ) {
+        $form_id           = $request->get_param( 'form_id' );
+        $notification_ids  = $request->get_param( 'index' );
+        $form              = weforms()->form->get( $form_id );
+        $form_notification = $form->get_notifications();
+
+        foreach ($notification_ids as $notification_id) {
+            unset( $form_notification[ $notification_id ] );
         }
 
-        if ( !empty( $colors ) ) {
-            $form_entries['bg_color'] = $colors;
-        }
+        update_post_meta( $form_id, 'notifications', array_values( $form_notification ) );
 
-        $form_entries['chart_type'] = $chart_type;
+        $form = weforms()->form->get( $form_id );
 
-        return $form_entries;
+        $data = array(
+            'id'       => $form->data->ID,
+            'name'     => $form->name,
+            'notifications' => $form->get_notifications(),
+        );
+
+        $response = $this->prepare_response_for_collection( $data, $request );
+        $response = rest_ensure_response( $response );
+        $response->header( 'X-WP-Total', (int) count( $data['notifications'] )  );
+
+        return $response;
+    }
+
+    /**
+     * Get the Form's schema, conforming to JSON Schema
+     *
+     * @return array
+     */
+    public function get_item_schema() {
+        $schema = array(
+            '$schema'    => 'http://json-schema.org/draft-04/schema#',
+            'title'      => 'forms',
+            'type'       => 'object',
+            'properties' => array(
+                'form_id' => array(
+                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                    'type'              => 'integer',
+                    'sanitize_callback' => 'absint',
+                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'context'     => array( 'embed', 'view', 'edit' ),
+                    'required'          => true,
+                    'readonly'    => true,
+                ),
+
+                'name' => array(
+                    'description'       => __( '', 'weforms' ),
+                    'type'              => 'string',
+                    'context'           => [ 'edit','view'],
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'required'          => true,
+                ),
+
+                "settings_key" => array(
+                    'description'       => __( '', 'weforms' ),
+                    'type'              => 'string',
+                    'context'           => [ 'edit','view' ],
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'required'          => false,
+                ),
+
+                "settings" => array(
+                    'description'       => __( '', 'weforms' ),
+                    'type'              => 'object',
+                    'context'     => [ 'edit' ,'view'],
+                    'required'          => false,
+                ),
+
+                "notifications" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'        => 'object',
+                    'context'     => [ 'edit','view' ],
+                    'required'    => true,
+                ),
+
+                "fields" => array(
+                    'description' => __( '', 'weforms' ),
+                    'type'        => 'object',
+                    'context'     => [ 'edit','view' ],
+                    'required'    => true,
+                ),
+
+                "integrations" => array(
+                    'description' => __( '', 'weforms' ),
+                    'context'     => [ 'edit','view' ],
+                    'type'        => 'object',
+                    'required'    => true,
+                ),
+            ),
+        );
+
+        return $schema;
     }
 }

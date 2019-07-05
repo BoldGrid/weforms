@@ -20,7 +20,7 @@ class Weforms_Upload_Controller extends WP_REST_Controller {
      *
      * @var string
      */
-    protected $base = 'uploads';
+    protected $rest_base = 'uploads';
 
     /**
      * Register all routes releated with forms
@@ -29,11 +29,13 @@ class Weforms_Upload_Controller extends WP_REST_Controller {
      */
     public function register_routes() {
 
-        register_rest_route( $this->namespace, '/'. $this->base . '/(?P<id>[\d]+)/files', array(
+        register_rest_route( $this->namespace, '/'. $this->rest_base . '/(?P<id>[\d]+)/files', array(
                 'args'   => array(
                         'id' => array(
                             'required'          => true,
                             'description'       => __( 'Unique identifier for the object.' ),
+                            'sanitize_callback' => 'absint',
+                            'type'              => 'integer',
                             'validate_callback' => array( $this, 'is_form_exist_file_validation' ),
                         )
                 ),
@@ -45,17 +47,21 @@ class Weforms_Upload_Controller extends WP_REST_Controller {
                 ),
         ) );
 
-        register_rest_route( $this->namespace, '/'. $this->base . '/(?P<form_id>[\d]+)/files/(?P<id>[\d]+)/', array(
+        register_rest_route( $this->namespace, '/'. $this->rest_base . '/(?P<form_id>[\d]+)/files/(?P<id>[\d]+)/', array(
             'args' => array(
                 'form_id' => array(
                     'description'       => __( 'Unique identifier for the object.' ),
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
+                    'sanitize_callback' => 'absint',
+                    'type'              => 'integer',
                 ),
                 'id' => array(
                     'description'       => __( 'Unique identifier for the object.' ),
                     'validate_callback' => array( $this, 'is_form_attach_exist' ),
                     'required'          => true,
+                    'sanitize_callback' => 'absint',
+                    'type'              => 'integer',
                 ),
                 'force' => array(
                     'required'    => true,
@@ -246,6 +252,8 @@ class Weforms_Upload_Controller extends WP_REST_Controller {
 
     /**
      * Image attachment response
+     *
+     * @since 1.4.2
      *
      * @param  integer $attach_id
      * @param  string $type

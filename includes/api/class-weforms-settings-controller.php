@@ -20,14 +20,11 @@ class Weforms_Setting_Controller extends WP_REST_Controller {
      *
      * @var string
      */
-    protected $base = 'settings';
+    protected $rest_base = 'settings';
 
     /**
-     * Register all routes releated with forms
-     *
-     * @return void
+     * @var array
      */
-
     protected $defaults = array(
         'email_gateway' => '',
         'gateways' => '',
@@ -38,7 +35,7 @@ class Weforms_Setting_Controller extends WP_REST_Controller {
 
     public function register_routes() {
 
-        register_rest_route( $this->namespace, '/' . $this->base, array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 
             array(
                 'methods'             => WP_REST_Server::READABLE,
@@ -64,7 +61,7 @@ class Weforms_Setting_Controller extends WP_REST_Controller {
     /**
      * Retrieves a collection of forms.
      *
-     * @since  1.3.9
+     * @since  1.4.2
      *
      * @param WP_REST_Request $request Full details about the request.
      *
@@ -94,7 +91,7 @@ class Weforms_Setting_Controller extends WP_REST_Controller {
      *
      * @param WP_REST_Request $request Full details about the request.
      *
-     * @since 4.7.0
+     * @since 1.4.2
      *
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      **/
