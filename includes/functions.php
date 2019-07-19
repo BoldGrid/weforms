@@ -1254,3 +1254,14 @@ function weforms_localized_countries( $script ) {
     return $script;
 }
 add_filter( "weforms_localized_script", "weforms_localized_countries" );
+
+
+function is_weforms_api_allowed_guest_submission( ) {
+    $permission = false;
+
+    if( current_user_can( 'read' )){
+        $permission = true;
+    }
+
+    return apply_filters( 'weforms_anonymous_entry_submit_permission', $permission );
+}

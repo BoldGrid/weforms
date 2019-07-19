@@ -45,6 +45,11 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
                             'description'       => __( 'Entry id', 'weforms' ),
                             'validate_callback' => array( $this, 'is_entry_exists' ),
                         ),
+                        'force' => array(
+                            'type'        => 'boolean',
+                            'default'     => false,
+                            'description' => __( 'Whether to bypass trash and force deletion.' ),
+                        ),
                     )
                 ),
             )
@@ -64,7 +69,12 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
                             'type'              => 'object',
                             'description'       => __( 'Entry id', 'weforms' ),
                             'validate_callback' => array( $this, 'is_entry_exists' ),
-                        )
+                        ),
+                        'force' => array(
+                            'type'        => 'boolean',
+                            'default'     => false,
+                            'description' => __( 'Whether to bypass trash and force deletion.' ),
+                        ),
                     )
                 ),
             )
@@ -126,18 +136,16 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
         $entry_ids = isset( $request['entry_id'] ) ? array_map( 'absint', $request['entry_id'] ) : array();
 
         if ( ! $entry_ids ) {
-            return new WP_Error( 'rest_invalid_data',__( 'No entry ids provided!','weforms' ),array( 'status' => 404 ) );
+            return new WP_Error( 'rest_weforms_invalid_data',__( 'No entry ids provided!','weforms' ),array( 'status' => 404 ) );
         }
 
         foreach ( $entry_ids as $entry_id ) {
             $status = weforms_change_entry_status( $entry_id, 'publish' );
 
             if( $status ) {
-                $response['id'][] = $entry_id;
-                $response['message'][] = __( ' Entry bulk Restore successfully ', 'weforms' );
+                $response['message'][$entry_id] = __( 'Entry Restore successfully ', 'weforms' );
             } else {
-                $response['id'][] = $entry_id;
-                $response['message'][] = __( ' Entry bulk Restore failed ', 'weforms' );
+                $response['message'][$entry_id] = __( 'Entry Restore failed ', 'weforms' );
             }
         }
 
@@ -162,7 +170,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
         weforms_change_entry_status( $entry_id, 'publish' );
 
         $response['id']             = $entry_id;
-        $response['message']        = __( ' Entry Restore Successfully  successfully ', 'weforms' );
+        $response['message']        = __( 'Entry Restore Successfully  successfully ', 'weforms' );
         $response['data']['status'] = 200;
 
         $response = $this->prepare_response_for_collection( $response );
@@ -182,10 +190,10 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
      **/
     public function bulk_delete_items( $request ) {
         $entry_ids = isset( $request['entry_id'] ) ? array_map( 'absint', $request['entry_id'] ) : array();
-        $force     = isset( $request['force'] ) && ( $request['force'] ) ? true : false;
+        $force     = (bool) $request['force'];
 
         if ( ! $entry_ids ) {
-            return new WP_Error('rest_invalid_data',__( 'No entry ids provided!', 'weforms' ));
+            return new WP_Error('rest_weforms_invalid_entry',__( 'No entry ids provided!', 'weforms' ));
         }
 
         $response = array();
@@ -197,23 +205,18 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
                 $status =  weforms_delete_entry( $entry_id );
 
                 if( $status ) {
-                    $response['message'][] = __( ' Entry Deleted successfully ', 'weforms' );
+                    $response['message'][$entry_id] = __( 'Entry Deleted successfully ', 'weforms' );
                 } else {
-                    $response['message'][] = __( ' Entry Not found ', 'weforms' );
+                    $response['message'][$entry_id] = __( 'Entry Not found ', 'weforms' );
                 }
-
-                $response['id'][] = $entry_id;
             } else {
-
                 $status = weforms_change_entry_status( $entry_id, 'trash' );
 
                 if( $status ) {
-                    $response['message'][] = __( ' Entry Move To Trash successfully ', 'weforms' );
+                    $response['message'][$entry_id] = __( 'Entry Move To Trash successfully ', 'weforms' );
                 } else {
-                    $response['message'][] = __( ' Entry Not found ', 'weforms' );
+                    $response['message'][$entry_id] = __( 'Entry Not found ', 'weforms' );
                 }
-
-                $response['id'][] = $entry_id;
             }
         }
 
@@ -233,20 +236,20 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      **/
     public function delete_items( $request ) {
-        $entry_id = isset( $request['entry_id'] ) ? intval( $request['entry_id'] ) : 0;
-        $force = isset( $request['force'] ) && ( $request['force'] ) ? true : false;
+        $entry_id = $request['entry_id'];
+        $force    = (bool) $request['force'];
 
         if ( $force ) {
             weforms_delete_entry( $entry_id );
 
             $entry_array['id']              = $entry_id;
-            $entry_array['message']         = __( ' Entry Deleted successfully ', 'weforms' );
+            $entry_array['message']         = __( 'Entry Deleted successfully', 'weforms' );
             $entry_array['data']['status']  = 200;
         } else {
             $status = weforms_change_entry_status( $entry_id, 'trash' );
 
             $entry_array['id']              = $entry_id;
-            $entry_array['message']         = __( ' Entry Move To Trash successfully ', 'weforms' );
+            $entry_array['message']         = __( 'Entry Move To Trash successfully', 'weforms' );
             $entry_array['data']['status']  = 200;
         }
 
@@ -269,7 +272,7 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
      */
     public function is_entry_exists( $param, $request, $key ) {
         global $wpdb;
-
+        error_log(print_r("hahah delete entry",true));
         // if( is_array( $param ) ) {
         if( is_array( $request['entry_id'] ) ) {
            $entry_id = implode( ",", $request['entry_id'] );
@@ -279,7 +282,6 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
                 WHERE $wpdb->weforms_entries.ID  IN ( $entry_id )
             ";
         } else {
-            // $entry_id = (int) $param;
             $entry_id = (int) $request['entry_id'];
             $querystr = "
                 SELECT $wpdb->weforms_entries.id
@@ -341,8 +343,6 @@ class Weforms_Entry_Controller extends WP_REST_Controller {
         } else {
             return true;
         }
-
-        return true;
     }
 
     /**

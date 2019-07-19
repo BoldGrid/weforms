@@ -134,7 +134,9 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
-       return sanitize_text_field( trim( $_POST[$field['name']] ) );
+    public function prepare_entry( $field, $args = [] ) {
+       $args = ! empty( $args ) ? $args : $_POST;
+
+       return sanitize_text_field( trim( $args[$field['name']] ) );
     }
 }

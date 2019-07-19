@@ -108,9 +108,10 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
+    public function prepare_entry( $field, $args = [] ) {
+        $args = ! empty( $args ) ? $args : $_POST;
+        $val  = $args[$field['name']];
 
-        $val   = $_POST[$field['name']];
         return isset( $field['options'][$val] ) ? $field['options'][$val] : '';
     }
 }

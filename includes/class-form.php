@@ -346,6 +346,9 @@ class WeForms_Form {
         }
 
         $notifications = array_map( function( $notification ) use ( $defualt ) {
+            if( empty( $notification ) ) {
+                $notification = array();
+            }
             return array_merge( $defualt, $notification);
         }, $notifications);
 
@@ -409,7 +412,7 @@ class WeForms_Form {
      *
      * @return array
      */
-    public function prepare_entries() {
+    public function prepare_entries( $args = [] ) {
 
         $fields       = weforms()->fields->get_fields();
         $form_fields  = $this->get_fields();
@@ -454,7 +457,7 @@ class WeForms_Form {
 
             $field_class = $fields[ $field['template'] ];
 
-            $entry_fields[ $field['name'] ] = $field_class->prepare_entry( $field );
+            $entry_fields[ $field['name'] ] = $field_class->prepare_entry( $field, $args );
         }
 
         return apply_filters( 'weforms_prepare_entries', $entry_fields );
@@ -490,25 +493,25 @@ class WeForms_Form {
 
         if (  $limit_entries === 'true' ) {
             if ( $schedule_form === 'true' && $this->isExpiredForm( $schedule_end ) ) {
-                $response['message'][] = __( "Expired at {$schedule_end_date}", "weforms" );
+                $response['message'] = __( "Expired at {$schedule_end_date}", "weforms" );
             } elseif ( $schedule_form === 'true' && $this->isPendingForm( $schedule_start ) ) {
-                $response['message'][] = __( "Starts at {$schedule_start_date}", "weforms" );
+                $response['message'] = __( "Starts at {$schedule_start_date}", "weforms" );
             } elseif( $form_entries >=  $limit_number ) {
-                $response['message'][] = __( "Reached maximum entry limit", "weforms" );
+                $response['message'] = __( "Reached maximum entry limit", "weforms" );
             } else {
                 $remaining_entries = $limit_number - $form_entries;
-                $response['message'][] = __("{$remaining_entries} entries remaining ", "weforms" );
+                $response['message'] = __("{$remaining_entries} entries remaining ", "weforms" );
             }
         } elseif( $schedule_form === 'true' ) {
             if ( $this->isPendingForm( $schedule_start ) ) {
                 $response['message'] = __( "Starts at {$schedule_start_date}", "weforms" );
             } elseif( $this->isExpiredForm( $schedule_end ) ) {
-                $response['message'][] = __( "Expired at {$schedule_end_date}", "weforms");
+                $response['message'] = __( "Expired at {$schedule_end_date}", "weforms");
             } elseif( $this->isOpenForm( $schedule_start, $schedule_end ) ) {
-                $response['message'][] = __( "Expires at {$schedule_end_date}", "weforms");
+                $response['message'] = __( "Expires at {$schedule_end_date}", "weforms");
             }
         } elseif( $needs_login  === 'true' ) {
-            $response['message'][] =__( "Requires login", "weforms" );
+            $response['message'] =__( "Requires login", "weforms" );
         }
 
         return apply_filters( 'weforms_is_submission_open', $response, $settings, $this );

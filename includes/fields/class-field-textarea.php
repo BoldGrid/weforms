@@ -128,7 +128,9 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
-       return wp_kses_post( $_POST[$field['name']] );
+    public function prepare_entry( $field, $args = [] ) {
+        $args = ! empty( $args ) ? $args : $_POST;
+
+        return wp_kses_post( $args[$field['name']] );
     }
 }

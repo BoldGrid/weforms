@@ -202,7 +202,8 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
+    public function prepare_entry( $field, $args = [] ) {
+        $args = ! empty( $args ) ? $args : $_POST;
 
         if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
 
@@ -225,10 +226,10 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
             }
         }
 
-        $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
+        $value = !empty( $args[$field['name']] ) ? $args[$field['name']] : '';
 
         if ( is_array( $value ) ) {
-            $entry_value = sanitize_text_field( trim( implode( ' ', $_POST[$field['name']] ) ) );
+            $entry_value = sanitize_text_field( trim( implode( ' ', $args[$field['name']] ) ) );
         } else {
             $entry_value = sanitize_text_field( trim( $value  ) );
         }

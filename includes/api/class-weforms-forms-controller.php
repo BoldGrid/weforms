@@ -99,6 +99,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                     'callback'            => array( $this, 'create_item' ),
                     'permission_callback' => array( $this, 'create_item_permissions_check' ),
                     'args' => array(
+
                         'template' => array(
                             'required'          => false,
                             'type'              => 'string',
@@ -106,27 +107,39 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                             'sanitize_callback' => 'sanitize_text_field',
                             'validate_callback' => array( $this, 'is_template_exists' )
                         ),
+
                         'name' => array(
                             'description'       => __( '', 'weforms' ),
                             'type'              => 'string',
                             'sanitize_callback' => 'sanitize_text_field',
                             'required'          => false,
                         ),
+
                         "settings" => array(
                             'description'       => __( '', 'weforms' ),
                             'type'              => 'object',
                             'required'          => false,
                         ),
+
+                        "settings_key" => array(
+                            'description'       => __( '', 'weforms' ),
+                            'type'              => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
+                            'required'          => false
+                        ),
+
                         "notifications" => array(
                             'description' => __( '', 'weforms' ),
                             'type'        => 'object',
                             'required'    => false,
                         ),
+
                         "fields" => array(
                             'description' => __( '', 'weforms' ),
                             'type'        => 'object',
                             'required'    => false,
                         ),
+
                         "integrations" => array(
                             'description' => __( '', 'weforms' ),
                             'type'        => 'object',
@@ -155,52 +168,46 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         );
 
         register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>\d+)', array(
-
-            'args' => array(
-                'form_id' => array(
-                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'type'              => 'integer',
-                    'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
-                    'required'          => true,
+                'args' => array(
+                    'form_id' => array(
+                        'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                        'type'              => 'integer',
+                        'sanitize_callback' => 'absint',
+                        'validate_callback' => array( $this, 'is_form_exists' ),
+                        'required'          => true,
+                    ),
                 ),
-            ),
-
-            array(
-                'methods'             => WP_REST_Server::READABLE,
-                'callback'            => array( $this, 'get_item' ),
-                'permission_callback' => array( $this, 'get_item_permissions_check' ),
-
-            ),
-
-            array(
-                'methods'             => WP_REST_Server::DELETABLE,
-                'callback'            => array( $this, 'delete_item' ),
-                'permission_callback' => array( $this, 'delete_item_permissions_check' ),
-            ),
-
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => array( $this, 'get_item' ),
+                    'permission_callback' => array( $this, 'get_item_permissions_check' ),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::DELETABLE,
+                    'callback'            => array( $this, 'delete_item' ),
+                    'permission_callback' => array( $this, 'delete_item_permissions_check' ),
+                ),
         ) );
-
 
         register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)' .'/entries/', array(
-
-            'args' => array(
-                'form_id' => array(
-                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'type'              => 'integer',
-                    'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists_field_exists' ),
-                    'required'          => true,
+                'args' => array(
+                    'form_id' => array(
+                        'description'       => __( 'Unique identifier for the object', 'weforms' ),
+                        'type'              => 'integer',
+                        'sanitize_callback' => 'absint',
+                        // 'validate_callback' => array( $this, 'is_form_exists_field_exists' ),
+                        'validate_callback' => array( $this, 'is_form_exists' ),
+                        'required'          => true,
+                    ),
                 ),
-            ),
 
-            array(
-                'methods'             => WP_REST_Server::CREATABLE,
-                'callback'            => array( $this, 'save_entry' ),
-                'permission_callback' => array( $this, 'submit_permissions_check' ),
-            ),
-
-        ) );
+                array(
+                    'methods'             => WP_REST_Server::CREATABLE,
+                    'callback'            => array( $this, 'save_entry' ),
+                    'permission_callback' => array( $this, 'submit_permissions_check' ),
+                ),
+            )
+        );
 
 
         register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/entries/', array(
@@ -256,7 +263,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                     'description'       => __( '', 'weforms' ),
                     'type'              => 'string',
                     'sanitize_callback' => 'sanitize_text_field',
-                    'required'          => true,
+                    'required'          => false,
                 ),
 
                 "settings_key" => array(
@@ -275,19 +282,19 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 "notifications" => array(
                     'description' => __( '', 'weforms' ),
                     'type'        => 'object',
-                    'required'    => true,
+                    'required'    => false,
                 ),
 
                 "fields" => array(
                     'description' => __( '', 'weforms' ),
                     'type'        => 'object',
-                    'required'    => true,
+                    'required'    => false,
                 ),
 
                 "integrations" => array(
                     'description' => __( '', 'weforms' ),
                     'type'        => 'object',
-                    'required'    => true,
+                    'required'    => false,
                 ),
             ),
 
@@ -311,14 +318,6 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                 ),
-
-                "settings_key" => array(
-                    'description'       => __( '', 'weforms' ),
-                    'type'              => 'string',
-                    'sanitize_callback' => 'sanitize_text_field',
-                    'required'          => true,
-                ),
-
                 "settings" => array(
                     'description' => __( '', 'weforms' ),
                     'type'        => 'object',
@@ -417,14 +416,24 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                     'required'          => true,
                 ),
 
-                "name" => array(
+                 "field_id" => array(
                     'description' => __( '', 'weforms' ),
                     'type'        => 'array',
-                    'items'       => array(
-                        'type' => 'string'
-                    ),
+                    'validate_callback' => array( $this, 'is_field_exists' ),
+                    // 'items'       => array(
+                    //     'type' => 'integer',
+                    // ),
                     'required'    => true,
                 ),
+
+                // "name" => array(
+                //     'description' => __( '', 'weforms' ),
+                //     'type'        => 'array',
+                //     'items'       => array(
+                //         'type' => 'string'
+                //     ),
+                //     'required'    => true,
+                // ),
             ),
 
             array(
@@ -435,35 +444,35 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         ) );
 
-        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/fields', array(
+        // register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/fields', array(
 
-            'args' => array(
+        //     'args' => array(
 
-                'form_id' => array(
-                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'key'               => 'integer',
-                    'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
-                    'required'          => true,
-                ),
+        //         'form_id' => array(
+        //             'description'       => __( 'Unique identifier for the object', 'weforms' ),
+        //             'key'               => 'integer',
+        //             'sanitize_callback' => 'absint',
+        //             'validate_callback' => array( $this, 'is_form_exists' ),
+        //             'required'          => true,
+        //         ),
 
-                "name" => array(
-                    'description' => __( '', 'weforms' ),
-                    'type'    => 'array',
-                    'items'   => array(
-                        'type' => 'string'
-                    ),
-                    'required' => true,
-                ),
-            ),
+        //         "name" => array(
+        //             'description' => __( '', 'weforms' ),
+        //             'type'    => 'array',
+        //             'items'   => array(
+        //                 'type' => 'string'
+        //             ),
+        //             'required' => true,
+        //         ),
+        //     ),
 
-            array(
-                'methods'             => WP_REST_Server::DELETABLE,
-                'callback'            => array( $this, 'delete_item_fields' ),
-                'permission_callback' => array( $this, 'create_item_permissions_check' ),
-            ),
+        //     array(
+        //         'methods'             => WP_REST_Server::DELETABLE,
+        //         'callback'            => array( $this, 'delete_item_fields' ),
+        //         'permission_callback' => array( $this, 'create_item_permissions_check' ),
+        //     ),
 
-        ) );
+        // ) );
 
         register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/integrations', array(
             'args' => array(
@@ -605,23 +614,23 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             ),
         ) );
 
-        register_rest_route( $this->namespace, '/' . $this->rest_base . '/bulkdelete/', array(
+        // register_rest_route( $this->namespace, '/' . $this->rest_base . '/bulkdelete/', array(
 
-            'args' => array(
-                'ids' => array(
-                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'type'              => 'array',
-                    'validate_callback' => array( $this, 'is_bulk_delete_form_exists' ),
-                    'required'          => true,
-                ),
-            ),
+        //     'args' => array(
+        //         'ids' => array(
+        //             'description'       => __( 'Unique identifier for the object', 'weforms' ),
+        //             'type'              => 'array',
+        //             'validate_callback' => array( $this, 'is_bulk_delete_form_exists' ),
+        //             'required'          => true,
+        //         ),
+        //     ),
 
-            array(
-                'methods'             => WP_REST_Server::DELETABLE,
-                'callback'            => array( $this, 'bulk_delete_form' ),
-                'permission_callback' => array( $this, 'create_item_permissions_check' ),
-            ),
-        ) );
+        //     array(
+        //         'methods'             => WP_REST_Server::DELETABLE,
+        //         'callback'            => array( $this, 'bulk_delete_form' ),
+        //         'permission_callback' => array( $this, 'create_item_permissions_check' ),
+        //     ),
+        // ) );
 
         register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)' .'/duplicate/', array(
 
@@ -702,17 +711,8 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 'ids' => array(
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
                     'type'              => 'array',
-                    'items'             => array(
-                        'id' => array(
-                            'type'              => 'integer',
-                            'sanitize_callback' => function($param, $request, $key) {
-                                error_log(print_r($param,true));
-                                return is_numeric( $param );
-                            }
-                        ),
-                    ),
-                    'validate_callback' => array( $this, 'is_bulk_delete_form_exists' ),
-                    'required'          => true,
+                    'validate_callback' => array( $this, 'is_bulk_export_form_exists' ),
+                    'required'          => false,
                 ),
             ),
 
@@ -739,6 +739,48 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         return (bool) array_key_exists( $param,$templates );
     }
 
+    public function is_field_exists( $param, $request, $key ) {
+        $fields = $request['field_id'];
+        $fields = array_filter( $fields, 'is_numeric' );
+        if( empty( $fields ) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public function is_bulk_export_form_exists( $param, $request, $key ) {
+        global $wpdb;
+        $forms = $request['ids'];
+
+        if( is_array( $forms ) ) {
+            $forms = array_filter( $forms, 'is_numeric' );
+            if( empty( $forms ) ) {
+                return false;
+            }
+
+            $form_id = implode( ",", $forms );
+            $querystr = " SELECT $wpdb->posts.id
+                FROM $wpdb->posts
+                WHERE $wpdb->posts.post_type = 'wpuf_contact_form'
+                AND $wpdb->posts.ID IN ( $form_id )
+            ";
+        } else {
+            $form_id = (int) $forms;
+            $querystr = " SELECT $wpdb->posts.id
+                FROM $wpdb->posts
+                WHERE $wpdb->posts.post_type = 'wpuf_contact_form'
+                AND $wpdb->posts.ID = $form_id
+            ";
+        }
+
+        $result = $wpdb->get_results( $querystr );
+
+        if ( empty( $result ) ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     /**
      * Export Form Entries
      *
@@ -746,10 +788,10 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 *
      **/
     public function export_form_entries( $request ) {
-        $form_id = isset( $request['form_id'] ) ? absint( $request['form_id'] ) : 0;
+        $form_id = $request['form_id'];
 
         if ( ! $form_id ) {
-            return new WP_Error( 'rest_invalid_form',__( 'Form id not exists', 'weforms' ) );
+            return new WP_Error( 'rest_weforms_invalid_form',__( 'Form id not exists', 'weforms' ) );
         }
 
         $entry_array   = [];
@@ -840,7 +882,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return json
      **/
     public function export_forms( $request ) {
-        $export_type = isset( $request['type'] ) ? $request['type'] : 'all';
+        $export_type = isset( $request['type'] ) ? $request['type'] : 'selected';
         $selected    = isset( $request['ids'] ) ? array_map( 'absint', $request['ids'] ) : array();
 
         if ( ! class_exists( 'WeForms_Admin_Tools' ) ) {
@@ -917,7 +959,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $offset       = ( $current_page - 1 ) * $per_page;
 
         if ( ! $form_id ) {
-             return new WP_Error( 'rest_invalid_data', __( 'Please provide a form id', 'weforms'), array( 'status' => 404 ) );
+             return new WP_Error( 'rest_invalid_form', __( 'Please provide a form id', 'weforms'), array( 'status' => 404 ) );
         }
 
         $entries = weforms_get_form_entries(
@@ -932,9 +974,10 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $total_entries = weforms_count_form_entries( $form_id, $status );
 
         array_map(
-            function( $entry ) use ( $columns ) {
+            function( $entry ) use ( $columns,$form_id ) {
                     $entry_id = $entry->id;
                     $entry->fields = array();
+                    $entry->links = rest_url( sprintf( '%s/%s/%d/%s/%d', $this->namespace, $this->rest_base, $form_id, 'entries', $entry->id ) );
 
                 foreach ( $columns as $meta_key => $label ) {
                     $value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
@@ -945,14 +988,10 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $entries = apply_filters( 'weforms_get_entries', $entries, $form_id );
 
-        $response = array(
-            'form_title'        => get_post_field( 'post_title', $form_id ),
-            'form_entries'      => $entries,
-        );
-
-        $max_pages= ceil( $total_entries / $per_page );
-        $response = $this->prepare_response_for_collection( $response );
-        $response = rest_ensure_response( $response );
+        $response  = $entries;
+        $max_pages = ceil( $total_entries / $per_page );
+        $response  = $this->prepare_response_for_collection( $response );
+        $response  = rest_ensure_response( $response );
 
         $response->header( 'X-WP-Total', (int) $total_entries );
         $response->header( 'X-WP-TotalPages', (int) $max_pages );
@@ -985,7 +1024,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 $response[$form_id] = $status->get_error_message();
 
             } else {
-                $response[$form_id] = __( ' form  deleted successfully ', 'weforms' );
+                $response[$form_id] = __( 'form  deleted successfully ', 'weforms' );
             }
         }
 
@@ -1005,31 +1044,34 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      **/
     public function update_item( $request ) {
-        $post_title        = $request->get_param('name');
-        $wpuf_settings     = $request->get_param('wpuf_settings');
-        $page_id           = $request->get_param('page_id');
-        $form_settings_key = $request->get_param('settings_key');
-        $wpuf_form_id      = $request->get_param('form_id');
-        $page              = $request->get_param('page');
-        $settings          = $request->get_param('settings');
-        $notifications     = $request->get_param('notifications');
-        $form_fields       = $request->get_param('fields');
-        $integrations      = $request->get_param('integrations');
+        $data                      = array();
+        $form_id                   = $request['form_id'];
+        $data['form_id']           = $form_id;
+        $data['form_settings_key'] = 'wpuf_form_settings';
 
-        $data = array(
-            'form_id'           => $wpuf_form_id,
-            'post_title'        => $post_title,
-            'form_fields'       => $form_fields,
-            'form_settings'     => $settings,
-            'form_settings_key' => $form_settings_key,
-            'notifications'     => $notifications,
-            'integrations'      => $integrations
-        );
+        if( isset( $request['name'] ) && !empty( $request['name'] ) ) {
+            $data['post_title']    = $request['name'];
+        }
 
-        // $form_fields = weforms()->form->save( $data );
-        $form_fields = $this->weforms_api_save( $data );
+        if( isset( $request['settings'] ) && !empty( $request['settings'] ) ) {
+            $data['form_settings'] = $request['settings'];
+        }
 
-        $form = weforms()->form->get( $wpuf_form_id );
+        if( isset( $request['fields'] ) && !empty( $request['fields'] ) ) {
+            $data['form_fields']   = $request['fields'];
+        }
+
+        if( isset( $request['notifications'] ) && !empty( $request['notifications'] ) ) {
+            $data['notifications'] = $request['notifications'];
+        }
+
+        if( isset( $request['integrations'] ) && !empty( $request['integrations'] ) ) {
+            $data['integrations']  = $request['integrations'];
+        }
+
+        $this->weforms_api_update( $data );
+
+        $form = weforms()->form->get( $form_id );
 
         $response_data = array(
             'id'            => $form->data->ID,
@@ -1055,31 +1097,28 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return [type]          [description]
     */
     public function update_item_settings( $request ) {
-        $wpuf_form_id      = $request->get_param('form_id');
-        $settings          = $request->get_param('settings');
-        $form_settings_key = $request->get_param('settings_key');
+
+        $form_id  = $request->get_param('form_id');
+        $settings = $request->get_param('settings');
 
         $data = array(
-            'form_id'           => $wpuf_form_id,
+            'form_id'           => $form_id,
             'form_settings'     => $settings,
-            'form_settings_key' => $form_settings_key,
         );
 
-        $form              = weforms()->form->get( $wpuf_form_id );
+        $form              = weforms()->form->get( $form_id );
         $new_form_settings = array_merge( $data['form_settings'], array_diff_key( $form->get_settings(), $data['form_settings'] ) );
 
-        update_post_meta( $data['form_id'], $data['form_settings_key'], $new_form_settings );
+        update_post_meta( $data['form_id'], 'wpuf_form_settings', $new_form_settings );
 
-        $form = weforms()->form->get( $wpuf_form_id );
+        $form = weforms()->form->get( $form_id );
 
         $response_data = array(
             'id'            => $form->data->ID,
-            'name'          => $form->name,
             'settings'      => $form->get_settings(),
         );
 
-        $request->set_param( 'context', 'edit' );
-        $response = rest_ensure_response( $response_data );
+        $response      = rest_ensure_response( $response_data );
         $response->set_status( 201 );
         $response->header( 'Location', rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $form->id ) ) );
 
@@ -1092,11 +1131,11 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return [type]          [description]
     */
     public function update_item_fields( $request ) {
-        $wpuf_form_id      = $request->get_param('form_id');
-        $form_fields       = $request->get_param('fields');
+        $form_id     = $request->get_param('form_id');
+        $form_fields = $request->get_param('fields');
 
         $data = array(
-            'form_id'           => $wpuf_form_id,
+            'form_id'           => $form_id,
             'form_fields'       => $form_fields,
         );
 
@@ -1135,11 +1174,10 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             }
         }
 
-        $form = weforms()->form->get( $wpuf_form_id );
+        $form = weforms()->form->get( $form_id );
 
         $response_data = array(
             'id'            => $form->data->ID,
-            'name'          => $form->name,
             'fields'        => $form->get_fields(),
         );
 
@@ -1155,26 +1193,21 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     public function get_item_fields( $request ) {
         $form_id = $request->get_param('form_id');
         $form    = weforms()->form->get( $form_id );
-
-        $data = array(
-            'id'            => $form->data->ID,
-            'name'            => $form->name,
-            'fields'        => $form->get_fields(),
-        );
+        $data    = $form->get_fields();
 
         $response = $this->prepare_response_for_collection( $data, $request );
         $response = rest_ensure_response( $response );
-        $response->header( 'X-WP-Total', (int) count( $data['fields'] )  );
+        $response->header( 'X-WP-Total', (int) count( $data)  );
 
         return $response;
     }
 
     public function delete_item_fields( $request ) {
         $form_id          = $request->get_param('form_id');
-        $fields_to_delete = $request->get_param('name');
+        $field_ids        = $request->get_param('field_id');
 
-        if ( empty( $fields_to_delete )  ) {
-            return new WP_Error( 'error', __( 'Fields name not provided', 'weforms') , array( 'status' => 404 ) );
+        if( empty( $field_ids ) ) {
+            return new WP_Error( 'error', __( 'Fields id not provided', 'weforms') , array( 'status' => 404 ) );
         }
 
         $fields = get_children( array(
@@ -1184,17 +1217,14 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             'numberposts' => '-1',
             'orderby'     => 'menu_order',
             'order'       => 'ASC',
-            'fields'      => 'All'
+            'fields'      => 'ids'
         ) );
 
         $deleted_fields = array();
 
-        foreach ( $fields as $field ) {
-            $field_data = maybe_unserialize( $field->post_content );
-
-            if ( in_array( $field_data['name'], $fields_to_delete ) ) {
-                $field_id          = $field->ID;
-                $deleted_fields[]  = wp_delete_post( $field_id , true );
+        foreach ($field_ids as $field_id) {
+            if( in_array( $field_id, $fields) ){
+                $deleted_fields[] = wp_delete_post( $field_id , true );
             }
         }
 
@@ -1202,9 +1232,12 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             return new WP_Error( 'error', __( 'Fields not exist or deleted before.', 'weforms') , array( 'status' => 404 ) );
         }
 
-        $form_array['message'] = __( 'Fields  deleted successfully ', 'weforms' );
-        $response              = $this->prepare_response_for_collection( $form_array, $request );
-        $response              = rest_ensure_response( $response );
+        $data  = array(
+            'message' => __( 'Fields  deleted successfully ', 'weforms' )
+        );
+
+        $response = $this->prepare_response_for_collection( $data, $request );
+        $response = rest_ensure_response( $response );
 
         return $response;
     }
@@ -1246,7 +1279,6 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $response_data = array(
             'id'            => $form->data->ID,
-            'name'          => $form->name,
             'integrations'  => $form->get_integrations()
         );
 
@@ -1397,11 +1429,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             $report_data[] = $temp;
         }
 
-        $response = array(
-            'id'     => $form_id,
-            'form_title'  => get_post_field( 'post_title', $form_id ),
-            'report_data' => $report_data ,
-        );
+        $response = $report_data;
 
         $response = $this->prepare_response_for_collection( $response );
         $response = rest_ensure_response( $response );
@@ -1419,12 +1447,12 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure
      **/
     public function save_entry( $request ) {
-        $form_id       = isset( $request['form_id'] ) ? intval( $request['form_id'] ) : 0;
+        $form_id       = $request['form_id'];
         $page_id       = isset( $request['page_id'] ) ? intval( $request['page_id'] ) : 0;
         $form          = weforms()->form->get( $form_id );
         $form_settings = $form->get_settings();
         $form_fields   = $form->get_fields();
-        $entry_fields  = $form->prepare_entries();
+        $entry_fields  = $form->prepare_entries( $request );
         $entry_fields  = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields );
 
         $entry_id = $this->weforms_api_insert_entry (array(
@@ -1471,6 +1499,8 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $notification->send_notifications();
 
+        $entry_data = weforms_get_entry_data( $entry_id );
+
         $response_data                 = array();
         $response_data['id']           =  $entry_id;
         $response_data['message']      =  "Entries Created Successfully";
@@ -1478,7 +1508,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $response_data['redirect_to']  = $redirect_to;
         $response_data['show_message'] = $show_message;
         $response_data['message']      = $message;
-        $response_data['data']         = $request;
+        $response_data['data']         = $entry_data['data'];
         $response_data['form_id']      = $form_id;
         $response_data['entry_id']     = $entry_id;
 
@@ -1504,6 +1534,15 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $form_settings = $form->get_settings();
         $entry         = $form->entries()->get( $entry_id );
         $fields        = $entry->get_fields();
+
+        $fields_data =  array_map( function( $field ) {
+            return [
+                'name' => $field['name'],
+                'label' => $field['label'],
+                'value' => $field['value'],
+            ];
+        }, $fields );
+
         $metadata      = $entry->get_metadata();
         $payment       = $entry->get_payment_data();
 
@@ -1568,8 +1607,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         }
 
         $response = array(
-            'form_fields'       => $fields,
-            'form_settings'     => $form_settings,
+            'fields'            => $fields_data,
             'meta_data'         => $metadata,
             'payment_data'      => $payment,
             'has_empty'         => $has_empty,
@@ -1616,20 +1654,22 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         if ( $forms ) {
             foreach ( $forms as $form_obj ) {
-                $form              = new WeForms_Form( $form_obj );
-
-                $data              = array();
-                $data['id']        = $form->id;
-                $data['name']      = $form->name;
-                $data['data']      = $form->data;
-                $data['status']    = $form->is_api_form_submission_open();
-                $data['fields']    = $form->get_fields();
-                $data['entries']   = $form->num_form_entries();
-                $data['settings']  = $form->get_settings();
-                $data['views']     = $form->num_form_views();
-                $data['payments']  = $form->num_form_payments();
-                $data              = $this->prepare_item_for_response( (array) $data, $request );
-                $formatted_items[] = $this->prepare_response_for_collection( $data );
+                $form        = new WeForms_Form( $form_obj );
+                $form_author = $form->data->post_author;
+                $form_status = $form->is_api_form_submission_open();
+                $data                = array();
+                $data['id']          = $form->id;
+                $data['name']        = $form->name;
+                $data['created_by']  = get_the_author_meta( 'user_nicename' , $form_author );
+                $data['created_on']  = $form->data->post_date;
+                $data['status']      = $form_status['type'];
+                $data['status_info'] = isset( $form_status['message'] ) ? $form_status['message'] : '';
+                $data['fields']      = count( $form->get_fields() );
+                $data['entries']     = $form->num_form_entries();
+                $data['views']       = $form->num_form_views();
+                $data['payments']    = $form->num_form_payments();
+                $data                = $this->prepare_item_for_response( (array) $data, $request );
+                $formatted_items[]   = $this->prepare_response_for_collection( $data );
             }
         }
 
@@ -1652,27 +1692,30 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     public function create_item( $request ) {
         $template      = isset( $request['template'] ) ? sanitize_text_field( $request['template'] ) : '';
         $name          = isset( $request['name'] ) ? sanitize_text_field( $request['name'] ) : '';
-        $setting       = isset( $request['settings'] ) ? $request['settings'] : '';
-        $notifications = isset( $request['notifications'] ) ? $request['notifications'] : '';
-        $fields        = isset( $request['fields'] ) ? $request['fields'] : '';
-        $integrations  = isset( $request['integrations'] ) ? $request['integrations'] : '';
+        $setting       = isset( $request['settings'] ) ? $request['settings'] : array();
+        $notifications = isset( $request['notifications'] ) ? $request['notifications'] : array();
+        $fields        = isset( $request['fields'] ) ? $request['fields'] : array();
+        $integrations  = isset( $request['integrations'] ) ? $request['integrations'] : array();
 
         $default_form_settings     =  weforms_get_default_form_settings();
-        $default_form_notification =  weforms_get_default_form_notification();
+        $default_form_notification =  array( weforms_get_default_form_notification() );
         $integration_list          =  weforms()->integrations->get_integration_js_settings();
         $field_list                =  weforms()->fields->get_fields();
 
-        foreach ( $fields as $key => $field ) {
-            $f  = in_array(  $field['template'], array_keys( $field_list ) );
-            if( empty( $f ) ) {
-                unset($fields[ $key ] );
-            }
-        }
-
         if( isset( $template  ) && !empty( $template ) ) {
             $form_id = weforms()->templates->create( $template );
-        } else {
-            $form_id = weforms()->form->create( $name, $template->get_form_fields() );
+        } elseif( !empty( $name ) ) {
+            if( !empty( $fields ) ) {
+                foreach ( $fields as $key => $field ) {
+                    $f  = in_array(  $field['template'], array_keys( $field_list ) );
+                    if( empty( $f ) ) {
+                        unset($fields[ $key ] );
+                    }
+                }
+            }
+
+            $fields  =  array_intersect_key(  $fields, $field_list );
+            $form_id = weforms()->form->create( $name, $fields );
 
             if ( is_wp_error( $form_id ) ) {
                 return new WP_Error( 'rest_invalid_data', __( 'Could not create the form', 'weforms') , array( 'status' => 404 ) );
@@ -1680,11 +1723,9 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
             $new_form_settings     =  array_diff_key( $default_form_settings, $setting );
             $new_form_notification =  array_diff_key( $default_form_notification, $notifications );
-            $integrations          =  array_intersect_key(  $integrations, $integration_list );
-            $fields                =  array_intersect_key(  $fields, $field_list );
-
+            $new_form_integrations =  array_intersect_key( $integrations, $integration_list );
             if ( !class_exists( 'WeForms_Pro' ) ) {
-                $integrations = array_udiff_assoc( $integrations, $integration_list,
+                $new_form_integrations = array_udiff_assoc( $new_form_integrations, $integration_list,
                     function( $item, $item_list ) {
                         if( isset( $item_list['pro'] ) && $item_list['pro'] == true ) {
                             return 0;
@@ -1694,17 +1735,13 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
                 );
             }
 
-            // update_post_meta( $data['form_id'], $data['form_settings_key'], $new_form_settings );
-            // update_post_meta( $data['form_id'], 'notifications', $existing_notifications );
-            // update_post_meta( $data['form_id'], 'integrations', $new_form_integrations );
-
-            return $form_id;
+            update_post_meta( $form_id, 'wpuf_form_settings', $new_form_settings );
+            update_post_meta( $form_id, 'notifications', $new_form_notification );
+            update_post_meta( $form_id, 'integrations', $new_form_integrations );
         }
 
-
-
-        if ( is_wp_error( $form_id ) ) {
-            return new WP_Error( 'rest_invalid_data', __( 'Could not create the form', 'weforms') , array( 'status' => 404 ) );
+        if ( is_wp_error( $form_id ) || is_null( $form_id ) ) {
+            return new WP_Error( 'rest_weforms_invalid_data', __( 'Could not create the form', 'weforms') , array( 'status' => 404 ) );
         }
 
         $form = weforms()->form->get( $form_id );
@@ -1717,6 +1754,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
             'notifications' => $form->get_notifications(),
             'integrations'  => $form->get_integrations()
         );
+
         $response = $this->prepare_item_for_response( $data, $request );
         $response = rest_ensure_response( $response );
         $response->set_status( 200 );
@@ -1736,16 +1774,23 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
      **/
     public function get_item( $request ) {
-        $form_id = isset( $request['form_id'] ) ? absint( $request['form_id'] ) : 0;
-        $form = weforms()->form->get( $form_id );
+        $form_id     = isset( $request['form_id'] ) ? absint( $request['form_id'] ) : 0;
+        $form        = weforms()->form->get( $form_id );
+        $form_status = $form->is_api_form_submission_open();
+        $form_author = $form->data->post_author;
 
         $data = array(
             'id'            => $form->data->ID,
+            'name'          => $form->name,
+            'created_by'    => get_the_author_meta( 'user_nicename' , $form_author ),
+            'created_on'    => $form->data->post_date,
+            'status'        => $form_status['type'],
+            'status_info'   => isset( $form_status['message'] ) ? $form_status['message'] : '',
             'fields'        => $form->get_fields(),
             'settings'      => $form->get_settings(),
             'notifications' => $form->get_notifications(),
-            'integrations'  => $form->get_integrations(),
-            'status'        => $form->is_api_form_submission_open()
+            'integrations'  => $form->get_integrations()
+
         );
         $data     = $this->prepare_item_for_response( $data, $request );
         $response = rest_ensure_response( $data );
@@ -1772,7 +1817,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         }
 
         $form_array['id']             = $form_id;
-        $form_array['message']        = __( ' form  deleted successfully ', 'weforms' );
+        $form_array['message']        = __( 'form  deleted successfully', 'weforms' );
         $form_array['data']['status'] = 200;
 
         $response = $this->prepare_response_for_collection( $form_array, $request );
@@ -1831,7 +1876,28 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         return true;
     }
 
-    public function submit_permissions_check( $request ) {
+    public function submit_permissions_check( $request  ) {
+        if ( !is_weforms_api_allowed_guest_submission() ) {
+            return new WP_Error( 'rest_cannot_submit_entry', __( 'Sorry, you have no permission to submit this form.','weforms' ), array( 'status' => rest_authorization_required_code() ) );
+        }
+
+        $form         = weforms()->form->get( (int) $request['form_id'] );
+        $form_is_open = $form->is_submission_open();
+
+        if ( is_wp_error( $form_is_open ) ) {
+            return new WP_Error( 'rest_weforms_form_permission', $form_is_open->get_error_message(), array( 'status' => 404 ) );
+        }
+
+        $form_validations = $this->save_check( $request );
+
+        if( is_wp_error( $form_validations  ) ) {
+            $form_message = array();
+            foreach ( $form_validations->get_error_messages() as $error ) {
+                $form_message[] = $error;
+            }
+            return new WP_Error( 'error',  $form_message, array( 'status' => 404 ) );
+        }
+
         return true;
     }
 
@@ -1920,7 +1986,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     public function is_form_exists( $param, $request, $key ) {
         global $wpdb;
 
-        $form_id = (int) $param;
+        $form_id = (int) $request['form_id'];
 
         $querystr = "
             SELECT $wpdb->posts.id
@@ -1931,8 +1997,9 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $result = $wpdb->get_var( $querystr );
 
-        if( is_null( $result ) ) {
-            return false;
+        if( empty( $result ) ) {
+            // return false;
+            return new WP_Error( 'rest_weforms_form_{$request[\'form_id\']}', __( 'Form Not Exist','weforms' ), array( 'status' => 404 ) );
         } else {
             return true;
         }
@@ -1949,236 +2016,458 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      *
      * @return boolean
      **/
-    public function is_form_exists_field_exists( $param, $request, $key  ) {
-        $form = weforms()->form->get( (int) $param );
+    // public function is_form_exists_field_exists( $param, $request, $key  ) {
+    //     $form = weforms()->form->get( (int) $param );
 
-        if( $form->id ) {
+    //     if( $form->id ) {
 
-            $form_settings = $form->get_settings();
-            $form_fields   = $form->get_fields();
-            $form_entries  = weforms_get_form_entries( $form->id, array( 'number'  => '', 'offset'  => '' ) );
+    //         $form_settings = $form->get_settings();
+    //         $form_fields   = $form->get_fields();
+    //         $form_entries  = weforms_get_form_entries( $form->id, array( 'number'  => '', 'offset'  => '' ) );
 
-            if ( ! $form_fields ) {
-                return new WP_Error( 'rest_forbidden_context', __( 'No form fields found!','weforms' ), array( 'status' => 404 ) );
-            } else {
-                $is_open = $form->is_submission_open();
+    //         if ( ! $form_fields ) {
+    //             return new WP_Error( 'rest_forbidden_context', __( 'No form fields found!','weforms' ), array( 'status' => 404 ) );
+    //         } else {
+    //             $is_open = $form->is_submission_open();
 
-                if ( is_wp_error( $is_open ) ) {
-                     return new WP_Error( 'rest_forbidden_context', $is_open->get_error_message(), array( 'status' => 404 ) );
+    //             if ( is_wp_error( $is_open ) ) {
+    //                  return new WP_Error( 'rest_forbidden_context', $is_open->get_error_message(), array( 'status' => 404 ) );
+    //             }
+
+    //             if ( $form->has_field( 'recaptcha' ) ) {
+    //                 $validate_Captcha =  $this->validate_reCaptcha( $request );
+
+    //                 if ( $validate_Captcha == false ) {
+    //                     return new WP_Error( 'rest_invalid_data', __( 'reCAPTCHA validation failed', 'weforms'), array( 'status' => 404,'success' => false, ) );
+    //                 }
+    //             }
+
+    //             $entry_fields = array();
+
+    //             foreach ( $form_fields as $key => $field ) {
+    //                 if( ( isset( $field['required'] ) &&  $field['required'] == "yes" && empty( $request->get_param( $field['name']  ) ) ) ) {
+    //                     return new WP_Error( 'rest_forbidden_context', __( 'Required Field Missing' ,'weforms'), array( 'status' => 404 ) );
+    //                 }
+
+    //                 $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
+    //                     'recaptcha','step_start'
+    //                 ) );
+
+    //                 if ( in_array( $field['template'], $ignore_list ) ) {
+    //                     continue;
+    //                 }
+
+    //                 if( !empty( $field['name']) ) {
+    //                     $entry_fields[ $field['name'] ] = $request->get_param( $field['name'] );
+    //                 }
+
+    //                 if ( ! array_key_exists( $field['template'], $form_fields ) ) {
+    //                     continue;
+    //                 }
+    //             }
+
+    //             foreach ( $entry_fields as $field_key => $field_value ) {
+    //                 $duplicate_check = false;
+    //                 $field_label     = 'This';
+
+    //                 foreach ( $form_fields as $form_field ) {
+    //                     if ( in_array( $form_field['template'], array( 'text_field', 'website_url', 'numeric_text_field', 'email_address' ) ) && $form_field['name'] == $field_key && isset( $form_field['duplicate'] ) && 'no' == $form_field['duplicate'] ) {
+    //                         $duplicate_check = true;
+    //                         $field_label     = $form_field['label'];
+    //                     }
+    //                 }
+
+    //                 if ( $duplicate_check ) {
+
+    //                     foreach ( $form_entries as $entry ) {
+    //                         $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
+
+    //                         if ( $existing && $field_value == $existing ) {
+    //                                 return new WP_Error( 'rest_forbidden_context',
+    //                                     __('field requires a unique entry and  has already been used.' ,'weforms')
+    //                                 , array( 'status' => 404 ) );
+    //                         }
+    //                     }
+
+    //                 }
+    //             }
+
+
+    //             foreach ( $form_fields as $key => $field ) {
+    //                 //skip custom html field as it is not saved
+    //                 if ( 'custom_html' == $field['template'] )
+    //                     continue;
+
+    //                 //skip recaptcha field as it is not saved
+    //                 if ( 'recaptcha' == $field['template'] )
+    //                     continue;
+
+    //                 if( !empty( $field['name'] ) ) {
+    //                     $value = $request[ $field['name'] ];
+    //                 }
+
+    //                 if ( 'file_upload' ===  $field['template'] ) {
+    //                     $file     = $request->get_param('wpuf_files');
+    //                     $file_ids = $file[ $field['name'] ];
+
+    //                     foreach ($file_ids as $key => $file_id) {
+    //                         if ( !wp_get_attachment_url( $file_id ) ) {
+    //                             return new WP_Error( 'rest_forbidden_context', __( 'File Not Found' ,'weforms'), array( 'status' => 404 ) );
+    //                         }
+    //                     }
+    //                 }
+
+    //                  if ( 'image_upload' ===  $field['template'] ) {
+    //                     $image     = $request->get_param('wpuf_files');
+    //                     $image_ids = $image[ $field['name'] ];
+
+    //                     foreach ($image_ids as $key => $image_id) {
+    //                         if ( !wp_get_attachment_url( $image_id ) ) {
+    //                             return new WP_Error( 'rest_forbidden_context',  __( 'Image Not Found' ,'weforms'), array( 'status' => 404 ) );
+    //                         }
+    //                     }
+    //                 }
+
+    //                 if ( 'date_field' ===  $field['template'] ) {
+    //                     $date_format = $field['format'];
+
+    //                     $possible_date= array(
+    //                           "dd-mm-yy" => "d-m-y",
+    //                           "yy-mm-dd" => "y-m-d",
+    //                           "mm-dd-yy" => "m-d-y",
+    //                           "dd/mm/yy" => "d/m/y",
+    //                           "yy/mm/dd" => "y/m/d",
+    //                           "mm/dd/yy" => "m/d/y",
+    //                           "dd.mm.yy" => "d/m/y",
+    //                           "yy.mm.dd" => "y/m/d",
+    //                           "mm.dd.yy" => "m/d/y",
+    //                     );
+
+
+    //                     foreach ( $possible_date as $key => $date ) {
+    //                         if ( strcmp( $key,$date_format ) == 0 ) {
+    //                             $date_format = $date;
+    //                             break;
+    //                        }
+
+    //                     }
+
+    //                     $d = DateTime::createFromFormat( $date_format, $value );
+
+    //                     if ( !( $d && ( $d->format($date_format) == $value ) ) ) {
+    //                         return new WP_Error( 'rest_forbidden_context', __( 'Date Field Is not Valid' ,'weforms'), array( 'status' => 404 ) );
+    //                     }
+
+    //                 }
+
+    //                 if ( 'email_address' === $field['template'] ) {
+    //                     if( !$this->email_validation( $value ) ){
+    //                         return new WP_Error( 'rest_forbidden_context', __( 'Invalid Email Address' ,'weforms'), array( 'status' => 404 ) );
+    //                     }
+    //                 }
+
+    //                 if ( 'website_url' === $field['template'] ) {
+    //                     if ( !filter_var( $value, FILTER_VALIDATE_URL ) ) {
+    //                         return new WP_Error( 'rest_forbidden_context', __( 'Invalid Url Address' ,'weforms'), array( 'status' => 404 ) );
+    //                     }
+    //                 }
+
+    //                 if ( 'numeric_text_field' === $field['template'] ) {
+    //                     if( !is_numeric( $value ) ) {
+    //                         return new WP_Error( 'rest_forbidden_context', __( 'Number Field Should be numberic value ' ,'weforms'), array( 'status' => 404 ) );
+    //                     }
+    //                 }
+
+
+
+    //                 if ( 'single_product' === $field['template'] ) {
+    //                     if ( ! $value ) {
+    //                         $value = array();
+    //                     }
+
+    //                     $value['price']    = isset( $value['price'] ) ? floatval( $value['price'] ) : 0;
+    //                     $value['quantity'] = isset( $value['quantity'] ) ? floatval( $value['quantity'] ) : 0;
+    //                     $quantity          = isset( $field['quantity'] ) ? $field['quantity'] : array();
+    //                     $price             = isset( $field['price'] ) ? $field['price'] : array();
+
+    //                     if ( isset( $price['is_flexible'] ) && $price['is_flexible'] ) {
+    //                         $min = isset( $price['min'] ) ? floatval( $price['min'] ) : 0;
+    //                         $max = isset( $price['max'] ) ? floatval( $price['max'] ) : 0;
+
+    //                         if ( $value['price'] < $min ) {
+    //                             return new WP_Error( 'rest_forbidden_context', sprintf( __( '%s price must be equal or greater than %s',
+    //                                     $field['weforms'],
+    //                                     $min ,
+    //                                     'weforms'
+    //                                 )
+    //                             ), array( 'status' => 404 ) );
+    //                         }
+
+    //                         if ( $max && $value['price'] > $max ) {
+    //                             return new WP_Error( 'rest_forbidden_context', sprintf( __( '%s price must be equal or less than %s',
+    //                                     $field['weforms'],
+    //                                     $max ,
+    //                                     'weforms'
+    //                                 )
+    //                             ), array( 'status' => 404 ) );
+    //                         }
+    //                     }
+
+    //                     if ( isset( $quantity['status'] ) && $quantity['status'] ) {
+    //                         $min = isset( $quantity['min'] ) ? floatval( $quantity['min'] ) : 0;
+    //                         $max = isset( $quantity['max'] ) ? floatval( $quantity['max'] ) : 0;
+
+    //                         if ( $value['quantity'] < $min ) {
+    //                             return new WP_Error( 'rest_forbidden_context', sprintf( __(
+    //                                     '%s quantity must be equal or greater than %s',
+    //                                     $field['weforms'],
+    //                                     $min ,
+    //                                     'weforms'
+    //                                 )
+    //                             ), array( 'status' => 404 ) );
+    //                         }
+
+    //                         if ( $max && $value['quantity'] > $max ) {
+    //                             return new WP_Error( 'rest_forbidden_context', sprintf( __(
+    //                                     '%s quantity must be equal or less than %s',
+    //                                     $field['weforms'],
+    //                                     $max ,
+    //                                     'weforms'
+    //                                 )
+    //                             ), array( 'status' => 404 ) );
+    //                         }
+    //                     }
+    //                 }
+    //             }
+
+    //         }
+
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
+
+    public function save_check( $request ) {
+        $form          = weforms()->form->get( (int) $request['form_id'] );
+        $form_error    = new WP_Error;
+        $form_settings = $form->get_settings();
+        $form_fields   = $form->get_fields();
+        $form_entries  = weforms_get_form_entries( $form->id, array( 'number'  => '', 'offset'  => '' ) );
+
+        if ( ! $form_fields ) {
+            $form_error->add( 'rest_weforms_form_fields', __( 'No form fields found!','weforms' ), array( 'status' => 404 ) );
+        } else {
+            if ( $form->has_field( 'recaptcha' ) ) {
+                $validate_Captcha =  $this->validate_reCaptcha( $request );
+
+                if ( $validate_Captcha == false ) {
+                    $form_error->add( 'rest_weforms_form', __( 'reCAPTCHA validation failed', 'weforms'), array( 'status' => 404 ) );
                 }
-
-                if ( $form->has_field( 'recaptcha' ) ) {
-                    $validate_Captcha =  $this->validate_reCaptcha( $request );
-
-                    if ( $validate_Captcha == false ) {
-                        return new WP_Error( 'rest_invalid_data', __( 'reCAPTCHA validation failed', 'weforms'), array( 'status' => 404,'success' => false, ) );
-                    }
-                }
-
-                $entry_fields = array();
-
-                foreach ( $form_fields as $key => $field ) {
-                    if( ( isset( $field['required'] ) &&  $field['required'] == "yes" && empty( $request->get_param( $field['name']  ) ) ) ) {
-                        return new WP_Error( 'rest_forbidden_context', __( 'Required Field Missing' ,'weforms'), array( 'status' => 404 ) );
-                    }
-
-                    $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
-                        'recaptcha','step_start'
-                    ) );
-
-                    if ( in_array( $field['template'], $ignore_list ) ) {
-                        continue;
-                    }
-
-                    if( !empty( $field['name']) ) {
-                        $entry_fields[ $field['name'] ] = $request->get_param( $field['name'] );
-                    }
-
-                    if ( ! array_key_exists( $field['template'], $form_fields ) ) {
-                        continue;
-                    }
-                }
-
-                foreach ( $entry_fields as $field_key => $field_value ) {
-                    $duplicate_check = false;
-                    $field_label     = 'This';
-
-                    foreach ( $form_fields as $form_field ) {
-                        if ( in_array( $form_field['template'], array( 'text_field', 'website_url', 'numeric_text_field', 'email_address' ) ) && $form_field['name'] == $field_key && isset( $form_field['duplicate'] ) && 'no' == $form_field['duplicate'] ) {
-                            $duplicate_check = true;
-                            $field_label     = $form_field['label'];
-                        }
-                    }
-
-                    if ( $duplicate_check ) {
-
-                        foreach ( $form_entries as $entry ) {
-                            $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
-
-                            if ( $existing && $field_value == $existing ) {
-                                    return new WP_Error( 'rest_forbidden_context',
-                                        __('field requires a unique entry and  has already been used.' ,'weforms')
-                                    , array( 'status' => 404 ) );
-                            }
-                        }
-
-                    }
-                }
-
-
-                foreach ( $form_fields as $key => $field ) {
-                    //skip custom html field as it is not saved
-                    if ( 'custom_html' == $field['template'] )
-                        continue;
-
-                    //skip recaptcha field as it is not saved
-                    if ( 'recaptcha' == $field['template'] )
-                        continue;
-
-                    if( !empty( $field['name'] ) ) {
-                        $value = $request[ $field['name'] ];
-                    }
-
-                    if ( 'file_upload' ===  $field['template'] ) {
-                        $file     = $request->get_param('wpuf_files');
-                        $file_ids = $file[ $field['name'] ];
-
-                        foreach ($file_ids as $key => $file_id) {
-                            if ( !wp_get_attachment_url( $file_id ) ) {
-                                return new WP_Error( 'rest_forbidden_context', __( 'File Not Found' ,'weforms'), array( 'status' => 404 ) );
-                            }
-                        }
-                    }
-
-                     if ( 'image_upload' ===  $field['template'] ) {
-                        $image     = $request->get_param('wpuf_files');
-                        $image_ids = $image[ $field['name'] ];
-
-                        foreach ($image_ids as $key => $image_id) {
-                            if ( !wp_get_attachment_url( $image_id ) ) {
-                                return new WP_Error( 'rest_forbidden_context',  __( 'Image Not Found' ,'weforms'), array( 'status' => 404 ) );
-                            }
-                        }
-                    }
-
-                    if ( 'date_field' ===  $field['template'] ) {
-                        $date_format = $field['format'];
-
-                        $possible_date= array(
-                              "dd-mm-yy" => "d-m-y",
-                              "yy-mm-dd" => "y-m-d",
-                              "mm-dd-yy" => "m-d-y",
-                              "dd/mm/yy" => "d/m/y",
-                              "yy/mm/dd" => "y/m/d",
-                              "mm/dd/yy" => "m/d/y",
-                              "dd.mm.yy" => "d/m/y",
-                              "yy.mm.dd" => "y/m/d",
-                              "mm.dd.yy" => "m/d/y",
-                        );
-
-
-                        foreach ( $possible_date as $key => $date ) {
-                            if ( strcmp( $key,$date_format ) == 0 ) {
-                                $date_format = $date;
-                                break;
-                           }
-
-                        }
-
-                        $d = DateTime::createFromFormat( $date_format, $value );
-
-                        if ( !( $d && ( $d->format($date_format) == $value ) ) ) {
-                            return new WP_Error( 'rest_forbidden_context', __( 'Date Field Is not Valid' ,'weforms'), array( 'status' => 404 ) );
-                        }
-
-                    }
-
-                    if ( 'email_address' === $field['template'] ) {
-                        if ( !filter_var( $value, FILTER_VALIDATE_EMAIL ) ) {
-                            return new WP_Error( 'rest_forbidden_context', __( 'Invalid Email Address' ,'weforms'), array( 'status' => 404 ) );
-                        }
-                    }
-
-                    if ( 'website_url' === $field['template'] ) {
-                        if ( !filter_var( $value, FILTER_VALIDATE_URL ) ) {
-                            return new WP_Error( 'rest_forbidden_context', __( 'Invalid Url Address' ,'weforms'), array( 'status' => 404 ) );
-                        }
-                    }
-
-                    if ( 'numeric_text_field' === $field['template'] ) {
-                        if( !is_numeric( $value ) ) {
-                            return new WP_Error( 'rest_forbidden_context', __( 'Number Field Should be numberic value ' ,'weforms'), array( 'status' => 404 ) );
-                        }
-                    }
-
-
-
-                    if ( 'single_product' === $field['template'] ) {
-                        if ( ! $value ) {
-                            $value = array();
-                        }
-
-                        $value['price']    = isset( $value['price'] ) ? floatval( $value['price'] ) : 0;
-                        $value['quantity'] = isset( $value['quantity'] ) ? floatval( $value['quantity'] ) : 0;
-                        $quantity          = isset( $field['quantity'] ) ? $field['quantity'] : array();
-                        $price             = isset( $field['price'] ) ? $field['price'] : array();
-
-                        if ( isset( $price['is_flexible'] ) && $price['is_flexible'] ) {
-                            $min = isset( $price['min'] ) ? floatval( $price['min'] ) : 0;
-                            $max = isset( $price['max'] ) ? floatval( $price['max'] ) : 0;
-
-                            if ( $value['price'] < $min ) {
-                                return new WP_Error( 'rest_forbidden_context', sprintf( __( '%s price must be equal or greater than %s',
-                                        $field['weforms'],
-                                        $min ,
-                                        'weforms'
-                                    )
-                                ), array( 'status' => 404 ) );
-                            }
-
-                            if ( $max && $value['price'] > $max ) {
-                                return new WP_Error( 'rest_forbidden_context', sprintf( __( '%s price must be equal or less than %s',
-                                        $field['weforms'],
-                                        $max ,
-                                        'weforms'
-                                    )
-                                ), array( 'status' => 404 ) );
-                            }
-                        }
-
-                        if ( isset( $quantity['status'] ) && $quantity['status'] ) {
-                            $min = isset( $quantity['min'] ) ? floatval( $quantity['min'] ) : 0;
-                            $max = isset( $quantity['max'] ) ? floatval( $quantity['max'] ) : 0;
-
-                            if ( $value['quantity'] < $min ) {
-                                return new WP_Error( 'rest_forbidden_context', sprintf( __(
-                                        '%s quantity must be equal or greater than %s',
-                                        $field['weforms'],
-                                        $min ,
-                                        'weforms'
-                                    )
-                                ), array( 'status' => 404 ) );
-                            }
-
-                            if ( $max && $value['quantity'] > $max ) {
-                                return new WP_Error( 'rest_forbidden_context', sprintf( __(
-                                        '%s quantity must be equal or less than %s',
-                                        $field['weforms'],
-                                        $max ,
-                                        'weforms'
-                                    )
-                                ), array( 'status' => 404 ) );
-                            }
-                        }
-                    }
-                }
-
             }
 
-            return true;
+            $entry_fields = array();
+
+            foreach ( $form_fields as $key => $field ) {
+                if( ( isset( $field['required'] ) &&  $field['required'] == "yes" && empty( $request->get_param( $field['name']  ) ) ) ) {
+                    $form_error->add( 'rest_weforms_form_required_field', __( 'Required Field Missing' ,'weforms'), array( 'status' => 404 ) );
+                }
+
+                $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
+                    'recaptcha','step_start'
+                ) );
+
+                if ( in_array( $field['template'], $ignore_list ) ) {
+                    continue;
+                }
+
+                if( !empty( $field['name']) ) {
+                    $entry_fields[ $field['name'] ] = $request->get_param( $field['name'] );
+                }
+
+                if ( ! array_key_exists( $field['template'], $form_fields ) ) {
+                    continue;
+                }
+            }
+
+            foreach ( $entry_fields as $field_key => $field_value ) {
+                $duplicate_check = false;
+                $field_label     = 'This';
+
+                foreach ( $form_fields as $form_field ) {
+                    if ( in_array( $form_field['template'], array( 'text_field', 'website_url', 'numeric_text_field', 'email_address' ) ) && $form_field['name'] == $field_key && isset( $form_field['duplicate'] ) && 'no' == $form_field['duplicate'] ) {
+                        $duplicate_check = true;
+                        $field_label     = $form_field['label'];
+                    }
+                }
+
+                if ( $duplicate_check ) {
+
+                    foreach ( $form_entries as $entry ) {
+                        $existing = weforms_get_entry_meta( $entry->id, $field_key, true );
+
+                        if ( $existing && $field_value == $existing ) {
+                            $form_error->add( 'rest_weforms_form_unique_entry', __('field requires a unique entry and  has already been used.' ,'weforms'), array( 'status' => 404 ) );
+                        }
+                    }
+
+                }
+            }
+
+            foreach ( $form_fields as $key => $field ) {
+                //skip custom html field as it is not saved
+                if ( 'custom_html' == $field['template'] )
+                    continue;
+
+                //skip recaptcha field as it is not saved
+                if ( 'recaptcha' == $field['template'] )
+                    continue;
+
+                if( !empty( $field['name'] ) ) {
+                    $value = $request[ $field['name'] ];
+                }
+
+                if ( 'file_upload' ===  $field['template'] ) {
+                    $file     = $request->get_param('wpuf_files');
+                    $file_ids = $file[ $field['name'] ];
+
+                    foreach ($file_ids as $key => $file_id) {
+                        if ( !wp_get_attachment_url( $file_id ) ) {
+                            $form_error->add( 'rest_weforms_form_file', __( 'File Not Found' ,'weforms'), array( 'status' => 404 ) );
+                        }
+                    }
+                }
+
+                 if ( 'image_upload' ===  $field['template'] ) {
+                    $image     = $request->get_param('wpuf_files');
+                    $image_ids = $image[ $field['name'] ];
+
+                    foreach ($image_ids as $key => $image_id) {
+                        if ( !wp_get_attachment_url( $image_id ) ) {
+                            $form_error->add( 'rest_weforms_form_image',  __( 'Image Not Found' ,'weforms'), array( 'status' => 404 ) );
+                        }
+                    }
+                }
+
+                if ( 'date_field' ===  $field['template'] ) {
+                    $date_format = $field['format'];
+
+                    $possible_date= array(
+                          "dd-mm-yy" => "d-m-y",
+                          "yy-mm-dd" => "y-m-d",
+                          "mm-dd-yy" => "m-d-y",
+                          "dd/mm/yy" => "d/m/y",
+                          "yy/mm/dd" => "y/m/d",
+                          "mm/dd/yy" => "m/d/y",
+                          "dd.mm.yy" => "d/m/y",
+                          "yy.mm.dd" => "y/m/d",
+                          "mm.dd.yy" => "m/d/y",
+                    );
+
+
+                    foreach ( $possible_date as $key => $date ) {
+                        if ( strcmp( $key,$date_format ) == 0 ) {
+                            $date_format = $date;
+                            break;
+                       }
+
+                    }
+
+                    $d = DateTime::createFromFormat( $date_format, $value );
+
+                    if ( !( $d && ( $d->format($date_format) == $value ) ) ) {
+                        $form_error->add( 'rest_weforms_form_date_field', __( 'Date Field Is not Valid' ,'weforms'), array( 'status' => 404 ) );
+                    }
+
+                }
+
+                if ( 'email_address' === $field['template'] ) {
+                    if( !$this->email_validation( $value ) ){
+                        $form_error->add( 'rest_weforms_form_email', __( 'Invalid Email Address' ,'weforms'), array( 'status' => 404 ) );
+                    }
+                }
+
+                if ( 'website_url' === $field['template'] ) {
+                    if ( !filter_var( $value, FILTER_VALIDATE_URL ) ) {
+                        $form_error->add( 'rest_weforms_form_url', __( 'Invalid Url Address' ,'weforms'), array( 'status' => 404 ) );
+                    }
+                }
+
+                if ( 'numeric_text_field' === $field['template'] ) {
+                    if( !is_numeric( $value ) ) {
+                        $form_error->add( 'rest_weforms_form_number', __( 'Number Field Should be numberic value ' ,'weforms'), array( 'status' => 404 ) );
+                    }
+                }
+
+
+
+                if ( 'single_product' === $field['template'] ) {
+                    if ( ! $value ) {
+                        $value = array();
+                    }
+
+                    $value['price']    = isset( $value['price'] ) ? floatval( $value['price'] ) : 0;
+                    $value['quantity'] = isset( $value['quantity'] ) ? floatval( $value['quantity'] ) : 0;
+                    $quantity          = isset( $field['quantity'] ) ? $field['quantity'] : array();
+                    $price             = isset( $field['price'] ) ? $field['price'] : array();
+
+                    if ( isset( $price['is_flexible'] ) && $price['is_flexible'] ) {
+                        $min = isset( $price['min'] ) ? floatval( $price['min'] ) : 0;
+                        $max = isset( $price['max'] ) ? floatval( $price['max'] ) : 0;
+
+                        if ( $value['price'] < $min ) {
+                            return new WP_Error( 'rest_weforms_form_price', sprintf( __( '%s price must be equal or greater than %s',
+                                    $field['weforms'],
+                                    $min ,
+                                    'weforms'
+                                )
+                            ), array( 'status' => 404 ) );
+                        }
+
+                        if ( $max && $value['price'] > $max ) {
+                            $form_error->add( 'rest_weforms_form_price', sprintf( __( '%s price must be equal or less than %s',
+                                    $field['weforms'],
+                                    $max ,
+                                    'weforms'
+                                )
+                            ), array( 'status' => 404 ) );
+                        }
+                    }
+
+                    if ( isset( $quantity['status'] ) && $quantity['status'] ) {
+                        $min = isset( $quantity['min'] ) ? floatval( $quantity['min'] ) : 0;
+                        $max = isset( $quantity['max'] ) ? floatval( $quantity['max'] ) : 0;
+
+                        if ( $value['quantity'] < $min ) {
+                            $form_error->add( 'rest_weforms_form_quantity', sprintf( __(
+                                    '%s quantity must be equal or greater than %s',
+                                    $field['weforms'],
+                                    $min ,
+                                    'weforms'
+                                )
+                            ), array( 'status' => 404 ) );
+                        }
+
+                        if ( $max && $value['quantity'] > $max ) {
+
+                            $form_error->add( 'rest_weforms_form_quantity', sprintf( __(
+                                    '%s quantity must be equal or less than %s',
+                                    $field['weforms'],
+                                    $max ,
+                                    'weforms'
+                                )
+                            ), array( 'status' => 404 ) );
+                        }
+                    }
+                }
+            }
         }
 
-        return false;
+        if( count( $form_error->get_error_messages() ) > 0 ) {
+            return $form_error;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -2194,25 +2483,28 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      **/
     public function is_bulk_delete_form_exists( $param, $request, $key ) {
         global $wpdb;
+        $forms = $request['ids'];
 
-        if( is_array( $param ) ) {
-            $form_id = implode( ",", $param );
+        if( is_array( $forms ) ) {
+            $forms = array_filter( $forms, 'is_numeric' );
 
+            if( empty( $forms ) ) {
+                return false;
+            }
+
+            $form_id  = implode( ",", $forms );
             $querystr = " SELECT $wpdb->posts.id
                 FROM $wpdb->posts
                 WHERE $wpdb->posts.post_type = 'wpuf_contact_form'
                 AND $wpdb->posts.ID IN ( $form_id )
             ";
-
         } else {
-            $form_id = (int) $param;
-
+            $form_id = (int) $forms;
             $querystr = " SELECT $wpdb->posts.id
                 FROM $wpdb->posts
                 WHERE $wpdb->posts.post_type = 'wpuf_contact_form'
                 AND $wpdb->posts.ID = $form_id
             ";
-
         }
 
         $result = $wpdb->get_results( $querystr );
@@ -2222,6 +2514,35 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         } else {
             return true;
         }
+        // global $wpdb;
+
+        // if( is_array( $param ) ) {
+        //     $form_id = implode( ",", $param );
+
+        //     $querystr = " SELECT $wpdb->posts.id
+        //         FROM $wpdb->posts
+        //         WHERE $wpdb->posts.post_type = 'wpuf_contact_form'
+        //         AND $wpdb->posts.ID IN ( $form_id )
+        //     ";
+
+        // } else {
+        //     $form_id = (int) $param;
+
+        //     $querystr = " SELECT $wpdb->posts.id
+        //         FROM $wpdb->posts
+        //         WHERE $wpdb->posts.post_type = 'wpuf_contact_form'
+        //         AND $wpdb->posts.ID = $form_id
+        //     ";
+
+        // }
+
+        // $result = $wpdb->get_results( $querystr );
+
+        // if ( empty( $result ) ) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
     }
 
 
@@ -2325,7 +2646,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     function weforms_api_insert_entry( $args, $fields = array() ) {
         global $wpdb;
 
-        $browser = $this->weforms_api_get_browser();
+        $browser = weforms_get_browser();
 
         $defaults = array(
             'form_id'     => 0,
@@ -2336,6 +2657,8 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         );
 
         $r = wp_parse_args( $args, $defaults );
+
+        error_log( print_r($r,true) );
 
         if ( ! $r['form_id'] ) {
             return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'weforms' ) );
@@ -2586,6 +2909,110 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         return $saved_wpuf_inputs;
     }
 
+
+    /**
+     * Update and existing form
+     *
+     * @since 1.4.2
+     *
+     * @param array $data Contains form_fields, form_settings, form_settings_key data
+     *
+     * @return boolean
+     */
+    public function weforms_api_update( $data ) {
+        $saved_wpuf_inputs = array();
+
+        if( isset( $data['post_title'] ) && !empty( $data['post_title'] ) ) {
+            wp_update_post(
+                array(
+                    'ID'          => $data['form_id'],
+                    'post_status' => 'publish',
+                    'post_title'  => $data['post_title']
+                )
+            );
+        }
+
+        $existing_wpuf_input_ids = get_children( array(
+            'post_parent' => $data['form_id'],
+            'post_status' => 'publish',
+            'post_type'   => 'wpuf_input',
+            'numberposts' => '-1',
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
+            'fields'      => 'ids'
+        ) );
+
+        $new_wpuf_input_ids = array();
+
+        if ( ! empty( $data['form_fields'] ) ) {
+
+            foreach ( $data['form_fields'] as $order => $field ) {
+                if ( ! empty( $field['is_new'] ) ) {
+                    unset( $field['is_new'] );
+                    unset( $field['id'] );
+
+                    $field_id = 0;
+
+                } else {
+                    $field_id = $field['id'];
+                }
+
+                $field_id = weforms_insert_form_field( $data['form_id'], $field, $field_id, $order );
+
+                $new_wpuf_input_ids[] = $field_id;
+
+                $field['id'] = $field_id;
+
+                $saved_wpuf_inputs[] = $field;
+            }
+        }
+
+        $form = weforms()->form->get( $data['form_id'] );
+
+        if( isset( $data['form_settings'] ) && !empty( $data['form_settings'] ) ) {
+            $new_form_settings = array_merge( $data['form_settings'], array_diff_key( $form->get_settings(), $data['form_settings'] ) );
+            update_post_meta( $data['form_id'], 'wpuf_form_settings', $new_form_settings );
+        }
+
+        if( isset( $data['notifications'] ) && !empty( $data['notifications'] ) ) {
+
+            $existing_notifications = $form->get_notifications();
+
+            foreach ( $existing_notifications as $key => $notification ) {
+                if( array_key_exists( $key , $data['notifications'] ) ) {
+                    $existing_notifications[ $key ] = $data['notifications'][$key];
+                }
+            }
+
+            update_post_meta( $data['form_id'], 'notifications', $existing_notifications );
+        }
+
+        if( isset( $data['integrations'] ) && !empty( $data['integrations'] ) ) {$integration_list = weforms()->integrations->get_integration_js_settings();
+            $form_integration = $form->get_integrations();
+            $integrations     = $data['integrations'];
+            $integrations     =  array_intersect_key(  $integrations, $integration_list );
+
+            if ( !class_exists( 'WeForms_Pro' ) ) {
+                $integrations = array_udiff_assoc( $integrations, $integration_list,
+                    function( $item, $item_list ) {
+                        if( isset( $item_list['pro'] ) && $item_list['pro'] == true ) {
+                            return 0;
+                        }
+                        return $item;
+                    }
+                );
+            }
+
+            $new_form_integrations = array_merge( $integrations, array_diff_key( $form->get_integrations(), $integrations ) );
+
+            update_post_meta( $data['form_id'], 'integrations', $new_form_integrations );
+        }
+
+        update_post_meta( $data['form_id'], '_weforms_version', WEFORMS_VERSION );
+
+        return $saved_wpuf_inputs;
+    }
+
     /**
      * get item settings
      *
@@ -2599,11 +3026,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         $form_id = $request->get_param('form_id');
         $form    = weforms()->form->get( $form_id );
 
-        $data = array(
-            'id'       => $form->data->ID,
-            'name'     => $form->name,
-            'settings' => $form->get_settings(),
-        );
+        $data = $form->get_settings();
 
         $response = $this->prepare_response_for_collection( $data, $request );
         $response = rest_ensure_response( $response );
@@ -2624,12 +3047,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     public function get_item_integrations( $request ) {
         $form_id = $request->get_param( 'form_id' );
         $form    = weforms()->form->get( $form_id );
-
-        $data = array(
-            'id'           => $form->data->ID,
-            'name'         => $form->name,
-            'integrations' => $form->get_integrations()
-        );
+        $data    = $form->get_integrations();
 
         $response  = $this->prepare_response_for_collection( $data, $request );
         $response = rest_ensure_response( $response );
@@ -2650,16 +3068,11 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
     public function get_item_notification( $request ) {
         $form_id = $request->get_param( 'form_id' );
         $form    = weforms()->form->get( $form_id );
+        $data    = $form->get_notifications();
 
-        $data = array(
-            'id'       => $form->data->ID,
-            'name'     => $form->name,
-            'notifications' => $form->get_notifications(),
-        );
-
-        $response  = $this->prepare_response_for_collection( $data, $request );
+        $response = $this->prepare_response_for_collection( $data, $request );
         $response = rest_ensure_response( $response );
-        $response->header( 'X-WP-Total', (int) count( $data['notifications'] )  );
+        $response->header( 'X-WP-Total', (int) count( $data ) );
 
         return $response;
     }
@@ -2674,8 +3087,8 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function add_item_notification( $request ) {
-        $form_id = $request->get_param( 'form_id' );
-        $notifications      = $request->get_param('notifications');
+        $form_id       = $request->get_param( 'form_id' );
+        $notifications = $request->get_param('notifications');
 
         $data = array(
             'form_id'       => $form_id,
@@ -2691,12 +3104,12 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $response_data = array(
             'id'            => $form->data->ID,
-            'name'          => $form->name,
             'notifications' => $form->get_notifications(),
         );
 
         $response = rest_ensure_response( $response_data );
         $response->set_status( 201 );
+
         return $response;
     }
 
@@ -2720,7 +3133,6 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $form                   = weforms()->form->get( $wpuf_form_id );
         $existing_notifications = $form->get_notifications();
-        $message = array();
 
         foreach ( $existing_notifications as $key => $notification ) {
             if( array_key_exists( $key , $data['notifications'] ) ) {
@@ -2734,9 +3146,7 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $response_data = array(
             'id'            => $form->data->ID,
-            'name'          => $form->name,
             'notifications' => $form->get_notifications(),
-            'message'       => $message
         );
 
         $response = rest_ensure_response( $response_data );
@@ -2771,7 +3181,6 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
 
         $data = array(
             'id'       => $form->data->ID,
-            'name'     => $form->name,
             'notifications' => $form->get_notifications(),
         );
 
@@ -2850,5 +3259,9 @@ class Weforms_Forms_Controller extends WP_REST_Controller {
         );
 
         return $schema;
+    }
+
+    public function email_validation( $value ) {
+        return ( !preg_match( "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", $value ) ) ? false : true;
     }
 }

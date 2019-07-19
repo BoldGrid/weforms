@@ -98,7 +98,8 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
+    public function prepare_entry( $field, $args = [] ) {
+        $args = ! empty( $args ) ? $args : $_POST;
 
         if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
 
@@ -109,7 +110,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
             }
         }
 
-        $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
+        $value = !empty( $args[ $field[ 'name' ] ] ) ? $args[ $field[ 'name' ] ] : '';
 
         return sanitize_text_field( trim( $value ) );
     }
