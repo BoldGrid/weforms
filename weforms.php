@@ -218,7 +218,8 @@ final class WeForms {
 
         require_once WEFORMS_INCLUDES . '/compat/class-abstract-wpuf-integration.php';
 
-        if ( $this->is_request( 'admin' ) ) {
+        // if ( $this->is_request( 'admin' ) ) {
+        if ( current_user_can( 'manage_options' ) ) {
             // compatibility
             require_once WEFORMS_INCLUDES . '/class-template-manager.php';
 
@@ -243,7 +244,8 @@ final class WeForms {
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
         }
-
+        require_once WEFORMS_INCLUDES . '/api/class-weforms-api-rest-controller.php';
+        require_once WEFORMS_INCLUDES . '/class-weforms-api.php';
         require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
         require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
         require_once WEFORMS_INCLUDES . '/admin/class-gutenblock.php';
@@ -333,7 +335,8 @@ final class WeForms {
      */
     public function init_classes() {
 
-        if ( $this->is_request( 'admin' ) ) {
+        // if ( $this->is_request( 'admin' ) ) {
+        if ( current_user_can( 'manage_options' ) ) {
             $this->container['admin']        = new WeForms_Admin();
             // $this->container['welcome']      = new WeForms_Admin_Welcome();
             $this->container['templates']    = new WeForms_Template_Manager();
@@ -363,6 +366,7 @@ final class WeForms {
             $this->container['ajax']        = new WeForms_Ajax();
             $this->container['ajax_upload'] = new WeForms_Ajax_Upload();
         }
+        $this->container['weforms_api'] = new WeForms_Api();
     }
 
     /**

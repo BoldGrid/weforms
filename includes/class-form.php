@@ -311,7 +311,7 @@ class WeForms_Form {
             $limit        = (int) $settings['limit_number'];
             $form_entries = $this->num_form_entries();
 
-            if ( $limit < $form_entries ) {
+            if ( $limit <= $form_entries ) {
                 return new WP_Error( 'entry-limit', $settings['limit_message'] );
             }
         }
@@ -346,6 +346,9 @@ class WeForms_Form {
         }
 
         $notifications = array_map( function( $notification ) use ( $defualt ) {
+            if( empty( $notification ) ) {
+                $notification = array();
+            }
             return array_merge( $defualt, $notification);
         }, $notifications);
 
@@ -409,7 +412,7 @@ class WeForms_Form {
      *
      * @return array
      */
-    public function prepare_entries() {
+    public function prepare_entries( $args = [] ) {
 
         $fields       = weforms()->fields->get_fields();
         $form_fields  = $this->get_fields();
@@ -417,7 +420,7 @@ class WeForms_Form {
         $entry_fields = array();
 
         $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
-            'recaptcha', 'section_break'
+            'recaptcha', 'section_break','step_start'
         ) );
 
         foreach ($form_fields as $field) {
@@ -454,9 +457,114 @@ class WeForms_Form {
 
             $field_class = $fields[ $field['template'] ];
 
-            $entry_fields[ $field['name'] ] = $field_class->prepare_entry( $field );
+            $entry_fields[ $field['name'] ] = $field_class->prepare_entry( $field, $args );
         }
 
         return apply_filters( 'weforms_prepare_entries', $entry_fields );
+    }
+
+    /**
+     * Check if the form submission is open On API
+     *
+     * @return boolean|WP_Error
+     */
+    public function is_api_form_submission_open() {
+        $response            = array();
+        $settings            = $this->get_settings();
+        $form_entries        = $this->num_form_entries();
+        $needs_login         = isset( $settings['require_login'] ) ? $settings['require_login'] : 'false';
+        $limit_entries       = isset( $settings['limit_entries'] ) ? $settings['limit_entries'] : 'false';
+        $schedule_form       = isset( $settings['schedule_form'] ) ? $settings['schedule_form'] : 'false';
+        $limit_number        = isset( $settings['limit_number'] ) ? $settings['limit_number'] : '';
+        $schedule_start      = isset( $settings['schedule_start'] ) ? $settings['schedule_start'] : '';
+        $schedule_end        = isset( $settings['schedule_end'] ) ? $settings['schedule_end']: '';
+        $schedule_start_date = date_i18n( "M d, Y", strtotime( $schedule_start ));
+        $schedule_end_date   = date_i18n( "M d, Y", strtotime( $schedule_end ));
+
+        if ( $this->data->post_status != 'publish' ) {
+            $response['type'] = __( 'Closed','weforms' );
+        }
+
+        if( $this->isFormStatusClosed( $settings, $form_entries ) ) {
+            $response['type'] = __( 'Closed','weforms' );
+        } else {
+            $response['type'] = __( 'Open', 'weforms');
+        }
+
+        if (  $limit_entries === 'true' ) {
+            if ( $schedule_form === 'true' && $this->isExpiredForm( $schedule_end ) ) {
+                $response['message'] = __( "Expired at {$schedule_end_date}", "weforms" );
+            } elseif ( $schedule_form === 'true' && $this->isPendingForm( $schedule_start ) ) {
+                $response['message'] = __( "Starts at {$schedule_start_date}", "weforms" );
+            } elseif( $form_entries >=  $limit_number ) {
+                $response['message'] = __( "Reached maximum entry limit", "weforms" );
+            } else {
+                $remaining_entries = $limit_number - $form_entries;
+                $response['message'] = __("{$remaining_entries} entries remaining ", "weforms" );
+            }
+        } elseif( $schedule_form === 'true' ) {
+            if ( $this->isPendingForm( $schedule_start ) ) {
+                $response['message'] = __( "Starts at {$schedule_start_date}", "weforms" );
+            } elseif( $this->isExpiredForm( $schedule_end ) ) {
+                $response['message'] = __( "Expired at {$schedule_end_date}", "weforms");
+            } elseif( $this->isOpenForm( $schedule_start, $schedule_end ) ) {
+                $response['message'] = __( "Expires at {$schedule_end_date}", "weforms");
+            }
+        } elseif( $needs_login  === 'true' ) {
+            $response['message'] =__( "Requires login", "weforms" );
+        }
+
+        return apply_filters( 'weforms_is_submission_open', $response, $settings, $this );
+    }
+
+
+    public function isPendingForm( $scheduleStart ) {
+        $currentTime = current_time( 'timestamp' );
+        $startTime   = strtotime( $scheduleStart );
+
+        if ( $currentTime < $startTime ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isExpiredForm( $scheduleEnd ) {
+        $currentTime = current_time( 'timestamp' );
+        $endTime     = strtotime( $scheduleEnd );
+
+        if ( $currentTime > $endTime ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isOpenForm ( $scheduleStart, $scheduleEnd ) {
+        $currentTime = current_time( 'timestamp' );
+        $startTime   = strtotime( $scheduleStart );
+        $endTime     = strtotime( $scheduleEnd );
+
+        if ( $currentTime > $startTime &&  $currentTime < $endTime ) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isFormStatusClosed( $formSettings, $entries ) {
+
+        if ( $formSettings['schedule_form'] === 'true' && $this->isPendingForm( $formSettings['schedule_start'] ) ) {
+            return true;
+        }
+
+        if ( $formSettings['schedule_form'] === 'true' && $this->isExpiredForm( $formSettings['schedule_end'] ) ) {
+            return true;
+        }
+
+        if ( $formSettings['limit_entries']  === 'true' && $entries >= $formSettings['limit_number'] ) {
+            return true;
+        }
+
+        return false;
     }
 }
