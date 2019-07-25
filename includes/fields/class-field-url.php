@@ -89,7 +89,9 @@ class WeForms_Form_Field_URL extends WeForms_Form_Field_Text {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
-       return esc_url( trim( $_POST[$field['name']] ) );
+    public function prepare_entry( $field, $args = [] ) {
+       $args = ! empty( $args ) ? $args : $_POST;
+
+       return esc_url( trim( $args[$field['name']] ) );
     }
 }
