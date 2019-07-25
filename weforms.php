@@ -244,6 +244,7 @@ final class WeForms {
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
         }
+        require_once WEFORMS_INCLUDES . '/api/class-weforms-api-rest-controller.php';
         require_once WEFORMS_INCLUDES . '/class-weforms-api.php';
         require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
         require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';

@@ -6,7 +6,7 @@
  * @since 1.4.2
  */
 
-class Weforms_Setting_Controller extends WP_REST_Controller {
+class Weforms_Setting_Controller extends Weforms_REST_Controller {
 
     /**
      * Endpoint namespace
@@ -40,7 +40,10 @@ class Weforms_Setting_Controller extends WP_REST_Controller {
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( $this, 'get_items' ),
-                'permission_callback' => array( $this, 'get_item_permissions_check' )
+                'permission_callback' => array( $this, 'get_item_permissions_check' ),
+                'args'     => array(
+                    'context' => $this->get_context_param( [ 'default' => 'view' ] )
+                ),
             ),
             array(
                 'methods'             => WP_REST_Server::CREATABLE,
@@ -145,38 +148,5 @@ class Weforms_Setting_Controller extends WP_REST_Controller {
 
         return $response;
 
-    }
-
-    /**
-     * Checks if a given request has access to get a Settings.
-     *
-     * @since 1.4.2
-     *
-     * @param WP_REST_Request $request Full details about the request.
-     *
-     * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
-     */
-    public function get_item_permissions_check( $request ) {
-        if ( ! current_user_can( weforms_form_access_capability() ) ) {
-            return false;
-        }
-
-        return true;
-    }
-    /**
-     * Checks if a given request has access to create a Settings.
-     *
-     * @since 1.4.2
-     *
-     * @param WP_REST_Request $request Full details about the request.
-     *
-     * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
-     */
-    public function create_item_permissions_check( $request ) {
-        if ( ! current_user_can( weforms_form_access_capability() ) ) {
-            return false;
-        }
-
-        return true;
     }
 }

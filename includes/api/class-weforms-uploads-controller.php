@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Upload  manager class
+ * Settings  manager class
  *
  * @since 1.4.2
  */
 
-class Weforms_Upload_Controller extends WP_REST_Controller {
-
-    /**
+class Weforms_Upload_Controller extends Weforms_REST_Controller {
+        /**
      * Endpoint namespace
      *
      * @var string
@@ -85,25 +84,6 @@ class Weforms_Upload_Controller extends WP_REST_Controller {
 
     }
 
-    public function is_form_exists( $param, $request, $key ) {
-        global $wpdb;
-
-        $form_id  = (int) $request['form_id'];
-        $querystr = "
-            SELECT $wpdb->posts.id
-            FROM $wpdb->posts
-            WHERE $wpdb->posts.ID = $form_id
-            AND $wpdb->posts.post_type = 'wpuf_contact_form'
-        ";
-        $result = $wpdb->get_var( $querystr );
-
-        if( empty( $result ) ) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     /**
      *  Check form Attach exists
      *
@@ -155,12 +135,7 @@ class Weforms_Upload_Controller extends WP_REST_Controller {
                     $file_type         =  wp_check_filetype( $files['file']['name'], $mimes = null );
 
                     if( in_array( $file_type['ext'], $allowed_file_type ) ) {
-                        error_log(print_r($files['file']['size'],true));
-                        error_log(print_r($field['max_size'] * 1024,true));
-                        error_log(print_r("hahaha",true));
                         if( $files['file']['size'] <= ( $field['max_size'] * 1024 ) ) {
-                            error_log(print_r($field['max_size'],true));
-
                             return true;
                         } else {
                             $file_error->add( 'rest_weforms_invalid_file_size', __( 'File Size exceeds limit!','weforms' ), array( 'status' => 404 ) );
