@@ -218,8 +218,7 @@ final class WeForms {
 
         require_once WEFORMS_INCLUDES . '/compat/class-abstract-wpuf-integration.php';
 
-        // if ( $this->is_request( 'admin' ) ) {
-        if ( current_user_can( 'manage_options' ) ) {
+        if ( $this->is_request( 'admin' ) ) {
             // compatibility
             require_once WEFORMS_INCLUDES . '/class-template-manager.php';
 
@@ -335,8 +334,7 @@ final class WeForms {
      */
     public function init_classes() {
 
-        // if ( $this->is_request( 'admin' ) ) {
-        if ( current_user_can( 'manage_options' ) ) {
+        if ( $this->is_request( 'admin' ) ) {
             $this->container['admin']        = new WeForms_Admin();
             // $this->container['welcome']      = new WeForms_Admin_Welcome();
             $this->container['templates']    = new WeForms_Template_Manager();
