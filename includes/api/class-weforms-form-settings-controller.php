@@ -63,11 +63,37 @@ class Weforms_Form_Setting_Controller extends Weforms_REST_Controller {
     }
 
     public function get_item_settings( $request ) {
+        $form_id = $request->get_param( 'form_id' );
+        $form    = weforms()->form->get( $form_id );
+        $data    = $form->get_settings();
 
+        $response = $this->prepare_response_for_collection( $data, $request );
+        $response = rest_ensure_response( $response );
+        $response->header( 'X-WP-Total', (int) count( $data ) );
+
+        return $response;
     }
 
     public function update_item_settings( $request ) {
+        $form_id       = $request->get_param( 'form_id' );
+        $settings      = $request['settings'];
+        $form          = weforms()->form->get( $form_id );
+        $form_settings = $form->get_settings();
 
+        if( isset( $settings ) && !empty( $settings ) ) {
+            $new_form_settings = array_merge( $settings, array_diff_key( $form->get_settings(), $settings ) );
+            update_post_meta( $form_id, 'wpuf_form_settings', $new_form_settings );
+        }
+
+        $response_data = array(
+            'id'       => $form->data->ID,
+            'settings' => $form->get_settings()
+        );
+
+        $response = rest_ensure_response( $response_data );
+        $response->set_status( 201 );
+
+        return $response;
     }
 
     /**

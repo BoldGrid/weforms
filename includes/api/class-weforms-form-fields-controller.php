@@ -46,35 +46,27 @@ class Weforms_Form_Fields_Controller extends Weforms_REST_Controller {
                             'context' => $this->get_context_param( [ 'default' => 'view' ] )
                     ),
                     'permission_callback' => array( $this, 'get_item_permissions_check' ),
-                )
-            )
-        );
+                ),
 
-        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/fields', array(
-            'args' => array(
-                'form_id' => array(
-                    'description'       => __( 'Unique identifier for the object', 'weforms' ),
-                    'type'              => 'integer',
-                    'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
-                    'required'          => true,
-                ),
-                "field_id" => array(
-                    'description' => __( '', 'weforms' ),
-                    'type'        => 'array',
-                    'validate_callback' => array( $this, 'is_field_exists' ),
-                    'required'    => true,
-                ),
                 array(
                     'methods'             => WP_REST_Server::DELETABLE,
                     'callback'            => array( $this, 'delete_item_fields' ),
+                    'args' => array(
+                        "field_id" => array(
+                            'description' => __( '', 'weforms' ),
+                            'type'        => 'array',
+                            'validate_callback' => array( $this, 'is_field_exists' ),
+                            'required'    => true,
+                        )
+                    ),
                     'permission_callback' => array( $this, 'get_item_permissions_check' ),
                 ),
             )
-        ) );
+        );
+
     }
 
-            /**
+    /**
      * [update_item_settingss description]
      * @param  [type] $request [description]
      * @return [type]          [description]
