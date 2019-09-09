@@ -23,7 +23,7 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
     protected $rest_base = 'forms';
 
     public function register_routes() {
-        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/integration',
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/integrations',
             array(
                 'args' => array(
                     'form_id' => array(
@@ -36,7 +36,7 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
                 ),
                 array(
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'get_item_integration' ),
+                    'callback'            => array( $this, 'get_item_integrations' ),
                     'args' => array(
                             'context' => $this->get_context_param( [ 'default' => 'view' ] )
                     ),
@@ -44,7 +44,7 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
                 ),
                 array(
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array( $this, 'update_item_integration' ),
+                    'callback'            => array( $this, 'update_item_integrations' ),
                     'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
                     'permission_callback' => array( $this, 'get_item_permissions_check' ),
                 ),
