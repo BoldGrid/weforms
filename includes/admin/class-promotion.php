@@ -203,13 +203,25 @@ class WeForms_Admin_Promotion {
         $activation_time = get_option( 'weforms_installed' );
         $total_entries   = weforms_count_entries();
 
+        $args = array(
+            'order'          => 'DESC',
+            'orderby'        => 'post_date'
+        );
+
+        $contact_forms  = weforms()->form->get_forms( $args );
+        $form_published = count( $contact_forms['forms'] );
+
         // check if it has already been dismissed
-        // and don't show notice in 15 days of installation, 1296000 = 15 Days in seconds
+        // and don't show notice in 45 days of installation, 3888000 = 45 Days in seconds
         if ( 'yes' == $dismiss_notice ) {
             return;
         }
 
-        if ( (time() - $activation_time < 1296000) && $total_entries < 50 ) {
+        if (
+            ( time() - $activation_time < 3888000 )
+            && $total_entries < 25
+            && $form_published < 3
+        ) {
             return;
         }
 
@@ -219,7 +231,7 @@ class WeForms_Admin_Promotion {
                     <img src="<?php echo WEFORMS_ASSET_URI . '/images/icon-weforms.png' ?>" alt="">
                 </div>
                 <div class="weforms-review-text">
-                    <?php if( $total_entries >= 50 ) : ?>
+                    <?php if( $total_entries >= 25 ) : ?>
                         <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
                         <p><?php _e( 'Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
                     <?php else: ?>
