@@ -111,8 +111,10 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
-        $val   = $_POST[$field['name']];
-        return isset( $field['options'][$val] ) ? $field['options'][$val] : '';
+    public function prepare_entry( $field, $args = [] ) {
+        $args = ! empty( $args ) ? $args : $_POST;
+        $val  = $args[$field['name']];
+
+        return isset( $field['options'][$val] ) ? $field['options'][$val] : $val;
     }
 }

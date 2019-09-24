@@ -114,7 +114,9 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      *
      * @return @return mixed
      */
-    public function prepare_entry( $field ) {
-       return isset( $_POST['wpuf_files'][$field['name']] ) ? $_POST['wpuf_files'][$field['name']] : array();
+    public function prepare_entry( $field, $args = [] ) {
+       $args = ! empty( $args ) ? $args : $_POST;
+
+       return isset( $args['wpuf_files'][$field['name']] ) ? $args['wpuf_files'][$field['name']] : array();
     }
 }

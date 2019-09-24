@@ -79,15 +79,15 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
-
-        $entry_value  = ( is_array( $_POST[$field['name']] ) && $_POST[$field['name']] ) ? $_POST[$field['name']] : array();
+    public function prepare_entry( $field, $args = [] ) {
+        $args        = ! empty( $args ) ? $args : $_POST;
+        $entry_value = ( is_array( $args[$field['name']] ) && $args[$field['name']] ) ? $args[$field['name']] : array();
 
         if ( $entry_value ) {
             $new_val = array();
 
             foreach ($entry_value as $option_key) {
-                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : '';
+                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : $option_key;
             }
 
             $entry_value = implode( WeForms::$field_separator, $new_val );

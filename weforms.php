@@ -5,7 +5,7 @@
  * Plugin URI: https://wedevs.com/weforms/
  * Author: weDevs
  * Author URI: https://wedevs.com/
- * Version: 1.4.0
+ * Version: 1.4.1
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -55,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.4.0';
+    public $version = '1.4.1';
 
     /**
      * Form field value seperator
@@ -243,7 +243,8 @@ final class WeForms {
         if ( $this->is_request( 'frontend' ) || $this->is_request( 'ajax' ) ) {
             require_once WEFORMS_INCLUDES . '/class-frontend-form.php';
         }
-
+        require_once WEFORMS_INCLUDES . '/api/class-weforms-api-rest-controller.php';
+        require_once WEFORMS_INCLUDES . '/class-weforms-api.php';
         require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
         require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
         require_once WEFORMS_INCLUDES . '/admin/class-gutenblock.php';
@@ -363,6 +364,7 @@ final class WeForms {
             $this->container['ajax']        = new WeForms_Ajax();
             $this->container['ajax_upload'] = new WeForms_Ajax_Upload();
         }
+        $this->container['weforms_api'] = new WeForms_Api();
     }
 
     /**

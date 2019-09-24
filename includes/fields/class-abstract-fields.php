@@ -531,13 +531,13 @@ abstract class WeForms_Field_Contract {
      *
      * @return mixed
      */
-    public function prepare_entry( $field ) {
-
-        $value = !empty( $_POST[$field['name']] ) ? $_POST[$field['name']] : '';
+    public function prepare_entry( $field, $args = [] ) {
+        $args  = ! empty( $args ) ? $args : $_POST;
+        $value = !empty( $args[$field['name']] ) ? $args[$field['name']] : '';
 
         if ( is_array( $value ) ) {
 
-            $entry_value = implode( WeForms::$field_separator, $_POST[$field['name']] );
+            $entry_value = implode( WeForms::$field_separator, $args[$field['name']] );
 
         } else {
             $entry_value = trim( $value  );

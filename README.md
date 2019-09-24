@@ -5,7 +5,7 @@
 **Requires at least:** 4.4  
 **Requires PHP:** 5.6.20  
 **Tested up to:** 5.2  
-**Stable tag:** 1.4.0  
+**Stable tag:** 1.4.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -67,6 +67,8 @@ When it comes to the speed of completing every query from the frontend or in the
 
 More specifically, weForms is the most SEO friendly contact form builder around right now.
 
+### ENJOY A GREAT DEAL OF FLEXIBILITY WITH THE REST API ###
+Enable various integrations or control and manage most forms related action absolutely hassle-free. Delete, duplicate, export & import any form you desire. Create and manage all types of form entries, notifications & integrations with it. Get to update all global settings of forms and check or delete logs. Whether it is for retrieving your form or customizing them, Rest API in weForms just simply handles everything smoother than ever. Learn more about Rest APi’s extensive operation with weForms from [here](https://wedevsofficial.github.io/weforms/).
 
 ### EXCEL BY CREATING THE FORMS OF YOUR IMAGINATION ###
 Creating the form of your dreams with it is just a walk in the park now. Quickly design any type of forms of your imagination with its custom fields, easy to use field options & user interface.
@@ -257,6 +259,12 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.4.1 (24 September, 2019) ###
+
+* **New:** Added Rest api
+* **Fix:** Full name shows instead of first name in the email notification
+* **Fix:** Dynamic value population - not saving value
 
 ### Version 1.4.0 (17 June, 2019) ###
 
