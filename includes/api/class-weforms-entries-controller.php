@@ -48,7 +48,7 @@ class Weforms_Entry_Controller extends Weforms_REST_Controller {
                         'force' => array(
                             'type'        => 'boolean',
                             'default'     => false,
-                            'description' => __( 'Whether to bypass trash and force deletion.' ),
+                            'description' => __( 'Whether to bypass trash and force deletion.', 'weforms' ),
                         ),
                     )
                 ),
@@ -73,7 +73,7 @@ class Weforms_Entry_Controller extends Weforms_REST_Controller {
                         'force' => array(
                             'type'        => 'boolean',
                             'default'     => false,
-                            'description' => __( 'Whether to bypass trash and force deletion.' ),
+                            'description' => __( 'Whether to bypass trash and force deletion.', 'weforms' ),
                         ),
                     )
                 ),
