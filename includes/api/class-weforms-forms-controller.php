@@ -82,7 +82,7 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
                     'force' => array(
                         'type'        => 'boolean',
                         'default'     => false,
-                        'description' => __( 'Whether to bypass trash and force deletion.', 'dokan' ),
+                        'description' => __( 'Whether to bypass trash and force deletion.', 'weforms' ),
                     ),
                 ),
                 'permission_callback' => array( $this, 'delete_item_permissions_check' ),

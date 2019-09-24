@@ -32,14 +32,14 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
                 'args'   => array(
                     'form_id' => array(
                         'required'            => true,
-                        'description'         => __( 'Unique identifier for the object.' ),
+                        'description'         => __( 'Unique identifier for the object.', 'weforms' ),
                         'sanitize_callback'   => 'absint',
                         'type'                => 'integer',
                         'validate_callback'   => array( $this, 'is_form_exists' ),
                     ),
                     'field_id' => array(
                         'required'            => true,
-                        'description'         => __( 'Unique identifier for the object.' ),
+                        'description'         => __( 'Unique identifier for the object.', 'weforms' ),
                         'sanitize_callback'   => 'absint',
                         'type'                => 'integer',
                     ),
@@ -54,14 +54,14 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
         register_rest_route( $this->namespace, '/'. $this->rest_base . '/(?P<form_id>[\d]+)/files/(?P<id>[\d]+)/', array(
             'args' => array(
                 'form_id' => array(
-                    'description'       => __( 'Unique identifier for the object.' ),
+                    'description'       => __( 'Unique identifier for the object.', 'weforms' ),
                     'validate_callback' => array( $this, 'is_form_exists' ),
                     'required'          => true,
                     'sanitize_callback' => 'absint',
                     'type'              => 'integer',
                 ),
                 'id' => array(
-                    'description'       => __( 'Unique identifier for the object.' ),
+                    'description'       => __( 'Unique identifier for the object.', 'weforms' ),
                     'validate_callback' => array( $this, 'is_form_attach_exist' ),
                     'required'          => true,
                     'sanitize_callback' => 'absint',
