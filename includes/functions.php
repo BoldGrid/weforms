@@ -444,6 +444,28 @@ function weforms_count_form_payments( $form_id ) {
 }
 
 /**
+ * Get the form author details
+ *
+ * @param  int $form_id
+ *
+ * @return array
+ */
+function weforms_get_form_author_details( $form_id ) {
+    if ( empty( $form_id ) ) {
+        return;
+    }
+
+    $author_details = array();
+    $form           = get_post( $form_id );
+    $author_id      = $form->post_author;
+
+    $author_details['username'] = get_the_author_meta( 'user_login' , $author_id );
+    $author_details['avatar']   = get_avatar_url( $author_id );
+
+    return $author_details;
+}
+
+/**
  * Get table column heads for a form
  *
  * For now, return only text type fields

@@ -1,40 +1,10 @@
 'use strict';
 
-var _typeof6 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof5 = typeof Symbol === "function" && _typeof6(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof6(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof6(obj);
-};
-
-var _typeof4 = typeof Symbol === "function" && _typeof5(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-};
-
-var _typeof3 = typeof Symbol === "function" && _typeof4(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-};
-
-var _typeof2 = typeof Symbol === "function" && _typeof3(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-};
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*!
-weForms - v1.3.7
-Generated: 2019-04-10 (1554877016847)
+weForms - v1.4.1
+Generated: 2019-09-26 (1569476872561)
 */
 
 ;(function ($) {
@@ -64,6 +34,7 @@ Generated: 2019-04-10 (1554877016847)
         created: function created() {
             this.fetchData();
         },
+
 
         computed: {
             columnLength: function columnLength() {
@@ -735,13 +706,11 @@ Generated: 2019-04-10 (1554877016847)
                 loading: false,
                 index: 'ID',
                 items: [],
-                users: [],
                 bulkDeleteAction: 'weforms_form_delete_bulk'
             };
         },
         created: function created() {
             this.fetchData();
-            this.allUsers();
         },
         computed: {
             is_pro: function is_pro() {
@@ -889,53 +858,6 @@ Generated: 2019-04-10 (1554877016847)
                     month = date.toLocaleString('en-us', { month: 'short' });
 
                 return month + ' ' + date.getDate() + ', ' + date.getFullYear();
-            },
-
-            allUsers: function allUsers() {
-                var self = this;
-                this.loading = true;
-
-                wp.ajax.send('weforms_get_users', {
-                    data: {
-                        _wpnonce: weForms.nonce
-                    },
-                    success: function success(response) {
-                        self.loading = false;
-                        self.users = response;
-                    },
-                    error: function error(_error11) {
-                        self.loading = false;
-                        alert(_error11);
-                    }
-                });
-            },
-
-            getUserAvatar: function getUserAvatar(userId) {
-                var users = this.users,
-                    avatarUrl;
-
-                users.forEach(function (user) {
-                    if (user.id === userId) {
-                        if ('user_avatar' in user.data && typeof user.data.user_avatar[0] !== 'undefined') {
-                            avatarUrl = user.data.user_avatar[0];
-                        }
-                    }
-                });
-
-                return avatarUrl;
-            },
-
-            getUserName: function getUserName(userId) {
-                var users = this.users,
-                    userName;
-
-                users.forEach(function (user) {
-                    if (user.id === userId) {
-                        user.id === userId ? userName = user.data.nickname[0] : '';
-                    }
-                });
-
-                return userName;
             }
         }
     });
@@ -1105,9 +1027,9 @@ Generated: 2019-04-10 (1554877016847)
                         self.loading = false;
                         self.forms = response;
                     },
-                    error: function error(_error12) {
+                    error: function error(_error11) {
                         self.loading = false;
-                        alert(_error12);
+                        alert(_error11);
                     }
                 });
             },
@@ -1175,8 +1097,8 @@ Generated: 2019-04-10 (1554877016847)
                         self.ximport.refs = response.refs;
                     },
 
-                    error: function error(_error13) {
-                        alert(_error13.message);
+                    error: function error(_error12) {
+                        alert(_error12.message);
                     },
 
                     complete: function complete() {
@@ -1203,8 +1125,8 @@ Generated: 2019-04-10 (1554877016847)
                         }
                     },
 
-                    error: function error(_error14) {
-                        alert(_error14);
+                    error: function error(_error13) {
+                        alert(_error13);
                     },
 
                     complete: function complete() {
@@ -1252,8 +1174,8 @@ Generated: 2019-04-10 (1554877016847)
                             self.no_transactions = true;
                         }
                     },
-                    error: function error(_error15) {
-                        alert(_error15);
+                    error: function error(_error14) {
+                        alert(_error14);
                     }
                 });
             }
@@ -1373,8 +1295,8 @@ Generated: 2019-04-10 (1554877016847)
                         toastr.success('Settings has been updated');
                     },
 
-                    error: function error(_error16) {
-                        console.log(_error16);
+                    error: function error(_error15) {
+                        console.log(_error15);
                     },
 
                     complete: function complete() {
@@ -1395,8 +1317,8 @@ Generated: 2019-04-10 (1554877016847)
                         _success(response);
                     },
 
-                    error: function error(_error17) {
-                        console.log(_error17);
+                    error: function error(_error16) {
+                        console.log(_error16);
                     },
 
                     complete: function complete() {}

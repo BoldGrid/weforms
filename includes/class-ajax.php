@@ -164,6 +164,7 @@ class WeForms_Ajax {
                     $form->settings = $form->get_settings();
                     $form->views    = $form->num_form_views();
                     $form->payments = $form->num_form_payments();
+                    $form->author   = $form->get_form_author_details();
             }, $contact_forms['forms']
         );
 
