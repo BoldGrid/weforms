@@ -57,7 +57,7 @@ class weForms_FormBlock {
 
         wp_localize_script( 'weforms-forms-block', 'weFormsBlock', array(
             'forms'          => $forms,
-            'siteUrl'        => get_site_url(),
+            'siteUrl'        => get_home_url(),
             'block_logo'     => $block_logo,
             'thumbnail_logo' => $thumbnail_logo
         ) );
