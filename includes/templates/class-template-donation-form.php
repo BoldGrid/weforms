@@ -6,8 +6,8 @@ class Weforms_Donation_Form extends WeForms_Form_Template {
 
     public function __construct() {
         parent::__construct();
-
-        $this->enabled     = true;
+        
+        $this->enabled     = class_exists( 'WeForms_Pro' );
         $this->title       = __( 'Donation Form', 'weforms' );
         $this->description = __( 'Inspire people to donate more on your site with this form', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/donation-form.png';
