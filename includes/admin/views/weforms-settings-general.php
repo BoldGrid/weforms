@@ -52,6 +52,15 @@
             </tr>
         </template>
         <tr>
+            <th><?php _e( 'Show Credit in Email Footer', 'weforms' ); ?></th>
+            <td>
+                <label>
+                    <input type="checkbox" v-model="settings.email_footer">
+                    <?php _e( 'Show credit text in email footer.', 'weforms' ); ?>
+                </label>
+            </td>
+        </tr>
+        <tr>
             <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
             <td>
                 <label>
