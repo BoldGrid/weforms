@@ -52,15 +52,6 @@
             </tr>
         </template>
         <tr>
-            <th><?php _e( 'Show Credit in Email Footer', 'weforms' ); ?></th>
-            <td>
-                <label>
-                    <input type="checkbox" v-model="settings.email_footer">
-                    <?php _e( 'Show credit text in email footer.', 'weforms' ); ?>
-                </label>
-            </td>
-        </tr>
-        <tr>
             <th><?php _e( 'Show Credit', 'weforms' ); ?></th>
             <td>
                 <label>
@@ -76,6 +67,16 @@
                     <input type="checkbox" v-model="settings.no_conflict">
                     <?php _e( 'Minimize conflict with other plugins in the backend.', 'weforms' ); ?>
                 </label>
+            </td>
+        </tr>
+        <tr>
+            <th><?php _e( 'Show Credit in Email Footer', 'weforms' ); ?></th>
+            <td>
+                <label>
+                    <input :disabled="!is_pro" type="checkbox" v-model="settings.email_footer">
+                    <?php _e( 'Show credit text in email footer.', 'weforms' ); ?>
+                </label>
+                <p v-if="!is_pro" class="description"><?php _e( 'Available in PRO version.', 'weforms' ); ?></p>
             </td>
         </tr>
         <tr>

@@ -379,6 +379,11 @@ class WeForms_Ajax {
             $wpuf_update_array['no_conflict']  = $settings['no_conflict'];
         }
 
+        if ( isset( $settings['email_footer'] ) ) {
+            $requires_wpuf_update              = true;
+            $wpuf_update_array['email_footer'] = $settings['email_footer'];
+        }
+
         if ( $requires_wpuf_update ) {
             $wpuf_settings = get_option( 'wpuf_general', array() );
 
