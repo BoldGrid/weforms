@@ -482,17 +482,23 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     if ( $limit ) {
 
         $fields = array_filter( $fields, function( $item ) {
-            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
+            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field', 'column_field' ) );
         });
     }
 
     if ( $fields ) {
         foreach ( $fields as $field ) {
+            if ( $field['template'] == 'column_field' ) {
+                foreach ( $field['inner_fields'] as $c_field ) {
+                    $columns[ $c_field[0]['name'] ] = $c_field[0]['label'];
+                }
+                continue;
+            }
             $columns[ $field['name'] ] = $field['label'];
         }
     }
 
-    // if passed 0/false, return all collumns
+    // if passed 0/false, return all columns
     if ( $limit && sizeof( $columns ) > $limit ) {
         $columns = array_slice( $columns, 0, $limit ); // max 6 columns
     }
