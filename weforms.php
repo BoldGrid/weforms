@@ -77,7 +77,7 @@ final class WeForms {
      *
      * @var string
      */
-    private $min_php = '5.4.0';
+    private $min_php = '5.6.0';
 
 
     /**
