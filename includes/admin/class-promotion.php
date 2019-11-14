@@ -25,17 +25,13 @@ class WeForms_Admin_Promotion {
             return;
         }
 
-        if ( ! isset( $_GET['page'] ) ) {
-            return;
-        }
-
-        if ( class_exists( 'WPUF_Admin_Promotion' ) ) {
+        if ( class_exists( 'WeForms_Pro' ) ) {
             return;
         }
 
         // check if it has already been dismissed
         $offer_key        = 'weforms_promotional_offer_notice';
-        $offer_start_date = strtotime( '2019-11-26 00:00:01' );
+        $offer_start_date = strtotime( '2019-11-20 00:00:01' );
         $offer_end_date   = strtotime( '2019-12-04 23:59:00' );
         $hide_notice      = get_option( $offer_key, 'show' );
 
@@ -50,19 +46,19 @@ class WeForms_Admin_Promotion {
                     <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-logo.png' ?>" alt="weForms">
                 </div>
                 <div class="content">
-                    <h3><span class="highlight-red">Black Friday</span> &amp; <span
-                            class="highlight-blue">Cyber Monday</span></h3>
-                    <p>Don't miss out on the biggest sale of the year on <span
-                            class="highlight-red">weForms</span></p>
-                    <div class="coupon-box">
-                        <div class="highlight-red">Use this coupon</div>
-                        <div class="highlight-code">BFCM2019</div>
-                    </div>
+                    <p>Biggest Sale of the year on this</p>
+
+                    <h3><span class="highlight-green"> Black Friday &amp; </span>Cyber Monday</h3>
+                    <p>Claim your discount on <span class="highlight-olive">weForms</span> till 4th December</p>
                 </div>
                 <div class="call-to-action">
-                    <a href="https://wedevs.com/weforms/pricing?utm_campaign=black_friday_&_cyber_monday&utm_medium=banner&utm_source=plugin_dashboard">Save
-                        33%</a>
-                    <p>Valid till 4th December.</p>
+                    <a target="_blank" href="https://wedevs.com/weforms/pricing?utm_campaign=black_friday_&_cyber_monday&utm_medium=banner&utm_source=plugin_dashboard">
+                        <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-btn.png' ?>" alt="Btn">
+                    </a>
+                    <p>
+                        <span class="highlight-green">Coupon: </span>
+                        <span class="coupon-code">BFCM2019</span>
+                    </p>
                 </div>
             </div>
 
@@ -70,27 +66,35 @@ class WeForms_Admin_Promotion {
                 #weforms-bfcm-notice {
                     font-size: 14px;
                     border-left: none;
-                    background: #000;
+                    background: #398085;
                     color: #fff;
                     display: flex
+                }
+
+                #weforms-bfcm-notice .notice-dismiss:before {
+                    color: #76E5FF;
+                }
+
+                #weforms-bfcm-notice .notice-dismiss:hover:before {
+                    color: #b71c1c;
                 }
 
                 #weforms-bfcm-notice .logo {
                     text-align: center;
                     text-align: center;
-                    margin: 13px 30px 5px 15px;
+                    margin: auto 50px;
                 }
 
                 #weforms-bfcm-notice .logo img {
                     width: 80%;
                 }
 
-                #weforms-bfcm-notice .highlight-red {
-                    color: #FF0000;
+                #weforms-bfcm-notice .highlight-green {
+                    color: #72F3FB;
                 }
 
-                #weforms-bfcm-notice .highlight-blue {
-                    color: #48ABFF;
+                #weforms-bfcm-notice .highlight-olive {
+                    color: #7CF5AA;
                 }
 
                 #weforms-bfcm-notice .content {
@@ -99,58 +103,39 @@ class WeForms_Admin_Promotion {
 
                 #weforms-bfcm-notice .content h3 {
                     color: #FFF;
-                    margin: 12px 0px 5px;
+                    margin: 12px 0 5px;
                     font-weight: normal;
-                    font-size: 20px;
+                    font-size: 30px;
                 }
 
                 #weforms-bfcm-notice .content p {
-                    margin: 0px 0px;
-                    padding: 0px;
-                    letter-spacing: 0.4px;
-                }
-
-                #weforms-bfcm-notice .coupon-box {
-                    margin-top: 10px;
-                    display: flex;
-                    align-items: center;
-                    font-size: 17px;
-                }
-
-                #weforms-bfcm-notice .coupon-box .highlight-code {
-                    margin-left: 15px;
-                    border: 1px dashed;
-                    padding: 4px 10px;
-                    border-radius: 15px;
-                    letter-spacing: 1px;
-                    background: #1E1B1B;
-
-                    -webkit-user-select: all;
-                    -moz-user-select: all;
-                    -ms-user-select: all;
-                    user-select: all;
+                    margin-top: 12px;
+                    padding: 0;
+                    letter-spacing: .4px;
+                    color: #ffffff;
+                    font-size: 15px;
                 }
 
                 #weforms-bfcm-notice .call-to-action {
-                    margin-left: 8%;
-                    margin-top: 25px;
+                    margin-left: 10%;
+                    margin-top: 20px;
                 }
 
-                #weforms-bfcm-notice .call-to-action a {
-                    border: none;
-                    background: #FF0000;
-                    padding: 8px 15px;
-                    font-size: 15px;
-                    color: #fff;
-                    border-radius: 20px;
-                    text-decoration: none;
-                    display: block;
-                    text-align: center;
+                #weforms-bfcm-notice .call-to-action a:focus {
+                    box-shadow: none;
                 }
 
                 #weforms-bfcm-notice .call-to-action p {
-                    font-size: 12px;
+                    font-size: 16px;
+                    color: #fff;
                     margin-top: 1px;
+                    text-align: center;
+                }
+
+                #weforms-bfcm-notice .coupon-code {
+                    -moz-user-select: all;
+                    -webkit-user-select: all;
+                    user-select: all;
                 }
             </style>
 
