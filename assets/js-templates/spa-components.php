@@ -694,7 +694,7 @@
                     <span v-if="form.views">{{ ((form.entries/form.views) * 100).toFixed(2) }}%</span>
                     <span v-else>0%</span>
                 </td>
-                <td class="weforms-form-creator">
+                <td v-if="form.author" class="weforms-form-creator">
                     <img v-bind:src="form.author.avatar">
                     <span>{{ form.author.username }}</span>
                     <span class="date">{{formatTime(form.data.post_date)}}</span>
@@ -751,7 +751,8 @@
             </span>
         </div>
     </div>
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-payments">
 <div class="wpuf-contact-form-payments">
