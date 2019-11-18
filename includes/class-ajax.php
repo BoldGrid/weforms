@@ -459,6 +459,9 @@ class WeForms_Ajax {
 					$entry->fields = array();
 
 				foreach ( $columns as $meta_key => $label ) {
+				    if ( empty( $meta_key ) ) {
+                        continue;
+                    }
 					$value                    = weforms_get_entry_meta( $entry_id, $meta_key, true );
 					$entry->fields[ $meta_key ] = str_replace( WeForms::$field_separator, ' ', $value );
 				}
