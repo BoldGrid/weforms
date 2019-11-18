@@ -4,8 +4,8 @@ Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.6.20
-Tested up to: 5.2
-Stable tag: 1.4.1
+Tested up to: 5.3
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -259,6 +259,12 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.4.2 (18 November, 2019) =
+
+* **Fix:** Fixed Form was not showing immediately after duplicating.
+* **Fix:** Fixed some column field issues. Closes #172
+* **Fix:** Fixed a csv export issue. closes #175
 
 = Version 1.4.1 (24 September, 2019) =
 
