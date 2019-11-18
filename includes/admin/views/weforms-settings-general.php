@@ -70,6 +70,16 @@
             </td>
         </tr>
         <tr>
+            <th><?php _e( 'Show Credit in Email Footer', 'weforms' ); ?></th>
+            <td>
+                <label>
+                    <input :disabled="!is_pro" type="checkbox" v-model="settings.email_footer">
+                    <?php _e( 'Show credit text in email footer.', 'weforms' ); ?>
+                </label>
+                <p v-if="!is_pro" class="description"><?php _e( 'Available in PRO version.', 'weforms' ); ?></p>
+            </td>
+        </tr>
+        <tr>
             <th><?php _e( 'Form Permission', 'weforms' ); ?></th>
             <td>
                 <select :disabled="!is_pro" v-model="settings.permission">

@@ -8,7 +8,7 @@ class WeForms_Admin_Promotion {
 
     public function __construct() {
         add_action( 'admin_notices', array( $this, 'promotional_offer' ) );
-        add_action( 'admin_notices' , array( $this, 'weforms_review_notice_message' ) );
+        add_action( 'admin_notices', array( $this, 'weforms_review_notice_message' ) );
         add_action( 'wp_ajax_weforms-dismiss-promotional-offer-notice', array( $this, 'dismiss_promotional_offer' ) );
         add_action( 'wp_ajax_weforms-dismiss-review-notice', array( $this, 'dismiss_review_notice' ) );
     }
@@ -16,167 +16,131 @@ class WeForms_Admin_Promotion {
     /**
      * Promotional offer notice
      *
+     * @return void
      * @since 1.2.6
      *
-     * @return void
      */
     public function promotional_offer() {
-        // Show only to Admins
         if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
 
-        // 2018-03-26 23:59:00
-        if ( time() > 1543276740 ) {
-            return;
-        }
-
-        // check if wpuf is showing banner
-        if ( class_exists( 'WPUF_Admin_Promotion' ) ) {
+        if ( class_exists( 'WeForms_Pro' ) ) {
             return;
         }
 
         // check if it has already been dismissed
-        $hide_notice = get_option( 'weforms_promotional_offer_notice', 'no' );
+        $offer_key        = 'weforms_promotional_offer_notice';
+        $offer_start_date = strtotime( '2019-11-20 00:00:01' );
+        $offer_end_date   = strtotime( '2019-12-04 23:59:00' );
+        $hide_notice      = get_option( $offer_key, 'show' );
 
         if ( 'hide' == $hide_notice ) {
             return;
         }
 
-        // $product_text = (  weforms()->is_pro() ) ? __( 'Pro upgrade and all extensions, ', 'weforms' ) : __( 'all extensions, ', 'weforms' );
+        if ( $offer_start_date < current_time( 'timestamp' ) && current_time( 'timestamp' ) < $offer_end_date ) {
+            ?>
+            <div class="notice notice-success is-dismissible" id="weforms-bfcm-notice">
+                <div class="logo">
+                    <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-logo.png' ?>" alt="weForms">
+                </div>
+                <div class="content">
+                    <p>Biggest Sale of the year on this</p>
 
-        // $offer_msg  = __( '<h2><span class="dashicons dashicons-awards"></span> weDevs 5th Birthday Offer</h2>', 'weforms' );
-        $offer_msg  = __( '<p>
-                                <strong class="highlight-text" style="font-size: 18px">33&#37; flat discount on all our products</strong><br>
-                                Save money this holiday season while supercharging your WordPress site with plugins that were made to empower you.
-                                <br>
-                                Offer ending soon!
-                            </p>', 'weforms' );
-
-        ?>
-            <div class="notice is-dismissible" id="weforms-promotional-offer-notice">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="image-container">
-                                <img src="https://ps.w.org/weforms/assets/icon-256x256.png" alt="">
-                            </td>
-                            <td class="message-container">
-                                <?php echo $offer_msg; ?>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <span class="dashicons dashicons-megaphone"></span>
-                <a href="https://wedevs.com/coupons/?utm_campaign=black_friday_cyber_monday&utm_medium=banner&utm_source=inside_plugin" class="button button-primary promo-btn" target="_blank"><?php _e( 'Get the Offer', 'weforms' ); ?></a>
-            </div><!-- #weforms-promotional-offer-notice -->
+                    <h3><span class="highlight-green"> Black Friday &amp; </span>Cyber Monday</h3>
+                    <p>Claim your discount on <span class="highlight-olive">weForms</span> till 4th December</p>
+                </div>
+                <div class="call-to-action">
+                    <a target="_blank" href="https://wedevs.com/weforms/pricing?utm_campaign=black_friday_&_cyber_monday&utm_medium=banner&utm_source=plugin_dashboard">
+                        <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-btn.png' ?>" alt="Btn">
+                    </a>
+                    <p>
+                        <span class="highlight-green">Coupon: </span>
+                        <span class="coupon-code">BFCM2019</span>
+                    </p>
+                </div>
+            </div>
 
             <style>
-                #weforms-promotional-offer-notice {
-                    background-image: linear-gradient(35deg,#00c9ff 0%, #92fe9d 100%) !important;
-                    border: 0px;
-                    padding: 0;
-                    opacity: 0;
-                }
-
-                .wrap > #weforms-promotional-offer-notice {
-                    opacity: 1;
-                }
-
-                #weforms-promotional-offer-notice table {
-                    border-collapse: collapse;
-                    width: 100%;
-                }
-
-                #weforms-promotional-offer-notice table td {
-                    padding: 0;
-                }
-
-                #weforms-promotional-offer-notice table td.image-container {
-                    background-color: #ebf0f4;
-                    vertical-align: middle;
-                    width: 95px;
-                }
-
-                #weforms-promotional-offer-notice img {
-                    max-width: 100%;
-                    max-height: 100px;
-                    vertical-align: middle;
-                }
-
-                #weforms-promotional-offer-notice table td.message-container {
-                    padding: 0 10px;
-                }
-
-                #weforms-promotional-offer-notice h2{
-                    color: rgba(250, 250, 250, 0.77);
-                    margin-bottom: 10px;
-                    font-weight: normal;
-                    margin: 16px 0 14px;
-                    -webkit-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                    -moz-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                    -o-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                    text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                }
-
-                #weforms-promotional-offer-notice h2 span {
-                    position: relative;
-                    top: 0;
-                }
-
-                #weforms-promotional-offer-notice p{
-                    color: rgba(250, 250, 250, 0.77);
+                #weforms-bfcm-notice {
                     font-size: 14px;
-                    margin-bottom: 10px;
-                    -webkit-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                    -moz-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                    -o-text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                    text-shadow: 0.1px 0.1px 0px rgba(250, 250, 250, 0.24);
-                }
-
-                #weforms-promotional-offer-notice p strong.highlight-text{
+                    border-left: none;
+                    background: #398085;
                     color: #fff;
+                    display: flex
                 }
 
-                #weforms-promotional-offer-notice p a {
-                    color: #fafafa;
+                #weforms-bfcm-notice .notice-dismiss:before {
+                    color: #76E5FF;
                 }
 
-                #weforms-promotional-offer-notice .notice-dismiss:before {
-                    color: #fff;
+                #weforms-bfcm-notice .notice-dismiss:hover:before {
+                    color: #b71c1c;
                 }
 
-                #weforms-promotional-offer-notice span.dashicons-megaphone {
-                    position: absolute;
-                    bottom: 46px;
-                    right: 248px;
-                    color: rgba(253, 253, 253, 0.29);
-                    font-size: 96px;
-                    transform: rotate(-21deg);
-                }
-
-                #weforms-promotional-offer-notice a.promo-btn{
-                    background: #149269;
-                    border-color: #149269 #149269 #149269;
-                    box-shadow: 0 1px 0 #149269;
-                    /*color: #45E2D0;*/
-                    text-decoration: none;
-                    text-shadow: none;
-                    position: absolute;
-                    top: 30px;
-                    right: 26px;
-                    height: 40px;
-                    line-height: 40px;
-                    width: 130px;
+                #weforms-bfcm-notice .logo {
                     text-align: center;
-                    font-weight: 600;
+                    text-align: center;
+                    margin: auto 50px;
                 }
 
+                #weforms-bfcm-notice .logo img {
+                    width: 80%;
+                }
+
+                #weforms-bfcm-notice .highlight-green {
+                    color: #72F3FB;
+                }
+
+                #weforms-bfcm-notice .highlight-olive {
+                    color: #7CF5AA;
+                }
+
+                #weforms-bfcm-notice .content {
+                    margin-top: 5px;
+                }
+
+                #weforms-bfcm-notice .content h3 {
+                    color: #FFF;
+                    margin: 12px 0 5px;
+                    font-weight: normal;
+                    font-size: 30px;
+                }
+
+                #weforms-bfcm-notice .content p {
+                    margin-top: 12px;
+                    padding: 0;
+                    letter-spacing: .4px;
+                    color: #ffffff;
+                    font-size: 15px;
+                }
+
+                #weforms-bfcm-notice .call-to-action {
+                    margin-left: 10%;
+                    margin-top: 20px;
+                }
+
+                #weforms-bfcm-notice .call-to-action a:focus {
+                    box-shadow: none;
+                }
+
+                #weforms-bfcm-notice .call-to-action p {
+                    font-size: 16px;
+                    color: #fff;
+                    margin-top: 1px;
+                    text-align: center;
+                }
+
+                #weforms-bfcm-notice .coupon-code {
+                    -moz-user-select: all;
+                    -webkit-user-select: all;
+                    user-select: all;
+                }
             </style>
 
             <script type='text/javascript'>
-                jQuery('body').on('click', '#weforms-promotional-offer-notice .notice-dismiss', function(e) {
+                jQuery('body').on('click', '#weforms-bfcm-notice .notice-dismiss', function (e) {
                     e.preventDefault();
 
                     wp.ajax.post('weforms-dismiss-promotional-offer-notice', {
@@ -184,15 +148,16 @@ class WeForms_Admin_Promotion {
                     });
                 });
             </script>
-        <?php
+            <?php
+        }
     }
 
     /**
      *
-     * @since 1.3.5
-     *
      * @return void
-     **/
+     **@since 1.3.5
+     *
+     */
     public function weforms_review_notice_message() {
         // Show only to Admins
         if ( ! current_user_can( 'manage_options' ) ) {
@@ -204,8 +169,8 @@ class WeForms_Admin_Promotion {
         $total_entries   = weforms_count_entries();
 
         $args = array(
-            'order'          => 'DESC',
-            'orderby'        => 'post_date'
+            'order'   => 'DESC',
+            'orderby' => 'post_date'
         );
 
         $contact_forms  = weforms()->form->get_forms( $args );
@@ -226,119 +191,125 @@ class WeForms_Admin_Promotion {
         }
 
         ?>
-            <div id="weforms-review-notice" class="weforms-review-notice">
-                <div class="weforms-review-thumbnail">
-                    <img src="<?php echo WEFORMS_ASSET_URI . '/images/icon-weforms.png' ?>" alt="">
-                </div>
-                <div class="weforms-review-text">
-                    <?php if( $total_entries >= 25 ) : ?>
-                        <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
-                        <p><?php _e( 'Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
-                    <?php else: ?>
-                        <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
-                        <p><?php _e( 'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
-                    <?php endif; ?>
-
-                    <ul class="weforms-review-ul">
-                        <li><a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure! I\'d love to!', 'weforms' ) ?></a></li>
-                        <li><a href="#" class="notice-dismiss"><span class="dashicons dashicons-smiley"></span><?php _e( 'I\'ve already left a review', 'weforms' ) ?></a></li>
-                        <li><a href="#" class="notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Never show again', 'weforms' ) ?></a></li>
-                     </ul>
-                </div>
+        <div id="weforms-review-notice" class="weforms-review-notice">
+            <div class="weforms-review-thumbnail">
+                <img src="<?php echo WEFORMS_ASSET_URI . '/images/icon-weforms.png' ?>" alt="">
             </div>
-            <style type="text/css">
-                #weforms-review-notice .notice-dismiss{
-                    padding: 0 0 0 26px;
-                }
+            <div class="weforms-review-text">
+                <?php if ( $total_entries >= 25 ) : ?>
+                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
+                    <p><?php _e( 'Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
+                <?php else: ?>
+                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
+                    <p><?php _e( 'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
+                <?php endif; ?>
 
-                #weforms-review-notice .notice-dismiss:before{
-                    display: none;
-                }
+                <ul class="weforms-review-ul">
+                    <li><a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span
+                                class="dashicons dashicons-external"></span><?php _e( 'Sure! I\'d love to!', 'weforms' ) ?>
+                        </a></li>
+                    <li><a href="#" class="notice-dismiss"><span
+                                class="dashicons dashicons-smiley"></span><?php _e( 'I\'ve already left a review', 'weforms' ) ?>
+                        </a></li>
+                    <li><a href="#" class="notice-dismiss"><span
+                                class="dashicons dashicons-dismiss"></span><?php _e( 'Never show again', 'weforms' ) ?>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+        <style type="text/css">
+            #weforms-review-notice .notice-dismiss {
+                padding: 0 0 0 26px;
+            }
 
-                #weforms-review-notice.weforms-review-notice {
-                    padding: 15px 15px 15px 0;
-                    background-color: #fff;
-                    border-radius: 3px;
-                    margin: 20px 20px 0 0;
-                    border-left: 4px solid transparent;
-                }
+            #weforms-review-notice .notice-dismiss:before {
+                display: none;
+            }
 
-                #weforms-review-notice .weforms-review-thumbnail {
-                    width: 114px;
-                    float: left;
-                    line-height: 80px;
-                    text-align: center;
-                    border-right: 4px solid transparent;
-                }
+            #weforms-review-notice.weforms-review-notice {
+                padding: 15px 15px 15px 0;
+                background-color: #fff;
+                border-radius: 3px;
+                margin: 20px 20px 0 0;
+                border-left: 4px solid transparent;
+            }
 
-                #weforms-review-notice .weforms-review-thumbnail img {
-                    width: 60px;
-                    vertical-align: middle;
-                }
+            #weforms-review-notice .weforms-review-thumbnail {
+                width: 114px;
+                float: left;
+                line-height: 80px;
+                text-align: center;
+                border-right: 4px solid transparent;
+            }
 
-                #weforms-review-notice .weforms-review-text {
-                    overflow: hidden;
-                }
+            #weforms-review-notice .weforms-review-thumbnail img {
+                width: 60px;
+                vertical-align: middle;
+            }
 
-                #weforms-review-notice .weforms-review-text h3 {
-                    font-size: 24px;
-                    margin: 0 0 5px;
-                    font-weight: 400;
-                    line-height: 1.3;
-                }
+            #weforms-review-notice .weforms-review-text {
+                overflow: hidden;
+            }
 
-                #weforms-review-notice .weforms-review-text p {
-                    font-size: 13px;
-                    margin: 0 0 5px;
-                }
+            #weforms-review-notice .weforms-review-text h3 {
+                font-size: 24px;
+                margin: 0 0 5px;
+                font-weight: 400;
+                line-height: 1.3;
+            }
 
-                #weforms-review-notice .weforms-review-ul {
-                    margin: 0;
-                    padding: 0;
-                }
+            #weforms-review-notice .weforms-review-text p {
+                font-size: 13px;
+                margin: 0 0 5px;
+            }
 
-                #weforms-review-notice .weforms-review-ul li {
-                    display: inline-block;
-                    margin-right: 15px;
-                }
+            #weforms-review-notice .weforms-review-ul {
+                margin: 0;
+                padding: 0;
+            }
 
-                #weforms-review-notice .weforms-review-ul li a {
-                    display: inline-block;
-                    color: #82C776;
-                    text-decoration: none;
-                    padding-left: 26px;
-                    position: relative;
-                }
+            #weforms-review-notice .weforms-review-ul li {
+                display: inline-block;
+                margin-right: 15px;
+            }
 
-                #weforms-review-notice .weforms-review-ul li a span {
-                    position: absolute;
-                    left: 0;
-                    top: -2px;
-                }
-            </style>
-            <script type='text/javascript'>
-                jQuery('body').on('click', '#weforms-review-notice .notice-dismiss', function(e) {
-                    e.preventDefault();
-                    jQuery("#weforms-review-notice").hide();
+            #weforms-review-notice .weforms-review-ul li a {
+                display: inline-block;
+                color: #82C776;
+                text-decoration: none;
+                padding-left: 26px;
+                position: relative;
+            }
 
-                    wp.ajax.post('weforms-dismiss-review-notice', {
-                        dismissed: true
-                    });
+            #weforms-review-notice .weforms-review-ul li a span {
+                position: absolute;
+                left: 0;
+                top: -2px;
+            }
+        </style>
+        <script type='text/javascript'>
+            jQuery('body').on('click', '#weforms-review-notice .notice-dismiss', function (e) {
+                e.preventDefault();
+                jQuery("#weforms-review-notice").hide();
+
+                wp.ajax.post('weforms-dismiss-review-notice', {
+                    dismissed: true
                 });
-            </script>
+            });
+        </script>
         <?php
 
     }
 
 
-   /**
-    * Dismiss promotion notice
-    *
-    * @since  1.2.6
-    *
-    * @return void
-    */
-   public function dismiss_promotional_offer() {
+    /**
+     * Dismiss promotion notice
+     *
+     * @return void
+     * @since  1.2.6
+     *
+     */
+    public function dismiss_promotional_offer() {
         if ( ! empty( $_POST['dismissed'] ) ) {
             $offer_key = 'weforms_promotional_offer_notice';
             update_option( $offer_key, 'hide' );
@@ -346,13 +317,13 @@ class WeForms_Admin_Promotion {
     }
 
     /**
-    * Dismiss review notice
-    *
-    * @since  1.3.5
-    *
-    * @return void
-    **/
-   public function dismiss_review_notice() {
+     * Dismiss review notice
+     *
+     * @return void
+     **@since  1.3.5
+     *
+     */
+    public function dismiss_review_notice() {
         if ( ! empty( $_POST['dismissed'] ) ) {
             update_option( 'weforms_review_notice_dismiss', 'yes' );
         }

@@ -694,10 +694,9 @@
                     <span v-if="form.views">{{ ((form.entries/form.views) * 100).toFixed(2) }}%</span>
                     <span v-else>0%</span>
                 </td>
-                <td class="weforms-form-creator">
-                    <img v-if="getUserAvatar(form.data.post_author)" v-bind:src="getUserAvatar(form.data.post_author)">
-                    <img v-else src="<?php echo WEFORMS_ASSET_URI . '/images/avatar.png'; ?>">
-                    <span>{{getUserName(form.data.post_author)}}</span>
+                <td v-if="form.author" class="weforms-form-creator">
+                    <img v-bind:src="form.author.avatar">
+                    <span>{{ form.author.username }}</span>
                     <span class="date">{{formatTime(form.data.post_date)}}</span>
                 </td>
             </tr>
@@ -752,7 +751,8 @@
             </span>
         </div>
     </div>
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-form-payments">
 <div class="wpuf-contact-form-payments">

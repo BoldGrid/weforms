@@ -397,6 +397,15 @@ class WeForms_Form {
         return weforms_count_form_payments( $this->id );
     }
 
+     /**
+     * Get form author details
+     *
+     * @return array
+     */
+    public function get_form_author_details() {
+        return weforms_get_form_author_details( $this->id );
+    }
+
     /**
      * Get the number of form views
      *

@@ -444,6 +444,28 @@ function weforms_count_form_payments( $form_id ) {
 }
 
 /**
+ * Get the form author details
+ *
+ * @param  int $form_id
+ *
+ * @return array
+ */
+function weforms_get_form_author_details( $form_id ) {
+    if ( empty( $form_id ) ) {
+        return;
+    }
+
+    $author_details = array();
+    $form           = get_post( $form_id );
+    $author_id      = $form->post_author;
+
+    $author_details['username'] = get_the_author_meta( 'user_login' , $author_id );
+    $author_details['avatar']   = get_avatar_url( $author_id );
+
+    return $author_details;
+}
+
+/**
  * Get table column heads for a form
  *
  * For now, return only text type fields
@@ -460,17 +482,23 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
     if ( $limit ) {
 
         $fields = array_filter( $fields, function( $item ) {
-            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ) );
+            return in_array( $item['template'], array( 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field', 'column_field' ) );
         });
     }
 
     if ( $fields ) {
         foreach ( $fields as $field ) {
+            if ( $field['template'] == 'column_field' ) {
+                foreach ( $field['inner_fields'] as $c_field ) {
+                    $columns[ $c_field[0]['name'] ] = $c_field[0]['label'];
+                }
+                continue;
+            }
             $columns[ $field['name'] ] = $field['label'];
         }
     }
 
-    // if passed 0/false, return all collumns
+    // if passed 0/false, return all columns
     if ( $limit && sizeof( $columns ) > $limit ) {
         $columns = array_slice( $columns, 0, $limit ); // max 6 columns
     }

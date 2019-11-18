@@ -93,6 +93,7 @@ class WeForms_Installer {
         $additional_keys = array(
             'email_gateway' => 'wordpress',
             'credit'        => false,
+            'email_footer'  => true,
             'recaptcha'     => array( 'key' => '', 'secret' => '' )
         );
 

@@ -37,7 +37,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 $footer_text = empty( $footer_text ) ? sprintf( '&copy; %s. Powered by <a href="%s">weForms</a>.', get_bloginfo( 'name', 'display' ), 'https://wordpress.org/plugins/weforms/' ) : $footer_text;
                                                 $footer_text = wpautop( wp_kses_post( wptexturize( apply_filters( 'weforms_email_footer_text', $footer_text ) ) ) );
 
-                                                echo $footer_text;
+                                                $show_footer = weforms_get_settings( 'email_footer' );
+                                                if ( $show_footer ) {
+                                                    echo $footer_text;
+                                                }
 
                                                 do_action( 'weforms_email_after_footer' );
                                                 ?>

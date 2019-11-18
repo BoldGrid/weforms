@@ -130,6 +130,11 @@ class Weforms_Setting_Controller extends Weforms_REST_Controller {
             $wpuf_update_array['no_conflict']  = $settings['no_conflict'];
         }
 
+        if ( !empty( $settings['email_footer'] ) ) {
+            $requires_wpuf_update              = true;
+            $wpuf_update_array['email_footer'] = $settings['email_footer'];
+        }
+
         if ( $requires_wpuf_update ) {
             $wpuf_settings = get_option( 'wpuf_general', array() );
             $wpuf_settings = array_merge( $wpuf_settings, $wpuf_update_array );
