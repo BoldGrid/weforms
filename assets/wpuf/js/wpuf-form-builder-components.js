@@ -85,7 +85,9 @@
 
                         // add meta key
                         if ('yes' === field.is_meta && !field.name) {
-                            field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
+                            if ( field.label ) {
+                                field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
+                            }
                         }
 
                         payload.field = field;
