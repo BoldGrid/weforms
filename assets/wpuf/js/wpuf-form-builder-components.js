@@ -85,7 +85,9 @@
 
                         // add meta key
                         if ('yes' === field.is_meta && !field.name) {
-                            field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
+                            if ( field.label ) {
+                                field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
+                            }
                         }
 
                         payload.field = field;
@@ -1025,13 +1027,13 @@
             },
 
             resizeColumns: function resizeColumns(columnsNumber) {
-                let self = this;
+                var self = this;
 
                 (function () {
-                    let columnElement;
-                    let startOffset;
-                    let columnField = $(self.$el).context.parentElement;
-                    let total_width = parseInt($(columnField).width());
+                    var columnElement = void 0;
+                    var startOffset = void 0;
+                    var columnField = $(self.$el).context.parentElement;
+                    var total_width = parseInt($(columnField).width());
 
                     Array.prototype.forEach.call($(self.$el).find(".wpuf-column-field-inner-columns .wpuf-column-inner-fields"), function (column) {
                         column.style.position = 'relative';
@@ -1061,17 +1063,17 @@
                     });
 
                     $(self.$el).find(".wpuf-column-field-inner-columns .wpuf-column-inner-fields").mouseup(function () {
-                        let colOneWidth = 0,
+                        var colOneWidth = 0,
                             colTwoWidth = 0,
                             colThreeWidth = 0;
 
-                        if (columnsNumber === 3) {
-                            colOneWidth = 100/columnsNumber;
-                            colTwoWidth = 100/columnsNumber;
-                            colThreeWidth = 100/columnsNumber;
-                        } else if (columnsNumber === 2){
-                            colOneWidth = 100/columnsNumber;
-                            colTwoWidth = 100/columnsNumber;
+                        if (columnsNumber == 3) {
+                            colOneWidth = 100 / columnsNumber;
+                            colTwoWidth = 100 / columnsNumber;
+                            colThreeWidth = 100 / columnsNumber;
+                        }  else if (columnsNumber == 2) {
+                            colOneWidth = 100 / columnsNumber;
+                            colTwoWidth = 100 / columnsNumber;
                             colThreeWidth = 0;
                         } else {
                             colOneWidth = $(columnField).find(".column-1").width();

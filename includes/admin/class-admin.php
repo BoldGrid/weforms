@@ -96,7 +96,7 @@ class WeForms_Admin {
 
             do_action( 'weforms-admin-menu', $hook, $capability );
 
-            $submenu['weforms'][] = array( __( 'Help', 'weforms' ), $capability, 'admin.php?page=weforms#/help' );
+            $submenu['weforms'][] = array( __( '<span style="color:#f18500">Help</span>', 'weforms' ), $capability, 'admin.php?page=weforms#/help' );
         }
 
         // only admins should see the settings page
