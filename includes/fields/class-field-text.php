@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Text extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Text', 'weforms' );
         $this->input_type = 'text_field';
         $this->icon       = 'text-width';
@@ -14,14 +14,13 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $value = $field_settings['default'];
-        ?>
+        $value = $field_settings['default']; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -31,11 +30,11 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                     id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
                     type="text"
                     data-duplicate="<?php echo $field_settings['duplicate'] ? $field_settings['duplicate'] : 'no'; ?>"
-                    data-required="<?php echo $field_settings['required'] ?>"
+                    data-required="<?php echo $field_settings['required']; ?>"
                     data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>"
                     placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
-                    value="<?php echo esc_attr( $value ) ?>"
-                    size="<?php echo esc_attr( $field_settings['size'] ) ?>"
+                    value="<?php echo esc_attr( $value ); ?>"
+                    size="<?php echo esc_attr( $field_settings['size'] ); ?>"
                 />
 
                 <span class="wpuf-wordlimit-message wpuf-help"></span>
@@ -47,13 +46,13 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                     $field_settings['word_restriction'],
                     'no',
                     $field_settings['name'] . '_' . $form_id
-                );
+                  );
             }
 
-            $mask_option = isset( $field_settings['mask_options'] ) ? $field_settings['mask_options'] : '';
+        $mask_option = isset( $field_settings['mask_options'] ) ? $field_settings['mask_options'] : '';
 
-            if ( $mask_option ) {
-                ?>
+        if ( $mask_option ) {
+            ?>
                 <script>
                     jQuery(document).ready(function($) {
                         var text_field = $( "input[name*=<?php echo esc_attr( $field_settings['name'] ); ?>]" );
@@ -78,7 +77,8 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                         }
                     });
                 </script>
-            <?php } ?>
+            <?php
+        } ?>
         </li>
         <?php
     }
@@ -91,21 +91,21 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
     public function get_options_settings() {
         $default_options      = $this->get_default_option_settings();
         $default_text_options = $this->get_default_text_option_settings( true );
-        $check_duplicate      = array(
-            array(
+        $check_duplicate      = [
+            [
                 'name'          => 'duplicate',
                 'title'         => 'No Duplicates',
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
-                'options'       => array(
-                    'no'   => __( 'Unique Values Only', 'weforms' )
-                ),
+                'options'       => [
+                    'no'   => __( 'Unique Values Only', 'weforms' ),
+                ],
                 'default'       => '',
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
-            )
-        );
+            ],
+        ];
 
         $text_options = array_merge( $default_options, $default_text_options, $check_duplicate );
 
@@ -119,10 +119,10 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $props    = array(
+        $props    = [
             'word_restriction' => '',
-            'duplicate' => '',
-        );
+            'duplicate'        => '',
+        ];
 
         return array_merge( $defaults, $props );
     }
@@ -135,8 +135,8 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-       $args = ! empty( $args ) ? $args : $_POST;
+        $args = !empty( $args ) ? $args : $_POST;
 
-       return sanitize_text_field( trim( $args[$field['name']] ) );
+        return sanitize_text_field( trim( $args[$field['name']] ) );
     }
 }

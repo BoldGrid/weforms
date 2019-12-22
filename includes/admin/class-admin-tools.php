@@ -4,35 +4,32 @@
  * Manage Import Export
  *
  * @since 1.1.0
- *
- * @package weForms
  */
 class WeForms_Admin_Tools {
 
     /**
      * Import json file into database
-     * @param  array $file
-     * @return boolean
+     *
+     * @param array $file
+     *
+     * @return bool
      */
     public static function import_json_file( $file ) {
-
         $encode_data = file_get_contents( $file );
         $options     = json_decode( $encode_data, true );
 
         foreach ( $options as $key => $value ) {
-
-            $generate_post = array(
+            $generate_post = [
                 'post_title'     => $value['post_data']['post_title'],
                 'post_status'    => $value['post_data']['post_status'],
                 'post_type'      => $value['post_data']['post_type'],
                 'ping_status'    => $value['post_data']['ping_status'],
-                'comment_status' => $value['post_data']['comment_status']
-            );
+                'comment_status' => $value['post_data']['comment_status'],
+            ];
 
             $post_id = wp_insert_post( $generate_post, true );
 
             if ( $post_id && !is_wp_error( $post_id ) ) {
-
                 foreach ( $value['meta_data']['fields'] as $order => $field ) {
                     weforms_insert_form_field( $post_id, $field, false, $order );
                 }
@@ -48,27 +45,26 @@ class WeForms_Admin_Tools {
     /**
      * Export into json file
      *
-     * @param  string $post_type
-     * @param  array  $post_ids
+     * @param string $post_type
+     * @param array  $post_ids
      */
-    public static function export_to_json( $post_ids = array( ) ) {
+    public static function export_to_json( $post_ids = [ ] ) {
+        $formatted_data = [];
+        $ids            = [];
+        $blogname       = strtolower( str_replace( ' ', '-', get_option( 'blogname' ) ) );
+        $json_name      = $blogname . '-weforms-' . time(); // Namming the filename will be generated.
 
-        $formatted_data = array();
-        $ids            = array();
-        $blogname       = strtolower( str_replace( " ", "-", get_option( 'blogname' ) ) );
-        $json_name      = $blogname . "-weforms-" . time(); // Namming the filename will be generated.
-
-        if ( ! empty( $post_ids ) ) {
+        if ( !empty( $post_ids ) ) {
             foreach ( $post_ids as $key => $value ) {
                 array_push( $ids, $value );
             }
         }
 
-        $args = array(
+        $args = [
             'post_status' => 'publish',
             'post_type'   => 'wpuf_contact_form',
-            'post__in'    => (!empty( $ids ) ) ? $ids : ''
-        );
+            'post__in'    => ( !empty( $ids ) ) ? $ids : '',
+        ];
 
         $query = new WP_Query( $args );
 
@@ -78,27 +74,27 @@ class WeForms_Admin_Tools {
 
             $form = weforms()->form->get( $post );
 
-            $data = array(
+            $data = [
                 'post_data' => $postdata,
-                'meta_data' => array(
+                'meta_data' => [
                     'fields'        => $form->get_fields(),
                     'settings'      => $form->get_settings(),
-                    'notifications' => $form->get_notifications()
-                )
-            );
+                    'notifications' => $form->get_notifications(),
+                ],
+            ];
 
             array_push( $formatted_data, $data );
         }
 
         $json_file = json_encode( $formatted_data ); // Encode data into json data
 
-        error_reporting(0);
+        error_reporting( 0 );
 
         if ( ob_get_contents() ) {
             ob_clean();
         }
-       
-        header( "Content-Type: text/json; charset=" . get_option( 'blog_charset' ) );
+
+        header( 'Content-Type: text/json; charset=' . get_option( 'blog_charset' ) );
         header( "Content-Disposition: attachment; filename=$json_name.json" );
 
         echo $json_file;
@@ -109,11 +105,12 @@ class WeForms_Admin_Tools {
     /**
      * Formetted meta key value
      *
-     * @param  array $array
+     * @param array $array
+     *
      * @return array
      */
-    function formetted_meta_key_value( $array ) {
-        $result = array( );
+    public function formetted_meta_key_value( $array ) {
+        $result = [ ];
 
         foreach ( $array as $key => $val ) {
             $result[$key] = $val[0];
@@ -121,5 +118,4 @@ class WeForms_Admin_Tools {
 
         return $result;
     }
-
 }

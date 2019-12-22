@@ -58,6 +58,6 @@
         </div>
     </fieldset>
     <?php } else {
-        printf( __( '%sMailPoet Newsletters%s plugin does not exists. Please install the plugin .', 'weforms' ), '<a href="https://wordpress.org/plugins/wysija-newsletters/" target="_blank" >', '</a>' );
-    } ?>
+    printf( __( '%sMailPoet Newsletters%s plugin does not exists. Please install the plugin .', 'weforms' ), '<a href="https://wordpress.org/plugins/wysija-newsletters/" target="_blank" >', '</a>' );
+} ?>
 </div>

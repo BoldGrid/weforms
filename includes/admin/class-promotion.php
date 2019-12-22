@@ -3,25 +3,24 @@
 /**
  * Promotional offer class
  */
-
 class WeForms_Admin_Promotion {
 
     public function __construct() {
-        add_action( 'admin_notices', array( $this, 'promotional_offer' ) );
-        add_action( 'admin_notices', array( $this, 'weforms_review_notice_message' ) );
-        add_action( 'wp_ajax_weforms-dismiss-promotional-offer-notice', array( $this, 'dismiss_promotional_offer' ) );
-        add_action( 'wp_ajax_weforms-dismiss-review-notice', array( $this, 'dismiss_review_notice' ) );
+        add_action( 'admin_notices', [ $this, 'promotional_offer' ] );
+        add_action( 'admin_notices', [ $this, 'weforms_review_notice_message' ] );
+        add_action( 'wp_ajax_weforms-dismiss-promotional-offer-notice', [ $this, 'dismiss_promotional_offer' ] );
+        add_action( 'wp_ajax_weforms-dismiss-review-notice', [ $this, 'dismiss_review_notice' ] );
     }
 
     /**
      * Promotional offer notice
      *
      * @return void
-     * @since 1.2.6
      *
+     * @since 1.2.6
      */
     public function promotional_offer() {
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( !current_user_can( 'manage_options' ) ) {
             return;
         }
 
@@ -43,7 +42,7 @@ class WeForms_Admin_Promotion {
             ?>
             <div class="notice notice-success is-dismissible" id="weforms-bfcm-notice">
                 <div class="logo">
-                    <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-logo.png' ?>" alt="weForms">
+                    <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-logo.png'; ?>" alt="weForms">
                 </div>
                 <div class="content">
                     <p>Biggest Sale of the year on this</p>
@@ -53,7 +52,7 @@ class WeForms_Admin_Promotion {
                 </div>
                 <div class="call-to-action">
                     <a target="_blank" href="https://wedevs.com/weforms/pricing?utm_campaign=black_friday_&_cyber_monday&utm_medium=banner&utm_source=plugin_dashboard">
-                        <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-btn.png' ?>" alt="Btn">
+                        <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-btn.png'; ?>" alt="Btn">
                     </a>
                     <p>
                         <span class="highlight-green">Coupon: </span>
@@ -153,14 +152,13 @@ class WeForms_Admin_Promotion {
     }
 
     /**
-     *
      * @return void
-     **@since 1.3.5
      *
+     **@since 1.3.5
      */
     public function weforms_review_notice_message() {
         // Show only to Admins
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( !current_user_can( 'manage_options' ) ) {
             return;
         }
 
@@ -168,10 +166,10 @@ class WeForms_Admin_Promotion {
         $activation_time = get_option( 'weforms_installed' );
         $total_entries   = weforms_count_entries();
 
-        $args = array(
+        $args = [
             'order'   => 'DESC',
-            'orderby' => 'post_date'
-        );
+            'orderby' => 'post_date',
+        ];
 
         $contact_forms  = weforms()->form->get_forms( $args );
         $form_published = count( $contact_forms['forms'] );
@@ -186,33 +184,31 @@ class WeForms_Admin_Promotion {
             ( time() - $activation_time < 3888000 )
             && $total_entries < 25
             && $form_published < 3
-        ) {
+          ) {
             return;
-        }
-
-        ?>
+        } ?>
         <div id="weforms-review-notice" class="weforms-review-notice">
             <div class="weforms-review-thumbnail">
-                <img src="<?php echo WEFORMS_ASSET_URI . '/images/icon-weforms.png' ?>" alt="">
+                <img src="<?php echo WEFORMS_ASSET_URI . '/images/icon-weforms.png'; ?>" alt="">
             </div>
             <div class="weforms-review-text">
-                <?php if ( $total_entries >= 25 ) : ?>
-                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
-                    <p><?php _e( 'Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
-                <?php else: ?>
-                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
-                    <p><?php _e( 'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
-                <?php endif; ?>
+                <?php if ( $total_entries >= 25 ) { ?>
+                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ); ?></h3>
+                    <p><?php _e( 'Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ); ?></p>
+                <?php } else { ?>
+                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ); ?></h3>
+                    <p><?php _e( 'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ); ?></p>
+                <?php } ?>
 
                 <ul class="weforms-review-ul">
                     <li><a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span
-                                class="dashicons dashicons-external"></span><?php _e( 'Sure! I\'d love to!', 'weforms' ) ?>
+                                class="dashicons dashicons-external"></span><?php _e( 'Sure! I\'d love to!', 'weforms' ); ?>
                         </a></li>
                     <li><a href="#" class="notice-dismiss"><span
-                                class="dashicons dashicons-smiley"></span><?php _e( 'I\'ve already left a review', 'weforms' ) ?>
+                                class="dashicons dashicons-smiley"></span><?php _e( 'I\'ve already left a review', 'weforms' ); ?>
                         </a></li>
                     <li><a href="#" class="notice-dismiss"><span
-                                class="dashicons dashicons-dismiss"></span><?php _e( 'Never show again', 'weforms' ) ?>
+                                class="dashicons dashicons-dismiss"></span><?php _e( 'Never show again', 'weforms' ); ?>
                         </a></li>
                 </ul>
             </div>
@@ -298,19 +294,17 @@ class WeForms_Admin_Promotion {
             });
         </script>
         <?php
-
     }
-
 
     /**
      * Dismiss promotion notice
      *
      * @return void
-     * @since  1.2.6
      *
+     * @since  1.2.6
      */
     public function dismiss_promotional_offer() {
-        if ( ! empty( $_POST['dismissed'] ) ) {
+        if ( !empty( $_POST['dismissed'] ) ) {
             $offer_key = 'weforms_promotional_offer_notice';
             update_option( $offer_key, 'hide' );
         }
@@ -320,11 +314,11 @@ class WeForms_Admin_Promotion {
      * Dismiss review notice
      *
      * @return void
-     **@since  1.3.5
      *
+     **@since  1.3.5
      */
     public function dismiss_review_notice() {
-        if ( ! empty( $_POST['dismissed'] ) ) {
+        if ( !empty( $_POST['dismissed'] ) ) {
             update_option( 'weforms_review_notice_dismiss', 'yes' );
         }
     }

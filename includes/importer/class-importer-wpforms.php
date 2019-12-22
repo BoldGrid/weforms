@@ -4,7 +4,7 @@
  */
 class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
 
-    function __construct() {
+    public function __construct() {
         $this->id        = 'wpforms';
         $this->title     = 'WPForms';
         $this->shortcode = 'wpforms';
@@ -15,7 +15,7 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
     /**
      * Check if the plugin exists
      *
-     * @return boolean
+     * @return bool
      */
     public function plugin_exists() {
         return function_exists( 'wpforms' );
@@ -33,7 +33,7 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
     /**
      * Parse a form to array
      *
-     * @param  string $form
+     * @param string $form
      *
      * @return array
      */
@@ -44,7 +44,7 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
     /**
      * Get the form name
      *
-     * @param  string $form
+     * @param string $form
      *
      * @return string
      */
@@ -55,7 +55,7 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
     /**
      * Get the form id
      *
-     * @param  mixed $form
+     * @param mixed $form
      *
      * @return int
      */
@@ -66,7 +66,7 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
     /**
      * Get form notifications of a form
      *
-     * @param  mixed $form
+     * @param mixed $form
      *
      * @return array
      */
@@ -74,8 +74,8 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
         $parsed       = $this->parse_form( $form );
         $notification = array_pop( $parsed['settings']['notifications'] );
 
-        $form_notifications = array(
-            array(
+        $form_notifications = [
+            [
                 'active'      => $parsed['settings']['notification_enable'] ? true : false,
                 'name'        => 'Admin Notification',
                 'subject'     => $notification['subject'],
@@ -86,8 +86,8 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
                 'fromAddress' => $notification['sender_address'],
                 'cc'          => '',
                 'bcc'         => '',
-            ),
-        );
+            ],
+        ];
 
         return $form_notifications;
     }
@@ -95,12 +95,12 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
     /**
      * Get all form fields of a form
      *
-     * @param  mixed $form
+     * @param mixed $form
      *
      * @return array
      */
     public function get_form_fields( $form ) {
-        $form_fields = array();
+        $form_fields = [];
         $parsed      = $this->parse_form( $form );
 
         if ( empty( $parsed['fields'] ) ) {
@@ -117,15 +117,15 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
                 case 'email':
                 case 'textarea':
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
-                        'required'    => ! empty( $field['required'] ) ? 'yes' : 'no',
+                    $form_fields[] = $this->get_form_field( $field['type'], [
+                        'required'    => !empty( $field['required'] ) ? 'yes' : 'no',
                         'label'       => $field['label'],
                         'name'        => $field['id'],
                         'help'        => $field['description'],
                         'css_class'   => $field['css'],
                         'placeholder' => $field['placeholder'],
-                        'default'     => ! empty( $field['default_value'] ) ? $field['default_value'] : '',
-                    ) );
+                        'default'     => !empty( $field['default_value'] ) ? $field['default_value'] : '',
+                    ] );
 
                     break;
 
@@ -133,44 +133,44 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
                 case 'radio':
                 case 'checkbox':
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
-                        'required'    => ! empty( $field['required'] ) ? 'yes' : 'no',
+                    $form_fields[] = $this->get_form_field( $field['type'], [
+                        'required'    => !empty( $field['required'] ) ? 'yes' : 'no',
                         'label'       => $field['label'],
                         'name'        => $field['id'],
                         'help'        => $field['description'],
                         'css_class'   => $field['css'],
                         'placeholder' => $field['placeholder'],
-                        'selected'    => ! empty( $field['default_value'] ) ? $field['default_value'] : '',
+                        'selected'    => !empty( $field['default_value'] ) ? $field['default_value'] : '',
                         'options'     => $this->get_options( $field ),
-                    ) );
+                    ] );
                     break;
 
                 case 'name':
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
-                        'required'   => ! empty( $field['required'] ) ? 'yes' : 'no',
+                    $form_fields[] = $this->get_form_field( $field['type'], [
+                        'required'   => !empty( $field['required'] ) ? 'yes' : 'no',
                         'label'      => $field['label'],
                         'name'       => $field['id'],
                         'help'       => $field['description'],
                         'css_class'  => $field['css'],
                         'format'     => ( $field['format'] === 'first-last' ) ? 'first-last' : 'first-middle-last',
-                        'hide_subs'  => ! empty( $field['sublabel_hide'] ) ? true : false,
-                        'first_name' => array(
+                        'hide_subs'  => !empty( $field['sublabel_hide'] ) ? true : false,
+                        'first_name' => [
                             'placeholder' => $field['first_placeholder'],
                             'default'     => $field['first_default'],
                             'sub'         => __( 'First', 'weforms' ),
-                        ),
-                        'middle_name' => array(
+                        ],
+                        'middle_name' => [
                             'placeholder' => $field['middle_placeholder'],
                             'default'     => $field['middle_default'],
                             'sub'         => __( 'Middle', 'weforms' ),
-                        ),
-                        'last_name'   => array(
+                        ],
+                        'last_name'   => [
                             'placeholder' => $field['last_placeholder'],
                             'default'     => $field['last_default'],
                             'sub'         => __( 'Last', 'weforms' ),
-                        ),
-                    ) );
+                        ],
+                    ] );
                     break;
             }
         }
@@ -200,13 +200,13 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
                 break;
         }
 
-        $form_settings = wp_parse_args( array(
+        $form_settings = wp_parse_args( [
             'message'     => $settings['confirmations'][1]['message'],
             'page_id'     => $settings['confirmations'][1]['page'],
             'url'         => $settings['confirmations'][1]['redirect'],
             'submit_text' => $settings['submit_text'],
             'redirect_to' => $redirect_to,
-        ), $default );
+        ], $default );
 
         return $form_settings;
     }
@@ -214,14 +214,14 @@ class WeForms_Importer_WPForms extends WeForms_Importer_Abstract {
     /**
      * Translate to wpuf field options array
      *
-     * @param  object $field
+     * @param object $field
      *
      * @return array
      */
     private function get_options( $field ) {
-        $options = array();
+        $options = [];
 
-        if ( ! $field['choices'] ) {
+        if ( !$field['choices'] ) {
             return $options;
         }
 

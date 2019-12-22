@@ -23,69 +23,67 @@ class WeForms_Template_Leave_Request extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields    = $this->get_available_fields();
 
-        $form_fields   = array(
-
-            array_merge($all_fields['name_field']->get_field_props(), array(
+        $form_fields   = [
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'requied'   => 'yes',
-                'label'     => __('Name', 'weforms'),
+                'label'     => __( 'Name', 'weforms' ),
                 'format'    => 'first-last',
                 'name'      => 'format',
-            )),
+            ] ),
 
-            array_merge($all_fields['numeric_text_field']->get_field_props(), array(
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
                 'requied'   => 'yes',
-                'label'     => __('Employee ID', 'weforms'),
+                'label'     => __( 'Employee ID', 'weforms' ),
                 'name'      => 'employee_id',
-            )),
+            ] ),
 
-            array_merge($all_fields['numeric_text_field']->get_field_props(), array(
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Phone Number', 'weforms'),
+                'label'     => __( 'Phone Number', 'weforms' ),
                 'name'      => 'phone_number',
-            )),
+            ] ),
 
-            array_merge($all_fields['text_field']->get_field_props(), array(
-                'label'     => __('Position', 'weforms'),
+            array_merge( $all_fields['text_field']->get_field_props(), [
+                'label'     => __( 'Position', 'weforms' ),
                 'name'      => 'position',
-            )),
+            ] ),
 
-            array_merge($all_fields['text_field']->get_field_props(), array(
+            array_merge( $all_fields['text_field']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Manager', 'weforms'),
+                'label'     => __( 'Manager', 'weforms' ),
                 'name'      => 'manager',
-            )),
+            ] ),
 
-            array_merge($all_fields['date_field']->get_field_props(), array(
+            array_merge( $all_fields['date_field']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Leave Start', 'weforms'),
+                'label'     => __( 'Leave Start', 'weforms' ),
                 'name'      => 'leave_start',
-            )),
+            ] ),
 
-            array_merge($all_fields['date_field']->get_field_props(), array(
+            array_merge( $all_fields['date_field']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Leave End', 'weforms'),
+                'label'     => __( 'Leave End', 'weforms' ),
                 'name'      => 'leave_end',
-            )),
+            ] ),
 
-            array_merge($all_fields['radio_field']->get_field_props(), array(
+            array_merge( $all_fields['radio_field']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Leave Type', 'weforms'),
+                'label'     => __( 'Leave Type', 'weforms' ),
                 'name'      => 'leave_type',
-                'options'   => array(
+                'options'   => [
                     'vacation'  => 'Vacation',
                     'sick'      => 'Sick',
                     'quitting'  => 'Quitting',
                     'other'     => 'Other',
-                ),
-            )),
+                ],
+            ] ),
 
-            array_merge($all_fields['textarea_field']->get_field_props(), array(
-                'label'     => __('Comments', 'weforms'),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'     => __( 'Comments', 'weforms' ),
                 'name'      => 'comment',
-            )),
-        );
+            ] ),
+        ];
 
         return $form_fields;
     }
-
 }

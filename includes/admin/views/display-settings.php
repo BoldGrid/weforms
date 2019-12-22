@@ -5,21 +5,21 @@
         <td>
             <select v-model="settings.label_position">
                 <?php
-                $positions = array(
+                $positions = [
                     'above'  => __( 'Above Element', 'weforms' ),
                     'left'   => __( 'Left of Element', 'weforms' ),
                     'right'  => __( 'Right of Element', 'weforms' ),
                     'hidden' => __( 'Hidden', 'weforms' ),
-                );
+                ];
 
-                foreach ($positions as $to => $label) {
-                    printf('<option value="%s"%s>%s</option>', $to, '', $label );
+                foreach ( $positions as $to => $label ) {
+                    printf( '<option value="%s"%s>%s</option>', $to, '', $label );
                 }
                 ?>
             </select>
 
             <p class="description">
-                <?php _e( 'Where the labels of the form should display', 'weforms' ) ?>
+                <?php _e( 'Where the labels of the form should display', 'weforms' ); ?>
             </p>
         </td>
     </tr>
@@ -29,19 +29,19 @@
         <td>
             <select v-model="settings.use_theme_css">
                 <?php
-                $options = array(
+                $options = [
                     'wpuf-theme-style'  => __( 'Yes', 'weforms' ),
                     'wpuf-style'        => __( 'No', 'weforms' ),
-                );
+                ];
 
-                foreach ($options as $key => $label) {
-                    printf('<option value="%s"%s>%s</option>', $key, '', $label );
+                foreach ( $options as $key => $label ) {
+                    printf( '<option value="%s"%s>%s</option>', $key, '', $label );
                 }
                 ?>
             </select>
 
             <p class="description">
-                <?php _e( "Selecting <strong>Yes</strong> will use your theme's style for form fields.", "weforms" ) ?>
+                <?php _e( "Selecting <strong>Yes</strong> will use your theme's style for form fields.", 'weforms' ); ?>
             </p>
         </td>
     </tr>

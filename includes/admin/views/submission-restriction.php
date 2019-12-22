@@ -10,7 +10,7 @@
             </label>
 
             <p class="description">
-                <?php _e( 'Schedule for a time period the form is active.', 'weforms' ) ?>
+                <?php _e( 'Schedule for a time period the form is active.', 'weforms' ); ?>
             </p>
         </td>
     </tr>
@@ -69,7 +69,7 @@
             </label>
 
             <p class="description">
-                <?php _e( 'Limit the number of entries allowed for this form', 'weforms' ) ?>
+                <?php _e( 'Limit the number of entries allowed for this form', 'weforms' ); ?>
             </p>
         </td>
     </tr>

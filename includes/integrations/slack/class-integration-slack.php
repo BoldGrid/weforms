@@ -2,39 +2,36 @@
 
 /**
  * Slack Integrations
- *
- * @package weForms\Integrations
  */
 class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
 
     /**
      * Initialize the plugin
      */
-    function __construct() {
+    public function __construct() {
         $this->id    = 'slack';
         $this->title = __( 'Slack', 'weforms' );
         $this->icon  = WEFORMS_ASSET_URI . '/images/icon-slack.svg';
 
-        $this->settings_fields = array(
+        $this->settings_fields = [
             'enabled' => false,
             'url'     => '',
-        );
+        ];
 
-        add_action( 'weforms_entry_submission', array( $this, 'send_notification' ), 10, 4 );
+        add_action( 'weforms_entry_submission', [ $this, 'send_notification' ], 10, 4 );
     }
 
     /**
      * Subscribe a user when a form is submitted
      *
-     * @param  int $entry_id
-     * @param  int $form_id
-     * @param  int $page_id
-     * @param  array $form_settings
+     * @param int   $entry_id
+     * @param int   $form_id
+     * @param int   $page_id
+     * @param array $form_settings
      *
      * @return void
      */
     public function send_notification( $entry_id, $form_id, $page_id, $form_settings ) {
-
         $integration = weforms_is_integration_active( $form_id, $this->id );
 
         if ( false === $integration ) {
@@ -45,8 +42,8 @@ class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
             return;
         }
 
-        $attachment_fields = array();
-        $title             = sprintf( __( "#%d New submission on %s", 'weforms' ), $entry_id, get_post_field( 'post_title', $form_id ) );
+        $attachment_fields = [];
+        $title             = sprintf( __( '#%d New submission on %s', 'weforms' ), $entry_id, get_post_field( 'post_title', $form_id ) );
         $form_data         = weforms_get_entry_data( $entry_id );
 
         if ( false === $form_data ) {
@@ -68,41 +65,39 @@ class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
                 $_value = str_replace( '</p>', "\n", $_value );
             }
 
-            $attachment_fields[] = array(
+            $attachment_fields[] = [
                 'title' => $value['label'],
                 'value' => $_value,
-                'short' => $is_short
-            );
+                'short' => $is_short,
+            ];
         }
 
-        $data = array(
-            'payload' => json_encode( array(
+        $data = [
+            'payload' => json_encode( [
             'username'    => 'weForms',
             'icon_url'    => '',
-            'attachments' => array(
-                array(
+            'attachments' => [
+                [
                     'fallback'    => $title,
                     'color'       => '#36a64f',
                     'title'       => $title,
                     'title_link'  => sprintf( '%s#/form/%d/entries/%d', admin_url( 'admin.php?page=weforms' ), $form_id, $entry_id ),
                     'fields'      => $attachment_fields,
                     'footer'      => 'weForms',
-                    'ts'          => current_time( 'timestamp' )
-                )
-            )
-        ) ) );
+                    'ts'          => current_time( 'timestamp' ),
+                ],
+            ],
+        ] ), ];
 
-        $posting_to_slack = wp_remote_post( $integration->url, array(
+        $posting_to_slack = wp_remote_post( $integration->url, [
             'method'      => 'POST',
             'timeout'     => 30,
             'redirection' => 5,
             'httpversion' => '1.0',
             'blocking'    => false,
-            'headers'     => array(),
+            'headers'     => [],
             'body'        => $data,
-            'cookies'     => array()
-        ) );
-
+            'cookies'     => [],
+        ] );
     }
-
 }

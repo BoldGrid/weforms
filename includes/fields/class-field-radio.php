@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Radio', 'weforms' );
         $this->input_type = 'radio_field';
         $this->icon       = 'dot-circle-o';
@@ -14,30 +14,29 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
-        ?>
+        $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : ''; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <?php do_action( 'weforms_radio_field_after_label', $field_settings ); ?>
 
-            <div class="wpuf-fields" data-required="<?php echo $field_settings['required'] ?>" data-type="radio">
+            <div class="wpuf-fields" data-required="<?php echo $field_settings['required']; ?>" data-type="radio">
 
                 <?php
                 if ( $field_settings['options'] && count( $field_settings['options'] ) > 0 ) {
-                    foreach ($field_settings['options'] as $value => $option) {
+                    foreach ( $field_settings['options'] as $value => $option ) {
                         ?>
 
                         <label <?php echo $field_settings['inline'] == 'yes' ? 'class="wpuf-radio-inline"' : 'class="wpuf-radio-block"'; ?>>
                             <input
                                 name="<?php echo $field_settings['name']; ?>"
-                                class="<?php echo 'wpuf_'.$field_settings['name']. '_'. $form_id; ?>"
+                                class="<?php echo 'wpuf_' . $field_settings['name'] . '_' . $form_id; ?>"
                                 type="radio"
                                 value="<?php echo esc_attr( $value ); ?>"<?php checked( $selected, $value ); ?>
                             />
@@ -45,8 +44,7 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
                         </label>
                         <?php
                     }
-                }
-                ?>
+                } ?>
 
                 <?php $this->help_text( $field_settings ); ?>
 
@@ -61,25 +59,24 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
      * @return array
      */
     public function get_options_settings() {
-        $default_options  = $this->get_default_option_settings( true, array( 'width' ) );
-        $dropdown_options = array(
+        $default_options  = $this->get_default_option_settings( true, [ 'width' ] );
+        $dropdown_options = [
             $this->get_default_option_dropdown_settings(),
-
-            array(
+            [
                 'name'          => 'inline',
                 'title'         => __( 'Show in inline list', 'weforms' ),
                 'type'          => 'radio',
-                'options'       => array(
+                'options'       => [
                     'yes'   => __( 'Yes', 'weforms' ),
                     'no'    => __( 'No', 'weforms' ),
-                ),
+                ],
                 'default'       => 'no',
                 'inline'        => true,
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'Show this option in an inline list', 'weforms' ),
-            )
-        );
+            ],
+        ];
 
         $dropdown_options = apply_filters( 'weforms_radio_field_option_settings', $dropdown_options );
 
@@ -93,11 +90,11 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $props    = array(
+        $props    = [
             'selected' => '',
             'inline'   => 'no',
-            'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
-        );
+            'options'  => [ 'Option' => __( 'Option', 'weforms' ) ],
+        ];
 
         $props = apply_filters( 'weforms_radio_field_props', $props );
 
@@ -112,7 +109,7 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args = ! empty( $args ) ? $args : $_POST;
+        $args = !empty( $args ) ? $args : $_POST;
         $val  = $args[$field['name']];
 
         return isset( $field['options'][$val] ) ? $field['options'][$val] : $val;

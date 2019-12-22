@@ -4,19 +4,19 @@
         <td>
             <select v-model="settings.redirect_to">
                 <?php
-                $redirect_options = array(
+                $redirect_options = [
                     'same' => __( 'Same Page', 'weforms' ),
                     'page' => __( 'To a page', 'weforms' ),
-                    'url'  => __( 'To a custom URL', 'weforms' )
-                );
+                    'url'  => __( 'To a custom URL', 'weforms' ),
+                ];
 
-                foreach ($redirect_options as $to => $label) {
-                    printf('<option value="%s"%s>%s</option>', $to, '', $label );
+                foreach ( $redirect_options as $to => $label ) {
+                    printf( '<option value="%s"%s>%s</option>', $to, '', $label );
                 }
                 ?>
             </select>
             <p class="description">
-                <?php _e( 'After successful submit, where the page will redirect to. This redirect option will not work if Show Report in Frontend option is enabled.', 'weforms' ) ?>
+                <?php _e( 'After successful submit, where the page will redirect to. This redirect option will not work if Show Report in Frontend option is enabled.', 'weforms' ); ?>
             </p>
         </td>
     </tr>
@@ -31,13 +31,13 @@
     <tr class="wpuf-page-id" v-show="settings.redirect_to == 'page'">
         <th><?php _e( 'Page', 'weforms' ); ?></th>
         <td>
-            <?php $dropdown = wp_dropdown_pages( array(
+            <?php $dropdown = wp_dropdown_pages( [
                 'name'             => 'wpuf_settings[page_id]',
                 'show_option_none' => __( '&mdash; Select a page &mdash;', 'weforms' ),
-                'echo'             => false
-            ) );
+                'echo'             => false,
+            ] );
 
-            echo str_replace('<select', '<select v-model="settings.page_id"', $dropdown );
+            echo str_replace( '<select', '<select v-model="settings.page_id"', $dropdown );
             ?>
         </td>
     </tr>

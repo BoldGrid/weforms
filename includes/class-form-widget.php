@@ -12,13 +12,12 @@ class weForms_Widget extends WP_Widget {
     /**
      * weForms_Widget constructor.
      */
-    function __construct() {
-
+    public function __construct() {
         parent::__construct(
             'weforms_widget',
-            __('weForms Widget', 'weforms'),
-            array( 'description' => __( 'Add weForms Form to Sidebar', 'weforms' ), )
-        );
+            __( 'weForms Widget', 'weforms' ),
+            [ 'description' => __( 'Add weForms Form to Sidebar', 'weforms' )]
+          );
     }
 
     /**
@@ -27,13 +26,12 @@ class weForms_Widget extends WP_Widget {
      * @return void
      */
     public function widget( $args, $instance ) {
-
         $title            = apply_filters( 'widget_title', $instance['title'] );
         $form_id          = apply_filters( 'weforms_widget_form_id', $instance['form_id'] );
 
         echo $args['before_widget'];
 
-        if ( ! empty( $title ) ) {
+        if ( !empty( $title ) ) {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
@@ -48,16 +46,15 @@ class weForms_Widget extends WP_Widget {
      * @return void
      */
     public function form( $instance ) {
-
         $title   = isset( $instance[ 'title' ] ) ? $instance[ 'title' ] : __( 'Form', 'weforms' );
         $form_id = isset( $instance[ 'form_id' ] ) ? $instance[ 'form_id' ] : 0;
 
         $all_forms = weforms()->form->all();
-        $options = sprintf( "<option value='%s'>%s</option>", 0, __('Select Form', 'weforms') );
+        $options   = sprintf( "<option value='%s'>%s</option>", 0, __( 'Select Form', 'weforms' ) );
+
         foreach ( $all_forms['forms'] as $form ) {
-            $options.= sprintf( "<option value='%s' %s >%s</option>", $form->id, selected( $form_id, $form->id, false) ,$form->name );
-        }
-        ?>
+            $options .= sprintf( "<option value='%s' %s >%s</option>", $form->id, selected( $form_id, $form->id, false ), $form->name );
+        } ?>
 
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'weforms' ); ?></label>
@@ -66,7 +63,7 @@ class weForms_Widget extends WP_Widget {
         <p>
             <label for="<?php echo $this->get_field_id( 'form_id' ); ?>"> <?php _e( 'Form:', 'weforms' ); ?></label>
             <select id="<?php echo $this->get_field_id( 'form_id' ); ?>" class="widefat" name="<?php echo $this->get_field_name( 'form_id' ); ?>">
-                <?php echo $options ?>
+                <?php echo $options; ?>
             </select>
         </p>
 
@@ -79,13 +76,12 @@ class weForms_Widget extends WP_Widget {
      * @return $instance
      */
     public function update( $new_instance, $old_instance ) {
+        $instance            = [];
+        $instance['title']   = ( !empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+        $instance['form_id'] = ( !empty( $new_instance['form_id'] ) ) ? strip_tags( $new_instance['form_id'] ) : '';
 
-        $instance = array();
-        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-        $instance['form_id'] = ( ! empty( $new_instance['form_id'] ) ) ? strip_tags( $new_instance['form_id'] ) : '';
         return $instance;
     }
-
 }
 /**
  * Register weForms widget

@@ -5,7 +5,6 @@
  *
  * @since 1.4.2
  */
-
 class WeForms_Api extends WP_REST_Controller {
 
     /**
@@ -16,8 +15,7 @@ class WeForms_Api extends WP_REST_Controller {
     protected $class_map;
 
     public function __construct() {
-
-        $this->class_map = apply_filters( 'weforms_rest_api_class_map', array(
+        $this->class_map = apply_filters( 'weforms_rest_api_class_map', [
             WEFORMS_INCLUDES . '/api/class-weforms-entries-controller.php'           => 'Weforms_Entry_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-forms-controller.php'             => 'Weforms_Forms_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-settings-controller.php'          => 'Weforms_Setting_Controller',
@@ -27,11 +25,10 @@ class WeForms_Api extends WP_REST_Controller {
             WEFORMS_INCLUDES . '/api/class-weforms-form-integration-controller.php'  => 'Weforms_Form_Integration_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-form-notification-controller.php' => 'Weforms_Form_Notification_Controller',
             WEFORMS_INCLUDES . '/api/class-weforms-form-settings-controller.php'     => 'Weforms_Form_Setting_Controller',
-        ) );
+        ] );
 
-         add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+        add_action( 'rest_api_init', [ $this, 'register_routes' ] );
     }
-
 
     /**
      * Register all routes releated with Weforms
@@ -39,13 +36,10 @@ class WeForms_Api extends WP_REST_Controller {
      * @return void
      */
     public function register_routes() {
-
         foreach ( $this->class_map as $file_name => $controller ) {
             require_once $file_name;
             $controller = new $controller();
             $controller->register_routes();
         }
-
     }
 }
-

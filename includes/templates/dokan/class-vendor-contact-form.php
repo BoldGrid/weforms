@@ -13,7 +13,6 @@ class WeForms_Vendor_Contact_Form extends WeForms_Form_Template {
         $this->description = __( 'Create a vendor contact form for your site.', 'weforms' );
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/contact.png';
         $this->category    = 'default';
-
     }
 
     /**
@@ -24,32 +23,31 @@ class WeForms_Vendor_Contact_Form extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array(
-            array_merge( $all_fields['name_field']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'required'      => 'yes',
                 'name'          => 'seller_name',
                 'label'         => 'Seller Name',
                 'hide_subs'     => 'true',
-                'auto_populate' => 'yes'
-            ) ),
-            array_merge( $all_fields['email_address']->get_field_props(), array(
+                'auto_populate' => 'yes',
+            ] ),
+            array_merge( $all_fields['email_address']->get_field_props(), [
                 'required'      => 'yes',
                 'name'          => 'email',
                 'auto_populate' => 'yes',
-            ) ),
-            array_merge( $all_fields['text_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['text_field']->get_field_props(), [
                 'required'      => 'yes',
                 'name'          => 'subject',
                 'label'         => 'Subject',
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => __( 'Message', 'weforms' ),
                 'name'     => 'message',
-            ) ),
-        );
+            ] ),
+        ];
 
         return $form_fields;
     }
-
 }

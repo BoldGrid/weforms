@@ -10,7 +10,7 @@ class WeForms_Form_Entry_Manager {
     /**
      * The form id
      *
-     * @var integer
+     * @var int
      */
     private $id = 0;
 
@@ -24,10 +24,10 @@ class WeForms_Form_Entry_Manager {
     /**
      * The constructor
      *
-     * @param integer       $form_id
+     * @param int           $form_id
      * @param \WeForms_Form $form
      */
-    function __construct( $form_id, $form ) {
+    public function __construct( $form_id, $form ) {
         $this->id   = $form_id;
         $this->form = $form;
     }
@@ -44,7 +44,7 @@ class WeForms_Form_Entry_Manager {
     /**
      * Get a single entry
      *
-     * @param  integer $entry_id
+     * @param int $entry_id
      *
      * @return mixed
      */

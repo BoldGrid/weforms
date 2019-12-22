@@ -12,8 +12,7 @@ class WeForms_Field_Manager {
      *
      * @var array
      */
-    private $fields = array();
-
+    private $fields = [];
 
     /**
      * Going to store WeForms_Notification instance for tmp. Will refactor
@@ -28,8 +27,7 @@ class WeForms_Field_Manager {
      * @return array
      */
     public function get_fields() {
-
-        if ( ! empty( $this->fields ) ) {
+        if ( !empty( $this->fields ) ) {
             return $this->fields;
         }
 
@@ -44,25 +42,25 @@ class WeForms_Field_Manager {
      * @return void
      */
     private function register_field_types() {
-        require_once dirname( __FILE__ ) . '/fields/class-abstract-fields.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-text.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-name.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-email.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-textarea.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-column.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-checkbox.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-radio.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-dropdown.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-multidropdown.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-url.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-sectionbreak.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-html.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-hidden.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-image.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-recaptcha.php';
-        require_once dirname( __FILE__ ) . '/fields/class-field-date.php';
+        require_once __DIR__ . '/fields/class-abstract-fields.php';
+        require_once __DIR__ . '/fields/class-field-text.php';
+        require_once __DIR__ . '/fields/class-field-name.php';
+        require_once __DIR__ . '/fields/class-field-email.php';
+        require_once __DIR__ . '/fields/class-field-textarea.php';
+        require_once __DIR__ . '/fields/class-field-column.php';
+        require_once __DIR__ . '/fields/class-field-checkbox.php';
+        require_once __DIR__ . '/fields/class-field-radio.php';
+        require_once __DIR__ . '/fields/class-field-dropdown.php';
+        require_once __DIR__ . '/fields/class-field-multidropdown.php';
+        require_once __DIR__ . '/fields/class-field-url.php';
+        require_once __DIR__ . '/fields/class-field-sectionbreak.php';
+        require_once __DIR__ . '/fields/class-field-html.php';
+        require_once __DIR__ . '/fields/class-field-hidden.php';
+        require_once __DIR__ . '/fields/class-field-image.php';
+        require_once __DIR__ . '/fields/class-field-recaptcha.php';
+        require_once __DIR__ . '/fields/class-field-date.php';
 
-        $fields = array(
+        $fields = [
             'text_field'          => new WeForms_Form_Field_Text(),
             'name_field'          => new WeForms_Form_Field_Name(),
             'date_field'          => new WeForms_Form_Field_Date_Free(),
@@ -79,7 +77,7 @@ class WeForms_Field_Manager {
             'custom_hidden_field' => new WeForms_Form_Field_Hidden(),
             'image_upload'        => new WeForms_Form_Field_Image(),
             'recaptcha'           => new WeForms_Form_Field_reCaptcha(),
-        );
+        ];
 
         $this->fields = apply_filters( 'weforms_form_fields', $fields );
     }
@@ -90,41 +88,40 @@ class WeForms_Field_Manager {
      * @return array
      */
     public function get_field_groups() {
-
-        $groups = array(
-            array(
+        $groups = [
+            [
                 'title'  => __( 'Custom Fields', 'weforms' ),
                 'id'     => 'custom-fields',
                 'fields' => apply_filters( 'weforms_field_groups_custom',
-                    array(
-						'name_field',
-						'text_field',
-						'textarea_field',
-						'dropdown_field',
-						'multiple_select',
-						'radio_field',
-						'checkbox_field',
-						'website_url',
-						'email_address',
-						'custom_hidden_field',
-						'image_upload'
-                    )
-                )
-            ),
+                    [
+                        'name_field',
+                        'text_field',
+                        'textarea_field',
+                        'dropdown_field',
+                        'multiple_select',
+                        'radio_field',
+                        'checkbox_field',
+                        'website_url',
+                        'email_address',
+                        'custom_hidden_field',
+                        'image_upload',
+                    ]
+                  ),
+            ],
 
-            array(
+            [
                 'title'  => __( 'Others', 'weforms' ),
                 'id'     => 'others',
                 'fields' => apply_filters( 'weforms_field_groups_others',
-                    array(
-						'column_field',
+                    [
+                        'column_field',
                         'section_break',
-						'custom_html',
-						'recaptcha'
-                    )
-                )
-            )
-        );
+                        'custom_html',
+                        'recaptcha',
+                    ]
+                  ),
+            ],
+        ];
 
         return apply_filters( 'weforms_field_groups', $groups );
     }
@@ -136,7 +133,7 @@ class WeForms_Field_Manager {
      */
     public function get_js_settings() {
         $fields   = $this->get_fields();
-        $js_array = array();
+        $js_array = [];
 
         if ( $fields ) {
             foreach ( $fields as $type => $object ) {
@@ -150,14 +147,14 @@ class WeForms_Field_Manager {
     /**
      * Render the form fields
      *
-     * @param  integer $form_id
-     * @param  array   $fields
-     * @param  array   $atts
+     * @param int   $form_id
+     * @param array $fields
+     * @param array $atts
      *
      * @return void
      */
-    public function render_fields( $fields, $form_id, $atts = array() ) {
-        if ( ! $fields ) {
+    public function render_fields( $fields, $form_id, $atts = [] ) {
+        if ( !$fields ) {
             return;
         }
 
@@ -167,8 +164,7 @@ class WeForms_Field_Manager {
         $fields = apply_filters( 'weforms_render_fields', $fields, $form_id );
 
         foreach ( $fields as $field ) {
-            if ( ! $field_object = $this->field_exists( $field['template'] ) ) {
-
+            if ( !$field_object = $this->field_exists( $field['template'] ) ) {
                 if ( defined( 'WP_DEBUG' && WP_DEBUG ) ) {
                     echo '<h4 style="color: red;"><em>' . $field['template'] . '</em> field not found.</h4>';
                 }
@@ -186,31 +182,29 @@ class WeForms_Field_Manager {
     /**
      * Filter dynamic fields
      *
-     * @param  array   $form_field
-     * @param  integer $form_id
+     * @param array $form_field
+     * @param int   $form_id
      *
      * @return void
      */
-    function dynamic_fields( $form_field, $form_id, $atts = array() ) {
-
-        if ( ! isset( $form_field['dynamic'] ) || empty( $form_field['dynamic']['status'] ) || empty( $form_field['dynamic']['param_name'] ) ) {
+    public function dynamic_fields( $form_field, $form_id, $atts = [] ) {
+        if ( !isset( $form_field['dynamic'] ) || empty( $form_field['dynamic']['status'] ) || empty( $form_field['dynamic']['param_name'] ) ) {
             return $form_field;
         }
 
         $param_name = $form_field['dynamic']['param_name'];
 
         if ( isset( $form_field['options'] ) ) {
-            $form_field['options'] = apply_filters( 'weforms_field_options_' . $param_name , $form_field['options'], $form_id );
+            $form_field['options'] = apply_filters( 'weforms_field_options_' . $param_name, $form_field['options'], $form_id );
 
             if ( isset( $_GET[ $param_name ] ) && is_array( $_GET[ $param_name ] ) ) {
                 $form_field['default'] = array_merge( $form_field['options'], $_GET[ $param_name ] );
             }
         }
 
-        foreach ( array( 'default', 'selected' ) as $key => $default_key ) {
-
+        foreach ( [ 'default', 'selected' ] as $key => $default_key ) {
             if ( isset( $form_field[ $default_key ] ) ) {
-                $form_field[ $default_key ] = apply_filters( 'weforms_field_default_value_' . $param_name , $form_field[ $default_key ], $form_id );
+                $form_field[ $default_key ] = apply_filters( 'weforms_field_default_value_' . $param_name, $form_field[ $default_key ], $form_id );
 
                 if ( isset( $atts[ $param_name ] ) ) {
                     $form_field[ $default_key ] = $atts[ $param_name ];
@@ -221,7 +215,7 @@ class WeForms_Field_Manager {
                         $form_field[ $default_key ] = $_GET[ $param_name ];
                     }
 
-                    if ( ! is_array( $form_field[ $default_key ] ) == ! is_array( $_GET[ $param_name ] ) ) {
+                    if ( !is_array( $form_field[ $default_key ] ) == !is_array( $_GET[ $param_name ] ) ) {
                         $form_field[ $default_key ] = $_GET[ $param_name ];
                     }
                 }
@@ -234,37 +228,33 @@ class WeForms_Field_Manager {
     /**
      * Replace merge tags
      *
-     * @param  array   $form_field
-     * @param  integer $form_id
+     * @param array $form_field
+     * @param int   $form_id
      *
      * @return void
      */
-    function replace_tags( $form_field, $form_id, $atts = array() ) {
-
-        $fields = array(
+    public function replace_tags( $form_field, $form_id, $atts = [] ) {
+        $fields = [
             'default',
             'placeholder',
-            'first_name'  => array( 'placeholder', 'default' ),
-            'middle_name' => array( 'placeholder', 'default' ),
-            'last_name'   => array( 'placeholder', 'default' ),
-        );
+            'first_name'  => [ 'placeholder', 'default' ],
+            'middle_name' => [ 'placeholder', 'default' ],
+            'last_name'   => [ 'placeholder', 'default' ],
+        ];
 
         foreach ( $fields as $key => $field ) {
-
             if ( is_array( $field ) ) {
-
                 foreach ( $field as $k => $sub_field ) {
-                    if ( ! empty( $form_field[ $key ] ) && ! empty( $form_field[ $key ][ $sub_field ] ) ) {
+                    if ( !empty( $form_field[ $key ] ) && !empty( $form_field[ $key ][ $sub_field ] ) ) {
                         $form_field[ $key ][ $sub_field ] = $this->notification->replace_tags( $form_field[ $key ][ $sub_field ] );
                     }
                 }
-			} else {
-
-                if ( ! empty( $form_field[ $field ] ) && is_string( $form_field[ $field ] ) ) {
+            } else {
+                if ( !empty( $form_field[ $field ] ) && is_string( $form_field[ $field ] ) ) {
                     $form_field[ $field ] = $this->notification->replace_tags( $form_field[ $field ] );
-				}
+                }
             }
-		}
+        }
 
         return $form_field;
     }
@@ -272,9 +262,9 @@ class WeForms_Field_Manager {
     /**
      * Check if a field exists
      *
-     * @param  string $field_type
+     * @param string $field_type
      *
-     * @return boolean
+     * @return bool
      */
     public function field_exists( $field_type ) {
         if ( array_key_exists( $field_type, $this->get_fields() ) ) {

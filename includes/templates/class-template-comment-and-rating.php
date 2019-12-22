@@ -12,7 +12,7 @@ class WeForms_Template_Comment_Rating extends WeForms_Form_Template {
         $this->description    = '';
         $this->category       = 'default';
         $this->image          = WEFORMS_ASSET_URI . '/images/form-template/comment-and-rating.png';
-        $this->category    = 'feedback';
+        $this->category       = 'feedback';
     }
 
     /**
@@ -23,22 +23,22 @@ class WeForms_Template_Comment_Rating extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array(
-            array_merge( $all_fields['ratings']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['ratings']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => 'Rating',
                 'name'     => 'rating',
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
                 'label'    => __( 'Comment', 'weforms' ),
                 'name'     => 'comment',
-            ) ),
-            array_merge( $all_fields['text_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['text_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => 'Name',
                 'name'     => 'name',
-            ) ),
-        );
+            ] ),
+        ];
 
         return $form_fields;
     }
@@ -51,11 +51,10 @@ class WeForms_Template_Comment_Rating extends WeForms_Form_Template {
     public function get_form_settings() {
         $defaults = $this->get_default_settings();
 
-        return array_merge( $defaults, array(
+        return array_merge( $defaults, [
             'message'           => __( 'Thanks for your rating!', 'weforms' ),
             'submit_text'       => __( 'Submit', 'weforms' ),
             'label_position'    => 'left',
-        ) );
+        ] );
     }
-
 }

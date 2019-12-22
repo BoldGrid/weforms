@@ -2,15 +2,16 @@
 /**
  * Email Styles
  */
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+} // Exit if accessed directly
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
-$settings = weforms_get_settings( 'email_settings', array(
+$settings = weforms_get_settings( 'email_settings', [
     'background_color'      => '#f5f5f5',
     'body_background_color' => '#ffffff',
     'base_color'            => '#444444',
-    'text_color'            => '#444444'
-) );
+    'text_color'            => '#444444',
+] );
 
 // Load colours
 $bg              = $settings['background_color'];

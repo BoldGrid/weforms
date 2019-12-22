@@ -10,19 +10,18 @@ class WeForms_Form_Builder_Assets {
     }
 
     public function init_actions() {
+        add_action( 'in_admin_header', [ $this, 'remove_admin_notices' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'builder_enqueue_scripts' ], 2000 );
+        add_action( 'admin_print_scripts', [ $this, 'builder_mixins_script' ] );
+        add_action( 'admin_footer', [ $this, 'admin_footer_js_templates' ] );
 
-        add_action( 'in_admin_header', array( $this, 'remove_admin_notices' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'builder_enqueue_scripts' ), 2000 );
-        add_action( 'admin_print_scripts', array( $this, 'builder_mixins_script' ) );
-        add_action( 'admin_footer', array( $this, 'admin_footer_js_templates' ) );
+        add_action( 'wpuf-form-builder-template-builder-stage-submit-area', [ $this, 'add_form_submit_area' ] );
 
-        add_action( 'wpuf-form-builder-template-builder-stage-submit-area', array( $this, 'add_form_submit_area' ) );
+        add_action( 'wpuf-form-builder-tabs-contact_form', [ $this, 'add_primary_tabs' ] );
+        add_action( 'wpuf-form-builder-tab-contents-contact_form', [ $this, 'add_primary_tab_contents' ] );
 
-        add_action( 'wpuf-form-builder-tabs-contact_form', array( $this, 'add_primary_tabs' ) );
-        add_action( 'wpuf-form-builder-tab-contents-contact_form', array( $this, 'add_primary_tab_contents' ) );
-
-        add_action( 'wpuf-form-builder-settings-tabs-contact_form', array( $this, 'add_settings_tabs' ) );
-        add_action( 'wpuf-form-builder-settings-tab-contents-contact_form', array( $this, 'add_settings_tab_contents' ) );
+        add_action( 'wpuf-form-builder-settings-tabs-contact_form', [ $this, 'add_settings_tabs' ] );
+        add_action( 'wpuf-form-builder-settings-tab-contents-contact_form', [ $this, 'add_settings_tab_contents' ] );
 
         do_action( 'weforms_form_builder_init' );
     }
@@ -44,7 +43,6 @@ class WeForms_Form_Builder_Assets {
         remove_all_actions( 'all_admin_notices' );
     }
 
-
     public function builder_enqueue_scripts() {
         $prefix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
@@ -52,19 +50,17 @@ class WeForms_Form_Builder_Assets {
 
         $recaptcha = weforms_get_settings( 'recaptcha' );
 
-        $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', array(
+        $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', [
             'i18n'                => $this->i18n(),
             'panel_sections'      => weforms()->fields->get_field_groups(),
             'field_settings'      => weforms()->fields->get_js_settings(),
             'pro_link'            => self::get_pro_url(),
-            'site_url'            => site_url('/'),
-            'defaultNotification' => array(
+            'site_url'            => site_url( '/' ),
+            'defaultNotification' => [
                 'active'       => 'true',
-
                 'type'         => 'email',
                 'smsTo'        => '',
                 'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
-
                 'name'         => 'Admin Notification',
                 'subject'      => '[{form_name}] New Form Submission #{entry_id}',
                 'to'           => '{admin_email}',
@@ -74,43 +70,43 @@ class WeForms_Form_Builder_Assets {
                 'fromAddress'  => '{admin_email}',
                 'cc'           => '',
                 'bcc'          => '',
-                'weforms_cond' => array(
+                'weforms_cond' => [
                     'condition_status' => 'no',
                     'cond_logic'       => 'any',
-                    'conditions'       => array(
-                        array(
+                    'conditions'       => [
+                        [
                             'name'     => '',
                             'operator' => '=',
-                            'option'   => ''
-                        )
-                    )
-                )
-            ),
+                            'option'   => '',
+                        ],
+                    ],
+                ],
+            ],
             'integrations'     => weforms()->integrations->get_integration_js_settings(),
             'recaptcha_site'   => isset( $recaptcha->key ) ? $recaptcha->key : '',
             'recaptcha_secret' => isset( $recaptcha->secret ) ? $recaptcha->secret : '',
-        ) );
+        ] );
 
         // mixins
-        $wpuf_mixins = array(
-            'root'           => apply_filters( 'weforms-builder-js-root-mixins', array( 'weforms_mixin_builder_root' ) ),
-            'builder_stage'  => apply_filters( 'weforms-builder-js-builder-stage-mixins', array( 'weforms_mixin_builder_stage' ) ),
-            'form_fields'    => apply_filters( 'weforms-builder-js-form-fields-mixins', array() ),
-            'field_options'  => apply_filters( 'weforms-builder-js-field-options-mixins', array() ),
-        );
+        $wpuf_mixins = [
+            'root'           => apply_filters( 'weforms-builder-js-root-mixins', [ 'weforms_mixin_builder_root' ] ),
+            'builder_stage'  => apply_filters( 'weforms-builder-js-builder-stage-mixins', [ 'weforms_mixin_builder_stage' ] ),
+            'form_fields'    => apply_filters( 'weforms-builder-js-form-fields-mixins', [] ),
+            'field_options'  => apply_filters( 'weforms-builder-js-field-options-mixins', [] ),
+        ];
 
-        $weforms = apply_filters( 'weforms_localized_script', array(
+        $weforms = apply_filters( 'weforms_localized_script', [
             'nonce'           => wp_create_nonce( 'weforms' ),
             'confirm'         => __( 'Are you sure?', 'weforms' ),
             'is_pro'          => class_exists( 'WeForms_Pro' ) ? 'true' : 'false',
             'has_payment'     => class_exists( 'WeForms_Payment' ) ? 'true' : 'false',
             'has_sms'         => class_exists( 'WeForms_SMS_Notification' ) ? 'true' : 'false',
             'routes'          => $this->get_vue_routes(),
-            'routeComponents' => array( 'default' => null ),
-            'mixins'          => array( 'default' => null ),
+            'routeComponents' => [ 'default' => null ],
+            'mixins'          => [ 'default' => null ],
             'assetsURL'       => WEFORMS_ASSET_URI,
             'shortcodes'      => $this->shortcodes(),
-        ) );
+        ] );
 
         wp_localize_script( 'weforms-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );
         wp_localize_script( 'weforms-form-builder-mixins', 'wpuf_mixins', $wpuf_mixins );
@@ -128,7 +124,7 @@ class WeForms_Form_Builder_Assets {
         $link = 'https://wedevs.com/weforms-upgrade/';
 
         if ( $aff = get_option( '_weforms_aff_ref' ) ) {
-            $link = add_query_arg( array( 'ref' => $aff ), $link );
+            $link = add_query_arg( [ 'ref' => $aff ], $link );
         }
 
         return $link;
@@ -140,71 +136,71 @@ class WeForms_Form_Builder_Assets {
      * @return array
      */
     public function get_vue_routes() {
-        $routes = array(
-            array(
+        $routes = [
+            [
                 'path'      => '/',
                 'name'      => 'home',
-                'component' => 'Home'
-            ),
-            array(
+                'component' => 'Home',
+            ],
+            [
                 'path'      => '/form/:id',
                 'component' => 'FormHome',
-                'children'  => array(
-                    array(
+                'children'  => [
+                    [
                         'path'      => '',
                         'name'      => 'form',
-                        'component' => 'SingleForm'
-                    ),
-                    array(
+                        'component' => 'SingleForm',
+                    ],
+                    [
                         'path'      => 'entries',
                         'component' => 'FormEntriesHome',
-                        'children'  => array(
-                            array(
+                        'children'  => [
+                            [
                                 'path'      => '',
                                 'name'      => 'formEntries',
                                 'component' => 'FormEntries',
-                                'props'     => true
-                            ),
-                            array(
+                                'props'     => true,
+                            ],
+                            [
                                 'path'      => ':entryid',
                                 'name'      => 'formEntriesSingle',
-                                'component' => 'FormEntriesSingle'
-                            )
-                        )
-                    ),
-                    array(
+                                'component' => 'FormEntriesSingle',
+                            ],
+                        ],
+                    ],
+                    [
                         'path'      => 'edit',
                         'name'      => 'edit',
-                        'component' => 'FormEditComponent'
-                    )
-                )
-            ),
-            array(
+                        'component' => 'FormEditComponent',
+                    ],
+                ],
+            ],
+            [
                 'path'      => '/tools',
                 'name'      => 'tools',
-                'component' => 'Tools'
-            ),
-            array(
+                'component' => 'Tools',
+            ],
+            [
                 'path'      => '/entries',
                 'name'      => 'entries',
-                'component' => 'Entries'
-            ),
-            array(
+                'component' => 'Entries',
+            ],
+            [
                 'path'      => '/help',
                 'name'      => 'help',
-                'component' => 'Help'
-            ),
-            array(
+                'component' => 'Help',
+            ],
+            [
                 'path'      => '/premium',
                 'name'      => 'premium',
-                'component' => 'Premium'
-            ),
-            array(
+                'component' => 'Premium',
+            ],
+            [
                 'path'      => '/settings',
                 'name'      => 'settings',
-                'component' => 'Settings'
-            ),
-        );
+                'component' => 'Settings',
+            ],
+        ];
 
         return apply_filters( 'weforms_vue_routes', $routes );
     }
@@ -252,8 +248,7 @@ class WeForms_Form_Builder_Assets {
      * @return void
      */
     public function admin_footer_js_templates() {
-
-        if ( ! defined( 'WPUF_ASSET_URI' ) ) {
+        if ( !defined( 'WPUF_ASSET_URI' ) ) {
             define( 'WPUF_ASSET_URI', WEFORMS_ROOT_URI . '/assets' );
         }
 
@@ -272,7 +267,7 @@ class WeForms_Form_Builder_Assets {
      * @return array
      */
     private function i18n() {
-        return apply_filters( 'wpuf-form-builder-i18n', array(
+        return apply_filters( 'wpuf-form-builder-i18n', [
             'advanced_options'      => __( 'Advanced Options', 'weforms' ),
             'quiz_options'          => __( 'Quiz Options', 'weforms' ),
             'delete_field_warn_msg' => __( 'Are you sure you want to delete this field?', 'weforms' ),
@@ -301,14 +296,13 @@ class WeForms_Form_Builder_Assets {
             'uploadAnImage'         => __( 'Upload an image', 'weforms' ),
 
             'shareYourForm'         => __( 'Share Your Form', 'weforms' ),
-            'shareYourFormDesc'     => __( "Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.", 'weforms' ),
-            'shareYourFormText'     => __( "Anyone with this URL will be able to view and submit this form.", 'weforms' ),
+            'shareYourFormDesc'     => __( 'Sharing your form enables <strong>anyone</strong> to view and submit the form without inserting the shortcode to a page.', 'weforms' ),
+            'shareYourFormText'     => __( 'Anyone with this URL will be able to view and submit this form.', 'weforms' ),
             'areYouSure'            => __( 'Are you sure?', 'weforms' ),
             'selectNotification'    => __( 'You must select a notification', 'weforms' ),
             'areYouSureDesc'        => __( 'Anyone with existing URL won\'t be able to view and submit the form anymore.', 'weforms' ),
             'disableSharing'        => __( 'Disable Sharing', 'weforms' ),
-
-        ) );
+        ] );
     }
 
     /**
@@ -328,12 +322,12 @@ class WeForms_Form_Builder_Assets {
      * @return void
      */
     public function add_primary_tabs() {
-        $tabs = apply_filters( 'wpuf_contact_form_editor_tabs', array(
+        $tabs = apply_filters( 'wpuf_contact_form_editor_tabs', [
             'notification' => __( 'Notifications', 'weforms' ),
-            'integration'  => __( 'Integrations', 'weforms' )
-        ) );
+            'integration'  => __( 'Integrations', 'weforms' ),
+        ] );
 
-        foreach ($tabs as $key => $label) {
+        foreach ( $tabs as $key => $label ) {
             ?>
             <a href="#wpuf-form-builder-tab-<?php echo $key; ?>" :class="['nav-tab', isActiveTab( '<?php echo $key; ?>' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('<?php echo $key; ?>')"><?php echo $label; ?></a>
             <?php
@@ -341,7 +335,7 @@ class WeForms_Form_Builder_Assets {
     }
 
     public function add_primary_tab_contents() {
-        include dirname( __FILE__ ) . '/views/notification-integration.php';
+        include __DIR__ . '/views/notification-integration.php';
     }
 
     /**
@@ -369,22 +363,21 @@ class WeForms_Form_Builder_Assets {
     public function add_settings_tab_contents() {
         ?>
             <div id="wpuf-metabox-settings" class="tab-content" v-show="isActiveSettingsTab('form')">
-                <?php include_once dirname( __FILE__ ) . '/views/form-settings.php'; ?>
+                <?php include_once __DIR__ . '/views/form-settings.php'; ?>
             </div>
 
             <div id="wpuf-metabox-settings-restriction" class="tab-content" v-show="isActiveSettingsTab('restriction')">
-                <?php include_once dirname( __FILE__ ) . '/views/submission-restriction.php'; ?>
+                <?php include_once __DIR__ . '/views/submission-restriction.php'; ?>
             </div>
 
             <div id="wpuf-metabox-settings-display" class="tab-content" v-show="isActiveSettingsTab('display')">
-                <?php include_once dirname( __FILE__ ) . '/views/display-settings.php'; ?>
+                <?php include_once __DIR__ . '/views/display-settings.php'; ?>
             </div>
 
             <?php do_action( 'wpuf_contact_form_settings_tab_content' ); ?>
 
         <?php
     }
-
 
     public function shortcodes( $type = '' ) {
         $shortcodes = [];
@@ -393,7 +386,7 @@ class WeForms_Form_Builder_Assets {
             'title' => __( 'User', 'weforms' ),
             'codes' => [
                 'first_name'        => [ 'title' => __( 'First Name', 'weforms' ), 'default' => 'reader' ],
-            ]
+            ],
         ];
 
         if ( !empty( $type ) && !empty( $shortcodes[ $type ] ) ) {

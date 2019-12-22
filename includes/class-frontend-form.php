@@ -6,14 +6,14 @@
 class WeForms_Frontend_Form {
 
     public function __construct() {
-        add_shortcode( 'weforms', array( $this, 'render_shortcode' ) );
+        add_shortcode( 'weforms', [ $this, 'render_shortcode' ] );
     }
 
     /**
      * Show form error
      *
-     * @param  string $message
-     * @param  string $type
+     * @param string $message
+     * @param string $type
      *
      * @return string
      */
@@ -24,13 +24,13 @@ class WeForms_Frontend_Form {
     /**
      * Render contact form shortcode
      *
-     * @param  array $atts
-     * @param  string $contents
+     * @param array  $atts
+     * @param string $contents
      *
      * @return string
      */
     public function render_shortcode( $atts, $contents = '' ) {
-        extract( shortcode_atts( array( 'id' => 0 ), $atts ) );
+        extract( shortcode_atts( [ 'id' => 0 ], $atts ) );
 
         weforms()->scripts->enqueue_frontend();
 
@@ -38,7 +38,7 @@ class WeForms_Frontend_Form {
 
         $form = weforms()->form->get( $id );
 
-        if ( ! $form->id ) {
+        if ( !$form->id ) {
             return $this->show_error( __( 'The form couldn\'t be found.', 'weforms' ) );
         }
 
@@ -56,11 +56,11 @@ class WeForms_Frontend_Form {
     /**
      * Render the form
      *
-     * @param  \WeForms_Form $form
+     * @param \WeForms_Form $form
      *
      * @return void
      */
-    function render_form( $form, $atts ) {
+    public function render_form( $form, $atts ) {
         $form_fields      = $form->get_fields();
         $form_settings    = $form->get_settings();
         $show_credit      = weforms_get_settings( 'credit', false );
@@ -68,19 +68,15 @@ class WeForms_Frontend_Form {
         $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
 
         if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
-
-            wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', array( 'jquery', 'weforms-form' ), false, false );
+            wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', [ 'jquery', 'weforms-form' ], false, false );
             wp_enqueue_style( 'weforms_modal_styles', WEFORMS_ASSET_URI . '/modal/jquery.modal.css' );
 
             $modal_class = 'modal';
-            $modal_id = 'modal-form';
+            $modal_id    = 'modal-form';
             $modal_style = 'style="display:none"';
-
         } else {
             $modal_class = $modal_id = $modal_style = '';
-        }
-
-        ?>
+        } ?>
 
         <script type="text/javascript">
             if ( typeof wpuf_conditional_items === 'undefined' ) {
@@ -96,7 +92,7 @@ class WeForms_Frontend_Form {
             }
         </script>
 
-        <form class="wpuf-form-add <?php echo $formid ?> <?php echo $modal_class; ?> <?php echo $use_theme_css; ?>" action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
+        <form class="wpuf-form-add <?php echo $formid; ?> <?php echo $modal_class; ?> <?php echo $use_theme_css; ?>" action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
 
             <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
 
@@ -108,18 +104,17 @@ class WeForms_Frontend_Form {
 
                 weforms()->fields->render_fields( $form_fields, $form->id, $atts );
 
-                /**
+                /*
                  * @since 1.1.1
                  */
                 do_action( 'weforms_form_fields_before_submit_button', $form, $form_fields, $form_settings );
 
                 $this->submit_button( $form->id, $form_settings );
 
-                /**
+                /*
                  * @since 1.1.0
                  */
-                do_action( 'weforms_form_fields_bottom', $form, $form_fields );
-                ?>
+                do_action( 'weforms_form_fields_bottom', $form, $form_fields ); ?>
             </ul>
 
         </form>
@@ -127,14 +122,14 @@ class WeForms_Frontend_Form {
         <?php
         if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
             if ( isset( $atts['link'] ) ) {
-                printf('<p><a href="#modal-form" rel="modal:open">%s</a></p>', $atts['link'] );
+                printf( '<p><a href="#modal-form" rel="modal:open">%s</a></p>', $atts['link'] );
             } else {
                 if ( isset( $atts['button'] ) ) {
                     $button_text = $atts['button'];
                 } else {
                     $button_text = __( 'Open Form', 'weforms' );
                 }
-                printf('<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $button_text );
+                printf( '<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $button_text );
             }
         }
 
@@ -148,12 +143,12 @@ class WeForms_Frontend_Form {
     /**
      * Render submit button
      *
-     * @param  integer $form_id
-     * @param  array   $form_settings
+     * @param int   $form_id
+     * @param array $form_settings
      *
      * @return void
      */
-    function submit_button( $form_id, $form_settings ) {
+    public function submit_button( $form_id, $form_settings ) {
         ?>
         <li class="wpuf-submit">
             <div class="wpuf-label">

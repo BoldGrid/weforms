@@ -26,7 +26,7 @@ $config = PhpCsFixer\Config::create()
             'allow_single_line_closure'                   => false,
         ],
         'cast_spaces'                             => ['space' => 'single'],
-        'class_attributes_separation'             => ['elements' => ['method']],
+        'class_attributes_separation'             => ['elements' => ['method', 'const'], 'property'],
         'class_definition'                        => ['single_line' => true],
         'concat_space'                            => ['spacing' => 'one'],
         'constant_case'                           => ['case' => 'lower'],

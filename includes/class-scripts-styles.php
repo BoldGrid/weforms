@@ -10,13 +10,12 @@ class WeForms_Scripts_Styles {
     /**
      * The constructor
      */
-    function __construct() {
-
+    public function __construct() {
         if ( is_admin() ) {
-            add_action( 'admin_enqueue_scripts', array( $this, 'register_backend' ), 1800 );
-            add_action( 'admin_enqueue_scripts', array( $this, 'no_conflict_mode' ), 1500 );
+            add_action( 'admin_enqueue_scripts', [ $this, 'register_backend' ], 1800 );
+            add_action( 'admin_enqueue_scripts', [ $this, 'no_conflict_mode' ], 1500 );
         } else {
-            add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
+            add_action( 'wp_enqueue_scripts', [ $this, 'register_frontend' ] );
         }
     }
 
@@ -28,8 +27,8 @@ class WeForms_Scripts_Styles {
     public function no_conflict_mode() {
         global $wp_scripts;
 
-        $reg_arr = array();
-        $required_objects = array (
+        $reg_arr          = [];
+        $required_objects =  [
             'utils',
             'common',
             'wp-ajax-response',
@@ -130,7 +129,7 @@ class WeForms_Scripts_Styles {
             'weforms-pro-wpuf-form-mixins',
             'weforms-pro-wpuf-form-components',
             'weforms-pro-components',
-        );
+        ];
 
         $wpuf_settings = weforms_get_settings();
         $screen        = get_current_screen();
@@ -145,15 +144,14 @@ class WeForms_Scripts_Styles {
                 }
             }
 
-//            $this->enqueue_scripts( $this->get_admin_scripts() );
+           // $this->enqueue_scripts( $this->get_admin_scripts() );
 
-//            foreach ( $reg_arr as $reg_obj ) {
-//                if ( !in_array( $reg_obj, $wp_scripts->queue ) ) {
-//                    wp_enqueue_script( $reg_obj );
-//                }
-//            }
+           // foreach ( $reg_arr as $reg_obj ) {
+           //     if ( !in_array( $reg_obj, $wp_scripts->queue ) ) {
+           //         wp_enqueue_script( $reg_obj );
+           //     }
+           // }
         }
-
     }
 
     /**
@@ -176,6 +174,7 @@ class WeForms_Scripts_Styles {
     public function register_backend() {
         // bail out if not weforms screen
         $screen = get_current_screen();
+
         if ( $screen->base != 'toplevel_page_weforms' ) {
             return;
         }
@@ -225,7 +224,7 @@ class WeForms_Scripts_Styles {
     public function get_admin_scripts() {
         $prefix = $this->get_prefix();
 
-        $form_builder_js_deps = apply_filters( 'weforms-form-builder-js-deps', array(
+        $form_builder_js_deps = apply_filters( 'weforms-form-builder-js-deps', [
             'jquery',
             'jquery-ui-sortable',
             'jquery-ui-draggable',
@@ -234,53 +233,53 @@ class WeForms_Scripts_Styles {
             'jquery-ui-datepicker',
             'weforms-tiny-mce',
             'underscore',
-        ) );
+        ] );
 
-        $builder_scripts = apply_filters( 'weforms_builder_scripts', array(
-            'weforms-tiny-mce' => array(
+        $builder_scripts = apply_filters( 'weforms_builder_scripts', [
+            'weforms-tiny-mce' => [
                 'src'       => site_url( '/wp-includes/js/tinymce/tinymce.min.js' ),
-                'deps'      => array(),
-                'in_footer' => true
-            ),
-            'weforms-vendor' => array(
+                'deps'      => [],
+                'in_footer' => true,
+            ],
+            'weforms-vendor' => [
                 'src'       => WEFORMS_ASSET_URI . '/js/vendor' . $prefix . '.js',
                 'deps'      => $form_builder_js_deps,
-                'in_footer' => true
-            ),
-            'weforms-form-builder-mixins' => array(
+                'in_footer' => true,
+            ],
+            'weforms-form-builder-mixins' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/wpuf-form-builder-mixins.js',
-                'deps'      => array('weforms-vendor'),
-                'in_footer' => true
-            ),
-            'weforms-form-builder-mixins-form' => array(
+                'deps'      => ['weforms-vendor'],
+                'in_footer' => true,
+            ],
+            'weforms-form-builder-mixins-form' => [
                 'src'       => WEFORMS_ASSET_URI . '/js/wpuf-form-builder-contact-forms' . $prefix . '.js',
-                'deps'      => array('weforms-vendor'),
-                'in_footer' => true
-            ),
-            'weforms-form-builder-components' => array(
+                'deps'      => ['weforms-vendor'],
+                'in_footer' => true,
+            ],
+            'weforms-form-builder-components' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/wpuf-form-builder-components' . $prefix . '.js',
-                'deps'      => array( 'weforms-form-builder-mixins', 'weforms-form-builder-mixins-form' ),
-                'in_footer' => true
-            ),
-        ) );
+                'deps'      => [ 'weforms-form-builder-mixins', 'weforms-form-builder-mixins-form' ],
+                'in_footer' => true,
+            ],
+        ] );
 
-        $spa_scripts = array(
-            'weforms-mixins' => array(
+        $spa_scripts = [
+            'weforms-mixins' => [
                 'src'       => WEFORMS_ASSET_URI . '/js/spa-mixins' . $prefix . '.js',
-                'deps'      => array( 'weforms-vendor', 'wp-util' ),
-                'in_footer' => true
-            ),
-            'weforms-components' => array(
+                'deps'      => [ 'weforms-vendor', 'wp-util' ],
+                'in_footer' => true,
+            ],
+            'weforms-components' => [
                 'src'       => WEFORMS_ASSET_URI . '/js/form-builder-components' . $prefix . '.js',
-                'deps'      => array( 'weforms-vendor', 'wp-util' ),
-                'in_footer' => true
-            ),
-            'weforms-app' => array(
+                'deps'      => [ 'weforms-vendor', 'wp-util' ],
+                'in_footer' => true,
+            ],
+            'weforms-app' => [
                 'src'       => WEFORMS_ASSET_URI . '/js/spa-app' . $prefix . '.js',
-                'deps'      => array( 'weforms-vendor', 'wp-util', 'weforms-form-builder-components' ),
-                'in_footer' => true
-            ),
-        );
+                'deps'      => [ 'weforms-vendor', 'wp-util', 'weforms-form-builder-components' ],
+                'in_footer' => true,
+            ],
+        ];
 
         $scripts = array_merge( $builder_scripts, $spa_scripts );
 
@@ -295,42 +294,41 @@ class WeForms_Scripts_Styles {
     public function get_admin_styles() {
         $frontend_styles = $this->get_frontend_styles();
 
-        $backend_styles = array(
-            'weforms-font-awesome' => array(
+        $backend_styles = [
+            'weforms-font-awesome' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/font-awesome/css/font-awesome.min.css',
-            ),
-            'weforms-sweetalert2' => array(
+            ],
+            'weforms-sweetalert2' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2.css',
-            ),
-            'weforms-selectize' => array(
+            ],
+            'weforms-selectize' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/selectize/css/selectize.default.css',
-            ),
-            'weforms-toastr' => array(
+            ],
+            'weforms-toastr' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/toastr/toastr.min.css',
-            ),
-            'weforms-tooltip' => array(
+            ],
+            'weforms-tooltip' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/tooltip/tooltip.css',
-            ),
-            'weforms-form-builder' => array(
+            ],
+            'weforms-form-builder' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/wpuf-form-builder.css',
-                'deps' => array(
+                'deps' => [
                     'weforms-css',
                     'weforms-font-awesome',
                     'weforms-sweetalert2',
                     'weforms-selectize',
                     'weforms-toastr',
-                    'weforms-tooltip'
-                )
-            ),
-            'weforms-style' => array(
+                    'weforms-tooltip',
+                ],
+            ],
+            'weforms-style' => [
                 'src'  => WEFORMS_ASSET_URI . '/css/admin.css',
-            ),
-            'weforms-tiny-mce-css' => array(
+            ],
+            'weforms-tiny-mce-css' => [
                 'src'  => site_url( '/wp-includes/css/editor.css' ),
-                'deps' => array( 'wp-color-picker' )
-            )
-
-        );
+                'deps' => [ 'wp-color-picker' ],
+            ],
+        ];
 
         $styles = array_merge( $frontend_styles, $backend_styles );
 
@@ -343,42 +341,41 @@ class WeForms_Scripts_Styles {
      * @return array
      */
     public function get_frontend_scripts() {
-
         $prefix = $this->get_prefix();
 
-        $scripts = array(
-            'wpuf-form' => array(
+        $scripts = [
+            'wpuf-form' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/frontend-form' . $prefix . '.js',
-                'deps'      => array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider' ),
-                'in_footer' => false
-            ),
-            'wpuf-sweetalert2' => array(
+                'deps'      => [ 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider' ],
+                'in_footer' => false,
+            ],
+            'wpuf-sweetalert2' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2' . $prefix . '.js',
-                'in_footer' => false
-            ),
-            'jquery-ui-timepicker' => array(
+                'in_footer' => false,
+            ],
+            'jquery-ui-timepicker' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/jquery-ui-timepicker-addon' . $prefix . '.js',
-                'deps'      => array( 'jquery-ui-datepicker' ),
-                'in_footer' => false
-            ),
-            'wpuf-upload' => array(
+                'deps'      => [ 'jquery-ui-datepicker' ],
+                'in_footer' => false,
+            ],
+            'wpuf-upload' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/upload' . $prefix . '.js',
-                'deps'      => array( 'jquery', 'plupload-handlers', 'jquery-ui-sortable' ),
-                'in_footer' => false
-            )
-        );
+                'deps'      => [ 'jquery', 'plupload-handlers', 'jquery-ui-sortable' ],
+                'in_footer' => false,
+            ],
+        ];
 
         // load single min file of above scripts including chart js when script debug disabled
         // weforms.min.js/weforms.js file generate by grunt release command
         // check concat:frontendScripts in Gruntfile.js
         if ( !SCRIPT_DEBUG ) {
-            $scripts = array(
-                'wpuf-form' => array(
+            $scripts = [
+                'wpuf-form' => [
                     'src'       => WEFORMS_ASSET_URI . '/js/weforms.min.js',
-                    'deps'      => array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider', 'plupload-handlers', 'jquery-ui-sortable' ),
-                    'in_footer' => false
-                )
-            );
+                    'deps'      => [ 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider', 'plupload-handlers', 'jquery-ui-sortable' ],
+                    'in_footer' => false,
+                ],
+            ];
         }
 
         return apply_filters( 'weforms_frontend_scripts', $scripts );
@@ -390,17 +387,17 @@ class WeForms_Scripts_Styles {
      * @return array
      */
     public function get_frontend_styles() {
-        $styles = array(
-            'weforms-css' => array(
+        $styles = [
+            'weforms-css' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/frontend-forms.css',
-            ),
-            'wpuf-sweetalert2' => array(
+            ],
+            'wpuf-sweetalert2' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2.css',
-            ),
-            'jquery-ui' => array(
+            ],
+            'jquery-ui' => [
                 'src'  => WEFORMS_ASSET_URI . '/wpuf/css/jquery-ui-1.9.1.custom.css',
-            )
-        );
+            ],
+        ];
 
         return apply_filters( 'weforms_frontend_styles', $styles );
     }
@@ -411,49 +408,48 @@ class WeForms_Scripts_Styles {
      * @return void
      */
     public function get_frontend_localized() {
-
-        wp_localize_script( 'wpuf-form', 'wpuf_frontend', apply_filters( 'wpuf_frontend_js_data' , array(
+        wp_localize_script( 'wpuf-form', 'wpuf_frontend', apply_filters( 'wpuf_frontend_js_data', [
             'ajaxurl'       => admin_url( 'admin-ajax.php' ),
             'error_message' => __( 'Please fix the errors to proceed', 'weforms' ),
             'nonce'         => wp_create_nonce( 'wpuf_nonce' ),
-            'word_limit'    => __( 'Word limit reached', 'weforms' )
-        ) ) );
+            'word_limit'    => __( 'Word limit reached', 'weforms' ),
+        ] ) );
 
-        wp_localize_script( 'wpuf-form', 'error_str_obj', array(
+        wp_localize_script( 'wpuf-form', 'error_str_obj', [
             'required'   => __( 'is required', 'weforms' ),
             'mismatch'   => __( 'does not match', 'weforms' ),
             'validation' => __( 'is not valid', 'weforms' ),
             'duplicate'  => __( 'requires a unique entry and this value has already been used', 'weforms' ),
-        ) );
+        ] );
 
-        wp_localize_script( 'wpuf-form', 'wpuf_frontend_upload', array(
+        wp_localize_script( 'wpuf-form', 'wpuf_frontend_upload', [
             'confirmMsg' => __( 'Are you sure?', 'weforms' ),
             'delete_it'  => __( 'Yes, delete it', 'weforms' ),
             'cancel_it'  => __( 'No, cancel it', 'weforms' ),
             'nonce'      => wp_create_nonce( 'wpuf_nonce' ),
             'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-            'plupload'   => array(
+            'plupload'   => [
                 'url'              => admin_url( 'admin-ajax.php' ) . '?nonce=' . wp_create_nonce( 'wpuf-upload-nonce' ),
                 'flash_swf_url'    => includes_url( 'js/plupload/plupload.flash.swf' ),
-                'filters'          => array(
-                    array(
-                        'title' => __( 'Allowed Files', 'weforms' ),
-                        'extensions' => '*'
-                    )
-                ),
+                'filters'          => [
+                    [
+                        'title'      => __( 'Allowed Files', 'weforms' ),
+                        'extensions' => '*',
+                    ],
+                ],
                 'multipart'        => true,
                 'urlstream_upload' => true,
                 'warning'          => __( 'Maximum number of files reached!', 'weforms' ),
                 'size_error'       => __( 'The file you have uploaded exceeds the file size limit. Please try again.', 'weforms' ),
-                'type_error'       => __( 'You have uploaded an incorrect file type. Please try again.', 'weforms' )
-            )
-        ) );
+                'type_error'       => __( 'You have uploaded an incorrect file type. Please try again.', 'weforms' ),
+            ],
+        ] );
     }
 
     /**
      * Register scripts
      *
-     * @param  array $scripts
+     * @param array $scripts
      *
      * @return void
      */
@@ -469,7 +465,7 @@ class WeForms_Scripts_Styles {
     /**
      * Register styles
      *
-     * @param  array $styles
+     * @param array $styles
      *
      * @return void
      */
@@ -484,7 +480,7 @@ class WeForms_Scripts_Styles {
     /**
      * Enqueue the scripts
      *
-     * @param  array $scripts
+     * @param array $scripts
      *
      * @return void
      */
@@ -497,7 +493,7 @@ class WeForms_Scripts_Styles {
     /**
      * Enqueue styles
      *
-     * @param  array $styles
+     * @param array $styles
      *
      * @return void
      */

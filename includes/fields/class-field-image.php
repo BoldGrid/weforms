@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Image extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Image Upload', 'weforms' );
         $this->input_type = 'image_upload';
         $this->icon       = 'file-image-o';
@@ -14,14 +14,13 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $unique_id = sprintf( '%s-%d', $field_settings['name'], $form_id );
-        ?>
+        $unique_id = sprintf( '%s-%d', $field_settings['name'], $form_id ); ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -41,7 +40,7 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
             <script type="text/javascript">
                 ;(function($) {
                     $(document).ready( function(){
-                        var uploader = new WPUF_Uploader('wpuf-<?php echo $unique_id; ?>-pickfiles', 'wpuf-<?php echo $unique_id; ?>-upload-container', <?php echo $field_settings['count']; ?>, '<?php echo $field_settings['name']; ?>', 'jpg,jpeg,gif,png,bmp', <?php echo $field_settings['max_size'] ?>);
+                        var uploader = new WPUF_Uploader('wpuf-<?php echo $unique_id; ?>-pickfiles', 'wpuf-<?php echo $unique_id; ?>-upload-container', <?php echo $field_settings['count']; ?>, '<?php echo $field_settings['name']; ?>', 'jpg,jpeg,gif,png,bmp', <?php echo $field_settings['max_size']; ?>);
                         wpuf_plupload_items.push(uploader);
                     });
                 })(jQuery);
@@ -57,27 +56,27 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options      = $this->get_default_option_settings(true, array('dynamic', 'width') ); // exclude dynamic
+        $default_options      = $this->get_default_option_settings( true, ['dynamic', 'width'] ); // exclude dynamic
 
-        $settings = array(
-            array(
+        $settings = [
+            [
                 'name'          => 'max_size',
                 'title'         => __( 'Max. file size', 'weforms' ),
                 'type'          => 'text',
                 'section'       => 'advanced',
                 'priority'      => 20,
                 'help_text'     => __( 'Enter maximum upload size limit in KB', 'weforms' ),
-            ),
+            ],
 
-            array(
+            [
                 'name'          => 'count',
                 'title'         => __( 'Max. files', 'weforms' ),
                 'type'          => 'text',
                 'section'       => 'advanced',
                 'priority'      => 21,
                 'help_text'     => __( 'Number of images can be uploaded', 'weforms' ),
-            ),
-            array(
+            ],
+            [
                 'name'          => 'button_label',
                 'title'         => __( 'Button Label', 'weforms' ),
                 'type'          => 'text',
@@ -85,8 +84,8 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
                 'section'       => 'basic',
                 'priority'      => 22,
                 'help_text'     => __( 'Enter a label for the Select button', 'weforms' ),
-            )
-        );
+            ],
+        ];
 
         return array_merge( $default_options, $settings );
     }
@@ -98,11 +97,11 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $props    = array(
+        $props    = [
             'max_size'       => '1024',
             'count'          => '1',
             'button_label'   => __( 'Select Image', 'weforms' ),
-        );
+        ];
 
         return array_merge( $defaults, $props );
     }
@@ -115,8 +114,8 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      * @return @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-       $args = ! empty( $args ) ? $args : $_POST;
+        $args = !empty( $args ) ? $args : $_POST;
 
-       return isset( $args['wpuf_files'][$field['name']] ) ? $args['wpuf_files'][$field['name']] : array();
+        return isset( $args['wpuf_files'][$field['name']] ) ? $args['wpuf_files'][$field['name']] : [];
     }
 }

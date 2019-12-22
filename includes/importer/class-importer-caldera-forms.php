@@ -14,7 +14,7 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
      */
     private $submit_text;
 
-    function __construct() {
+    public function __construct() {
         $this->id        = 'caldera-forms';
         $this->title     = 'Caldera Forms';
         $this->shortcode = 'caldera_form';
@@ -25,7 +25,7 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     /**
      * See if the plugin exists
      *
-     * @return boolean
+     * @return bool
      */
     public function plugin_exists() {
         return class_exists( 'Caldera_Forms' );
@@ -37,7 +37,7 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
      * @return array
      */
     public function get_forms() {
-        $forms = array();
+        $forms = [];
 
         $items = Caldera_Forms_Forms::get_forms();
 
@@ -51,7 +51,7 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     /**
      * Get form name
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return string
      */
@@ -62,7 +62,7 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     /**
      * Get the form id
      *
-     * @param  mixed $form
+     * @param mixed $form
      *
      * @return int
      */
@@ -73,19 +73,17 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     /**
      * Get the form fields
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_fields( $form ) {
-        $form_fields = array();
+        $form_fields = [];
         $fields      = Caldera_Forms_Forms::get_fields( $form );
 
         foreach ( $fields as $name => $field ) {
-
             if ( isset( $field['config']['type_override'] ) && $field['config']['type_override'] ) {
-
-               $field['type'] = $field['config']['type_override'];
+                $field['type'] = $field['config']['type_override'];
             }
 
             switch ( $field['type'] ) {
@@ -105,12 +103,12 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
                         $field['type'] = 'textarea';
                     }
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required' => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'    => $field['label'],
                         'name'     => $field['slug'],
                         'css'      => $field['config']['custom_class'],
-                    ) );
+                    ] );
                     break;
 
                 case 'select':
@@ -122,18 +120,18 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
                         $field['type'] = 'select';
                     }
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required' => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'    => $field['label'],
                         'name'     => $field['slug'],
                         'css'      => $field['config']['custom_class'],
                         'options'  => $this->get_option( $field['config']['option'] ),
-                    ) );
+                    ] );
                     break;
 
                 case 'range':
                 case 'number':
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required'        => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'           => $field['label'],
                         'name'            => $field['slug'],
@@ -141,7 +139,7 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
                         'step_text_field' => $field['config']['step'],
                         'min_value_field' => $field['config']['min'],
                         'max_value_field' => $field['config']['max'],
-                    ) );
+                    ] );
 
                     break;
 
@@ -151,25 +149,25 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
                         $field['config']['number'] = 5;
                     }
 
-                    $form_fields[] = $this->get_form_field( 'ratings', array(
+                    $form_fields[] = $this->get_form_field( 'ratings', [
                         'required'        => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'           => $field['label'],
                         'name'            => $field['slug'],
                         'css'             => $field['config']['custom_class'],
                         'options'         => array_combine( range( 1, $field['config']['number'] ), range( 1, $field['config']['number'] ) ),
-                    ) );
+                    ] );
 
                     break;
 
                 case 'advanced_file':
 
-                    $form_fields[] = $this->get_form_field( 'file', array(
+                    $form_fields[] = $this->get_form_field( 'file', [
                         'required'        => isset( $field['required'] ) ? 'yes' : 'no',
                         'label'           => $field['label'],
                         'name'            => $field['slug'],
                         'css'             => $field['config']['custom_class'],
                         'help'            => $field['caption'],
-                    ) );
+                    ] );
 
                     break;
 
@@ -188,16 +186,15 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     /**
      * Get form settings
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_settings( $form ) {
         $default  = $this->get_default_form_settings();
-        $settings = wp_parse_args( array(
+        $settings = wp_parse_args( [
             'message' => $form['success'],
-        ), $default );
-
+        ], $default );
 
         if ( $this->submit_text ) {
             $settings['submit_text'] = $this->submit_text;
@@ -206,22 +203,19 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
         return $settings;
     }
 
-
     /**
      * Format options
      *
-     * @param  object $options
+     * @param object $options
      *
      * @return array
      */
     public function get_option( $options ) {
+        $_options = [];
 
-        $_options = array();
-
-        foreach ( $options as $key => $option) {
-
+        foreach ( $options as $key => $option ) {
             $label = !empty( $option['label'] ) ? $option['label'] : 'Option - ' . $key;
-            $value = !empty( $option['value'] )  ? $option['value'] : $label;
+            $value = !empty( $option['value'] ) ? $option['value'] : $label;
 
             $_options[$value] = $label;
         }
@@ -232,14 +226,13 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
     /**
      * Get form notifications
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_notifications( $form ) {
-
-        $notifications = array(
-            array(
+        $notifications = [
+            [
                 'active'      => $form['mailer']['on_insert'] ? 'true' : 'false',
                 'name'        => 'Admin Notification',
                 'subject'     => isset( $form['mailer']['email_subject'] ) ? $form['mailer']['email_subject'] : 'Admin Notification',
@@ -250,8 +243,8 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
                 'fromAddress' => '{admin_email}',
                 'cc'          => '',
                 'bcc'         => '',
-            ),
-        );
+            ],
+        ];
 
 //        $processors = array();
 //        if(isset($form['processors'])){
@@ -278,5 +271,4 @@ class WeForms_Importer_Caldera_Forms extends WeForms_Importer_Abstract {
 
         return $notifications;
     }
-
 }

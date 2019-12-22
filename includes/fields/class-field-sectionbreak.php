@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Section Break', 'weforms' );
         $this->input_type = 'section_break';
         $this->icon       = 'columns';
@@ -14,16 +14,14 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-
         $description = isset( $field_settings['description'] ) ? $field_settings['description'] : '';
-        $name        = isset( $field_settings['name'] ) ? $field_settings['name'] : '';
-        ?>
+        $name        = isset( $field_settings['name'] ) ? $field_settings['name'] : ''; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . $form_id; ?><?php echo ' wpuf_' . $name . '_' . $form_id; ?>">
                 <h2 class="wpuf-section-title"><?php echo $field_settings['label']; ?></h2>
@@ -37,7 +35,7 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
     /**
      * It's a full width block
      *
-     * @return boolean
+     * @return bool
      */
     public function is_full_width() {
         return true;
@@ -49,32 +47,32 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $options = array(
-            array(
+        $options = [
+            [
                 'name'      => 'label',
                 'title'     => __( 'Title', 'weforms' ),
                 'type'      => 'text',
                 'section'   => 'basic',
                 'priority'  => 10,
                 'help_text' => __( 'Title of the section', 'weforms' ),
-            ),
-            array(
+            ],
+            [
                 'name'          => 'name',
                 'title'         => __( 'Meta Key', 'weforms' ),
                 'type'          => 'text-meta',
                 'section'       => 'basic',
                 'priority'      => 11,
                 'help_text'     => __( 'Name of the meta key this field will save to', 'weforms' ),
-            ),
-            array(
+            ],
+            [
                 'name'      => 'description',
                 'title'     => __( 'Description', 'weforms' ),
                 'type'      => 'textarea',
                 'section'   => 'basic',
                 'priority'  => 12,
                 'help_text' => __( 'Some details text about the section', 'weforms' ),
-            ),
-        );
+            ],
+        ];
 
         return $options;
     }
@@ -85,14 +83,14 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
      * @return array
      */
     public function get_field_props() {
-        $props = array(
+        $props = [
             'template'    => $this->get_type(),
             'label'       => $this->get_name(),
             'description' => __( 'Some description about this section', 'weforms' ),
             'id'          => 0,
             'is_new'      => true,
-            'wpuf_cond'   => $this->default_conditional_prop()
-        );
+            'wpuf_cond'   => $this->default_conditional_prop(),
+        ];
 
         return $props;
     }

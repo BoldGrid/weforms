@@ -5,20 +5,20 @@
  */
 class WeForms_Notification {
 
-    private $merge_tags = array();
-    private $args       = array();
+    private $merge_tags = [];
+    private $args       = [];
 
     /**
      * Init the class
      *
      * @param array $args
      */
-    public function __construct( $args = array() ) {
-        $defaults = array(
+    public function __construct( $args = [] ) {
+        $defaults = [
             'form_id'  => 0,
             'entry_id' => 0,
-            'page_id'  => 0
-        );
+            'page_id'  => 0,
+        ];
 
         $this->args = wp_parse_args( $args, $defaults );
     }
@@ -37,16 +37,11 @@ class WeForms_Notification {
 
         $this->set_merge_tags();
 
-        foreach ($notifications as $notification) {
-
+        foreach ( $notifications as $notification ) {
             if ( $this->meet_conditions( $notification ) ) {
-
                 if ( $notification['type'] == 'email' ) {
-
                     $this->send_notification( $notification );
-
-                } elseif( $notification['type'] == 'sms' ) {
-
+                } elseif ( $notification['type'] == 'sms' ) {
                     $this->send_sms( $notification );
                 }
             }
@@ -65,16 +60,11 @@ class WeForms_Notification {
 
         $this->set_merge_tags();
 
-        foreach ($notifications as $notification) {
-
+        foreach ( $notifications as $notification ) {
             if ( $this->meet_conditions( $notification ) ) {
-
                 if ( $notification['type'] == 'email' ) {
-
                     $this->send_notification( $notification );
-
-                } elseif( $notification['type'] == 'sms' ) {
-
+                } elseif ( $notification['type'] == 'sms' ) {
                     $this->send_sms( $notification );
                 }
             }
@@ -84,12 +74,12 @@ class WeForms_Notification {
     /**
      * Send a single notification
      *
-     * @param  array $notification
+     * @param array $notification
      *
      * @return void
      */
     public function send_notification( $notification ) {
-        $headers = array();
+        $headers = [];
 
         $to          = $this->replace_tags( $notification['to'] );
 
@@ -109,10 +99,10 @@ class WeForms_Notification {
         $bcc         = $this->replace_tags( $notification['bcc'] );
 
         if ( $fromName || $fromAddress ) {
-            $headers['from'] = array(
+            $headers['from'] = [
                 'email' => $fromAddress,
-                'name' => $fromName
-            );
+                'name'  => $fromName,
+            ];
         }
 
         if ( $cc ) {
@@ -134,17 +124,15 @@ class WeForms_Notification {
         weforms()->emailer->send( $to, $subject, $email_body, $headers );
     }
 
-
     /**
      * Send a single sms notification
      *
-     * @param  array $notification
+     * @param array $notification
      *
      * @return void
      */
     public function send_sms( $notification ) {
-
-        if ( ! class_exists('WeForms_SMS_Notification') ) {
+        if ( !class_exists( 'WeForms_SMS_Notification' ) ) {
             return;
         }
 
@@ -155,54 +143,46 @@ class WeForms_Notification {
 
         $email_body = apply_filters( 'weforms_sms_message', $this->get_formatted_sms_body( $message ) );
 
-        weforms_sms()->send_sms( array( $to ), $message );
+        weforms_sms()->send_sms( [ $to ], $message );
     }
 
     /**
      * Check conditional logics
      *
-     * @param  array $notification
+     * @param array $notification
      *
-     * @return boolean
+     * @return bool
      */
     public function meet_conditions( $notification ) {
-
         $form     = weforms()->form->get( $this->args['form_id'] );
         $entry    = $form->entries()->get( $this->args['entry_id'] );
         $fields   = $entry->get_fields();
 
-        $cond = !empty( $notification['weforms_cond'] ) ? $notification['weforms_cond'] : array();
+        $cond = !empty( $notification['weforms_cond'] ) ? $notification['weforms_cond'] : [];
 
-        if ( isset($cond['condition_status']) && 'yes' === $cond['condition_status'] ) {
-
+        if ( isset( $cond['condition_status'] ) && 'yes' === $cond['condition_status'] ) {
             $cond_logic = !empty( $cond['cond_logic'] ) ? $cond['cond_logic'] : 'any';
 
-            if ( !empty( $cond['conditions'] ) && is_array( $cond['conditions'] )) {
-
-                $status = array(); // going to store all condition result as boolean
+            if ( !empty( $cond['conditions'] ) && is_array( $cond['conditions'] ) ) {
+                $status = []; // going to store all condition result as boolean
 
                 foreach ( $cond['conditions'] as $k => $condition ) {
-
                     $field    = $fields[$condition['name']];
                     $value    = $field['value'];
                     $options  = $field['options'];
                     $operator = $condition['operator'] == '=' ? true : false;
 
                     // probably from checkbox
-                    if( is_array( $value ) ) {
+                    if ( is_array( $value ) ) {
 
                         // search by value
                         if ( in_array( $condition['option'], $value ) ) {
-
                             $status[$k] = $operator ? true : false;
-
                         } else {
 
                             // search by key
                             foreach ( $value as $single_value ) {
-
-                                if( $condition['option'] == array_search( $single_value , $options ) ) {
-
+                                if ( $condition['option'] == array_search( $single_value, $options ) ) {
                                     $status[$k] = $operator ? true : false;
 
                                     break;
@@ -210,37 +190,24 @@ class WeForms_Notification {
                             }
                         }
 
-                        if ( ! isset( $status[$k] ) ) {
-
+                        if ( !isset( $status[$k] ) ) {
                             $status[$k] = $operator ? false : true;
                         }
-
                     } else {
-
-                        if ( $condition['option'] == $value || $condition['option'] == array_search( $value , $options ) ) {
-
+                        if ( $condition['option'] == $value || $condition['option'] == array_search( $value, $options ) ) {
                             $status[$k] = $operator ? true : false;
-
                         } else {
-
                             $status[$k] = $operator ? false : true;
                         }
                     }
                 }
 
                 if ( $cond_logic == 'any' ) {
-
-                    return in_array( true, $status) ? true : false; // any true? then true
-
-
-                 } elseif ( $cond_logic == 'all' ) {
-
-                    return in_array( false, $status) ? false : true; // any false? then false
-
+                    return in_array( true, $status ) ? true : false; // any true? then true
+                } elseif ( $cond_logic == 'all' ) {
+                    return in_array( false, $status ) ? false : true; // any false? then false
                 }
-
             }
-
         }
 
         return true;
@@ -249,15 +216,15 @@ class WeForms_Notification {
     /**
      * Get active notifications of a form
      *
-     * @param  int $form_id
+     * @param int $form_id
      *
-     * @return array|boolean
+     * @return array|bool
      */
     public function get_active_notifications() {
         $notifications = weforms()->form->get( $this->args['form_id'] )->get_notifications();
 
         if ( $notifications ) {
-            $notifications = array_filter( $notifications, function($notification) {
+            $notifications = array_filter( $notifications, function ( $notification ) {
                 return $notification['active'] == true;
             } );
 
@@ -270,7 +237,7 @@ class WeForms_Notification {
     /**
      * Get formatted HTML email
      *
-     * @param  string $message
+     * @param string $message
      *
      * @return string
      */
@@ -297,7 +264,7 @@ class WeForms_Notification {
 
         $content = $header . $message . $footer;
 
-        if ( ! class_exists( 'Emogrifier' ) ) {
+        if ( !class_exists( 'Emogrifier' ) ) {
             require_once WEFORMS_INCLUDES . '/library/Emogrifier.php';
         }
 
@@ -305,10 +272,8 @@ class WeForms_Notification {
 
             // apply CSS styles inline for picky email clients
             $emogrifier = new Emogrifier( $content, $css );
-            $content = $emogrifier->emogrify();
-
+            $content    = $emogrifier->emogrify();
         } catch ( Exception $e ) {
-
             echo $e->getMessage();
         }
 
@@ -318,16 +283,16 @@ class WeForms_Notification {
     /**
      * Get formatted HTML email
      *
-     * @param  string $message
+     * @param string $message
      *
      * @return string
      */
     public function get_formatted_sms_body( $message ) {
         $message = strip_tags( $message );
 
-        if ( strlen( $message )  > apply_filters( 'wefroms_sms_char_length', 153 ) ) {
+        if ( strlen( $message ) > apply_filters( 'wefroms_sms_char_length', 153 ) ) {
             $message = substr( $message, 0, apply_filters( 'wefroms_sms_char_length', 153 ) );
-            $message .= __('..', 'weforms');
+            $message .= __( '..', 'weforms' );
         }
 
         return $message;
@@ -347,15 +312,14 @@ class WeForms_Notification {
 
         // populate the key/value array for the first time
         $tags          = weforms_get_merge_tags();
-        $replace_array = array();
+        $replace_array = [];
 
-        foreach ($tags as $section => $child) {
-
+        foreach ( $tags as $section => $child ) {
             if ( !$child['tags'] ) {
                 continue;
             }
 
-            foreach ($child['tags'] as $search_key => $label) {
+            foreach ( $child['tags'] as $search_key => $label ) {
                 $replace_array[ '{' . $search_key . '}' ] = $this->get_merge_value( $search_key );
             }
         }
@@ -366,12 +330,11 @@ class WeForms_Notification {
     /**
      * Get a merge tag value based on a tag
      *
-     * @param  string $tag
+     * @param string $tag
      *
      * @return string
      */
     public function get_merge_value( $tag ) {
-
         switch ( $tag ) {
             case 'entry_id':
                 return $this->args['entry_id'];
@@ -458,18 +421,17 @@ class WeForms_Notification {
                 $email_address = weforms_get_entry_meta( $this->args['entry_id'], 'user_email_address', true );
                 $request_id    = wp_create_user_request( $email_address, $action_type );
 
-                if( !empty($email_address) ) {
-
+                if ( !empty( $email_address ) ) {
                     $confirm_url = add_query_arg(
-                        array(
+                        [
                             'action'      => 'confirmaction',
                             'request_id'  => $request_id,
                             'confirm_key' => wp_generate_user_request_key( $request_id ),
-                        ),
+                        ],
                         wp_login_url()
-                    );
+                      );
 
-                    return make_clickable($confirm_url);
+                    return make_clickable( $confirm_url );
                 }
 
                 break;
@@ -479,18 +441,17 @@ class WeForms_Notification {
                 $email_address = weforms_get_entry_meta( $this->args['entry_id'], 'user_email_address', true );
                 $request_id    = wp_create_user_request( $email_address, $action_type );
 
-                if( !empty($email_address) ) {
-
+                if ( !empty( $email_address ) ) {
                     $confirm_url = add_query_arg(
-                        array(
+                        [
                             'action'      => 'confirmaction',
                             'request_id'  => $request_id,
                             'confirm_key' => wp_generate_user_request_key( $request_id ),
-                        ),
+                        ],
                         wp_login_url()
-                    );
+                      );
 
-                    return make_clickable($confirm_url);
+                    return make_clickable( $confirm_url );
                 }
 
                 break;
@@ -504,7 +465,7 @@ class WeForms_Notification {
     /**
      * Parse out the custom fields with entry meta values
      *
-     * @param  string $text
+     * @param string $text
      *
      * @return string
      */
@@ -518,11 +479,11 @@ class WeForms_Notification {
             return $text;
         }
 
-        foreach ($matches[1] as $index => $meta_key) {
+        foreach ( $matches[1] as $index => $meta_key ) {
             $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
 
             if ( is_array( $meta_value ) ) {
-                $meta_value = implode(WeForms::$field_separator, $meta_value);
+                $meta_value = implode( WeForms::$field_separator, $meta_value );
             }
 
             $text       = str_replace( $matches[0][$index], $meta_value, $text );
@@ -534,7 +495,7 @@ class WeForms_Notification {
     /**
      * Replace name tag with required value
      *
-     * @param  string $text
+     * @param string $text
      *
      * @return string
      */
@@ -553,35 +514,25 @@ class WeForms_Notification {
         $meta_value = weforms_get_entry_meta( $entry_id, $meta_key[0], true );
         $replace    = explode( WeForms::$field_separator, $meta_value );
 
-        foreach ($search as $index => $search_key) {
-
+        foreach ( $search as $index => $search_key ) {
             if ( 'first' == $fields[ $index ] ) {
-
                 $text = str_replace( $search_key, $replace[0], $text );
-
             } elseif ( 'middle' == $fields[ $index ] ) {
-
                 $text = str_replace( $search_key, $replace[1], $text );
-
             } elseif ( 'last' == $fields[ $index ] ) {
-
                 $text = str_replace( $search_key, $replace[2], $text );
-
             } else {
-
-                $text = str_replace( $search_key, implode(' ', $replace ), $text );
+                $text = str_replace( $search_key, implode( ' ', $replace ), $text );
             }
-
         }
 
         return $text;
     }
 
-
     /**
      * Replace image/file tag with Image URL
      *
-     * @param  string $text
+     * @param string $text
      *
      * @return string
      */
@@ -595,34 +546,28 @@ class WeForms_Notification {
             return $text;
         }
 
-        foreach ($matches[1] as $index => $meta_key) {
-
+        foreach ( $matches[1] as $index => $meta_key ) {
             $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
 
-            $files = array();
+            $files = [];
 
             if ( is_array( $meta_value ) ) {
-
                 foreach ( $meta_value as $key => $attachment_id ) {
-
                     $file_url = wp_get_attachment_url( $attachment_id );
 
                     if ( $file_url ) {
-                       $files[] = $file_url;
+                        $files[] = $file_url;
                     }
                 }
-
             } else {
-
                 $file_url = wp_get_attachment_url( $attachment_id );
 
                 if ( $file_url ) {
-
-                   $files[] = $file_url;
+                    $files[] = $file_url;
                 }
             }
 
-            $files     = implode(" ", $files);
+            $files     = implode( ' ', $files );
 
             $text       = str_replace( $matches[0][$index], $files, $text );
         }
@@ -633,7 +578,7 @@ class WeForms_Notification {
     /**
      * Get property of a user object with failsafe check
      *
-     * @param  string $property
+     * @param string $property
      *
      * @return string
      */
@@ -650,7 +595,7 @@ class WeForms_Notification {
     /**
      * Replace text with merge tags
      *
-     * @param  string $text
+     * @param string $text
      *
      * @return text
      */
@@ -668,7 +613,7 @@ class WeForms_Notification {
     /**
      * Replace {all_fields} if found
      *
-     * @param  string $text
+     * @param string $text
      *
      * @return string
      */
@@ -688,43 +633,43 @@ class WeForms_Notification {
         }
 
         $table = '<table width="600" cellpadding="0" cellspacing="0">';
-            $table .= '<tbody>';
+        $table .= '<tbody>';
 
-                foreach ($fields as $key => $value) {
+        foreach ( $fields as $key => $value ) {
+            $field_value = isset( $value[ 'value' ] ) ? $value[ 'value' ] : '';
 
-                    $field_value = isset( $value[ 'value' ] ) ? $value[ 'value' ] : '';
+            if ( !$field_value ) {
+                continue; // let's skip empty fields
+            }
 
-                    if ( ! $field_value ) {
-                        continue; // let's skip empty fields
+            $table .= '<tr class="field-label">';
+            $table .= '<th><strong>' . $value['label'] . '</strong></th>';
+            $table .= '</tr>';
+            $table .= '<tr class="field-value">';
+            $table .= '<td>';
+
+            if ( in_array( $value['type'], [ 'multiple_select', 'checkbox_field' ] ) ) {
+                $field_value = is_array( $field_value ) ? $field_value : [];
+
+                if ( $field_value ) {
+                    $table .= '<ul>';
+
+                    foreach ( $field_value as $value_key ) {
+                        $table .= '<li>' . $value_key . '</li>';
                     }
-
-                    $table .= '<tr class="field-label">';
-                        $table .= '<th><strong>' . $value['label'] . '</strong></th>';
-                    $table .= '</tr>';
-                    $table .= '<tr class="field-value">';
-                        $table .= '<td>';
-
-                            if ( in_array( $value['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
-                                $field_value = is_array( $field_value ) ? $field_value : array();
-
-                                if ( $field_value ) {
-                                    $table .= '<ul>';
-                                    foreach ($field_value as $value_key) {
-                                        $table .= '<li>' . $value_key . '</li>';
-                                    }
-                                    $table .= '</ul>';
-                                } else {
-                                    $table .= '&mdash;';
-                                }
-                            } else {
-                                $table .= $field_value;
-                            }
-
-                        $table .= '</td>';
-                    $table .= '</tr>';
+                    $table .= '</ul>';
+                } else {
+                    $table .= '&mdash;';
                 }
+            } else {
+                $table .= $field_value;
+            }
 
-            $table .= '</tbody>';
+            $table .= '</td>';
+            $table .= '</tr>';
+        }
+
+        $table .= '</tbody>';
         $table .= '</table>';
 
         $text = str_replace( '{all_fields}', $table, $text );

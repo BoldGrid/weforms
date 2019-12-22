@@ -10,14 +10,14 @@ abstract class WeForms_Abstract_Integration {
     /**
      * The integration id
      *
-     * @var boolean
+     * @var bool
      */
     public $id;
 
     /**
      * If the integration is enabled
      *
-     * @var boolean
+     * @var bool
      */
     public $enabled;
 
@@ -40,7 +40,7 @@ abstract class WeForms_Abstract_Integration {
      *
      * @var array
      */
-    public $settings_fields = array();
+    public $settings_fields = [];
 
     /**
      * The settings fields for this integrations
@@ -49,14 +49,12 @@ abstract class WeForms_Abstract_Integration {
      */
     protected $template = null;
 
-
     /**
      * The settings settings_template
      *
      * @var array
      */
     protected $settings_template = null;
-
 
     /**
      * Get the integration title
@@ -88,7 +86,7 @@ abstract class WeForms_Abstract_Integration {
     /**
      * Check if the integration is enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function is_enabled() {
         return $this->enabled == true;
@@ -97,7 +95,7 @@ abstract class WeForms_Abstract_Integration {
     /**
      * Check if it's a pro field
      *
-     * @return boolean
+     * @return bool
      */
     public function is_pro() {
         return false;
@@ -118,20 +116,19 @@ abstract class WeForms_Abstract_Integration {
      * @return array
      */
     public function get_js_settings() {
-        return array(
+        return [
             'id'       => $this->get_id(),
             'title'    => $this->get_title(),
             'icon'     => $this->get_icon(),
             'settings' => $this->get_settings_fields(),
-            'pro'      => $this->is_pro()
-        );
+            'pro'      => $this->is_pro(),
+        ];
     }
-
 
     /**
      * Check if it's the forms page
      *
-     * @return boolean
+     * @return bool
      */
     public function is_weforms_page() {
         if ( get_current_screen()->base != 'toplevel_page_weforms' ) {
@@ -147,11 +144,11 @@ abstract class WeForms_Abstract_Integration {
      * @return void
      */
     public function load_template() {
-        if ( ! $this->is_weforms_page() ) {
+        if ( !$this->is_weforms_page() ) {
             return;
         }
 
-        if ( ! $this->template ) {
+        if ( !$this->template ) {
             return;
         }
 
@@ -166,15 +163,13 @@ abstract class WeForms_Abstract_Integration {
      * @return void
      */
     public function load_settings( $priority = 10 ) {
-
-        if ( ! $this->settings_template ) {
+        if ( !$this->settings_template ) {
             return;
         }
 
-        add_action( 'weforms_settings_tabs', array( $this, 'settings_tabs' ), $priority );
-        add_action( 'weforms_settings_tab_content_' . $this->id, array( $this, 'settings_panel' ), $priority );
+        add_action( 'weforms_settings_tabs', [ $this, 'settings_tabs' ], $priority );
+        add_action( 'weforms_settings_tab_content_' . $this->id, [ $this, 'settings_panel' ], $priority );
     }
-
 
     /**
      * Render the settings panel
@@ -182,7 +177,7 @@ abstract class WeForms_Abstract_Integration {
      * @return void
      */
     public function settings_panel() {
-        if( file_exists( $this->settings_template )) {
+        if ( file_exists( $this->settings_template ) ) {
             include $this->settings_template;
         }
     }
@@ -193,11 +188,10 @@ abstract class WeForms_Abstract_Integration {
      * @return void
      */
     public function settings_tabs( $tabs ) {
-
-        $tabs[ $this->id ] = array(
+        $tabs[ $this->id ] = [
             'label' => $this->title,
-            'icon' => $this->icon,
-        );
+            'icon'  => $this->icon,
+        ];
 
         return $tabs;
     }
@@ -219,7 +213,6 @@ abstract class WeForms_Abstract_Integration {
      * @return string
      */
     public function module_component_file( $plugin_file ) {
-
         $prefix = $this->get_prefix();
 
         return plugins_url( 'component/index' . $prefix . '.js', $plugin_file );

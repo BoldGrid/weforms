@@ -48,8 +48,8 @@
                 <div class="notification-row notification-field">
                     <label for="notification-title"><?php _e( 'Type', 'weforms' ); ?></label>
                     <select type="text" v-model="notifications[editingIndex].type">
-                        <option value="email"><?php _e( 'Email Notification', 'weforms' ) ?></option>
-                        <option value="sms"><?php _e( 'SMS Notification', 'weforms' ) ?></option>
+                        <option value="email"><?php _e( 'Email Notification', 'weforms' ); ?></option>
+                        <option value="sms"><?php _e( 'SMS Notification', 'weforms' ); ?></option>
                     </select>
                 </div>
 
@@ -113,7 +113,7 @@
                     <a href="#" class="field-toggle" v-on:click.prevent="toggleAdvanced()"><span class="dashicons dashicons-arrow-right"></span><?php _e( ' Advanced', 'weforms' ); ?></a>
 
                     <div class="advanced-field-wrap">
-                        <p class="wpuf-pro-text-alert"><?php _e( 'Make sure that your mail server is configured properly for the following "From" fields',  'weforms' ); ?></p>
+                        <p class="wpuf-pro-text-alert"><?php _e( 'Make sure that your mail server is configured properly for the following "From" fields', 'weforms' ); ?></p>
                         <template v-if="notifications[editingIndex].type == 'email' ">
                             <div class="notification-row">
                                 <div class="row-one-half notification-field first">

@@ -2,8 +2,7 @@
 /**
  * Email Header
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
@@ -11,21 +10,21 @@ $email_heading = false;
 
 ?>
 <!DOCTYPE html>
-<html dir="<?php echo is_rtl() ? 'rtl' : 'ltr'?>">
+<html dir="<?php echo is_rtl() ? 'rtl' : 'ltr'; ?>">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?php echo get_bloginfo( 'name', 'display' ); ?></title>
     </head>
     <body <?php echo is_rtl() ? 'rightmargin' : 'leftmargin'; ?>="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-        <div id="wrapper" dir="<?php echo is_rtl() ? 'rtl' : 'ltr'?>">
+        <div id="wrapper" dir="<?php echo is_rtl() ? 'rtl' : 'ltr'; ?>">
             <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
                 <tr>
                     <td align="center" valign="top">
                         <div id="template_header_image">
                             <?php
-                                $settings = weforms_get_settings( 'email_settings', array(
-                                    'header_image' => ''
-                                ) );
+                                $settings = weforms_get_settings( 'email_settings', [
+                                    'header_image' => '',
+                                ] );
 
                                 if ( isset( $settings['header_image'] ) && !empty( $settings['header_image'] ) ) {
                                     echo '<p style="margin-top:0;"><img src="' . esc_url( $settings['header_image'] ) . '" alt="' . get_bloginfo( 'name', 'display' ) . '" /></p>';

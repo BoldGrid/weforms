@@ -8,11 +8,11 @@
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
                 <option value="restore" v-if="status == 'trash' ">
-                    <?php _e('Restore Entries', 'weforms'); ?>
+                    <?php _e( 'Restore Entries', 'weforms' ); ?>
                 </option>
                 <option value="delete">
-                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
-                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                    <template v-if="status == 'trash' "><?php _e( 'Delete Permanently', 'weforms' ); ?></template>
+                    <template v-else><?php _e( 'Delete Entries', 'weforms' ); ?></template>
                 </option>
             </select>
 
@@ -128,11 +128,11 @@
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
                 <option value="restore" v-if="status == 'trash' ">
-                    <?php _e('Restore Entries', 'weforms'); ?>
+                    <?php _e( 'Restore Entries', 'weforms' ); ?>
                 </option>
                 <option value="delete">
-                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
-                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                    <template v-if="status == 'trash' "><?php _e( 'Delete Permanently', 'weforms' ); ?></template>
+                    <template v-else><?php _e( 'Delete Entries', 'weforms' ); ?></template>
                 </option>
             </select>
 
@@ -234,7 +234,7 @@
                 <?php _e( 'Settings', 'weforms' ); ?>
             </a>
 
-            <?php do_action( "wpuf-form-builder-tabs-contact_form" ); ?>
+            <?php do_action( 'wpuf-form-builder-tabs-contact_form' ); ?>
 
             <span class="pull-right">
                 <a :href="'<?php echo home_url( '/' ); ?>?weforms_preview=1&form_id=' + post.ID" target="_blank" class="button"><span class="dashicons dashicons-visibility" style="padding-top: 3px;"></span> <?php _e( 'Preview', 'weforms' ); ?></a>
@@ -264,7 +264,7 @@
 
                         <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>">
                             <i class="fa fa-share-alt" aria-hidden="true"></i>
-                            <?php _e('Share', 'Share' ); ?>
+                            <?php _e( 'Share', 'Share' ); ?>
                         </span>
 
                     </header>
@@ -308,16 +308,16 @@
             <div id="wpuf-form-builder-settings" class="clearfix" v-show="isActiveTab('settings')">
                 <fieldset>
                     <h2 id="wpuf-form-builder-settings-tabs" class="nav-tab-wrapper">
-                        <?php do_action( "wpuf-form-builder-settings-tabs-contact_form" ); ?>
+                        <?php do_action( 'wpuf-form-builder-settings-tabs-contact_form' ); ?>
                     </h2><!-- #wpuf-form-builder-settings-tabs -->
 
                     <div id="wpuf-form-builder-settings-contents" class="tab-contents">
-                        <?php do_action( "wpuf-form-builder-settings-tab-contents-contact_form" ); ?>
+                        <?php do_action( 'wpuf-form-builder-settings-tab-contents-contact_form' ); ?>
                     </div><!-- #wpuf-form-builder-settings-contents -->
                 </fieldset>
             </div><!-- #wpuf-form-builder-settings -->
 
-            <?php do_action( "wpuf-form-builder-tab-contents-contact_form" ); ?>
+            <?php do_action( 'wpuf-form-builder-tab-contents-contact_form' ); ?>
         </div>
         <div v-else>
 
@@ -404,7 +404,7 @@
                     <span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span>
                     <span class="pull-right" v-if="hasEmpty">
                         <label style="font-weight: normal; font-size: 12px">
-                            <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ) ?>
+                            <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ); ?>
                         </label>
                     </span>
                 </h2>
@@ -668,9 +668,9 @@
                 </td>
                 <td class="weforms-form-status" >
                     <p v-if="isFormStatusClosed(form.settings, form.entries)">
-                        <?php _e( "Closed", "weforms" ); ?>
+                        <?php _e( 'Closed', 'weforms' ); ?>
                     </p>
-                    <p v-else class="open"><?php _e( "Open", "weforms" ); ?></p>
+                    <p v-else class="open"><?php _e( 'Open', 'weforms' ); ?></p>
 
                     <template v-if="form.settings.limit_entries === 'true'">
                         <span v-if="form.settings.schedule_form === 'true' && isExpiredForm(form.settings.schedule_end)">(Expired at {{formatTime(form.settings.schedule_end)}})</span>
@@ -686,7 +686,7 @@
                     </template>
 
                     <template v-else-if="form.settings.require_login  === 'true'">
-                        <span><?php _e( "(Requires login)", "weforms" ); ?></span>
+                        <span><?php _e( '(Requires login)', 'weforms' ); ?></span>
                     </template>
                 </td>
                 <td>{{ form.views }}</td>
@@ -820,7 +820,7 @@
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-forms' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'weforms' ) ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'weforms' ); ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -847,7 +847,7 @@
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-entries' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'weforms' ) ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'weforms' ); ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -966,7 +966,7 @@
                 </tbody>
             </table>
             <div v-else>
-                <p><?php _e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms') ?></p>
+                <p><?php _e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms' ); ?></p>
             </div>
         </div>
     </div>
@@ -988,11 +988,11 @@
     </h1>
 
     <p v-if="no_transactions">
-       <?php printf(
-            __('You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.'),
+       <?php printf( 
+            __( 'You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.' ),
             '<a target="_blank" href="https://wedevs.com/docs/weforms/integrations/payment/">',
             '</a>'
-            );
+              );
         ?>
     </p>
 
@@ -1088,7 +1088,7 @@
             </div>
             <div class="banner-content">
                 <h1><?php _e( 'weForms Pro', 'weforms' ); ?></h1>
-                <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' );?></p>
+                <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
             </div>
             <div class="banner-buttons">
                 <a href="https://wedevs.com/weforms-upgrade/" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
@@ -1312,7 +1312,7 @@
                     </svg>
                 </div>
                 <div class="import-text">
-                    <p><?php _e( 'Extend the functionalities while', 'weforms' );?></p>
+                    <p><?php _e( 'Extend the functionalities while', 'weforms' ); ?></p>
                     <h2><?php _e( 'Building WordPress Forms', 'wefoms' ); ?></h2>
                 </div>
             </div>
@@ -1333,9 +1333,9 @@
             <ul>
                 <?php
 
-                $tabs = apply_filters( 'weforms_settings_tabs', array() );
+                $tabs = apply_filters( 'weforms_settings_tabs', [] );
 
-                foreach ( $tabs as $key => $tab ) :
+                foreach ( $tabs as $key => $tab ) {
                     ?>
                     <li>
                         <a
@@ -1345,17 +1345,15 @@
                         >
                             <?php
 
-                            if ( ! empty($tab['icon'] ) ) {
-                                printf('<img src="%s">', $tab['icon']);
-                            }
-                            ?>
+                            if ( !empty( $tab['icon'] ) ) {
+                                printf( '<img src="%s">', $tab['icon'] );
+                            } ?>
                             <?php _e( $tab['label'], 'weforms' ); ?>
                         </a>
                     </li>
 
                     <?php
-
-                endforeach;
+                }
 
                 do_action( 'weforms_settings_tabs_area' );
                 ?>
@@ -1366,14 +1364,13 @@
 
             <?php
 
-                foreach ( $tabs as $key => $tab ) :
+                foreach ( $tabs as $key => $tab ) {
                     ?>
                     <div id="weforms-settings-<?php echo $key; ?>" class="tab-content" v-show="isActiveTab('<?php echo $key; ?>')">
                         <?php do_action( 'weforms_settings_tab_content_' . $key, $tab ); ?>
                     </div>
                     <?php
-
-                endforeach;
+                }
 
                 do_action( 'weforms_settings_tabs_contents' );
             ?>
@@ -1381,7 +1378,7 @@
         </div>
     </div>
 
-    <?php if ( !function_exists( 'weforms_pro' ) ) : ?>
+    <?php if ( !function_exists( 'weforms_pro' ) ) { ?>
 
         <div id="weforms-settings-page-sidebar" class="weforms-settings-page-sidebar">
             <div class="weforms-settings-page-sidebar-content">
@@ -1399,6 +1396,6 @@
             </div>
         </div>
 
-    <?php endif; ?>
+    <?php } ?>
 </div>
 </script>
