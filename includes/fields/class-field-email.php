@@ -33,11 +33,11 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
 
             <div class="wpuf-fields">
                 <input
-                    id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
+                    id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
                     type="email"
-                    class="email <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>"
-                    data-duplicate="<?php echo isset( $field_settings['duplicate'] ) ? $field_settings['duplicate'] : 'no'; ?>"
-                    data-required="<?php echo $field_settings['required'] ?>"
+                    class="email <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>"
+                    data-duplicate="<?php echo isset( $field_settings['duplicate'] ) ? esc_attr( $field_settings['duplicate'] ) : 'no'; ?>"
+                    data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
                     data-type="email"
                     name="<?php echo esc_attr( $field_settings['name'] ); ?>"
                     placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
@@ -99,7 +99,15 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST['_wpnonce'])) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
 
         if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
 

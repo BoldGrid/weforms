@@ -97,11 +97,11 @@ class WeForms_Admin_Tools {
         if ( ob_get_contents() ) {
             ob_clean();
         }
-       
+
         header( "Content-Type: text/json; charset=" . get_option( 'blog_charset' ) );
         header( "Content-Disposition: attachment; filename=$json_name.json" );
 
-        echo $json_file;
+        echo esc_attr( $json_file );
 
         exit();
     }

@@ -22,7 +22,7 @@
             if ( !empty( $form_id ) ) {
                 echo do_shortcode('[weforms id="'.$form_id.'"]');
             } else{
-                _e( 'No contact form assigned yet by marketplace owner.', 'weforms' );
+                esc_html_e( 'No contact form assigned yet by marketplace owner.', 'weforms' );
             }
 
 		?>

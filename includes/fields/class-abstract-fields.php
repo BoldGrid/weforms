@@ -432,7 +432,8 @@ abstract class WeForms_Field_Contract {
         $class_name = !empty( $field['css'] ) ? ' ' . $field['css'] : '';
         $field_size = !empty( $field['width'] ) ? ' field-size-' . $field['width'] : '';
 
-        printf( 'class="wpuf-el %s%s%s" data-label="%s"', $el_name, $class_name, $field_size, $label );
+        printf( 'class="wpuf-el %s%s%s" data-label="%s"', esc_attr( $el_name ), esc_attr( $class_name ), esc_attr( $field_size ),
+        esc_attr( $label )  );
     }
 
     /**
@@ -444,7 +445,7 @@ abstract class WeForms_Field_Contract {
     function print_label( $field, $form_id = 0 ) {
         ?>
         <div class="wpuf-label">
-            <label for="<?php echo isset( $field['name'] ) ? $field['name'] . '_' . $form_id : 'cls'; ?>"><?php echo $field['label'] . $this->required_mark( $field ); ?></label>
+            <label for="<?php echo isset( $field['name'] ) ? esc_attr( $field['name'] ) . '_' . esc_attr( $form_id ) : 'cls'; ?>"><?php echo esc_html(  $field['label'] )  . wp_kses_post( $this->required_mark( $field ) ) ; ?></label>
         </div>
         <?php
     }
@@ -486,7 +487,7 @@ abstract class WeForms_Field_Contract {
             return;
         }
         ?>
-        <span class="wpuf-help"><?php echo stripslashes( $field['help'] ); ?></span>
+        <span class="wpuf-help"><?php echo esc_attr( $field['help'] ); ?></span>
         <?php
     }
 
@@ -519,7 +520,7 @@ abstract class WeForms_Field_Contract {
 
         ?>
         <script type="text/javascript">
-            wpuf_conditional_items.push(<?php echo $condition; ?>);
+            wpuf_conditional_items.push(<?php echo esc_attr( $condition ); ?>);
         </script>
         <?php
     }
@@ -532,7 +533,15 @@ abstract class WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args  = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST['_wpnonce'] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        $args  = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
         $value = !empty( $args[$field['name']] ) ? $args[$field['name']] : '';
 
         if ( is_array( $value ) ) {
@@ -562,7 +571,7 @@ abstract class WeForms_Field_Contract {
         <script type="text/javascript">
             ;(function($) {
                 $(document).ready( function(){
-                    WP_User_Frontend.editorLimit.bind(<?php printf( '%d, "%s", "%s"', $word_nums, $field_name, $rich_text ); ?>);
+                    WP_User_Frontend.editorLimit.bind(<?php  printf( wp_kses_post( '%d, "%s", "%s"', $word_nums, $field_name, $rich_text ) ); ?>);
                 });
             })(jQuery);
         </script>

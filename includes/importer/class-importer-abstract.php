@@ -152,27 +152,27 @@ abstract class WeForms_Importer_Abstract {
 
         ?>
         <div class="notice notice-info">
-            <p><strong><?php printf( __( '%s Detected', 'weforms' ), $this->get_importer_name() ); ?></strong></p>
-            <p><?php printf( __( 'Hey, looks like you have <strong>%s</strong> installed. Would you like to <strong>import</strong> the forms into weForms?', 'weforms' ), $this->get_importer_name() ); ?></p>
+            <p><strong><?php printf( esc_html_e( '%s Detected', 'weforms' ), wp_kses_post( $this->get_importer_name() ) ); ?></strong></p>
+            <p><?php printf( wp_kses_post( 'Hey, looks like you have <strong>%s</strong> installed. Would you like to <strong>import</strong> the forms into weForms?', 'weforms' ), wp_kses_post ( $this->get_importer_name() ) ); ?></p>
 
             <p>
-                <a href="#" class="button button-primary weforms-import-<?php echo $this->id ;?>" id="weforms-import-<?php echo $this->id ;?>"><?php _e( 'Import Forms', 'weforms' ); ?></a>
-                <a href="#" class="button weforms-import-<?php echo $this->id ;?>" id="weforms-dimiss-<?php echo $this->id ;?>"><?php _e( 'No Thanks', 'weforms' ); ?></a>
+                <a href="#" class="button button-primary weforms-import-<?php echo esc_attr( $this->id );?>" id="weforms-import-<?php echo esc_attr( $this->id );?>"><?php esc_html_e( 'Import Forms', 'weforms' ); ?></a>
+                <a href="#" class="button weforms-import-<?php echo esc_attr( $this->id ) ;?>" id="weforms-dimiss-<?php echo esc_attr( $this->id );?>"><?php esc_html_e( 'No Thanks', 'weforms' ); ?></a>
             </p>
         </div>
 
         <script type="text/javascript">
             jQuery(function($) {
-                $('.notice').on('click', 'a#weforms-import-<?php echo $this->id ;?>', function(e) {
+                $('.notice').on('click', 'a#weforms-import-<?php echo esc_attr( $this->id );?>', function(e) {
                     e.preventDefault();
 
                     var self = $(this);
                     self.addClass('updating-message');
 
-                    wp.ajax.send( 'weforms_import_xforms_<?php echo $this->id ;?>', {
+                    wp.ajax.send( 'weforms_import_xforms_<?php echo esc_attr( $this->id );?>', {
                         data: {
                             type: self.data('type'),
-                            _wpnonce: '<?php echo wp_create_nonce( 'weforms' ); ?>'
+                            _wpnonce: '<?php echo esc_attr( wp_create_nonce( 'weforms' ) ); ?>'
                         },
 
                         success: function(response) {
@@ -186,8 +186,8 @@ abstract class WeForms_Importer_Abstract {
                             });
 
                             html += '</ul>';
-                            html += '<p>' + '<a href="#" class="button button-primary weforms-<?php echo $this->id ;?>-replace-action" data-type="replace"><?php _e( 'Replace Shortcodes', 'weforms' ); ?></a>&nbsp;' +
-                                    '<a href="#" class="button weforms-<?php echo $this->id ;?>-replace-action" data-type="skip"><?php _e( 'No Thanks', 'weforms' ); ?></a></p>';
+                            html += '<p>' + '<a href="#" class="button button-primary weforms-<?php echo esc_attr( $this->id );?>-replace-action" data-type="replace"><?php esc_html_e( 'Replace Shortcodes', 'weforms' ); ?></a>&nbsp;' +
+                                    '<a href="#" class="button weforms-<?php echo esc_attr( $this->id );?>-replace-action" data-type="skip"><?php esc_html_e( 'No Thanks', 'weforms' ); ?></a></p>';
 
                             self.closest('.notice').removeClass('notice-info').addClass('notice-success').html( html );
                         },
@@ -205,14 +205,14 @@ abstract class WeForms_Importer_Abstract {
                     });
                 });
 
-                $('.notice').on('click', '#weforms-dimiss-<?php echo $this->id ;?>', function(e) {
+                $('.notice').on('click', '#weforms-dimiss-<?php echo esc_attr( $this->id ) ;?>', function(e) {
                     e.preventDefault();
 
                     $(this).closest('.notice').remove();
-                    wp.ajax.send('weforms_import_xdismiss_<?php echo $this->id ;?>');
+                    wp.ajax.send('weforms_import_xdismiss_<?php echo esc_attr( $this->id );?>');
                 });
 
-                $('.notice').on('click', 'a.weforms-<?php echo $this->id ;?>-replace-action', function(e) {
+                $('.notice').on('click', 'a.weforms-<?php echo esc_attr( $this->id );?>-replace-action', function(e) {
                     e.preventDefault();
 
                     var self = $(this);
@@ -220,10 +220,10 @@ abstract class WeForms_Importer_Abstract {
 
                     self.addClass('updating-message');
 
-                    wp.ajax.send( 'weforms_import_xreplace_<?php echo $this->id ;?>', {
+                    wp.ajax.send( 'weforms_import_xreplace_<?php  echo esc_attr( $this->id ) ;?>', {
                         data: {
                             type: self.data('type'),
-                            _wpnonce: '<?php echo wp_create_nonce( 'weforms' ); ?>'
+                            _wpnonce: '<?php echo esc_attr ( wp_create_nonce( 'weforms' ) ); ?>'
                         },
 
                         success: function(response) {
@@ -334,7 +334,7 @@ abstract class WeForms_Importer_Abstract {
 
         $this->check_caps();
 
-        if ( ! in_array( $_POST['type'], array( 'skip', 'replace' ) ) ) {
+        if ( ! in_array( isset( $_POST['type'] ), array( 'skip', 'replace' ) ) ) {
             wp_send_json_error( __( 'Not a valid action type.', 'weforms' ) );
         }
 

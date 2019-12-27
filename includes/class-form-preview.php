@@ -38,7 +38,7 @@ class WeForms_Form_Preview {
 
         if ( ! empty( $_GET['weforms'] ) ) {
 
-            $hash          = explode("_", base64_decode( $_GET['weforms'] ));
+            $hash          = explode("_", base64_decode( sanitize_text_field( wp_unslash( $_GET['weforms'] ) ) ) );
             $_hash         = $hash[0];
             $this->form_id = intval( end($hash) );
             $form          = weforms()->form->get( $this->form_id );

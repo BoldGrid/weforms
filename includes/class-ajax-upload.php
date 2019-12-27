@@ -27,7 +27,7 @@ class WeForms_Ajax_Upload {
      * @return void
      */
     function validate_nonce() {
-        $nonce = isset( $_GET['nonce'] ) ? $_GET['nonce'] : '';
+        $nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
 
         if ( ! wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) ) {
             die( 'error' );
@@ -43,20 +43,25 @@ class WeForms_Ajax_Upload {
      */
     function upload_file( $image_only = false ) {
         $this->validate_nonce();
+        $nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
+
+        if ( ! wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) ) {
+            die( 'error' );
+        }
 
         // a valid request will have a form ID
-        $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : false;
+        $form_id = isset( $_POST['form_id'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['form_id'] ) ) ) : false;
 
         if ( ! $form_id ) {
             die( 'error' );
         }
 
         $upload = array(
-            'name'     => $_FILES['wpuf_file']['name'],
-            'type'     => $_FILES['wpuf_file']['type'],
-            'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
-            'error'    => $_FILES['wpuf_file']['error'],
-            'size'     => $_FILES['wpuf_file']['size']
+            'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
+            'type'     => isset( $_FILES['wpuf_file']['type'] ) ? sanitize_mime_type( wp_unslash( $_FILES['wpuf_file']['type'] ) ) : '',
+            'tmp_name' => isset( $_FILES['wpuf_file']['tmp_name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['tmp_name'] ) ) : '',
+            'error'    => isset( $_FILES['wpuf_file']['error'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['error'] ) ) : '',
+            'size'     => isset( $_FILES['wpuf_file']['size'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['size'] ) ) : ''
         );
 
         header('Content-Type: text/html; charset=' . get_option('blog_charset'));
@@ -68,7 +73,7 @@ class WeForms_Ajax_Upload {
             $response = array( 'success' => true );
             $response['html'] = $this->attach_html( $attach['attach_id'] );
 
-            echo $response['html'];
+            echo wp_kses_post( $response['html'] );
         } else {
             echo 'error';
         }
@@ -121,7 +126,7 @@ class WeForms_Ajax_Upload {
      */
     public static function attach_html( $attach_id, $type = NULL ) {
         if ( ! $type ) {
-            $type = isset( $_GET['type'] ) ? $_GET['type'] : 'image';
+            $type = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : 'image';
         }
 
         $attachment = get_post( $attach_id );

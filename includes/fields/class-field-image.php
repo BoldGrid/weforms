@@ -26,9 +26,10 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
-                <div id="wpuf-<?php echo $unique_id; ?>-upload-container">
-                    <div class="wpuf-attachment-upload-filelist" data-type="file" data-required="<?php echo $field_settings['required']; ?>">
-                        <a id="wpuf-<?php echo $unique_id; ?>-pickfiles" data-form_id="<?php echo $form_id; ?>" class="button file-selector <?php echo ' wpuf_' . $field_settings['name'] . '_' . $form_id; ?>" href="#"><?php echo $field_settings['button_label']; ?></a>
+                <div id="wpuf-<?php echo esc_attr( $unique_id ); ?>-upload-container">
+                    <div class="wpuf-attachment-upload-filelist" data-type="file" data-required="<?php echo esc_attr( $field_settings['required'] ); ?>">
+                        <a id="wpuf-<?php echo esc_attr( $unique_id ); ?>-pickfiles" data-form_id="<?php echo esc_attr( $form_id ); ?>" class="button file-selector <?php echo ' wpuf_' . esc_attr( $field_settings['name'] ) . '_' . esc_attr(
+                            $form_id); ?>" href="#"><?php echo esc_attr ( $field_settings['button_label'] ); ?></a>
 
                         <ul class="wpuf-attachment-list thumbnails"></ul>
                     </div>
@@ -41,7 +42,7 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
             <script type="text/javascript">
                 ;(function($) {
                     $(document).ready( function(){
-                        var uploader = new WPUF_Uploader('wpuf-<?php echo $unique_id; ?>-pickfiles', 'wpuf-<?php echo $unique_id; ?>-upload-container', <?php echo $field_settings['count']; ?>, '<?php echo $field_settings['name']; ?>', 'jpg,jpeg,gif,png,bmp', <?php echo $field_settings['max_size'] ?>);
+                        var uploader = new WPUF_Uploader('wpuf-<?php echo esc_attr( $unique_id ); ?>-pickfiles', 'wpuf-<?php echo esc_attr( $unique_id ); ?>-upload-container', <?php echo esc_attr( $field_settings['count'] ); ?>, '<?php echo esc_attr( $field_settings['name'] ); ?>', 'jpg,jpeg,gif,png,bmp', <?php echo  esc_attr($field_settings['max_size']) ?>);
                         wpuf_plupload_items.push(uploader);
                     });
                 })(jQuery);
@@ -115,7 +116,15 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      * @return @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-       $args = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST[ '_wpnonce' ] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+       $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
 
        return isset( $args['wpuf_files'][$field['name']] ) ? $args['wpuf_files'][$field['name']] : array();
     }

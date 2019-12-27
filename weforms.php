@@ -431,7 +431,7 @@ final class WeForms {
         $error .= __( 'The <strong>weForms</strong> plugin requires PHP version <strong>', 'weforms' ) . $this->min_php . __( '</strong> or greater.', 'weforms' );
         ?>
         <div class="error">
-            <p><?php printf( $error ); ?></p>
+            <p><?php printf( wp_kses_post ( $error ) ); ?></p>
         </div>
         <?php
     }
@@ -454,7 +454,7 @@ final class WeForms {
         $error .= __( '<p>The version of your PHP is ', 'weforms' ) . '<a href="http://php.net/supported-versions.php" target="_blank"><strong>' . __( 'unsupported and old', 'weforms' ) . '</strong></a>.';
         $error .= __( 'You should update your PHP software or contact your host regarding this matter.</p>', 'weforms' );
 
-        wp_die( $error, __( 'Plugin Activation Error', 'weforms' ), array( 'back_link' => true ) );
+        wp_die( wp_kses_post( $error ), esc_html_e( 'Plugin Activation Error', 'weforms' ), array( 'back_link' => true ) );
     }
 
     /**

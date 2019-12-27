@@ -25,9 +25,9 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
         $name        = isset( $field_settings['name'] ) ? $field_settings['name'] : '';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . $form_id; ?><?php echo ' wpuf_' . $name . '_' . $form_id; ?>">
-                <h2 class="wpuf-section-title"><?php echo $field_settings['label']; ?></h2>
-                <div class="wpuf-section-details"><?php echo $description; ?></div>
+            <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . esc_attr( $form_id ); ?><?php echo ' wpuf_' . esc_html( $name ) . '_' . esc_attr( $form_id ); ?>">
+                <h2 class="wpuf-section-title"><?php echo esc_attr( $field_settings['label'] ); ?></h2>
+                <div class="wpuf-section-details"><?php echo esc_attr( $description ); ?></div>
             </div>
 
         </li>

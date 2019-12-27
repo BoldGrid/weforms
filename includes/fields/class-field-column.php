@@ -30,12 +30,12 @@ class WeForms_Form_Field_Column extends WeForms_Field_Contract {
         $atts = array();
         ?>
         <li class="wpuf-el">
-            <div class="wpuf-field-columns <?php echo 'has-columns-' . $columns; ?>">
+            <div class="wpuf-field-columns <?php echo 'has-columns-' . esc_attr( $columns ); ?>">
                 <div class="wpuf-column-field-inner-columns">
                     <div class="wpuf-column">
                         <?php while($i <= $columns) : ?>
 
-                            <div class="<?php echo 'column-' . $i; ?> <?php echo 'items-of-column-' . $columns; ?> wpuf-column-inner-fields" style="width: <?php echo $columns_size['column-'.$i]; ?>; padding-right: <?php echo $column_space . 'px'; ?>">
+                            <div class="<?php echo 'column-' . esc_attr( $i ); ?> <?php echo 'items-of-column-' . esc_attr( $columns ); ?> wpuf-column-inner-fields" style="width: <?php echo esc_attr( $columns_size['column-'.$i] ); ?>; padding-right: <?php echo esc_attr( $column_space ) . 'px'; ?>">
                                 <ul class="wpuf-column-fields">
                                     <?php weforms()->fields->render_fields( $inner_fields['column-'.$i], $form_id, $atts , $type, $post_id ); ?>
                                 </ul>

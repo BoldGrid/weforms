@@ -32,7 +32,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
 
         $invisible_css   = $is_invisible ? ' style="margin: 0; padding: 0" ' : '';
 
-        ?> <li <?php $this->print_list_attributes( $field_settings ); echo $invisible_css; ?>>
+        ?> <li <?php $this->print_list_attributes( $field_settings ); echo esc_attr( $invisible_css ); ?>>
 
             <?php
 
@@ -41,13 +41,13 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
             }
 
             if ( ! $public_key ) {
-                _e( 'reCaptcha API key is missing.', 'weforms');
+                esc_html_e( 'reCaptcha API key is missing.', 'weforms');
 
             } else {
 
                 ?>
 
-                <div class="wpuf-fields <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>">
+                <div class="wpuf-fields <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>">
                     <script>
                         function weformsRecaptchaCallback(token) {
                             jQuery('[name="g-recaptcha-response"]').val(token);
@@ -86,7 +86,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
 
                             grecaptcha.render('recaptcha', {
                                 'size' : 'invisible',
-                                'sitekey' : '<?php echo $public_key; ?>',
+                                'sitekey' : '<?php echo  esc_attr( $public_key ); ?>',
                                 'callback' : weformsRecaptchaCallback
                             });
 
@@ -94,12 +94,12 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                         };
                     </script>
 
-                    <div id='recaptcha' class="g-recaptcha" data-theme="<?php echo $theme; ?>" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
+                    <div id='recaptcha' class="g-recaptcha" data-theme="<?php echo esc_attr( $theme ); ?>" data-sitekey="<?php echo esc_attr( $public_key ); ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
 
                 <?php } else { ?>
 
                     <script src="https://www.google.com/recaptcha/api.js"></script>
-                    <div id='recaptcha' data-theme="<?php echo $theme; ?>" class="g-recaptcha" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback"></div>
+                    <div id='recaptcha' data-theme="<?php echo esc_attr( $theme ); ?>" class="g-recaptcha" data-sitekey="<?php echo esc_attr ( $public_key ); ?>" data-callback="weformsRecaptchaCallback"></div>
                 <?php } ?>
 
                 </div>

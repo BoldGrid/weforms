@@ -208,7 +208,7 @@ function weforms_insert_entry( $args, $fields = array() ) {
         'user_id'     => get_current_user_id(),
         'user_ip'     => ip2long( weforms_get_client_ip() ),
         'user_device' => $browser['name'] . '/' . $browser['platform'],
-        'referer'     => $_SERVER['HTTP_REFERER'],
+        'referer'     => isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '',
         'created_at'  => current_time( 'mysql' )
     );
 
@@ -669,7 +669,7 @@ function weforms_format_text( $content ) {
  * @return array
  */
 function weforms_get_browser() {
-    $u_agent  = $_SERVER['HTTP_USER_AGENT'];
+    $u_agent  = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
     $bname    = 'Unknown';
     $platform = 'Unknown';
     $version  = '';
@@ -931,17 +931,17 @@ function weforms_get_client_ip() {
     $ipaddress = '';
 
     if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
     } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
     } elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED'] ) );
     } elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] ) );
     } elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) );
     } elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
     } else {
         $ipaddress = 'UNKNOWN';
     }

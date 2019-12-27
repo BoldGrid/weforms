@@ -14,7 +14,7 @@ $email_heading = false;
 <html dir="<?php echo is_rtl() ? 'rtl' : 'ltr'?>">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><?php echo get_bloginfo( 'name', 'display' ); ?></title>
+        <title><?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?></title>
     </head>
     <body <?php echo is_rtl() ? 'rightmargin' : 'leftmargin'; ?>="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
         <div id="wrapper" dir="<?php echo is_rtl() ? 'rtl' : 'ltr'?>">
@@ -28,7 +28,7 @@ $email_heading = false;
                                 ) );
 
                                 if ( isset( $settings['header_image'] ) && !empty( $settings['header_image'] ) ) {
-                                    echo '<p style="margin-top:0;"><img src="' . esc_url( $settings['header_image'] ) . '" alt="' . get_bloginfo( 'name', 'display' ) . '" /></p>';
+                                    echo '<p style="margin-top:0;"><img src="' . esc_url( $settings['header_image'] ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" /></p>';
                                 }
                             ?>
                         </div>
@@ -41,7 +41,7 @@ $email_heading = false;
                                         <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_header">
                                             <tr>
                                                 <td id="header_wrapper">
-                                                    <h1><?php echo $email_heading; ?></h1>
+                                                    <h1><?php echo wp_kses_post( $email_heading ); ?></h1>
                                                 </td>
                                             </tr>
                                         </table>

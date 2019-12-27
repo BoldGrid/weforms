@@ -43,7 +43,7 @@ class WeForms_Admin_Promotion {
             ?>
             <div class="notice notice-success is-dismissible" id="weforms-bfcm-notice">
                 <div class="logo">
-                    <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-logo.png' ?>" alt="weForms">
+                    <img src="<?php echo  esc_attr( WEFORMS_ASSET_URI ) . '/images/promo-logo.png' ?>" alt="weForms">
                 </div>
                 <div class="content">
                     <p>Biggest Sale of the year on this</p>
@@ -53,7 +53,7 @@ class WeForms_Admin_Promotion {
                 </div>
                 <div class="call-to-action">
                     <a target="_blank" href="https://wedevs.com/weforms/pricing?utm_campaign=black_friday_&_cyber_monday&utm_medium=banner&utm_source=plugin_dashboard">
-                        <img src="<?php echo WEFORMS_ASSET_URI . '/images/promo-btn.png' ?>" alt="Btn">
+                        <img src="<?php echo esc_attr( WEFORMS_ASSET_URI ) . '/images/promo-btn.png' ?>" alt="Btn">
                     </a>
                     <p>
                         <span class="highlight-green">Coupon: </span>
@@ -144,7 +144,8 @@ class WeForms_Admin_Promotion {
                     e.preventDefault();
 
                     wp.ajax.post('weforms-dismiss-promotional-offer-notice', {
-                        dismissed: true
+                        dismissed: true,
+                        _wpnonce: '<?php echo esc_attr ( wp_create_nonce( 'weforms' ) ); ?>'
                     });
                 });
             </script>
@@ -193,26 +194,26 @@ class WeForms_Admin_Promotion {
         ?>
         <div id="weforms-review-notice" class="weforms-review-notice">
             <div class="weforms-review-thumbnail">
-                <img src="<?php echo WEFORMS_ASSET_URI . '/images/icon-weforms.png' ?>" alt="">
+                <img src="<?php echo esc_attr( WEFORMS_ASSET_URI ) . '/images/icon-weforms.png' ?>" alt="">
             </div>
             <div class="weforms-review-text">
                 <?php if ( $total_entries >= 25 ) : ?>
-                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
-                    <p><?php _e( 'Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
+                    <h3><?php wp_kses_post( __( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ) ?></h3>
+                    <p><?php wp_kses_post( __('Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms') ) ?></p>
                 <?php else: ?>
-                    <h3><?php _e( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ?></h3>
-                    <p><?php _e( 'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ?></p>
+                    <h3><?php wp_kses_post( __( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ) ?></h3>
+                    <p><?php wp_kses_post( __( 'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ) ?></p>
                 <?php endif; ?>
 
                 <ul class="weforms-review-ul">
                     <li><a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span
-                                class="dashicons dashicons-external"></span><?php _e( 'Sure! I\'d love to!', 'weforms' ) ?>
+                                class="dashicons dashicons-external"></span><?php esc_html_e( 'Sure! I\'d love to!', 'weforms' ) ?>
                         </a></li>
                     <li><a href="#" class="notice-dismiss"><span
-                                class="dashicons dashicons-smiley"></span><?php _e( 'I\'ve already left a review', 'weforms' ) ?>
+                                class="dashicons dashicons-smiley"></span><?php esc_html_e( 'I\'ve already left a review', 'weforms' ) ?>
                         </a></li>
                     <li><a href="#" class="notice-dismiss"><span
-                                class="dashicons dashicons-dismiss"></span><?php _e( 'Never show again', 'weforms' ) ?>
+                                class="dashicons dashicons-dismiss"></span><?php esc_html_e( 'Never show again', 'weforms' ) ?>
                         </a></li>
                 </ul>
             </div>
@@ -293,7 +294,8 @@ class WeForms_Admin_Promotion {
                 jQuery("#weforms-review-notice").hide();
 
                 wp.ajax.post('weforms-dismiss-review-notice', {
-                    dismissed: true
+                    dismissed: true,
+                    _wpnonce: '<?php echo esc_attr ( wp_create_nonce( 'weforms' ) ); ?>'
                 });
             });
         </script>
@@ -310,6 +312,18 @@ class WeForms_Admin_Promotion {
      *
      */
     public function dismiss_promotional_offer() {
+        if( empty( $_POST['_wpnonce'] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'weforms' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! isset( $_POST['reason_id'] ) ) {
+            wp_send_json_error();
+        }
+
         if ( ! empty( $_POST['dismissed'] ) ) {
             $offer_key = 'weforms_promotional_offer_notice';
             update_option( $offer_key, 'hide' );
@@ -324,6 +338,19 @@ class WeForms_Admin_Promotion {
      *
      */
     public function dismiss_review_notice() {
+
+        if( empty( $_POST['_wpnonce'] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'weforms' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! isset( $_POST['reason_id'] ) ) {
+            wp_send_json_error();
+        }
+
         if ( ! empty( $_POST['dismissed'] ) ) {
             update_option( 'weforms_review_notice_dismiss', 'yes' );
         }

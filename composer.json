@@ -12,6 +12,16 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.4.0",
-    "composer/installers": "~1.0"
+    "composer/installers": "~1.0",
+    "appsero/client": "dev-master"
+  },
+  "require-dev": {
+    "automattic/vipwpcs": "dev-master",
+    "dealerdirect/phpcodesniffer-composer-installer": "dev-master"
+  },
+  "scripts": {
+    "phpcs": [
+      "phpcs -p -s"
+    ]
   }
 }

@@ -41,8 +41,8 @@ class Weforms_Form_Button {
      */
     function add_media_button( $editor_id ) {
         ?>
-        <a href="#TB_inline?width=480&amp;inlineId=weforms-media-dialog" class="button thickbox insert-form" data-editor="<?php echo esc_attr( $editor_id ); ?>" title="<?php _e( 'Add a Form', 'weforms' ); ?>">
-            <?php echo '<span class="wp-media-buttons-icon dashicons dashicons-welcome-widgets-menus"></span>' . __( ' Add Contact Form', 'weforms' ); ?>
+        <a href="#TB_inline?width=480&amp;inlineId=weforms-media-dialog" class="button thickbox insert-form" data-editor="<?php echo esc_attr( $editor_id ); ?>" title="<?php esc_html_e( 'Add a Form', 'weforms' ); ?>">
+            <?php echo '<span class="wp-media-buttons-icon dashicons dashicons-welcome-widgets-menus"></span>' . esc_html_e( ' Add Contact Form', 'weforms' ); ?>
         </a>
         <?php
 
@@ -74,15 +74,15 @@ class Weforms_Form_Button {
                 ?>
 
                 <div class="weforms-form-div">
-                    <label><h3><?php _e( 'Select a form to insert', 'weforms' ); ?></h3></label>
+                    <label><h3><?php esc_html_e( 'Select a form to insert', 'weforms' ); ?></h3></label>
                     <select id="weforms-form-select">
-                        <?php echo $options;  ?>
+                        <?php echo esc_attr( $options );  ?>
                     </select>
                 </div>
 
                 <div class="submit-button weforms-submit-div">
-                    <button id="weforms-form-insert" class="button-primary"><?php _e( 'Insert Form', 'weforms' ); ?></button>
-                    <button id="weforms-form-close" class="button-secondary" style="margin-left: 5px;" onClick="tb_remove();"><?php _e( 'Close', 'weforms' ); ?></a></button>
+                    <button id="weforms-form-insert" class="button-primary"><?php esc_html_e( 'Insert Form', 'weforms' ); ?></button>
+                    <button id="weforms-form-close" class="button-secondary" style="margin-left: 5px;" onClick="tb_remove();"><?php esc_html_e( 'Close', 'weforms' ); ?></a></button>
                 </div>
 
             </div>

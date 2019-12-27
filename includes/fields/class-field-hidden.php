@@ -20,7 +20,7 @@ class WeForms_Form_Field_Hidden extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $value = isset($_GET[$field_settings['dynamic']['param_name']]) ? $_GET[$field_settings['dynamic']['param_name']] : $field_settings['meta_value'];
+        $value = isset($_GET[$field_settings['dynamic']['param_name']]) ? sanitize_text_field(  wp_unslash( $_GET[$field_settings['dynamic']['param_name']] ) ) : $field_settings['meta_value'];
         ?>
         <input type="hidden" name="<?php echo esc_attr( $field_settings['name'] ); ?>" value="<?php echo esc_attr( $value ); ?>">
         <?php

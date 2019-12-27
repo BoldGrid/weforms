@@ -30,10 +30,10 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
             <?php do_action( 'weforms_multidropdown_field_after_label', $field_settings ); ?>
 
             <div class="wpuf-fields">
-                <select multiple="multiple" class="multiselect <?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>" id="<?php echo $field_settings['name'] . '_' . $form_id; ?>" name="<?php echo $name; ?>" mulitple="multiple" data-required="<?php echo $field_settings['required'] ?>" data-type="multiselect">
+                <select multiple="multiple" class="multiselect <?php echo 'wpuf_'. esc_attr( $field_settings['name'] ) .'_'. esc_attr( $form_id ); ?>" id="<?php echo esc_attr($field_settings['name']) . '_' . esc_attr($form_id); ?>" name="<?php echo esc_attr($name); ?>" mulitple="multiple" data-required="<?php echo esc_attr($field_settings['required']) ?>" data-type="multiselect">
 
                     <?php if ( !empty( $field_settings['first'] ) ) { ?>
-                        <option value=""><?php echo $field_settings['first']; ?></option>
+                        <option value=""><?php echo esc_attr($field_settings['first']); ?></option>
                     <?php } ?>
 
                     <?php
@@ -41,7 +41,7 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
                         foreach ($field_settings['options'] as $value => $option) {
                             $current_select = selected( in_array( $value, $selected ), true, false );
                             ?>
-                            <option value="<?php echo esc_attr( $value ); ?>"<?php echo $current_select; ?>><?php echo $option; ?></option>
+                            <option value="<?php echo esc_attr( $value ); ?>"<?php echo esc_attr( $current_select ); ?>><?php echo esc_html( $option ); ?></option>
                             <?php
                         }
                     }
@@ -80,7 +80,15 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args        = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST[ '_wpnonce' ] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
         $entry_value = ( is_array( $args[$field['name']] ) && $args[$field['name']] ) ? $args[$field['name']] : array();
 
         if ( $entry_value ) {

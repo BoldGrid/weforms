@@ -26,15 +26,15 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
             <?php $this->print_label( $field_settings ); ?>
 
             <div class="wpuf-fields">
-                <input id="wpuf-date-<?php echo $field_settings['name']; ?>" type="text" class="datepicker <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>" data-required="<?php echo $field_settings['required'] ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['format'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="30" />
+                <input id="wpuf-date-<?php echo esc_attr( $field_settings['name'] ); ?>" type="text" class="datepicker <?php echo ' wpuf_'.esc_attr( $field_settings['name'] ).'_'. esc_attr($form_id); ?>" data-required="<?php echo esc_attr($field_settings['required']) ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['format'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="30" />
                 <?php $this->help_text( $field_settings ); ?>
             </div>
             <script type="text/javascript">
                 jQuery(function($) {
                     <?php if ( $field_settings['time'] == 'yes' ) { ?>
-                    $("#wpuf-date-<?php echo $field_settings['name']; ?>").datetimepicker({ dateFormat: '<?php echo $field_settings["format"]; ?>' });
+                    $("#wpuf-date-<?php echo esc_attr($field_settings['name']); ?>").datetimepicker({ dateFormat: '<?php echo esc_attr($field_settings["format"]); ?>' });
                     <?php } else { ?>
-                    $("#wpuf-date-<?php echo $field_settings['name']; ?>").datepicker({ dateFormat: '<?php echo $field_settings["format"]; ?>' });
+                    $("#wpuf-date-<?php echo esc_attr($field_settings['name']); ?>").datepicker({ dateFormat: '<?php echo esc_attr($field_settings["format"]); ?>' });
                     <?php } ?>
                 });
             </script>
@@ -115,7 +115,15 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-       $args = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST['_wpnonce'] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
 
        return sanitize_text_field( trim( $args[$field['name']] ) );
     }

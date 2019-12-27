@@ -28,7 +28,7 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <?php if ( in_array( $field_settings['rich'], array( 'yes', 'teeny' ) ) ) { ?>
-                <div class="wpuf-fields wpuf-rich-validation <?php printf( 'wpuf_%s_%s', $field_settings['name'], $form_id ); ?>" data-type="rich" data-required="<?php echo esc_attr( $field_settings['required'] ); ?>" data-id="<?php echo esc_attr( $field_settings['name'] ) . '_' . $form_id; ?>" data-name="<?php echo esc_attr( $field_settings['name'] ); ?>">
+                <div class="wpuf-fields wpuf-rich-validation <?php printf( wp_kses_post( 'wpuf_%s_%s', $field_settings['name'], $form_id ) ); ?>" data-type="rich" data-required="<?php echo esc_attr( $field_settings['required'] ); ?>" data-id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>" data-name="<?php echo esc_attr( $field_settings['name'] ); ?>">
             <?php } else { ?>
                 <div class="wpuf-fields">
             <?php } ?>
@@ -64,14 +64,14 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
                 } else {
                     ?>
                     <textarea
-                        class="textareafield <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>"
-                        id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
-                        name="<?php echo $field_settings['name']; ?>"
-                        data-required="<?php echo $field_settings['required'] ?>"
+                        class="textareafield <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>"
+                        id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
+                        name="<?php echo esc_attr( $field_settings['name'] ); ?>"
+                        data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
                         data-type="textarea"
                         placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
-                        rows="<?php echo $field_settings['rows']; ?>"
-                        cols="<?php echo $field_settings['cols']; ?>"
+                        rows="<?php echo esc_attr($field_settings['rows']); ?>"
+                        cols="<?php echo esc_attr($field_settings['cols']); ?>"
                     ><?php echo esc_textarea( $value ) ?></textarea>
                     <span class="wpuf-wordlimit-message wpuf-help"></span>
 
@@ -129,7 +129,15 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST['_wpnonce'] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
 
         return wp_kses_post( $args[$field['name']] );
     }

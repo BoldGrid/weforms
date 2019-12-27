@@ -233,7 +233,8 @@ class WeDevs_Insights {
      * @return boolean
      */
     private function is_local_server() {
-        return in_array( $_SERVER['REMOTE_ADDR'], array( '127.0.0.1', '::1' ) );
+        $remote_ADDR = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+        return in_array( $remote_ADDR , array( '127.0.0.1', '::1' ) );
     }
 
     /**
@@ -292,10 +293,10 @@ class WeDevs_Insights {
             $notice .= '<p class="description" style="display:none;">' . implode( ', ', $this->data_we_collect() ) . '. No sensitive data is tracked.</p>';
 
             echo '<div class="updated"><p>';
-                echo $notice;
+                echo esc_attr( $notice );
                 echo '</p><p class="submit">';
-                echo '&nbsp;<a href="' . esc_url( $optin_url ) . '" class="button-primary button-large">' . __( 'Allow', 'weforms' ) . '</a>';
-                echo '&nbsp;<a href="' . esc_url( $optout_url ) . '" class="button-secondary button-large">' . __( 'No thanks', 'weforms' ) . '</a>';
+                echo '&nbsp;<a href="' . esc_url( $optin_url ) . '" class="button-primary button-large">' . esc_html_e( 'Allow', 'weforms' ) . '</a>';
+                echo '&nbsp;<a href="' . esc_url( $optout_url ) . '" class="button-secondary button-large">' . esc_html_e( 'No thanks', 'weforms' ) . '</a>';
             echo '</p></div>';
 
             echo "<script type='text/javascript'>jQuery('.insights-data-we-collect').on('click', function(e) {
@@ -360,7 +361,7 @@ class WeDevs_Insights {
         $server_data = array();
 
         if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && ! empty( $_SERVER['SERVER_SOFTWARE'] ) ) {
-            $server_data['software'] = $_SERVER['SERVER_SOFTWARE'];
+            $server_data['software'] = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
         }
 
         if ( function_exists( 'phpversion' ) ) {
@@ -563,6 +564,13 @@ class WeDevs_Insights {
      */
     public function uninstall_reason_submission() {
         global $wpdb;
+        if( empty( $_POST['_wpnonce'] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'weforms' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
 
         if ( ! isset( $_POST['reason_id'] ) ) {
             wp_send_json_error();
@@ -571,13 +579,13 @@ class WeDevs_Insights {
         $current_user = wp_get_current_user();
 
         $data = array(
-            'reason_id'     => sanitize_text_field( $_POST['reason_id'] ),
+            'reason_id'     => sanitize_text_field( wp_unslash( $_POST['reason_id'] ) ),
             'plugin'        => $this->slug,
             'url'           => home_url(),
             'user_email'    => $current_user->user_email,
             'user_name'     => $current_user->display_name,
-            'reason_info'   => isset( $_REQUEST['reason_info'] ) ? trim( stripslashes( $_REQUEST['reason_info'] ) ) : '',
-            'software'      => $_SERVER['SERVER_SOFTWARE'],
+            'reason_info'   => isset( $_REQUEST['reason_info'] ) ? sanitize_text_field( wp_unslash(  $_REQUEST['reason_info'] ) ) : '',
+            'software'      => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '',
             'php_version'   => phpversion(),
             'mysql_version' => $wpdb->db_version(),
             'wp_version'    => get_bloginfo( 'version' ),
@@ -605,26 +613,26 @@ class WeDevs_Insights {
         $reasons = $this->get_uninstall_reasons();
         ?>
 
-        <div class="wd-dr-modal" id="<?php echo $this->slug; ?>-wd-dr-modal">
+        <div class="wd-dr-modal" id="<?php echo esc_attr( $this->slug ); ?>-wd-dr-modal">
             <div class="wd-dr-modal-wrap">
                 <div class="wd-dr-modal-header">
-                    <h3><?php _e( 'If you have a moment, please let us know why you are deactivating:', 'weforms' ); ?></h3>
+                    <h3><?php esc_html_e( 'If you have a moment, please let us know why you are deactivating:', 'weforms' ); ?></h3>
                 </div>
 
                 <div class="wd-dr-modal-body">
                     <ul class="reasons">
                         <?php foreach ($reasons as $reason) { ?>
                             <li data-type="<?php echo esc_attr( $reason['type'] ); ?>" data-placeholder="<?php echo esc_attr( $reason['placeholder'] ); ?>">
-                                <label><input type="radio" name="selected-reason" value="<?php echo $reason['id']; ?>"> <?php echo $reason['text']; ?></label>
+                                <label><input type="radio" name="selected-reason" value="<?php echo esc_attr( $reason['id'] ); ?>"> <?php echo esc_attr( $reason['text'] ); ?></label>
                             </li>
                         <?php } ?>
                     </ul>
                 </div>
 
                 <div class="wd-dr-modal-footer">
-                    <a href="#" class="dont-bother-me"><?php _e( 'I rather wouldn\'t say', 'weforms' ); ?></a>
-                    <button class="button-secondary"><?php _e( 'Submit & Deactivate', 'weforms' ); ?></button>
-                    <button class="button-primary"><?php _e( 'Cancel', 'weforms' ); ?></button>
+                    <a href="#" class="dont-bother-me"><?php esc_html_e( 'I rather wouldn\'t say', 'weforms' ); ?></a>
+                    <button class="button-secondary"><?php esc_html_e( 'Submit & Deactivate', 'weforms' ); ?></button>
+                    <button class="button-primary"><?php esc_html_e( 'Cancel', 'weforms' ); ?></button>
                 </div>
             </div>
         </div>
@@ -680,10 +688,10 @@ class WeDevs_Insights {
         <script type="text/javascript">
             (function($) {
                 $(function() {
-                    var modal = $( '#<?php echo $this->slug; ?>-wd-dr-modal' );
+                    var modal = $( '#<?php echo esc_attr( $this->slug ); ?>-wd-dr-modal' );
                     var deactivateLink = '';
 
-                    $( '#the-list' ).on('click', 'a.<?php echo $this->slug; ?>-deactivate-link', function(e) {
+                    $( '#the-list' ).on('click', 'a.<?php echo esc_attr( $this->slug ); ?>-deactivate-link', function(e) {
                         e.preventDefault();
 
                         modal.addClass('modal-active');
@@ -730,9 +738,10 @@ class WeDevs_Insights {
                             url: ajaxurl,
                             type: 'POST',
                             data: {
-                                action: '<?php echo $this->slug; ?>_submit-uninstall-reason',
+                                action: '<?php echo esc_attr( $this->slug ); ?>_submit-uninstall-reason',
                                 reason_id: ( 0 === $radio.length ) ? 'none' : $radio.val(),
-                                reason_info: ( 0 !== $input.length ) ? $input.val().trim() : ''
+                                reason_info: ( 0 !== $input.length ) ? $input.val().trim() : '',
+                                _wpnonce: '<?php echo esc_attr ( wp_create_nonce( 'weforms' ) ); ?>'
                             },
                             beforeSend: function() {
                                 button.addClass('disabled');
