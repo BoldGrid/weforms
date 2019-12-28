@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Email Address', 'weforms' );
         $this->input_type = 'email_address';
         $this->icon       = 'envelope-o';
@@ -14,8 +14,8 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
@@ -26,8 +26,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
             return;
         }
 
-        $value = $field_settings['default'];
-        ?>
+        $value = $field_settings['default']; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -41,8 +40,8 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
                     data-type="email"
                     name="<?php echo esc_attr( $field_settings['name'] ); ?>"
                     placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
-                    value="<?php echo esc_attr( $value ) ?>"
-                    size="<?php echo esc_attr( $field_settings['size'] ) ?>"
+                    value="<?php echo esc_attr( $value ); ?>"
+                    size="<?php echo esc_attr( $field_settings['size'] ); ?>"
                     autocomplete="email"
                 />
                 <?php $this->help_text( $field_settings ); ?>
@@ -59,34 +58,34 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
     public function get_options_settings() {
         $default_options      = $this->get_default_option_settings();
         $default_text_options = $this->get_default_text_option_settings();
-        $check_duplicate      = array(
-            array(
+        $check_duplicate      = [
+            [
                 'name'          => 'duplicate',
                 'title'         => 'No Duplicates',
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
-                'options'       => array(
-                    'no'   => __( 'Unique Values Only', 'weforms' )
-                ),
+                'options'       => [
+                    'no'   => __( 'Unique Values Only', 'weforms' ),
+                ],
                 'default'       => '',
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'Select this option to limit user input to unique values only. This will require that a value entered in a field does not currently exist in the entry database for that field.', 'weforms' ),
-            ),
-            array(
+            ],
+            [
                 'name'          => 'auto_populate',
                 'title'         => 'Auto-populate email for logged users',
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
-                'options'       => array(
-                    'yes'   => __( 'Auto-populate Email', 'weforms' )
-                ),
+                'options'       => [
+                    'yes'   => __( 'Auto-populate Email', 'weforms' ),
+                ],
                 'default'       => '',
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'If a user is logged into the site, this email field will be auto-populated with his email. And form\'s email field will be hidden.', 'weforms' ),
-            ),
-        );
+            ],
+        ];
 
         return array_merge( $default_options, $default_text_options, $check_duplicate );
     }
@@ -110,10 +109,9 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
         $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
 
         if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
-
             $user = wp_get_current_user();
 
-            if ( ! empty( $user->user_email ) ) {
+            if ( !empty( $user->user_email ) ) {
                 return $user->user_email;
             }
         }
@@ -129,8 +127,9 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
      * @return array
      */
     public function get_field_props() {
-        $defaults = $this->default_attributes();
+        $defaults              = $this->default_attributes();
         $defaults['duplicate'] = '';
+
         return $defaults;
     }
 }

@@ -21,43 +21,40 @@ class WeForms_Template_My_Directory_Information extends WeForms_Form_Template {
      * @return array
      */
     public function get_form_fields() {
-
         $all_fields  = $this->get_available_fields();
-        $form_fields = array(
-
-            array_merge( $all_fields['name_field']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'required'   => 'yes',
                 'format'     => 'first-last',
 
-                'first_name' => array(
+                'first_name' => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'First', 'weforms' )
-                ),
+                    'sub'         => __( 'First', 'weforms' ),
+                ],
 
-                'last_name'       => array(
+                'last_name'       => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Last', 'weforms' )
-                ),
+                    'sub'         => __( 'Last', 'weforms' ),
+                ],
                 'hide_subs'       => false,
                 'name'            => 'format',
-            ) ),
+            ] ),
 
-            array_merge( $all_fields['text_field']->get_field_props(), array(
+            array_merge( $all_fields['text_field']->get_field_props(), [
                 'required'   => 'yes',
                 'label'      => 'Username',
                 'name'       => 'username',
-            ) ),
+            ] ),
 
-            array_merge( $all_fields['website_url']->get_field_props(), array(
+            array_merge( $all_fields['website_url']->get_field_props(), [
                 'required'   => 'yes',
                 'label'      => 'Website',
                 'name'       => 'website',
-            ) ),
-        );
+            ] ),
+        ];
 
         return $form_fields;
     }
-
 }

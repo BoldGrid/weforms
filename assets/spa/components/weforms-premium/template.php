@@ -23,7 +23,7 @@
             </div>
             <div class="banner-content">
                 <h1><?php _e( 'weForms Pro', 'weforms' ); ?></h1>
-                <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' );?></p>
+                <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
             </div>
             <div class="banner-buttons">
                 <a href="https://wedevs.com/weforms-upgrade/" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
@@ -247,7 +247,7 @@
                     </svg>
                 </div>
                 <div class="import-text">
-                    <p><?php _e( 'Extend the functionalities while', 'weforms' );?></p>
+                    <p><?php _e( 'Extend the functionalities while', 'weforms' ); ?></p>
                     <h2><?php _e( 'Building WordPress Forms', 'wefoms' ); ?></h2>
                 </div>
             </div>

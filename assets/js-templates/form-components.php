@@ -4,7 +4,7 @@
     <div class="panel-field-opt panel-field-opt-text">
         <label>
             <?php _e( 'Dynamic value population', 'weforms' ); ?>
-            <help-text text="<?php _e( "Field value or options can be populated dynamically through filter hook or query string", 'weforms' ) ?>"></help-text>
+            <help-text text="<?php _e( 'Field value or options can be populated dynamically through filter hook or query string', 'weforms' ); ?>"></help-text>
         </label>
 
         <ul>
@@ -21,7 +21,7 @@
 
 		<div class="panel-field-opt panel-field-opt-text"><label>
             <?php _e( 'Parameter Name', 'weforms' ); ?>
-	        <help-text text="<?php _e( "Enter a Parameter Name, using that the field value can be populated through filter hook or query string", 'weforms' ) ?>"></help-text>
+	        <help-text text="<?php _e( 'Enter a Parameter Name, using that the field value can be populated through filter hook or query string', 'weforms' ); ?>"></help-text>
 	         <input type="text" v-model="dynamic.param_name">
 	     	</label>
      	</div>
@@ -266,8 +266,8 @@
                 <div class="notification-row notification-field">
                     <label for="notification-title"><?php _e( 'Type', 'weforms' ); ?></label>
                     <select type="text" v-model="notifications[editingIndex].type">
-                        <option value="email"><?php _e( 'Email Notification', 'weforms' ) ?></option>
-                        <option value="sms"><?php _e( 'SMS Notification', 'weforms' ) ?></option>
+                        <option value="email"><?php _e( 'Email Notification', 'weforms' ); ?></option>
+                        <option value="sms"><?php _e( 'SMS Notification', 'weforms' ); ?></option>
                     </select>
                 </div>
 
@@ -331,7 +331,7 @@
                     <a href="#" class="field-toggle" v-on:click.prevent="toggleAdvanced()"><span class="dashicons dashicons-arrow-right"></span><?php _e( ' Advanced', 'weforms' ); ?></a>
 
                     <div class="advanced-field-wrap">
-                        <p class="wpuf-pro-text-alert"><?php _e( 'Make sure that your mail server is configured properly for the following "From" fields',  'weforms' ); ?></p>
+                        <p class="wpuf-pro-text-alert"><?php _e( 'Make sure that your mail server is configured properly for the following "From" fields', 'weforms' ); ?></p>
                         <template v-if="notifications[editingIndex].type == 'email' ">
                             <div class="notification-row">
                                 <div class="row-one-half notification-field first">
@@ -403,7 +403,7 @@
                 </div>
                 <div class="wpuf-panel-footer">
                     <div class="wpuf-setting">
-                        <a href="#" @click.prevent="openModal($event.target)" title="<?php _e('Settings', 'weforms'); ?>">
+                        <a href="#" @click.prevent="openModal($event.target)" title="<?php _e( 'Settings', 'weforms' ); ?>">
                             <svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g id="Individual-Form-Integration-Page-Design---weForms" transform="translate(-203.000000, -290.000000)" fill="#CCCCCC" fill-rule="nonzero">
@@ -463,19 +463,19 @@
 <script type="text/x-template" id="tmpl-wpuf-integration-erp">
 <div>
 
-    <?php if ( !function_exists( 'erp_crm_get_contact_groups' ) ) : ?>
+    <?php if ( !function_exists( 'erp_crm_get_contact_groups' ) ) { ?>
 
         <p>
             <?php printf( __( '<a href="%s" target="_blank">WP ERP</a> plugin is not installed. Please install the plugin first.', 'weforms' ), 'https://wordpress.org/plugins/erp/' ); ?>
         </p>
 
-    <?php else : ?>
+    <?php } else { ?>
         <?php
-        $erp_contact_groups = erp_crm_get_contact_groups( array(
+        $erp_contact_groups = erp_crm_get_contact_groups( [
             'number'  => -1,
             'orderby' => 'name',
             'order'   => 'ASC',
-        ) );
+        ] );
         ?>
 
         <div class="wpuf-int-form-row">
@@ -484,14 +484,14 @@
             </div>
             <div class="wpuf-int-field">
                 <ul style="margin: 0;">
-                    <?php foreach ( $erp_contact_groups as $group ): ?>
+                    <?php foreach ( $erp_contact_groups as $group ) { ?>
                         <li>
                             <label>
                                 <input type="checkbox" v-model="settings.group" class="checkbox" value="<?php echo $group->id; ?>">
                                 <?php echo $group->name; ?>
                             </label>
                         </li>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
@@ -551,7 +551,7 @@
             </div>
         </fieldset>
 
-    <?php endif; ?>
+    <?php } ?>
 </div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-integration-slack">
@@ -612,17 +612,16 @@
 
             <?php
             if ( function_exists( 'weforms_get_merge_tags' ) ) {
-
                 $merge_tags = weforms_get_merge_tags();
 
-                foreach ($merge_tags as $section_key => $section) {
+                foreach ( $merge_tags as $section_key => $section ) {
                     ?>
 
                     <div class="merge-tag-section">
-                        <div class="merge-tag-head"><?php echo $section['title'] ?></div>
+                        <div class="merge-tag-head"><?php echo $section['title']; ?></div>
 
                         <ul>
-                            <?php foreach ($section['tags'] as $key => $value) { ?>
+                            <?php foreach ( $section['tags'] as $key => $value ) { ?>
                                 <li>
                                     <a href="#" v-on:click.prevent="insertField('<?php echo $key; ?>');"><?php echo $value; ?></a>
                                 </li>
@@ -643,8 +642,8 @@
 <div>
     <div :class="['wpuf-form-template-modal', show ? 'show' : 'hide' ]">
 
-        <span class="screen-reader-text"><?php _e( 'Modal window. Press escape to close.',  'wpuf'  ); ?></span>
-        <a href="#" class="close" v-on:click.prevent="closeModal()">× <span class="screen-reader-text"><?php _e( 'Close modal window',  'wpuf'  ); ?></span></a>
+        <span class="screen-reader-text"><?php _e( 'Modal window. Press escape to close.', 'wpuf'  ); ?></span>
+        <a href="#" class="close" v-on:click.prevent="closeModal()">× <span class="screen-reader-text"><?php _e( 'Close modal window', 'wpuf'  ); ?></span></a>
 
         <header class="modal-header">
             <slot name="header"></slot>
@@ -697,17 +696,15 @@
                     unset( $registry['blank'] );
                 }
 
-                foreach ($categories as $category_id => $category) {
-
+                foreach ( $categories as $category_id => $category ) {
                     ?>
                     <div class="clearfix" v-if="category=='<?php echo $category_id; ?>' || category=='all'">
 
                     <?php
 
-                    printf( '<h2><i class="%s" style="color: %s"></i> &nbsp;  %s</h2> <ul class="clearfix">',$category['icon'], $colors[array_rand($colors)], $category['name'] );
+                    printf( '<h2><i class="%s" style="color: %s"></i> &nbsp;  %s</h2> <ul class="clearfix">', $category['icon'], $colors[array_rand( $colors )], $category['name'] );
 
                     if ( $category_id == 'default' ) {
-
                         ?>
 
                             <li class="blank-form">
@@ -722,8 +719,8 @@
 
                                     <div class="title"><?php _e( 'Blank Form', 'weforms' ); ?></div>
                                     <br>
-                                    <button class="button button-primary" @click.prevent="blankForm($event.target)" title="<?php echo esc_attr('Blank Form'); ?>">
-                                        <?php _e('Create Form', 'weforms' );  ?>
+                                    <button class="button button-primary" @click.prevent="blankForm($event.target)" title="<?php echo esc_attr( 'Blank Form' ); ?>">
+                                        <?php _e( 'Create Form', 'weforms' ); ?>
                                     </button>
                                 </div>
                             </li>
@@ -732,7 +729,6 @@
                     }
 
                     foreach ( $registry as $key => $template ) {
-
                         if ( $category_id !== $template->category ) {
                             continue;
                         }
@@ -742,20 +738,18 @@
                         $title        = $template->title;
                         $image        = $template->image ? $template->image : '';
 
-                         if ( ! $template->is_enabled() ) {
-
+                        if ( !$template->is_enabled() ) {
                             $title        = __( 'This integration is not installed.', 'weforms' );
                             $class        = 'template-inactive';
                             $is_available = false;
-                         }
-
-
-                        ?>
+                        } ?>
 
                         <li class="<?php echo $class; ?>">
                             <h3><?php _e( $title, 'weforms' ); ?></h3>
 
-                            <?php  if ( $image ) { printf( '<img src="%s" alt="%s">', $image, $title );   }  ?>
+                            <?php  if ( $image ) {
+                            printf( '<img src="%s" alt="%s">', $image, $title );
+                        } ?>
 
                             <div class="form-create-overlay">
 
@@ -764,19 +758,16 @@
                                 <br>
 
                                 <button class="button button-primary" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>" <?php echo $is_available ? '' : 'disabled="disabled"'; ?>>
-                                  <?php if ( $is_available ) : ?>
-                                       <?php _e('Create Form', 'weforms' );  ?>
-                                    <?php else : ?>
-                                        <?php _e('Require Pro Upgrade', 'weforms' );  ?>
-                                    <?php endif; ?>
+                                  <?php if ( $is_available ) { ?>
+                                       <?php _e( 'Create Form', 'weforms' ); ?>
+                                    <?php } else { ?>
+                                        <?php _e( 'Require Pro Upgrade', 'weforms' ); ?>
+                                    <?php } ?>
                                 </button>
                             </div>
                         </li>
                         <?php
-                    }
-
-
-                    ?>
+                    } ?>
 
                     </ul></div>
 

@@ -8,8 +8,8 @@ class WeForms_Form_Field_Pro extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
@@ -20,7 +20,7 @@ class WeForms_Form_Field_Pro extends WeForms_Field_Contract {
     /**
      * Check if it's a pro feature
      *
-     * @return boolean
+     * @return bool
      */
     public function is_pro() {
         return true;

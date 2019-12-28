@@ -94,9 +94,9 @@
                 </td>
                 <td class="weforms-form-status" >
                     <p v-if="isFormStatusClosed(form.settings, form.entries)">
-                        <?php _e( "Closed", "weforms" ); ?>
+                        <?php _e( 'Closed', 'weforms' ); ?>
                     </p>
-                    <p v-else class="open"><?php _e( "Open", "weforms" ); ?></p>
+                    <p v-else class="open"><?php _e( 'Open', 'weforms' ); ?></p>
 
                     <template v-if="form.settings.limit_entries === 'true'">
                         <span v-if="form.settings.schedule_form === 'true' && isExpiredForm(form.settings.schedule_end)">(Expired at {{formatTime(form.settings.schedule_end)}})</span>
@@ -112,7 +112,7 @@
                     </template>
 
                     <template v-else-if="form.settings.require_login  === 'true'">
-                        <span><?php _e( "(Requires login)", "weforms" ); ?></span>
+                        <span><?php _e( '(Requires login)', 'weforms' ); ?></span>
                     </template>
                 </td>
                 <td>{{ form.views }}</td>

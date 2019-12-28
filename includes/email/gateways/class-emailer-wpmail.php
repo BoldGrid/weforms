@@ -8,15 +8,15 @@ class WeForms_Emailer_WPMail implements WeForms_Mailer_Contract {
     /**
      * Send email via wp_mail
      *
-     * @param  string $to       Email addresses to send message
-     * @param  string $subject  Email subject
-     * @param  string $body     Message contents
-     * @param  array $headers  Optional. Files to attach.
+     * @param string $to      Email addresses to send message
+     * @param string $subject Email subject
+     * @param string $body    Message contents
+     * @param array  $headers Optional. Files to attach.
      *
      * @return bool
      */
     public function send( $to, $subject, $body, $headers ) {
-        $_headers = array();
+        $_headers = [];
 
         if ( isset( $headers['from'] ) ) {
             $_headers[] = sprintf( 'From: %s <%s>', $headers['from']['name'], $headers['from']['email'] );

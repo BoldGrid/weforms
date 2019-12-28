@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Name extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Name', 'weforms' );
         $this->input_type = 'name_field';
         $this->icon       = 'user';
@@ -14,20 +14,17 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
 
-
         // let's not show the name field if user choose to auto populate for logged users
         if ( isset( $field_settings['auto_populate'] ) && $field_settings['auto_populate'] == 'yes' && is_user_logged_in() ) {
             return;
-        }
-
-        ?>
+        } ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -45,13 +42,12 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                             class="textfield wpuf_<?php echo esc_attr( $field_settings['name'] ); ?>_<?php echo esc_attr( $form_id); ?>"
                             autocomplete="given-name"
                         >
-
                         <?php if ( ! $field_settings['hide_subs'] ) : ?>
                             <label class="wpuf-form-sub-label"><?php esc_html_e( 'First', 'weforms' ); ?></label>
                         <?php endif; ?>
                     </div>
 
-                    <?php if ( $field_settings['format'] != 'first-last' ) : ?>
+                    <?php if ( $field_settings['format'] != 'first-last' ) { ?>
                         <div class="wpuf-name-field-middle-name">
                             <input
                                 name="<?php echo esc_attr( $field_settings['name']) ?>[middle]"
@@ -61,14 +57,13 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                                 size="40"
                                 autocomplete="additional-name"
                             >
-
                             <?php if ( ! $field_settings['hide_subs'] ) : ?>
                                 <label class="wpuf-form-sub-label"><?php esc_html_e( 'Middle', 'weforms' ); ?></label>
                             <?php endif; ?>
                         </div>
-                    <?php else: ?>
+                    <?php } else { ?>
                         <input type="hidden" name="<?php echo esc_attr( $field_settings['name'] ) ?>[middle]" value="">
-                    <?php endif; ?>
+                    <?php } ?>
 
                     <div class="wpuf-name-field-last-name">
                         <input
@@ -96,70 +91,70 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options = $this->get_default_option_settings( true, array( 'width' ) );
+        $default_options = $this->get_default_option_settings( true, [ 'width' ] );
 
-        $name_settings = array(
-            array(
+        $name_settings = [
+            [
                 'name'      => 'format',
                 'title'     => __( 'Format', 'weforms' ),
                 'type'      => 'radio',
-                'options'   => array(
+                'options'   => [
                     'first-last'        => __( 'First and Last name', 'weforms' ),
-                    'first-middle-last' => __( 'First, Middle and Last name', 'weforms' )
-                ),
+                    'first-middle-last' => __( 'First, Middle and Last name', 'weforms' ),
+                ],
                 'selected'  => 'first-last',
                 'section'   => 'advanced',
                 'priority'  => 20,
                 'help_text' => __( 'Select format to use for the name field', 'weforms' ),
-            ),
-            array(
+            ],
+            [
                 'name'          => 'auto_populate',
                 'title'         => 'Auto-populate name for logged users',
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
-                'options'       => array(
-                    'yes'   => __( 'Auto-populate Name', 'weforms' )
-                ),
+                'options'       => [
+                    'yes'   => __( 'Auto-populate Name', 'weforms' ),
+                ],
                 'default'       => '',
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'If a user is logged into the site, this name field will be auto-populated with his first-last/display name. And form\'s name field will be hidden.', 'weforms' ),
-            ),
-            array(
+            ],
+            [
                 'name'      => 'sub-labels',
                 'title'     => __( 'Label', 'weforms' ),
                 'type'      => 'name',
                 'section'   => 'advanced',
                 'priority'  => 21,
                 'help_text' => __( 'Select format to use for the name field', 'weforms' ),
-            ),
-            array(
+            ],
+            [
                 'name'          => 'hide_subs',
                 'title'         => '',
                 'type'          => 'checkbox',
                 'is_single_opt' => true,
-                'options'       => array(
-                    'true'   => __( 'Hide Sub Labels', 'weforms' )
-                ),
+                'options'       => [
+                    'true'   => __( 'Hide Sub Labels', 'weforms' ),
+                ],
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => '',
-            ),
-            array(
+            ],
+            [
                 'name'          => 'inline',
                 'title'         => __( 'Show in inline list', 'weforms' ),
                 'type'          => 'radio',
-                'options'       => array(
+                'options'       => [
                     'yes'   => __( 'Yes', 'weforms' ),
                     'no'    => __( 'No', 'weforms' ),
-                ),
+                ],
                 'default'       => 'no',
                 'inline'        => true,
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'Show this option in an inline list', 'weforms' ),
-            )
-        );
+            ],
+        ];
 
         return array_merge( $default_options, $name_settings );
     }
@@ -171,26 +166,26 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $props    = array(
+        $props    = [
             'format'     => 'first-last',
-            'first_name' => array(
+            'first_name' => [
                 'placeholder' => '',
                 'default'     => '',
-                'sub'         => __( 'First', 'weforms' )
-            ),
-            'middle_name' => array(
+                'sub'         => __( 'First', 'weforms' ),
+            ],
+            'middle_name' => [
                 'placeholder' => '',
                 'default'     => '',
-                'sub'         => __( 'Middle', 'weforms' )
-            ),
-            'last_name' => array(
+                'sub'         => __( 'Middle', 'weforms' ),
+            ],
+            'last_name' => [
                 'placeholder' => '',
                 'default'     => '',
-                'sub'         => __( 'Last', 'weforms' )
-            ),
-            'inline'   => 'yes',
+                'sub'         => __( 'Last', 'weforms' ),
+            ],
+            'inline'           => 'yes',
             'hide_subs'        => false,
-        );
+        ];
 
         return array_merge( $defaults, $props );
     }
@@ -214,23 +209,18 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
         $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
 
         if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
-
             $user = wp_get_current_user();
 
-            if ( ! empty( $user->ID ) ) {
-
+            if ( !empty( $user->ID ) ) {
                 if ( $user->first_name || $user->last_name ) {
-
-                    $name = array();
+                    $name   = [];
                     $name[] = $user->first_name;
                     $name[] = $user->last_name;
 
                     return implode( WeForms::$field_separator, $name );
                 } else {
-
                     return $user->display_name;
                 }
-
             }
         }
 
@@ -244,5 +234,4 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
 
         return $entry_value;
     }
-
 }

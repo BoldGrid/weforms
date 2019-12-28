@@ -5,12 +5,12 @@
         <td>
             <select v-model="settings.label_position">
                 <?php
-                $positions = array(
+                $positions = [
                     'above'  => __( 'Above Element', 'weforms' ),
                     'left'   => __( 'Left of Element', 'weforms' ),
                     'right'  => __( 'Right of Element', 'weforms' ),
                     'hidden' => __( 'Hidden', 'weforms' ),
-                );
+                ];
 
                 foreach ($positions as $to => $label) {
                     printf( '<option value="%s"%s>%s</option>', esc_attr( $to ), '', esc_attr( $label ) );
@@ -29,10 +29,10 @@
         <td>
             <select v-model="settings.use_theme_css">
                 <?php
-                $options = array(
+                $options = [
                     'wpuf-theme-style'  => __( 'Yes', 'weforms' ),
                     'wpuf-style'        => __( 'No', 'weforms' ),
-                );
+                ];
 
                 foreach ($options as $key => $label) {
                     printf( '<option value="%s"%s>%s</option>', esc_attr( $key ), '', esc_attr( $label ) );

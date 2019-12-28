@@ -23,13 +23,13 @@ class WeForms_Template_Polling_Form extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array(
-            array_merge( $all_fields['radio_field']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['radio_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => 'Poll Question',
                 'name'     => 'poll_field',
-            ) ),
-        );
+            ] ),
+        ];
 
         return $form_fields;
     }
@@ -42,11 +42,10 @@ class WeForms_Template_Polling_Form extends WeForms_Form_Template {
     public function get_form_settings() {
         $defaults = $this->get_default_settings();
 
-        return array_merge( $defaults, array(
+        return array_merge( $defaults, [
             'message'           => __( 'Thanks for taking part in the poll!', 'weforms' ),
             'submit_text'       => __( 'Submit', 'weforms' ),
             'label_position'    => 'left',
-        ) );
+        ] );
     }
-
 }

@@ -30,17 +30,15 @@
                     unset( $registry['blank'] );
                 }
 
-                foreach ($categories as $category_id => $category) {
-
+                foreach ( $categories as $category_id => $category ) {
                     ?>
                     <div class="clearfix" v-if="category=='<?php echo $category_id; ?>' || category=='all'">
 
                     <?php
 
-                    printf( '<h2><i class="%s" style="color: %s"></i> &nbsp;  %s</h2> <ul class="clearfix">',$category['icon'], $colors[array_rand($colors)], $category['name'] );
+                    printf( '<h2><i class="%s" style="color: %s"></i> &nbsp;  %s</h2> <ul class="clearfix">', $category['icon'], $colors[array_rand( $colors )], $category['name'] );
 
                     if ( $category_id == 'default' ) {
-
                         ?>
 
                             <li class="blank-form">
@@ -55,8 +53,8 @@
 
                                     <div class="title"><?php _e( 'Blank Form', 'weforms' ); ?></div>
                                     <br>
-                                    <button class="button button-primary" @click.prevent="blankForm($event.target)" title="<?php echo esc_attr('Blank Form'); ?>">
-                                        <?php _e('Create Form', 'weforms' );  ?>
+                                    <button class="button button-primary" @click.prevent="blankForm($event.target)" title="<?php echo esc_attr( 'Blank Form' ); ?>">
+                                        <?php _e( 'Create Form', 'weforms' ); ?>
                                     </button>
                                 </div>
                             </li>
@@ -65,7 +63,6 @@
                     }
 
                     foreach ( $registry as $key => $template ) {
-
                         if ( $category_id !== $template->category ) {
                             continue;
                         }
@@ -75,20 +72,18 @@
                         $title        = $template->title;
                         $image        = $template->image ? $template->image : '';
 
-                         if ( ! $template->is_enabled() ) {
-
+                        if ( !$template->is_enabled() ) {
                             $title        = __( 'This integration is not installed.', 'weforms' );
                             $class        = 'template-inactive';
                             $is_available = false;
-                         }
-
-
-                        ?>
+                        } ?>
 
                         <li class="<?php echo $class; ?>">
                             <h3><?php _e( $title, 'weforms' ); ?></h3>
 
-                            <?php  if ( $image ) { printf( '<img src="%s" alt="%s">', $image, $title );   }  ?>
+                            <?php  if ( $image ) {
+                            printf( '<img src="%s" alt="%s">', $image, $title );
+                        } ?>
 
                             <div class="form-create-overlay">
 
@@ -97,19 +92,16 @@
                                 <br>
 
                                 <button class="button button-primary" @click.prevent="createForm('<?php echo $key; ?>', $event.target)" title="<?php echo esc_attr( $title ); ?>" <?php echo $is_available ? '' : 'disabled="disabled"'; ?>>
-                                  <?php if ( $is_available ) : ?>
-                                       <?php _e('Create Form', 'weforms' );  ?>
-                                    <?php else : ?>
-                                        <?php _e('Require Pro Upgrade', 'weforms' );  ?>
-                                    <?php endif; ?>
+                                  <?php if ( $is_available ) { ?>
+                                       <?php _e( 'Create Form', 'weforms' ); ?>
+                                    <?php } else { ?>
+                                        <?php _e( 'Require Pro Upgrade', 'weforms' ); ?>
+                                    <?php } ?>
                                 </button>
                             </div>
                         </li>
                         <?php
-                    }
-
-
-                    ?>
+                    } ?>
 
                     </ul></div>
 

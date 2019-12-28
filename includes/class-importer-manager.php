@@ -7,7 +7,7 @@
  */
 class WeForms_Importer_Manager {
 
-    function __construct() {
+    public function __construct() {
         $this->get_importers();
     }
 
@@ -24,13 +24,13 @@ class WeForms_Importer_Manager {
         require_once WEFORMS_INCLUDES . '/importer/class-importer-ninja-forms.php';
         require_once WEFORMS_INCLUDES . '/importer/class-importer-caldera-forms.php';
 
-        $importers = array(
+        $importers = [
             'cf7'        => new WeForms_Importer_CF7(),
             'gravity'    => new WeForms_Importer_GF(),
             'wpforms'    => new WeForms_Importer_WPForms(),
             'ninjaforms' => new WeForms_Importer_Ninja_Forms(),
             'caldera'    => new WeForms_Importer_Caldera_Forms(),
-        );
+        ];
 
         return apply_filters( 'weforms_form_importers', $importers );
     }

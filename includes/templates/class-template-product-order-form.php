@@ -14,8 +14,8 @@ class WeForms_Template_Product_Order_Form extends WeForms_Form_Template {
         $this->category    = 'default';
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/product-order-form.png';
         $this->category    = 'payment';
-
     }
+
     /**
      * Get the form fields
      *
@@ -24,113 +24,109 @@ class WeForms_Template_Product_Order_Form extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array(
-            array_merge( $all_fields['step_start']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['step_start']->get_field_props(), [
                 'label'      => __( 'Product Order', 'weforms' ),
                 'name'       => 'personal_order',
-                'step_start' => array(
+                'step_start' => [
                     'prev_button_text' => __( 'Previous', 'weforms' ),
-                    'next_button_text' => __( 'Next', 'weforms' )
-                ),
-            ) ),
-            array_merge( $all_fields['name_field']->get_field_props(), array(
+                    'next_button_text' => __( 'Next', 'weforms' ),
+                ],
+            ] ),
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'required'      => 'yes',
                 'format'        => 'first-middle-last',
-                'first_name'    => array(
+                'first_name'    => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'First', 'weforms' )
-                ),
-
-                'middle_name'   => array(
+                    'sub'         => __( 'First', 'weforms' ),
+                ],
+                'middle_name'   => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Middle', 'weforms' )
-                ),
-                'last_name'     => array(
+                    'sub'         => __( 'Middle', 'weforms' ),
+                ],
+                'last_name'     => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Last', 'weforms' )
-                ),
+                    'sub'         => __( 'Last', 'weforms' ),
+                ],
                 'hide_subs'     => false,
                 'name'          => 'format',
-            ) ),
-            array_merge( $all_fields['email_address']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['email_address']->get_field_props(), [
                 'label'    => __( 'Email Address', 'weforms' ),
                 'name'     => 'email_address',
-            ) ),
-            array_merge( $all_fields['numeric_text_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => __( 'Contact Number', 'weforms' ),
                 'name'     => 'phone_number',
-            ) ),
-            array_merge( $all_fields['address_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['address_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => 'Billing Address',
                 'name'     => 'billing_address',
-            ) ),
-            array_merge( $all_fields['step_start']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['step_start']->get_field_props(), [
                 'label'          => __( 'Product', 'weforms' ),
                 'name'           => 'product',
-                'step_start'     => array(
+                'step_start'     => [
                     'prev_button_text' => __( 'Previous', 'weforms' ),
-                    'next_button_text' => __( 'Next', 'weforms' )
-                ),
-            ) ),
-            array_merge( $all_fields['single_product']->get_field_props(), array(
-                'label'         =>  __('T-Shirt', 'weforms'),
-                'name'          =>  't_shirt',
-                'price'         =>  array(
-                    'price'     =>  10,
-                ),
-                'quantity'      =>  array(
-                    'status'    =>  'yes'
-                ),
-            ) ),
-            array_merge( $all_fields['single_product']->get_field_props(), array(
-                'label'         =>  __('Sweatshirt', 'weforms'),
-                'name'          =>  'sweatshirt',
-                'price'         =>  array(
-                    'price'     =>  10,
-                ),
-                'quantity'      =>   array(
-                    'status'    =>  'yes'
-                ),
-            ) ),
-            array_merge( $all_fields['single_product']->get_field_props(), array(
-                'label'         =>   __('Shoes', 'weforms'),
-                'name'          =>   'shoes',
-                'price'         =>    array(
-                    'price'     =>    10,
-                ),
-                'quantity'      =>    array(
-                    'status'    =>    'yes'
-                ),
-            ) ),
-            array_merge( $all_fields['total']->get_field_props(), array(
+                    'next_button_text' => __( 'Next', 'weforms' ),
+                ],
+            ] ),
+            array_merge( $all_fields['single_product']->get_field_props(), [
+                'label'         => __( 'T-Shirt', 'weforms' ),
+                'name'          => 't_shirt',
+                'price'         => [
+                    'price'     => 10,
+                ],
+                'quantity'      => [
+                    'status'    => 'yes',
+                ],
+            ] ),
+            array_merge( $all_fields['single_product']->get_field_props(), [
+                'label'         => __( 'Sweatshirt', 'weforms' ),
+                'name'          => 'sweatshirt',
+                'price'         => [
+                    'price'     => 10,
+                ],
+                'quantity'      => [
+                    'status'    => 'yes',
+                ],
+            ] ),
+            array_merge( $all_fields['single_product']->get_field_props(), [
+                'label'         => __( 'Shoes', 'weforms' ),
+                'name'          => 'shoes',
+                'price'         => [
+                    'price'     => 10,
+                ],
+                'quantity'      => [
+                    'status'    => 'yes',
+                ],
+            ] ),
+            array_merge( $all_fields['total']->get_field_props(), [
                'label'     => __( 'Total', 'weforms' ),
                'price'     => 0,
-            ) ),
+            ] ),
 
-            array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'        =>  __('Send Gift', 'weforms'),
-                'name'         =>  'send_gift',
-                'options'      =>   array(
-                    'yes'   =>  __('Yes', 'weforms'),
-                    'no'    =>  __('No', 'weforms'),
-                ),
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'        =>   __('Additional Requests', 'weforms'),
-                'name'         =>   'additional_request',
-            ) ),
-
-        );
+            array_merge( $all_fields['checkbox_field']->get_field_props(), [
+                'label'        => __( 'Send Gift', 'weforms' ),
+                'name'         => 'send_gift',
+                'options'      => [
+                    'yes'   => __( 'Yes', 'weforms' ),
+                    'no'    => __( 'No', 'weforms' ),
+                ],
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'        => __( 'Additional Requests', 'weforms' ),
+                'name'         => 'additional_request',
+            ] ),
+        ];
 
         return $form_fields;
     }
-
-
 
     /**
      * Get the form settings
@@ -140,12 +136,11 @@ class WeForms_Template_Product_Order_Form extends WeForms_Form_Template {
     public function get_form_settings() {
         $defaults = $this->get_default_settings();
 
-        return array_merge( $defaults, array(
+        return array_merge( $defaults, [
             'submit_text'                => __( 'Submit', 'weforms' ),
             'label_position'             => 'above',
             'enable_multistep'           => true,
             'multistep_progressbar_type' => 'step_by_step',
-        ) );
+        ] );
     }
-
 }

@@ -39,7 +39,7 @@
  */
 
 // don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -62,15 +62,14 @@ final class WeForms {
      *
      * @var string
      */
-    static $field_separator = '| ';
+    public static $field_separator = '| ';
 
     /**
      * Holds various class instances
      *
      * @var array
      */
-    private $container = array();
-
+    private $container = [];
 
     /**
      * Minimum PHP version required
@@ -79,7 +78,6 @@ final class WeForms {
      */
     private $min_php = '5.6.0';
 
-
     /**
      * Constructor for the WeForms class
      *
@@ -87,20 +85,20 @@ final class WeForms {
      * within our plugin.
      */
     public function __construct() {
-
         $this->define_constants();
 
-        if ( ! $this->is_supported_php() ) {
-            register_activation_hook( __FILE__, array( $this, 'auto_deactivate' ) );
-            add_action( 'admin_notices', array( $this, 'php_version_notice' ) );
+        if ( !$this->is_supported_php() ) {
+            register_activation_hook( __FILE__, [ $this, 'auto_deactivate' ] );
+            add_action( 'admin_notices', [ $this, 'php_version_notice' ] );
+
             return;
         }
 
-        register_activation_hook( __FILE__, array( $this, 'activate' ) );
-        register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+        register_activation_hook( __FILE__, [ $this, 'activate' ] );
+        register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
 
-        add_action( 'admin_init', array( $this, 'plugin_upgrades' ) );
-        add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
+        add_action( 'admin_init', [ $this, 'plugin_upgrades' ] );
+        add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
 
         $this->init_appsero();
     }
@@ -140,7 +138,7 @@ final class WeForms {
     public static function init() {
         static $instance = false;
 
-        if ( ! $instance ) {
+        if ( !$instance ) {
             $instance = new WeForms();
         }
 
@@ -155,7 +153,7 @@ final class WeForms {
     private function define_constants() {
         define( 'WEFORMS_VERSION', $this->version );
         define( 'WEFORMS_FILE', __FILE__ );
-        define( 'WEFORMS_ROOT', dirname( __FILE__ ) );
+        define( 'WEFORMS_ROOT', __DIR__ );
         define( 'WEFORMS_INCLUDES', WEFORMS_ROOT . '/includes' );
         define( 'WEFORMS_ROOT_URI', plugins_url( '', __FILE__ ) );
         define( 'WEFORMS_ASSET_URI', WEFORMS_ROOT_URI . '/assets' );
@@ -167,7 +165,6 @@ final class WeForms {
      * @return void
      */
     public function init_plugin() {
-
         $this->includes();
         $this->init_hooks();
 
@@ -186,15 +183,15 @@ final class WeForms {
         require_once WEFORMS_INCLUDES . '/class-form-manager.php';
         require_once WEFORMS_INCLUDES . '/class-template-manager.php';
 
-        if ( ! array_key_exists( 'fields', $this->container ) ) {
+        if ( !array_key_exists( 'fields', $this->container ) ) {
             $this->container['fields'] = new WeForms_Field_Manager();
         }
 
-        if ( ! array_key_exists( 'form', $this->container ) ) {
+        if ( !array_key_exists( 'form', $this->container ) ) {
             $this->container['form'] = new WeForms_Form_Manager();
         }
 
-        if ( ! array_key_exists( 'templates', $this->container ) ) {
+        if ( !array_key_exists( 'templates', $this->container ) ) {
             $this->container['templates'] = new WeForms_Template_Manager();
         }
 
@@ -208,7 +205,6 @@ final class WeForms {
      * Nothing being called here yet.
      */
     public function deactivate() {
-
     }
 
     /**
@@ -217,7 +213,6 @@ final class WeForms {
      * @return void
      */
     public function includes() {
-
         require_once WEFORMS_INCLUDES . '/compat/class-abstract-wpuf-integration.php';
 
         if ( $this->is_request( 'admin' ) ) {
@@ -232,11 +227,10 @@ final class WeForms {
             require_once WEFORMS_INCLUDES . '/admin/class-promotion.php';
             require_once WEFORMS_INCLUDES . '/admin/class-shortcode-button.php';
             require_once WEFORMS_INCLUDES . '/admin/class-privacy.php';
-
         } else {
 
             // add reCaptcha library if not found
-            if ( ! function_exists( 'recaptcha_get_html' ) ) {
+            if ( !function_exists( 'recaptcha_get_html' ) ) {
                 require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib.php';
                 require_once WEFORMS_INCLUDES . '/library/reCaptcha/recaptchalib_noCaptcha.php';
             }
@@ -276,9 +270,8 @@ final class WeForms {
      *
      * @return void
      */
-    function plugin_upgrades() {
-
-        if ( ! current_user_can( 'manage_options' ) ) {
+    public function plugin_upgrades() {
+        if ( !current_user_can( 'manage_options' ) ) {
             return;
         }
 
@@ -299,13 +292,13 @@ final class WeForms {
     public function init_hooks() {
 
         // Localize our plugin
-        add_action( 'init', array( $this, 'localization_setup' ) );
+        add_action( 'init', [ $this, 'localization_setup' ] );
 
         // initialize the classes
-        add_action( 'init', array( $this, 'init_classes' ) );
-        add_action( 'init', array( $this, 'wpdb_table_shortcuts' ), 0 );
+        add_action( 'init', [ $this, 'init_classes' ] );
+        add_action( 'init', [ $this, 'wpdb_table_shortcuts' ], 0 );
 
-        add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
+        add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), [ $this, 'plugin_action_links' ] );
     }
 
     /**
@@ -335,7 +328,6 @@ final class WeForms {
      * @return void
      */
     public function init_classes() {
-
         if ( $this->is_request( 'admin' ) ) {
             $this->container['admin']        = new WeForms_Admin();
             // $this->container['welcome']      = new WeForms_Admin_Welcome();
@@ -373,14 +365,15 @@ final class WeForms {
      * The main logging function
      *
      * @uses error_log
+     *
      * @param string $type type of the error. e.g: debug, error, info
      * @param string $msg
      */
     public static function log( $type = '', $msg = '' ) {
 
         // default we are turning the debug mood on, but can be turned off
-        if ( defined( 'WEFORMS_DEBUG_LOG' ) &&  false === WEFORMS_DEBUG_LOG ) {
-           return;
+        if ( defined( 'WEFORMS_DEBUG_LOG' ) && false === WEFORMS_DEBUG_LOG ) {
+            return;
         }
 
         $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, $msg );
@@ -390,12 +383,11 @@ final class WeForms {
     /**
      * Plugin action links
      *
-     * @param  array $links
+     * @param array $links
      *
      * @return array
      */
-    function plugin_action_links( $links ) {
-
+    public function plugin_action_links( $links ) {
         $links[] = '<a href="https://wedevs.com/docs/weforms/?utm_source=weforms-action-link&utm_medium=textlink&utm_campaign=plugin-docs-link" target="_blank">' . __( 'Docs', 'weforms' ) . '</a>';
         $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
@@ -408,10 +400,9 @@ final class WeForms {
      * @return bool
      */
     public function is_supported_php( $min_php = null ) {
-
         $min_php = $min_php ? $min_php : $this->min_php;
 
-        if ( version_compare( PHP_VERSION, $min_php , '<=' ) ) {
+        if ( version_compare( PHP_VERSION, $min_php, '<=' ) ) {
             return false;
         }
 
@@ -423,15 +414,13 @@ final class WeForms {
      *
      * @return void
      */
-    function php_version_notice() {
-
-        if ( $this->is_supported_php() || ! current_user_can( 'manage_options' ) ) {
+    public function php_version_notice() {
+        if ( $this->is_supported_php() || !current_user_can( 'manage_options' ) ) {
             return;
         }
 
         $error = __( 'Your installed PHP Version is: ', 'weforms' ) . PHP_VERSION . '. ';
-        $error .= __( 'The <strong>weForms</strong> plugin requires PHP version <strong>', 'weforms' ) . $this->min_php . __( '</strong> or greater.', 'weforms' );
-        ?>
+        $error .= __( 'The <strong>weForms</strong> plugin requires PHP version <strong>', 'weforms' ) . $this->min_php . __( '</strong> or greater.', 'weforms' ); ?>
         <div class="error">
             <p><?php printf( wp_kses_post ( $error ) ); ?></p>
         </div>
@@ -443,7 +432,7 @@ final class WeForms {
      *
      * @return void
      */
-    function auto_deactivate() {
+    public function auto_deactivate() {
         if ( $this->is_supported_php() ) {
             return;
         }
@@ -456,7 +445,7 @@ final class WeForms {
         $error .= __( '<p>The version of your PHP is ', 'weforms' ) . '<a href="http://php.net/supported-versions.php" target="_blank"><strong>' . __( 'unsupported and old', 'weforms' ) . '</strong></a>.';
         $error .= __( 'You should update your PHP software or contact your host regarding this matter.</p>', 'weforms' );
 
-        wp_die( wp_kses_post( $error ), esc_html_e( 'Plugin Activation Error', 'weforms' ), array( 'back_link' => true ) );
+        wp_die( wp_kses_post( $error ), esc_html_e( 'Plugin Activation Error', 'weforms' ), [ 'back_link' => true ] );
     }
 
     /**
@@ -464,27 +453,26 @@ final class WeForms {
      *
      * @since 1.2.3
      *
-     * @param  string $type admin, ajax, cron, api or frontend.
+     * @param string $type admin, ajax, cron, api or frontend
      *
      * @return bool
      */
     private function is_request( $type ) {
-
         switch ( $type ) {
-            case 'admin' :
+            case 'admin':
                 return is_admin();
 
-            case 'ajax' :
+            case 'ajax':
                 return defined( 'DOING_AJAX' );
 
-            case 'cron' :
+            case 'cron':
                 return defined( 'DOING_CRON' );
 
             case 'api':
                 return defined( 'REST_REQUEST' );
 
-            case 'frontend' :
-                return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+            case 'frontend':
+                return ( !is_admin() || defined( 'DOING_AJAX' ) ) && !defined( 'DOING_CRON' );
         }
     }
 
@@ -501,7 +489,6 @@ final class WeForms {
         // Active insights
         $client->insights()->init();
     }
-
 } // WeForms
 
 /**

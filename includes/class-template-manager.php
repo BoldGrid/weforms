@@ -12,7 +12,7 @@ class WeForms_Template_Manager {
      *
      * @var array
      */
-    private $templates = array();
+    private $templates = [];
 
     /**
      * Get all the registered fields
@@ -20,8 +20,7 @@ class WeForms_Template_Manager {
      * @return array
      */
     public function get_templates() {
-
-        if ( ! empty( $this->templates ) ) {
+        if ( !empty( $this->templates ) ) {
             return $this->templates;
         }
 
@@ -36,7 +35,6 @@ class WeForms_Template_Manager {
      * @return array
      */
     public function register_templates() {
-
         require_once WEFORMS_INCLUDES . '/templates/class-abstract-template.php';
 
         require_once WEFORMS_INCLUDES . '/templates/class-template-blank.php';
@@ -69,7 +67,7 @@ class WeForms_Template_Manager {
         require_once WEFORMS_INCLUDES . '/templates/class-template-polling-form.php';
         require_once WEFORMS_INCLUDES . '/templates/dokan/class-vendor-contact-form.php';
 
-        $templates = array(
+        $templates = [
             'blank'                    => new WeForms_Template_Blank(),
             'contact'                  => new WeForms_Template_Contact(),
             'event_registration'       => new WeForms_Template_Event_Registration(),
@@ -99,7 +97,7 @@ class WeForms_Template_Manager {
             'conference_proposal'      => new Weforms_Template_Conference_Proposal(),
             'polling_form'             => new WeForms_Template_Polling_Form(),
             'vendor_contact_form'      => new WeForms_Vendor_Contact_Form(),
-        );
+        ];
 
         $this->templates = apply_filters( 'weforms_get_templates', $templates );
     }
@@ -107,9 +105,9 @@ class WeForms_Template_Manager {
     /**
      * Check if a template exists
      *
-     * @param  string $name
+     * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function exists( $name ) {
         if ( array_key_exists( $name, $this->get_templates() ) ) {
@@ -122,12 +120,12 @@ class WeForms_Template_Manager {
     /**
      * Create a form from a template
      *
-     * @param  string $name
+     * @param string $name
      *
-     * @return integer
+     * @return int
      */
     public function create( $name ) {
-        if ( ! $template = $this->exists( $name ) ) {
+        if ( !$template = $this->exists( $name ) ) {
             return;
         }
 
@@ -137,13 +135,13 @@ class WeForms_Template_Manager {
             return $form_id;
         }
 
-        $meta_updates = array(
+        $meta_updates = [
             'wpuf_form_settings' => $template->get_form_settings(),
             'notifications'      => $template->get_form_notifications(),
-            'integrations'       => array()
-        );
+            'integrations'       => [],
+        ];
 
-        foreach ($meta_updates as $meta_key => $meta_value) {
+        foreach ( $meta_updates as $meta_key => $meta_value ) {
             update_post_meta( $form_id, $meta_key, $meta_value );
         }
 

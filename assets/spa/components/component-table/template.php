@@ -7,11 +7,11 @@
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
                 <option value="restore" v-if="status == 'trash' ">
-                    <?php _e('Restore Entries', 'weforms'); ?>
+                    <?php _e( 'Restore Entries', 'weforms' ); ?>
                 </option>
                 <option value="delete">
-                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
-                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                    <template v-if="status == 'trash' "><?php _e( 'Delete Permanently', 'weforms' ); ?></template>
+                    <template v-else><?php _e( 'Delete Entries', 'weforms' ); ?></template>
                 </option>
             </select>
 
@@ -127,11 +127,11 @@
             <select name="action" v-model="bulkAction">
                 <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
                 <option value="restore" v-if="status == 'trash' ">
-                    <?php _e('Restore Entries', 'weforms'); ?>
+                    <?php _e( 'Restore Entries', 'weforms' ); ?>
                 </option>
                 <option value="delete">
-                    <template v-if="status == 'trash' "><?php _e('Delete Permanently', 'weforms'); ?></template>
-                    <template v-else><?php _e('Delete Entries', 'weforms'); ?></template>
+                    <template v-if="status == 'trash' "><?php _e( 'Delete Permanently', 'weforms' ); ?></template>
+                    <template v-else><?php _e( 'Delete Entries', 'weforms' ); ?></template>
                 </option>
             </select>
 

@@ -11,7 +11,7 @@
                     <span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span>
                     <span class="pull-right" v-if="hasEmpty">
                         <label style="font-weight: normal; font-size: 12px">
-                            <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ) ?>
+                            <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ); ?>
                         </label>
                     </span>
                 </h2>

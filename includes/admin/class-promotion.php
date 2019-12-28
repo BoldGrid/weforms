@@ -3,25 +3,24 @@
 /**
  * Promotional offer class
  */
-
 class WeForms_Admin_Promotion {
 
     public function __construct() {
-        add_action( 'admin_notices', array( $this, 'promotional_offer' ) );
-        add_action( 'admin_notices', array( $this, 'weforms_review_notice_message' ) );
-        add_action( 'wp_ajax_weforms-dismiss-promotional-offer-notice', array( $this, 'dismiss_promotional_offer' ) );
-        add_action( 'wp_ajax_weforms-dismiss-review-notice', array( $this, 'dismiss_review_notice' ) );
+        add_action( 'admin_notices', [ $this, 'promotional_offer' ] );
+        add_action( 'admin_notices', [ $this, 'weforms_review_notice_message' ] );
+        add_action( 'wp_ajax_weforms-dismiss-promotional-offer-notice', [ $this, 'dismiss_promotional_offer' ] );
+        add_action( 'wp_ajax_weforms-dismiss-review-notice', [ $this, 'dismiss_review_notice' ] );
     }
 
     /**
      * Promotional offer notice
      *
      * @return void
-     * @since 1.2.6
      *
+     * @since 1.2.6
      */
     public function promotional_offer() {
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( !current_user_can( 'manage_options' ) ) {
             return;
         }
 
@@ -154,14 +153,13 @@ class WeForms_Admin_Promotion {
     }
 
     /**
-     *
      * @return void
-     **@since 1.3.5
      *
+     **@since 1.3.5
      */
     public function weforms_review_notice_message() {
         // Show only to Admins
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( !current_user_can( 'manage_options' ) ) {
             return;
         }
 
@@ -169,10 +167,10 @@ class WeForms_Admin_Promotion {
         $activation_time = get_option( 'weforms_installed' );
         $total_entries   = weforms_count_entries();
 
-        $args = array(
+        $args = [
             'order'   => 'DESC',
-            'orderby' => 'post_date'
-        );
+            'orderby' => 'post_date',
+        ];
 
         $contact_forms  = weforms()->form->get_forms( $args );
         $form_published = count( $contact_forms['forms'] );
@@ -187,11 +185,9 @@ class WeForms_Admin_Promotion {
             ( time() - $activation_time < 3888000 )
             && $total_entries < 25
             && $form_published < 3
-        ) {
+          ) {
             return;
-        }
-
-        ?>
+        } ?>
         <div id="weforms-review-notice" class="weforms-review-notice">
             <div class="weforms-review-thumbnail">
                 <img src="<?php echo esc_attr( WEFORMS_ASSET_URI ) . '/images/icon-weforms.png' ?>" alt="">
@@ -214,7 +210,8 @@ class WeForms_Admin_Promotion {
                         </a></li>
                     <li><a href="#" class="notice-dismiss"><span
                                 class="dashicons dashicons-dismiss"></span><?php esc_html_e( 'Never show again', 'weforms' ) ?>
-                        </a></li>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -300,16 +297,14 @@ class WeForms_Admin_Promotion {
             });
         </script>
         <?php
-
     }
-
 
     /**
      * Dismiss promotion notice
      *
      * @return void
-     * @since  1.2.6
      *
+     * @since  1.2.6
      */
     public function dismiss_promotional_offer() {
         if( empty( $_POST['_wpnonce'] ) ) {
@@ -334,11 +329,10 @@ class WeForms_Admin_Promotion {
      * Dismiss review notice
      *
      * @return void
-     **@since  1.3.5
      *
+     **@since  1.3.5
      */
     public function dismiss_review_notice() {
-
         if( empty( $_POST['_wpnonce'] ) ) {
              wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }

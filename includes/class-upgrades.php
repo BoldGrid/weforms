@@ -12,7 +12,7 @@ class WeForms_Upgrades {
      *
      * @var array
      */
-    private static $upgrades = array();
+    private static $upgrades = [];
 
     /**
      * Get the plugin version
@@ -26,12 +26,12 @@ class WeForms_Upgrades {
     /**
      * Check if the plugin needs any update
      *
-     * @return boolean
+     * @return bool
      */
     public function needs_update() {
 
         // may be it's the first install
-        if ( ! $this->get_version() ) {
+        if ( !$this->get_version() ) {
             return false;
         }
 
@@ -47,9 +47,9 @@ class WeForms_Upgrades {
      *
      * @return void
      */
-    function perform_updates() {
+    public function perform_updates() {
         $installed_version = $this->get_version();
-        $path              = trailingslashit( dirname( __FILE__ ) );
+        $path              = trailingslashit( __DIR__ );
 
         foreach ( self::$upgrades as $version => $file ) {
             if ( version_compare( $installed_version, $version, '<' ) ) {

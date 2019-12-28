@@ -5,10 +5,9 @@
         <div id="weforms-settings-tabs">
             <ul>
                 <?php
+                $tabs = apply_filters( 'weforms_settings_tabs', [] );
 
-                $tabs = apply_filters( 'weforms_settings_tabs', array() );
-
-                foreach ( $tabs as $key => $tab ) :
+                foreach ( $tabs as $key => $tab ) {
                     ?>
                     <li>
                         <a
@@ -18,17 +17,15 @@
                         >
                             <?php
 
-                            if ( ! empty($tab['icon'] ) ) {
-                                printf('<img src="%s">', $tab['icon']);
-                            }
-                            ?>
+                            if ( !empty( $tab['icon'] ) ) {
+                                printf( '<img src="%s">', $tab['icon'] );
+                            } ?>
                             <?php _e( $tab['label'], 'weforms' ); ?>
                         </a>
                     </li>
 
                     <?php
-
-                endforeach;
+                }
 
                 do_action( 'weforms_settings_tabs_area' );
                 ?>
@@ -38,15 +35,13 @@
         <div id="weforms-settings-tabs-contents">
 
             <?php
-
-                foreach ( $tabs as $key => $tab ) :
+                foreach ( $tabs as $key => $tab ) {
                     ?>
                     <div id="weforms-settings-<?php echo $key; ?>" class="tab-content" v-show="isActiveTab('<?php echo $key; ?>')">
                         <?php do_action( 'weforms_settings_tab_content_' . $key, $tab ); ?>
                     </div>
                     <?php
-
-                endforeach;
+                }
 
                 do_action( 'weforms_settings_tabs_contents' );
             ?>
@@ -54,7 +49,7 @@
         </div>
     </div>
 
-    <?php if ( !function_exists( 'weforms_pro' ) ) : ?>
+    <?php if ( !function_exists( 'weforms_pro' ) ) { ?>
 
         <div id="weforms-settings-page-sidebar" class="weforms-settings-page-sidebar">
             <div class="weforms-settings-page-sidebar-content">
@@ -72,5 +67,5 @@
             </div>
         </div>
 
-    <?php endif; ?>
+    <?php } ?>
 </div>

@@ -13,28 +13,28 @@ class WeForms_Form_Manager {
      * @return array
      */
     public function all() {
-        return $this->get_forms( array( 'posts_per_page' => -1 ) );
+        return $this->get_forms( [ 'posts_per_page' => -1 ] );
     }
 
     /**
      * Get forms
      *
-     * @param  array $args
+     * @param array $args
      *
      * @return array
      */
-    public function get_forms( $args = array() ) {
-        $forms_array = array(
-            'forms' => array(),
-            'meta'  => array(
+    public function get_forms( $args = [] ) {
+        $forms_array = [
+            'forms' => [],
+            'meta'  => [
                 'total' => 0,
-                'pages' => 0
-            )
-        );
-        $defaults  = array(
+                'pages' => 0,
+            ],
+        ];
+        $defaults  = [
             'post_type'   => 'wpuf_contact_form',
-            'post_status' => array( 'publish', 'draft', 'pending' )
-        );
+            'post_status' => [ 'publish', 'draft', 'pending' ],
+        ];
 
         $args  = wp_parse_args( $args, $defaults );
 
@@ -42,7 +42,7 @@ class WeForms_Form_Manager {
         $forms = $query->get_posts();
 
         if ( $forms ) {
-            foreach ($forms as $form) {
+            foreach ( $forms as $form ) {
                 $forms_array['forms'][] = new WeForms_Form( $form );
             }
         }
@@ -56,7 +56,7 @@ class WeForms_Form_Manager {
     /**
      * Get a single form
      *
-     * @param  integer|WP_Post $form
+     * @param int|WP_Post $form
      *
      * @return \WeForms_Form
      */
@@ -67,31 +67,31 @@ class WeForms_Form_Manager {
     /**
      * Create a form
      *
-     * @param  string $form_name
-     * @param  array  $fields
+     * @param string $form_name
+     * @param array  $fields
      *
-     * @return integer|WP_Error
+     * @return int|WP_Error
      */
-    public function create( $form_name, $fields = array() ) {
-        $form_id = wp_insert_post( array(
+    public function create( $form_name, $fields = [] ) {
+        $form_id = wp_insert_post( [
             'post_title'  => $form_name,
             'post_type'   => 'wpuf_contact_form',
-            'post_status' => 'publish'
-        ) );
+            'post_status' => 'publish',
+        ] );
 
         if ( is_wp_error( $form_id ) ) {
             return $form_id;
         }
 
         if ( $fields ) {
-            foreach ($fields as $order => $field) {
-                $args = array(
+            foreach ( $fields as $order => $field ) {
+                $args = [
                     'post_type'    => 'wpuf_input',
                     'post_parent'  => $form_id,
                     'post_status'  => 'publish',
                     'post_content' => maybe_serialize( wp_unslash( $field ) ),
-                    'menu_order'   => $order
-                );
+                    'menu_order'   => $order,
+                ];
 
                 wp_insert_post( $args );
             }
@@ -103,8 +103,8 @@ class WeForms_Form_Manager {
     /**
      * Delete a form with it's input fields
      *
-     * @param  integer  $form_id
-     * @param  boolean $force
+     * @param int  $form_id
+     * @param bool $force
      *
      * @return void
      */
@@ -115,10 +115,10 @@ class WeForms_Form_Manager {
 
         // delete form inputs as WP doesn't know the relationship
         $wpdb->delete( $wpdb->posts,
-            array(
+            [
                 'post_parent' => $form_id,
-                'post_type'   => 'wpuf_input'
-            )
+                'post_type'   => 'wpuf_input',
+            ]
         );
     }
 
@@ -129,34 +129,32 @@ class WeForms_Form_Manager {
      *
      * @param array $data Contains form_fields, form_settings, form_settings_key data
      *
-     * @return boolean
+     * @return bool
      */
     public function save( $data ) {
-        $saved_wpuf_inputs = array();
+        $saved_wpuf_inputs = [];
 
-        wp_update_post( array( 'ID' => $data['form_id'], 'post_status' => 'publish', 'post_title' => $data['post_title'] ) );
+        wp_update_post( [ 'ID' => $data['form_id'], 'post_status' => 'publish', 'post_title' => $data['post_title'] ] );
 
-        $existing_wpuf_input_ids = get_children( array(
+        $existing_wpuf_input_ids = get_children( [
             'post_parent' => $data['form_id'],
             'post_status' => 'publish',
             'post_type'   => 'wpuf_input',
             'numberposts' => '-1',
             'orderby'     => 'menu_order',
             'order'       => 'ASC',
-            'fields'      => 'ids'
-        ) );
+            'fields'      => 'ids',
+        ] );
 
-        $new_wpuf_input_ids = array();
+        $new_wpuf_input_ids = [];
 
-        if ( ! empty( $data['form_fields'] ) ) {
-
+        if ( !empty( $data['form_fields'] ) ) {
             foreach ( $data['form_fields'] as $order => $field ) {
-                if ( ! empty( $field['is_new'] ) ) {
+                if ( !empty( $field['is_new'] ) ) {
                     unset( $field['is_new'] );
                     unset( $field['id'] );
 
                     $field_id = 0;
-
                 } else {
                     $field_id = $field['id'];
                 }
@@ -169,14 +167,13 @@ class WeForms_Form_Manager {
 
                 $saved_wpuf_inputs[] = $field;
             }
-
         }
 
         $inputs_to_delete = array_diff( $existing_wpuf_input_ids, $new_wpuf_input_ids );
 
-        if ( ! empty( $inputs_to_delete ) ) {
+        if ( !empty( $inputs_to_delete ) ) {
             foreach ( $inputs_to_delete as $delete_id ) {
-                wp_delete_post( $delete_id , true );
+                wp_delete_post( $delete_id, true );
             }
         }
 
@@ -195,25 +192,24 @@ class WeForms_Form_Manager {
      *
      * @return int New duplicated form id
      */
-    function duplicate( $_form_id ) {
-
+    public function duplicate( $_form_id ) {
         $form = $this->get( $_form_id );
 
         if ( empty( $form ) ) {
             return;
         }
-        
-        $form_id = $this->create( $form->name, $form->get_fields());
 
-        $data = array(
+        $form_id = $this->create( $form->name, $form->get_fields() );
+
+        $data = [
             'form_id'           => absint( $form_id ),
             'post_title'        => sanitize_text_field( $form->name ) . ' (#' . $form_id . ')',
             'form_fields'       => $this->get( $form_id )->get_fields(), // already imported just proxy
             'form_settings'     => $form->get_settings(),
             'form_settings_key' => 'wpuf_form_settings',
             'notifications'     => $form->get_notifications(),
-            'integrations'      => $form->get_integrations()
-        );
+            'integrations'      => $form->get_integrations(),
+        ];
 
         $form_fields = $this->save( $data );
 

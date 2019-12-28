@@ -1,18 +1,18 @@
 <div>
 
-    <?php if ( !function_exists( 'erp_crm_get_contact_groups' ) ) : ?>
+    <?php if ( !function_exists( 'erp_crm_get_contact_groups' ) ) { ?>
 
         <p>
             <?php printf( __( '<a href="%s" target="_blank">WP ERP</a> plugin is not installed. Please install the plugin first.', 'weforms' ), 'https://wordpress.org/plugins/erp/' ); ?>
         </p>
 
-    <?php else : ?>
+    <?php } else { ?>
         <?php
-        $erp_contact_groups = erp_crm_get_contact_groups( array(
+        $erp_contact_groups = erp_crm_get_contact_groups( [
             'number'  => -1,
             'orderby' => 'name',
             'order'   => 'ASC',
-        ) );
+        ] );
         ?>
 
         <div class="wpuf-int-form-row">
@@ -21,14 +21,14 @@
             </div>
             <div class="wpuf-int-field">
                 <ul style="margin: 0;">
-                    <?php foreach ( $erp_contact_groups as $group ): ?>
+                    <?php foreach ( $erp_contact_groups as $group ) { ?>
                         <li>
                             <label>
                                 <input type="checkbox" v-model="settings.group" class="checkbox" value="<?php echo $group->id; ?>">
                                 <?php echo $group->name; ?>
                             </label>
                         </li>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
@@ -88,5 +88,5 @@
             </div>
         </fieldset>
 
-    <?php endif; ?>
+    <?php } ?>
 </div>

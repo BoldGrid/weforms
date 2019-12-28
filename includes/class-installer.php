@@ -13,14 +13,13 @@ class WeForms_Installer {
      * @return void
      */
     public function install() {
-
         $this->create_tables();
         $this->maybe_set_default_settings();
         $this->create_default_form();
 
         $installed = get_option( 'weforms_installed' );
 
-        if ( ! $installed ) {
+        if ( !$installed ) {
             update_option( 'weforms_installed', time() );
         }
 
@@ -40,16 +39,16 @@ class WeForms_Installer {
         $collate = '';
 
         if ( $wpdb->has_cap( 'collation' ) ) {
-            if ( ! empty($wpdb->charset ) ) {
+            if ( !empty( $wpdb->charset ) ) {
                 $collate .= "DEFAULT CHARACTER SET $wpdb->charset";
             }
 
-            if ( ! empty($wpdb->collate ) ) {
+            if ( !empty( $wpdb->collate ) ) {
                 $collate .= " COLLATE $wpdb->collate";
             }
         }
 
-        $table_schema = array(
+        $table_schema = [
             "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}weforms_entries` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 `form_id` bigint(20) unsigned DEFAULT NULL,
@@ -72,9 +71,10 @@ class WeForms_Installer {
                 KEY `meta_key` (`meta_key`),
                 KEY `entry_id` (`weforms_entry_id`)
             ) $collate;",
-        );
+        ];
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
         foreach ( $table_schema as $table ) {
             dbDelta( $table );
         }
@@ -89,16 +89,16 @@ class WeForms_Installer {
      */
     public function maybe_set_default_settings() {
         $requires_update = false;
-        $settings        = get_option( 'weforms_settings', array() );
-        $additional_keys = array(
+        $settings        = get_option( 'weforms_settings', [] );
+        $additional_keys = [
             'email_gateway' => 'wordpress',
             'credit'        => false,
             'email_footer'  => true,
-            'recaptcha'     => array( 'key' => '', 'secret' => '' )
-        );
+            'recaptcha'     => [ 'key' => '', 'secret' => '' ],
+        ];
 
-        foreach ($additional_keys as $key => $value) {
-            if ( ! isset( $settings[ $key ] ) ) {
+        foreach ( $additional_keys as $key => $value ) {
+            if ( !isset( $settings[ $key ] ) ) {
                 $settings[ $key ] = $value;
 
                 $requires_update = true;

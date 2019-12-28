@@ -4,12 +4,11 @@
         <td>
             <select v-model="settings.redirect_to">
                 <?php
-                $redirect_options = array(
+                $redirect_options = [
                     'same' => __( 'Same Page', 'weforms' ),
                     'page' => __( 'To a page', 'weforms' ),
-                    'url'  => __( 'To a custom URL', 'weforms' )
-                );
-
+                    'url'  => __( 'To a custom URL', 'weforms' ),
+                ];
                 foreach ($redirect_options as $to => $label) {
                     printf( '<option value="%s"%s>%s</option>', esc_attr( $to ), '', esc_attr( $label )  );
                 }
@@ -31,11 +30,11 @@
     <tr class="wpuf-page-id" v-show="settings.redirect_to == 'page'">
         <th><?php esc_html_e( 'Page', 'weforms' ); ?></th>
         <td>
-            <?php $dropdown = wp_dropdown_pages( array(
+            <?php $dropdown = wp_dropdown_pages( [
                 'name'             => 'wpuf_settings[page_id]',
                 'show_option_none' => wp_kses_post( __('&mdash; Select a page &mdash;', 'weforms') ),
                 'echo'             => false
-            ) );
+            ] );
 
             echo wp_kses_post( str_replace('<select', '<select v-model="settings.page_id"', $dropdown ) );
             ?>

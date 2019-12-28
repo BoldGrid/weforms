@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Dropdown', 'weforms' );
         $this->input_type = 'dropdown_field';
         $this->icon       = 'caret-square-o-down';
@@ -14,15 +14,14 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
-        $name      = $field_settings['name'];
-        ?>
+        $selected  = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
+        $name      = $field_settings['name']; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -49,8 +48,7 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
                             esc_attr( $option ); ?></option>
                             <?php
                         }
-                    }
-                    ?>
+                    } ?>
                 </select>
                 <?php $this->help_text( $field_settings ); ?>
             </div>
@@ -66,18 +64,17 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      */
     public function get_options_settings() {
         $default_options  = $this->get_default_option_settings();
-        $dropdown_options = array(
+        $dropdown_options = [
             $this->get_default_option_dropdown_settings(),
-
-            array(
+            [
                 'name'          => 'first',
                 'title'         => __( 'Select Text', 'weforms' ),
                 'type'          => 'text',
                 'section'       => 'basic',
                 'priority'      => 13,
                 'help_text'     => __( "First element of the select dropdown. Leave this empty if you don't want to show this field", 'weforms' ),
-            ),
-        );
+            ],
+        ];
 
         $dropdown_options = apply_filters( 'weforms_dropdown_field_option_settings', $dropdown_options );
 
@@ -91,11 +88,11 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $props    = array(
+        $props    = [
             'selected' => '',
-            'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
+            'options'  => [ 'Option' => __( 'Option', 'weforms' ) ],
             'first'    => __( '— Select —', 'weforms' ),
-        );
+        ];
 
         $props = apply_filters( 'weforms_dropdown_field_props', $props );
 

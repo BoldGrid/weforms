@@ -22,101 +22,99 @@ class Weforms_Template_Conference_Proposal extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array(
-            array_merge( $all_fields['name_field']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'required'   => 'yes',
-                'label'      =>  'Name',
+                'label'      => 'Name',
                 'format'     => 'first-last',
-                'first_name' => array(
+                'first_name' => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'First Name', 'weforms' )
-                ),
-                'last_name'       => array(
+                    'sub'         => __( 'First Name', 'weforms' ),
+                ],
+                'last_name'       => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Last Name', 'weforms' )
-                ),
+                    'sub'         => __( 'Last Name', 'weforms' ),
+                ],
                 'hide_subs'       => false,
                 'name'            => 'format',
-            ) ),
-            array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'          =>  __('Job Title', 'weforms'),
-                'name'           =>  'job_title',
-            ) ),
-            array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'          =>  __('Company  Name', 'weforms'),
-                'name'           =>  'company_name',
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'         =>  __('Biography', 'weforms'),
-                'name'          =>  'biography',
-            ) ),
-            array_merge( $all_fields['email_address']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['text_field']->get_field_props(), [
+                'label'          => __( 'Job Title', 'weforms' ),
+                'name'           => 'job_title',
+            ] ),
+            array_merge( $all_fields['text_field']->get_field_props(), [
+                'label'          => __( 'Company  Name', 'weforms' ),
+                'name'           => 'company_name',
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'         => __( 'Biography', 'weforms' ),
+                'name'          => 'biography',
+            ] ),
+            array_merge( $all_fields['email_address']->get_field_props(), [
                 'required' => 'yes',
-                'label'    => __('Email Address', 'weforms'),
+                'label'    => __( 'Email Address', 'weforms' ),
                 'name'     => 'email_address',
-            ) ),
-            array_merge( $all_fields['numeric_text_field']->get_field_props(), array(
-                'label'    => __('Phone Number', 'weforms'),
+            ] ),
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
+                'label'    => __( 'Phone Number', 'weforms' ),
                 'name'     => 'phone_number',
-            ) ),
-            array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'    => __('Proposal Title', 'weforms'),
+            ] ),
+            array_merge( $all_fields['text_field']->get_field_props(), [
+                'label'    => __( 'Proposal Title', 'weforms' ),
                 'name'     => 'proposals_title',
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'         =>  __('Short Description', 'weforms'),
-                'name'          =>  'short_description',
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'         =>  __('Abstract', 'weforms'),
-                'name'          =>  'abstract',
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'         =>  __('Abstract', 'weforms'),
-                'name'          =>  'abstract',
-            ) ),
-            array_merge( $all_fields['checkbox_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'         => __( 'Short Description', 'weforms' ),
+                'name'          => 'short_description',
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'         => __( 'Abstract', 'weforms' ),
+                'name'          => 'abstract',
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'         => __( 'Abstract', 'weforms' ),
+                'name'          => 'abstract',
+            ] ),
+            array_merge( $all_fields['checkbox_field']->get_field_props(), [
                 'label'    => 'Topics',
                 'name'     => 'topics',
-                'options'  => array(
+                'options'  => [
                     'firt_opic'     => __( 'Topic First', 'weforms' ),
                     'second_topic'  => __( 'Topic Second', 'weforms' ),
                     'third_topic'   => __( 'Topic Third', 'weforms' ),
-                ),
-            ) ),
-            array_merge( $all_fields['dropdown_field']->get_field_props(), array(
+                ],
+            ] ),
+            array_merge( $all_fields['dropdown_field']->get_field_props(), [
                 'label'    => 'Session Type',
                 'name'     => 'session_type',
-                'options'  => array(
+                'options'  => [
                     'presentation'     => __( 'Presentation', 'weforms' ),
                     'panel'            => __( 'Panel', 'weforms' ),
                     'workshop'         => __( 'Work Shop', 'weforms' ),
                     'other'            => __( 'Other', 'weforms' ),
-                ),
-            ) ),
-            array_merge( $all_fields['dropdown_field']->get_field_props(), array(
+                ],
+            ] ),
+            array_merge( $all_fields['dropdown_field']->get_field_props(), [
                 'label'    => 'Audience Level',
                 'name'     => 'audience_level',
-                'options'  => array(
+                'options'  => [
                     'novice'             => __( 'Novice', 'weforms' ),
                     'intermediate'       => __( 'Intermediate', 'weforms' ),
                     'expert'             => __( 'Expert', 'weforms' ),
-                ),
-            ) ),
-            array_merge( $all_fields['text_field']->get_field_props(), array(
+                ],
+            ] ),
+            array_merge( $all_fields['text_field']->get_field_props(), [
                 'label'    => 'Video URL',
-                'name'     => 'video_url'
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'    => __('Additional Information', 'weforms'),
-                'name'     => 'additional_information'
-            ) ),
-
-        );
+                'name'     => 'video_url',
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'    => __( 'Additional Information', 'weforms' ),
+                'name'     => 'additional_information',
+            ] ),
+        ];
 
         return $form_fields;
     }
-
 }
