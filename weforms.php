@@ -241,7 +241,6 @@ final class WeForms {
         }
         require_once WEFORMS_INCLUDES . '/api/class-weforms-api-rest-controller.php';
         require_once WEFORMS_INCLUDES . '/class-weforms-api.php';
-        //require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
         require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
         require_once WEFORMS_INCLUDES . '/admin/class-gutenblock.php';
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
@@ -342,7 +341,6 @@ final class WeForms {
             $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
-        //$this->container['insights']            = new WeDevs_Insights( 'weforms', 'weForms', __FILE__ );
         $this->container['emailer']             = new WeForms_Emailer();
         $this->container['form']                = new WeForms_Form_Manager();
         $this->container['fields']              = new WeForms_Field_Manager();
