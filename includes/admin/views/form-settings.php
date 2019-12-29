@@ -10,7 +10,7 @@
                     'url'  => __( 'To a custom URL', 'weforms' ),
                 ];
                 foreach ($redirect_options as $to => $label) {
-                    printf( '<option value="%s"%s>%s</option>', esc_attr( $to ), '', esc_attr( $label )  );
+                    printf( '<option value="%s"%s>%s</option>', esc_html( $to ), '', esc_html( $label )  );
                 }
                 ?>
             </select>
@@ -36,7 +36,19 @@
                 'echo'             => false
             ] );
 
-            echo wp_kses_post( str_replace('<select', '<select v-model="settings.page_id"', $dropdown ) );
+            $allowed_html = [
+                'select'    => [
+                    'name'  => [],
+                    'id'    => [],
+                ],
+                'option'     => [
+                    'value'  => [],
+                    'class' => []
+                ],
+            ];
+
+             echo wp_kses( str_replace('<select', '<select v-model="settings.page_id"', $dropdown ), $allowed_html );
+
             ?>
         </td>
     </tr>

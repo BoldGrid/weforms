@@ -106,7 +106,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 
-        $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
+        $args = ! empty( $args ) ? $args : weforms_clean( $_POST );
 
         if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
             $user = wp_get_current_user();

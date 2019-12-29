@@ -1290,3 +1290,18 @@ function is_weforms_api_allowed_guest_submission() {
 
     return apply_filters( 'weforms_anonymous_entry_submit_permission', $permission );
 }
+
+/**
+ * Clean variables using weforms_clean. Arrays are cleaned recursively.
+ * Non-scalar values are ignored.
+ *
+ * @param string|array $var Data to sanitize.
+ * @return string|array
+ */
+function weforms_clean( $var ) {
+    if ( is_array( $var ) ) {
+        return array_map( 'weforms_clean', $var );
+    } else {
+        return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
+    }
+}

@@ -59,7 +59,7 @@ class WeForms_Ajax_Upload {
         $upload = array(
             'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
             'type'     => isset( $_FILES['wpuf_file']['type'] ) ? sanitize_mime_type( wp_unslash( $_FILES['wpuf_file']['type'] ) ) : '',
-            'tmp_name' => isset( $_FILES['wpuf_file']['tmp_name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['tmp_name'] ) ) : '',
+            'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
             'error'    => isset( $_FILES['wpuf_file']['error'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['error'] ) ) : '',
             'size'     => isset( $_FILES['wpuf_file']['size'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['size'] ) ) : ''
         );
@@ -72,7 +72,7 @@ class WeForms_Ajax_Upload {
             $response         = [ 'success' => true ];
             $response['html'] = $this->attach_html( $attach['attach_id'] );
 
-            echo wp_kses_post( $response['html'] );
+            echo $response['html'];
         } else {
             echo 'error';
         }

@@ -116,7 +116,7 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 
-        $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
+        $args = ! empty( $args ) ? $args : weforms_clean( $_POST );
         $val  = $args[$field['name']];
 
         return isset( $field['options'][$val] ) ? $field['options'][$val] : $val;

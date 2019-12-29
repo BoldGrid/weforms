@@ -86,7 +86,7 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 
-        $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
+        $args = ! empty( $args ) ? $args : weforms_clean( $_POST );
         $entry_value = ( is_array( $args[$field['name']] ) && $args[$field['name']] ) ? $args[$field['name']] : array();
 
         if ( $entry_value ) {
