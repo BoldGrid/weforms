@@ -36,18 +36,7 @@
                 'echo'             => false
             ] );
 
-            $allowed_html = [
-                'select'    => [
-                    'name'  => [],
-                    'id'    => [],
-                ],
-                'option'     => [
-                    'value'  => [],
-                    'class' => []
-                ],
-            ];
-
-             echo wp_kses( str_replace('<select', '<select v-model="settings.page_id"', $dropdown ), $allowed_html );
+             echo str_replace('<select', '<select v-model="settings.page_id"', $dropdown ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
             ?>
         </td>

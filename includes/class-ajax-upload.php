@@ -56,13 +56,24 @@ class WeForms_Ajax_Upload {
             die( 'error' );
         }
 
+
+        $file = isset( $_FILES['wpuf_file'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_FILES['wpuf_file'] ) ) : [];
+
         $upload = array(
-            'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
-            'type'     => isset( $_FILES['wpuf_file']['type'] ) ? sanitize_mime_type( wp_unslash( $_FILES['wpuf_file']['type'] ) ) : '',
-            'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
-            'error'    => isset( $_FILES['wpuf_file']['error'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['error'] ) ) : '',
-            'size'     => isset( $_FILES['wpuf_file']['size'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['size'] ) ) : ''
+            'name'     => isset( $file['name'] ) ? $file['name'] : '',
+            'type'     => isset( $file['type'] ) ? $file['type'] : '',
+            'tmp_name' => isset( $file['tmp_name'] ) ? $file['tmp_name'] : '',
+            'error'    => isset( $file['error'] ) ? $file['error'] : '',
+            'size'     => isset( $file['size'] ) ? $file['size'] : '',
         );
+
+        // $upload = array(
+        //     'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
+        //     'type'     => isset( $_FILES['wpuf_file']['type'] ) ? sanitize_mime_type( wp_unslash( $_FILES['wpuf_file']['type'] ) ) : '',
+        //     'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
+        //     'error'    => isset( $_FILES['wpuf_file']['error'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['error'] ) ) : '',
+        //     'size'     => isset( $_FILES['wpuf_file']['size'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['size'] ) ) : ''
+        // );
 
         header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 
@@ -72,7 +83,32 @@ class WeForms_Ajax_Upload {
             $response         = [ 'success' => true ];
             $response['html'] = $this->attach_html( $attach['attach_id'] );
 
-            echo $response['html'];
+            echo wp_kses( $response['html'], [
+                'li' =>  [
+                    'class' => []
+                ],
+                'div'   => [
+                    'class' => []
+                ],
+                'img' => [
+                    'src' => [],
+                    'alt' => []
+                ],
+
+                'input' => [
+                    'type'  => [],
+                    'name'  => [],
+                    'value' => []
+                ],
+                'a' => [
+                    'data-attach_id' => [],
+                    'href'           => [],
+                    'class'          => []
+                ],
+                'span' => [
+                    'class' => []
+                ]
+            ]);
         } else {
             echo 'error';
         }
