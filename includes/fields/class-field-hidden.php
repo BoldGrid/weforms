@@ -23,6 +23,8 @@ class WeForms_Form_Field_Hidden extends WeForms_Field_Contract {
         if ( isset( $field_settings['dynamic']['param_name'] ) ) {
             if ( isset( $_GET[ $field_settings['dynamic']['param_name'] ] ) ) {
                 $value = sanitize_text_field( wp_unslash( $_GET[$field_settings['dynamic']['param_name']] ) );
+            } else {
+                $value = $field_settings['meta_value'];
             }
         } else {
             $value = $field_settings['meta_value'];
