@@ -515,7 +515,7 @@ abstract class WeForms_Field_Contract {
             $condition = '';
         } ?>
         <script type="text/javascript">
-            wpuf_conditional_items.push(<?php echo esc_attr( $condition ); ?>);
+            wpuf_conditional_items.push(<?php echo wp_kses( $condition, array() ); ?>);
         </script>
         <?php
     }
