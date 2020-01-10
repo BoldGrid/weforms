@@ -90,7 +90,10 @@ class WeForms_Ajax {
      * @return void
      */
     public function save_form() {
-        parse_str( $_POST['form_data'], $form_data );
+
+        if ( isset( $_POST['form_data'] ) ) {
+            parse_str( sanitize_text_field( wp_unslash( $_POST['form_data'] ) ),  $form_data );
+        }
 
         if ( !wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
@@ -100,19 +103,19 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'Invalid form id', 'weforms' ) );
         }
 
-        $form_fields   = isset( $_POST['form_fields'] ) ? $_POST['form_fields'] : '';
-        $notifications = isset( $_POST['notifications'] ) ? $_POST['notifications'] : '';
-        $settings      = [];
-        $integrations  = [];
+        $form_fields   = isset( $_POST['form_fields'] ) ? sanitize_text_field( wp_unslash( $_POST['form_fields'] ) ) : '';
+        $notifications = isset( $_POST['notifications'] ) ? sanitize_text_field( wp_unslash( $_POST['notifications'] ) ) : '';
+        $settings      = array();
+        $integrations  = array();
 
         if ( isset( $_POST['settings'] ) ) {
-            $settings = (array) json_decode( wp_unslash( $_POST['settings'] ) );
+            $settings = (array) json_decode( sanitize_text_field(  wp_unslash( $_POST['settings'] ) ) );
         } else {
             $settings = isset( $form_data['wpuf_settings'] ) ? $form_data['wpuf_settings'] : [];
         }
 
         if ( isset( $_POST['integrations'] ) ) {
-            $integrations = (array) json_decode( wp_unslash( $_POST['integrations'] ) );
+            $integrations = (array) json_decode( sanitize_text_field( wp_unslash( $_POST['integrations'] ) ) );
         }
 
         $form_fields   = wp_unslash( $form_fields );
@@ -248,7 +251,7 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $form_name = isset( $_POST['form_name'] ) ? sanitize_text_field( $_POST['form_name'] ) : '';
+        $form_name = isset( $_POST['form_name'] ) ? sanitize_text_field( wp_unslash( $_POST['form_name'] ) ) : '';
 
         if ( empty( $form_name ) ) {
             wp_send_json_error( __( 'Please provide a form name', 'weforms' ) );
@@ -331,7 +334,7 @@ class WeForms_Ajax {
     public function create_form_from_template() {
         check_ajax_referer( 'weforms' );
 
-        $template = isset( $_REQUEST['template'] ) ? sanitize_text_field( $_REQUEST['template'] ) : '';
+        $template = isset( $_REQUEST['template'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['template'] ) ) : '';
 
         $form_id = weforms()->templates->create( $template );
 
@@ -355,9 +358,8 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $requires_wpuf_update = false;
-        $wpuf_update_array    = [];
-        $settings             = (array) json_decode( wp_unslash( $_POST['settings'] ) );
-
+        $wpuf_update_array    = array();
+        $settings             = isset( $_POST['settings'] ) ? (array) json_decode( sanitize_text_field(  wp_unslash( $_POST['settings'] ) ) ) : [];
         update_option( 'weforms_settings', $settings );
 
         // wpuf settings sync
@@ -432,7 +434,7 @@ class WeForms_Ajax {
 
         $form_id      = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
         $current_page = isset( $_REQUEST['page'] ) ? intval( $_REQUEST['page'] ) : 1;
-        $status       = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : 'publish';
+        $status       = isset( $_REQUEST['status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['status'] ) ) : 'publish';
         $per_page     = 20;
         $offset       = ( $current_page - 1 ) * $per_page;
 
@@ -647,8 +649,8 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $entry_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
-        $permanent = isset( $_POST['permanent'] ) && ( $_POST['permanent'] ) ? true : false;
+        $entry_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
+        $permanent = isset( $_POST['permanent'] ) && ( sanitize_text_field( wp_unslash ( $_POST['permanent'] ) ) ) ? true : false;
 
         if ( !$entry_ids ) {
             wp_send_json_error( __( 'No entry ids provided!', 'weforms' ) );
@@ -817,7 +819,8 @@ class WeForms_Ajax {
      *
      * @return void
      */
-    public function validate_reCaptcha() {
+    function validate_reCaptcha() {
+        check_ajax_referer( 'wpuf_form_add' );
         if ( class_exists( 'WPUF_ReCaptcha' ) ) {
             $recaptcha_class = 'WPUF_ReCaptcha';
         } else {
@@ -834,14 +837,15 @@ class WeForms_Ajax {
         $recaptcha_settings = weforms_get_settings( 'recaptcha' );
         $secret             = isset( $recaptcha_settings->secret ) ? $recaptcha_settings->secret : '';
 
-        if ( !$invisible ) {
-            $response  = null;
-            $reCaptcha = new $recaptcha_class( $secret );
-
+        if ( ! $invisible ) {
+            $response           = null;
+            $reCaptcha          = new $recaptcha_class( $secret );
+            $remote_ADDR        = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash(  $_SERVER['REMOTE_ADDR'] ) ) : '';
+            $recaptcha_response = isset( $_SERVER['g-recaptcha-response'] ) ? sanitize_text_field(  wp_unslash(  $_POST['g-recaptcha-response'] ) ) : '';
             $resp = $reCaptcha->verifyResponse(
-                $_SERVER['REMOTE_ADDR'],
-                $_POST['g-recaptcha-response']
-              );
+                $remote_ADDR,
+                $recaptcha_response
+            );
 
             if ( !$resp->success ) {
                 wp_send_json( [
@@ -849,11 +853,11 @@ class WeForms_Ajax {
                     'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
                 ] );
             }
-        } else {
-            $recap_challenge = isset( $_POST['recaptcha_challenge_field'] ) ? $_POST['recaptcha_challenge_field'] : '';
-            $recap_response  = isset( $_POST['recaptcha_response_field'] ) ? $_POST['recaptcha_response_field'] : '';
+		} else {
 
-            $resp            = recaptcha_check_answer( $secret, $_SERVER['REMOTE_ADDR'], $recap_challenge, $recap_response );
+            $recap_challenge = isset( $_POST['recaptcha_challenge_field'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_challenge_field'] ) ) : '';
+            $recap_response  = isset( $_POST['recaptcha_response_field'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_response_field'] ) ) : '';
+            $resp            = recaptcha_check_answer( $secret, $remote_ADDR, $recap_challenge, $recap_response );
 
             if ( !$resp->is_valid ) {
                 ob_clean();
@@ -959,6 +963,7 @@ class WeForms_Ajax {
     }
 
     public static function prepare_meta_fields( $meta_vars ) {
+        check_ajax_referer( 'wpuf_form_add' );
         // loop through custom fields
         // skip files, put in a key => value paired array for later executation
         // process repeatable fields separately
@@ -975,8 +980,8 @@ class WeForms_Ajax {
                 case 'image_upload':
                     $files[] = [
                         'name'  => $value['name'],
-                        'value' => isset( $_POST['wpuf_files'][ $value['name'] ] ) ? $_POST['wpuf_files'][ $value['name'] ] : [],
-                        'count' => $value['count'],
+                        'value' => isset( $_POST['wpuf_files'][ $value['name'] ] ) ? sanitize_text_field( wp_unslash( $_POST['wpuf_files'][ $value['name'] ] ) ) : array(),
+                        'count' => $value['count']
                     ];
                     break;
 
@@ -985,10 +990,10 @@ class WeForms_Ajax {
                     if ( isset( $value['multiple'] ) && $value['multiple'] == 'true' ) {
 
                         // if there's any items in the array, process it
-                        if ( $_POST[ $value['name'] ] ) {
+                        if ( isset( $_POST[ $value['name'] ] ) ) {
                             $ref_arr = [];
                             $cols    = count( $value['columns'] );
-                            $first   = array_shift( array_values( $_POST[ $value['name'] ] ) ); // first element
+                            $first   = array_shift( array_values( sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) ) ) ); // first element
                             $rows    = count( $first );
 
                             // loop through columns
@@ -996,9 +1001,8 @@ class WeForms_Ajax {
 
                                 // loop through the rows and store in a temp array
                                 $temp = [];
-
                                 for ( $j = 0; $j < $cols; $j++ ) {
-                                    $temp[] = $_POST[ $value['name'] ][ $j ][ $i ];
+                                    $temp[] = isset( $_POST[ $value['name'] ][ $j ][ $i ] ) ? sanitize_text_field( wp_unslash( $_POST[ $value['name'] ][ $j ][ $i ] ) ) : '';
                                 }
 
                                 // store all fields in a row with WeForms::$field_separator separated
@@ -1011,14 +1015,15 @@ class WeForms_Ajax {
                             }
                         }
                     } else {
-                        $meta_key_value[ $value['name'] ] = implode( WeForms::$field_separator, $_POST[ $value['name'] ] );
+                        $meta_key_value[ $value['name'] ] = implode( WeForms::$field_separator, sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) ) );
                     }
 
                     break;
 
                 case 'address_field':
                     if ( isset( $_POST[ $value['name'] ] ) && is_array( $_POST[ $value['name'] ] ) ) {
-                        foreach ( $_POST[ $value['name'] ] as $address_field => $field_value ) {
+                        $post_value =  sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) );
+                        foreach ( $post_value as $address_field => $field_value ) {
                             $meta_key_value[ $value['name'] ][ $address_field ] = sanitize_text_field( $field_value );
                         }
                     }
@@ -1029,24 +1034,24 @@ class WeForms_Ajax {
                 case 'email_address':
                 case 'numeric_text_field':
                 case 'date_field':
-                    $meta_key_value[ $value['name'] ] = sanitize_text_field( trim( $_POST[ $value['name'] ] ) );
+                    $meta_key_value[ $value['name'] ] = isset( $_POST[ $value['name'] ] ) ?  sanitize_text_field( wp_unslash(  $_POST[ $value['name'] ]  ) ) : '';
 
                     break;
 
                 case 'textarea_field':
-                    $meta_key_value[ $value['name'] ] = wp_kses_post( $_POST[ $value['name'] ] );
+                    $meta_key_value[ $value['name'] ] = isset( $_POST[ $value['name'] ] ) ? sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) ) : '';
 
                     break;
 
                 case 'dropdown_field':
                 case 'radio_field':
-                    $val                              = $_POST[ $value['name'] ];
+                    $val                            = sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) );
                     $meta_key_value[ $value['name'] ] = isset( $value['options'][ $val ] ) ? $value['options'][ $val ] : '';
                     break;
 
                 case 'multiple_select':
                 case 'checkbox_field':
-                    $val                              = ( is_array( $_POST[ $value['name'] ] ) && $_POST[ $value['name'] ] ) ? $_POST[ $value['name'] ] : [];
+                    $val                            = ( is_array( $_POST[ $value['name'] ] ) && sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) ) ) ? sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) ) : array();
                     $meta_key_value[ $value['name'] ] = $val;
 
                     if ( $val ) {
@@ -1063,9 +1068,9 @@ class WeForms_Ajax {
                 default:
                     // if it's an array, implode with this->separator
                     if ( is_array( $_POST[ $value['name'] ] ) ) {
-                        $meta_key_value[ $value['name'] ] = implode( WeForms::$field_separator, $_POST[ $value['name'] ] );
+                        $meta_key_value[ $value['name'] ] = implode( WeForms::$field_separator, sanitize_text_field( wp_unslash( $_POST[ $value['name'] ] ) ) );
                     } else {
-                        $meta_key_value[ $value['name'] ] = trim( $_POST[ $value['name'] ] );
+                        $meta_key_value[ $value['name'] ] = isset( $_POST[ $value['name'] ] ) ? sanitize_text_field( wp_unslash(  $_POST[ $value['name'] ]  ) ): '';
                     }
 
                     break;
@@ -1085,7 +1090,7 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $the_file = isset( $_FILES['importFile'] ) ? $_FILES['importFile'] : false;
+        $the_file = isset( $_FILES['importFile'] ) ? sanitize_text_field( wp_unslash( $_FILES['importFile'] ) ) : false;
 
         if ( !$the_file ) {
             wp_send_json_error( __( 'No file found to import.', 'weforms' ) );

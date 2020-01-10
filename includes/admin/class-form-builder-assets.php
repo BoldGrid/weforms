@@ -329,7 +329,7 @@ class WeForms_Form_Builder_Assets {
 
         foreach ( $tabs as $key => $label ) {
             ?>
-            <a href="#wpuf-form-builder-tab-<?php echo $key; ?>" :class="['nav-tab', isActiveTab( '<?php echo $key; ?>' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('<?php echo $key; ?>')"><?php echo $label; ?></a>
+            <a href="#wpuf-form-builder-tab-<?php echo esc_attr( $key ); ?>" :class="['nav-tab', isActiveTab( '<?php echo esc_attr( $key ); ?>' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('<?php echo esc_attr( $key ); ?>')"><?php echo esc_attr( $label ); ?></a>
             <?php
         }
     }
@@ -346,9 +346,9 @@ class WeForms_Form_Builder_Assets {
     public function add_settings_tabs() {
         ?>
 
-            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'form' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'form' )" class="nav-tab"><?php _e( 'Form Settings', 'weforms' ); ?></a>
-            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'restriction' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'restriction' )" class="nav-tab"><?php _e( 'Submission Restriction', 'weforms' ); ?></a>
-            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'display' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'display' )" class="nav-tab"><?php _e( 'Display Settings', 'weforms' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'form' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'form' )" class="nav-tab"><?php esc_html_e( 'Form Settings', 'weforms' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'restriction' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'restriction' )" class="nav-tab"><?php esc_html_e( 'Submission Restriction', 'weforms' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'display' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'display' )" class="nav-tab"><?php esc_html_e( 'Display Settings', 'weforms' ); ?></a>
 
             <?php do_action( 'wpuf_contact_form_settings_tab' ); ?>
 

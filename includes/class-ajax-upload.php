@@ -26,8 +26,8 @@ class WeForms_Ajax_Upload {
      *
      * @return void
      */
-    public function validate_nonce() {
-        $nonce = isset( $_GET['nonce'] ) ? $_GET['nonce'] : '';
+    function validate_nonce() {
+        $nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
 
         if ( !wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) ) {
             die( 'error' );
@@ -43,21 +43,37 @@ class WeForms_Ajax_Upload {
      */
     public function upload_file( $image_only = false ) {
         $this->validate_nonce();
+        $nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
+
+        if ( ! wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) ) {
+            die( 'error' );
+        }
 
         // a valid request will have a form ID
-        $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : false;
+        $form_id = isset( $_POST['form_id'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['form_id'] ) ) ) : false;
 
         if ( !$form_id ) {
             die( 'error' );
         }
 
-        $upload = [
-            'name'     => $_FILES['wpuf_file']['name'],
-            'type'     => $_FILES['wpuf_file']['type'],
-            'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
-            'error'    => $_FILES['wpuf_file']['error'],
-            'size'     => $_FILES['wpuf_file']['size'],
-        ];
+
+        $file = isset( $_FILES['wpuf_file'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_FILES['wpuf_file'] ) ) : [];
+
+        $upload = array(
+            'name'     => isset( $file['name'] ) ? $file['name'] : '',
+            'type'     => isset( $file['type'] ) ? $file['type'] : '',
+            'tmp_name' => isset( $file['tmp_name'] ) ? $file['tmp_name'] : '',
+            'error'    => isset( $file['error'] ) ? $file['error'] : '',
+            'size'     => isset( $file['size'] ) ? $file['size'] : '',
+        );
+
+        // $upload = array(
+        //     'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
+        //     'type'     => isset( $_FILES['wpuf_file']['type'] ) ? sanitize_mime_type( wp_unslash( $_FILES['wpuf_file']['type'] ) ) : '',
+        //     'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
+        //     'error'    => isset( $_FILES['wpuf_file']['error'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['error'] ) ) : '',
+        //     'size'     => isset( $_FILES['wpuf_file']['size'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['size'] ) ) : ''
+        // );
 
         header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 
@@ -67,7 +83,32 @@ class WeForms_Ajax_Upload {
             $response         = [ 'success' => true ];
             $response['html'] = $this->attach_html( $attach['attach_id'] );
 
-            echo $response['html'];
+            echo wp_kses( $response['html'], [
+                'li' =>  [
+                    'class' => []
+                ],
+                'div'   => [
+                    'class' => []
+                ],
+                'img' => [
+                    'src' => [],
+                    'alt' => []
+                ],
+
+                'input' => [
+                    'type'  => [],
+                    'name'  => [],
+                    'value' => []
+                ],
+                'a' => [
+                    'data-attach_id' => [],
+                    'href'           => [],
+                    'class'          => []
+                ],
+                'span' => [
+                    'class' => []
+                ]
+            ]);
         } else {
             echo 'error';
         }
@@ -117,9 +158,9 @@ class WeForms_Ajax_Upload {
      *
      * @return string
      */
-    public static function attach_html( $attach_id, $type = null ) {
-        if ( !$type ) {
-            $type = isset( $_GET['type'] ) ? $_GET['type'] : 'image';
+    public static function attach_html( $attach_id, $type = NULL ) {
+        if ( ! $type ) {
+            $type = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : 'image';
         }
 
         $attachment = get_post( $attach_id );

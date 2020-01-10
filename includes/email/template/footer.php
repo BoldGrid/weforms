@@ -40,7 +40,7 @@ if ( !defined( 'ABSPATH' ) ) {
                                                 $show_footer = weforms_get_settings( 'email_footer' );
 
                                                 if ( $show_footer ) {
-                                                    echo $footer_text;
+                                                    echo wp_kses_post( $footer_text );
                                                 }
 
                                                 do_action( 'weforms_email_after_footer' );

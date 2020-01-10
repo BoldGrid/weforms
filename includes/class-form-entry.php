@@ -355,7 +355,7 @@ class WeForms_Form_Entry {
                         $url   = content_url() . $value;
                         $value = $url;
 
-                        if ( $_REQUEST['action'] != 'weforms_pdf_download' ) {
+                        if ( isset( $_REQUEST['action'] ) != 'weforms_pdf_download' ) {
                             $value = sprintf( '<img src="%s">', $url );
                             $value .= sprintf( '<a style="margin-left: -200px" href="%s">Download</a>', $url );
                         }

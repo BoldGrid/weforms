@@ -137,8 +137,8 @@ class WeForms_Admin {
             return;
         }
 
-        $export_type = isset( $_POST['export_type'] ) ? $_POST['export_type'] : 'all';
-        $selected    = isset( $_POST['selected_forms'] ) ? array_map( 'absint', $_POST['selected_forms'] ) : [];
+        $export_type = isset( $_POST['export_type'] ) ? sanitize_text_field( wp_unslash( $_POST['export_type'] ) ) : 'all';
+        $selected    = isset( $_POST['selected_forms'] ) ? array_map( 'absint', $_POST['selected_forms'] ) : array();
 
         if ( !class_exists( 'WeForms_Admin_Tools' ) ) {
             require_once __DIR__ . '/class-admin-tools.php';

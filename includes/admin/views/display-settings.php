@@ -1,7 +1,7 @@
 <table class="form-table">
 
     <tr class="wpuf-label-position">
-        <th><?php _e( 'Label Position', 'weforms' ); ?></th>
+        <th><?php esc_html_e( 'Label Position', 'weforms' ); ?></th>
         <td>
             <select v-model="settings.label_position">
                 <?php
@@ -12,20 +12,20 @@
                     'hidden' => __( 'Hidden', 'weforms' ),
                 ];
 
-                foreach ( $positions as $to => $label ) {
-                    printf( '<option value="%s"%s>%s</option>', $to, '', $label );
+                foreach ($positions as $to => $label) {
+                    printf( '<option value="%s"%s>%s</option>', esc_attr( $to ), '', esc_attr( $label ) );
                 }
                 ?>
             </select>
 
             <p class="description">
-                <?php _e( 'Where the labels of the form should display', 'weforms' ); ?>
+                <?php esc_html_e( 'Where the labels of the form should display', 'weforms' ) ?>
             </p>
         </td>
     </tr>
 
     <tr class="wpuf-use-theme-css">
-        <th><?php _e( 'Use Theme CSS', 'weforms' ); ?></th>
+        <th><?php esc_html_e( 'Use Theme CSS', 'weforms' ); ?></th>
         <td>
             <select v-model="settings.use_theme_css">
                 <?php
@@ -34,14 +34,14 @@
                     'wpuf-style'        => __( 'No', 'weforms' ),
                 ];
 
-                foreach ( $options as $key => $label ) {
-                    printf( '<option value="%s"%s>%s</option>', $key, '', $label );
+                foreach ($options as $key => $label) {
+                    printf( '<option value="%s"%s>%s</option>', esc_attr( $key ), '', esc_attr( $label ) );
                 }
                 ?>
             </select>
 
             <p class="description">
-                <?php _e( "Selecting <strong>Yes</strong> will use your theme's style for form fields.", 'weforms' ); ?>
+                <?php wp_kses_post( __( "Selecting <strong>Yes</strong> will use your theme's style for form fields.", "weforms" ) ) ?>
             </p>
         </td>
     </tr>

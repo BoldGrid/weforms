@@ -29,56 +29,54 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
-                <div class="wpuf-name-field-wrap format-<?php echo $field_settings['format']; ?>">
+                <div class="wpuf-name-field-wrap format-<?php echo esc_attr( $field_settings['format'] ); ?>">
                     <div class="wpuf-name-field-first-name">
                         <input
-                            name="<?php echo $field_settings['name']; ?>[first]"
+                            name="<?php echo esc_attr( $field_settings['name'] ) ?>[first]"
                             type="text"
                             placeholder="<?php echo esc_attr( $field_settings['first_name']['placeholder'] ); ?>"
                             value="<?php echo esc_attr( $field_settings['first_name']['default'] ); ?>"
                             size="40"
-                            data-required="<?php echo $field_settings['required']; ?>"
+                            data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
                             data-type="text"
-                            class="textfield wpuf_<?php echo $field_settings['name']; ?>_<?php echo $form_id; ?>"
+                            class="textfield wpuf_<?php echo esc_attr( $field_settings['name'] ); ?>_<?php echo esc_attr( $form_id); ?>"
                             autocomplete="given-name"
                         >
-
-                        <?php if ( !$field_settings['hide_subs'] ) { ?>
-                            <label class="wpuf-form-sub-label"><?php _e( 'First', 'weforms' ); ?></label>
-                        <?php } ?>
+                        <?php if ( ! $field_settings['hide_subs'] ) : ?>
+                            <label class="wpuf-form-sub-label"><?php esc_html_e( 'First', 'weforms' ); ?></label>
+                        <?php endif; ?>
                     </div>
 
                     <?php if ( $field_settings['format'] != 'first-last' ) { ?>
                         <div class="wpuf-name-field-middle-name">
                             <input
-                                name="<?php echo $field_settings['name']; ?>[middle]"
+                                name="<?php echo esc_attr( $field_settings['name']) ?>[middle]"
                                 type="text" class="textfield"
                                 placeholder="<?php echo esc_attr( $field_settings['middle_name']['placeholder'] ); ?>"
                                 value="<?php echo esc_attr( $field_settings['middle_name']['default'] ); ?>"
                                 size="40"
                                 autocomplete="additional-name"
                             >
-
-                            <?php if ( !$field_settings['hide_subs'] ) { ?>
-                                <label class="wpuf-form-sub-label"><?php _e( 'Middle', 'weforms' ); ?></label>
-                            <?php } ?>
+                            <?php if ( ! $field_settings['hide_subs'] ) : ?>
+                                <label class="wpuf-form-sub-label"><?php esc_html_e( 'Middle', 'weforms' ); ?></label>
+                            <?php endif; ?>
                         </div>
                     <?php } else { ?>
-                        <input type="hidden" name="<?php echo $field_settings['name']; ?>[middle]" value="">
+                        <input type="hidden" name="<?php echo esc_attr( $field_settings['name'] ) ?>[middle]" value="">
                     <?php } ?>
 
                     <div class="wpuf-name-field-last-name">
                         <input
-                            name="<?php echo $field_settings['name']; ?>[last]"
+                            name="<?php echo esc_attr( $field_settings['name'] ) ?>[last]"
                             type="text" class="textfield"
                             placeholder="<?php echo esc_attr( $field_settings['last_name']['placeholder'] ); ?>"
                             value="<?php echo esc_attr( $field_settings['last_name']['default'] ); ?>"
                             size="40"
                             autocomplete="family-name"
                         >
-                        <?php if ( !$field_settings['hide_subs'] ) { ?>
-                            <label class="wpuf-form-sub-label"><?php _e( 'Last', 'weforms' ); ?></label>
-                        <?php } ?>
+                        <?php if ( ! $field_settings['hide_subs'] ) : ?>
+                            <label class="wpuf-form-sub-label"><?php esc_html_e( 'Last', 'weforms' ); ?></label>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <?php $this->help_text( $field_settings ); ?>
@@ -200,7 +198,16 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args = !empty( $args ) ? $args : $_POST;
+        if( empty( $_POST[ '_wpnonce' ] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        // $args = ! empty( $args ) ? $args : sanitize_text_field( wp_unslash( $_POST ) );
+        $args = ! empty( $args ) ? $args : weforms_clean( $_POST );
 
         if ( isset( $field['auto_populate'] ) && $field['auto_populate'] == 'yes' && is_user_logged_in() ) {
             $user = wp_get_current_user();

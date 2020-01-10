@@ -152,7 +152,7 @@ abstract class WeForms_Abstract_Integration {
             return;
         }
 
-        echo '<script type="text/x-template" id="tmpl-wpuf-integration-' . $this->id . '">';
+        echo '<script type="text/x-template" id="tmpl-wpuf-integration-' . esc_attr(  $this->id ). '">';
         include $this->template;
         echo '</script>';
     }

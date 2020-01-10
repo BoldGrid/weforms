@@ -92,9 +92,11 @@ class WeForms_Frontend_Form {
             }
         </script>
 
-        <form class="wpuf-form-add <?php echo $formid; ?> <?php echo $modal_class; ?> <?php echo $use_theme_css; ?>" action="" method="post"  <?php echo $modal_style; ?> id="<?php echo $modal_id; ?>">
+        <form class="wpuf-form-add <?php echo esc_attr( $formid ); ?> <?php echo esc_attr( $modal_class ); ?> <?php echo
+        esc_attr( $use_theme_css ); ?>" action="" method="post"  <?php echo esc_attr( $modal_style ); ?> id="<?php echo
+        esc_attr($modal_id); ?>">
 
-            <ul class="wpuf-form form-label-<?php echo $form_settings['label_position']; ?>">
+            <ul class="wpuf-form form-label-<?php echo esc_attr( $form_settings['label_position'] ); ?>">
 
                 <?php
                 /**
@@ -120,21 +122,21 @@ class WeForms_Frontend_Form {
         </form>
 
         <?php
-        if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
+        if ( isset( $atts['modal'] ) && 'true' == esc_attr( $atts['modal'] ) ) {
             if ( isset( $atts['link'] ) ) {
-                printf( '<p><a href="#modal-form" rel="modal:open">%s</a></p>', $atts['link'] );
+                printf( wp_kses_post(  '<p><a href="#modal-form" rel="modal:open">%s</a></p>', $atts['link'] ) );
             } else {
                 if ( isset( $atts['button'] ) ) {
                     $button_text = $atts['button'];
                 } else {
-                    $button_text = __( 'Open Form', 'weforms' );
+                    $button_text = esc_html_e( 'Open Form', 'weforms' );
                 }
-                printf( '<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $button_text );
+                printf( wp_kses_post( '<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $button_text ) );
             }
         }
 
         if ( $show_credit ) {
-            printf( '<em>' . __( 'Powered by <a href="%s" target="_blank">weForms</a>', 'weforms' ) . '</em>', 'https://wordpress.org/plugins/weforms/' );
+            printf( '<em>' . wp_kses_post( 'Powered by <a href="%s" target="_blank">weForms</a>', 'weforms' ) . '</em>', 'https://wordpress.org/plugins/weforms/' );
         }
 
         weforms_track_form_view( $form->id );
@@ -155,9 +157,9 @@ class WeForms_Frontend_Form {
                 &nbsp;
             </div>
 
-            <?php wp_nonce_field( 'wpuf_form_add' ); ?>
+            <?php esc_attr( wp_nonce_field( 'wpuf_form_add' ) ); ?>
 
-            <input type="hidden" name="form_id" value="<?php echo $form_id; ?>">
+            <input type="hidden" name="form_id" value="<?php echo esc_attr( $form_id ); ?>">
             <input type="hidden" name="page_id" value="<?php echo get_the_ID(); ?>">
             <input type="hidden" name="action" value="weforms_frontend_submit">
 
@@ -170,7 +172,8 @@ class WeForms_Frontend_Form {
 
             <?php do_action( 'weforms_submit_btn', $form_id, $form_settings ); ?>
 
-            <input type="submit" class="weforms_submit_btn wpuf_submit_<?php echo $form_id; ?>" name="submit" value="<?php echo $form_settings['submit_text']; ?>" />
+            <input type="submit" class="weforms_submit_btn wpuf_submit_<?php echo esc_attr( $form_id ); ?>" name="submit" value="<?php echo
+            esc_attr( $form_settings['submit_text'] ); ?>" />
 
         </li>
     <?php

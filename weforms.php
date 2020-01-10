@@ -99,6 +99,8 @@ final class WeForms {
 
         add_action( 'admin_init', [ $this, 'plugin_upgrades' ] );
         add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
+
+        $this->init_appsero();
     }
 
     /**
@@ -239,7 +241,6 @@ final class WeForms {
         }
         require_once WEFORMS_INCLUDES . '/api/class-weforms-api-rest-controller.php';
         require_once WEFORMS_INCLUDES . '/class-weforms-api.php';
-        require_once WEFORMS_INCLUDES . '/admin/class-wedevs-insights.php';
         require_once WEFORMS_INCLUDES . '/class-scripts-styles.php';
         require_once WEFORMS_INCLUDES . '/admin/class-gutenblock.php';
         require_once WEFORMS_INCLUDES . '/class-emailer.php';
@@ -340,7 +341,6 @@ final class WeForms {
             $this->container['frontend'] = new WeForms_Frontend_Form();
         }
 
-        $this->container['insights']            = new WeDevs_Insights( 'weforms', 'weForms', __FILE__ );
         $this->container['emailer']             = new WeForms_Emailer();
         $this->container['form']                = new WeForms_Form_Manager();
         $this->container['fields']              = new WeForms_Field_Manager();
@@ -420,7 +420,7 @@ final class WeForms {
         $error = __( 'Your installed PHP Version is: ', 'weforms' ) . PHP_VERSION . '. ';
         $error .= __( 'The <strong>weForms</strong> plugin requires PHP version <strong>', 'weforms' ) . $this->min_php . __( '</strong> or greater.', 'weforms' ); ?>
         <div class="error">
-            <p><?php printf( $error ); ?></p>
+            <p><?php printf( wp_kses_post ( $error ) ); ?></p>
         </div>
         <?php
     }
@@ -443,7 +443,7 @@ final class WeForms {
         $error .= __( '<p>The version of your PHP is ', 'weforms' ) . '<a href="http://php.net/supported-versions.php" target="_blank"><strong>' . __( 'unsupported and old', 'weforms' ) . '</strong></a>.';
         $error .= __( 'You should update your PHP software or contact your host regarding this matter.</p>', 'weforms' );
 
-        wp_die( $error, __( 'Plugin Activation Error', 'weforms' ), [ 'back_link' => true ] );
+        wp_die( wp_kses_post( $error ), esc_html_e( 'Plugin Activation Error', 'weforms' ), [ 'back_link' => true ] );
     }
 
     /**
@@ -472,6 +472,20 @@ final class WeForms {
             case 'frontend':
                 return ( !is_admin() || defined( 'DOING_AJAX' ) ) && !defined( 'DOING_CRON' );
         }
+    }
+
+    /**
+     * Init appsero tracker
+     */
+    private function init_appsero() {
+        if ( ! class_exists( 'Appsero\Client' ) ) {
+            require_once WEFORMS_INCLUDES . '/library/appsero/Client.php';
+        }
+
+        $client = new Appsero\Client( '213fd70e-0bf3-4710-a35e-934b5a376e13', 'weForms', __FILE__ );
+
+        // Active insights
+        $client->insights()->init();
     }
 } // WeForms
 

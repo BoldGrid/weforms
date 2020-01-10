@@ -207,8 +207,8 @@ function weforms_insert_entry( $args, $fields = [] ) {
         'user_id'     => get_current_user_id(),
         'user_ip'     => ip2long( weforms_get_client_ip() ),
         'user_device' => $browser['name'] . '/' . $browser['platform'],
-        'referer'     => $_SERVER['HTTP_REFERER'],
-        'created_at'  => current_time( 'mysql' ),
+        'referer'     => isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '',
+        'created_at'  => current_time( 'mysql' )
     ];
 
     $r = wp_parse_args( $args, $defaults );
@@ -247,7 +247,7 @@ function weforms_insert_entry( $args, $fields = [] ) {
 function weforms_change_entry_status( $entry_id, $status ) {
     global $wpdb;
 
-    return $wpdb->update( 
+    return $wpdb->update(
         $wpdb->weforms_entries,
         [
             'status' => $status,
@@ -272,14 +272,14 @@ function weforms_delete_entry( $entry_id ) {
 
     weforms_delete_entry_attachments( $entry_id );
 
-    $deleted = $wpdb->delete( 
+    $deleted = $wpdb->delete(
         $wpdb->weforms_entries, [
             'id' => $entry_id,
         ], [ '%d' ]
       );
 
     if ( $deleted ) {
-        $wpdb->delete( 
+        $wpdb->delete(
             $wpdb->weforms_entrymeta, [
                 'weforms_entry_id' => $entry_id,
             ], [ '%d' ]
@@ -662,7 +662,7 @@ function weforms_format_text( $content ) {
  * @return array
  */
 function weforms_get_browser() {
-    $u_agent  = $_SERVER['HTTP_USER_AGENT'];
+    $u_agent  = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
     $bname    = 'Unknown';
     $platform = 'Unknown';
     $version  = '';
@@ -922,17 +922,17 @@ function weforms_get_client_ip() {
     $ipaddress = '';
 
     if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
     } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
     } elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED'] ) );
     } elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] ) );
     } elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) );
     } elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
+        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
     } else {
         $ipaddress = 'UNKNOWN';
     }
@@ -1076,7 +1076,7 @@ function weforms_get_flat_ui_colors() {
  * @return array
  */
 function weforms_get_default_form_settings() {
-    return apply_filters( 
+    return apply_filters(
         'weforms_get_default_form_settings', [
             'redirect_to'                => 'same',
             'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
@@ -1158,7 +1158,7 @@ function weforms_get_default_form_settings() {
  * @return array
  */
 function weforms_get_default_form_notification() {
-    return apply_filters( 
+    return apply_filters(
         'weforms_get_default_form_notification', [
             'active'       => 'true',
 
@@ -1289,4 +1289,19 @@ function is_weforms_api_allowed_guest_submission() {
     }
 
     return apply_filters( 'weforms_anonymous_entry_submit_permission', $permission );
+}
+
+/**
+ * Clean variables using weforms_clean. Arrays are cleaned recursively.
+ * Non-scalar values are ignored.
+ *
+ * @param string|array $var Data to sanitize.
+ * @return string|array
+ */
+function weforms_clean( $var ) {
+    if ( is_array( $var ) ) {
+        return array_map( 'weforms_clean', $var );
+    } else {
+        return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
+    }
 }

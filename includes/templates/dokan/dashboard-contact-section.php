@@ -20,12 +20,12 @@
             $form_id = dokan_get_option( 'vendor_contact_form', 'weforms_integration' );
 
             if ( !empty( $form_id ) ) {
-                echo do_shortcode( '[weforms id="' . $form_id . '"]' );
-            } else {
-                _e( 'No contact form assigned yet by marketplace owner.', 'weforms' );
+                echo do_shortcode('[weforms id="'.$form_id.'"]');
+            } else{
+                esc_html_e( 'No contact form assigned yet by marketplace owner.', 'weforms' );
             }
 
-        ?>
+		?>
     </div><!-- .dokan-dashboard-content -->
 
     <?php

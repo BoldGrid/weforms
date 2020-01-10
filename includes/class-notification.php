@@ -274,7 +274,7 @@ class WeForms_Notification {
             $emogrifier = new Emogrifier( $content, $css );
             $content    = $emogrifier->emogrify();
         } catch ( Exception $e ) {
-            echo $e->getMessage();
+            echo esc_html( $e->getMessage() );
         }
 
         return $content;
@@ -397,7 +397,7 @@ class WeForms_Notification {
                 break;
 
             case 'url_referer':
-                return isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+                return isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
                 break;
 
             case 'url_login':

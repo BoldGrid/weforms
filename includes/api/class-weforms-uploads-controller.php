@@ -243,9 +243,9 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      *
      * @return string
      */
-    public static function attach_html( $attach_id, $type = null ) {
-        if ( !$type ) {
-            $type = isset( $_GET['type'] ) ? $_GET['type'] : 'image';
+    public static function attach_html( $attach_id, $type = NULL ) {
+        if ( ! $type ) {
+            $type = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : 'image';
         }
 
         $attachment = get_post( $attach_id );

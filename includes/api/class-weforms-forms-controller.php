@@ -512,14 +512,16 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
         $recaptcha_settings = weforms_get_settings( 'recaptcha' );
         $secret             = isset( $recaptcha_settings->secret ) ? $recaptcha_settings->secret : '';
 
-        if ( !$invisible ) {
-            $response  = null;
-            $reCaptcha = new $recaptcha_class( $secret );
+        if ( ! $invisible ) {
+            $response           = null;
+            $reCaptcha          = new $recaptcha_class( $secret );
+            $remote_ADDR        = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+            $recaptcha_response = isset( $_SERVER['g-recaptcha-response'] ) ?  sanitize_text_field( wp_unslash( $request['g-recaptcha-response'] ) ) : '';
 
             $resp = $reCaptcha->verifyResponse(
-                $_SERVER['REMOTE_ADDR'],
-                $request['g-recaptcha-response']
-              );
+                $remote_ADDR,
+                $recaptcha_response
+            );
 
             if ( !$resp->success ) {
                 return false;
@@ -527,7 +529,7 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
         } else {
             $recap_challenge = isset( $request['recaptcha_challenge_field'] ) ? $request['recaptcha_challenge_field'] : '';
             $recap_response  = isset( $request['recaptcha_response_field'] ) ? $request['recaptcha_response_field'] : '';
-            $resp            = recaptcha_check_answer( $secret, $_SERVER['REMOTE_ADDR'], $recap_challenge, $recap_response );
+            $resp            = recaptcha_check_answer( $secret, $remote_ADDR, $recap_challenge, $recap_response );
 
             if ( !$resp->is_valid ) {
                 ob_clean();

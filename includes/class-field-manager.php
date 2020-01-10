@@ -166,7 +166,7 @@ class WeForms_Field_Manager {
         foreach ( $fields as $field ) {
             if ( !$field_object = $this->field_exists( $field['template'] ) ) {
                 if ( defined( 'WP_DEBUG' && WP_DEBUG ) ) {
-                    echo '<h4 style="color: red;"><em>' . $field['template'] . '</em> field not found.</h4>';
+                    echo '<h4 style="color: red;"><em>' . esc_attr( $field['template'] ). '</em> field not found.</h4>';
                 }
 
                 continue;
@@ -192,13 +192,14 @@ class WeForms_Field_Manager {
             return $form_field;
         }
 
+
         $param_name = $form_field['dynamic']['param_name'];
 
         if ( isset( $form_field['options'] ) ) {
             $form_field['options'] = apply_filters( 'weforms_field_options_' . $param_name, $form_field['options'], $form_id );
 
-            if ( isset( $_GET[ $param_name ] ) && is_array( $_GET[ $param_name ] ) ) {
-                $form_field['default'] = array_merge( $form_field['options'], $_GET[ $param_name ] );
+            if ( isset(  $_GET[ $param_name ] ) && is_array( $_GET[ $param_name ]  ) ) {
+                $form_field['default'] = array_merge( $form_field['options'], sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) ) );
             }
         }
 
@@ -211,12 +212,12 @@ class WeForms_Field_Manager {
                 }
 
                 if ( isset( $_GET[ $param_name ] ) ) {
-                    if ( is_array( $form_field[ $default_key ] ) == is_array( $_GET[ $param_name ] ) ) {
-                        $form_field[ $default_key ] = $_GET[ $param_name ];
+                    if ( is_array( $form_field[ $default_key ] ) == is_array( sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) ) ) ) {
+                        $form_field[ $default_key ] = sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) );
                     }
 
-                    if ( !is_array( $form_field[ $default_key ] ) == !is_array( $_GET[ $param_name ] ) ) {
-                        $form_field[ $default_key ] = $_GET[ $param_name ];
+                    if ( ! is_array( $form_field[ $default_key ] ) == ! is_array( sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) ) ) ) {
+                        $form_field[ $default_key ] = sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) );
                     }
                 }
             }

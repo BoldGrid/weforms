@@ -14,7 +14,7 @@ class WeForms_Form_Field_Pro extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        echo __( 'This is a premium field. You need to upgrade.', 'weforms' );
+        echo esc_html_e( 'This is a premium field. You need to upgrade.', 'weforms' );
     }
 
     /**
