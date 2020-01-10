@@ -5,7 +5,7 @@ Tags: form, forms, contact form, custom form, form builder, form creator, form m
 Requires at least: 4.4
 Requires PHP: 5.6.20
 Tested up to: 5.3
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -266,6 +266,14 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.4.3 (10 January, 2020) =
+
+* **Fix:**  Field display issue in form entries page
+* **Fix:**  Hidden Field not working properly in builder
+* **Fix:**  Some Column field issue
+* **Fix:**  Sanitize and Escape data before saving and rendering
+* **Improvement:** Add privacy policy in readme
 
 = Version 1.4.2 (18 November, 2019) =
 
