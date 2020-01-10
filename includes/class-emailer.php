@@ -8,12 +8,11 @@ class WeForms_Emailer {
     /**
      * The default gateway to send
      *
-     * @var null|WeForms_Mailer_Contract
+     * @var WeForms_Mailer_Contract|null
      */
     private $gateway = null;
 
-    function __construct() {
-
+    public function __construct() {
         require_once WEFORMS_INCLUDES . '/email/gateways/interface-mailer.php';
 
         $this->gateway = $this->get_sending_gateway();
@@ -27,9 +26,9 @@ class WeForms_Emailer {
     public function get_available_gateways() {
         require_once WEFORMS_INCLUDES . '/email/gateways/class-emailer-wpmail.php';
 
-        $gateways = apply_filters( 'weforms_email_gateways', array(
-            'wordpress' => new WeForms_Emailer_WPMail()
-        ) );
+        $gateways = apply_filters( 'weforms_email_gateways', [
+            'wordpress' => new WeForms_Emailer_WPMail(),
+        ] );
 
         return $gateways;
     }
@@ -53,15 +52,14 @@ class WeForms_Emailer {
     /**
      * Send email via the gateway
      *
-     * @param  string $to       Email addresses to send message
-     * @param  string $subject  Email subject
-     * @param  string $body     Message contents
-     * @param  string $headers  Optional. Files to attach.
+     * @param string $to      Email addresses to send message
+     * @param string $subject Email subject
+     * @param string $body    Message contents
+     * @param string $headers Optional. Files to attach.
      *
      * @return bool
      */
     public function send( $to, $subject, $body, $headers ) {
         return $this->gateway->send( $to, $subject, $body, $headers );
     }
-
 }

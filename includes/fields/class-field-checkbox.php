@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Checkbox', 'weforms' );
         $this->input_type = 'checkbox_field';
         $this->icon       = 'check-square-o';
@@ -14,35 +14,30 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected = !empty( $field_settings['selected'] ) ? $field_settings['selected'] : array();
-        ?>
+        $selected = !empty( $field_settings['selected'] ) ? $field_settings['selected'] : []; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <?php do_action( 'weforms_checkbox_field_after_label', $field_settings ); ?>
-
-            <div class="wpuf-fields" data-required="<?php echo $field_settings['required'] ?>" data-type="radio">
+            <div class="wpuf-fields" data-required="<?php echo esc_attr( $field_settings['required'] ) ?>" data-type="radio">
 
                 <?php
                 if ( $field_settings['options'] && count( $field_settings['options'] ) > 0 ) {
-
-                    foreach ($field_settings['options'] as $value => $option) {
-
+                    foreach ( $field_settings['options'] as $value => $option ) {
                         ?>
                         <label <?php echo $field_settings['inline'] == 'yes' ? 'class="wpuf-checkbox-inline"' : 'class="wpuf-checkbox-block"'; ?>>
-                            <input type="checkbox" class="<?php echo 'wpuf_' . $field_settings['name']. '_'. $form_id; ?>" name="<?php echo $field_settings['name']; ?>[]" value="<?php echo esc_attr( $value ); ?>"<?php echo in_array( $value, $selected ) ? ' checked="checked"' : ''; ?> />
-                            <?php echo $option; ?>
+                            <input type="checkbox" class="<?php echo 'wpuf_' . esc_attr( $field_settings['name'] ). '_'. esc_attr($form_id); ?>" name="<?php echo esc_attr( $field_settings['name'] ); ?>[]" value="<?php echo esc_attr( $value ); ?>"<?php echo in_array( $value, $selected ) ? ' checked="checked"' : ''; ?> />
+                            <?php echo esc_attr( $option ); ?>
                         </label>
                         <?php
                     }
-                }
-                ?>
+                } ?>
 
                 <?php $this->help_text( $field_settings ); ?>
 
@@ -57,26 +52,25 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $default_options  = $this->get_default_option_settings( true, array( 'width' ) );
-        $dropdown_options = array(
+        $default_options  = $this->get_default_option_settings( true, [ 'width' ] );
+        $dropdown_options = [
             $this->get_default_option_dropdown_settings( true ),
 
-            array(
+            [
                 'name'          => 'inline',
                 'title'         => __( 'Show in inline list', 'weforms' ),
                 'type'          => 'radio',
-                'options'       => array(
+                'options'       => [
                     'yes'   => __( 'Yes', 'weforms' ),
                     'no'    => __( 'No', 'weforms' ),
-                ),
+                ],
                 'default'       => 'no',
                 'inline'        => true,
                 'section'       => 'advanced',
                 'priority'      => 23,
                 'help_text'     => __( 'Show this option in an inline list', 'weforms' ),
-            ),
-
-        );
+            ],
+        ];
 
         $dropdown_options = apply_filters( 'weforms_checkbox_field_option_settings', $dropdown_options );
 
@@ -90,11 +84,11 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $props    = array(
-            'selected'          => array(),
+        $props    = [
+            'selected'          => [],
             'inline'            => 'no',
-            'options'           => array( 'Option' => __( 'Option', 'weforms' ) ),
-        );
+            'options'           => [ 'Option' => __( 'Option', 'weforms' ) ],
+        ];
 
         $props = apply_filters( 'weforms_checkbox_field_props', $props );
 
@@ -109,13 +103,21 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args        = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST['_wpnonce'] ) ) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        $args        = ! empty( $args ) ? $args : weforms_clean( $_POST );
         $entry_value = ( is_array( $args[ $field[ 'name' ] ] ) && $args[ $field[ 'name' ] ] ) ? $args[ $field[ 'name' ] ] : array();
 
         if ( $entry_value ) {
-            $new_val = array();
+            $new_val = [];
 
-            foreach ($entry_value as $option_key) {
+            foreach ( $entry_value as $option_key ) {
                 $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : $option_key;
             }
 

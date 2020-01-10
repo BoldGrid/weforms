@@ -10,7 +10,7 @@
                 <?php _e( 'Settings', 'weforms' ); ?>
             </a>
 
-            <?php do_action( "wpuf-form-builder-tabs-contact_form" ); ?>
+            <?php do_action( 'wpuf-form-builder-tabs-contact_form' ); ?>
 
             <span class="pull-right">
                 <a :href="'<?php echo home_url( '/' ); ?>?weforms_preview=1&form_id=' + post.ID" target="_blank" class="button"><span class="dashicons dashicons-visibility" style="padding-top: 3px;"></span> <?php _e( 'Preview', 'weforms' ); ?></a>
@@ -40,7 +40,7 @@
 
                         <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>">
                             <i class="fa fa-share-alt" aria-hidden="true"></i>
-                            <?php _e('Share', 'Share' ); ?>
+                            <?php _e( 'Share', 'Share' ); ?>
                         </span>
 
                     </header>
@@ -84,16 +84,16 @@
             <div id="wpuf-form-builder-settings" class="clearfix" v-show="isActiveTab('settings')">
                 <fieldset>
                     <h2 id="wpuf-form-builder-settings-tabs" class="nav-tab-wrapper">
-                        <?php do_action( "wpuf-form-builder-settings-tabs-contact_form" ); ?>
+                        <?php do_action( 'wpuf-form-builder-settings-tabs-contact_form' ); ?>
                     </h2><!-- #wpuf-form-builder-settings-tabs -->
 
                     <div id="wpuf-form-builder-settings-contents" class="tab-contents">
-                        <?php do_action( "wpuf-form-builder-settings-tab-contents-contact_form" ); ?>
+                        <?php do_action( 'wpuf-form-builder-settings-tab-contents-contact_form' ); ?>
                     </div><!-- #wpuf-form-builder-settings-contents -->
                 </fieldset>
             </div><!-- #wpuf-form-builder-settings -->
 
-            <?php do_action( "wpuf-form-builder-tab-contents-contact_form" ); ?>
+            <?php do_action( 'wpuf-form-builder-tab-contents-contact_form' ); ?>
         </div>
         <div v-else>
 

@@ -5,9 +5,9 @@
  *
  * @since 1.4.2
  */
-
 class Weforms_Upload_Controller extends Weforms_REST_Controller {
-        /**
+
+    /**
      * Endpoint namespace
      *
      * @var string
@@ -27,61 +27,59 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      * @return void
      */
     public function register_routes() {
-
-        register_rest_route( $this->namespace, '/'. $this->rest_base . '/(?P<form_id>[\d]+)/files', array(
-                'args'   => array(
-                    'form_id' => array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/files', [
+                'args'   => [
+                    'form_id' => [
                         'required'            => true,
                         'description'         => __( 'Unique identifier for the object.', 'weforms' ),
                         'sanitize_callback'   => 'absint',
                         'type'                => 'integer',
-                        'validate_callback'   => array( $this, 'is_form_exists' ),
-                    ),
-                    'field_id' => array(
+                        'validate_callback'   => [ $this, 'is_form_exists' ],
+                    ],
+                    'field_id' => [
                         'required'            => true,
                         'description'         => __( 'Unique identifier for the object.', 'weforms' ),
                         'sanitize_callback'   => 'absint',
                         'type'                => 'integer',
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => array( $this, 'upload_file' ),
-                    'permission_callback' => array( $this, 'upload_permissions_check' ),
-                ),
-        ) );
+                    'callback'            => [ $this, 'upload_file' ],
+                    'permission_callback' => [ $this, 'upload_permissions_check' ],
+                ],
+        ] );
 
-        register_rest_route( $this->namespace, '/'. $this->rest_base . '/(?P<form_id>[\d]+)/files/(?P<id>[\d]+)/', array(
-            'args' => array(
-                'form_id' => array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/files/(?P<id>[\d]+)/', [
+            'args' => [
+                'form_id' => [
                     'description'       => __( 'Unique identifier for the object.', 'weforms' ),
-                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'validate_callback' => [ $this, 'is_form_exists' ],
                     'required'          => true,
                     'sanitize_callback' => 'absint',
                     'type'              => 'integer',
-                ),
-                'id' => array(
+                ],
+                'id' => [
                     'description'       => __( 'Unique identifier for the object.', 'weforms' ),
-                    'validate_callback' => array( $this, 'is_form_attach_exist' ),
+                    'validate_callback' => [ $this, 'is_form_attach_exist' ],
                     'required'          => true,
                     'sanitize_callback' => 'absint',
                     'type'              => 'integer',
-                ),
-                'force' => array(
+                ],
+                'force' => [
                     'required'    => true,
                     'type'        => 'boolean',
                     'description' => __( '', 'weforms' ),
                     'default'     => true,
-                ),
-            ),
+                ],
+            ],
 
-            array(
-                'methods'  => WP_REST_Server::DELETABLE,
-                'callback' => array( $this, 'delete_file' ),
-                'permission_callback' => array( $this, 'upload_permissions_check' ),
-            ),
-        ) );
-
+            [
+                'methods'             => WP_REST_Server::DELETABLE,
+                'callback'            => [ $this, 'delete_file' ],
+                'permission_callback' => [ $this, 'upload_permissions_check' ],
+            ],
+        ] );
     }
 
     /**
@@ -89,18 +87,18 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      *
      * @since 1.4.2
      *
-     * @param string $param
+     * @param string          $param
      * @param WP_REST_Request $request
-     * @param string $key
+     * @param string          $key
      *
-     * @return boolean
-     **/
+     * @return bool
+     */
     public function is_form_attach_exist( $param, $request, $key ) {
-        $form_id        = $request->get_param('form_id');
+        $form_id        = $request->get_param( 'form_id' );
         $attach_id      = (int) $param;
         $attach_form_id = get_post_meta( $attach_id, 'attachment_form_id', true );
 
-        if( $attach_form_id == $form_id  ) {
+        if ( $attach_form_id == $form_id  ) {
             return true;
         } else {
             return false;
@@ -112,12 +110,12 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      *
      * @since 1.4.2
      *
-     * @param string $param
+     * @param string          $param
      * @param WP_REST_Request $request
-     * @param string $key
+     * @param string          $key
      *
-     * @return boolean
-     **/
+     * @return bool
+     */
     public function is_file_validate( $request ) {
         $file_error    = new WP_Error();
         $form          = weforms()->form->get( (int) $request['form_id'] );
@@ -125,38 +123,39 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
         $form_fields   = $form->get_fields();
         $files         = $request->get_file_params();
         $headers       = $request->get_headers();
-        $field_id      = $request->get_param('field_id');
+        $field_id      = $request->get_param( 'field_id' );
 
-        if ( ! empty( $files ) ) {
-            foreach ($form_fields as $field) {
-                if( 'image_upload' === $field['template'] && $field['id'] == $field_id ) {
+        if ( !empty( $files ) ) {
+            foreach ( $form_fields as $field ) {
+                if ( 'image_upload' === $field['template'] && $field['id'] == $field_id ) {
                     $allowed_extension = weforms_allowed_extensions();
-                    $allowed_file_type = explode( ",", $allowed_extension['images']['ext'] );
+                    $allowed_file_type = explode( ',', $allowed_extension['images']['ext'] );
                     $file_type         =  wp_check_filetype( $files['file']['name'], $mimes = null );
 
-                    if( in_array( $file_type['ext'], $allowed_file_type ) ) {
-                        if( $files['file']['size'] <= ( $field['max_size'] * 1024 ) ) {
+                    if ( in_array( $file_type['ext'], $allowed_file_type ) ) {
+                        if ( $files['file']['size'] <= ( $field['max_size'] * 1024 ) ) {
                             return true;
                         } else {
-                            $file_error->add( 'rest_weforms_invalid_file_size', __( 'File Size exceeds limit!','weforms' ), array( 'status' => 404 ) );
+                            $file_error->add( 'rest_weforms_invalid_file_size', __( 'File Size exceeds limit!', 'weforms' ), [ 'status' => 404 ] );
                         }
                     }
                 }
 
-                if( 'file_upload' === $field['template'] && $field['id'] == $field_id ) {
+                if ( 'file_upload' === $field['template'] && $field['id'] == $field_id ) {
                     $file_type =  wp_check_filetype( $files['file']['name'], $mimes = null );
-                    if( $this->is_allow_file_type( $field['extension'],$file_type['ext'] ) ) {
-                        if( $files['file']['size'] <= ( $field['max_size'] * 1024 ) ) {
+
+                    if ( $this->is_allow_file_type( $field['extension'], $file_type['ext'] ) ) {
+                        if ( $files['file']['size'] <= ( $field['max_size'] * 1024 ) ) {
                             return true;
                         } else {
-                            $file_error->add( 'rest_weforms_invalid_file_size', __( 'File Size exceeds limit!','weforms' ), array( 'status' => 404 ) );
+                            $file_error->add( 'rest_weforms_invalid_file_size', __( 'File Size exceeds limit!', 'weforms' ), [ 'status' => 404 ] );
                         }
                     }
                 }
             }
         }
 
-        if( count( $file_error->get_error_messages() ) > 0 ) {
+        if ( count( $file_error->get_error_messages() ) > 0 ) {
             return $file_error;
         } else {
             return true;
@@ -170,8 +169,8 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      *
      * @param WP_REST_Request $request
      *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-    **/
+     * @return WP_REST_Response|WP_Error response object on success, or WP_Error object on failure
+     */
     public function upload_file( $request ) {
         global $wp_rest_server;
 
@@ -181,10 +180,10 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
         $headers               = $request->get_headers();
         $attachment_response   = $attachment_controller->create_item( $request );
 
-        if ( ! empty( $attachment_response->data['id'] ) ) {
-            $form_id  = $request->get_param('form_id');
+        if ( !empty( $attachment_response->data['id'] ) ) {
+            $form_id  = $request->get_param( 'form_id' );
 
-            update_post_meta( $attachment_response->data['id'] , 'attachment_form_id', $form_id );
+            update_post_meta( $attachment_response->data['id'], 'attachment_form_id', $form_id );
 
             if ( wp_attachment_is_image( $attachment_response->data['id'] ) ) {
                 $image = wp_get_attachment_image_src( $attachment_response->data['id'], 'thumbnail' );
@@ -193,11 +192,11 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
                 $image = wp_mime_type_icon( $attachment_response->data['id'] );
             }
 
-            $data = array(
+            $data = [
                 'form_id'   => $form_id,
                 'attach_id' => $attachment_response->data['id'],
-                'link'      => $image
-            );
+                'link'      => $image,
+            ];
 
             $response          = $this->prepare_response_for_collection( $data, $request );
             $response['html '] = $this->attach_html( $attachment_response->data['id'] );
@@ -205,7 +204,7 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
 
             return $response;
         } else {
-            return new WP_Error( 'rest_weforms', __( 'could not upload file', 'weforms') , array( 'status' => 404 ) );
+            return new WP_Error( 'rest_weforms', __( 'could not upload file', 'weforms' ), [ 'status' => 404 ] );
         }
     }
 
@@ -216,17 +215,17 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      *
      * @param WP_REST_Request $request
      *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-    **/
+     * @return WP_REST_Response|WP_Error response object on success, or WP_Error object on failure
+     */
     public function delete_file( $request ) {
         global $wp_rest_server;
 
         $endpoints              = $wp_rest_server->get_routes();
         $attachment_controller  = $endpoints['/wp/v2/media'][0]['callback'][0];
         $attachment_response    = $attachment_controller->delete_item( $request );
-        $data                   = array();
+        $data                   = [];
         $data['id']             = $attachment_response->data['previous']['id'];
-        $data['message']        = "File deleted successfully";
+        $data['message']        = 'File deleted successfully';
         $data['data']['status'] = 200;
         $response               = $this->prepare_response_for_collection( $data );
         $response               = rest_ensure_response( $response );
@@ -239,19 +238,19 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      *
      * @since 1.4.2
      *
-     * @param  integer $attach_id
-     * @param  string $type
+     * @param int    $attach_id
+     * @param string $type
      *
      * @return string
      */
     public static function attach_html( $attach_id, $type = NULL ) {
         if ( ! $type ) {
-            $type = isset( $_GET['type'] ) ? $_GET['type'] : 'image';
+            $type = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : 'image';
         }
 
         $attachment = get_post( $attach_id );
 
-        if ( ! $attachment ) {
+        if ( !$attachment ) {
             return;
         }
 
@@ -280,12 +279,12 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      * @since 1.4.2
      *
      * @return array
-    **/
+     **/
     public function compare_array( $field_extensions, $allowd_extensions ) {
         $array_new = [];
 
-        foreach( $field_extensions as $key => $value ) {
-            if ( array_key_exists($value, $allowd_extensions ) ) {
+        foreach ( $field_extensions as $key => $value ) {
+            if ( array_key_exists( $value, $allowd_extensions ) ) {
                 $array_new[$key] = $allowd_extensions[$value];
             }
         }
@@ -301,13 +300,13 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      * @param string $field_extension
      * @param string $file_extension
      *
-     * @return Boolean
-    **/
-    public function is_allow_file_type( $field_extension,$file_extension ) {
+     * @return bool
+     */
+    public function is_allow_file_type( $field_extension, $file_extension ) {
         $allowed_extensions       = weforms_allowed_extensions();
-        $field_allowed_extensions = $this->get_allowed_extension( $allowed_extensions,$field_extension );
+        $field_allowed_extensions = $this->get_allowed_extension( $allowed_extensions, $field_extension );
 
-        if( in_array( $file_extension, $field_allowed_extensions ) ) {
+        if ( in_array( $file_extension, $field_allowed_extensions ) ) {
             return true;
         }
 
@@ -322,26 +321,28 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      * @param array $allowd_extensions
      * @param array $field_extensions
      *
-     * @return Array
-    **/
-    public function get_allowed_extension( $allowd_extensions,$field_extensions ) {
-        $allowd_ext_array = array();
+     * @return array
+     */
+    public function get_allowed_extension( $allowd_extensions, $field_extensions ) {
+        $allowd_ext_array = [];
 
-        if( is_array( $field_extensions ) ) {
-            $allowd_extensions = $this->compare_array($field_extensions, $allowd_extensions);
+        if ( is_array( $field_extensions ) ) {
+            $allowd_extensions = $this->compare_array( $field_extensions, $allowd_extensions );
 
-            foreach ($allowd_extensions as $key => $allowd_extension) {
+            foreach ( $allowd_extensions as $key => $allowd_extension ) {
                 $extensions = explode( ',', $allowd_extension['ext'] );
-                foreach ($extensions as $key => $extension) {
-                    array_push($allowd_ext_array, $extension);
+
+                foreach ( $extensions as $key => $extension ) {
+                    array_push( $allowd_ext_array, $extension );
                 }
             }
         } else {
-            if( array_key_exists( $field_extensions, $allowd_extensions ) ) {
+            if ( array_key_exists( $field_extensions, $allowd_extensions ) ) {
                 foreach ( $allowd_extensions[ $field_extensions ][ 'ext' ] as $key => $allowd_extension ) {
                     $extensions = explode( ',', $allowd_extension['ext'] );
-                    foreach ($extensions as $key => $extension) {
-                        array_push($allowd_ext_array, $extension);
+
+                    foreach ( $extensions as $key => $extension ) {
+                        array_push( $allowd_ext_array, $extension );
                     }
                 }
             }
@@ -351,26 +352,27 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
     }
 
     public function upload_permissions_check( $request ) {
-
         if ( !is_weforms_api_allowed_guest_submission() ) {
-            return new WP_Error( 'rest_weforms_cannot_upload', __( 'Sorry, you have no permission to upload File.','weforms' ), array( 'status' => rest_authorization_required_code() ) );
+            return new WP_Error( 'rest_weforms_cannot_upload', __( 'Sorry, you have no permission to upload File.', 'weforms' ), [ 'status' => rest_authorization_required_code() ] );
         }
 
         $form         = weforms()->form->get( (int) $request['form_id'] );
         $form_is_open = $form->is_submission_open();
 
         if ( is_wp_error( $form_is_open ) ) {
-            return new WP_Error( 'rest_weforms_form_permission', $form_is_open->get_error_message(), array( 'status' => 404 ) );
+            return new WP_Error( 'rest_weforms_form_permission', $form_is_open->get_error_message(), [ 'status' => 404 ] );
         }
 
         $file_validations = $this->is_file_validate( $request );
 
-        if( is_wp_error( $file_validations  ) ) {
-            $file_message = array();
+        if ( is_wp_error( $file_validations  ) ) {
+            $file_message = [];
+
             foreach ( $file_validations->get_error_messages() as $error ) {
                 $file_message[] = $error;
             }
-            return new WP_Error( 'error',  $file_message, array( 'status' => 404 ) );
+
+            return new WP_Error( 'error', $file_message, [ 'status' => 404 ] );
         }
 
         return true;

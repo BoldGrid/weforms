@@ -10,7 +10,7 @@ abstract class WeForms_Form_Template {
     /**
      * If the form is enabled
      *
-     * @var boolean
+     * @var bool
      */
     public $enabled = true;
 
@@ -56,7 +56,6 @@ abstract class WeForms_Form_Template {
      */
     public $category = 'default';
 
-
     /**
      * Form Template Image
      *
@@ -74,13 +73,13 @@ abstract class WeForms_Form_Template {
     protected $form_notifications;
 
     public function __construct() {
-        $this->conditionals = array(
+        $this->conditionals = [
             'condition_status' => 'no',
-            'cond_field'       => array(),
-            'cond_operator'    => array( '=' ),
-            'cond_option'      => array( '- select -' ),
-            'cond_logic'       => 'all'
-        );
+            'cond_field'       => [],
+            'cond_operator'    => [ '=' ],
+            'cond_option'      => [ '- select -' ],
+            'cond_logic'       => 'all',
+        ];
     }
 
     /**
@@ -142,7 +141,7 @@ abstract class WeForms_Form_Template {
     /**
      * Check if the template is enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function is_enabled() {
         return $this->enabled;
@@ -162,9 +161,7 @@ abstract class WeForms_Form_Template {
      *
      * @return array
      */
-    function get_default_notification() {
-        return array( weforms_get_default_form_notification() );
+    public function get_default_notification() {
+        return [ weforms_get_default_form_notification() ];
     }
-
 }
-

@@ -14,7 +14,6 @@ class WeForms_Template_Restaurant_Reservation extends WeForms_Form_Template {
         $this->category    = 'default';
         $this->image       = WEFORMS_ASSET_URI . '/images/form-template/restaurant-reservation.png';
         $this->category    = 'reservation';
-
     }
 
     /**
@@ -25,82 +24,80 @@ class WeForms_Template_Restaurant_Reservation extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array(
-            array_merge( $all_fields['name_field']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'required'      => 'yes',
-                'label'         =>  'Full Name',
+                'label'         => 'Full Name',
                 'format'        => 'first-last',
-                'first_name'    => array(
+                'first_name'    => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'First', 'weforms' )
-                ),
-                'last_name'     => array(
+                    'sub'         => __( 'First', 'weforms' ),
+                ],
+                'last_name'     => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Last', 'weforms' )
-                ),
+                    'sub'         => __( 'Last', 'weforms' ),
+                ],
                 'hide_subs'     => false,
                 'name'          => 'format',
-            ) ),
-            array_merge( $all_fields['email_address']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['email_address']->get_field_props(), [
                 'label'    => __( 'Email Address', 'weforms' ),
                 'name'     => 'email_address',
-            ) ),
-            array_merge( $all_fields['numeric_text_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => __( 'Contact Number', 'weforms' ),
                 'name'     => 'phone_number',
-            ) ),
-            array_merge( $all_fields['numeric_text_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => __( 'Number of Guest', 'weforms' ),
                 'name'     => 'number_of_guest',
-            ) ),
-            array_merge( $all_fields['date_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['date_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => __( 'Date', 'weforms' ),
                 'name'     => 'date',
-            ) ),
-            array_merge( $all_fields['dropdown_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['dropdown_field']->get_field_props(), [
                 'required'      => true,
-                'label'         => __('Table Reservation', 'weforms'),
+                'label'         => __( 'Table Reservation', 'weforms' ),
                 'name'          => 'table_reservation',
-                'options'       => array(
-                    'yes'       => __('Yes', 'weforms'),
-                    'no'        => __('No', 'weforms'),
-                ),
-            ) ),
-            array_merge( $all_fields['dropdown_field']->get_field_props(), array(
-                'required'      =>   true,
-                'label'         =>   __('Reservation Type', 'weforms'),
-                'name'          =>   'reservation_type',
-                'options'       =>   array(
-                    'dinner'          =>  __('Dinner', 'weforms'),
-                    'vip_mezzanine'   =>  __('VIP/Mezzanine', 'weforms'),
-                    'birthday'        =>  __('Birthday/Aniversary', 'weforms'),
-                    'nightlife'       =>  __('Night Life', 'weforms'),
-                    'private'         =>  __('Private', 'weforms'),
-                    'wedding'         =>  __('Wedding', 'weforms'),
-                    'corporate'       =>  __('Corporate', 'weforms'),
-                    'holiday'         =>  __('Holiday', 'weforms'),
-                    'other'           =>  __('Other', 'weforms'),
-                ),
-            ) ),
-            array_merge( $all_fields['text_field']->get_field_props(), array(
-                'label'      =>  __('If Other above, please specify?', 'weforms'),
-                'name'       =>  'other_above'
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'      =>  __('Any Special Request?', 'weforms'),
-                'name'       =>  'special_request'
-            ) ),
-        );
+                'options'       => [
+                    'yes'       => __( 'Yes', 'weforms' ),
+                    'no'        => __( 'No', 'weforms' ),
+                ],
+            ] ),
+            array_merge( $all_fields['dropdown_field']->get_field_props(), [
+                'required'      => true,
+                'label'         => __( 'Reservation Type', 'weforms' ),
+                'name'          => 'reservation_type',
+                'options'       => [
+                    'dinner'          => __( 'Dinner', 'weforms' ),
+                    'vip_mezzanine'   => __( 'VIP/Mezzanine', 'weforms' ),
+                    'birthday'        => __( 'Birthday/Aniversary', 'weforms' ),
+                    'nightlife'       => __( 'Night Life', 'weforms' ),
+                    'private'         => __( 'Private', 'weforms' ),
+                    'wedding'         => __( 'Wedding', 'weforms' ),
+                    'corporate'       => __( 'Corporate', 'weforms' ),
+                    'holiday'         => __( 'Holiday', 'weforms' ),
+                    'other'           => __( 'Other', 'weforms' ),
+                ],
+            ] ),
+            array_merge( $all_fields['text_field']->get_field_props(), [
+                'label'      => __( 'If Other above, please specify?', 'weforms' ),
+                'name'       => 'other_above',
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'      => __( 'Any Special Request?', 'weforms' ),
+                'name'       => 'special_request',
+            ] ),
+        ];
 
         return $form_fields;
     }
-
-
 
     /**
      * Get the form settings
@@ -110,12 +107,11 @@ class WeForms_Template_Restaurant_Reservation extends WeForms_Form_Template {
     public function get_form_settings() {
         $defaults = $this->get_default_settings();
 
-        return array_merge( $defaults, array(
+        return array_merge( $defaults, [
             'submit_text'                => __( 'Submit', 'weforms' ),
             'label_position'             => 'above',
             'enable_multistep'           => true,
             'multistep_progressbar_type' => 'step_by_step',
-        ) );
+        ] );
     }
-
 }

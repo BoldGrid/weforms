@@ -5,7 +5,6 @@
  *
  * @since 1.4.2
  */
-
 class Weforms_Form_Setting_Controller extends Weforms_REST_Controller {
 
     /**
@@ -23,43 +22,43 @@ class Weforms_Form_Setting_Controller extends Weforms_REST_Controller {
     protected $rest_base = 'forms';
 
     public function register_routes() {
-        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/settings', array(
-            'args' => array(
-                'form_id' => array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/settings', [
+            'args' => [
+                'form_id' => [
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
                     'type'              => 'integer',
                     'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'validate_callback' => [ $this, 'is_form_exists' ],
                     'required'          => true,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'methods'             => WP_REST_Server::EDITABLE,
-                'callback'            => array( $this, 'update_item_settings' ),
+                'callback'            => [ $this, 'update_item_settings' ],
                 'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
-                'permission_callback' => array( $this, 'get_item_permissions_check' ),
-            ),
-        ) );
+                'permission_callback' => [ $this, 'get_item_permissions_check' ],
+            ],
+        ] );
 
-        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/settings', array(
-            'args' => array(
-                'form_id' => array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/settings', [
+            'args' => [
+                'form_id' => [
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
                     'type'              => 'integer',
                     'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
+                    'validate_callback' => [ $this, 'is_form_exists' ],
                     'required'          => true,
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'methods'             => WP_REST_Server::READABLE,
-                'callback'            => array( $this, 'get_item_settings' ),
-                'args'     => array(
-                    'context' => $this->get_context_param( [ 'default' => 'view' ] )
-                ),
-                'permission_callback' => array( $this, 'get_item_permissions_check' ),
-            ),
-        ) );
+                'callback'            => [ $this, 'get_item_settings' ],
+                'args'                => [
+                    'context' => $this->get_context_param( [ 'default' => 'view' ] ),
+                ],
+                'permission_callback' => [ $this, 'get_item_permissions_check' ],
+            ],
+        ] );
     }
 
     public function get_item_settings( $request ) {
@@ -80,15 +79,15 @@ class Weforms_Form_Setting_Controller extends Weforms_REST_Controller {
         $form          = weforms()->form->get( $form_id );
         $form_settings = $form->get_settings();
 
-        if( isset( $settings ) && !empty( $settings ) ) {
+        if ( isset( $settings ) && !empty( $settings ) ) {
             $new_form_settings = array_merge( $settings, array_diff_key( $form->get_settings(), $settings ) );
             update_post_meta( $form_id, 'wpuf_form_settings', $new_form_settings );
         }
 
-        $response_data = array(
+        $response_data = [
             'id'       => $form->data->ID,
-            'settings' => $form->get_settings()
-        );
+            'settings' => $form->get_settings(),
+        ];
 
         $response = rest_ensure_response( $response_data );
         $response->set_status( 201 );
@@ -102,28 +101,28 @@ class Weforms_Form_Setting_Controller extends Weforms_REST_Controller {
      * @return array
      */
     public function get_item_schema() {
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'forms',
             'type'       => 'object',
-            'properties' => array(
-                'form_id' => array(
+            'properties' => [
+                'form_id' => [
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
                     'type'              => 'integer',
                     'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
-                    'context'           => array( 'embed', 'view', 'edit' ),
+                    'validate_callback' => [ $this, 'is_form_exists' ],
+                    'context'           => [ 'embed', 'view', 'edit' ],
                     'required'          => true,
                     'readonly'          => true,
-                ),
-                "settings" => array(
+                ],
+                'settings' => [
                     'description' => __( '', 'weforms' ),
                     'type'        => 'object',
-                    'context'     => [ 'edit' ,'view'],
+                    'context'     => [ 'edit', 'view'],
                     'required'    => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $schema;
     }

@@ -6,7 +6,7 @@ class Weforms_Donation_Form extends WeForms_Form_Template {
 
     public function __construct() {
         parent::__construct();
-        
+
         $this->enabled     = class_exists( 'WeForms_Pro' );
         $this->title       = __( 'Donation Form', 'weforms' );
         $this->description = __( 'Inspire people to donate more on your site with this form', 'weforms' );
@@ -22,64 +22,62 @@ class Weforms_Donation_Form extends WeForms_Form_Template {
     public function get_form_fields() {
         $all_fields = $this->get_available_fields();
 
-        $form_fields = array(
-            array_merge( $all_fields['name_field']->get_field_props(), array(
+        $form_fields = [
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'required'   => 'yes',
                 'format'     => 'first-last',
-
-                'first_name' => array(
+                'first_name' => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'First Name', 'weforms' )
-                ),
-                'last_name'       => array(
+                    'sub'         => __( 'First Name', 'weforms' ),
+                ],
+                'last_name'       => [
                     'placeholder' => '',
                     'default'     => '',
-                    'sub'         => __( 'Last Name', 'weforms' )
-                ),
+                    'sub'         => __( 'Last Name', 'weforms' ),
+                ],
                 'hide_subs'       => false,
                 'name'            => 'format',
-            ) ),
-            array_merge( $all_fields['email_address']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['email_address']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => 'Email Address',
                 'name'     => 'email_address',
-            ) ),
-            array_merge( $all_fields['numeric_text_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
                 'label'    => 'Phone Number',
                 'name'     => 'phone_number',
-            ) ),
-            array_merge( $all_fields['radio_field']->get_field_props(), array(
+            ] ),
+            array_merge( $all_fields['radio_field']->get_field_props(), [
                 'required' => 'yes',
                 'label'    => 'Type Of Donation',
                 'name'     => 'type_of_donation',
-                'options'  => array(
+                'options'  => [
                     'donation_1' => __( 'Donation-1', 'weforms' ),
                     'donation_2' => __( 'Donation-2', 'weforms' ),
                     'donation_3' => __( 'Donation-3', 'weforms' ),
-                ),
-            ) ),
-            array_merge( $all_fields['single_product']->get_field_props(), array(
+                ],
+            ] ),
+            array_merge( $all_fields['single_product']->get_field_props(), [
                 'required'      => 'yes',
-                'label'         =>  __('Donation Amount', 'weforms'),
-                'name'          =>  'price',
-                'price'         =>  array(
-                    'price'     =>  10,
+                'label'         => __( 'Donation Amount', 'weforms' ),
+                'name'          => 'price',
+                'price'         => [
+                    'price'     => 10,
                     'type'      => 'donation',
-                ),
-            ) ),
-            array_merge( $all_fields['payment_method']->get_field_props(), array(
+                ],
+            ] ),
+            array_merge( $all_fields['payment_method']->get_field_props(), [
                 'required'      => 'yes',
-                'label'         =>  __('Payment Method', 'weforms'),
-                'name'          =>  'payment_method',
-            ) ),
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
+                'label'         => __( 'Payment Method', 'weforms' ),
+                'name'          => 'payment_method',
+            ] ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
                 'label'    => 'Comments',
-                'name'     => 'comments'
-            ) ),
-        );
+                'name'     => 'comments',
+            ] ),
+        ];
 
         return $form_fields;
     }
-
 }

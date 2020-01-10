@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'reCaptcha', 'weforms' );
         $this->input_type = 'recaptcha';
         $this->icon       = 'qrcode';
@@ -14,40 +14,39 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-
         $settings     = weforms_get_settings( 'recaptcha' );
         $is_invisible = false;
         $public_key   = isset( $settings->key ) ? $settings->key : '';
         $theme        = isset( $field_settings['recaptcha_theme'] ) ? $field_settings['recaptcha_theme'] : 'light';
 
-        if ( isset ( $field_settings['recaptcha_type'] ) ) {
+        if ( isset( $field_settings['recaptcha_type'] ) ) {
             $is_invisible = $field_settings['recaptcha_type'] == 'invisible_recaptcha' ? true : false;
         }
 
         $invisible_css   = $is_invisible ? ' style="margin: 0; padding: 0" ' : '';
 
-        ?> <li <?php $this->print_list_attributes( $field_settings ); echo $invisible_css; ?>>
+        ?> <li <?php $this->print_list_attributes( $field_settings ); echo esc_attr( $invisible_css ); ?>>
 
             <?php
 
-            if ( ! $is_invisible ) {
-               $this->print_label( $field_settings );
+            if ( !$is_invisible ) {
+                $this->print_label( $field_settings );
             }
 
             if ( ! $public_key ) {
-                _e( 'reCaptcha API key is missing.', 'weforms');
+                esc_html_e( 'reCaptcha API key is missing.', 'weforms');
 
             } else {
 
                 ?>
 
-                <div class="wpuf-fields <?php echo ' wpuf_'.$field_settings['name'].'_'.$form_id; ?>">
+                <div class="wpuf-fields <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>">
                     <script>
                         function weformsRecaptchaCallback(token) {
                             jQuery('[name="g-recaptcha-response"]').val(token);
@@ -86,7 +85,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
 
                             grecaptcha.render('recaptcha', {
                                 'size' : 'invisible',
-                                'sitekey' : '<?php echo $public_key; ?>',
+                                'sitekey' : '<?php echo  esc_attr( $public_key ); ?>',
                                 'callback' : weformsRecaptchaCallback
                             });
 
@@ -94,17 +93,18 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                         };
                     </script>
 
-                    <div id='recaptcha' class="g-recaptcha" data-theme="<?php echo $theme; ?>" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
+                    <div id='recaptcha' class="g-recaptcha" data-theme="<?php echo esc_attr( $theme ); ?>" data-sitekey="<?php echo esc_attr( $public_key ); ?>" data-callback="weformsRecaptchaCallback" data-size="invisible"></div>
 
                 <?php } else { ?>
 
                     <script src="https://www.google.com/recaptcha/api.js"></script>
-                    <div id='recaptcha' data-theme="<?php echo $theme; ?>" class="g-recaptcha" data-sitekey="<?php echo $public_key; ?>" data-callback="weformsRecaptchaCallback"></div>
+                    <div id='recaptcha' data-theme="<?php echo esc_attr( $theme ); ?>" class="g-recaptcha" data-sitekey="<?php echo esc_attr ( $public_key ); ?>" data-callback="weformsRecaptchaCallback"></div>
                 <?php } ?>
 
                 </div>
 
-            <?php } ?>
+            <?php
+        } ?>
 
         </li>
         <?php
@@ -116,7 +116,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
      * @return array
      */
     public function get_validator() {
-        return array(
+        return [
             'callback'      => 'has_recaptcha_api_keys',
             'button_class'  => 'button-faded',
             'msg_title'     => __( 'Site key and Secret key', 'weforms' ),
@@ -124,8 +124,8 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                 __( 'You need to set Site key and Secret key in <a href="%s" target="_blank">Settings</a> in order to use "Recaptcha" field. <a href="%s" target="_blank">Click here to get the these key</a>.', 'weforms' ),
                 admin_url( 'admin.php?page=weforms#/settings' ),
                 'https://www.google.com/recaptcha/'
-            ),
-        );
+              ),
+        ];
     }
 
     /**
@@ -134,44 +134,42 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
      * @return array
      */
     public function get_options_settings() {
-        $settings = array(
-            array(
+        $settings = [
+            [
                 'name'          => 'label',
                 'title'         => __( 'Title', 'weforms' ),
                 'type'          => 'text',
                 'section'       => 'basic',
                 'priority'      => 10,
                 'help_text'     => __( 'Title of the section', 'weforms' ),
-            ),
-
-            array(
+            ],
+            [
                 'name'          => 'recaptcha_type',
                 'title'         => 'reCaptcha type',
                 'type'          => 'radio',
-                'options'       => array(
+                'options'       => [
                     'enable_no_captcha'    => __( 'Enable noCaptcha', 'weforms' ),
                     'invisible_recaptcha'  => __( 'Enable Invisible reCaptcha', 'weforms' ),
-                ),
+                ],
                 'default'       => 'enable_no_captcha',
                 'section'       => 'basic',
                 'priority'      => 11,
                 'help_text'     => __( 'Select reCaptcha type', 'weforms' ),
-            ),
-
-            array(
+            ],
+            [
                 'name'          => 'recaptcha_theme',
                 'title'         => 'reCaptcha Theme',
                 'type'          => 'radio',
-                'options'       => array(
+                'options'       => [
                     'light' => __( 'Light', 'weforms' ),
                     'dark'  => __( 'Dark', 'weforms' ),
-                ),
+                ],
                 'default'       => 'light',
                 'section'       => 'advanced',
                 'priority'      => 12,
                 'help_text'     => __( 'Select reCaptcha Theme', 'weforms' ),
-            ),
-        );
+            ],
+        ];
 
         return $settings;
     }
@@ -182,7 +180,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
      * @return array
      */
     public function get_field_props() {
-        $props = array(
+        $props = [
             'template'        => $this->get_type(),
             'label'           => '',
             'recaptcha_type'  => 'enable_no_captcha',
@@ -191,7 +189,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
             'is_new'          => true,
             'wpuf_cond'       => null,
             'recaptcha_theme' => 'light',
-        );
+        ];
 
         return $props;
     }

@@ -14,7 +14,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
      */
     private $submit_text;
 
-    function __construct() {
+    public function __construct() {
         $this->id        = 'nf';
         $this->title     = 'Ninja Forms';
         $this->shortcode = 'ninja_form';
@@ -25,7 +25,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * See if the plugin exists
      *
-     * @return boolean
+     * @return bool
      */
     public function plugin_exists() {
         return class_exists( 'Ninja_Forms' );
@@ -36,30 +36,30 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
      *
      * @return void
      */
-    public function ninja_form_field($form) {
+    public function ninja_form_field( $form ) {
+        $data = [];
 
-        $data = array();
-        foreach( Ninja_Forms()->form( $form->get_id() )->get_fields() as $field ){
-            $data[$field->get_settings( 'order' )] = array(
-                'type'      => $field->get_setting( 'type' ),
-                'key'       => $field->get_setting( 'key' ),
-                'label'     => $field->get_setting( 'label' ),
+        foreach ( Ninja_Forms()->form( $form->get_id() )->get_fields() as $field ) {
+            $data[$field->get_settings( 'order' )] = [
+                'type'        => $field->get_setting( 'type' ),
+                'key'         => $field->get_setting( 'key' ),
+                'label'       => $field->get_setting( 'label' ),
                 'default'     => $field->get_setting( 'default' ),
-                'required'  => $field->get_setting( 'required' ) ? $field->get_setting( 'required' ) : 0
-            );
+                'required'    => $field->get_setting( 'required' ) ? $field->get_setting( 'required' ) : 0,
+            ];
 
-            if (in_array($field->get_setting('type'), array('listselect', 'listradio', 'listcheckbox', 'listmultiselect')) ) {
-                foreach ($field->get_setting('options') as $option) {
-                    $data[$field->get_settings( 'order' )]['options'][] = array(
+            if ( in_array( $field->get_setting( 'type' ), ['listselect', 'listradio', 'listcheckbox', 'listmultiselect'] ) ) {
+                foreach ( $field->get_setting( 'options' ) as $option ) {
+                    $data[$field->get_settings( 'order' )]['options'][] = [
                         'label'     => $option['label'],
                         'value'     => $option['value'],
-                    );
+                    ];
                 }
             }
         }
+
         return $data;
     }
-
 
     /**
      * Get all the forms
@@ -75,7 +75,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Get form name
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return string
      */
@@ -86,7 +86,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Get the form id
      *
-     * @param  mixed $form
+     * @param mixed $form
      *
      * @return int
      */
@@ -97,14 +97,12 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Get the form fields
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_fields( $form ) {
-
-        $ninja_form_fields = $this->ninja_form_field($form);
-
+        $ninja_form_fields = $this->ninja_form_field( $form );
 
         // echo "<pre>";
         // print_r($ninja_form_fields);
@@ -112,11 +110,10 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
 
         // die;
 
-        $form_fields = array();
+        $form_fields = [];
 
-        foreach ($ninja_form_fields as $menu_order => $field) {
-
-            $field_content = array();
+        foreach ( $ninja_form_fields as $menu_order => $field ) {
+            $field_content = [];
 
             switch ( $field['type'] ) {
                 case 'textbox':
@@ -134,29 +131,29 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 case 'address':
                 case 'spam':
 
-                    if($field['type'] == 'firstname' || $field['type'] == 'lastname' || $field['type'] == 'zip' || $field['type'] == 'product' || $field['type'] == 'city' || $field['type'] == 'quiz' || $field['type'] == 'address' || $field['type'] == 'spam' || $field['type'] == 'textbox') {
+                    if ( $field['type'] == 'firstname' || $field['type'] == 'lastname' || $field['type'] == 'zip' || $field['type'] == 'product' || $field['type'] == 'city' || $field['type'] == 'quiz' || $field['type'] == 'address' || $field['type'] == 'spam' || $field['type'] == 'textbox' ) {
                         $field['type'] = 'text';
                     }
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required' => $field['required'] ? 'yes' : 'no',
                         'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'     => $field['key'],
-                    ) );
+                    ] );
                     break;
 
                 case 'checkbox':
                 case 'listcheckbox':
-                    if($field['type'] == 'listcheckbox') {
+                    if ( $field['type'] == 'listcheckbox' ) {
                         $field['type'] = 'checkbox';
                     }
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required' => $field['required'] ? 'yes' : 'no',
                         'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'     => $field['key'],
-                        'options'  => $this->get_options( $field['options'] ) ? $this->get_options( $field['options'] ) : array( 'label' => $field['label'], 'value' => $field['key'] ),
-                    ) );
+                        'options'  => $this->get_options( $field['options'] ) ? $this->get_options( $field['options'] ) : [ 'label' => $field['label'], 'value' => $field['key'] ],
+                    ] );
 
                     break;
 
@@ -167,21 +164,20 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 case 'listselect':
                 case 'listcountry':
                 case 'starrating':
-                    if($field['type'] == 'listcountry' || $field['type'] == 'starrating') {
+                    if ( $field['type'] == 'listcountry' || $field['type'] == 'starrating' ) {
                         $field['type'] = 'select';
-                    } else if($field['type'] == 'listmultiselect' || $field['type'] == 'listselect') {
+                    } elseif ( $field['type'] == 'listmultiselect' || $field['type'] == 'listselect' ) {
                         $field['type'] = 'multiselect';
-                    } else if($field['type'] == 'listradio') {
+                    } elseif ( $field['type'] == 'listradio' ) {
                         $field['type'] = 'radio';
                     }
 
-
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required' => $field['required'] ? 'yes' : 'no',
                         'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'     => $field['key'],
                         'options'  => $this->get_options( $field['options'] ),
-                    ) );
+                    ] );
                     break;
 
                 case 'range':
@@ -190,15 +186,15 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 case 'quantity':
                 case 'total':
                 case 'shipping':
-                    if($field['type'] == 'phone' || $field['type'] == 'quantity' || $field['type'] == 'total' || $field['type'] == 'shipping') {
+                    if ( $field['type'] == 'phone' || $field['type'] == 'quantity' || $field['type'] == 'total' || $field['type'] == 'shipping' ) {
                         $field['type'] = 'number';
                     }
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required'        => $field['required'] ? 'yes' : 'no',
                         'label'           => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'            => $field['key'],
-                    ) );
+                    ] );
 
                     break;
 
@@ -206,34 +202,34 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 case 'hidden':
                 case 'html':
 
-                    if($field['type'] == 'hr') {
+                    if ( $field['type'] == 'hr' ) {
                         $field['type'] = 'section_break';
                     }
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'     => $field['key'],
                         'default'  => $field['default'],
-                    ) );
+                    ] );
 
                     break;
 
                 case 'acceptance':
 
-                    $form_fields[] = $this->get_form_field( 'toc', array(
+                    $form_fields[] = $this->get_form_field( 'toc', [
                         'required'    => $field['required'] ? 'yes' : 'no',
                         'description' => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'        => $field['key'],
-                    ) );
+                    ] );
                     break;
 
                 case 'recaptcha':
 
-                    $form_fields[] = $this->get_form_field( $field['type'], array(
+                    $form_fields[] = $this->get_form_field( $field['type'], [
                         'required' => $field['required'] ? 'yes' : 'no',
                         'label'    => $this->find_label( $field['label'], $field['type'], $field['key'] ),
                         'name'     => $field['key'],
-                    ) );
+                    ] );
                     break;
 
                 case 'submit':
@@ -250,22 +246,23 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Get form settings
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_settings( $form ) {
         $all_settings = get_option( 'nf_form_' . $form->get_id(), true );
-        foreach ($all_settings['actions'] as $actions) {
-            if('successmessage' == $actions['settings']['type']){
+
+        foreach ( $all_settings['actions'] as $actions ) {
+            if ( 'successmessage' == $actions['settings']['type'] ) {
                 $message = $actions['settings']['message'];
             }
         }
-        $message    = str_replace(' {field:name}', '', $message);
+        $message    = str_replace( ' {field:name}', '', $message );
         $default    = $this->get_default_form_settings();
-        $settings   = wp_parse_args( array(
+        $settings   = wp_parse_args( [
             'message' => $message,
-            ), $default );
+            ], $default );
 
         if ( $this->submit_text ) {
             $settings['submit_text'] = $this->submit_text;
@@ -277,26 +274,26 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Get form notifications
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_notifications( $form ) {
-        $notifications = array();
-        $all_settings = get_option( 'nf_form_' . $form->get_id(), true );
-        foreach ($all_settings['actions'] as $actions) {
-            if('Email Notification' == $actions['settings']['label']){
+        $notifications = [];
+        $all_settings  = get_option( 'nf_form_' . $form->get_id(), true );
+
+        foreach ( $all_settings['actions'] as $actions ) {
+            if ( 'Email Notification' == $actions['settings']['label'] ) {
                 $action_settings = $actions['settings'];
-            }
-            else if('Email Confirmation' == $actions['settings']['label']){
+            } elseif ( 'Email Confirmation' == $actions['settings']['label'] ) {
                 $action_settings2 = $actions['settings'];
             }
         }
 
-        $sub    = str_replace('{field:name}', '{site_name}', $action_settings['email_subject']);
+        $sub    = str_replace( '{field:name}', '{site_name}', $action_settings['email_subject'] );
 
-        $notifications = array(
-            array(
+        $notifications = [
+            [
                 'active'      => $action_settings['active'] ? 'true' : 'false',
                 'name'        => 'Admin Notification',
                 'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $sub ),
@@ -307,8 +304,8 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 'fromAddress' => '{admin_email}',
                 'cc'          => '',
                 'bcc'         => '',
-            ),
-        );
+            ],
+        ];
 
         $sender_match = $this->get_notification_sender_match( get_option( 'admin_email' ) );
 
@@ -321,7 +318,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
         }
 
         if ( $action_settings2['active'] ) {
-            $notifications[] = array(
+            $notifications[] = [
                 'active'      => $action_settings2['active'] ? 'true' : 'false',
                 'name'        => 'Admin Notification',
                 'subject'     => str_replace( '[your-subject]', $action_settings2['subject'], $action_settings2['subject'] ),
@@ -332,7 +329,7 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
                 'fromAddress' => '{admin_email}',
                 'cc'          => '',
                 'bcc'         => '',
-            );
+            ];
         }
 
         $sender_match = $this->get_notification_sender_match( get_option( 'admin_email' ) );
@@ -351,17 +348,16 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Match the sender
      *
-     * @param  array $mail
+     * @param array $mail
      *
      * @return array
      */
     public function get_notification_sender_match( $mail ) {
-
         if ( !isset( $mail['sender'] ) ) {
             return;
         }
-        $sender       = array( 'fromName' => '', 'fromAddress' => '' );
-        $sender_match = array();
+        $sender       = [ 'fromName' => '', 'fromAddress' => '' ];
+        $sender_match = [];
 
         preg_match( '/([^<"]*)"?\s*<(\S*)>/', $mail['sender'], $sender_match );
 
@@ -382,27 +378,27 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
      * Loop through all the label tags and try to find out
      * if the field is inside that tag. Then strip out the field and find out label
      *
-     * @param  string $content
-     * @param  string $type
-     * @param  string $fieldname
+     * @param string $content
+     * @param string $type
+     * @param string $fieldname
      *
      * @return string
      */
     private function find_label( $content, $type, $fieldname ) {
-
         return $content; // i guess, we don't need this :/ will remove later
 
         // find all enclosing label fields
         $pattern = '/<label>([ \w\S\r\n\t]+?)<\/label>/';
         preg_match_all( $pattern, $content, $matches );
 
-        foreach ($matches[1] as $key => $match) {
+        foreach ( $matches[1] as $key => $match ) {
             $match = trim( str_replace( "\n", '', $match ) );
 
             preg_match( '/\[(?:' . preg_quote( $type ) . ') ' . $fieldname . '(?:[ ](.*?))?(?:[\r\n\t ](\/))?\]/', $match, $input_match );
 
             if ( $input_match ) {
                 $label = strip_tags( str_replace( $input_match[0], '', $match ) );
+
                 return trim( $label );
             }
         }
@@ -413,14 +409,14 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Get file type for upload files
      *
-     * @param  string $extension
+     * @param string $extension
      *
-     * @return boolean|string
+     * @return bool|string
      */
     private function get_file_type( $extension ) {
         $allowed_extensions = weforms_allowed_extensions();
 
-        foreach ($allowed_extensions as $type => $extensions) {
+        foreach ( $allowed_extensions as $type => $extensions ) {
             $_extensions = explode( ',', $extensions['ext'] );
 
             if ( in_array( $extension, $_extensions ) ) {
@@ -434,18 +430,18 @@ class WeForms_Importer_Ninja_Forms extends WeForms_Importer_Abstract {
     /**
      * Translate to wpuf field options array
      *
-     * @param  object $field
+     * @param object $field
      *
      * @return array
      */
     private function get_options( $field ) {
-        $options = array();
+        $options = [];
 
         if ( !is_array( $field ) ) {
             return $options;
         }
 
-        foreach ($field as $value) {
+        foreach ( $field as $value ) {
             $options[ $value['value'] ] = $value['label'];
         }
 

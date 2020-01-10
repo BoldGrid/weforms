@@ -32,7 +32,7 @@
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-forms' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'weforms' ) ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'weforms' ); ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -59,7 +59,7 @@
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-entries' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'weforms' ) ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'weforms' ); ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -178,7 +178,7 @@
                 </tbody>
             </table>
             <div v-else>
-                <p><?php _e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms') ?></p>
+                <p><?php _e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms' ); ?></p>
             </div>
         </div>
     </div>

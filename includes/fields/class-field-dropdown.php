@@ -5,7 +5,7 @@
  */
 class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
 
-    function __construct() {
+    public function __construct() {
         $this->name       = __( 'Dropdown', 'weforms' );
         $this->input_type = 'dropdown_field';
         $this->icon       = 'caret-square-o-down';
@@ -14,15 +14,14 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
-        $name      = $field_settings['name'];
-        ?>
+        $selected  = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
+        $name      = $field_settings['name']; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -30,14 +29,14 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
 
             <div class="wpuf-fields">
                 <select
-                    class="<?php echo 'wpuf_'. $field_settings['name'] .'_'. $form_id; ?>"
-                    id="<?php echo $field_settings['name'] . '_' . $form_id; ?>"
-                    name="<?php echo $name; ?>"
-                    data-required="<?php echo $field_settings['required'] ?>"
+                    class="<?php echo 'wpuf_'. esc_attr( $field_settings['name'] ) .'_'. esc_attr( $form_id ); ?>"
+                    id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
+                    name="<?php echo esc_attr( $name ); ?>"
+                    data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
                     data-type="select">
 
                     <?php if ( !empty( $field_settings['first'] ) ) { ?>
-                        <option value=""><?php echo $field_settings['first']; ?></option>
+                        <option value=""><?php echo esc_attr( $field_settings['first'] ); ?></option>
                     <?php } ?>
 
                     <?php
@@ -45,11 +44,11 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
                         foreach ($field_settings['options'] as $value => $option) {
                             $current_select = selected( $selected, $value, false );
                             ?>
-                            <option value="<?php echo esc_attr( $value ); ?>"<?php echo $current_select; ?>><?php echo $option; ?></option>
+                            <option value="<?php echo esc_attr( $value ); ?>"<?php echo esc_attr(  $current_select ); ?>><?php echo
+                            esc_attr( $option ); ?></option>
                             <?php
                         }
-                    }
-                    ?>
+                    } ?>
                 </select>
                 <?php $this->help_text( $field_settings ); ?>
             </div>
@@ -65,18 +64,17 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      */
     public function get_options_settings() {
         $default_options  = $this->get_default_option_settings();
-        $dropdown_options = array(
+        $dropdown_options = [
             $this->get_default_option_dropdown_settings(),
-
-            array(
+            [
                 'name'          => 'first',
                 'title'         => __( 'Select Text', 'weforms' ),
                 'type'          => 'text',
                 'section'       => 'basic',
                 'priority'      => 13,
                 'help_text'     => __( "First element of the select dropdown. Leave this empty if you don't want to show this field", 'weforms' ),
-            ),
-        );
+            ],
+        ];
 
         $dropdown_options = apply_filters( 'weforms_dropdown_field_option_settings', $dropdown_options );
 
@@ -90,11 +88,11 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      */
     public function get_field_props() {
         $defaults = $this->default_attributes();
-        $props    = array(
+        $props    = [
             'selected' => '',
-            'options'  => array( 'Option' => __( 'Option', 'weforms' ) ),
+            'options'  => [ 'Option' => __( 'Option', 'weforms' ) ],
             'first'    => __( '— Select —', 'weforms' ),
-        );
+        ];
 
         $props = apply_filters( 'weforms_dropdown_field_props', $props );
 
@@ -109,7 +107,15 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        $args = ! empty( $args ) ? $args : $_POST;
+        if( empty( $_POST['_wpnonce'])) {
+             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        $args = ! empty( $args ) ? $args : weforms_clean( $_POST );
         $val  = $args[$field['name']];
 
         return isset( $field['options'][$val] ) ? $field['options'][$val] : $val;

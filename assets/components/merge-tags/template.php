@@ -42,17 +42,16 @@
 
             <?php
             if ( function_exists( 'weforms_get_merge_tags' ) ) {
-
                 $merge_tags = weforms_get_merge_tags();
 
-                foreach ($merge_tags as $section_key => $section) {
+                foreach ( $merge_tags as $section_key => $section ) {
                     ?>
 
                     <div class="merge-tag-section">
-                        <div class="merge-tag-head"><?php echo $section['title'] ?></div>
+                        <div class="merge-tag-head"><?php echo $section['title']; ?></div>
 
                         <ul>
-                            <?php foreach ($section['tags'] as $key => $value) { ?>
+                            <?php foreach ( $section['tags'] as $key => $value ) { ?>
                                 <li>
                                     <a href="#" v-on:click.prevent="insertField('<?php echo $key; ?>');"><?php echo $value; ?></a>
                                 </li>

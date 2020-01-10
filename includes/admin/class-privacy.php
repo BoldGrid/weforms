@@ -6,25 +6,26 @@
  *
  * @since 1.2.9
  */
-Class WeForms_Privacy {
+class WeForms_Privacy {
 
-    private $name = "weForms";
+    private $name = 'weForms';
 
-    public function __construct(){
-        add_action( 'admin_init', array( $this, 'add_privacy_message' ) );
+    public function __construct() {
+        add_action( 'admin_init', [ $this, 'add_privacy_message' ] );
 
         $payment_export = weforms_get_settings( 'privacy_payment_export' );
         $payment_erase  = weforms_get_settings( 'privacy_payment_erase' );
 
         if ( isset( $payment_export ) && $payment_export ) {
-            add_filter( 'wp_privacy_personal_data_exporters', array( $this, 'register_exporters' ), 10 );
+            add_filter( 'wp_privacy_personal_data_exporters', [ $this, 'register_exporters' ], 10 );
         }
+
         if ( isset( $payment_erase ) && $payment_erase ) {
-            add_filter('wp_privacy_personal_data_erasers', array($this, 'register_erasers'), 10);
+            add_filter( 'wp_privacy_personal_data_erasers', [$this, 'register_erasers'], 10 );
         }
     }
 
-    function add_privacy_message(){
+    public function add_privacy_message() {
         if ( function_exists( 'wp_add_privacy_policy_content' ) ) {
             $content = $this->get_privacy_message();
             wp_add_privacy_policy_content( $this->name, $content );
@@ -34,7 +35,7 @@ Class WeForms_Privacy {
     /**
      * Add privacy policy content for the privacy policy page.
      */
-    function get_privacy_message() {
+    public function get_privacy_message() {
         $content = '
 			<div contenteditable="false">' .
             '<p class="wp-policy-help">' .
@@ -83,9 +84,9 @@ Class WeForms_Privacy {
             '<p class="wp-policy-help">' . __( 'In this subsection you should list which third party payment processors you’re using to take payments on your site since these may handle customer data. We’ve included PayPal as an example, but you should remove this if you’re not using PayPal.', 'weforms' ) . '</p>' .
             '</div>' .
             '<p>' . __( 'We accept payments through PayPal. When processing payments, some of your data will be passed to PayPal, including information required to process or support the payment, such as the purchase total and billing information.', 'weforms' ) . '</p>' .
-            '<p>' . __( 'Please see the <a href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full">PayPal Privacy Policy</a> for more details.', 'weforms' ) . '</p>'.
+            '<p>' . __( 'Please see the <a href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full">PayPal Privacy Policy</a> for more details.', 'weforms' ) . '</p>' .
             '<p>' . __( 'Also, we accept payments through Stripe. When processing payments, some of your data will be passed to Stripe, including information required to process or support the payment, such as the purchase total and billing information.', 'weforms' ) . '</p>' .
-            '<p>' . __( 'Please see the <a href="https://stripe.com/us/privacy">Stripe Privacy Policy</a> for more details.', 'weforms' ) . '</p>'.
+            '<p>' . __( 'Please see the <a href="https://stripe.com/us/privacy">Stripe Privacy Policy</a> for more details.', 'weforms' ) . '</p>' .
             '<h3>' . __( 'Available Modules', 'weforms' ) . '</h3>' .
             '<p>' . __( 'In this subsection you should list which third party modules you’re using to increase the functionality of your created forms using weForms since these may handle customer data.', 'weforms' ) . '</p>' .
             '<p>' . __( 'weForms Pro comes with support for modules like HubSpot, Constant Contact, Salesforce, PayPal, Stripe, Google Analytics, ConvertKit, Zapier, Campaign Monitor, Aweber, MailChimp, Zoho, Trello, SMS Notification(Using Twilio, Nexmo and other popular gateways), Google Sheets, GetResponse. Data sent to those platforms will be handled by their own privacy policy.', 'weforms' ) . '</p>' .
@@ -103,11 +104,11 @@ Class WeForms_Privacy {
      *
      * @return array
      */
-    function register_exporters( $exporters ) {
-        $exporters['weforms-transaction-data-export'] = array(
+    public function register_exporters( $exporters ) {
+        $exporters['weforms-transaction-data-export'] = [
             'exporter_friendly_name' => __( 'weForms Transaction Data', 'weforms' ),
-            'callback'               => array( 'WeForms_Privacy', 'export_payment_data'),
-        );
+            'callback'               => [ 'WeForms_Privacy', 'export_payment_data'],
+        ];
 
         return apply_filters( 'weforms_privacy_register_exporters', $exporters );
     }
@@ -119,37 +120,36 @@ Class WeForms_Privacy {
      *
      * @return array
      */
-    function register_erasers( $erasers ) {
-        $erasers['weforms-transaction-data-export'] = array(
+    public function register_erasers( $erasers ) {
+        $erasers['weforms-transaction-data-export'] = [
             'eraser_friendly_name' => __( 'weForms Transaction Data', 'weforms' ),
-            'callback'             => array( 'WeForms_Privacy', 'erase_payment_data'),
-        );
+            'callback'             => [ 'WeForms_Privacy', 'erase_payment_data'],
+        ];
 
         return apply_filters( 'weforms_privacy_register_erasers', $erasers );
     }
 
     /**
      * Get current user id
-     *
      */
     public static function get_user_id() {
         if ( is_user_logged_in() ) {
             $user = get_current_user_id();
+
             return $user;
         }
+
         return false;
     }
 
     /**
      * Finds and exports payment data
      *
-     *
      * @return array An array of data in name value pairs
      */
-    public static function export_payment_data(){
-
-        $data_to_export = array();
-        $weforms_user = self::get_user_id();
+    public static function export_payment_data() {
+        $data_to_export = [];
+        $weforms_user   = self::get_user_id();
 
         $payment_data = self::get_form_payments( $weforms_user );
 
@@ -157,12 +157,12 @@ Class WeForms_Privacy {
 
         if ( !empty( $payment_data ) ) {
             foreach ( $payment_data as $pay_data ) {
-                $data_to_export[] = array(
+                $data_to_export[] = [
                     'group_id'    => 'weforms-payment-data',
                     'group_label' => __( 'weForms Payment Data', 'weforms' ),
                     'item_id'     => "weforms-payment-{$idx}",
                     'data'        => self::process_payment_data( $pay_data ),
-                );
+                ];
                 $idx++;
             }
         }
@@ -174,10 +174,10 @@ Class WeForms_Privacy {
          */
         $data_to_export = apply_filters( 'weforms_privacy_export_data', $data_to_export, $weforms_user );
 
-        return array(
+        return [
             'data' => $data_to_export,
-            'done' => true
-        );
+            'done' => true,
+        ];
     }
 
     /**
@@ -185,39 +185,38 @@ Class WeForms_Privacy {
      *
      * @return array
      */
-    public static function erase_payment_data(){
+    public static function erase_payment_data() {
         global $wpdb;
 
         $weforms_user = self::get_user_id();
 
-        $query = "Update " . $wpdb->prefix . 'weforms_payments' . " Set `user_id` = 0 WHERE `user_id` = {$weforms_user}";
+        $query = 'Update ' . $wpdb->prefix . 'weforms_payments' . " Set `user_id` = 0 WHERE `user_id` = {$weforms_user}";
         $wpdb->query( $query );
 
-        $erased = apply_filters( 'weforms_erase_payment_data', array(
+        $erased = apply_filters( 'weforms_erase_payment_data', [
                 'items_removed'  => true,
                 'items_retained' => false,
-                'messages'       => array(),
+                'messages'       => [],
                 'done'           => true,
-            ), $weforms_user
-        );
+            ], $weforms_user
+          );
 
         return $erased;
-
     }
 
     /**
      * Get payments by a user_id
      *
-     * @param int $form_id
+     * @param int   $form_id
      * @param array $args
      *
-     * @return Object
+     * @return object
      */
     public static function get_form_payments( $user_id ) {
         global $wpdb;
 
         $query = 'SELECT * FROM ' . $wpdb->prefix . 'weforms_payments' .
-            ' WHERE user_id = ' . $user_id ;
+            ' WHERE user_id = ' . $user_id;
 
         $results = $wpdb->get_results( $query );
 
@@ -225,57 +224,56 @@ Class WeForms_Privacy {
     }
 
     public static function process_payment_data( $payment_data ) {
-
         $field_value = unserialize( $payment_data->payment_data );
 
-        $serialized_value = array(); $transaction_data = array();
+        $serialized_value = [];
+        $transaction_data = [];
 
         $user_data = get_userdata( $payment_data->user_id );
 
         if ( is_array( $field_value ) ) {
-
             foreach ( $field_value as $key => $sfv ) {
-                $sfv = str_replace( array( '_', '-' ), ' ', $key ) . ': ' . $sfv;
-                $sfv = ucwords( $sfv );
+                $sfv                = str_replace( [ '_', '-' ], ' ', $key ) . ': ' . $sfv;
+                $sfv                = ucwords( $sfv );
                 $serialized_value[] = $sfv;
             }
 
             $payment_data->payment_data = implode( '<br> ', $serialized_value );
         }
+
         if ( !empty( $user_data ) && !empty( $payment_data ) ) {
-            $transaction_data = array(
-                array(
+            $transaction_data = [
+                [
                     'name'  => __( 'User', 'weforms' ),
                     'value' => $user_data->user_login,
-                ),
-                array(
+                ],
+                [
                     'name'  => __( 'Total', 'weforms' ),
                     'value' => $payment_data->total,
-                ),
-                array(
+                ],
+                [
                     'name'  => __( 'Gateway', 'weforms' ),
                     'value' => $payment_data->gateway,
-                ),
-                array(
+                ],
+                [
                     'name'  => __( 'Transaction ID', 'weforms' ),
                     'value' => $payment_data->transaction_id,
-                ),
-                array(
+                ],
+                [
                     'name'  => __( 'Payment Status', 'weforms' ),
                     'value' => $payment_data->status,
-                ),
-                array(
+                ],
+                [
                     'name'  => __( 'Payment Data', 'weforms' ),
                     'value' => $payment_data->payment_data,
-                ),
-                array(
+                ],
+                [
                     'name'  => __( 'Transaction Time', 'weforms' ),
                     'value' => $payment_data->created_at,
-                ),
-            );
+                ],
+            ];
         }
 
         return apply_filters( 'weforms_export_payment_data', $transaction_data );
     }
-
 }

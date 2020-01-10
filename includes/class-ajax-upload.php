@@ -7,18 +7,18 @@
  */
 class WeForms_Ajax_Upload {
 
-    function __construct() {
+    public function __construct() {
 
         // let WPUF handle the upload if installed
         if ( class_exists( 'WPUF_Upload' ) ) {
             return;
         }
 
-        add_action( 'wp_ajax_wpuf_upload_file', array($this, 'upload_file') );
-        add_action( 'wp_ajax_nopriv_wpuf_upload_file', array($this, 'upload_file') );
+        add_action( 'wp_ajax_wpuf_upload_file', [$this, 'upload_file'] );
+        add_action( 'wp_ajax_nopriv_wpuf_upload_file', [$this, 'upload_file'] );
 
-        add_action( 'wp_ajax_wpuf_file_del', array($this, 'delete_file') );
-        add_action( 'wp_ajax_nopriv_wpuf_file_del', array($this, 'delete_file') );
+        add_action( 'wp_ajax_wpuf_file_del', [$this, 'delete_file'] );
+        add_action( 'wp_ajax_nopriv_wpuf_file_del', [$this, 'delete_file'] );
     }
 
     /**
@@ -27,9 +27,9 @@ class WeForms_Ajax_Upload {
      * @return void
      */
     function validate_nonce() {
-        $nonce = isset( $_GET['nonce'] ) ? $_GET['nonce'] : '';
+        $nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
 
-        if ( ! wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) ) {
+        if ( !wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) ) {
             die( 'error' );
         }
     }
@@ -37,38 +37,78 @@ class WeForms_Ajax_Upload {
     /**
      * Upload a file
      *
-     * @param  boolean $image_only
+     * @param bool $image_only
      *
      * @return string
      */
-    function upload_file( $image_only = false ) {
+    public function upload_file( $image_only = false ) {
         $this->validate_nonce();
+        $nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
 
-        // a valid request will have a form ID
-        $form_id = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : false;
-
-        if ( ! $form_id ) {
+        if ( ! wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) ) {
             die( 'error' );
         }
 
+        // a valid request will have a form ID
+        $form_id = isset( $_POST['form_id'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['form_id'] ) ) ) : false;
+
+        if ( !$form_id ) {
+            die( 'error' );
+        }
+
+
+        $file = isset( $_FILES['wpuf_file'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_FILES['wpuf_file'] ) ) : [];
+
         $upload = array(
-            'name'     => $_FILES['wpuf_file']['name'],
-            'type'     => $_FILES['wpuf_file']['type'],
-            'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
-            'error'    => $_FILES['wpuf_file']['error'],
-            'size'     => $_FILES['wpuf_file']['size']
+            'name'     => isset( $file['name'] ) ? $file['name'] : '',
+            'type'     => isset( $file['type'] ) ? $file['type'] : '',
+            'tmp_name' => isset( $file['tmp_name'] ) ? $file['tmp_name'] : '',
+            'error'    => isset( $file['error'] ) ? $file['error'] : '',
+            'size'     => isset( $file['size'] ) ? $file['size'] : '',
         );
 
-        header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+        // $upload = array(
+        //     'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
+        //     'type'     => isset( $_FILES['wpuf_file']['type'] ) ? sanitize_mime_type( wp_unslash( $_FILES['wpuf_file']['type'] ) ) : '',
+        //     'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
+        //     'error'    => isset( $_FILES['wpuf_file']['error'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['error'] ) ) : '',
+        //     'size'     => isset( $_FILES['wpuf_file']['size'] ) ? sanitize_text_field( wp_unslash( $_FILES['wpuf_file']['size'] ) ) : ''
+        // );
+
+        header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 
         $attach = $this->handle_upload( $upload );
 
         if ( $attach['success'] ) {
-
-            $response = array( 'success' => true );
+            $response         = [ 'success' => true ];
             $response['html'] = $this->attach_html( $attach['attach_id'] );
 
-            echo $response['html'];
+            echo wp_kses( $response['html'], [
+                'li' =>  [
+                    'class' => []
+                ],
+                'div'   => [
+                    'class' => []
+                ],
+                'img' => [
+                    'src' => [],
+                    'alt' => []
+                ],
+
+                'input' => [
+                    'type'  => [],
+                    'name'  => [],
+                    'value' => []
+                ],
+                'a' => [
+                    'data-attach_id' => [],
+                    'href'           => [],
+                    'class'          => []
+                ],
+                'span' => [
+                    'class' => []
+                ]
+            ]);
         } else {
             echo 'error';
         }
@@ -83,9 +123,8 @@ class WeForms_Ajax_Upload {
      *
      * @return bool|int attachment id on success, bool false instead
      */
-    function handle_upload( $upload_data ) {
-
-        $uploaded_file = wp_handle_upload( $upload_data, array('test_form' => false) );
+    public function handle_upload( $upload_data ) {
+        $uploaded_file = wp_handle_upload( $upload_data, ['test_form' => false] );
 
         // If the wp_handle_upload call returned a local path for the image
         if ( isset( $uploaded_file['file'] ) ) {
@@ -93,40 +132,40 @@ class WeForms_Ajax_Upload {
             $file_name = basename( $upload_data['name'] );
             $file_type = wp_check_filetype( $file_name );
 
-            $attachment = array(
+            $attachment = [
                 'post_mime_type' => $file_type['type'],
                 'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
                 'post_content'   => '',
-                'post_status'    => 'inherit'
-            );
+                'post_status'    => 'inherit',
+            ];
 
             $attach_id   = wp_insert_attachment( $attachment, $file_loc );
             $attach_data = wp_generate_attachment_metadata( $attach_id, $file_loc );
 
             wp_update_attachment_metadata( $attach_id, $attach_data );
 
-            return array('success' => true, 'attach_id' => $attach_id);
+            return ['success' => true, 'attach_id' => $attach_id];
         }
 
-        return array('success' => false, 'error' => $uploaded_file['error']);
+        return ['success' => false, 'error' => $uploaded_file['error']];
     }
 
     /**
      * Image attachment response
      *
-     * @param  integer $attach_id
-     * @param  string $type
+     * @param int    $attach_id
+     * @param string $type
      *
      * @return string
      */
     public static function attach_html( $attach_id, $type = NULL ) {
         if ( ! $type ) {
-            $type = isset( $_GET['type'] ) ? $_GET['type'] : 'image';
+            $type = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : 'image';
         }
 
         $attachment = get_post( $attach_id );
 
-        if ( ! $attachment ) {
+        if ( !$attachment ) {
             return;
         }
 
@@ -155,7 +194,7 @@ class WeForms_Ajax_Upload {
      *
      * @return void
      */
-    function delete_file() {
+    public function delete_file() {
         check_ajax_referer( 'wpuf_nonce', 'nonce' );
 
         $attach_id  = isset( $_POST['attach_id'] ) ? intval( $_POST['attach_id'] ) : 0;
@@ -169,5 +208,4 @@ class WeForms_Ajax_Upload {
         echo 'success';
         exit;
     }
-
 }

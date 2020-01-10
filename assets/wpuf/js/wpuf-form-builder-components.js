@@ -85,7 +85,9 @@
 
                         // add meta key
                         if ('yes' === field.is_meta && !field.name) {
-                            field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
+                            if (field.label) {
+                                field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
+                            }
                         }
 
                         payload.field = field;
@@ -1065,11 +1067,11 @@
                             colTwoWidth = 0,
                             colThreeWidth = 0;
 
-                        if (columnsNumber === 3) {
+                        if (columnsNumber == 3) {
                             colOneWidth = 100 / columnsNumber;
                             colTwoWidth = 100 / columnsNumber;
                             colThreeWidth = 100 / columnsNumber;
-                        } else if (columnsNumber === 2) {
+                        } else if (columnsNumber == 2) {
                             colOneWidth = 100 / columnsNumber;
                             colTwoWidth = 100 / columnsNumber;
                             colThreeWidth = 0;

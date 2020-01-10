@@ -22,73 +22,72 @@ class WeForms_Template_Volunteer_Application extends WeForms_Form_Template {
      */
     public function get_form_fields() {
         $all_fields     = $this->get_available_fields();
-        $form_fields    = array(
-            array_merge( $all_fields['section_break']->get_field_props(), array(
-              'label'       => __('Volunteer Application', 'weforms'),
+        $form_fields    = [
+            array_merge( $all_fields['section_break']->get_field_props(), [
+              'label'       => __( 'Volunteer Application', 'weforms' ),
               'description' => ' ',
-            ) ),
+            ] ),
 
-            array_merge( $all_fields['name_field']->get_field_props(), array(
+            array_merge( $all_fields['name_field']->get_field_props(), [
                 'required'      => 'yes',
                 'format'        => 'first-last',
-                'first_name'    => array(
+                'first_name'    => [
                     'placeholder'   => '',
                     'default'       => '',
-                    'sub'           => __( 'First Name', 'weforms' )
-                ),
-                'last_name'     => array(
+                    'sub'           => __( 'First Name', 'weforms' ),
+                ],
+                'last_name'     => [
                     'placeholder'   => '',
                     'default'       => '',
-                    'sub'           => __( 'Last Name', 'weforms' )
-                ),
+                    'sub'           => __( 'Last Name', 'weforms' ),
+                ],
                 'hide_subs'     => false,
                 'name'          => 'format',
-            ) ),
+            ] ),
 
-            array_merge( $all_fields['email_address']->get_field_props(), array(
+            array_merge( $all_fields['email_address']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Email Address', 'weforms'),
-                'name'      =>  'email_address',
-            ) ),
+                'label'     => __( 'Email Address', 'weforms' ),
+                'name'      => 'email_address',
+            ] ),
 
-            array_merge( $all_fields['numeric_text_field']->get_field_props(), array(
+            array_merge( $all_fields['numeric_text_field']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Phone Number', 'weforms'),
-                'name'      =>  'phone_number',
-            ) ),
+                'label'     => __( 'Phone Number', 'weforms' ),
+                'name'      => 'phone_number',
+            ] ),
 
-            array_merge( $all_fields['address_field']->get_field_props(), array(
+            array_merge( $all_fields['address_field']->get_field_props(), [
                 'required'  => 'yes',
-                'label'     => __('Address', 'weforms'),
-                'name'      =>  'address',
-            ) ),
+                'label'     => __( 'Address', 'weforms' ),
+                'name'      => 'address',
+            ] ),
 
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'     => __('Skillsets or Area of Interests', 'weforms'),
-                'name'      =>  'area_of_interests',
-            ) ),
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'     => __( 'Skillsets or Area of Interests', 'weforms' ),
+                'name'      => 'area_of_interests',
+            ] ),
 
-            array_merge( $all_fields['checkbox_field']->get_field_props(), array(
-                'label'     => __('Days of Work', 'weforms'),
-                'name'      =>  'days_of_work',
-                'options'   =>  array(
-                    'monday'        => __('Monday', 'weforms'),
-                    'tuesday'       => __('Tuesday', 'weforms'),
-                    'wednesday'     => __('Wednesday', 'weforms'),
-                    'thursday'      => __('Thursday', 'weforms'),
-                    'friday'        => __('Friday', 'weforms'),
-                    'sunday'        => __('Sunday', 'weforms'),
-                    'satarday'      => __('Satarday', 'weforms'),
-                ),
-            ) ),
+            array_merge( $all_fields['checkbox_field']->get_field_props(), [
+                'label'     => __( 'Days of Work', 'weforms' ),
+                'name'      => 'days_of_work',
+                'options'   => [
+                    'monday'        => __( 'Monday', 'weforms' ),
+                    'tuesday'       => __( 'Tuesday', 'weforms' ),
+                    'wednesday'     => __( 'Wednesday', 'weforms' ),
+                    'thursday'      => __( 'Thursday', 'weforms' ),
+                    'friday'        => __( 'Friday', 'weforms' ),
+                    'sunday'        => __( 'Sunday', 'weforms' ),
+                    'satarday'      => __( 'Satarday', 'weforms' ),
+                ],
+            ] ),
 
-            array_merge( $all_fields['textarea_field']->get_field_props(), array(
-                'label'     => __('Comments', 'weforms'),
-                'name'      =>  'comment',
-            ) ),
-        );
+            array_merge( $all_fields['textarea_field']->get_field_props(), [
+                'label'     => __( 'Comments', 'weforms' ),
+                'name'      => 'comment',
+            ] ),
+        ];
 
         return $form_fields;
     }
-
 }

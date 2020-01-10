@@ -5,7 +5,6 @@
  *
  * @since 1.4.2
  */
-
 class Weforms_Log_Controller extends Weforms_REST_Controller {
 
     /**
@@ -22,32 +21,28 @@ class Weforms_Log_Controller extends Weforms_REST_Controller {
      */
     protected $rest_base = 'logs';
 
-
-
     /**
      * Register all routes releated with forms
      *
      * @return void
      */
     public function register_routes() {
-
-        register_rest_route( $this->namespace, '/'. $this->rest_base, array(
-                array(
+        register_rest_route( $this->namespace, '/' . $this->rest_base, [
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'get_items' ),
-                    'permission_callback' => array( $this, 'get_items_permissions_check' ),
-                    'args'                => array(
-                        'context' => $this->get_context_param( [ 'default' => 'view' ] )
-                    )
-                ),
-                array(
+                    'callback'            => [ $this, 'get_items' ],
+                    'permission_callback' => [ $this, 'get_items_permissions_check' ],
+                    'args'                => [
+                        'context' => $this->get_context_param( [ 'default' => 'view' ] ),
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => array( $this, 'delete_item' ),
-                    'permission_callback' => array( $this, 'delete_item_permissions_check' ),
-                )
-            )
-        );
-
+                    'callback'            => [ $this, 'delete_item' ],
+                    'permission_callback' => [ $this, 'delete_item_permissions_check' ],
+                ],
+            ]
+          );
     }
 
     /**
@@ -55,15 +50,15 @@ class Weforms_Log_Controller extends Weforms_REST_Controller {
      *
      * @since  1.3.9
      *
-     * @param WP_REST_Request $request Full details about the request.
+     * @param WP_REST_Request $request full details about the request
      *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @return WP_REST_Response|WP_Error response object on success, or WP_Error object on failure
      **/
-    public function  get_items( $request ) {
+    public function get_items( $request ) {
         $file = weforms_log_file_path();
 
-        if ( ! file_exists( $file ) ) {
-            return new WP_Error( 'rest_weforms_invalid_data', __( 'file not exist', 'weforms') , array( 'status' => 404 ) );
+        if ( !file_exists( $file ) ) {
+            return new WP_Error( 'rest_weforms_invalid_data', __( 'file not exist', 'weforms' ), [ 'status' => 404 ] );
         }
 
         $data = file_get_contents( $file );
@@ -72,34 +67,33 @@ class Weforms_Log_Controller extends Weforms_REST_Controller {
         $data = array_filter( $data );
 
         if ( empty( $data ) ) {
-            return new WP_Error( 'rest_weforms_invalid_data', __( 'data not exist', 'weforms') , array( 'status' => 404 ) );
+            return new WP_Error( 'rest_weforms_invalid_data', __( 'data not exist', 'weforms' ), [ 'status' => 404 ] );
         }
 
-        $logs = array();
+        $logs = [];
 
         foreach ( $data as $key => $row ) {
             preg_match( '/\[(?<time>.+?)\]\[(?<type>.+?)\](?<message>.+)/im', $row, $log );
 
             if ( empty( $log['message'] ) ) {
-                $log = array();
-                $log['message'] = ! empty( $log['message'] ) ? $log['message'] : $row;
+                $log            = [];
+                $log['message'] = !empty( $log['message'] ) ? $log['message'] : $row;
             }
 
-            if ( ! empty( $log['time'] ) ) {
-                $human_time = human_time_diff( strtotime( $log['time'] ) , current_time( 'timestamp' ) );
+            if ( !empty( $log['time'] ) ) {
+                $human_time  = human_time_diff( strtotime( $log['time'] ), current_time( 'timestamp' ) );
                 $log['time'] = $human_time ? $human_time . ' ' . __( 'ago', 'weforms' ) : $log['time'];
             }
 
             $logs[] = $log;
         }
 
-        $data     = array();
+        $data     = [];
         $response = $this->prepare_response_for_collection( $logs, $request );
         $response = rest_ensure_response( $response );
 
         return $response;
     }
-
 
     /**
      * Delete Log file
@@ -110,21 +104,19 @@ class Weforms_Log_Controller extends Weforms_REST_Controller {
      *
      * @return json
      **/
-    function delete_item( $request ) {
+    public function delete_item( $request ) {
         $file = weforms_log_file_path();
 
-        if ( ! file_exists( $file ) ) {
-            return new WP_Error( 'rest_weforms_invalid_data', __( 'file not exist', 'weforms') , array( 'status' => 404 ) );
+        if ( !file_exists( $file ) ) {
+            return new WP_Error( 'rest_weforms_invalid_data', __( 'file not exist', 'weforms' ), [ 'status' => 404 ] );
         }
 
         @unlink( $file );
 
-        $data     = array( 'message' => 'log file deleted' );
+        $data     = [ 'message' => 'log file deleted' ];
         $response = $this->prepare_response_for_collection( $data, $request );
         $response = rest_ensure_response( $response );
 
         return $response;
     }
 }
-
-

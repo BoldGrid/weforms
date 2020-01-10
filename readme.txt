@@ -1,11 +1,11 @@
 === weForms - Easy Drag & Drop Contact Form Builder For WordPress ===
-Contributors: tareq1988, nizamuddinbabu, wedevs, rabbii, itowhid06
+Contributors: tareq1988, nizamuddinbabu, boldgrid
 Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.6.20
 Tested up to: 5.3
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -204,6 +204,13 @@ If you feel we have a solid contact form builder plugin for WordPress in the for
 * [WP ERP:](https://wperp.com/) The most complete user-friendly business management solution for WordPress enables you to manage & organize all your company’s HR, CR & Accounting related issues.
 * [WC Conversion Tracking:](https://wedevs.com/woocommerce-conversion-tracking/) Now retargeting your potential customers is easier than ever with this preeminent solution to track your WooCommerce conversion data connecting it with all your favorite ads platforms like Facebook, Twitter, Perfect Audience etc.
 
+= Privacy Policy =
+weForms uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
+
+Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure great user experience for all our users.
+
+Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
@@ -259,6 +266,14 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.4.3 (10 January, 2020) =
+
+* **Fix:**  Field display issue in form entries page
+* **Fix:**  Hidden Field not working properly in builder
+* **Fix:**  Some Column field issue
+* **Fix:**  Sanitize and Escape data before saving and rendering
+* **Improvement:** Add privacy policy in readme
 
 = Version 1.4.2 (18 November, 2019) =
 

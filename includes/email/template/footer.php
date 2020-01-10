@@ -2,8 +2,7 @@
 /**
  * Email Footer
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
@@ -30,6 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <td colspan="2" valign="middle" id="credit">
                                                 <?php
                                                 $settings = weforms_get_settings( 'email_settings' );
+
                                                 if ( is_array( $settings ) && ( isset( $settings['footer_text'] ) && !empty( $settings['footer_text'] ) ) ) {
                                                     $footer_text = $settings['footer_text'];
                                                 }
@@ -38,8 +38,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                 $footer_text = wpautop( wp_kses_post( wptexturize( apply_filters( 'weforms_email_footer_text', $footer_text ) ) ) );
 
                                                 $show_footer = weforms_get_settings( 'email_footer' );
+
                                                 if ( $show_footer ) {
-                                                    echo $footer_text;
+                                                    echo wp_kses_post( $footer_text );
                                                 }
 
                                                 do_action( 'weforms_email_after_footer' );

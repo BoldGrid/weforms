@@ -5,7 +5,6 @@
  *
  * @since 1.4.2
  */
-
 class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
 
     /**
@@ -24,42 +23,42 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
 
     public function register_routes() {
         register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<form_id>[\d]+)/integrations',
-            array(
-                'args' => array(
-                    'form_id' => array(
+            [
+                'args' => [
+                    'form_id' => [
                         'description'       => __( 'Unique identifier for the object', 'weforms' ),
                         'type'              => 'integer',
                         'sanitize_callback' => 'absint',
-                        'validate_callback' => array( $this, 'is_form_exists' ),
+                        'validate_callback' => [ $this, 'is_form_exists' ],
                         'required'          => true,
-                    ),
-                ),
-                array(
+                    ],
+                ],
+                [
                     'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => array( $this, 'get_item_integrations' ),
-                    'args' => array(
-                            'context' => $this->get_context_param( [ 'default' => 'view' ] )
-                    ),
-                    'permission_callback' => array( $this, 'get_item_permissions_check' ),
-                ),
-                array(
+                    'callback'            => [ $this, 'get_item_integrations' ],
+                    'args'                => [
+                            'context' => $this->get_context_param( [ 'default' => 'view' ] ),
+                    ],
+                    'permission_callback' => [ $this, 'get_item_permissions_check' ],
+                ],
+                [
                     'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => array( $this, 'update_item_integrations' ),
+                    'callback'            => [ $this, 'update_item_integrations' ],
                     'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
-                    'permission_callback' => array( $this, 'get_item_permissions_check' ),
-                ),
-            )
-        );
+                    'permission_callback' => [ $this, 'get_item_permissions_check' ],
+                ],
+            ]
+          );
     }
 
-        /**
+    /**
      * get item integrations
      *
      * @since 1.4.2
      *
      * @param WP_REST_Request $request
      *
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @return WP_REST_Response|WP_Error response object on success, or WP_Error object on failure
      */
     public function get_item_integrations( $request ) {
         $form_id = $request->get_param( 'form_id' );
@@ -67,7 +66,7 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
         $data    = $form->get_integrations();
 
         $response  = $this->prepare_response_for_collection( $data, $request );
-        $response = rest_ensure_response( $response );
+        $response  = rest_ensure_response( $response );
         $response->header( 'X-WP-Total', (int) count( $data['integrations'] )  );
 
         return $response;
@@ -75,12 +74,14 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
 
     /**
      * [update_item_integrations description]
-     * @param  [type] $request [description]
-     * @return [type]          [description]
-    */
+     *
+     * @param [type] $request [description]
+     *
+     * @return [type] [description]
+     */
     public function update_item_integrations( $request ) {
-        $wpuf_form_id      = $request->get_param('form_id');
-        $integrations      = $request->get_param('integrations');
+        $wpuf_form_id      = $request->get_param( 'form_id' );
+        $integrations      = $request->get_param( 'integrations' );
 
         $integration_list = weforms()->integrations->get_integration_js_settings();
 
@@ -90,28 +91,29 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
 
         if ( !class_exists( 'WeForms_Pro' ) ) {
             $integrations = array_udiff_assoc( $integrations, $integration_list,
-                function( $item, $item_list ) {
-                    if( isset( $item_list['pro'] ) && $item_list['pro'] == true ) {
+                function ( $item, $item_list ) {
+                    if ( isset( $item_list['pro'] ) && $item_list['pro'] == true ) {
                         return 0;
                     }
+
                     return $item;
                 }
-            );
+              );
         }
 
-        $data = array(
+        $data = [
             'form_id'           => $wpuf_form_id,
-            'integrations'      => $integrations
-        );
+            'integrations'      => $integrations,
+        ];
 
         $new_form_integrations = array_merge( $data['integrations'], array_diff_key( $form->get_integrations(), $data['integrations'] ) );
 
         update_post_meta( $data['form_id'], 'integrations', $new_form_integrations );
 
-        $response_data = array(
+        $response_data = [
             'id'            => $form->data->ID,
-            'integrations'  => $form->get_integrations()
-        );
+            'integrations'  => $form->get_integrations(),
+        ];
 
         $response = rest_ensure_response( $response_data );
         $response->set_status( 201 );
@@ -126,28 +128,28 @@ class Weforms_Form_Integration_Controller extends Weforms_REST_Controller {
      * @return array
      */
     public function get_item_schema() {
-        $schema = array(
+        $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'forms',
             'type'       => 'object',
-            'properties' => array(
-                'form_id' => array(
+            'properties' => [
+                'form_id' => [
                     'description'       => __( 'Unique identifier for the object', 'weforms' ),
                     'type'              => 'integer',
                     'sanitize_callback' => 'absint',
-                    'validate_callback' => array( $this, 'is_form_exists' ),
-                    'context'           => array( 'embed', 'view', 'edit' ),
+                    'validate_callback' => [ $this, 'is_form_exists' ],
+                    'context'           => [ 'embed', 'view', 'edit' ],
                     'required'          => true,
                     'readonly'          => true,
-                ),
-                "integrations" => array(
+                ],
+                'integrations' => [
                     'description' => __( '', 'weforms' ),
                     'type'        => 'object',
-                    'context'     => [ 'edit' ,'view'],
+                    'context'     => [ 'edit', 'view'],
                     'required'    => false,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $schema;
     }

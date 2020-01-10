@@ -8,19 +8,19 @@ class WeForms_Form_Field_Pro extends WeForms_Field_Contract {
     /**
      * Render the text field
      *
-     * @param  array  $field_settings
-     * @param  integer  $form_id
+     * @param array $field_settings
+     * @param int   $form_id
      *
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        echo __( 'This is a premium field. You need to upgrade.', 'weforms' );
+        echo esc_html_e( 'This is a premium field. You need to upgrade.', 'weforms' );
     }
 
     /**
      * Check if it's a pro feature
      *
-     * @return boolean
+     * @return bool
      */
     public function is_pro() {
         return true;

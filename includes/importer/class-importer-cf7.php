@@ -7,7 +7,7 @@
  */
 class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
 
-    function __construct() {
+    public function __construct() {
         $this->id        = 'cf7';
         $this->title     = 'Contact Form 7';
         $this->shortcode = 'contact-form-7';
@@ -18,7 +18,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * See if the plugin exists
      *
-     * @return boolean
+     * @return bool
      */
     public function plugin_exists() {
         return class_exists( 'WPCF7' );
@@ -30,9 +30,9 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
      * @return array
      */
     public function get_forms() {
-        $items    = WPCF7_ContactForm::find( array(
-            'posts_per_page' => -1
-        ) );
+        $items    = WPCF7_ContactForm::find( [
+            'posts_per_page' => -1,
+        ] );
 
         return $items;
     }
@@ -40,7 +40,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Get form name
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return string
      */
@@ -51,7 +51,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Get the form id
      *
-     * @param  mixed $form
+     * @param mixed $form
      *
      * @return int
      */
@@ -62,21 +62,21 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Get the form fields
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_fields( $form ) {
-        $form_fields = array();
+        $form_fields = [];
         $form_tags   = $form->scan_form_tags();
         $properties  = $form->get_properties();
 
-        if ( ! $form_tags ) {
+        if ( !$form_tags ) {
             return $form_fields;
         }
 
-        foreach ($form_tags as $menu_order => $cf_field) {
-            $field_content = array();
+        foreach ( $form_tags as $menu_order => $cf_field ) {
+            $field_content = [];
 
             switch ( $cf_field->basetype ) {
                 case 'text':
@@ -85,31 +85,31 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                 case 'date':
                 case 'url':
 
-                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, [
                         'required'  => $cf_field->is_required() ? 'yes' : 'no',
                         'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
                         'name'      => $cf_field->name,
                         'css_class' => $cf_field->get_class_option(),
-                    ) );
+                    ] );
                     break;
 
                 case 'select':
                 case 'radio':
                 case 'checkbox':
-                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, [
                         'required'  => $cf_field->is_required() ? 'yes' : 'no',
                         'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
                         'name'      => $cf_field->name,
                         'css_class' => $cf_field->get_class_option(),
                         'options'   => $this->get_options( $cf_field ),
-                    ) );
+                    ] );
 
                     break;
 
                 case 'range':
                 case 'number':
 
-                    $field_content = $this->get_form_field( $cf_field->basetype, array(
+                    $field_content = $this->get_form_field( $cf_field->basetype, [
                         'required'        => $cf_field->is_required() ? 'yes' : 'no',
                         'label'           => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
                         'name'            => $cf_field->name,
@@ -117,7 +117,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                         'step_text_field' => $cf_field->get_option( 'step', 'int', true ),
                         'min_value_field' => $cf_field->get_option( 'min', 'signed_int', true ),
                         'max_value_field' => $cf_field->get_option( 'max', 'signed_int', true ),
-                    ) );
+                    ] );
 
                     if ( $cf_field->has_option( 'placeholder' ) || $cf_field->has_option( 'watermark' ) ) {
                         $field_content['placeholder'] = $value;
@@ -134,30 +134,30 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
 
                 case 'range':
                 case 'quiz':
-                    # code...
+                    // code...
                     break;
 
                 case 'acceptance':
-                    $form_fields[] = $this->get_form_field( 'toc', array(
+                    $form_fields[] = $this->get_form_field( 'toc', [
                         'required'    => $cf_field->is_required() ? 'yes' : 'no',
                         'description' => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
                         'name'        => $cf_field->name,
-                    ) );
+                    ] );
                     break;
 
                 case 'recaptcha':
-                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, [
                         'required'  => $cf_field->is_required() ? 'yes' : 'no',
                         'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
                         'name'      => $cf_field->name,
                         'css_class' => $cf_field->get_class_option(),
-                    ) );
+                    ] );
                     break;
 
                 case 'file':
 
                     $allowed_size       = 1024; // default size 1 MB
-                    $allowed_file_types = array();
+                    $allowed_file_types = [];
 
                     if ( $file_size_a = $cf_field->get_option( 'limit' ) ) {
                         $limit_pattern = '/^([1-9][0-9]*)([kKmM]?[bB])?$/';
@@ -166,13 +166,13 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                             if ( preg_match( $limit_pattern, $file_size, $matches ) ) {
                                 $allowed_size = (int) $matches[1];
 
-                                if ( ! empty( $matches[2] ) ) {
+                                if ( !empty( $matches[2] ) ) {
                                     $kbmb = strtolower( $matches[2] );
 
                                     if ( 'kb' == $kbmb ) {
                                         $allowed_size *= 1;
                                     } elseif ( 'mb' == $kbmb ) {
-                                        $allowed_size *=  1024;
+                                        $allowed_size *= 1024;
                                     }
                                 }
 
@@ -181,32 +181,31 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                         }
                     }
 
-
                     if ( $file_types_a = $cf_field->get_option( 'filetypes' ) ) {
                         foreach ( $file_types_a as $file_types ) {
                             $file_types = explode( '|', $file_types );
 
                             foreach ( $file_types as $file_type ) {
                                 $file_type = trim( $file_type, '.' );
-                                $file_type = str_replace( array( '.', '+', '*', '?' ), array( '\.', '\+', '\*', '\?' ), $file_type );
+                                $file_type = str_replace( [ '.', '+', '*', '?' ], [ '\.', '\+', '\*', '\?' ], $file_type );
 
                                 $_type = $this->get_file_type( $file_type );
 
-                                if ( ! in_array( $_type, $allowed_file_types ) ) {
+                                if ( !in_array( $_type, $allowed_file_types ) ) {
                                     $allowed_file_types[] = $_type;
                                 }
                             }
                         }
                     }
 
-                    $form_fields[] = $this->get_form_field( $cf_field->basetype, array(
+                    $form_fields[] = $this->get_form_field( $cf_field->basetype, [
                         'required'  => $cf_field->is_required() ? 'yes' : 'no',
                         'label'     => $this->find_label( $properties['form'], $cf_field->type, $cf_field->name ),
                         'name'      => $cf_field->name,
                         'css_class' => $cf_field->get_class_option(),
                         'max_size'  => $allowed_size,
                         'extension' => $allowed_file_types,
-                    ) );
+                    ] );
                     break;
             }
         }
@@ -217,7 +216,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Get form settings
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
@@ -225,9 +224,9 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
         $default    = $this->get_default_form_settings();
         $properties = $form->get_properties();
 
-        $settings = wp_parse_args( array(
+        $settings = wp_parse_args( [
             'message' => $properties['messages']['mail_sent_ok'],
-        ), $default );
+        ], $default );
 
         return $settings;
     }
@@ -235,16 +234,16 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Get form notifications
      *
-     * @param  object $form
+     * @param object $form
      *
      * @return array
      */
     public function get_form_notifications( $form ) {
-        $notifications = array();
+        $notifications = [];
         $properties    = $form->get_properties();
 
-        $notifications = array(
-            array(
+        $notifications = [
+            [
                 'active'      => $properties['mail']['active'] ? 'true' : 'false',
                 'name'        => 'Admin Notification',
                 'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $properties['mail']['subject'] ),
@@ -255,8 +254,8 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                 'fromAddress' => '{admin_email}',
                 'cc'          => '',
                 'bcc'         => '',
-            ),
-        );
+            ],
+        ];
 
         $sender_match = $this->get_notification_sender_match( $properties['mail'] );
 
@@ -269,7 +268,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
         }
 
         if ( $properties['mail_2']['active'] ) {
-            $notifications[] = array(
+            $notifications[] = [
                 'active'      => $properties['mail_2']['active'] ? 'true' : 'false',
                 'name'        => 'Admin Notification',
                 'subject'     => str_replace( '[your-subject]', '{field:your-subject}', $properties['mail_2']['subject'] ),
@@ -280,7 +279,7 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
                 'fromAddress' => '{admin_email}',
                 'cc'          => '',
                 'bcc'         => '',
-            );
+            ];
         }
 
         $sender_match = $this->get_notification_sender_match( $properties['mail2'] );
@@ -299,13 +298,13 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Match the sender
      *
-     * @param  array $mail
+     * @param array $mail
      *
      * @return array
      */
     public function get_notification_sender_match( $mail ) {
-        $sender       = array( 'fromName' => '', 'fromAddress' => '' );
-        $sender_match = array();
+        $sender       = [ 'fromName' => '', 'fromAddress' => '' ];
+        $sender_match = [];
 
         preg_match( '/([^<"]*)"?\s*<(\S*)>/', $mail['sender'], $sender_match );
 
@@ -326,9 +325,9 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
      * Loop through all the label tags and try to find out
      * if the field is inside that tag. Then strip out the field and find out label
      *
-     * @param  string $content
-     * @param  string $type
-     * @param  string $fieldname
+     * @param string $content
+     * @param string $type
+     * @param string $fieldname
      *
      * @return string
      */
@@ -338,13 +337,14 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
         $pattern = '/<label>([ \w\S\r\n\t]+?)<\/label>/';
         preg_match_all( $pattern, $content, $matches );
 
-        foreach ($matches[1] as $key => $match) {
+        foreach ( $matches[1] as $key => $match ) {
             $match = trim( str_replace( "\n", '', $match ) );
 
             preg_match( '/\[(?:' . preg_quote( $type ) . ') ' . $fieldname . '(?:[ ](.*?))?(?:[\r\n\t ](\/))?\]/', $match, $input_match );
 
             if ( $input_match ) {
                 $label = strip_tags( str_replace( $input_match[0], '', $match ) );
+
                 return trim( $label );
             }
         }
@@ -355,14 +355,14 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Get file type for upload files
      *
-     * @param  string $extension
+     * @param string $extension
      *
-     * @return boolean|string
+     * @return bool|string
      */
     private function get_file_type( $extension ) {
         $allowed_extensions = weforms_allowed_extensions();
 
-        foreach ($allowed_extensions as $type => $extensions) {
+        foreach ( $allowed_extensions as $type => $extensions ) {
             $_extensions = explode( ',', $extensions['ext'] );
 
             if ( in_array( $extension, $_extensions ) ) {
@@ -376,22 +376,21 @@ class WeForms_Importer_CF7 extends WeForms_Importer_Abstract {
     /**
      * Translate to wpuf field options array
      *
-     * @param  object $field
+     * @param object $field
      *
      * @return array
      */
     private function get_options( $field ) {
-        $options = array();
+        $options = [];
 
-        if ( ! $field->raw_values ) {
+        if ( !$field->raw_values ) {
             return $options;
         }
 
-        foreach ($field->raw_values as $key => $value) {
+        foreach ( $field->raw_values as $key => $value ) {
             $options[ $value ] = $field->values[ $key ];
         }
 
         return $options;
     }
-
 }

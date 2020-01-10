@@ -10,7 +10,7 @@ class WeForms_Form {
     /**
      * The form id
      *
-     * @var integer
+     * @var int
      */
     public $id = 0;
 
@@ -24,7 +24,7 @@ class WeForms_Form {
     /**
      * Holds the post data object
      *
-     * @var null|WP_post
+     * @var WP_post|null
      */
     public $data = null;
 
@@ -33,7 +33,7 @@ class WeForms_Form {
      *
      * @var array
      */
-    public $form_fields = array();
+    public $form_fields = [];
 
     /**
      * The Constructor
@@ -41,9 +41,7 @@ class WeForms_Form {
      * @param int|WP_Post $form
      */
     public function __construct( $form = null ) {
-
         if ( is_numeric( $form ) ) {
-
             $the_post = get_post( $form );
 
             if ( $the_post ) {
@@ -51,7 +49,6 @@ class WeForms_Form {
                 $this->name = $the_post->post_title;
                 $this->data = $the_post;
             }
-
         } elseif ( is_a( $form, 'WP_Post' ) ) {
             $this->id   = $form->ID;
             $this->name = $form->post_title;
@@ -62,7 +59,7 @@ class WeForms_Form {
     /**
      * Get the form ID
      *
-     * @return integer
+     * @return int
      */
     public function get_id() {
         return $this->id;
@@ -89,52 +86,50 @@ class WeForms_Form {
             return $this->form_fields;
         }
 
-        $fields = get_children(array(
+        $fields = get_children( [
             'post_parent' => $this->id,
             'post_status' => 'publish',
             'post_type'   => 'wpuf_input',
             'numberposts' => '-1',
             'orderby'     => 'menu_order',
             'order'       => 'ASC',
-        ));
+        ] );
 
-        $form_fields = array();
+        $form_fields = [];
 
         foreach ( $fields as $key => $content ) {
-
             $field = maybe_unserialize( $content->post_content );
 
             if ( empty( $field['template']  ) ) {
                 continue;
             }
 
-
             $field['id'] = $content->ID;
 
             // Add inline property for radio and checkbox fields
-            $inline_supported_fields = apply_filters( 'inline_supported_fields_list', array( 'radio_field', 'checkbox_field' ) );
-            if ( in_array( $field['template'] , $inline_supported_fields ) ) {
-                if ( ! isset( $field['inline'] ) ) {
+            $inline_supported_fields = apply_filters( 'inline_supported_fields_list', [ 'radio_field', 'checkbox_field' ] );
+
+            if ( in_array( $field['template'], $inline_supported_fields ) ) {
+                if ( !isset( $field['inline'] ) ) {
                     $field['inline'] = 'no';
                 }
             }
 
             // Add 'selected' property
-            $option_based_fields = apply_filters( 'option_based_fields_list', array( 'dropdown_field', 'multiple_select', 'radio_field', 'checkbox_field' ) );
-            if ( in_array( $field['template'] , $option_based_fields ) ) {
-                if ( ! isset( $field['selected'] ) ) {
+            $option_based_fields = apply_filters( 'option_based_fields_list', [ 'dropdown_field', 'multiple_select', 'radio_field', 'checkbox_field' ] );
 
+            if ( in_array( $field['template'], $option_based_fields ) ) {
+                if ( !isset( $field['selected'] ) ) {
                     if ( 'dropdown_field' === $field['template'] || 'radio_field' === $field['template'] ) {
                         $field['selected'] = '';
                     } else {
-                        $field['selected'] = array();
+                        $field['selected'] = [];
                     }
-
                 }
             }
 
             // Add 'multiple' key for template:repeat
-            if ( 'repeat_field' === $field['template'] && ! isset( $field['multiple'] ) ) {
+            if ( 'repeat_field' === $field['template'] && !isset( $field['multiple'] ) ) {
                 $field['multiple'] = '';
             }
 
@@ -158,14 +153,12 @@ class WeForms_Form {
      * @return array
      */
     public function has_field( $field_template ) {
-
-        foreach ( $this->get_fields() as $key => $field) {
-            if ( isset( $field['template'] ) && $field['template'] == $field_template) {
+        foreach ( $this->get_fields() as $key => $field ) {
+            if ( isset( $field['template'] ) && $field['template'] == $field_template ) {
                 return true;
             }
         }
     }
-
 
     /**
      * Get all fields by a template
@@ -173,11 +166,10 @@ class WeForms_Form {
      * @return array
      */
     public function search_fields( $field_template ) {
+        $fields = [];
 
-        $fields = array();
-
-        foreach ( $this->get_fields() as $key => $field) {
-            if ( isset( $field['template'] ) && $field['template'] == $field_template) {
+        foreach ( $this->get_fields() as $key => $field ) {
+            if ( isset( $field['template'] ) && $field['template'] == $field_template ) {
                 $fields[] = $field;
             }
         }
@@ -191,10 +183,9 @@ class WeForms_Form {
      * @return array
      */
     public function search_field( $field_template ) {
+        $fields = $this->search_fields( $field_template );
 
-        $fields = $this->search_fields($field_template);
-
-        return isset($fields[0]) ? $fields[0] : array();
+        return isset( $fields[0] ) ? $fields[0] : [];
     }
 
     /**
@@ -203,18 +194,17 @@ class WeForms_Form {
      * @return array
      */
     public function get_field_values() {
-        $values = array();
+        $values = [];
         $fields = $this->get_fields();
 
-        if ( ! $fields ) {
+        if ( !$fields ) {
             return $values;
         }
 
-        $ignore_fields  = apply_filters( 'ignore_fields_list', array( 'recaptcha', 'section_break' ) );
-        $options_fields = apply_filters( 'option_fields_list', array( 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' ) );
+        $ignore_fields  = apply_filters( 'ignore_fields_list', [ 'recaptcha', 'section_break' ] );
+        $options_fields = apply_filters( 'option_fields_list', [ 'dropdown_field', 'radio_field', 'multiple_select', 'checkbox_field' ] );
 
-        foreach ($fields as $field) {
-
+        foreach ( $fields as $field ) {
             if ( in_array( $field['template'], $ignore_fields ) ) {
                 continue;
             }
@@ -225,53 +215,51 @@ class WeForms_Form {
 
                 if ( !empty( $inner_columns ) ) {
                     foreach ( $inner_columns as $column => $column_fields ) {
-
                         if ( !empty( $column_fields ) ) {
-                            foreach ($column_fields as $field_obj) {
+                            foreach ( $column_fields as $field_obj ) {
                                 if ( in_array( $field_obj['template'], $ignore_fields ) ) {
                                     continue;
                                 }
 
-                                if ( ! isset( $field_obj['name'] ) ) {
+                                if ( !isset( $field_obj['name'] ) ) {
                                     continue;
                                 }
 
-                                $field_value = array(
+                                $field_value = [
                                     'label' => isset( $field_obj['label'] ) ? $field_obj['label'] : '',
                                     'type'  => $field_obj['template'],
-                                );
+                                ];
 
                                 // put options if this is an option field
                                 if ( in_array( $field_obj['template'], $options_fields ) ) {
                                     $field_value['options'] = $field_obj['options'];
                                 }
 
-                                $values[ $field_obj['name'] ] = array_merge( $field_obj, $field_value);
+                                $values[ $field_obj['name'] ] = array_merge( $field_obj, $field_value );
                             }
                         }
-
                     }
                 }
             }
 
-            if ( ! isset( $field['name'] ) ) {
+            if ( !isset( $field['name'] ) ) {
                 continue;
             }
 
-            $value = array(
+            $value = [
                 'label' => isset( $field['label'] ) ? $field['label'] : '',
                 'type'  => $field['template'],
-            );
+            ];
 
             // put options if this is an option field
             if ( in_array( $field['template'], $options_fields ) ) {
                 $value['options'] = $field['options'];
             }
 
-            $values[ $field['name'] ] = array_merge( $field, $value);
+            $values[ $field['name'] ] = array_merge( $field, $value );
         }
 
-        return apply_filters( 'weforms_get_field_values', $values );;
+        return apply_filters( 'weforms_get_field_values', $values );
     }
 
     /**
@@ -280,17 +268,16 @@ class WeForms_Form {
      * @return array
      */
     public function get_settings() {
-
         $settings = get_post_meta( $this->id, 'wpuf_form_settings', true );
         $default  = weforms_get_default_form_settings();
 
-        return array_merge( $default, $settings);
+        return array_merge( $default, $settings );
     }
 
     /**
      * Check if the form submission is open
      *
-     * @return boolean|WP_Error
+     * @return bool|WP_Error
      */
     public function is_submission_open() {
         $settings = $this->get_settings();
@@ -329,7 +316,7 @@ class WeForms_Form {
             }
         }
 
-        return apply_filters( 'weforms_is_submission_open', true, $settings, $this);
+        return apply_filters( 'weforms_is_submission_open', true, $settings, $this );
     }
 
     /**
@@ -341,16 +328,17 @@ class WeForms_Form {
         $notifications =  get_post_meta( $this->id, 'notifications', true );
         $defualt       = weforms_get_default_form_notification();
 
-        if ( ! $notifications ) {
-            $notifications = array();
+        if ( !$notifications ) {
+            $notifications = [];
         }
 
-        $notifications = array_map( function( $notification ) use ( $defualt ) {
-            if( empty( $notification ) ) {
-                $notification = array();
+        $notifications = array_map( function ( $notification ) use ( $defualt ) {
+            if ( empty( $notification ) ) {
+                $notification = [];
             }
-            return array_merge( $defualt, $notification);
-        }, $notifications);
+
+            return array_merge( $defualt, $notification );
+        }, $notifications );
 
         return $notifications;
     }
@@ -363,8 +351,8 @@ class WeForms_Form {
     public function get_integrations() {
         $integrations =  get_post_meta( $this->id, 'integrations', true );
 
-        if ( ! $integrations ) {
-            return array();
+        if ( !$integrations ) {
+            return [];
         }
 
         return $integrations;
@@ -382,7 +370,7 @@ class WeForms_Form {
     /**
      * Get number of form entries
      *
-     * @return integer
+     * @return int
      */
     public function num_form_entries() {
         return weforms_count_form_entries( $this->id );
@@ -391,13 +379,13 @@ class WeForms_Form {
     /**
      * Get number of form payments
      *
-     * @return integer
+     * @return int
      */
     public function num_form_payments() {
         return weforms_count_form_payments( $this->id );
     }
 
-     /**
+    /**
      * Get form author details
      *
      * @return array
@@ -409,12 +397,11 @@ class WeForms_Form {
     /**
      * Get the number of form views
      *
-     * @return integer
+     * @return int
      */
     public function num_form_views() {
         return weforms_get_form_views( $this->id );
     }
-
 
     /**
      * prepare_entries
@@ -422,23 +409,21 @@ class WeForms_Form {
      * @return array
      */
     public function prepare_entries( $args = [] ) {
-
         $fields       = weforms()->fields->get_fields();
         $form_fields  = $this->get_fields();
 
-        $entry_fields = array();
+        $entry_fields = [];
 
-        $ignore_list  = apply_filters('wefroms_entry_ignore_list', array(
-            'recaptcha', 'section_break','step_start'
-        ) );
+        $ignore_list  = apply_filters( 'wefroms_entry_ignore_list', [
+            'recaptcha', 'section_break', 'step_start',
+        ] );
 
-        foreach ($form_fields as $field) {
-
+        foreach ( $form_fields as $field ) {
             if ( in_array( $field['template'], $ignore_list ) ) {
                 continue;
             }
 
-            if ( ! array_key_exists( $field['template'], $fields ) ) {
+            if ( !array_key_exists( $field['template'], $fields ) ) {
                 continue;
             }
 
@@ -448,18 +433,16 @@ class WeForms_Form {
 
                 if ( !empty( $inner_columns ) ) {
                     foreach ( $inner_columns as $column => $column_fields ) {
-
                         if ( !empty( $column_fields ) ) {
-                            foreach ($column_fields as $field_obj) {
+                            foreach ( $column_fields as $field_obj ) {
                                 if ( in_array( $field_obj['template'], $ignore_list ) ) {
                                     continue;
                                 }
 
-                                $fieldClass = $fields[ $field_obj['template'] ];
+                                $fieldClass                         = $fields[ $field_obj['template'] ];
                                 $entry_fields[ $field_obj['name'] ] = $fieldClass->prepare_entry( $field_obj );
                             }
                         }
-
                     }
                 }
             }
@@ -475,10 +458,10 @@ class WeForms_Form {
     /**
      * Check if the form submission is open On API
      *
-     * @return boolean|WP_Error
+     * @return bool|WP_Error
      */
     public function is_api_form_submission_open() {
-        $response            = array();
+        $response            = [];
         $settings            = $this->get_settings();
         $form_entries        = $this->num_form_entries();
         $needs_login         = isset( $settings['require_login'] ) ? $settings['require_login'] : 'false';
@@ -486,46 +469,45 @@ class WeForms_Form {
         $schedule_form       = isset( $settings['schedule_form'] ) ? $settings['schedule_form'] : 'false';
         $limit_number        = isset( $settings['limit_number'] ) ? $settings['limit_number'] : '';
         $schedule_start      = isset( $settings['schedule_start'] ) ? $settings['schedule_start'] : '';
-        $schedule_end        = isset( $settings['schedule_end'] ) ? $settings['schedule_end']: '';
-        $schedule_start_date = date_i18n( "M d, Y", strtotime( $schedule_start ));
-        $schedule_end_date   = date_i18n( "M d, Y", strtotime( $schedule_end ));
+        $schedule_end        = isset( $settings['schedule_end'] ) ? $settings['schedule_end'] : '';
+        $schedule_start_date = date_i18n( 'M d, Y', strtotime( $schedule_start ) );
+        $schedule_end_date   = date_i18n( 'M d, Y', strtotime( $schedule_end ) );
 
         if ( $this->data->post_status != 'publish' ) {
-            $response['type'] = __( 'Closed','weforms' );
+            $response['type'] = __( 'Closed', 'weforms' );
         }
 
-        if( $this->isFormStatusClosed( $settings, $form_entries ) ) {
-            $response['type'] = __( 'Closed','weforms' );
+        if ( $this->isFormStatusClosed( $settings, $form_entries ) ) {
+            $response['type'] = __( 'Closed', 'weforms' );
         } else {
-            $response['type'] = __( 'Open', 'weforms');
+            $response['type'] = __( 'Open', 'weforms' );
         }
 
         if (  $limit_entries === 'true' ) {
             if ( $schedule_form === 'true' && $this->isExpiredForm( $schedule_end ) ) {
-                $response['message'] = __( "Expired at {$schedule_end_date}", "weforms" );
+                $response['message'] = __( "Expired at {$schedule_end_date}", 'weforms' );
             } elseif ( $schedule_form === 'true' && $this->isPendingForm( $schedule_start ) ) {
-                $response['message'] = __( "Starts at {$schedule_start_date}", "weforms" );
-            } elseif( $form_entries >=  $limit_number ) {
-                $response['message'] = __( "Reached maximum entry limit", "weforms" );
+                $response['message'] = __( "Starts at {$schedule_start_date}", 'weforms' );
+            } elseif ( $form_entries >= $limit_number ) {
+                $response['message'] = __( 'Reached maximum entry limit', 'weforms' );
             } else {
-                $remaining_entries = $limit_number - $form_entries;
-                $response['message'] = __("{$remaining_entries} entries remaining ", "weforms" );
+                $remaining_entries   = $limit_number - $form_entries;
+                $response['message'] = __( "{$remaining_entries} entries remaining ", 'weforms' );
             }
-        } elseif( $schedule_form === 'true' ) {
+        } elseif ( $schedule_form === 'true' ) {
             if ( $this->isPendingForm( $schedule_start ) ) {
-                $response['message'] = __( "Starts at {$schedule_start_date}", "weforms" );
-            } elseif( $this->isExpiredForm( $schedule_end ) ) {
-                $response['message'] = __( "Expired at {$schedule_end_date}", "weforms");
-            } elseif( $this->isOpenForm( $schedule_start, $schedule_end ) ) {
-                $response['message'] = __( "Expires at {$schedule_end_date}", "weforms");
+                $response['message'] = __( "Starts at {$schedule_start_date}", 'weforms' );
+            } elseif ( $this->isExpiredForm( $schedule_end ) ) {
+                $response['message'] = __( "Expired at {$schedule_end_date}", 'weforms' );
+            } elseif ( $this->isOpenForm( $schedule_start, $schedule_end ) ) {
+                $response['message'] = __( "Expires at {$schedule_end_date}", 'weforms' );
             }
-        } elseif( $needs_login  === 'true' ) {
-            $response['message'] =__( "Requires login", "weforms" );
+        } elseif ( $needs_login === 'true' ) {
+            $response['message'] =__( 'Requires login', 'weforms' );
         }
 
         return apply_filters( 'weforms_is_submission_open', $response, $settings, $this );
     }
-
 
     public function isPendingForm( $scheduleStart ) {
         $currentTime = current_time( 'timestamp' );
@@ -549,19 +531,19 @@ class WeForms_Form {
         return false;
     }
 
-    public function isOpenForm ( $scheduleStart, $scheduleEnd ) {
+    public function isOpenForm( $scheduleStart, $scheduleEnd ) {
         $currentTime = current_time( 'timestamp' );
         $startTime   = strtotime( $scheduleStart );
         $endTime     = strtotime( $scheduleEnd );
 
-        if ( $currentTime > $startTime &&  $currentTime < $endTime ) {
+        if ( $currentTime > $startTime && $currentTime < $endTime ) {
             return true;
         }
+
         return false;
     }
 
     public function isFormStatusClosed( $formSettings, $entries ) {
-
         if ( $formSettings['schedule_form'] === 'true' && $this->isPendingForm( $formSettings['schedule_start'] ) ) {
             return true;
         }
@@ -570,7 +552,7 @@ class WeForms_Form {
             return true;
         }
 
-        if ( $formSettings['limit_entries']  === 'true' && $entries >= $formSettings['limit_number'] ) {
+        if ( $formSettings['limit_entries'] === 'true' && $entries >= $formSettings['limit_number'] ) {
             return true;
         }
 
