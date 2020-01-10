@@ -85,7 +85,7 @@
 
                         // add meta key
                         if ('yes' === field.is_meta && !field.name) {
-                            if ( field.label ) {
+                            if (field.label) {
                                 field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
                             }
                         }
@@ -1071,7 +1071,7 @@
                             colOneWidth = 100 / columnsNumber;
                             colTwoWidth = 100 / columnsNumber;
                             colThreeWidth = 100 / columnsNumber;
-                        }  else if (columnsNumber == 2) {
+                        } else if (columnsNumber == 2) {
                             colOneWidth = 100 / columnsNumber;
                             colTwoWidth = 100 / columnsNumber;
                             colThreeWidth = 0;
