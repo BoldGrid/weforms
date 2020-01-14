@@ -14,3 +14,4 @@ assets/less
 .svnignore
 composer.json
 phpcs.xml.dist
+.php_cs.dist
