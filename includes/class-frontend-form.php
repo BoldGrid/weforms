@@ -32,6 +32,7 @@ class WeForms_Frontend_Form {
     public function render_shortcode( $atts, $contents = '' ) {
         extract( shortcode_atts( [ 'id' => 0 ], $atts ) );
 
+        weforms()->scripts->register_frontend();
         weforms()->scripts->enqueue_frontend();
 
         ob_start();

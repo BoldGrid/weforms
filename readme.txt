@@ -267,6 +267,9 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
+= Version 1.4.4 (14 January, 2020) =
+    * **Improvement:** Imporve Code Quality
+
 = Version 1.4.3 (10 January, 2020) =
 
 * **Fix:**  Field display issue in form entries page
