@@ -90,9 +90,9 @@ class WeForms_Ajax {
      * @return void
      */
     public function save_form() {
-
-        if ( isset( $_POST['form_data'] ) ) {
-            parse_str( sanitize_text_field( wp_unslash( $_POST['form_data'] ) ),  $form_data );
+        $post_data = wp_unslash( $_POST );
+        if ( isset( $post_data['form_data'] ) ) {
+            parse_str( sanitize_text_field( wp_unslash( $post_data['form_data'] ) ),  $form_data );
         }
 
         if ( !wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
@@ -103,30 +103,29 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'Invalid form id', 'weforms' ) );
         }
 
-        $form_fields   = isset( $_POST['form_fields'] ) ? sanitize_text_field( wp_unslash( $_POST['form_fields'] ) ) : '';
-        $notifications = isset( $_POST['notifications'] ) ? sanitize_text_field( wp_unslash( $_POST['notifications'] ) ) : '';
+        $form_fields   = isset( $post_data['form_fields'] ) ? $post_data['form_fields'] : '';
+        $notifications = isset( $post_data['notifications'] ) ? $post_data['notifications']: '';
         $settings      = array();
         $integrations  = array();
 
-        if ( isset( $_POST['settings'] ) ) {
-            $settings = (array) json_decode( sanitize_text_field(  wp_unslash( $_POST['settings'] ) ) );
+        if ( isset( $post_data['settings'] ) ) {
+            $settings = (array) json_decode( $post_data['settings'] );
         } else {
             $settings = isset( $form_data['wpuf_settings'] ) ? $form_data['wpuf_settings'] : [];
         }
 
-        if ( isset( $_POST['integrations'] ) ) {
-            $integrations = (array) json_decode( sanitize_text_field( wp_unslash( $_POST['integrations'] ) ) );
+        if ( isset( $post_data['integrations'] ) ) {
+            $integrations = (array) json_decode( $post_data['integrations'] );
         }
 
-        $form_fields   = wp_unslash( $form_fields );
-        $notifications = wp_unslash( $notifications );
+        // $form_fields   = wp_unslash( $form_fields );
+        // $notifications = wp_unslash( $notifications );
 
         $form_fields   = json_decode( $form_fields, true );
         $notifications = json_decode( $notifications, true );
-
         $data = [
             'form_id'           => absint( $form_data['wpuf_form_id'] ),
-            'post_title'        => sanitize_text_field( $form_data['post_title'] ),
+            'post_title'        => $form_data['post_title'],
             'form_fields'       => $form_fields,
             'form_settings'     => $settings,
             'form_settings_key' => isset( $form_data['form_settings_key'] ) ? $form_data['form_settings_key'] : '',
