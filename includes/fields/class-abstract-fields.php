@@ -561,7 +561,7 @@ abstract class WeForms_Field_Contract {
         <script type="text/javascript">
             ;(function($) {
                 $(document).ready( function(){
-                    WP_User_Frontend.editorLimit.bind(<?php  printf( wp_kses_post( '%d, "%s", "%s"', $word_nums, $field_name, $rich_text ) ); ?>);
+                    WP_User_Frontend.editorLimit.bind(<?php  printf( '%d, "%s", "%s"', esc_attr( $word_nums ), esc_attr( $field_name ), esc_attr( $rich_text ) ); ?>);
                 });
             })(jQuery);
         </script>
