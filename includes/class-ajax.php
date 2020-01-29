@@ -840,7 +840,7 @@ class WeForms_Ajax {
             $response           = null;
             $reCaptcha          = new $recaptcha_class( $secret );
             $remote_ADDR        = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash(  $_SERVER['REMOTE_ADDR'] ) ) : '';
-            $recaptcha_response = isset( $_SERVER['g-recaptcha-response'] ) ? sanitize_text_field(  wp_unslash(  $_POST['g-recaptcha-response'] ) ) : '';
+            $recaptcha_response = isset( $_POST['g-recaptcha-response'] ) ? sanitize_text_field(  wp_unslash(  $_POST['g-recaptcha-response'] ) ) : '';
             $resp = $reCaptcha->verifyResponse(
                 $remote_ADDR,
                 $recaptcha_response
