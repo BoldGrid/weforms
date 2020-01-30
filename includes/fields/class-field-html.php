@@ -23,7 +23,7 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <div class="wpuf-fields <?php echo 'html_' . esc_attr( $form_id ); ?><?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>">
-                <?php echo wp_kses_post( $field_settings['html'] ); ?>
+                <?php echo $field_settings['html']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
             </div>
 
         </li>
