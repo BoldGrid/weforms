@@ -95,6 +95,8 @@ weForms.routeComponents.Settings = {
                 success: function(response) {
                     toastr.options.timeOut = 1000;
                     toastr.success( 'Settings has been updated' );
+
+                    weForms.settings = response;
                 },
 
                 error: function(error) {

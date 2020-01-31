@@ -7,6 +7,15 @@
 
         <table class="form-table">
             <tr>
+                <th> <?php esc_html_e( 'reCaptcha Version', 'weforms' );  ?> </th>
+                <td>
+                     <input type="radio" v-model="settings.recaptcha.type" name="v2_recaptcha" value="v2"  class="regular-text">
+                     <label for="recaptchav2"> <?php esc_html_e( 'v2','weforms'); ?> </label>
+                     <input type="radio" v-model="settings.recaptcha.type" name="v2_recaptcha" value="v3" class="regular-text">
+                     <label for="recaptchav3"> <?php esc_html_e( 'v3','weforms'); ?> </label>
+                </td>
+            </tr>
+            <tr>
                 <th><?php esc_html_e( 'Site key', 'weforms' ); ?></th>
                 <td>
                     <input type="text" v-model="settings.recaptcha.key" class="regular-text">

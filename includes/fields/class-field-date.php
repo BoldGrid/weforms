@@ -28,18 +28,23 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
                 <input id="wpuf-date-<?php echo esc_attr( $field_settings['name'] ); ?>" type="text" class="datepicker <?php echo ' wpuf_'.esc_attr( $field_settings['name'] ).'_'. esc_attr($form_id); ?>" data-required="<?php echo esc_attr($field_settings['required']) ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['format'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="30" />
                 <?php $this->help_text( $field_settings ); ?>
             </div>
-            <script type="text/javascript">
-                jQuery(function($) {
-                    <?php if ( $field_settings['time'] == 'yes' ) { ?>
-                    $("#wpuf-date-<?php echo esc_attr($field_settings['name']); ?>").datetimepicker({ dateFormat: '<?php echo esc_attr($field_settings["format"]); ?>' });
-                    <?php } else { ?>
-                    $("#wpuf-date-<?php echo esc_attr($field_settings['name']); ?>").datepicker({ dateFormat: '<?php echo esc_attr($field_settings["format"]); ?>' });
-                    <?php } ?>
-                });
-            </script>
-
         </li>
         <?php
+
+            $name   = $field_settings['name'];
+            $format = $field_settings["format"];
+
+            if ( $field_settings['time'] == 'yes' ) {
+                $script = "jQuery(function($) {
+                    $('#wpuf-date-{$name}').datetimepicker({ dateFormat: '{$format}' });
+                });";
+            } else {
+                $script = "jQuery(function($) {
+                    $('#wpuf-date-{$name}').datepicker({ dateFormat: '{$format}' });
+                });";
+            }
+
+            wp_add_inline_script( 'wpuf-form', $script );
     }
 
     /**

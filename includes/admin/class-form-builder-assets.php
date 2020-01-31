@@ -106,6 +106,9 @@ class WeForms_Form_Builder_Assets {
             'mixins'          => [ 'default' => null ],
             'assetsURL'       => WEFORMS_ASSET_URI,
             'shortcodes'      => $this->shortcodes(),
+            'settings'        => [
+                'recaptcha' => weforms_get_settings( 'recaptcha' ),
+            ],
         ] );
 
         wp_localize_script( 'weforms-form-builder-mixins', 'wpuf_form_builder', $wpuf_form_builder );

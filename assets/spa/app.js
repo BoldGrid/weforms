@@ -444,6 +444,11 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
+weForms.validators = {
+    is_recaptcha_v2: function () {
+        return weForms.settings.recaptcha.type === 'v2';
+    },
+};
 
 var app = new Vue({
     router: router,

@@ -90,9 +90,9 @@ class WeForms_Ajax {
      * @return void
      */
     public function save_form() {
-
-        if ( isset( $_POST['form_data'] ) ) {
-            parse_str( sanitize_text_field( wp_unslash( $_POST['form_data'] ) ),  $form_data );
+        $post_data = wp_unslash( $_POST );
+        if ( isset( $post_data['form_data'] ) ) {
+            parse_str( sanitize_text_field( wp_unslash( $post_data['form_data'] ) ),  $form_data );
         }
 
         if ( !wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
@@ -103,30 +103,29 @@ class WeForms_Ajax {
             wp_send_json_error( __( 'Invalid form id', 'weforms' ) );
         }
 
-        $form_fields   = isset( $_POST['form_fields'] ) ? sanitize_text_field( wp_unslash( $_POST['form_fields'] ) ) : '';
-        $notifications = isset( $_POST['notifications'] ) ? sanitize_text_field( wp_unslash( $_POST['notifications'] ) ) : '';
+        $form_fields   = isset( $post_data['form_fields'] ) ? $post_data['form_fields'] : '';
+        $notifications = isset( $post_data['notifications'] ) ? $post_data['notifications']: '';
         $settings      = array();
         $integrations  = array();
 
-        if ( isset( $_POST['settings'] ) ) {
-            $settings = (array) json_decode( sanitize_text_field(  wp_unslash( $_POST['settings'] ) ) );
+        if ( isset( $post_data['settings'] ) ) {
+            $settings = (array) json_decode( $post_data['settings'] );
         } else {
             $settings = isset( $form_data['wpuf_settings'] ) ? $form_data['wpuf_settings'] : [];
         }
 
-        if ( isset( $_POST['integrations'] ) ) {
-            $integrations = (array) json_decode( sanitize_text_field( wp_unslash( $_POST['integrations'] ) ) );
+        if ( isset( $post_data['integrations'] ) ) {
+            $integrations = (array) json_decode( $post_data['integrations'] );
         }
 
-        $form_fields   = wp_unslash( $form_fields );
-        $notifications = wp_unslash( $notifications );
+        // $form_fields   = wp_unslash( $form_fields );
+        // $notifications = wp_unslash( $notifications );
 
         $form_fields   = json_decode( $form_fields, true );
         $notifications = json_decode( $notifications, true );
-
         $data = [
             'form_id'           => absint( $form_data['wpuf_form_id'] ),
-            'post_title'        => sanitize_text_field( $form_data['post_title'] ),
+            'post_title'        => $form_data['post_title'],
             'form_fields'       => $form_fields,
             'form_settings'     => $settings,
             'form_settings_key' => isset( $form_data['form_settings_key'] ) ? $form_data['form_settings_key'] : '',
@@ -354,12 +353,11 @@ class WeForms_Ajax {
      */
     public function save_settings() {
         check_ajax_referer( 'weforms' );
-
         $this->check_admin();
 
         $requires_wpuf_update = false;
         $wpuf_update_array    = array();
-        $settings             = isset( $_POST['settings'] ) ? (array) json_decode( sanitize_text_field(  wp_unslash( $_POST['settings'] ) ) ) : [];
+        $settings             = isset( $_POST['settings'] ) ? (array) json_decode( wp_unslash( $_POST['settings'] ) ) : [];
         update_option( 'weforms_settings', $settings );
 
         // wpuf settings sync
@@ -372,6 +370,7 @@ class WeForms_Ajax {
             $requires_wpuf_update                   = true;
             $wpuf_update_array['recaptcha_public']  = $settings['recaptcha']->key;
             $wpuf_update_array['recaptcha_private'] = $settings['recaptcha']->secret;
+            $wpuf_update_array['recaptcha_type']    = $settings['recaptcha']->type;
         }
 
         if ( isset( $settings['no_conflict'] ) ) {
@@ -394,7 +393,6 @@ class WeForms_Ajax {
         do_action( 'weforms_save_settings', $settings );
 
         $settings = apply_filters( 'weforms_after_save_settings', $settings );
-
         wp_send_json_success( $settings );
     }
 
@@ -409,7 +407,6 @@ class WeForms_Ajax {
         $this->check_admin();
 
         $settings = weforms_get_settings();
-
         // checking to prevent js error, will be removed in future
         if ( !isset( $settings['credit'] ) ) {
             $settings['credit'] = false;
@@ -742,7 +739,14 @@ class WeForms_Ajax {
         }
 
         if ( $form->has_field( 'recaptcha' ) ) {
-            $this->validate_reCaptcha();
+            $settings     = weforms_get_settings( 'recaptcha' );
+            $type         = isset( $settings->type ) ? $settings->type : '';
+            $secret       = isset( $settings->secret ) ? $settings->secret : '';
+            if( $type == 'v3' ) {
+                $this->validate_reCaptchav3( $secret );
+             } else {
+                $this->validate_reCaptcha();
+            }
         }
 
         // vaidate submission
@@ -814,6 +818,42 @@ class WeForms_Ajax {
         wp_send_json( $response );
     }
 
+    function validate_reCaptchav3( $secret ) {
+        check_ajax_referer( 'wpuf_form_add' );
+
+        $post_data          = wp_unslash($_POST);
+        $token              = $post_data['g-recaptcha-response'];
+        $action             = $post_data['g-action'];
+        $google_captcha_url = esc_url( 'https://www.google.com/recaptcha/api/siteverify' );
+
+        $response = wp_remote_post( $google_captcha_url,
+            array(
+                'method'      => 'POST',
+                'body'        => array(
+                    'secret'   => $secret,
+                    'response' => $token
+                )
+            )
+        );
+
+
+        if ( is_wp_error( $response ) ) {
+            wp_send_json( [
+                'success'     => false,
+                'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
+            ] );
+        } else {
+            $api_response = json_decode( wp_remote_retrieve_body( $response ), true );
+            if( $api_response["success"] == '1' && $api_response["action"] == $action  ) {
+                return true;
+            } else {
+                wp_send_json( [
+                    'success'     => false,
+                    'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
+                ] );
+            }
+        }
+    }
     /**
      * reCaptcha Validation
      *
@@ -841,7 +881,7 @@ class WeForms_Ajax {
             $response           = null;
             $reCaptcha          = new $recaptcha_class( $secret );
             $remote_ADDR        = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash(  $_SERVER['REMOTE_ADDR'] ) ) : '';
-            $recaptcha_response = isset( $_SERVER['g-recaptcha-response'] ) ? sanitize_text_field(  wp_unslash(  $_POST['g-recaptcha-response'] ) ) : '';
+            $recaptcha_response = isset( $_POST['g-recaptcha-response'] ) ? sanitize_text_field(  wp_unslash(  $_POST['g-recaptcha-response'] ) ) : '';
             $resp = $reCaptcha->verifyResponse(
                 $remote_ADDR,
                 $recaptcha_response
@@ -853,6 +893,7 @@ class WeForms_Ajax {
                     'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
                 ] );
             }
+
 		} else {
 
             $recap_challenge = isset( $_POST['recaptcha_challenge_field'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_challenge_field'] ) ) : '';

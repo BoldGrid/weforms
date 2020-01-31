@@ -85,9 +85,7 @@
 
                         // add meta key
                         if ('yes' === field.is_meta && !field.name) {
-                            if (field.label) {
-                                field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
-                            }
+                            field.name = field.label.replace(/\W/g, '_').toLowerCase() + '_' + field.id;
                         }
 
                         payload.field = field;
@@ -842,6 +840,7 @@
             });
         },
 
+
         computed: {
             column_fields: function column_fields() {
                 return this.field.inner_fields;
@@ -850,6 +849,7 @@
             innerColumns: function innerColumns() {
                 return this.field.columns;
             },
+
 
             editing_form_id: function editing_form_id() {
                 return this.$store.state.editing_field_id;
@@ -971,6 +971,7 @@
                 return this.field.inner_fields;
             },
 
+
             open_column_field_settings: function open_column_field_settings(field, index, column) {
                 var self = this,
                     payload = {
@@ -1030,8 +1031,8 @@
                 var self = this;
 
                 (function () {
-                    var columnElement = void 0;
-                    var startOffset = void 0;
+                    var columnElement;
+                    var startOffset;
                     var columnField = $(self.$el).context.parentElement;
                     var total_width = parseInt($(columnField).width());
 
@@ -1063,22 +1064,15 @@
                     });
 
                     $(self.$el).find(".wpuf-column-field-inner-columns .wpuf-column-inner-fields").mouseup(function () {
-                        var colOneWidth = 0,
-                            colTwoWidth = 0,
+                        var columnOneWidth = $(columnField).find(".column-1").width(),
+                            columnTwoWidth = $(columnField).find(".column-2").width(),
+                            colOneWidth = 100 * columnOneWidth / total_width,
+                            colTwoWidth = 100 - colOneWidth,
                             colThreeWidth = 0;
 
-                        if (columnsNumber == 3) {
-                            colOneWidth = 100 / columnsNumber;
-                            colTwoWidth = 100 / columnsNumber;
-                            colThreeWidth = 100 / columnsNumber;
-                        } else if (columnsNumber == 2) {
-                            colOneWidth = 100 / columnsNumber;
-                            colTwoWidth = 100 / columnsNumber;
-                            colThreeWidth = 0;
-                        } else {
-                            colOneWidth = $(columnField).find(".column-1").width();
-                            colTwoWidth = $(columnField).find(".column-2").width();
-                            colThreeWidth = 0;
+                        if (columnsNumber === 3) {
+                            colTwoWidth = 100 * columnTwoWidth / total_width;
+                            colThreeWidth = 100 - (colOneWidth + colTwoWidth);
                         }
 
                         self.field.inner_columns_size['column-1'] = colOneWidth + '%';
@@ -1619,7 +1613,7 @@
     Vue.component('text-editor', {
         template: '#tmpl-wpuf-text-editor',
 
-        props: ['rich'],
+        props: ['rich', 'default_text'],
 
         computed: {
             site_url: function site_url() {
