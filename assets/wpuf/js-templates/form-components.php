@@ -51,14 +51,14 @@
     </ul><!-- .wpuf-form -->
 
     <div v-if="hidden_fields.length" class="hidden-field-list">
-        <h4><?php _e( 'Hidden Fields', 'wp-user-frontend' ); ?></h4>
+        <h4><?php esc_html_e( 'Hidden Fields', 'wp-user-frontend' ); ?></h4>
 
         <ul class="wpuf-form">
             <li
                 v-for="(field, index) in hidden_fields"
                 :class="['field-items', parseInt(editing_form_id) === parseInt(field.id) ? 'current-editing' : '']"
             >
-                <strong><?php _e( 'key', 'wp-user-frontend' ); ?></strong>: {{ field.name }} | <strong><?php _e( 'value', 'wp-user-frontend' ); ?></strong>: {{ field.meta_value }}
+                <strong><?php esc_html_e( 'key', 'wp-user-frontend' ); ?></strong>: {{ field.name }} | <strong><?php esc_html_e( 'value', 'wp-user-frontend' ); ?></strong>: {{ field.meta_value }}
 
                 <div class="control-buttons">
                     <p>
@@ -209,7 +209,6 @@
                 <div v-show="show_basic_settings" class="option-field-section-fields">
                     <component
                         v-for="option_field in basic_settings"
-                        v-if="show_field( option_field )"
                         :key="option_field.name"
                         :is="'field-' + option_field.type"
                         :option_field="option_field"
@@ -229,7 +228,6 @@
                 <div v-show="show_advanced_settings" class="option-field-section-fields">
                     <component
                         v-for="option_field in advanced_settings"
-                        v-if="show_field( option_field )"
                         :key="option_field.name"
                         :is="'field-' + option_field.type"
                         :option_field="option_field"
@@ -634,11 +632,12 @@
         v-if="'no' === field.rich"
         :class="class_names('textareafield')"
         :placeholder="field.placeholder"
+        :default_text="field.default"
         :rows="field.rows"
         :cols="field.cols"
     >{{ field.default }}</textarea>
 
-    <text-editor v-if="'no' !== field.rich" :rich="field.rich"></text-editor>
+    <text-editor v-if="'no' !== field.rich" :rich="field.rich" :default_text="field.default"></text-editor>
 
     <span v-if="field.help" class="wpuf-help">{{ field.help }}</span>
 </div>
@@ -709,12 +708,8 @@
     </template>
 
     <template v-else>
-    	<div v-if="'invisible_recaptcha' != field.recaptcha_type &&  'light' == field.recaptcha_theme">
-        	<img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder-light.png'; ?>" alt="">
-        </div>
-
-        <div v-else-if="'invisible_recaptcha' != field.recaptcha_type &&  'dark' == field.recaptcha_theme">
-            <img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder-dark.png'; ?>" alt="">
+    	<div v-if="'invisible_recaptcha' != field.recaptcha_type">
+        	<img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder.png'; ?>" alt="">
         </div>
         <div v-else><p><?php _e( 'Invisible reCaptcha', 'wp-user-frontend' ); ?></p></div>
     </template>
@@ -762,7 +757,7 @@
             <div v-html="get_term_checklist()"></div>
         </div>
     </div>
-
+    
 
     <input
         v-if="'text' === field.type"
@@ -796,11 +791,12 @@
         v-if="'no' === field.rich"
         :class="class_names('textareafield')"
         :placeholder="field.placeholder"
+        :deault="field.default"
         :rows="field.rows"
         :cols="field.cols"
     >{{ field.default }}</textarea>
 
-    <text-editor v-if="'no' !== field.rich" :rich="field.rich"></text-editor>
+    <text-editor v-if="'no' !== field.rich" :default_text="field.default" :rich="field.rich"></text-editor>
 
     <span v-if="field.help" class="wpuf-help">{{ field.help }}</span>
 </div>
@@ -879,7 +875,7 @@
                         </div>
                     </div>
                     <div class="mce-edit-area mce-container mce-panel mce-stack-layout-item" style="border-width: 1px 0px 0px;">
-                        <div style="width: 100%; height: 150px; display: block;"></div><!-- iframe replacement div -->
+                        <div style="width: 100%; height: 150px; display: block;">{{default_text}}</div><!-- iframe replacement div -->
                     </div>
                     <div class="mce-statusbar mce-container mce-panel mce-stack-layout-item" style="border-width: 1px 0px 0px;">
                         <div class="mce-container-body mce-flow-layout">
