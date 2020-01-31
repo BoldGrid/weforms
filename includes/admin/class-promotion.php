@@ -341,10 +341,6 @@ class WeForms_Admin_Promotion {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 
-        if ( ! isset( $_POST['reason_id'] ) ) {
-            wp_send_json_error();
-        }
-
         if ( ! empty( $_POST['dismissed'] ) ) {
             update_option( 'weforms_review_notice_dismiss', 'yes' );
         }

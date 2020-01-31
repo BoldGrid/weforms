@@ -269,6 +269,7 @@ class WeForms_Admin {
             $recaptcha         =  new StdClass();
             $recaptcha->key    = $settings['recaptcha_public'];
             $recaptcha->secret = $settings['recaptcha_private'];
+            $recaptcha->type   = $settings['recaptcha_type'];
 
             $merge_array['recaptcha'] = $recaptcha;
         }

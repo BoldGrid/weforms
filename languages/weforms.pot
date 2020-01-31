@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.4.4\n"
+"Project-Id-Version: weForms 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2020-01-14 13:37:30+00:00\n"
+"POT-Creation-Date: 2020-01-31 08:34:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -159,7 +159,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: includes/admin/class-admin.php:303
+#: includes/admin/class-admin.php:304
 msgid ""
 "If you like %1$s please leave us a %2$s rating. A huge thank you from %3$s "
 "in advance!"
@@ -169,18 +169,18 @@ msgstr ""
 msgid "weForms"
 msgstr ""
 
-#: includes/admin/class-admin.php:322
+#: includes/admin/class-admin.php:323
 #: includes/admin/views/weforms-settings-general.php:1
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:327
+#: includes/admin/class-admin.php:328
 #: includes/admin/views/weforms-settings-recaptcha.php:1
 #: includes/fields/class-field-recaptcha.php:9
 msgid "reCaptcha"
 msgstr ""
 
-#: includes/admin/class-admin.php:334
+#: includes/admin/class-admin.php:335
 #: includes/admin/views/weforms-settings-privacy.php:1
 msgid "Privacy"
 msgstr ""
@@ -191,56 +191,56 @@ msgid "New Form Submission"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:100
-#: includes/admin/class-form-builder-assets.php:301
+#: includes/admin/class-form-builder-assets.php:304
 #: includes/class-scripts-styles.php:426
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:271
+#: includes/admin/class-form-builder-assets.php:274
 msgid "Advanced Options"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:272
+#: includes/admin/class-form-builder-assets.php:275
 msgid "Quiz Options"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:273
+#: includes/admin/class-form-builder-assets.php:276
 msgid "Are you sure you want to delete this field?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:274
+#: includes/admin/class-form-builder-assets.php:277
 #: includes/class-scripts-styles.php:427
 msgid "Yes, delete it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:275
+#: includes/admin/class-form-builder-assets.php:278
 #: includes/class-scripts-styles.php:428
 msgid "No, cancel it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:276
+#: includes/admin/class-form-builder-assets.php:279
 msgid "OK"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:277
+#: includes/admin/class-form-builder-assets.php:280
 #: includes/library/appsero/Insights.php:764
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:278
+#: includes/admin/class-form-builder-assets.php:281
 #: includes/admin/class-shortcode-button.php:84
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:279
+#: includes/admin/class-form-builder-assets.php:282
 msgid "Disable"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:280
+#: includes/admin/class-form-builder-assets.php:283
 msgid "This field must contain at least one choice"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:281
+#: includes/admin/class-form-builder-assets.php:284
 #: includes/fields/class-field-checkbox.php:90
 #: includes/fields/class-field-dropdown.php:93
 #: includes/fields/class-field-multidropdown.php:64
@@ -248,114 +248,114 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:282
+#: includes/admin/class-form-builder-assets.php:285
 msgid "Row"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:283
+#: includes/admin/class-form-builder-assets.php:286
 msgid "Column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:284
+#: includes/admin/class-form-builder-assets.php:287
 msgid "This field must contain at least one column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:285
+#: includes/admin/class-form-builder-assets.php:288
 msgid "is available in Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:286
+#: includes/admin/class-form-builder-assets.php:289
 msgid "Please upgrade to the Pro version to unlock all these awesome features"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:287
+#: includes/admin/class-form-builder-assets.php:290
 msgid "Get the Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:288
+#: includes/admin/class-form-builder-assets.php:291
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:289
+#: includes/admin/class-form-builder-assets.php:292
 msgid "Saved form data"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:290
+#: includes/admin/class-form-builder-assets.php:293
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:291
+#: includes/admin/class-form-builder-assets.php:294
 msgid "Are you sure to leave this page?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:292
+#: includes/admin/class-form-builder-assets.php:295
 msgid "Click to copy shortcode"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:294
+#: includes/admin/class-form-builder-assets.php:297
 msgid "Select an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:295
+#: includes/admin/class-form-builder-assets.php:298
 msgid "Please select an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:296
+#: includes/admin/class-form-builder-assets.php:299
 msgid "Upload an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:298
+#: includes/admin/class-form-builder-assets.php:301
 msgid "Share Your Form"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:299
+#: includes/admin/class-form-builder-assets.php:302
 msgid ""
 "Sharing your form enables <strong>anyone</strong> to view and submit the "
 "form without inserting the shortcode to a page."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:300
+#: includes/admin/class-form-builder-assets.php:303
 msgid "Anyone with this URL will be able to view and submit this form."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:302
+#: includes/admin/class-form-builder-assets.php:305
 msgid "You must select a notification"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:303
+#: includes/admin/class-form-builder-assets.php:306
 msgid "Anyone with existing URL won't be able to view and submit the form anymore."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:304
+#: includes/admin/class-form-builder-assets.php:307
 msgid "Disable Sharing"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:326
+#: includes/admin/class-form-builder-assets.php:329
 msgid "Notifications"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:327
+#: includes/admin/class-form-builder-assets.php:330
 msgid "Integrations"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:349
+#: includes/admin/class-form-builder-assets.php:352
 msgid "Form Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:350
+#: includes/admin/class-form-builder-assets.php:353
 msgid "Submission Restriction"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:351
+#: includes/admin/class-form-builder-assets.php:354
 msgid "Display Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:386
+#: includes/admin/class-form-builder-assets.php:389
 #: includes/admin/class-privacy.php:247 includes/functions.php:771
 msgid "User"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:388 includes/functions.php:775
+#: includes/admin/class-form-builder-assets.php:391 includes/functions.php:775
 #: includes/integrations/mailpoet/component/template.php:38
 #: includes/templates/class-template-conference-proposal.php:33
 #: includes/templates/class-template-donation-form.php:32
@@ -796,14 +796,14 @@ msgstr ""
 #: includes/fields/class-abstract-fields.php:536
 #: includes/fields/class-field-checkbox.php:107
 #: includes/fields/class-field-checkbox.php:111
-#: includes/fields/class-field-date.php:116
-#: includes/fields/class-field-date.php:120
+#: includes/fields/class-field-date.php:121
+#: includes/fields/class-field-date.php:125
 #: includes/fields/class-field-dropdown.php:111
 #: includes/fields/class-field-dropdown.php:115
 #: includes/fields/class-field-email.php:102
 #: includes/fields/class-field-email.php:106
-#: includes/fields/class-field-image.php:119
-#: includes/fields/class-field-image.php:123
+#: includes/fields/class-field-image.php:129
+#: includes/fields/class-field-image.php:133
 #: includes/fields/class-field-multidropdown.php:82
 #: includes/fields/class-field-multidropdown.php:86
 #: includes/fields/class-field-name.php:202
@@ -1249,7 +1249,7 @@ msgstr ""
 
 #: includes/admin/views/weforms-settings-general.php:100
 #: includes/admin/views/weforms-settings-privacy.php:29
-#: includes/admin/views/weforms-settings-recaptcha.php:25
+#: includes/admin/views/weforms-settings-recaptcha.php:34
 msgid "Save Changes"
 msgstr ""
 
@@ -1277,10 +1277,22 @@ msgid ""
 msgstr ""
 
 #: includes/admin/views/weforms-settings-recaptcha.php:10
+msgid "reCaptcha Version"
+msgstr ""
+
+#: includes/admin/views/weforms-settings-recaptcha.php:13
+msgid "v2"
+msgstr ""
+
+#: includes/admin/views/weforms-settings-recaptcha.php:15
+msgid "v3"
+msgstr ""
+
+#: includes/admin/views/weforms-settings-recaptcha.php:19
 msgid "Site key"
 msgstr ""
 
-#: includes/admin/views/weforms-settings-recaptcha.php:16
+#: includes/admin/views/weforms-settings-recaptcha.php:25
 msgid "Secret key"
 msgstr ""
 
@@ -1307,7 +1319,7 @@ msgstr ""
 
 #: includes/api/class-weforms-entries-controller.php:136
 #: includes/api/class-weforms-entries-controller.php:193
-#: includes/class-ajax.php:656 includes/class-ajax.php:683
+#: includes/class-ajax.php:653 includes/class-ajax.php:680
 msgid "No entry ids provided!"
 msgstr ""
 
@@ -1381,12 +1393,13 @@ msgid "Fields  deleted successfully "
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:245
-#: includes/class-ajax.php:517 includes/class-ajax.php:522
+#: includes/class-ajax.php:514 includes/class-ajax.php:519
 msgid "No form fields found!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:251
-#: includes/class-ajax.php:853 includes/class-ajax.php:867
+#: includes/class-ajax.php:843 includes/class-ajax.php:852
+#: includes/class-ajax.php:893 includes/class-ajax.php:908
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
@@ -1451,7 +1464,7 @@ msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:797
 #: includes/api/class-weforms-forms-controller.php:822
-#: includes/class-ajax.php:342
+#: includes/class-ajax.php:341
 msgid "Could not create the form"
 msgstr ""
 
@@ -1476,7 +1489,7 @@ msgid "Unable to delete form"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1099
-#: includes/class-ajax.php:301
+#: includes/class-ajax.php:300
 msgid "No form ids provided!"
 msgstr ""
 
@@ -1485,22 +1498,22 @@ msgid "form  deleted successfully "
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1235
-#: includes/class-ajax.php:1096
+#: includes/class-ajax.php:1137
 msgid "No file found to import."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1249
-#: includes/class-ajax.php:1109
+#: includes/class-ajax.php:1150
 msgid "The forms have been imported successfully!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1257
-#: includes/class-ajax.php:1111
+#: includes/class-ajax.php:1152
 msgid "Something went wrong importing the file."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1260
-#: includes/class-ajax.php:1114
+#: includes/class-ajax.php:1155
 msgid "Invalid file or file size too big."
 msgstr ""
 
@@ -1526,7 +1539,7 @@ msgid "data not exist"
 msgstr ""
 
 #: includes/api/class-weforms-log-controller.php:85
-#: includes/class-ajax.php:1155
+#: includes/class-ajax.php:1196
 msgid "ago"
 msgstr ""
 
@@ -1562,19 +1575,19 @@ msgstr ""
 msgid "Invalid form id"
 msgstr ""
 
-#: includes/class-ajax.php:257
+#: includes/class-ajax.php:256
 msgid "Please provide a form name"
 msgstr ""
 
-#: includes/class-ajax.php:285 includes/class-ajax.php:442
+#: includes/class-ajax.php:284 includes/class-ajax.php:439
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:729
+#: includes/class-ajax.php:726
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:740
+#: includes/class-ajax.php:737
 msgid "No form field was found."
 msgstr ""
 
@@ -1905,7 +1918,7 @@ msgid "Number of Columns"
 msgstr ""
 
 #: includes/fields/class-field-column.php:73
-#: includes/fields/class-field-recaptcha.php:144
+#: includes/fields/class-field-recaptcha.php:171
 #: includes/fields/class-field-sectionbreak.php:57
 msgid "Title of the section"
 msgstr ""
@@ -1922,19 +1935,19 @@ msgstr ""
 msgid "Date / Time"
 msgstr ""
 
-#: includes/fields/class-field-date.php:56
+#: includes/fields/class-field-date.php:61
 msgid "Date Format"
 msgstr ""
 
-#: includes/fields/class-field-date.php:60
+#: includes/fields/class-field-date.php:65
 msgid "The date format"
 msgstr ""
 
-#: includes/fields/class-field-date.php:68
+#: includes/fields/class-field-date.php:73
 msgid "Enable time input"
 msgstr ""
 
-#: includes/fields/class-field-date.php:80
+#: includes/fields/class-field-date.php:85
 msgid "Set this as publish time input"
 msgstr ""
 
@@ -2029,32 +2042,32 @@ msgstr ""
 msgid "Image Upload"
 msgstr ""
 
-#: includes/fields/class-field-image.php:65
+#: includes/fields/class-field-image.php:75
 msgid "Max. file size"
 msgstr ""
 
-#: includes/fields/class-field-image.php:69
+#: includes/fields/class-field-image.php:79
 msgid "Enter maximum upload size limit in KB"
 msgstr ""
 
-#: includes/fields/class-field-image.php:74
+#: includes/fields/class-field-image.php:84
 msgid "Max. files"
 msgstr ""
 
-#: includes/fields/class-field-image.php:78
+#: includes/fields/class-field-image.php:88
 msgid "Number of images can be uploaded"
 msgstr ""
 
-#: includes/fields/class-field-image.php:82
+#: includes/fields/class-field-image.php:92
 msgid "Button Label"
 msgstr ""
 
-#: includes/fields/class-field-image.php:84
-#: includes/fields/class-field-image.php:104
+#: includes/fields/class-field-image.php:94
+#: includes/fields/class-field-image.php:114
 msgid "Select Image"
 msgstr ""
 
-#: includes/fields/class-field-image.php:87
+#: includes/fields/class-field-image.php:97
 msgid "Enter a label for the Select button"
 msgstr ""
 
@@ -2144,49 +2157,50 @@ msgstr ""
 msgid "Radio"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:43
+#: includes/fields/class-field-recaptcha.php:32
+#: includes/fields/class-field-recaptcha.php:70
 msgid "reCaptcha API key is missing."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:122
+#: includes/fields/class-field-recaptcha.php:149
 msgid "Site key and Secret key"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:124
+#: includes/fields/class-field-recaptcha.php:151
 msgid ""
 "You need to set Site key and Secret key in <a href=\"%s\" "
 "target=\"_blank\">Settings</a> in order to use \"Recaptcha\" field. <a "
 "href=\"%s\" target=\"_blank\">Click here to get the these key</a>."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:140
+#: includes/fields/class-field-recaptcha.php:167
 #: includes/fields/class-field-sectionbreak.php:53
 #: includes/templates/class-template-employee-information.php:132
 #: includes/templates/class-template-loan-application-form.php:28
 msgid "Title"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:151
+#: includes/fields/class-field-recaptcha.php:178
 msgid "Enable noCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:152
+#: includes/fields/class-field-recaptcha.php:179
 msgid "Enable Invisible reCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:157
+#: includes/fields/class-field-recaptcha.php:184
 msgid "Select reCaptcha type"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:164
+#: includes/fields/class-field-recaptcha.php:192
 msgid "Light"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:165
+#: includes/fields/class-field-recaptcha.php:193
 msgid "Dark"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:170
+#: includes/fields/class-field-recaptcha.php:198
 msgid "Select reCaptcha Theme"
 msgstr ""
 

@@ -1,18 +1,6 @@
 'use strict';
 
-var _typeof5 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof4 = typeof Symbol === "function" && _typeof5(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof5(obj);
-};
-
-var _typeof3 = typeof Symbol === "function" && _typeof4(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof4(obj);
-};
+var _typeof3 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _typeof2 = typeof Symbol === "function" && _typeof3(Symbol.iterator) === "symbol" ? function (obj) {
     return typeof obj === "undefined" ? "undefined" : _typeof3(obj);
@@ -27,8 +15,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 };
 
 /*!
-weForms - v1.4.1
-Generated: 2019-11-15 (1573811026161)
+weForms - v1.4.4
+Generated: 2020-01-23 (1579756424406)
 */
 
 ;(function ($) {
@@ -1316,6 +1304,8 @@ Generated: 2019-11-15 (1573811026161)
                     success: function success(response) {
                         toastr.options.timeOut = 1000;
                         toastr.success('Settings has been updated');
+
+                        weForms.settings = response;
                     },
 
                     error: function error(_error15) {
@@ -1355,6 +1345,7 @@ Generated: 2019-11-15 (1573811026161)
             }
         }
     };
+
     /* ./assets/spa/app.js */
     if (!Array.prototype.hasOwnProperty('swap')) {
         Array.prototype.swap = function (from, to) {
@@ -1806,6 +1797,12 @@ Generated: 2019-11-15 (1573811026161)
 
         next();
     });
+
+    weForms.validators = {
+        is_recaptcha_v2: function is_recaptcha_v2() {
+            return weForms.settings.recaptcha.type === 'v2';
+        }
+    };
 
     var app = new Vue({
         router: router,

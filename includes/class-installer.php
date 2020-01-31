@@ -94,7 +94,7 @@ class WeForms_Installer {
             'email_gateway' => 'wordpress',
             'credit'        => false,
             'email_footer'  => true,
-            'recaptcha'     => [ 'key' => '', 'secret' => '' ],
+            'recaptcha'     => [ 'key' => '', 'secret' => '', 'type' => 'v2' ],
         ];
 
         foreach ( $additional_keys as $key => $value ) {

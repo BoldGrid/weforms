@@ -23,7 +23,34 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
         $settings     = weforms_get_settings( 'recaptcha' );
         $is_invisible = false;
         $public_key   = isset( $settings->key ) ? $settings->key : '';
+        $type         = isset( $settings->type ) ? $settings->type : '';
         $theme        = isset( $field_settings['recaptcha_theme'] ) ? $field_settings['recaptcha_theme'] : 'light';
+        /** Recaptcha V3 start */
+        if( 'v3' == $type ) {  ?>
+            <li <?php $this->print_list_attributes( $field_settings ); ?> >
+            <?php if ( ! $public_key ) {
+                esc_html_e( 'reCaptcha API key is missing.', 'weforms');
+            } else { ?>
+                <li <?php $this->print_list_attributes( $field_settings ); ?> >
+                    <div class="wpuf-fields <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>">
+                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                        <input type="hidden" name="g-action" id="g-action">
+                        <script src="https://www.google.com/recaptcha/api.js?render=<?php echo esc_attr( $public_key );?>"> </script>
+                        <script>
+                            grecaptcha.ready(function() {
+                                  grecaptcha.execute('<?php echo esc_attr( $public_key );?>', {action: 'captcha_validation'}).then( function( token ) {
+                                    document.getElementById('g-recaptcha-response').value = token;
+                                    document.getElementById('g-action').value = 'captcha_validation';
+
+                                  });
+                            });
+                        </script>
+                    </div>
+                </li>
+        <?php }
+            return ;
+        }
+         /** Recaptcha V3 end */
 
         if ( isset( $field_settings['recaptcha_type'] ) ) {
             $is_invisible = $field_settings['recaptcha_type'] == 'invisible_recaptcha' ? true : false;
@@ -155,6 +182,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                 'section'       => 'basic',
                 'priority'      => 11,
                 'help_text'     => __( 'Select reCaptcha type', 'weforms' ),
+                'show_if'       => 'is_recaptcha_v2'
             ],
             [
                 'name'          => 'recaptcha_theme',
@@ -168,6 +196,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                 'section'       => 'advanced',
                 'priority'      => 12,
                 'help_text'     => __( 'Select reCaptcha Theme', 'weforms' ),
+                'show_if'       => 'is_recaptcha_v2'
             ],
         ];
 
