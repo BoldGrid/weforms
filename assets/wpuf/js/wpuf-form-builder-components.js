@@ -524,6 +524,16 @@
             form_settings: function form_settings() {
                 return this.$store.state.settings;
             }
+        },
+
+        methods: {
+            show_field: function ( option_field ) {
+                if ( option_field.show_if && weForms.validators[ option_field.show_if ] ) {
+                    return weForms.validators[ option_field.show_if ]();
+                }
+
+                return true;
+            },
         }
     });
 

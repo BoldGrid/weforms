@@ -209,6 +209,7 @@
                 <div v-show="show_basic_settings" class="option-field-section-fields">
                     <component
                         v-for="option_field in basic_settings"
+                        v-if="show_field( option_field )"
                         :key="option_field.name"
                         :is="'field-' + option_field.type"
                         :option_field="option_field"
@@ -228,6 +229,7 @@
                 <div v-show="show_advanced_settings" class="option-field-section-fields">
                     <component
                         v-for="option_field in advanced_settings"
+                        v-if="show_field( option_field )"
                         :key="option_field.name"
                         :is="'field-' + option_field.type"
                         :option_field="option_field"
@@ -707,8 +709,12 @@
     </template>
 
     <template v-else>
-    	<div v-if="'invisible_recaptcha' != field.recaptcha_type">
-        	<img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder.png'; ?>" alt="">
+    	<div v-if="'invisible_recaptcha' != field.recaptcha_type &&  'light' == field.recaptcha_theme">
+        	<img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder-light.png'; ?>" alt="">
+        </div>
+
+        <div v-else-if="'invisible_recaptcha' != field.recaptcha_type &&  'dark' == field.recaptcha_theme">
+            <img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder-dark.png'; ?>" alt="">
         </div>
         <div v-else><p><?php _e( 'Invisible reCaptcha', 'wp-user-frontend' ); ?></p></div>
     </template>
@@ -756,7 +762,7 @@
             <div v-html="get_term_checklist()"></div>
         </div>
     </div>
-    
+
 
     <input
         v-if="'text' === field.type"
