@@ -1,6 +1,5 @@
 === weForms - Easy Drag & Drop Contact Form Builder For WordPress ===
 Contributors: tareq1988, nizamuddinbabu, boldgrid
-Donate link: https://tareq.co/donate/
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.6.20
