@@ -2,9 +2,9 @@
 /**
  * Plugin Name: weForms
  * Description: The best contact form plugin for WordPress
- * Plugin URI: https://wedevs.com/weforms/
- * Author: weDevs
- * Author URI: https://wedevs.com/
+ * Plugin URI: https://weformspro.com/
+ * Author: weForms
+ * Author URI: https://weformspro.com/
  * Version: 1.4.5
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@
  */
 
 /**
- * Copyright (c) 2017 weDevs LLC (email: info@wedevs.com). All rights reserved.
+ * Copyright (c) 2020 weForms LLC (email: support@weformspro.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -386,7 +386,7 @@ final class WeForms {
      * @return array
      */
     public function plugin_action_links( $links ) {
-        $links[] = '<a href="https://wedevs.com/docs/weforms/?utm_source=weforms-action-link&utm_medium=textlink&utm_campaign=plugin-docs-link" target="_blank">' . __( 'Docs', 'weforms' ) . '</a>';
+        $links[] = '<a href="https://weformspro.com/?utm_source=weforms-action-link&utm_medium=textlink&utm_campaign=plugin-docs-link" target="_blank">' . __( 'Docs', 'weforms' ) . '</a>';
         $links[] = '<a href="' . admin_url( 'admin.php?page=weforms' ) . '">' . __( 'Settings', 'weforms' ) . '</a>';
 
         return $links;
