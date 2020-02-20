@@ -39,7 +39,7 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
                                 type="radio"
                                 value="<?php echo esc_attr( $value ); ?>"<?php checked( $selected, $value ); ?>
                             />
-                            <?php echo esc_attr( $option ); ?>
+                            <?php echo $option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         </label>
                         <?php
                     }

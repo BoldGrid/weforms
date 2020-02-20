@@ -178,8 +178,8 @@
                     o.change_fieldset( --step_number,progressbar_type );
                 }
 
-                var formDiv  = document.querySelector( "form.wpuf-form-add" );
-                var position = formDiv.offsetTop;
+                var formDiv  = $( "form.wpuf-form-add" );
+                var position = formDiv.offset().top;
 
                 // this changes the scrolling behavior to "smooth"
                 window.scrollTo({
@@ -4797,6 +4797,9 @@ if (window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
             }
 
             if ( FileProgress === uploaded ) {
+                if ( typeof grecaptcha !== 'undefined' && !grecaptcha.getResponse().length ) {
+                    return;
+                }
                 $(".wpuf-submit-button").removeAttr("disabled");
             }
         },

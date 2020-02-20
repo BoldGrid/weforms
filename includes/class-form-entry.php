@@ -183,11 +183,12 @@ class WeForms_Form_Entry {
 
                         $value = $file_field;
                     } elseif ( $field['type'] == 'google_map' ) {
-                        list( $lat, $long ) = explode( ',', $value );
+                        list( $address, $lat, $long ) = explode( '||', $value );
 
                         $value = [
-                            'lat'  => $lat,
-                            'long' => $long,
+                            'address' => $address,
+                            'lat'     => trim( $lat ),
+                            'long'    => trim( $long ),
                         ];
                     } elseif ( $field['type'] == 'multiple_product' ) {
                         $field_value = unserialize( $value );

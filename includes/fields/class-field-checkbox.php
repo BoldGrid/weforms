@@ -33,7 +33,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
                         ?>
                         <label <?php echo $field_settings['inline'] == 'yes' ? 'class="wpuf-checkbox-inline"' : 'class="wpuf-checkbox-block"'; ?>>
                             <input type="checkbox" class="<?php echo 'wpuf_' . esc_attr( $field_settings['name'] ). '_'. esc_attr($form_id); ?>" name="<?php echo esc_attr( $field_settings['name'] ); ?>[]" value="<?php echo esc_attr( $value ); ?>"<?php echo in_array( $value, $selected ) ? ' checked="checked"' : ''; ?> />
-                            <?php echo esc_attr( $option ); ?>
+                            <?php echo $option; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         </label>
                         <?php
                     }

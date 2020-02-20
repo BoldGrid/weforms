@@ -29,15 +29,15 @@ class weForms_Widget extends WP_Widget {
         $title            = apply_filters( 'widget_title', $instance['title'] );
         $form_id          = apply_filters( 'weforms_widget_form_id', $instance['form_id'] );
 
-        echo esc_attr( $args['before_widget'] );
+        echo wp_kses_post( $args['before_widget'] );
 
         if ( ! empty( $title ) ) {
-            echo esc_attr( $args['before_title'] ) . esc_html( $title ) . esc_attr( $args['after_title'] );
+            echo wp_kses_post( $args['before_title'] ) . wp_kses_post( $title ) . wp_kses_post( $args['after_title'] );
         }
 
         echo do_shortcode( sprintf( '[weforms id ="%s" ]', $form_id  ) );
 
-        echo esc_attr( $args['after_widget'] );
+        echo wp_kses_post( $args['after_widget'] );
     }
 
     /**
@@ -58,12 +58,12 @@ class weForms_Widget extends WP_Widget {
 
         <p>
             <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'weforms' ); ?></label>
-            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo wp_kses_post( $title ); ?>" />
         </p>
         <p>
             <label for="<?php echo esc_attr( $this->get_field_id( 'form_id' ) ); ?>"> <?php esc_html_e( 'Form:', 'weforms' ); ?></label>
             <select id="<?php echo esc_attr( $this->get_field_id( 'form_id' ) ); ?>" class="widefat" name="<?php echo esc_attr( $this->get_field_name( 'form_id' ) ); ?>">
-                <?php echo esc_attr( $options ); ?>
+                <?php echo $options; ?> // WPCS: sanitization ok.
             </select>
         </p>
 
