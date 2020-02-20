@@ -5,7 +5,7 @@
 **Requires at least:** 4.4  
 **Requires PHP:** 5.6.20  
 **Tested up to:** 5.3.2  
-**Stable tag:** 1.4.5  
+**Stable tag:** 1.4.6  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -14,7 +14,7 @@ The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop
 ## Description ##
 
 ###  weForms- The easy-to-use WordPress Contact Form Builder plugin  ###
-When we think about using any contact form builder plugin, the first concern is always about how user-friendly and adaptable it actually is. So, we the makers have developed [weForms](https://wedevs.com/weforms/) keeping this demand in mind. It is undoubtedly one of the most easy-to-use form builders for WordPress. This contact form plugin is not just a form builder, it can do a lot more than you can imagine. It actually brings all your forms created in your imagination into reality. Think of creating any form in your head and you can build it with a few clicks with weForms absolutely hassle-free.
+When we think about using any contact form builder plugin, the first concern is always about how user-friendly and adaptable it actually is. So, we the makers have developed [weForms](https://weformspro.com/) keeping this demand in mind. It is undoubtedly one of the most easy-to-use form builders for WordPress. This contact form plugin is not just a form builder, it can do a lot more than you can imagine. It actually brings all your forms created in your imagination into reality. Think of creating any form in your head and you can build it with a few clicks with weForms absolutely hassle-free.
 
 Get the best experience of drag & drop form building while creating any form of your imagination. Not to forget its wide range of customizable pre-defined form templates that makes managing and designing any type of form a walk in the park.
 
@@ -105,7 +105,6 @@ Craft your next form without a glitch. With weForms, stay organized and hassle-f
 * Sync email data with MailPoet, MailChimp & Email Campaign.
 * Multi-step/Multi-part Forms.
 * Geolocation & SMS notifications.
-* Free demo site to help users give the perfect idea of how it works.
 * And much more.
 
 ### Don’t just take our word for it, here is what some of the big names in the community have to say about weForms ###
@@ -119,11 +118,7 @@ Craft your next form without a glitch. With weForms, stay organized and hassle-f
 
 Still not convinced? Then...
 
-[Check out this contact form comparison including some of the best in the business form builder for WordPress](https://wedevs.com/weforms/compare/)
-
-Or
-
-Try out its [Free Official Demo](https://weformsdemo.wedevs.com/)
+[Check out this contact form comparison including some of the best in the business form builder for WordPress](https://weformspro.com/)
 
 ### AVAILABLE MODULES & WEFORMS INTEGRATIONS ###
 
@@ -156,10 +151,10 @@ Need More Features? Then you might want to upgrade to weForms PRO. This amazing 
 
 ###  The four PRO pricing plan includes:  ###
 
-* [Personal](https://wedevs.com/weforms/pricing/)
-* [Business](https://wedevs.com/weforms/pricing/)
-* [Professional](https://wedevs.com/weforms/pricing/)
-* [Developer](https://wedevs.com/weforms/pricing/)
+* [Personal](https://weformspro.com/pricing/)
+* [Business](https://weformspro.com/pricing/)
+* [Professional](https://weformspro.com/pricing/)
+* [Developer](https://weformspro.com/pricing/)
 
 ###  And these tailored plans consists of some highly essential & cutting-edge PRO features and integrations that include:  ###
 
@@ -191,8 +186,6 @@ Need More Features? Then you might want to upgrade to weForms PRO. This amazing 
     * Salesforce
     * Zoho
     * Hubspot
-
-If you are impressed with weForms so far, then you can also check out its [Official Demo](https://weformsdemo.wedevs.com/wp-admin/) for a much better and practical idea.
 
 ###  Our Other Popular Creations For WordPress  ###
 
@@ -266,6 +259,14 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+
+### Version 1.4.6 (20 February, 2020) ###
+
+* **Fix:** image upload field issue
+* **Fix:** widget not rendering properyly
+* **Fix:** HTML Tags are not rendering the HTML format for the Radio or Checkbox Field
+* **Fix:** submit issue with image and recaptcha.
 
 ### Version 1.4.5 (31 January, 2020) ###
 * **Feature:** Added Recaptcha v3 support
