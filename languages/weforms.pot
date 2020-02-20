@@ -1,10 +1,10 @@
-# Copyright (C) 2020 weDevs
+# Copyright (C) 2020 weForms
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.4.5\n"
+"Project-Id-Version: weForms 1.4.6\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2020-01-31 08:34:22+00:00\n"
+"POT-Creation-Date: 2020-02-20 06:16:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -165,7 +165,7 @@ msgid ""
 "in advance!"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
+#. Author of the plugin/theme
 msgid "weForms"
 msgstr ""
 
@@ -351,7 +351,7 @@ msgid "Display Settings"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:389
-#: includes/admin/class-privacy.php:247 includes/functions.php:771
+#: includes/admin/class-privacy.php:242 includes/functions.php:771
 msgid "User"
 msgstr ""
 
@@ -377,54 +377,54 @@ msgid ""
 "disclose on your privacy policy."
 msgstr ""
 
-#: includes/admin/class-privacy.php:45
+#: includes/admin/class-privacy.php:44
 msgid ""
 "We collect information about you during the form submission process on our "
 "WordPress website."
 msgstr ""
 
-#: includes/admin/class-privacy.php:46
+#: includes/admin/class-privacy.php:45
 msgid "What we collect and store"
 msgstr ""
 
-#: includes/admin/class-privacy.php:47
+#: includes/admin/class-privacy.php:46
 msgid "While you visit our site, we’ll track:"
 msgstr ""
 
-#: includes/admin/class-privacy.php:49
+#: includes/admin/class-privacy.php:48
 msgid ""
 "Form Fields Data: Forms Fields data includes the available field types when "
 "creating a form. We’ll use this to, for example, collect informations like "
 "Name, Email and other available fields."
 msgstr ""
 
-#: includes/admin/class-privacy.php:50
+#: includes/admin/class-privacy.php:49
 msgid ""
 "Location, IP address and browser type: we’ll use this for purposes like "
 "estimating taxes and shipping. Also, for reducing fraudulent activities and "
 "prevent identity theft while placing orders"
 msgstr ""
 
-#: includes/admin/class-privacy.php:51
+#: includes/admin/class-privacy.php:50
 msgid ""
 "Transaction Details: we’ll ask you to enter this so we can, for instance, "
 "provide & regulate subscription packs that you bought and keep track of "
 "your payment details for subscription packs!"
 msgstr ""
 
-#: includes/admin/class-privacy.php:53
+#: includes/admin/class-privacy.php:52
 msgid ""
 "We’ll also use cookies to keep track of form elements while you’re browsing "
 "our site."
 msgstr ""
 
-#: includes/admin/class-privacy.php:55
+#: includes/admin/class-privacy.php:53
 msgid ""
 "Note: you may want to further detail your cookie policy, and link to that "
 "section from here."
 msgstr ""
 
-#: includes/admin/class-privacy.php:57
+#: includes/admin/class-privacy.php:54
 msgid ""
 "When you fill up a form, we’ll ask you to provide information including "
 "your name, billing address, shipping address, email address, phone number, "
@@ -433,48 +433,48 @@ msgid ""
 "We’ll use this information for purposes, such as, to:"
 msgstr ""
 
-#: includes/admin/class-privacy.php:59
+#: includes/admin/class-privacy.php:56
 msgid "Send you information about your account and order"
 msgstr ""
 
-#: includes/admin/class-privacy.php:60
+#: includes/admin/class-privacy.php:57
 msgid "Respond to your requests, including transaction details and complaints"
 msgstr ""
 
-#: includes/admin/class-privacy.php:61
+#: includes/admin/class-privacy.php:58
 msgid "Process payments and prevent fraud"
 msgstr ""
 
-#: includes/admin/class-privacy.php:62
+#: includes/admin/class-privacy.php:59
 msgid "Set up your account"
 msgstr ""
 
-#: includes/admin/class-privacy.php:63
+#: includes/admin/class-privacy.php:60
 msgid "Comply with any legal obligations we have, such as calculating taxes"
 msgstr ""
 
-#: includes/admin/class-privacy.php:64
+#: includes/admin/class-privacy.php:61
 msgid "Improve our form offerings"
 msgstr ""
 
-#: includes/admin/class-privacy.php:65
+#: includes/admin/class-privacy.php:62
 msgid "Send you marketing messages, if you choose to receive them"
 msgstr ""
 
-#: includes/admin/class-privacy.php:66
+#: includes/admin/class-privacy.php:63
 msgid ""
 "Or any other service the built form was created to comply with and it’s "
 "necessary information"
 msgstr ""
 
-#: includes/admin/class-privacy.php:68
+#: includes/admin/class-privacy.php:65
 msgid ""
 "If you create an account, we will store your name, address, email and phone "
 "number, which will be used to populate the form fields for future "
 "submissions."
 msgstr ""
 
-#: includes/admin/class-privacy.php:69
+#: includes/admin/class-privacy.php:66
 msgid ""
 "We generally store information about you for as long as we need the "
 "information for the purposes for which we collect and use it, and we are "
@@ -484,55 +484,55 @@ msgid ""
 "addresses."
 msgstr ""
 
-#: includes/admin/class-privacy.php:70
+#: includes/admin/class-privacy.php:67
 msgid "Who on our team has access"
 msgstr ""
 
-#: includes/admin/class-privacy.php:71
+#: includes/admin/class-privacy.php:68
 msgid ""
 "Members of our team have access to the information you provide us. For "
 "example, Administrators and Editors and any body else who has permission "
 "can access:"
 msgstr ""
 
-#: includes/admin/class-privacy.php:73
+#: includes/admin/class-privacy.php:70
 msgid "Form submission information and other details related to it"
 msgstr ""
 
-#: includes/admin/class-privacy.php:74
+#: includes/admin/class-privacy.php:71
 msgid ""
 "Customer information like your name, email address, and billing and "
 "shipping information."
 msgstr ""
 
-#: includes/admin/class-privacy.php:76
+#: includes/admin/class-privacy.php:73
 msgid ""
 "Our team members have access to this information to help fulfill "
 "transactions and support you."
 msgstr ""
 
-#: includes/admin/class-privacy.php:77
+#: includes/admin/class-privacy.php:74
 msgid "What we share with others"
 msgstr ""
 
-#: includes/admin/class-privacy.php:79
+#: includes/admin/class-privacy.php:75
 msgid ""
 "In this section you should list who you’re sharing data with, and for what "
 "purpose. This could include, but may not be limited to, analytics, "
 "marketing, payment gateways, shipping providers, and third party embeds."
 msgstr ""
 
-#: includes/admin/class-privacy.php:81
+#: includes/admin/class-privacy.php:76
 msgid ""
 "We share information with third parties who help us provide our orders and "
 "store services to you; for example --"
 msgstr ""
 
-#: includes/admin/class-privacy.php:82
+#: includes/admin/class-privacy.php:77
 msgid "Payments"
 msgstr ""
 
-#: includes/admin/class-privacy.php:84
+#: includes/admin/class-privacy.php:78
 msgid ""
 "In this subsection you should list which third party payment processors "
 "you’re using to take payments on your site since these may handle customer "
@@ -540,21 +540,21 @@ msgid ""
 "you’re not using PayPal."
 msgstr ""
 
-#: includes/admin/class-privacy.php:86
+#: includes/admin/class-privacy.php:79
 msgid ""
 "We accept payments through PayPal. When processing payments, some of your "
 "data will be passed to PayPal, including information required to process or "
 "support the payment, such as the purchase total and billing information."
 msgstr ""
 
-#: includes/admin/class-privacy.php:87
+#: includes/admin/class-privacy.php:80
 msgid ""
 "Please see the <a "
 "href=\"https://www.paypal.com/us/webapps/mpp/ua/privacy-full\">PayPal "
 "Privacy Policy</a> for more details."
 msgstr ""
 
-#: includes/admin/class-privacy.php:88
+#: includes/admin/class-privacy.php:81
 msgid ""
 "Also, we accept payments through Stripe. When processing payments, some of "
 "your data will be passed to Stripe, including information required to "
@@ -562,24 +562,24 @@ msgid ""
 "information."
 msgstr ""
 
-#: includes/admin/class-privacy.php:89
+#: includes/admin/class-privacy.php:82
 msgid ""
 "Please see the <a href=\"https://stripe.com/us/privacy\">Stripe Privacy "
 "Policy</a> for more details."
 msgstr ""
 
-#: includes/admin/class-privacy.php:90
+#: includes/admin/class-privacy.php:83
 msgid "Available Modules"
 msgstr ""
 
-#: includes/admin/class-privacy.php:91
+#: includes/admin/class-privacy.php:84
 msgid ""
 "In this subsection you should list which third party modules you’re using "
 "to increase the functionality of your created forms using weForms since "
 "these may handle customer data."
 msgstr ""
 
-#: includes/admin/class-privacy.php:92
+#: includes/admin/class-privacy.php:85
 msgid ""
 "weForms Pro comes with support for modules like HubSpot, Constant Contact, "
 "Salesforce, PayPal, Stripe, Google Analytics, ConvertKit, Zapier, Campaign "
@@ -588,13 +588,13 @@ msgid ""
 "those platforms will be handled by their own privacy policy."
 msgstr ""
 
-#: includes/admin/class-privacy.php:93
+#: includes/admin/class-privacy.php:86
 msgid ""
 "Please note any future modules that will be added will have some data "
 "transferred to their own platform which falls in their own data policy."
 msgstr ""
 
-#: includes/admin/class-privacy.php:94
+#: includes/admin/class-privacy.php:87
 msgid ""
 "As an example while using MailChimp for your marketing email automation "
 "service by integrating it with weForms, some of your data will be passed to "
@@ -604,42 +604,46 @@ msgid ""
 "through subscription. "
 msgstr ""
 
-#: includes/admin/class-privacy.php:95
+#: includes/admin/class-privacy.php:88
 msgid ""
 "Please see the <a href=\"https://mailchimp.com/legal/privacy/\">MailChimp "
 "Privacy Policy</a> for more details."
 msgstr ""
 
-#: includes/admin/class-privacy.php:109 includes/admin/class-privacy.php:125
+#: includes/admin/class-privacy.php:103 includes/admin/class-privacy.php:119
 msgid "weForms Transaction Data"
 msgstr ""
 
-#: includes/admin/class-privacy.php:162
+#: includes/admin/class-privacy.php:156
 msgid "weForms Payment Data"
 msgstr ""
 
-#: includes/admin/class-privacy.php:251
+#: includes/admin/class-privacy.php:157
+msgid "The weForms payment data."
+msgstr ""
+
+#: includes/admin/class-privacy.php:246
 #: includes/templates/class-template-product-order-form.php:110
 msgid "Total"
 msgstr ""
 
-#: includes/admin/class-privacy.php:255
+#: includes/admin/class-privacy.php:250
 msgid "Gateway"
 msgstr ""
 
-#: includes/admin/class-privacy.php:259
+#: includes/admin/class-privacy.php:254
 msgid "Transaction ID"
 msgstr ""
 
-#: includes/admin/class-privacy.php:263
+#: includes/admin/class-privacy.php:258
 msgid "Payment Status"
 msgstr ""
 
-#: includes/admin/class-privacy.php:267
+#: includes/admin/class-privacy.php:262
 msgid "Payment Data"
 msgstr ""
 
-#: includes/admin/class-privacy.php:271
+#: includes/admin/class-privacy.php:266
 msgid "Transaction Time"
 msgstr ""
 
@@ -4399,18 +4403,10 @@ msgstr ""
 msgid "Plugin Activation Error"
 msgstr ""
 
-#. Plugin URI of the plugin/theme
-msgid "https://wedevs.com/weforms/"
+#. Author URI of the plugin/theme
+msgid "https://weformspro.com/"
 msgstr ""
 
 #. Description of the plugin/theme
 msgid "The best contact form plugin for WordPress"
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "weDevs"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://wedevs.com/"
 msgstr ""

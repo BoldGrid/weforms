@@ -347,21 +347,21 @@ class WeForms_Scripts_Styles {
             'wpuf-form' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/frontend-form' . $prefix . '.js',
                 'deps'      => [ 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider' ],
-                'in_footer' => false,
+                'in_footer' => true,
             ],
             'wpuf-sweetalert2' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/vendor/sweetalert2/dist/sweetalert2' . $prefix . '.js',
-                'in_footer' => false,
+                'in_footer' => true,
             ],
             'jquery-ui-timepicker' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/jquery-ui-timepicker-addon' . $prefix . '.js',
                 'deps'      => [ 'jquery-ui-datepicker' ],
-                'in_footer' => false,
+                'in_footer' => true,
             ],
             'wpuf-upload' => [
                 'src'       => WEFORMS_ASSET_URI . '/wpuf/js/upload' . $prefix . '.js',
                 'deps'      => [ 'jquery', 'plupload-handlers', 'jquery-ui-sortable' ],
-                'in_footer' => false,
+                'in_footer' => true,
             ],
         ];
 
@@ -373,7 +373,7 @@ class WeForms_Scripts_Styles {
                 'wpuf-form' => [
                     'src'       => WEFORMS_ASSET_URI . '/js/weforms.min.js',
                     'deps'      => [ 'jquery', 'jquery-ui-datepicker', 'jquery-ui-slider', 'plupload-handlers', 'jquery-ui-sortable' ],
-                    'in_footer' => false,
+                    'in_footer' => true,
                 ],
             ];
         }

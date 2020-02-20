@@ -37,11 +37,10 @@ class WeForms_Privacy {
      */
     public function get_privacy_message() {
         $content = '
-			<div contenteditable="false">' .
-            '<p class="wp-policy-help">' .
+			<div class="wp-suggested-text">' .
+            '<p class="privacy-policy-tutorial">' .
             __( 'This sample policy includes the basics around what personal data you may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your form will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy.', 'weforms' ) .
             '</p>' .
-            '</div>' .
             '<p>' . __( 'We collect information about you during the form submission process on our WordPress website.', 'weforms' ) . '</p>' .
             '<h2>' . __( 'What we collect and store', 'weforms' ) . '</h2>' .
             '<p>' . __( 'While you visit our site, we’ll track:', 'weforms' ) . '</p>' .
@@ -51,9 +50,7 @@ class WeForms_Privacy {
             '<li>' . __( 'Transaction Details: we’ll ask you to enter this so we can, for instance, provide & regulate subscription packs that you bought and keep track of your payment details for subscription packs!', 'weforms' ) . '</li>' .
             '</ul>' .
             '<p>' . __( 'We’ll also use cookies to keep track of form elements while you’re browsing our site.', 'weforms' ) . '</p>' .
-            '<div contenteditable="false">' .
-            '<p class="wp-policy-help">' . __( 'Note: you may want to further detail your cookie policy, and link to that section from here.', 'weforms' ) . '</p>' .
-            '</div>' .
+            '<p class="privacy-policy-tutorial">' . __( 'Note: you may want to further detail your cookie policy, and link to that section from here.', 'weforms' ) . '</p>' .
             '<p>' . __( 'When you fill up a form, we’ll ask you to provide information including your name, billing address, shipping address, email address, phone number, credit card/payment details and optional account information like username and password and any other form fields found in the form building options. We’ll use this information for purposes, such as, to:', 'weforms' ) . '</p>' .
             '<ul>' .
             '<li>' . __( 'Send you information about your account and order', 'weforms' ) . '</li>' .
@@ -75,14 +72,10 @@ class WeForms_Privacy {
             '</ul>' .
             '<p>' . __( 'Our team members have access to this information to help fulfill transactions and support you.', 'weforms' ) . '</p>' .
             '<h2>' . __( 'What we share with others', 'weforms' ) . '</h2>' .
-            '<div contenteditable="false">' .
-            '<p class="wp-policy-help">' . __( 'In this section you should list who you’re sharing data with, and for what purpose. This could include, but may not be limited to, analytics, marketing, payment gateways, shipping providers, and third party embeds.', 'weforms' ) . '</p>' .
-            '</div>' .
+            '<p class="privacy-policy-tutorial">' . __( 'In this section you should list who you’re sharing data with, and for what purpose. This could include, but may not be limited to, analytics, marketing, payment gateways, shipping providers, and third party embeds.', 'weforms' ) . '</p>' .
             '<p>' . __( 'We share information with third parties who help us provide our orders and store services to you; for example --', 'weforms' ) . '</p>' .
             '<h3>' . __( 'Payments', 'weforms' ) . '</h3>' .
-            '<div contenteditable="false">' .
-            '<p class="wp-policy-help">' . __( 'In this subsection you should list which third party payment processors you’re using to take payments on your site since these may handle customer data. We’ve included PayPal as an example, but you should remove this if you’re not using PayPal.', 'weforms' ) . '</p>' .
-            '</div>' .
+            '<p class="privacy-policy-tutorial">' . __( 'In this subsection you should list which third party payment processors you’re using to take payments on your site since these may handle customer data. We’ve included PayPal as an example, but you should remove this if you’re not using PayPal.', 'weforms' ) . '</p>' .
             '<p>' . __( 'We accept payments through PayPal. When processing payments, some of your data will be passed to PayPal, including information required to process or support the payment, such as the purchase total and billing information.', 'weforms' ) . '</p>' .
             '<p>' . __( 'Please see the <a href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full">PayPal Privacy Policy</a> for more details.', 'weforms' ) . '</p>' .
             '<p>' . __( 'Also, we accept payments through Stripe. When processing payments, some of your data will be passed to Stripe, including information required to process or support the payment, such as the purchase total and billing information.', 'weforms' ) . '</p>' .
@@ -92,7 +85,8 @@ class WeForms_Privacy {
             '<p>' . __( 'weForms Pro comes with support for modules like HubSpot, Constant Contact, Salesforce, PayPal, Stripe, Google Analytics, ConvertKit, Zapier, Campaign Monitor, Aweber, MailChimp, Zoho, Trello, SMS Notification(Using Twilio, Nexmo and other popular gateways), Google Sheets, GetResponse. Data sent to those platforms will be handled by their own privacy policy.', 'weforms' ) . '</p>' .
             '<p>' . __( 'Please note any future modules that will be added will have some data transferred to their own platform which falls in their own data policy.', 'weforms' ) . '</p>' .
             '<p>' . __( 'As an example while using MailChimp for your marketing email automation service by integrating it with weForms, some of your data will be passed to MailChimp, including information required to process or support the email marketing services, such as name, email address and any other information that you intend to pass or collect including all collected information through subscription. ', 'weforms' ) . '</p>' .
-            '<p>' . __( 'Please see the <a href="https://mailchimp.com/legal/privacy/">MailChimp Privacy Policy</a> for more details.', 'weforms' ) . '</p>';
+            '<p>' . __( 'Please see the <a href="https://mailchimp.com/legal/privacy/">MailChimp Privacy Policy</a> for more details.', 'weforms' ) . '</p>' .
+            '</div>';
 
         return apply_filters( 'weforms_privacy_policy_content', $content );
     }
@@ -158,10 +152,11 @@ class WeForms_Privacy {
         if ( !empty( $payment_data ) ) {
             foreach ( $payment_data as $pay_data ) {
                 $data_to_export[] = [
-                    'group_id'    => 'weforms-payment-data',
-                    'group_label' => __( 'weForms Payment Data', 'weforms' ),
-                    'item_id'     => "weforms-payment-{$idx}",
-                    'data'        => self::process_payment_data( $pay_data ),
+                    'group_id'          => 'weforms-payment-data',
+                    'group_label'       => __( 'weForms Payment Data', 'weforms' ),
+                    'group_description' => __( 'The weForms payment data.', 'weforms' ),
+                    'item_id'           => "weforms-payment-{$idx}",
+                    'data'              => self::process_payment_data( $pay_data ),
                 ];
                 $idx++;
             }

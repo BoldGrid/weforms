@@ -2,10 +2,10 @@
 /**
  * Plugin Name: weForms
  * Description: The best contact form plugin for WordPress
- * Plugin URI: https://weformspro.com
+ * Plugin URI: https://weformspro.com/
  * Author: weForms
- * Author URI: https://weformspro.com
- * Version: 1.4.5
+ * Author URI: https://weformspro.com/
+ * Version: 1.4.6
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -13,7 +13,7 @@
  */
 
 /**
- * Copyright (c) 2020 weForms (email: support@weformspro.com). All rights reserved.
+ * Copyright (c) 2020 weForms LLC (email: support@weformspro.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -55,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.4.5';
+    public $version = '1.4.6';
 
     /**
      * Form field value seperator
