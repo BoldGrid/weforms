@@ -301,10 +301,9 @@ class WeForms_Admin {
 
         if ( $is_weforms_screen ) {
             $footer_text = sprintf(
-                __( 'If you like %1$s please leave us a %2$s rating. A huge thank you from %3$s in advance!', 'weforms' ),
+                __( 'If you like %1$s please leave us a %2$s rating.', 'weforms' ),
                 '<strong>' . __( 'weForms', 'weforms' ) . '</strong>',
-                '<a href="https://wordpress.org/support/plugin/weforms/reviews/" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>',
-                '<strong>weDevs</strong>'
+                '<a href="https://wordpress.org/support/plugin/weforms/reviews/" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>'
               );
         }
 
