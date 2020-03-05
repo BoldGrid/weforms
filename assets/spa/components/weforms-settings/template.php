@@ -63,7 +63,7 @@
                     <li><span class="dashicons dashicons-yes"></span> Create quiz forms, calculate numbers directly in your form, set geolocation and more in weForms Pro.</li>
                 </ul>
 
-                <a href="https://wedevs.com/weforms-upgrade/" target="_blank" class="button button-primary">Get weForms Pro</a>
+                <a href="https://weformspro.com/pricing" target="_blank" class="button button-primary">Get weForms Pro</a>
             </div>
         </div>
 

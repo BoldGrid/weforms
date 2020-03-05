@@ -1018,7 +1018,7 @@
 
         <p><?php _e( 'We have detailed documentation on every aspects of weForms.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/docs/weforms/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=plugin-docs-link"><?php _e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/docs/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=plugin-docs-link"><?php _e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -1028,7 +1028,7 @@
 
         <p><?php _e( 'Our EXPERT Support Team is always ready to Help you out.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/account/tickets/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php _e( 'Contact Support', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php _e( 'Contact Support', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -1038,7 +1038,7 @@
 
         <p><?php _e( 'Report any Bug that you Discovered, Get Instant Solutions.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://github.com/weDevsOfficial/weforms"><?php _e( 'Report to GitHub', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://github.com/BoldGrid/weforms/issues/new"><?php _e( 'Report to GitHub', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -1048,7 +1048,7 @@
 
         <p><?php _e( 'We would Love to hear your Integration and Customization Ideas.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/contact/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=requires-customization"><?php _e( 'Contact Our Services', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=requires-customization"><?php _e( 'Contact Our Services', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -1060,7 +1060,8 @@
 
         <a target="_blank" class="button button-primary" href="https://wordpress.org/support/plugin/weforms/reviews/?rate=5#new-post"><?php _e( 'Review Us on WP.org', 'weforms' ); ?></a>
     </div>
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-premium">
 <div class="weforms-premium">
@@ -1091,8 +1092,8 @@
                 <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
             </div>
             <div class="banner-buttons">
-                <a href="https://wedevs.com/weforms-upgrade/" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
-                <a href="https://wedevs.com/weforms/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/docs/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
             </div>
         </div><!-- end banner left column -->
 
@@ -1317,12 +1318,13 @@
                 </div>
             </div>
             <div class="import-right">
-                <a href="https://wedevs.com/weforms/pricing/" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
             </div>
         </div>
     </section><!-- end footer section -->
 
-</div></script>
+</div>
+</script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-settings">
 <div class="weforms-settings clearfix" id="weforms-settings">
@@ -1332,7 +1334,6 @@
         <div id="weforms-settings-tabs">
             <ul>
                 <?php
-
                 $tabs = apply_filters( 'weforms_settings_tabs', [] );
 
                 foreach ( $tabs as $key => $tab ) {
@@ -1363,7 +1364,6 @@
         <div id="weforms-settings-tabs-contents">
 
             <?php
-
                 foreach ( $tabs as $key => $tab ) {
                     ?>
                     <div id="weforms-settings-<?php echo $key; ?>" class="tab-content" v-show="isActiveTab('<?php echo $key; ?>')">
@@ -1392,7 +1392,7 @@
                     <li><span class="dashicons dashicons-yes"></span> Create quiz forms, calculate numbers directly in your form, set geolocation and more in weForms Pro.</li>
                 </ul>
 
-                <a href="https://wedevs.com/weforms-upgrade/" target="_blank" class="button button-primary">Get weForms Pro</a>
+                <a href="https://weformspro.com/pricing" target="_blank" class="button button-primary">Get weForms Pro</a>
             </div>
         </div>
 
