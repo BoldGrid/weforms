@@ -7,7 +7,7 @@
 
         <p><?php _e( 'We have detailed documentation on every aspects of weForms.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/docs/weforms/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=plugin-docs-link"><?php _e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/docs/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=plugin-docs-link"><?php _e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -17,7 +17,7 @@
 
         <p><?php _e( 'Our EXPERT Support Team is always ready to Help you out.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/account/tickets/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php _e( 'Contact Support', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php _e( 'Contact Support', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -27,7 +27,7 @@
 
         <p><?php _e( 'Report any Bug that you Discovered, Get Instant Solutions.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://github.com/weDevsOfficial/weforms"><?php _e( 'Report to GitHub', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://github.com/BoldGrid/weforms/issues/new"><?php _e( 'Report to GitHub', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
@@ -37,7 +37,7 @@
 
         <p><?php _e( 'We would Love to hear your Integration and Customization Ideas.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wedevs.com/contact/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=requires-customization"><?php _e( 'Contact Our Services', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=requires-customization"><?php _e( 'Contact Our Services', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">

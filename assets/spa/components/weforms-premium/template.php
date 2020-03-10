@@ -26,8 +26,8 @@
                 <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
             </div>
             <div class="banner-buttons">
-                <a href="https://wedevs.com/weforms-upgrade/" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
-                <a href="https://wedevs.com/weforms/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/docs/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
             </div>
         </div><!-- end banner left column -->
 
@@ -252,7 +252,7 @@
                 </div>
             </div>
             <div class="import-right">
-                <a href="https://wedevs.com/weforms/pricing/" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
             </div>
         </div>
     </section><!-- end footer section -->
