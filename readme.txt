@@ -3,7 +3,7 @@ Contributors: tareq1988, nizamuddinbabu, boldgrid
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.6.20
-Tested up to: 5.3.2
+Tested up to: 5.3
 Stable tag: 1.4.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
