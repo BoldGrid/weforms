@@ -789,6 +789,8 @@ class WeForms_Ajax {
 
             if ( $r_field['template'] == 'name_field' ) {
                 $field_replace[] = implode( ' ', explode( '|', $entry_fields[$r_field['name']] ) );
+            } else if ( $r_field['template'] == 'address_field' ) {
+                $field_replace[] = implode( ', ', $entry_fields[$r_field['name']] );
             } else {
                 $field_replace[] = isset( $entry_fields[$r_field['name']] ) ? $entry_fields[$r_field['name']] : '';
             }
