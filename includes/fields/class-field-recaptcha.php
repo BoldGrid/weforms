@@ -43,6 +43,12 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                                     document.getElementById('g-action').value = 'captcha_validation';
 
                                   });
+                                setInterval(function () {
+                                    grecaptcha.execute('<?php echo esc_attr( $public_key );?>', {action: 'captcha_validation'}).then( function( token ) {
+                                        document.getElementById('g-recaptcha-response').value = token;
+                                        document.getElementById('g-action').value = 'captcha_validation';
+                                    });
+                                }, 60000);
                             });
                         </script>
                     </div>
