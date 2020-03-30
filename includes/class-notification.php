@@ -121,7 +121,7 @@ class WeForms_Notification {
         $headers[]  = 'Content-Type: text/html; charset=UTF-8';
         $email_body = apply_filters( 'weforms_email_message', $this->get_formatted_body( $message ), $notification['message'], $headers );
 
-        weforms()->emailer->send( $to, $subject, $email_body, $headers );
+        weforms()->emailer->send( $to, $subject, wp_kses_post( htmlspecialchars_decode( $email_body ) ) , $headers );
     }
 
     /**

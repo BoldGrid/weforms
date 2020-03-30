@@ -514,9 +514,10 @@ abstract class WeForms_Field_Contract {
         } else {
             $condition = '';
         } ?>
-        <script type="text/javascript">
-            wpuf_conditional_items.push(<?php echo wp_kses( $condition, array() ); ?>);
-        </script>
+        <?php
+            $script = "wpuf_conditional_items.push({$condition});";
+            wp_add_inline_script( 'wpuf-form', $script );
+        ?>
         <?php
     }
 

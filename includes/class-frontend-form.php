@@ -79,19 +79,19 @@ class WeForms_Frontend_Form {
             $modal_class = $modal_id = $modal_style = '';
         } ?>
 
-        <script type="text/javascript">
-            if ( typeof wpuf_conditional_items === 'undefined' ) {
-                window.wpuf_conditional_items = [];
-            }
-
-            if ( typeof wpuf_plupload_items === 'undefined' ) {
-                window.wpuf_plupload_items = [];
-            }
-
-            if ( typeof wpuf_map_items === 'undefined' ) {
-                window.wpuf_map_items = [];
-            }
-        </script>
+        <?php
+            $script = "if ( typeof wpuf_conditional_items === 'undefined' ) {
+                    window.wpuf_conditional_items = [];
+                }
+                if ( typeof wpuf_plupload_items === 'undefined' ) {
+                    window.wpuf_plupload_items = [];
+                }
+                if ( typeof wpuf_map_items === 'undefined' ) {
+                    window.wpuf_map_items = [];
+                }
+            ";
+            wp_add_inline_script( 'wpuf-form', $script );
+        ?>
 
         <form class="wpuf-form-add <?php echo esc_attr( $formid ); ?> <?php echo esc_attr( $modal_class ); ?> <?php echo
         esc_attr( $use_theme_css ); ?>" action="" method="post"  <?php echo esc_attr( $modal_style ); ?> id="<?php echo

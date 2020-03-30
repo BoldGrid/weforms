@@ -776,7 +776,7 @@ class WeForms_Ajax {
         } elseif ( $form_settings['redirect_to'] == 'same' ) {
             $show_message = true;
         } else {
-            $redirect_to = get_permalink( $post_id );
+            $show_message = true;
         }
 
         // Fire a hook for integration
@@ -788,9 +788,11 @@ class WeForms_Ajax {
             $field_search[] = '{' . $r_field['name'] . '}';
 
             if ( $r_field['template'] == 'name_field' ) {
-                $field_replace[] = implode( ' ', explode( '|', $entry_fields[$r_field['name']] ) );
+                $field_replace[] = implode( ' ', explode( '|', $entry_fields[ $r_field['name'] ] ) );
+            } else if ( $r_field['template'] == 'address_field' ) {
+                $field_replace[] = implode( ', ', $entry_fields[ $r_field['name'] ] );
             } else {
-                $field_replace[] = isset( $entry_fields[$r_field['name']] ) ? $entry_fields[$r_field['name']] : '';
+                $field_replace[] = isset( $entry_fields[ $r_field['name'] ] ) ? $entry_fields[ $r_field['name'] ] : '';
             }
         }
         $message = str_replace( $field_search, $field_replace, $form_settings['message'] );
