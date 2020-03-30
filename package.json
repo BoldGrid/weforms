@@ -1,31 +1,35 @@
 {
   "name": "weForms",
-  "author": "weDevs",
-  "version": "1.4.6",
+  "author": "BoldGrid",
+  "version": "1.4.8",
   "license": "GPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/weDevsOfficial/weforms"
+    "url": "https://github.com/BoldGrid/weforms"
   },
   "dependencies": {},
   "devDependencies": {
+    "axios": "^0.19.2",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "browser-sync": "^2.26.3",
-    "grunt": "^1.0.3",
+    "browser-sync": "^2.26.7",
+    "grunt": "^1.1.0",
     "grunt-babel": "^7.0.0",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-compress": "^1.4.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-less": "^2.0.0",
     "grunt-contrib-uglify": "^3.2.1",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-notify": "^0.4.5",
     "grunt-wp-i18n": "^1.0.2",
     "grunt-wp-readme-to-markdown": "^2.0.1",
+    "js-yaml": ">=3.13.1",
     "jshint-stylish": "^2.2.1",
-    "load-grunt-tasks": "^3.5.2"
+    "load-grunt-tasks": "^3.5.2",
+    "minimist": ">=1.2.2",
+    "set-value": "^3.0.1"
   }
 }
