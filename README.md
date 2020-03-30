@@ -1,13 +1,13 @@
 # weForms - Easy Drag & Drop Contact Form Builder For WordPress #
-**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu), [boldgrid](https://profiles.wordpress.org/boldgrid)  
-**Donate link:** https://tareq.co/donate/  
-**Tags:** form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,  
-**Requires at least:** 4.4  
-**Requires PHP:** 5.6.20  
-**Tested up to:** 5.3.2  
-**Stable tag:** 1.4.6  
-**License:** GPLv2 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
+**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu), [boldgrid](https://profiles.wordpress.org/boldgrid)
+**Donate link:** https://tareq.co/donate/
+**Tags:** form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
+**Requires at least:** 4.4
+**Requires PHP:** 5.6.20
+**Tested up to:** 5.4
+**Stable tag:** 1.4.8
+**License:** GPLv2 or later
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop live builder, submission listing, reCaptcha & more!
 
@@ -260,6 +260,15 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 ## Changelog ##
 
+### Version 1.4.8 (30 March, 2020) ###
+
+* **Fix:** Fixed escaping of select options when adding a form to a page.
+* **Fix:** Fixed Email notification formatting issue.
+* **Fix:** Fixed column field resize issue.
+* **Fix:** Fixes Array to string conversion warning with address field.
+* **Fix:** Replace an instance of non-existant.
+* **Fix:** Conflict with kingcomposer.
+* **Fix:** Recaptcha token expire.
 
 ### Version 1.4.6 (20 February, 2020) ###
 
