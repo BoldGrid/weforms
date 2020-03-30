@@ -69,13 +69,13 @@ class Weforms_Form_Button {
         $options           = sprintf( "<option value='%s'>%s</option>", 0, __( '&mdash; Select Form &mdash;', 'weforms' ) );
 
         foreach ( $all_forms['forms'] as $form ) {
-            $options .= sprintf( "<option value='%s'>%s</option>", $form->id, $form->name );
+            $options .= sprintf( "<option value='%s'>%s</option>", esc_attr( $form->id ), esc_attr( $form->name ) );
         } ?>
 
                 <div class="weforms-form-div">
                     <label><h3><?php esc_html_e( 'Select a form to insert', 'weforms' ); ?></h3></label>
                     <select id="weforms-form-select">
-                        <?php echo esc_attr( $options );  ?>
+                        <?php echo wp_kses( $options, array( 'option' => array( 'value' => array() ) ) ); ?>
                     </select>
                 </div>
 

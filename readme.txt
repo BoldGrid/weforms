@@ -3,7 +3,7 @@ Contributors: tareq1988, nizamuddinbabu, boldgrid
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
 Requires at least: 4.4
 Requires PHP: 5.6.20
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 1.4.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -258,6 +258,15 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= In progress =
+* **Fix:** Fixed escaping of select options when adding a form to a page.
+* **Fix:** Fixed Email notification formatting issue.
+* **Fix:** Fixed column field resize issue.
+* **Fix:** Fixes Array to string conversion warning with address field.
+* **Fix:** Replace an instance of non-existant.
+* **Fix:** Conflict with kingcomposer.
+* **Fix:** Recaptcha token expire.
 
 = Version 1.4.7 (10 March, 2020) =
 **Update:** Links now point to new https://weformspro.com/
