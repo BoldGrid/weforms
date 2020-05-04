@@ -1,6 +1,6 @@
 === weForms - Easy Drag & Drop Contact Form Builder For WordPress ===
 Contributors: tareq1988, nizamuddinbabu, boldgrid
-Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation,
+Tags: forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
 Requires at least: 4.4
 Requires PHP: 5.6.20
 Tested up to: 5.4
@@ -119,32 +119,32 @@ Still not convinced? Then...
 
 [Check out this contact form comparison including some of the best in the business form builder for WordPress](https://weformspro.com/)
 
-= AVAILABLE MODULES & WEFORMS INTEGRATIONS =
+= AVAILABLE MODULES & WEFORMS INTEGRATIONS = 
 
-* [AWeber:](https://wedevs.com/docs/weforms/integrations/aweber/) Connect weForms with AWeber mail lists to reach submitters via email campaigns. Easily grow your contact base & do more with emails.
-* [Calculation:](https://wedevs.com/weforms/modules/calculation/) Enable users to add calculating capabilities to their forms of numeric fields.
-* [Campaign Monitor:](https://wedevs.com/docs/weforms/integrations/campaign-monitor-integration/) Boost your email marketing by integrating weForms with Campaign Monitor. Quickly generate more leads by syncing your mail lists with submissions.
-* [Constant Contact:](https://wedevs.com/docs/weforms/integrations/constant-contact/) Make your email marketing powerful and simple using Constant Contact integration for weForms.
-* [ConvertKit:](https://wedevs.com/docs/weforms/integrations/convertkit/) Quickly boost up your business by generating more leads syncing the mail lists with submissions by integrating it with weForms.
-* [GetResponse:](https://wedevs.com/docs/weforms/integrations/getresponse/) Supercharge your email marketing to boost up your business by integrating it with weForms.
-* [Google Analytics:](https://wedevs.com/docs/weforms/integrations/google-analytics/) Provides a powerful & complete marketing analytics solution for businesses of all sizes using forms.
-* [Google Sheets:](https://wedevs.com/docs/weforms/integrations/google-sheets/) This awesome integration for weForms will give you the ease of managing submitted information in the familiar Google environment.
-* [HubSpot:](https://wedevs.com/docs/weforms/integrations/hubspot-integration/) Get more opportunities to make deals at your fingertips by integrating HubSpot with weForms and instantly enhance your contact list.
-* [MailChimp:](https://wedevs.com/docs/weforms/integrations/mailchimp/) It makes the already powerful form builder your ultimate lead generating source for any kind of email services.
-* [MailPoet:](https://wedevs.com/docs/weforms/integrations/mailpoet/) It provides you the experience of using the best WordPress Newsletter plugin with the best Form Builder weForms.
-* [Payment (Paypal):](https://wedevs.com/docs/weforms/integrations/payment/) Collect any online PayPal payments with your forms easily by integrating it with weForms.
-* [Payment (Stripe):](https://wedevs.com/weforms/modules/payment-stripe/) Bring online payment collection with credit cards at your fingertips by integrating with the fastest form builder weForms.
-* [PDF Form Submission:](https://wedevs.com/docs/weforms/integrations/pdf-form-submission/) Enable this module to get a better printable PDF version of all your collected submission forms.
-* [Quiz:](https://wedevs.com/docs/weforms/integrations/quiz/) Create simple yet engaging quiz forms and keep your audiences hooked getting a lot of shares by enabling this module.
-* [Salesforce:](https://wedevs.com/docs/weforms/integrations/salesforce/) Integrate with weForms to instantly enhance your user list building more customers and more interactions.
-* [Slack:](https://wedevs.com/docs/weforms/integrations/slack/) Notify your team instantly in Slack when someone submits an entry to your forms created with weForms enabling this free integration.
-* [SMS Notification:](https://wedevs.com/docs/weforms/integrations/sms-notification/) Enable the module to get a notification through SMS every time a form submission occurs.
-* [Trello:](https://wedevs.com/docs/weforms/integrations/trello/) Instantly create task cards from your form submissions enabling this module and save your precious time by integrating it with weForms.
-* [WP ERP:](https://wedevs.com/docs/weforms/integrations/wp-erp/) Integrate your forms with WordPress CRM contact lists & instantly get tons of new leads who you can convert as subscribers or customers.
-* [Zapier:](https://wedevs.com/docs/weforms/integrations/zapier/) The easiest and popular automated workflow management system on the internet integrates with the fastest form builder.
-* [Zoho:](https://wedevs.com/docs/weforms/integrations/zoho/) Enabling it gets you better sales-qualified lead generation. Simply connect it once, pass data instantly & start tracing form subscribers from your CRM as they move through the sales funnel.
+* [AWeber:](https://weformspro.com/docs/integrations/aweber/) Connect weForms with AWeber mail lists to reach submitters via email campaigns. Easily grow your contact base & do more with emails.
+* [Calculation:](https://weformspro.com/docs/modules/calculation/) Enable users to add calculating capabilities to their forms of numeric fields.
+* [Campaign Monitor:](https://weformspro.com/docs/integrations/campaign-monitor-integration/) Boost your email marketing by integrating weForms with Campaign Monitor. Quickly generate more leads by syncing your mail lists with submissions.
+* [Constant Contact:](https://weformspro.com/docs/integrations/constant-contact/) Make your email marketing powerful and simple using Constant Contact integration for weForms.
+* [ConvertKit:](https://weformspro.com/docs/integrations/convertkit/) Quickly boost up your business by generating more leads syncing the mail lists with submissions by integrating it with weForms.
+* [GetResponse:](https://weformspro.com/docs/integrations/getresponse/) Supercharge your email marketing to boost up your business by integrating it with weForms.
+* [Google Analytics:](https://weformspro.com/docs/integrations/google-analytics/) Provides a powerful & complete marketing analytics solution for businesses of all sizes using forms.
+* [Google Sheets:](https://weformspro.com/docs/integrations/google-sheets/) This awesome integration for weForms will give you the ease of managing submitted information in the familiar Google environment.
+* [HubSpot:](https://weformspro.com/docs/integrations/hubspot-integration/) Get more opportunities to make deals at your fingertips by integrating HubSpot with weForms and instantly enhance your contact list.
+* [MailChimp:](https://weformspro.com/docs/integrations/mailchimp/) It makes the already powerful form builder your ultimate lead generating source for any kind of email services.
+* [MailPoet:](https://weformspro.com/docs/integrations/mailpoet/) It provides you the experience of using the best WordPress Newsletter plugin with the best Form Builder weForms.
+* [Payment (Paypal):](https://weformspro.com/docs/integrations/payment/) Collect any online PayPal payments with your forms easily by integrating it with weForms.
+* [Payment (Stripe):](https://weformspro.com/docs/modules/payment-stripe/) Bring online payment collection with credit cards at your fingertips by integrating with the fastest form builder weForms.
+* [PDF Form Submission:](https://weformspro.com/docs/integrations/pdf-form-submission/) Enable this module to get a better printable PDF version of all your collected submission forms.
+* [Quiz:](https://weformspro.com/docs/integrations/quiz/) Create simple yet engaging quiz forms and keep your audiences hooked getting a lot of shares by enabling this module.
+* [Salesforce:](https://weformspro.com/docs/integrations/salesforce/) Integrate with weForms to instantly enhance your user list building more customers and more interactions.
+* [Slack:](https://weformspro.com/docs/integrations/slack/) Notify your team instantly in Slack when someone submits an entry to your forms created with weForms enabling this free integration.
+* [SMS Notification:](https://weformspro.com/docs/integrations/sms-notification/) Enable the module to get a notification through SMS every time a form submission occurs.
+* [Trello:](https://weformspro.com/docs/integrations/trello/) Instantly create task cards from your form submissions enabling this module and save your precious time by integrating it with weForms.
+* [WP ERP:](https://weformspro.com/docs/integrations/wp-erp/) Integrate your forms with WordPress CRM contact lists & instantly get tons of new leads who you can convert as subscribers or customers.
+* [Zapier:](https://weformspro.com/docs/integrations/zapier/) The easiest and popular automated workflow management system on the internet integrates with the fastest form builder.
+* [Zoho:](https://weformspro.com/docs/integrations/zoho/) Enabling it gets you better sales-qualified lead generation. Simply connect it once, pass data instantly & start tracing form subscribers from your CRM as they move through the sales funnel.
 
-=  WEFORMS FORM BUILDER PRO FEATURES  =
+=  WEFORMS FORM BUILDER PRO FEATURES ARE AWESOME  =
 
 Need More Features? Then you might want to upgrade to weForms PRO. This amazing contact form builder for WordPress has been put together with 4 easy, convenient and affordable pricing pack to strengthen your form building functionalities.
 
@@ -185,16 +185,6 @@ Need More Features? Then you might want to upgrade to weForms PRO. This amazing 
     * Salesforce
     * Zoho
     * Hubspot
-
-=  Our Other Popular Creations For WordPress  =
-
-If you feel we have a solid contact form builder plugin for WordPress in the form of weForms then you must be wondering what else we are up to. So here is a sneak peek into all the other exclusive & popular WordPress plugins that we have proudly created to serve thousands of our loyal clients worldwide.
-
-* [Dokan:](https://wedevs.com/dokan/) The most popular Multi-vendor marketplace plugin for WordPress enabling any single store WooCommerce site to turn it into a complete multi-seller marketplace like eBay/Amazon in minutes.
-* [WP Project Manager:](https://wedevs.com/wp-project-manager-pro/) Manage & formulate all your task on time using the best project management tool for WordPress.
-* [WP User Frontend:](https://wedevs.com/wp-user-frontend-pro/) Lets your site users or subscribers to manage their account from the frontend without letting them access in the backend to keep the website safe & secure.
-* [WP ERP:](https://wperp.com/) The most complete user-friendly business management solution for WordPress enables you to manage & organize all your company’s HR, CR & Accounting related issues.
-* [WC Conversion Tracking:](https://wedevs.com/woocommerce-conversion-tracking/) Now retargeting your potential customers is easier than ever with this preeminent solution to track your WooCommerce conversion data connecting it with all your favorite ads platforms like Facebook, Twitter, Perfect Audience etc.
 
 = Privacy Policy =
 weForms uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
