@@ -194,6 +194,11 @@ class WeForms_Form_Builder_Assets {
                 'component' => 'Help',
             ],
             [
+                'path'      => '/privacy',
+                'name'      => 'privacy',
+                'component' => 'Privacy',
+            ],
+            [
                 'path'      => '/premium',
                 'name'      => 'premium',
                 'component' => 'Premium',
