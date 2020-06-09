@@ -780,7 +780,7 @@
     <h1 class="wp-heading-inline"><?php _e( 'All Forms', 'weforms' ); ?></h1>
     <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'weforms' ); ?></a>
     <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
-            <p class="wf-premium-cta">You're using <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>"> Free. For more features, modules and more consider upgrading to Pro. <a href="weformspro.com/pricing[utm]" target="_blank" class="button">UPGRADE NOW!</a></p>
+            <p class="wf-premium-cta">You're using <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>"> Free. For more features, modules and more consider upgrading to Pro. <a href="https://weformspro.com/pricing[utm]" target="_blank" class="button">UPGRADE NOW!</a></p>
     <?php } ?>
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
