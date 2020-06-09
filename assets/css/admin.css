@@ -1608,3 +1608,26 @@ ul.wpuf-form .wpuf-field-columns .wpuf-column-field-inner-columns .wpuf-column .
   justify-content: space-between;
   align-items: center;
 }
+
+/* All Forms Premium CTA */
+.wf-premium-cta {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+.wf-premium-cta img {
+    max-height: 1.5em;
+    margin: 0 0.25em;
+}
+.wf-premium-cta .button {
+    background-color: #7ad376;
+    color: #FFFFFF;
+    border-color: #7ad376;
+    margin: 0 1em;
+}
+.wf-premium-cta .button:hover {
+    background-color: #ffffff;
+    color: #7ad376;
+    border-color: #7ad376;
+}
