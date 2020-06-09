@@ -10,7 +10,7 @@
 
 <p>If you do not have a Privacy Policy or are unsure if yours is up to date and compliant, we encourage you to generate one with our partner, Termageddon. Termageddon is a generator of Privacy Policies, Terms &amp; Conditions and more. They monitor privacy laws for you and update your Privacy Policy when new disclosures are required.</p>
 
-<p>If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 30% off your first purchase at checkout. More information on Termageddon can be found <a href="https://termageddon.com/[weforms link]" target="_blank">here</a>.</p>
+<p>If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 30&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://termageddon.com/[weforms link]" target="_blank">here</a>.</p>
 
 <p>If you own a web design, web development or digital marketing company, check out <a href="https://termageddon.com/agency-partners/" target="_blank">Termageddon's agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.</p>
 
@@ -21,7 +21,7 @@
 <ol>
     <li>"Edit" the respective form that you'd like to add a consent checkbox to.</li>
     <li>Click 'checkbox' so that it is added to the bottom of your form</li>
-    <li>"Edit" the consent checkbox, remove the 'Field Label', and replace 'Option' with 'INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY PPOLICY".</li>
+    <li>"Edit" the consent checkbox, remove the 'Field Label', and replace 'Option' with 'INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY PPOLICY'.</li>
 </ol>
 
 </div>

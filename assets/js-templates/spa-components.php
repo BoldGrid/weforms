@@ -1087,7 +1087,7 @@
 <ol>
     <li>"Edit" the respective form that you'd like to add a consent checkbox to.</li>
     <li>Click 'checkbox' so that it is added to the bottom of your form</li>
-    <li>"Edit" the consent checkbox, remove the 'Field Label;, and replace 'Option'; with 'INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY PPOLICY'.</li>
+    <li>"Edit" the consent checkbox, remove the 'Field Label', and replace 'Option' with 'INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY PPOLICY'.</li>
 </ol>
 
 </div>
