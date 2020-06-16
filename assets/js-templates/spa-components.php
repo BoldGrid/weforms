@@ -173,11 +173,14 @@
             <span style="color: #999;" class="form-name">
                 {{ form_title }}
             </span>
-
+            
             <select v-if="Object.keys(forms).length" v-model="selected" @change="status='publish'">
                 <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
             </select>
         </h1>
+        <?php if ( ! class_exists( 'WeForms_Pro' ) ) {
+               echo $premium_upsell;
+            } ?>
     </div>
 
     <div>
@@ -348,6 +351,7 @@
 
             <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
         </h1>
+        <?php echo premium_upsell; ?>
     </div>
 
     <div>
@@ -780,7 +784,11 @@
     <h1 class="wp-heading-inline"><?php _e( 'All Forms', 'weforms' ); ?></h1>
     <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'weforms' ); ?></a>
     <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
-            <p class="wf-premium-cta">You're using <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>"> Free. For more features, modules and more consider upgrading to Pro. <a href="weformspro.com/pricing[utm]" target="_blank" class="button">UPGRADE NOW!</a></p>
+            <div class="wf-premium-cta">
+            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
+            <p>You're using weForms Free. For more features, modules and more consider upgrading to Pro.</p>
+            <a href="weformspro.com/pricing[utm]" target="_blank" class="button">UPGRADE NOW!</a>
+            </div>
     <?php } ?>
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
@@ -1072,15 +1080,15 @@
 
 <h2>Your website may need a Privacy Policy by law</h2>
 
-<p>We at WeForms take privacy law compliance seriously, and we want our customers to know just how important it is for them as well.</p>
-
-<p>Because you are implementing a contact form, that means you may be collecting the Personally Identifiable Information (PII) of individuals. This means that there may be privacy laws that apply to your website that require you to have a Privacy Policy. It is important to understand that if your website collects PII from users outside of your jurisdiction, you still may need to comply with the privacy laws of other states and countries. Please note that non-compliance may put you in danger of significant privacy related fines and lawsuits.</p>
-
-<p>If you do not have a Privacy Policy or are unsure if yours is up to date and compliant, we encourage you to generate one with our partner, Termageddon. Termageddon is a generator of Privacy Policies, Terms &amp; Conditions and more. They monitor privacy laws for you and update your Privacy Policy when new disclosures are required.</p>
-
-<p>If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 30&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://termageddon.com/[weforms link]" target="_blank">here</a>.</p>
-
-<p>If you own a web design, web development or digital marketing company, check out <a href="https://termageddon.com/agency-partners/" target="_blank">Termageddon's agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.</p>
+<p>We at WeForms take privacy law compliance seriously, and we want our customers to know just how important it is for them as well.<br>
+<br>
+Because you are implementing a contact form, that means you may be collecting the Personally Identifiable Information (PII) of individuals. This means that there may be privacy laws that apply to your website that require you to have a Privacy Policy. It is important to understand that if your website collects PII from users outside of your jurisdiction, you still may need to comply with the privacy laws of other states and countries. Please note that non-compliance may put you in danger of significant privacy related fines and lawsuits.<br>
+<br>
+If you do not have a Privacy Policy or are unsure if yours is up to date and compliant, we encourage you to generate one with our partner, Termageddon. Termageddon is a generator of Privacy Policies, Terms &amp; Conditions and more. They monitor privacy laws for you and update your Privacy Policy when new disclosures are required.<br>
+<br>
+If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 30&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://app.termageddon.com/?fp_ref=weforms" target="_blank">here</a>.<br>
+    <br>
+If you own a web design, web development or digital marketing company, check out <a href="https://termageddon.com/agency-partners/" target="_blank">Termageddon's agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.</p>
 
 <h2>How to add Privacy Policy consent to your forms</h2>
 
