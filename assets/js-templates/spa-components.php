@@ -178,9 +178,13 @@
                 <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
             </select>
         </h1>
-        <?php if ( ! class_exists( 'WeForms_Pro' ) ) {
-               echo $premium_upsell;
-            } ?>
+        <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
+            <div class="wf-premium-cta">
+            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
+            <p>You're using weForms Free. For more features, modules and more consider upgrading to Pro.</p>
+            <a href="https://weformspro.com/get-premium/?utm_source=Entries&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button">UPGRADE NOW!</a>
+            </div>
+        <?php } ?>
     </div>
 
     <div>
@@ -351,7 +355,6 @@
 
             <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
         </h1>
-        <?php echo premium_upsell; ?>
     </div>
 
     <div>
@@ -787,7 +790,7 @@
             <div class="wf-premium-cta">
             <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
             <p>You're using weForms Free. For more features, modules and more consider upgrading to Pro.</p>
-            <a href="weformspro.com/pricing[utm]" target="_blank" class="button">UPGRADE NOW!</a>
+            <a href="https://weformspro.com/upgrade-now/?utm_source=All%20Forms&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button">UPGRADE NOW!</a>
             </div>
     <?php } ?>
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
@@ -797,7 +800,14 @@
 
 <script type="text/x-template" id="tmpl-wpuf-tools">
 <div class="export-import-wrap">
-
+    <h1><?php _e( 'Tools', 'weforms' ); ?></h1>
+    <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
+            <div class="wf-premium-cta">
+            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
+            <p>You're using weForms Free. For more features, modules and more consider upgrading to Pro.</p>
+            <a href="https://weformspro.com/get-premium-weforms/?utm_source=Tools&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button">UPGRADE NOW!</a>
+            </div>
+    <?php } ?>
     <h2 class="nav-tab-wrapper">
         <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
         <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
@@ -1370,6 +1380,13 @@ If you own a web design, web development or digital marketing company, check out
 <div class="weforms-settings clearfix" id="weforms-settings">
 
     <h1><?php _e( 'Settings', 'weforms' ); ?></h1>
+    <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
+            <div class="wf-premium-cta">
+            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
+            <p>You're using weForms Free. For more features, modules and more consider upgrading to Pro.</p>
+            <a href="https://weformspro.com/premium-weforms/?utm_source=Settings&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button">UPGRADE NOW!</a>
+            </div>
+        <?php } ?>
     <div id="weforms-settings-tabs-warp" class="<?php echo !function_exists( 'weforms_pro' ) ? 'weforms-pro-deactivate' : ''; ?>">
         <div id="weforms-settings-tabs">
             <ul>
