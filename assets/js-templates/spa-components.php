@@ -1142,7 +1142,7 @@ If you own a web design, web development or digital marketing company, check out
                 <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
             </div>
             <div class="banner-buttons">
-                <a href="https://weformspro.com/pricing" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/premium/?utm_source=Premium%20Page&utm_medium=Top%20Button&utm_campaign=Buy%20Now" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
                 <a href="https://weformspro.com/docs/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
             </div>
         </div><!-- end banner left column -->
@@ -1368,7 +1368,7 @@ If you own a web design, web development or digital marketing company, check out
                 </div>
             </div>
             <div class="import-right">
-                <a href="https://weformspro.com/pricing" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/upgrade/?utm_source=Premium%20Page&utm_medium=Bottom%20Button&utm_campaign=Upgrade%20Now" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
             </div>
         </div>
     </section><!-- end footer section -->
