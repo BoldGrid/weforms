@@ -1096,7 +1096,7 @@ Because you are implementing a contact form, that means you may be collecting th
 <br>
 If you do not have a Privacy Policy or are unsure if yours is up to date and compliant, we encourage you to generate one with our partner, Termageddon. Termageddon is a generator of Privacy Policies, Terms &amp; Conditions and more. They monitor privacy laws for you and update your Privacy Policy when new disclosures are required.<br>
 <br>
-If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 30&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://app.termageddon.com/?fp_ref=weforms" target="_blank">here</a>.<br>
+If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 10&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://app.termageddon.com/?fp_ref=weforms" target="_blank">here</a>.<br>
     <br>
 If you own a web design, web development or digital marketing company, check out <a href="https://termageddon.com/agency-partners/" target="_blank">Termageddon's agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.</p>
 
