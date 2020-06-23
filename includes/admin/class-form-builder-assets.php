@@ -124,7 +124,7 @@ class WeForms_Form_Builder_Assets {
      * @return string
      */
     public static function get_pro_url() {
-        $link = 'https://wedevs.com/weforms-upgrade/';
+        $link = 'https://weformspro.com/';
 
         if ( $aff = get_option( '_weforms_aff_ref' ) ) {
             $link = add_query_arg( [ 'ref' => $aff ], $link );
