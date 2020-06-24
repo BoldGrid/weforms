@@ -10,15 +10,9 @@
 
 <p><?php _e( 'If you do not have a Privacy Policy or are unsure if yours is up to date and compliant, we encourage you to generate one with our partner, Termageddon. Termageddon is a generator of Privacy Policies, Terms &amp; Conditions and more. They monitor privacy laws for you and update your Privacy Policy when new disclosures are required.' , 'weforms' ); ?></p>
 
-<p><?php printf(
-        _e( 'If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 10&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="%s" target="_blank">here</a>.' , 'weforms' ),
-        esc_url( 'https://app.termageddon.com/?fp_ref=weforms' ) 
-    ); ?></p>
+<p><?php _e( 'If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 10&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://app.termageddon.com/?fp_ref=weforms" target="_blank">here</a>.' , 'weforms' ); ?></p>
 
-<p><?php printf(
-        _e( 'If you own a web design, web development or digital marketing company, check out <a href="%s" target="_blank">Termageddon&#39;s agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.' , 'weforms' ),
-        esc_url( 'https://termageddon.com/agency-partners/' )
-    ); ?></p>
+<p><?php _e( 'If you own a web design, web development or digital marketing company, check out <a href="https://termageddon.com/agency-partners/" target="_blank">Termageddon&#39;s agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.' , 'weforms' ); ?></p>
 
 <h2><?php _e( 'How to add Privacy Policy consent to your forms' , 'weforms' ); ?></h2>
 
