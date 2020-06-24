@@ -16,7 +16,7 @@
     ); ?></p>
 
 <p><?php printf(
-        _e( 'If you own a web design, web development or digital marketing company, check out <a href="%s" target="_blank">Termageddon&quot;s agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.' , 'weforms' ),
+        _e( 'If you own a web design, web development or digital marketing company, check out <a href="%s" target="_blank">Termageddon&#39;s agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.' , 'weforms' ),
         esc_url( 'https://termageddon.com/agency-partners/' )
     ); ?></p>
 
@@ -25,9 +25,9 @@
 <p><?php _e( 'Adding a Privacy Policy consent checkbox is your forms is simple. All you will need is the WeForms plugin and an existing /privacy-policy page.' , 'weforms' ); ?></p>
 
 <ol>
-    <li><?php _e( '"Edit" the respective form that you&quot;d like to add a consent checkbox to.' , 'weforms' ); ?></li>
-    <li><?php _e( 'Click &quot;checkbox&quot; so that it is added to the bottom of your form.' , 'weforms' ); ?></li>
-    <li><?php _e( '"Edit" the consent checkbox, remove the &quot;Field Label&quot;, and replace &quot;Option&quot; with &quot;INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY PPOLICY&quot;.' , 'weforms' ); ?></li>
+    <li><?php _e( '"Edit" the respective form that you&#39;d like to add a consent checkbox to.' , 'weforms' ); ?></li>
+    <li><?php _e( 'Click &#39;checkbox&#39; so that it is added to the bottom of your form.' , 'weforms' ); ?></li>
+    <li><?php _e( '"Edit" the consent checkbox, remove the &#39;Field Label&#39;, and replace &#39;Option&#39; with &#39;INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY PPOLICY&#39;.' , 'weforms' ); ?></li>
 </ol>
 
 </div>
