@@ -21,7 +21,7 @@
 <ol>
     <li><?php _e( '"Edit" the respective form that you&#39;d like to add a consent checkbox to.' , 'weforms' ); ?></li>
     <li><?php _e( 'Click &#39;checkbox&#39; so that it is added to the bottom of your form.' , 'weforms' ); ?></li>
-    <li><?php _e( '"Edit" the consent checkbox, remove the &#39;Field Label&#39;, and replace &#39;Option&#39; with &#39;INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY PPOLICY&#39;.' , 'weforms' ); ?></li>
+    <li><?php _e( '"Edit" the consent checkbox, remove the &#39;Field Label&#39;, and replace &#39;Option&#39; with &#39;INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY POLICY&#39;.' , 'weforms' ); ?></li>
 </ol>
 
 </div>
