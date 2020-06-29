@@ -1102,7 +1102,7 @@
 
 <h2><?php _e( 'How to add Privacy Policy consent to your forms' , 'weforms' ); ?></h2>
 
-<p><?php _e( 'Adding a Privacy Policy consent checkbox is your forms is simple. All you will need is the WeForms plugin and an existing /privacy-policy page.' , 'weforms' ); ?></p>
+<p><?php _e( 'Adding a Privacy Policy consent checkbox is your forms is simple. All you will need is the weForms plugin and an existing /privacy-policy page.' , 'weforms' ); ?></p>
 
 <ol>
     <li><?php _e( '"Edit" the respective form that you&#39;d like to add a consent checkbox to.' , 'weforms' ); ?></li>
