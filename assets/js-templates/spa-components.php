@@ -1084,7 +1084,7 @@
 </script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-page-privacy">
-<div class="weforms-privacy-page">
+<div class="wpuf-privacy-page">
 
 <h1><?php _e('Privacy' , 'weforms'); ?></h1>
 

@@ -1,4 +1,4 @@
-<div class="weforms-privacy-page">
+<div class="wpuf-privacy-page">
 
 <h1><?php _e('Privacy' , 'weforms'); ?></h1>
 

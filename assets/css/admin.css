@@ -1648,11 +1648,11 @@ ul.wpuf-form .wpuf-field-columns .wpuf-column-field-inner-columns .wpuf-column .
 }
 
 /* Privacy Page */
-.weforms-privacy-page {
+.wpuf-privacy-page {
     max-width: 1200px;
     margin: 0 auto 0 0;
 }
-.weforms-privacy-page p,
-.weforms-privacy-page li {
+.wpuf-privacy-page p,
+.wpuf-privacy-page li {
     font-size: 1.2em;
 }
