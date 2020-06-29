@@ -1186,6 +1186,12 @@ Generated: 2020-03-06 (1583433044699)
     weForms.routeComponents.Help = {
         template: '#tmpl-wpuf-weforms-page-help'
     };
+
+    /* ./assets/spa/components/weforms-page-privacy/index.js */
+    weForms.routeComponents.Privacy = {
+        template: '#tmpl-wpuf-weforms-page-privacy'
+    };
+
     /* ./assets/spa/components/weforms-premium/index.js */
     weForms.routeComponents.Premium = {
         template: '#tmpl-wpuf-weforms-premium',
