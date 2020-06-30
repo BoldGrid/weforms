@@ -60,12 +60,12 @@ class WeForms_Ajax_Upload {
         $file = isset( $_FILES['wpuf_file'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_FILES['wpuf_file'] ) ) : [];
 
         $upload = array(
-            'name'     => isset( $file['name'] ) ? $file['name'] : '',
-            'type'     => isset( $file['type'] ) ? $file['type'] : '',
-            'tmp_name' => isset( $file['tmp_name'] ) ? $file['tmp_name'] : '',
-            'error'    => isset( $file['error'] ) ? $file['error'] : '',
-            'size'     => isset( $file['size'] ) ? $file['size'] : '',
-        );
+             'name'     => isset( $file['name'] ) ? $file['name'] : '',
+             'type'     => isset( $file['type'] ) ? $file['type'] : '',
+             'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
+             'error'    => isset( $file['error'] ) ? $file['error'] : '',
+             'size'     => isset( $file['size'] ) ? $file['size'] : '',
+         );
 
         // $upload = array(
         //     'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
