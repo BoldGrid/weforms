@@ -16,8 +16,8 @@ class WeForms_Admin_Tools {
      */
     public static function import_json_file( $file ) {
         $encode_data = file_get_contents( $file );
-        $jsonData = html_entity_decode($encode_data);
-        $options = json_decode( $jsonData, true );
+        $jsonData    = html_entity_decode( $encode_data );
+        $options     = json_decode( $jsonData, true );
 
         foreach ( $options as $key => $value ) {
             $generate_post = [
