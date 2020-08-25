@@ -297,9 +297,10 @@ class Insights {
      * @return boolean
      */
     private function notice_dismissed() {
-        $hide_notice = get_option( $this->client->slug . '_tracking_notice', null );
+        $version = get_option( $this->client->slug . '_hide_fortressdb_version', null );
+        $current_version = get_option( 'weforms_version' );
 
-        if ( 'hide' == $hide_notice ) {
+        if ( $version && version_compare( $current_version, $version, '<=' ) ) {
             return true;
         }
 
@@ -352,42 +353,27 @@ class Insights {
             return;
         }
 
-        if ( $this->tracking_allowed() ) {
-            return;
-        }
-
         if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
 
         // don't show tracking if a local server
         if ( ! $this->is_local_server() ) {
-            $optin_url  = add_query_arg( $this->client->slug . '_tracker_optin', 'true' );
-            $optout_url = add_query_arg( $this->client->slug . '_tracker_optout', 'true' );
+            $learn_url  = admin_url('admin.php?page=weforms#/settings');
+            $optout_url = add_query_arg( $this->client->slug . '_hide_fortressdb', 'true' );
 
             if ( empty( $this->notice ) ) {
-                $notice = sprintf( __( 'Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to collect non-sensitive diagnostic data and usage information.', $this->client->textdomain, 'weforms' ), $this->client->name );
+                $notice = sprintf( __( "Want to better secure your contact form's valuable data? Check out FortressDB!", $this->client->textdomain, 'weforms' ), $this->client->name );
             } else {
                 $notice = $this->notice;
             }
 
-            $notice .= ' (<a class="' . $this->client->slug . '-insights-data-we-collect" href="#">' . __( 'what we collect', $this->client->textdomain, 'weforms' ) . '</a>)';
-            $notice .= '<p class="description" style="display:none;">' . implode( ', ', $this->data_we_collect() ) . '. No sensitive data is tracked. ';
-            $notice .= 'We are using Appsero to collect your data. <a href="https://appsero.com/privacy-policy/">Learn more</a> about how Appsero collects and handle your data.</p>';
-
             echo '<div class="updated"><p>';
                 echo $notice;
                 echo '</p><p class="submit">';
-                echo '&nbsp;<a href="' . esc_url( $optin_url ) . '" class="button-primary button-large">' . __( 'Allow', $this->client->textdomain, 'weforms' ) . '</a>';
-                echo '&nbsp;<a href="' . esc_url( $optout_url ) . '" class="button-secondary button-large">' . __( 'No thanks', $this->client->textdomain, 'weforms' ) . '</a>';
+                echo '&nbsp;<a href="' . esc_url( $learn_url ) . '" class="button-primary button-large">' . __( 'Learn More', $this->client->textdomain, 'weforms' ) . '</a>';
+                echo '&nbsp;<a href="' . esc_url( $optout_url ) . '" class="button-secondary button-large">' . __( 'Hide', $this->client->textdomain, 'weforms' ) . '</a>';
             echo '</p></div>';
-
-            echo "<script type='text/javascript'>jQuery('." . $this->client->slug . "-insights-data-we-collect').on('click', function(e) {
-                    e.preventDefault();
-                    jQuery(this).parents('.updated').find('p.description').slideToggle('fast');
-                });
-                </script>
-            ";
         }
     }
 
@@ -398,45 +384,13 @@ class Insights {
      */
     public function handle_optin_optout() {
 
-        if ( isset( $_GET[ $this->client->slug . '_tracker_optin' ] ) && $_GET[ $this->client->slug . '_tracker_optin' ] == 'true' ) {
-            $this->optin();
+        if ( isset( $_GET[ $this->client->slug . '_hide_fortressdb' ] ) && $_GET[ $this->client->slug . '_hide_fortressdb' ] == 'true' ) {
+            $current_version = get_option( 'weforms_version' );
+            update_option( $this->client->slug . '_hide_fortressdb_version', $current_version );
 
-            wp_redirect( remove_query_arg( $this->client->slug . '_tracker_optin' ) );
+            wp_redirect( remove_query_arg( $this->client->slug . '_hide_fortressdb' ) );
             exit;
         }
-
-        if ( isset( $_GET[ $this->client->slug . '_tracker_optout' ] ) && $_GET[ $this->client->slug . '_tracker_optout' ] == 'true' ) {
-            $this->optout();
-
-            wp_redirect( remove_query_arg( $this->client->slug . '_tracker_optout' ) );
-            exit;
-        }
-    }
-
-    /**
-     * Tracking optin
-     *
-     * @return void
-     */
-    public function optin() {
-        update_option( $this->client->slug . '_allow_tracking', 'yes' );
-        update_option( $this->client->slug . '_tracking_notice', 'hide' );
-
-        $this->clear_schedule_event();
-        $this->schedule_event();
-        $this->send_tracking_data();
-    }
-
-    /**
-     * Optout from tracking
-     *
-     * @return void
-     */
-    public function optout() {
-        update_option( $this->client->slug . '_allow_tracking', 'no' );
-        update_option( $this->client->slug . '_tracking_notice', 'hide' );
-
-        $this->clear_schedule_event();
     }
 
     /**

@@ -18,6 +18,7 @@ class WeForms_Admin {
         add_filter( 'weforms_settings_tabs', [ $this, 'set_default_settings' ], 5 );
         add_action( 'weforms_settings_tab_content_general', [ $this, 'settings_tab_general' ] );
         add_action( 'weforms_settings_tab_content_recaptcha', [ $this, 'settings_tab_recaptcha' ] );
+        add_action( 'weforms_settings_tab_content_secure-database', [ $this, 'settings_tab_secure_database' ] );
         add_action( 'weforms_settings_tab_content_privacy', [ $this, 'settings_tab_privacy' ] );
     }
 
@@ -328,6 +329,11 @@ class WeForms_Admin {
             'icon'  => WEFORMS_ASSET_URI . '/images/integrations/reCaptcha.svg',
         ];
 
+        $tabs['secure-database'] = [
+            'label' => __( 'Secure Database', 'weforms' ),
+            'icon'  => WEFORMS_ASSET_URI . '/images/integrations/secure-database.png',
+        ];
+
         /* TODO:  Refactor this block when more options are added in privacy settings*/
         if ( class_exists( 'WeForms_Pro' ) ) {
             $tabs['privacy'] = [
@@ -360,7 +366,16 @@ class WeForms_Admin {
     public function settings_tab_recaptcha( $tab ) {
         include __DIR__ . '/views/weforms-settings-recaptcha.php';
     }
-
+    /**
+     * secure database tab content
+     *
+     * @param array $tab
+     *
+     * @return void
+     */
+    public function settings_tab_secure_database( $tab ) {
+        include __DIR__ . '/views/weforms-settings-secure-database.php';
+    }
     /**
      * Privacy tab content
      *
