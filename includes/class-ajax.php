@@ -1133,7 +1133,7 @@ class WeForms_Ajax {
 
         $this->check_admin();
 
-        $the_file = isset( $_FILES['importFile'] ) ? sanitize_text_field( wp_unslash( $_FILES['importFile'] ) ) : false;
+        $the_file = isset( $_FILES['importFile'] ) ? $_FILES['importFile'] : false;
 
         if ( !$the_file ) {
             wp_send_json_error( __( 'No file found to import.', 'weforms' ) );
