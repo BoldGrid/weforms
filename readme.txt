@@ -249,7 +249,7 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
-= Version 1.5.0 (1 September, 2020) ###
+= Version 1.5.0 (1 September, 2020) =
 * **Update:** Added Fortress DB and Conditional Banner.
 * **Update:** Removed Diagnostic Pop Up.
 * **Fix:** JSON import issue fixed.
