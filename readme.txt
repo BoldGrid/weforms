@@ -3,8 +3,8 @@ Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto
 Tags: forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
 Requires at least: 4.4
 Requires PHP: 5.6.20
-Tested up to: 5.4
-Stable tag: 1.4.9
+Tested up to: 5.5
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,15 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.5.0 (1 September, 2020) ###
+* **Update:** Added Fortress DB and Conditional Banner.
+* **Update:** Removed Diagnostic Pop Up.
+* **Fix:** JSON import issue fixed.
+* **Fix:** Double Column not working, issue fixed.
+* **Fix:** File Upload issue fixed.
+* **Fix:** Signature field issue fixed.
+
 
 = Version 1.4.9 (30 June, 2020) =
 * **Update:** Added a privacy page.
