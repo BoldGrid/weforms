@@ -134,6 +134,8 @@ class WeForms_Ajax {
         ];
 
         $form_fields = weforms()->form->save( $data );
+	
+        do_action( 'weforms_update_form', $form_data['wpuf_form_id'], $form_fields, $settings );
 
         wp_send_json_success( [ 'form_fields' => $form_fields ] );
     }
