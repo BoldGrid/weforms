@@ -252,6 +252,7 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 = Version 1.5.2 (13 October, 2020) =
 * **Fix:** Fixed JS Issues.
 * **Fix:** Email Header Formatting.
+* **Update:** Added Fortress DB Integration.
 
 = Version 1.5.1 (1 September, 2020) =
 * **Fix:** Fixed Fortress DB tab.
