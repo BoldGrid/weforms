@@ -4,7 +4,7 @@
 **Requires at least:** 4.4
 **Requires PHP:** 5.6.20
 **Tested up to:** 5.5
-**Stable tag:** 1.5.1
+**Stable tag:** 1.5.4
 **License:** GPLv2 or later
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,18 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+
+### Version 1.5.4 (29 October, 2020) ###
+* **Fix:** Quick Vulnerability Fix
+
+### Version 1.5.3 (20 October, 2020) ###
+* **Fix:** Fixed bug causing a blank screen to appear for some users
+
+### Version 1.5.2 (13 October, 2020) ###
+* **Fix:** Fixed JS Issues.
+* **Fix:** Email Header Formatting.
+* **Update:** Added Fortress DB Integration.
 
 ### Version 1.5.1 (1 September, 2020) ###
 * **Fix:** Fixed Fortress DB tab.

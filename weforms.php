@@ -5,7 +5,7 @@
  * Plugin URI: https://weformspro.com/
  * Author: weForms
  * Author URI: https://weformspro.com/
- * Version: 1.5.1
+ * Version: 1.5.4
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -369,11 +369,14 @@ final class WeForms {
      */
     public static function log( $type = '', $msg = '' ) {
 
+        if(file_exists(WP_CONTENT_DIR  . '/weforms.log')){
+            unlink(WP_CONTENT_DIR . '/weforms.log');
+        }
+        return;
         // default we are turning the debug mood on, but can be turned off
         if ( defined( 'WEFORMS_DEBUG_LOG' ) && false === WEFORMS_DEBUG_LOG ) {
             return;
         }
-
         $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, $msg );
         @error_log( $msg, 3, weforms_log_file_path() );
     }
