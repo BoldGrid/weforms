@@ -25,9 +25,10 @@ class WeForms_Integration_Manager {
         require_once WEFORMS_INCLUDES . '/integrations/slack/class-integration-slack.php';
         require_once WEFORMS_INCLUDES . '/integrations/erp/class-integration-erp.php';
         require_once WEFORMS_INCLUDES . '/integrations/mailpoet/class-integration-mailpoet.php';
+        require_once WEFORMS_INCLUDES . '/integrations/sprout-invoices/class-integration-sprout-invoices.php';
 
         $integrations = apply_filters( 'weforms_integrations', [
-            'WeForms_Integration_Slack', 'WeForms_Integration_ERP', 'WeForms_Integration_MailPoet_Free',
+            'WeForms_Integration_Slack', 'WeForms_Integration_ERP', 'WeForms_Integration_MailPoet_Free', 'WeForms_Integration_SI',
         ] );
 
         // Load integration classes

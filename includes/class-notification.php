@@ -643,7 +643,7 @@ class WeForms_Notification {
             }
 
             $table .= '<tr class="field-label">';
-            $table .= '<th><strong>' . $value['label'] . '</strong></th>';
+            $table .= '<td><strong>' . $value['label'] . '</strong></td>';
             $table .= '</tr>';
             $table .= '<tr class="field-value">';
             $table .= '<td>';

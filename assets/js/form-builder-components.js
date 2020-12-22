@@ -334,6 +334,20 @@
         template: '#tmpl-wpuf-integration-slack',
         mixins: [wpuf_mixins.integration_mixin]
     });
+    /* ./assets/components/integration-sprout-invoices/index.js */
+    Vue.component('wpuf-integration-sprout-invoices', {
+        template: '#tmpl-wpuf-integration-sprout-invoices',
+        mixins: [wpuf_mixins.integration_mixin],
+
+        methods: {
+            insertValue: function insertValue(type, field, property) {
+                var value = field !== undefined ? '{' + type + ':' + field + '}' : '{' + type + '}';
+                console.log(value);
+                this.settings.fields[property] = value;
+            }
+        }
+    });
+
     /* ./assets/components/merge-tags/index.js */
     Vue.component('wpuf-merge-tags', {
         template: '#tmpl-wpuf-merge-tags',

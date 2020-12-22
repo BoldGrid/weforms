@@ -13176,7 +13176,8 @@ return VueRouter;
 			// Prevent displaying twice
 			if ($dp.find("div.ui-timepicker-div").length === 0 && o.showTimepicker) {
 				var noDisplay = ' style="display:none;"',
-					html = '<div class="ui-timepicker-div'+ (o.isRTL? ' ui-timepicker-rtl' : '') +'"><dl>' + '<dt class="ui_tpicker_time_label"' + ((o.showTime) ? '' : noDisplay) + '>' + o.tjÀ|şU  jÀ|şU                  °Ï³|şU          pµ|şU  xjÀ|şU          0jÀ|şU   @      0jÀ|şU          ;
+					html = '<div class="ui-timepicker-div'+ (o.isRTL? ' ui-timepicker-rtl' : '') +'"><dl>' + '<dt class="ui_tpicker_time_label"' + ((o.showTime) ? '' : noDisplay) + '>' + o.timeText + '</dt>' + 
+								'<dd class="ui_tpicker_time"' + ((o.showTime) ? '' : noDisplay) + '></dd>';
 
 				// Create the markup
 				for(var i=0,l=this.units.length; i<l; i++){
@@ -13579,7 +13580,9 @@ return VueRouter;
 		* call custom onSelect.
 		* bind to sliders slidestop, and grid click.
 		*/
-		_onSelectHjÀ|şU  jÀ|şU                  °Ï³|şU          pµ|şU  xjÀ|şU          0jÀ|şU   @      0jÀ|şU          inputEl = this.$input ? this.$input[0] : null;
+		_onSelectHandler: function() {
+			var onSelect = this._defaults.onSelect || this.inst.settings.onSelect;
+			var inputEl = this.$input ? this.$input[0] : null;
 			if (onSelect && inputEl) {
 				onSelect.apply(inputEl, [this.formattedDateTime, this]);
 			}
@@ -14100,7 +14103,9 @@ return VueRouter;
 	$.datepicker._base_updateDatepicker = $.datepicker._updateDatepicker;
 	$.datepicker._updateDatepicker = function(inst) {
 
-		// jÀ|şU  jÀ|şU                  °Ï³|şU          pµ|şU  xjÀ|şU          0jÀ|şU   @      0jÀ|şU          if ($.datepicker._curInst && $.datepicker._curInst != inst && $.datepicker._datepickerShowing && $.datepicker._lastInput != input) {
+		// don't popup the datepicker if there is another instance already opened
+		var input = inst.input[0];
+		if ($.datepicker._curInst && $.datepicker._curInst != inst && $.datepicker._datepickerShowing && $.datepicker._lastInput != input) {
 			return;
 		}
 
