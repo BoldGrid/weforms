@@ -36,7 +36,7 @@ if [ "$READMEVERSION" != "$PLUGINVERSION" ]; then
 fi
 
 # make sure the destination dir exists
-svn mkdir $TRUNK 2> /dev/null
+svn mkdir -p $TRUNK 2> /dev/null
 svn add $TRUNK 2> /dev/null
 
 # delete everything except .svn dirs
