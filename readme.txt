@@ -1,10 +1,10 @@
 === weForms - Easy Drag & Drop Contact Form Builder For WordPress ===
-Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto
+Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto, jamesros161
 Tags: forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
 Requires at least: 4.4
 Requires PHP: 5.6.20
-Tested up to: 5.5
-Stable tag: 1.6.3
+Tested up to: 5.6
+Stable tag: 1.6.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,10 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.4 (23 December, 2020) =
+* **Fix:** Added spreadsheet functione escaping to prevent CSV exploits. [#50] (https://github.com/BoldGrid/weforms/pull/50)
+* **Update:** Update Node Packages
 
 = Version 1.6.3 (11 November, 2020) =
 * **Update:** Sprout Invoices Integration
