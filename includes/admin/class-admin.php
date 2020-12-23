@@ -206,12 +206,8 @@ class WeForms_Admin {
 
                     default:
 
-                        $value = weforms_get_entry_meta( $entry->id, $column_id, true );
-						$value = weforms_get_pain_text( $value );
-
-						// escape spreadsheet special characters to prevent formula exploits.
-						$value = preg_match( '/^[=+@-].*/', $value ) ? '\'' . $value : $value;
-
+                        $value              = weforms_get_entry_meta( $entry->id, $column_id, true );
+						$value              = weforms_get_pain_text( $value );
                         $temp[ $column_id ] = str_replace( WeForms::$field_separator, ' ', $value );
 
                         break;

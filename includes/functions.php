@@ -1204,23 +1204,23 @@ function weforms_get_pain_text( $value ) {
 
     if ( is_array( $value ) ) {
         $string_value = [];
+		foreach ( $value as $key => $single_value ) {
+			if ( is_array( $single_value ) || is_serialized( $single_value ) ) {
+				$single_value = weforms_get_pain_text( $single_value );
+			}
 
-        if ( is_array( $value ) ) {
-            foreach ( $value as $key => $single_value ) {
-                if ( is_array( $single_value ) || is_serialized( $single_value ) ) {
-                    $single_value = weforms_get_pain_text( $single_value );
-                }
+			$single_value = ucwords( str_replace( [ '_', '-' ], ' ', $key ) ) . ': ' . ucwords( $single_value );
 
-                $single_value = ucwords( str_replace( [ '_', '-' ], ' ', $key ) ) . ': ' . ucwords( $single_value );
+			$string_value[] = $single_value;
+		}
 
-                $string_value[] = $single_value;
-            }
-
-            $value = implode( WeForms::$field_separator, $string_value );
-        }
+		$value = implode( WeForms::$field_separator, $string_value );
     }
 
-    $value = trim( strip_tags( $value ) );
+	$value = trim( strip_tags( $value ) );
+
+	// escape spreadsheet special characters to prevent formula exploits.
+	$value = preg_match( '/^[=+@-].*/', $value ) ? '\'' . $value : $value;
 
     return $value;
 }
