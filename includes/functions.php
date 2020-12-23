@@ -1217,10 +1217,10 @@ function weforms_get_pain_text( $value ) {
         $value = implode( WeForms::$field_separator, $string_value );
     }
 
-	$value = trim( strip_tags( $value ) );
+    $value = trim( strip_tags( $value ) );
 
-	// escape spreadsheet special characters to prevent formula exploits.
-	$value = preg_match( '/^[=+@-].*/', $value ) ? '\'' . $value : $value;
+    // escape spreadsheet special characters to prevent formula exploits.
+    $value = preg_match( '/^[=+@-].*/', $value ) ? '\'' . $value : $value;
 
     return $value;
 }
