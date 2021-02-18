@@ -163,6 +163,11 @@ class WeForms_Admin_Promotion {
             return;
         }
 
+		$screen = get_current_screen();
+		if ( $screen && $screen->base && 'toplevel_page_weforms' !== $screen->base ) {
+			return;
+		}
+
         $dismiss_notice  = get_option( 'weforms_review_notice_dismiss', 'no' );
         $activation_time = get_option( 'weforms_installed' );
         $total_entries   = weforms_count_entries();
@@ -225,10 +230,10 @@ class WeForms_Admin_Promotion {
 			</div>
 			<div class="weforms-review-links">
 				<ul class="weforms-review-ul">
-					<li><a class="button" href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span
+					<li><a class="button-primary button" href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span
 								class="dashicons dashicons-external"></span><?php esc_html_e( 'Sure! I\'d love to!', 'weforms' ) ?>
 						</a></li>
-					<li><a href="#" class=" button notice-dismiss"><span
+					<li><a href="#" class="button notice-dismiss"><span
 								class="dashicons dashicons-smiley"></span><?php esc_html_e( 'I\'ve already left a review', 'weforms' ) ?>
 						</a></li>
 					<li><a href="#" class="button notice-dismiss"><span
@@ -306,7 +311,6 @@ class WeForms_Admin_Promotion {
                 display: flex;
 				align-items: center;
 				justify-content: space-between;
-                color: #82C776;
                 text-decoration: none;
                 position: relative;
             }

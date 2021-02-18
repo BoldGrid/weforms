@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.6.5-rc.1\n"
+"Project-Id-Version: weForms 1.6.5\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2021-02-18 19:36:56+00:00\n"
+"POT-Creation-Date: 2021-02-18 20:00:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -772,42 +772,42 @@ msgstr ""
 msgid "Conditional Logic"
 msgstr ""
 
-#: includes/admin/class-promotion.php:196
-#: includes/admin/class-promotion.php:210
+#: includes/admin/class-promotion.php:201
+#: includes/admin/class-promotion.php:215
 #. translators: opening <strong> tag, closing </strong> tag.
 msgid "Enjoying %sweForms%s?"
 msgstr ""
 
-#: includes/admin/class-promotion.php:200
+#: includes/admin/class-promotion.php:205
 #. translators: opening <a>tag, closing </a> tag.
 msgid ""
 "Seems like you are getting a good response using weForms. Would you please "
 "show us a little love by rating us in the %sWordPress.org%s?"
 msgstr ""
 
-#: includes/admin/class-promotion.php:216
+#: includes/admin/class-promotion.php:221
 #. translators: opening <a> tag, closing </a> tag
 msgid ""
 "Hope that you had a neat and snappy experience with the tool. Would you "
 "please show us a little love by rating us in the %sWordPress.org%s?"
 msgstr ""
 
-#: includes/admin/class-promotion.php:229
+#: includes/admin/class-promotion.php:234
 msgid "Sure! I'd love to!"
 msgstr ""
 
-#: includes/admin/class-promotion.php:232
+#: includes/admin/class-promotion.php:237
 msgid "I've already left a review"
 msgstr ""
 
-#: includes/admin/class-promotion.php:235
+#: includes/admin/class-promotion.php:240
 msgid "Never show again"
 msgstr ""
 
-#: includes/admin/class-promotion.php:341
 #: includes/admin/class-promotion.php:345
-#: includes/admin/class-promotion.php:367
-#: includes/admin/class-promotion.php:371 includes/class-ajax.php:99
+#: includes/admin/class-promotion.php:349
+#: includes/admin/class-promotion.php:371
+#: includes/admin/class-promotion.php:375 includes/class-ajax.php:99
 #: includes/fields/class-abstract-fields.php:533
 #: includes/fields/class-abstract-fields.php:537
 #: includes/fields/class-field-checkbox.php:107

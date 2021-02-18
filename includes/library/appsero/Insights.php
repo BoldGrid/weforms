@@ -140,11 +140,6 @@ class Insights {
      * @return void
      */
     protected function init_common() {
-        if ( $this->show_notice ) {
-            // tracking notice
-            add_action( 'admin_notices', array( $this, 'weforms_insights_admin_notice' ) );
-        }
-
         add_action( 'admin_init', array( $this, 'handle_optin_optout' ) );
 
         // uninstall reason
@@ -339,51 +334,6 @@ class Insights {
      */
     private function clear_schedule_event() {
         wp_clear_scheduled_hook( $this->client->slug . '_tracker_send_event' );
-    }
-
-    /**
-     * Display the admin notice to users that have not opted-in or out
-     *
-	 * @since 1.6.5
-	 *
-     * @return void
-     */
-    public function weforms_insights_admin_notice() {
-		$screen = get_current_screen();
-		if ( $screen && $screen->base && 'toplevel_page_weforms' !== $screen->base ) {
-			return;
-		}
-        if ( $this->notice_dismissed() ) {
-            return;
-        }
-
-        if ( ! current_user_can( 'manage_options' ) ) {
-            return;
-        }
-
-        // don't show tracking if a local server
-        if ( ! $this->is_local_server() ) {
-            $learn_url  = admin_url( 'admin.php?page=weforms#/settings' );
-            $optout_url = add_query_arg( $this->client->slug . '_hide_fortressdb', 'true' );
-
-            if ( empty( $this->notice ) ) {
-                $notice = __( "Want to better secure your contact form's valuable data? Check out FortressDB!", 'weforms' );
-            } else {
-                $notice = $this->notice;
-            }
-			?>
-            <div class="notice is-dismissible updated weforms-insights">
-				<p style="display: flex;align-items: center;">
-					<img style="padding-right:15px;" src="<?php echo WEFORMS_ASSET_URI . '/images/weforms-logo.png'; ?>">
-					<?php echo $notice; ?>
-                </p>
-				<p class="submit">
-                	<a href="<?php echo esc_url( $learn_url ); ?>" class="button-primary button-large"><?php _e( 'Learn More', 'weforms' ); ?></a>
-                	<a href="<?php echo esc_url( $optout_url ); ?>" class="button-secondary button-large"><?php _e( 'Hide', 'weforms' ); ?></a>
-           		</p>
-			</div>
-			<?php
-        }
     }
 
     /**
