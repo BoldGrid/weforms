@@ -403,7 +403,7 @@ class WeForms_Admin {
 
 		if ( ! class_exists( 'WeForms_Pro' ) ) {
 			?>
-			<div class="notice updated premium-cta is-dismissible">
+			<div class="notice updated premium-cta">
 				<p style="display: flex;align-items: center;">
 					<img style="padding-right:15px;" src="<?php echo WEFORMS_ASSET_URI . '/images/weforms-logo.png'; ?>">
 					<?php _e( 'You&#39;re using weForms Free. For more features, modules and more consider upgrading to Pro.' , 'weforms' ); ?>
