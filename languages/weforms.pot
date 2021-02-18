@@ -1,14 +1,14 @@
-# Copyright (C) 2020 weForms
+# Copyright (C) 2021 weForms
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.6.4\n"
+"Project-Id-Version: weForms 1.6.5-rc.1\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2020-12-23 19:59:48+00:00\n"
+"POT-Creation-Date: 2021-02-18 19:33:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -58,113 +58,113 @@ msgstr ""
 msgid "Welcome to weForms"
 msgstr ""
 
-#: includes/admin/class-admin.php:34 includes/admin/class-admin.php:56
+#: includes/admin/class-admin.php:36 includes/admin/class-admin.php:58
 msgid "Contact Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:54
+#: includes/admin/class-admin.php:56
 msgid "Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:55 includes/class-form-widget.php:49
+#: includes/admin/class-admin.php:57 includes/class-form-widget.php:49
 #: includes/functions.php:753
 msgid "Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:57
+#: includes/admin/class-admin.php:59
 msgid "Add Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:58
+#: includes/admin/class-admin.php:60
 msgid "Add New Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:59
+#: includes/admin/class-admin.php:61
 msgid "Edit"
 msgstr ""
 
-#: includes/admin/class-admin.php:60
+#: includes/admin/class-admin.php:62
 msgid "Edit Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:61
+#: includes/admin/class-admin.php:63
 msgid "New Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:62 includes/admin/class-admin.php:63
+#: includes/admin/class-admin.php:64 includes/admin/class-admin.php:65
 msgid "View Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:64
+#: includes/admin/class-admin.php:66
 msgid "Search Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:65
+#: includes/admin/class-admin.php:67
 msgid "No Form Found"
 msgstr ""
 
-#: includes/admin/class-admin.php:66
+#: includes/admin/class-admin.php:68
 msgid "No Form Found in Trash"
 msgstr ""
 
-#: includes/admin/class-admin.php:67
+#: includes/admin/class-admin.php:69
 msgid "Parent Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:82
+#: includes/admin/class-admin.php:84
 msgid "weForms - The Best Contact Form"
 msgstr ""
 
-#: includes/admin/class-admin.php:85
+#: includes/admin/class-admin.php:87
 msgid "All Forms"
 msgstr ""
 
-#: includes/admin/class-admin.php:86
+#: includes/admin/class-admin.php:88
 msgid "Entries"
 msgstr ""
 
-#: includes/admin/class-admin.php:87
+#: includes/admin/class-admin.php:89
 msgid "Tools"
 msgstr ""
 
-#: includes/admin/class-admin.php:91
+#: includes/admin/class-admin.php:93
 msgid "Modules"
 msgstr ""
 
-#: includes/admin/class-admin.php:94
+#: includes/admin/class-admin.php:96
 #: includes/admin/views/weforms-settings-general.php:14
 #: includes/admin/views/weforms-settings-general.php:15
 #: includes/admin/views/weforms-settings-general.php:16
 msgid "Premium"
 msgstr ""
 
-#: includes/admin/class-admin.php:99
+#: includes/admin/class-admin.php:101
 msgid "<span style=\"color:#f18500\">Help</span>"
 msgstr ""
 
-#: includes/admin/class-admin.php:100 includes/admin/class-admin.php:341
+#: includes/admin/class-admin.php:102 includes/admin/class-admin.php:343
 #: includes/admin/views/weforms-settings-privacy.php:1
 msgid "Privacy"
 msgstr ""
 
-#: includes/admin/class-admin.php:105 weforms.php:394
+#: includes/admin/class-admin.php:107 weforms.php:394
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:184
+#: includes/admin/class-admin.php:186
 #: includes/api/class-weforms-forms-controller.php:1368
 #: includes/functions.php:773
 msgid "IP Address"
 msgstr ""
 
-#: includes/admin/class-admin.php:185
+#: includes/admin/class-admin.php:187
 #: includes/api/class-weforms-forms-controller.php:1369
 #: includes/functions.php:764
 #: includes/templates/class-template-restaurant-reservation.php:61
 msgid "Date"
 msgstr ""
 
-#: includes/admin/class-admin.php:306
+#: includes/admin/class-admin.php:308
 msgid "If you like %1$s please leave us a %2$s rating."
 msgstr ""
 
@@ -172,78 +172,88 @@ msgstr ""
 msgid "weForms"
 msgstr ""
 
-#: includes/admin/class-admin.php:324
+#: includes/admin/class-admin.php:326
 #: includes/admin/views/weforms-settings-general.php:1
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/class-admin.php:329
+#: includes/admin/class-admin.php:331
 #: includes/admin/views/weforms-settings-recaptcha.php:1
 #: includes/fields/class-field-recaptcha.php:9
 msgid "reCaptcha"
 msgstr ""
 
-#: includes/admin/class-admin.php:334
+#: includes/admin/class-admin.php:336
 #: includes/admin/views/weforms-settings-secure-database.php:1
 msgid "Secure Database"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:63 includes/functions.php:1167
+#: includes/admin/class-admin.php:409
+msgid ""
+"You&#39;re using weForms Free. For more features, modules and more consider "
+"upgrading to Pro."
+msgstr ""
+
+#: includes/admin/class-admin.php:412
+msgid "UPGRADE NOW!"
+msgstr ""
+
+#: includes/admin/class-form-builder-assets.php:45 includes/functions.php:1167
 #: includes/functions.php:1170
 msgid "New Form Submission"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:100
-#: includes/admin/class-form-builder-assets.php:309
+#: includes/admin/class-form-builder-assets.php:82
+#: includes/admin/class-form-builder-assets.php:291
 #: includes/class-scripts-styles.php:426
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:279
+#: includes/admin/class-form-builder-assets.php:261
 msgid "Advanced Options"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:280
+#: includes/admin/class-form-builder-assets.php:262
 msgid "Quiz Options"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:281
+#: includes/admin/class-form-builder-assets.php:263
 msgid "Are you sure you want to delete this field?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:282
+#: includes/admin/class-form-builder-assets.php:264
 #: includes/class-scripts-styles.php:427
 msgid "Yes, delete it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:283
+#: includes/admin/class-form-builder-assets.php:265
 #: includes/class-scripts-styles.php:428
 msgid "No, cancel it"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:284
+#: includes/admin/class-form-builder-assets.php:266
 msgid "OK"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:285
-#: includes/library/appsero/Insights.php:718
+#: includes/admin/class-form-builder-assets.php:267
+#: includes/library/appsero/Insights.php:727
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:286
+#: includes/admin/class-form-builder-assets.php:268
 #: includes/admin/class-shortcode-button.php:84
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:287
+#: includes/admin/class-form-builder-assets.php:269
 msgid "Disable"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:288
+#: includes/admin/class-form-builder-assets.php:270
 msgid "This field must contain at least one choice"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:289
+#: includes/admin/class-form-builder-assets.php:271
 #: includes/fields/class-field-checkbox.php:90
 #: includes/fields/class-field-dropdown.php:93
 #: includes/fields/class-field-multidropdown.php:64
@@ -251,114 +261,114 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:290
+#: includes/admin/class-form-builder-assets.php:272
 msgid "Row"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:291
+#: includes/admin/class-form-builder-assets.php:273
 msgid "Column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:292
+#: includes/admin/class-form-builder-assets.php:274
 msgid "This field must contain at least one column"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:293
+#: includes/admin/class-form-builder-assets.php:275
 msgid "is available in Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:294
+#: includes/admin/class-form-builder-assets.php:276
 msgid "Please upgrade to the Pro version to unlock all these awesome features"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:295
+#: includes/admin/class-form-builder-assets.php:277
 msgid "Get the Pro version"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:296
+#: includes/admin/class-form-builder-assets.php:278
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:297
+#: includes/admin/class-form-builder-assets.php:279
 msgid "Saved form data"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:298
+#: includes/admin/class-form-builder-assets.php:280
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:299
+#: includes/admin/class-form-builder-assets.php:281
 msgid "Are you sure to leave this page?"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:300
+#: includes/admin/class-form-builder-assets.php:282
 msgid "Click to copy shortcode"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:302
+#: includes/admin/class-form-builder-assets.php:284
 msgid "Select an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:303
+#: includes/admin/class-form-builder-assets.php:285
 msgid "Please select an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:304
+#: includes/admin/class-form-builder-assets.php:286
 msgid "Upload an image"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:306
+#: includes/admin/class-form-builder-assets.php:288
 msgid "Share Your Form"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:307
+#: includes/admin/class-form-builder-assets.php:289
 msgid ""
 "Sharing your form enables <strong>anyone</strong> to view and submit the "
 "form without inserting the shortcode to a page."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:308
+#: includes/admin/class-form-builder-assets.php:290
 msgid "Anyone with this URL will be able to view and submit this form."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:310
+#: includes/admin/class-form-builder-assets.php:292
 msgid "You must select a notification"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:311
+#: includes/admin/class-form-builder-assets.php:293
 msgid "Anyone with existing URL won't be able to view and submit the form anymore."
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:312
+#: includes/admin/class-form-builder-assets.php:294
 msgid "Disable Sharing"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:334
+#: includes/admin/class-form-builder-assets.php:316
 msgid "Notifications"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:335
+#: includes/admin/class-form-builder-assets.php:317
 msgid "Integrations"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:357
+#: includes/admin/class-form-builder-assets.php:339
 msgid "Form Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:358
+#: includes/admin/class-form-builder-assets.php:340
 msgid "Submission Restriction"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:359
+#: includes/admin/class-form-builder-assets.php:341
 msgid "Display Settings"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:394
+#: includes/admin/class-form-builder-assets.php:376
 #: includes/admin/class-privacy.php:242 includes/functions.php:771
 msgid "User"
 msgstr ""
 
-#: includes/admin/class-form-builder-assets.php:396 includes/functions.php:775
+#: includes/admin/class-form-builder-assets.php:378 includes/functions.php:775
 #: includes/integrations/mailpoet/component/template.php:38
 #: includes/templates/class-template-conference-proposal.php:33
 #: includes/templates/class-template-donation-form.php:32
@@ -762,43 +772,42 @@ msgstr ""
 msgid "Conditional Logic"
 msgstr ""
 
-#: includes/admin/class-promotion.php:197
+#: includes/admin/class-promotion.php:196
+#: includes/admin/class-promotion.php:210
+#. translators: opening <strong> tag, closing </strong> tag.
+msgid "Enjoying %sweForms%s?"
+msgstr ""
+
 #: includes/admin/class-promotion.php:200
-msgid "Enjoying <strong>weForms</strong>?"
-msgstr ""
-
-#: includes/admin/class-promotion.php:198
+#. translators: opening <a>tag, closing </a> tag.
 msgid ""
-"Seems like you are getting a good response using <strong>weForms</strong>. "
-"Would you please show us a little love by rating us in the <a "
-"href=\"https://wordpress.org/support/plugin/weforms/reviews/#postform\" "
-"target=\"_blank\"><strong>WordPress.org</strong></a>?"
+"Seems like you are getting a good response using weForms. Would you please "
+"show us a little love by rating us in the %sWordPress.org%s?"
 msgstr ""
 
-#: includes/admin/class-promotion.php:201
+#: includes/admin/class-promotion.php:216
+#. translators: opening <a> tag, closing </a> tag
 msgid ""
 "Hope that you had a neat and snappy experience with the tool. Would you "
-"please show us a little love by rating us in the <a "
-"href=\"https://wordpress.org/support/plugin/weforms/reviews/#postform\" "
-"target=\"_blank\"><strong>WordPress.org</strong></a>?"
+"please show us a little love by rating us in the %sWordPress.org%s?"
 msgstr ""
 
-#: includes/admin/class-promotion.php:206
+#: includes/admin/class-promotion.php:229
 msgid "Sure! I'd love to!"
 msgstr ""
 
-#: includes/admin/class-promotion.php:209
+#: includes/admin/class-promotion.php:232
 msgid "I've already left a review"
 msgstr ""
 
-#: includes/admin/class-promotion.php:212
+#: includes/admin/class-promotion.php:235
 msgid "Never show again"
 msgstr ""
 
-#: includes/admin/class-promotion.php:311
-#: includes/admin/class-promotion.php:315
-#: includes/admin/class-promotion.php:337
-#: includes/admin/class-promotion.php:341 includes/class-ajax.php:99
+#: includes/admin/class-promotion.php:341
+#: includes/admin/class-promotion.php:345
+#: includes/admin/class-promotion.php:367
+#: includes/admin/class-promotion.php:371 includes/class-ajax.php:99
 #: includes/fields/class-abstract-fields.php:533
 #: includes/fields/class-abstract-fields.php:537
 #: includes/fields/class-field-checkbox.php:107
@@ -2545,29 +2554,29 @@ msgstr ""
 msgid "Estimate Submitted: Form %s."
 msgstr ""
 
-#: includes/library/appsero/Insights.php:366
+#: includes/library/appsero/Insights.php:370
 msgid ""
 "Want to better secure your contact form's valuable data? Check out "
 "FortressDB!"
 msgstr ""
 
-#: includes/library/appsero/Insights.php:374
+#: includes/library/appsero/Insights.php:381
 msgid "Learn More"
 msgstr ""
 
-#: includes/library/appsero/Insights.php:375
+#: includes/library/appsero/Insights.php:382
 msgid "Hide"
 msgstr ""
 
-#: includes/library/appsero/Insights.php:701
+#: includes/library/appsero/Insights.php:710
 msgid "If you have a moment, please let us know why you are deactivating:"
 msgstr ""
 
-#: includes/library/appsero/Insights.php:716
+#: includes/library/appsero/Insights.php:725
 msgid "I rather wouldn't say"
 msgstr ""
 
-#: includes/library/appsero/Insights.php:717
+#: includes/library/appsero/Insights.php:726
 msgid "Submit & Deactivate"
 msgstr ""
 
