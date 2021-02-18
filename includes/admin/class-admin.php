@@ -393,7 +393,7 @@ class WeForms_Admin {
 	/**
 	 * WeForms Pro CTA notice
 	 *
-	 * @since SINCEVERSION
+	 * @since 1.6.5
 	 */
 	public function wpuf_premium_cta() {
 		$screen = get_current_screen();

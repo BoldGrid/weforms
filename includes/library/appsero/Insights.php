@@ -344,7 +344,7 @@ class Insights {
     /**
      * Display the admin notice to users that have not opted-in or out
      *
-	 * @since SINCEVERSION
+	 * @since 1.6.5
 	 *
      * @return void
      */
