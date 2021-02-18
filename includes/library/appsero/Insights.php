@@ -140,12 +140,6 @@ class Insights {
      * @return void
      */
     protected function init_common() {
-
-        if ( $this->show_notice ) {
-            // tracking notice
-            add_action( 'admin_notices', array( $this, 'admin_notice' ) );
-        }
-
         add_action( 'admin_init', array( $this, 'handle_optin_optout' ) );
 
         // uninstall reason
@@ -340,41 +334,6 @@ class Insights {
      */
     private function clear_schedule_event() {
         wp_clear_scheduled_hook( $this->client->slug . '_tracker_send_event' );
-    }
-
-    /**
-     * Display the admin notice to users that have not opted-in or out
-     *
-     * @return void
-     */
-    public function admin_notice() {
-
-        if ( $this->notice_dismissed() ) {
-            return;
-        }
-
-        if ( ! current_user_can( 'manage_options' ) ) {
-            return;
-        }
-
-        // don't show tracking if a local server
-        if ( ! $this->is_local_server() ) {
-            $learn_url  = admin_url('admin.php?page=weforms#/settings');
-            $optout_url = add_query_arg( $this->client->slug . '_hide_fortressdb', 'true' );
-
-            if ( empty( $this->notice ) ) {
-                $notice = sprintf( __( "Want to better secure your contact form's valuable data? Check out FortressDB!", $this->client->textdomain, 'weforms' ), $this->client->name );
-            } else {
-                $notice = $this->notice;
-            }
-
-            echo '<div class="updated"><p>';
-                echo $notice;
-                echo '</p><p class="submit">';
-                echo '&nbsp;<a href="' . esc_url( $learn_url ) . '" class="button-primary button-large">' . __( 'Learn More', $this->client->textdomain, 'weforms' ) . '</a>';
-                echo '&nbsp;<a href="' . esc_url( $optout_url ) . '" class="button-secondary button-large">' . __( 'Hide', $this->client->textdomain, 'weforms' ) . '</a>';
-            echo '</p></div>';
-        }
     }
 
     /**
