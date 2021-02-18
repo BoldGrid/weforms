@@ -252,6 +252,7 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 ### Version 1.6.5 (18 February, 2021) ###
 * **Fix:** Updated admin notices to better conform to WordPress design standards, and configured them to only show on WeForms pages.
 * **Update:** Removed FortressDB admin notice.
+* **Update:** Updated axios dependancy
 
 ### Version 1.6.4 (23 December, 2020) ###
 * **Fix:** Added spreadsheet functione escaping to prevent CSV exploits. [#50] (https://github.com/BoldGrid/weforms/pull/50)
