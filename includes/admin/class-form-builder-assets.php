@@ -10,7 +10,6 @@ class WeForms_Form_Builder_Assets {
     }
 
     public function init_actions() {
-        add_action( 'in_admin_header', [ $this, 'remove_admin_notices' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'builder_enqueue_scripts' ], 2000 );
         add_action( 'admin_print_scripts', [ $this, 'builder_mixins_script' ] );
         add_action( 'admin_footer', [ $this, 'admin_footer_js_templates' ] );
@@ -24,23 +23,6 @@ class WeForms_Form_Builder_Assets {
         add_action( 'wpuf-form-builder-settings-tab-contents-contact_form', [ $this, 'add_settings_tab_contents' ] );
 
         do_action( 'weforms_form_builder_init' );
-    }
-
-    /**
-     * Remove all kinds of admin notices
-     *
-     * Since we don't have much space left on top of the page,
-     * we have to remove all kinds of admin notices
-     *
-     * @since 1.2.6
-     *
-     * @return void
-     */
-    public function remove_admin_notices() {
-        remove_all_actions( 'network_admin_notices' );
-        remove_all_actions( 'user_admin_notices' );
-        remove_all_actions( 'admin_notices' );
-        remove_all_actions( 'all_admin_notices' );
     }
 
     public function builder_enqueue_scripts() {

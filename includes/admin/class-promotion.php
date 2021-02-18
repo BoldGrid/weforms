@@ -188,49 +188,76 @@ class WeForms_Admin_Promotion {
           ) {
             return;
         } ?>
-        <div id="weforms-review-notice" class="weforms-review-notice">
-            <div class="weforms-review-thumbnail">
-                <img src="<?php echo esc_attr( WEFORMS_ASSET_URI ) . '/images/icon-weforms.png' ?>" alt="">
-            </div>
-            <div class="weforms-review-text">
-                <?php if ( $total_entries >= 25 ) : ?>
-                    <h3><?php wp_kses_post( __( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ) ?></h3>
-                    <p><?php wp_kses_post( __('Seems like you are getting a good response using <strong>weForms</strong>. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms') ) ?></p>
-                <?php else: ?>
-                    <h3><?php wp_kses_post( __( 'Enjoying <strong>weForms</strong>?', 'weforms' ) ) ?></h3>
-                    <p><?php wp_kses_post( __( 'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the <a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>WordPress.org</strong></a>?', 'weforms' ) ) ?></p>
-                <?php endif; ?>
-
-                <ul class="weforms-review-ul">
-                    <li><a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span
-                                class="dashicons dashicons-external"></span><?php esc_html_e( 'Sure! I\'d love to!', 'weforms' ) ?>
-                        </a></li>
-                    <li><a href="#" class="notice-dismiss"><span
-                                class="dashicons dashicons-smiley"></span><?php esc_html_e( 'I\'ve already left a review', 'weforms' ) ?>
-                        </a></li>
-                    <li><a href="#" class="notice-dismiss"><span
-                                class="dashicons dashicons-dismiss"></span><?php esc_html_e( 'Never show again', 'weforms' ) ?>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <div id="weforms-review-notice" class="weforms-review-notice updated notice">
+			<div class="weforms-review-top">
+				<p><img src="<?php echo esc_attr( WEFORMS_ASSET_URI ) . '/images/weforms-logo.png'; ?>" alt=""></p>
+				<div class="weforms-review-text">
+					<?php if ( $total_entries >= 25 ) : ?>
+						<h3><?php printf( __( 'Enjoying %sweForms%s?', 'weforms' ), '<strong>', '</strong>' ); ?></h3>
+						<p><?php
+						printf(
+							// translators: opening <a>tag, closing </a> tag.
+							__(
+								'Seems like you are getting a good response using weForms. Would you please show us a little love by rating us in the %sWordPress.org%s?',
+								'weforms'
+							),
+							'<a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>',
+							'</strong></a>'
+						); ?></p>
+					<?php else: ?>
+						<h3><?php printf(
+							// translators: opening <strong> tag, closing </strong> tag.
+							__( 'Enjoying %sweForms%s?', 'weforms' ),
+							'<strong>',
+							'</strong>' ); ?></h3>
+						<p><?php
+						printf(
+							// translators: opening <a> tag, closing </a> tag
+							__(
+								'Hope that you had a neat and snappy experience with the tool. Would you please show us a little love by rating us in the %sWordPress.org%s?',
+								'weforms'
+							),
+							'<a href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><strong>',
+							'</strong></a>'
+						); ?></p>
+					<?php endif; ?>
+				</div>
+			</div>
+			<div class="weforms-review-links">
+				<ul class="weforms-review-ul">
+					<li><a class="button" href="https://wordpress.org/support/plugin/weforms/reviews/#postform" target="_blank"><span
+								class="dashicons dashicons-external"></span><?php esc_html_e( 'Sure! I\'d love to!', 'weforms' ) ?>
+						</a></li>
+					<li><a href="#" class=" button notice-dismiss"><span
+								class="dashicons dashicons-smiley"></span><?php esc_html_e( 'I\'ve already left a review', 'weforms' ) ?>
+						</a></li>
+					<li><a href="#" class="button notice-dismiss"><span
+								class="dashicons dashicons-dismiss"></span><?php esc_html_e( 'Never show again', 'weforms' ) ?>
+						</a>
+					</li>
+				</ul>
+			</div>
         </div>
         <style type="text/css">
-            #weforms-review-notice .notice-dismiss {
-                padding: 0 0 0 26px;
-            }
 
             #weforms-review-notice .notice-dismiss:before {
                 display: none;
             }
 
             #weforms-review-notice.weforms-review-notice {
-                padding: 15px 15px 15px 0;
                 background-color: #fff;
                 border-radius: 3px;
-                margin: 20px 20px 0 0;
-                border-left: 4px solid transparent;
+                margin: 5px 0 15px;
             }
+
+			#weforms-review-notice .weforms-review-top {
+				display: flex;
+				margin: 0.5em 0;
+			}
+
+			#weforms-review-notice .weforms-review-top > p {
+				padding-right: 15px;
+			}
 
             #weforms-review-notice .weforms-review-thumbnail {
                 width: 114px;
@@ -256,6 +283,10 @@ class WeForms_Admin_Promotion {
                 line-height: 1.3;
             }
 
+			#weforms-review-notice .weforms-review-links {
+				margin: 0.5em 0;
+			}
+
             #weforms-review-notice .weforms-review-text p {
                 font-size: 13px;
                 margin: 0 0 5px;
@@ -272,17 +303,16 @@ class WeForms_Admin_Promotion {
             }
 
             #weforms-review-notice .weforms-review-ul li a {
-                display: inline-block;
+                display: flex;
+				align-items: center;
+				justify-content: space-between;
                 color: #82C776;
                 text-decoration: none;
-                padding-left: 26px;
                 position: relative;
             }
 
             #weforms-review-notice .weforms-review-ul li a span {
-                position: absolute;
-                left: 0;
-                top: -2px;
+				margin-right: 10px;
             }
         </style>
         <script type='text/javascript'>

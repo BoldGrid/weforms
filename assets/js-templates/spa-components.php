@@ -173,18 +173,11 @@
             <span style="color: #999;" class="form-name">
                 {{ form_title }}
             </span>
-            
+
             <select v-if="Object.keys(forms).length" v-model="selected" @change="status='publish'">
                 <option :value="form.id" v-for="form in forms">{{ form.name }}</option>
             </select>
         </h1>
-        <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
-            <div class="wpuf-premium-cta">
-            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
-            <p><?php _e( 'You&#39;re using weForms Free. For more features, modules and more consider upgrading to Pro.' , 'weforms' ); ?></p>
-            <a href="https://weformspro.com/get-premium/?utm_source=Entries&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button"><?php _e( 'UPGRADE NOW!' , 'weforms' ); ?></a>
-            </div>
-        <?php } ?>
     </div>
 
     <div>
@@ -786,13 +779,6 @@
 <div class="contact-form-list">
     <h1 class="wp-heading-inline"><?php _e( 'All Forms', 'weforms' ); ?></h1>
     <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'weforms' ); ?></a>
-    <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
-            <div class="wpuf-premium-cta">
-            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
-            <p><?php _e( 'You&#39;re using weForms Free. For more features, modules and more consider upgrading to Pro.' , 'weforms' ); ?></p>
-            <a href="https://weformspro.com/upgrade-now/?utm_source=All%20Forms&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button"><?php _e( 'UPGRADE NOW!' , 'weforms' ); ?></a>
-            </div>
-    <?php } ?>
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
     <form-list-table></form-list-table>
@@ -801,13 +787,6 @@
 <script type="text/x-template" id="tmpl-wpuf-tools">
 <div class="export-import-wrap">
     <h1><?php _e( 'Tools', 'weforms' ); ?></h1>
-    <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
-            <div class="wpuf-premium-cta">
-            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
-            <p><?php _e( 'You&#39;re using weForms Free. For more features, modules and more consider upgrading to Pro.' , 'weforms' ); ?></p>
-            <a href="https://weformspro.com/get-premium-weforms/?utm_source=Tools&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button"><?php _e( 'UPGRADE NOW!' , 'weforms' ); ?></a>
-            </div>
-    <?php } ?>
     <h2 class="nav-tab-wrapper">
         <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
         <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
@@ -1008,7 +987,7 @@
     </h1>
 
     <p v-if="no_transactions">
-       <?php printf( 
+       <?php printf(
             __( 'You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.' ),
             '<a target="_blank" href="https://wedevs.com/docs/weforms/integrations/payment/">',
             '</a>'
@@ -1380,13 +1359,6 @@
 <div class="weforms-settings clearfix" id="weforms-settings">
 
     <h1><?php _e( 'Settings', 'weforms' ); ?></h1>
-    <?php if ( ! class_exists( 'WeForms_Pro' ) ) {?>
-            <div class="wpuf-premium-cta">
-            <img src="<?php echo plugin_dir_url( dirname( __FILE__ ) ) . 'images/weforms-logo.png'?>">
-            <p><?php _e( 'You&#39;re using weForms Free. For more features, modules and more consider upgrading to Pro.' , 'weforms' ); ?></p>
-            <a href="https://weformspro.com/premium-weforms/?utm_source=Settings&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button"><?php _e( 'UPGRADE NOW!' , 'weforms' ); ?></a>
-            </div>
-        <?php } ?>
     <div id="weforms-settings-tabs-warp" class="<?php echo !function_exists( 'weforms_pro' ) ? 'weforms-pro-deactivate' : ''; ?>">
         <div id="weforms-settings-tabs">
             <ul>
