@@ -353,12 +353,15 @@ class WeForms_Form_Entry {
                             $value = implode( '<br> ', $serialized_value );
                         }
                     } elseif ( $field['type'] == 'signature_field' ) {
-                        $url   = content_url() . $value;
+                        $url   = $value;
                         $value = $url;
 
                         if ( isset( $_REQUEST['action'] ) != 'weforms_pdf_download' ) {
                             $value = sprintf( '<img src="%s">', $url );
                             $value .= sprintf( '<a style="margin-left: -200px" href="%s">Download</a>', $url );
+                        }
+                        else{
+                            $value = sprintf( '<img src="%s">', $url );
                         }
                     }
 
