@@ -26,23 +26,6 @@ class WeForms_Form_Builder_Assets {
         do_action( 'weforms_form_builder_init' );
     }
 
-    /**
-     * Remove all kinds of admin notices
-     *
-     * Since we don't have much space left on top of the page,
-     * we have to remove all kinds of admin notices
-     *
-     * @since 1.2.6
-     *
-     * @return void
-     */
-    public function remove_admin_notices() {
-        remove_all_actions( 'network_admin_notices' );
-        remove_all_actions( 'user_admin_notices' );
-        remove_all_actions( 'admin_notices' );
-        remove_all_actions( 'all_admin_notices' );
-    }
-
     public function builder_enqueue_scripts() {
         $prefix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
