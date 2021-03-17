@@ -1115,6 +1115,7 @@ function weforms_get_default_form_settings() {
             'total_points'               => 0,
             'enable_multistep'           => false,
             'multistep_progressbar_type' => 'progressive',
+            'humanpresence_enabled'      => false,
 
             // payment
             'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',

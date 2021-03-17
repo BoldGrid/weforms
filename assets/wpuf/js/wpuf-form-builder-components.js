@@ -19,7 +19,7 @@
 
             hidden_fields: function hidden_fields() {
                 return this.$store.state.form_fields.filter(function (item) {
-                    return 'custom_hidden_field' === item.template;
+                    return 'custom_hidden_field' === item.template || 'humanpresence' === item.template;
                 });
             },
 
@@ -30,6 +30,21 @@
             pro_link: function pro_link() {
                 return wpuf_form_builder.pro_link;
             }
+        },
+
+        created: function created() {
+            var self = this,
+                humanpresence_field_id = 0, 
+                i = 0;
+            for(i = 0; i < self.$store.state.form_fields.length; i++) {
+                if (self.$store.state.form_fields[i].template === 'humanpresence') {
+                    humanpresence_field_id = self.$store.state.form_fields[i].id;
+                }
+            }
+
+            wpuf_form_builder.event_hub.$on('humanpresence-changed', this.humanpresence_changed);
+            wpuf_form_builder.event_hub.$on('humanpresence-disabled', this.delete_humanpresence_field);
+
         },
 
         mounted: function mounted() {
@@ -153,13 +168,48 @@
                 }, function () {});
             },
 
+            delete_field_no_confirm: function delete_field_no_confirm(index) {
+                this.$store.commit('delete_form_field_element', index);
+            },
+
             delete_hidden_field: function delete_hidden_field(field_id) {
                 var i = 0;
 
                 for (i = 0; i < this.form_fields.length; i++) {
                     if (parseInt(field_id) === parseInt(this.form_fields[i].id)) {
-                        this.delete_field(i);
+                        if(this.form_fields[i].template === 'humanpresence'){
+                            this.delete_field_no_confirm(i);
+                            this.disable_humanpresence_setting();
+                        } else {
+                            this.delete_field(i);
+                        }
                     }
+                }
+            },
+
+            delete_humanpresence_field: function delete_humanpresence_field(data) {
+                var i = 0;
+                if(data.$store.state.form_fields.length) {
+                    for(i = 0; i < data.$store.state.form_fields.length; i++) {
+                        if(data.$store.state.form_fields[i].template === 'humanpresence') {
+                            this.delete_field_no_confirm(i);
+                            this.disable_humanpresence_setting();
+                        }
+                    }
+                }
+            },
+
+            disable_humanpresence_setting: function disable_humanpresence_setting() {
+                var settings = this.$store.state.settings;
+                settings.humanpresence_enabled = false;
+                this.$store.commit('set_form_settings', settings);
+            },
+
+            humanpresence_changed: function humanpresence_changed(e, data) {
+                if(data.$store.state.settings.humanpresence_enabled === 'true'){
+                    wpuf_form_builder.event_hub.$emit('humanpresence-enabled', data);
+                } else {
+                    wpuf_form_builder.event_hub.$emit('humanpresence-disabled', data);
                 }
             },
 
@@ -427,7 +477,8 @@
             return {
                 show_basic_settings: true,
                 show_advanced_settings: false,
-                show_quiz_settings: false
+                show_quiz_settings: false,
+                show_humanpresence_settings: false
             };
         },
 
@@ -436,6 +487,7 @@
                 this.show_basic_settings = true;
                 this.show_advanced_settings = false;
                 this.show_quiz_settings = false;
+                this.show_humanpresence_settings = false;
 
                 return parseInt(this.$store.state.editing_field_id);
             },
@@ -500,6 +552,12 @@
             quiz_settings: function quiz_settings() {
                 return this.settings.filter(function (item) {
                     return 'quiz' === item.section;
+                });
+            },
+
+            humanpresence_settings: function humanpresence_settings() {
+                return this.settings.filter(function (item) {
+                    return 'humanpresence' === item.section;
                 });
             },
 
@@ -1196,9 +1254,13 @@
             }
         },
 
+        created: function created() {
+            wpuf_form_builder.event_hub.$on('humanpresence-enabled', this.add_humanpresence_field);
+        },
+
         mounted: function mounted() {
             // bind jquery ui draggable
-            $(this.$el).find('.panel-form-field-buttons .button').draggable({
+            $(this.$el).find('.panel-form-field-buttons .button').not('[data-form-field="humanpresence"]').draggable({
                 connectToSortable: '#form-preview-stage .wpuf-form, .wpuf-column-inner-fields .wpuf-column-fields-sortable-list',
                 helper: 'clone',
                 revert: 'invalid',
@@ -1241,10 +1303,22 @@
                     }
                 }
 
+                if(field_template === 'humanpresence') {
+                    var settings = this.$store.state.settings;
+                    settings.humanpresence_enabled = true;
+                    this.$store.commit('set_form_settings', settings);
+                }
+
                 payload.field = field;
 
                 // add new form element
                 this.$store.commit('add_form_field_element', payload);
+            },
+
+            add_humanpresence_field: function add_humanpresence_field(data) {
+                if(!this.containsField('humanpresence')) {
+                    this.add_form_field('humanpresence');
+                }
             },
 
             is_pro_feature: function is_pro_feature(field) {
@@ -1370,6 +1444,26 @@
                 return wpuf_form_builder.field_settings.recaptcha.validator.msg;
             }
         }
+    });
+
+    /**
+     * Field template: HumanPresence
+     */
+    Vue.component('form-humanpresence', {
+        template: '#tmpl-wpuf-form-humanpresence',
+
+        mixins: [wpuf_mixins.form_field_mixin],
+
+        computed: {
+            has_humanpresence_installed: function has_humanpresence_installed() {
+                return wpuf_form_builder.humanpresence_installed;
+            },
+
+            no_humanpresence_installed_msg: function no_humanpresence_installed_msg() {
+                return wpuf_form_builder.field_settings.humanpresence.validator.msg;
+            }
+        }
+
     });
 
     /**

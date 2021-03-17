@@ -58,6 +58,7 @@ class WeForms_Field_Manager {
         require_once __DIR__ . '/fields/class-field-hidden.php';
         require_once __DIR__ . '/fields/class-field-image.php';
         require_once __DIR__ . '/fields/class-field-recaptcha.php';
+        require_once __DIR__ . '/fields/class-field-humanpresence.php';
         require_once __DIR__ . '/fields/class-field-date.php';
 
         $fields = [
@@ -77,6 +78,7 @@ class WeForms_Field_Manager {
             'custom_hidden_field' => new WeForms_Form_Field_Hidden(),
             'image_upload'        => new WeForms_Form_Field_Image(),
             'recaptcha'           => new WeForms_Form_Field_reCaptcha(),
+            'humanpresence'       => new WeForms_Form_Field_HumanPresence(),
         ];
 
         $this->fields = apply_filters( 'weforms_form_fields', $fields );
@@ -118,6 +120,7 @@ class WeForms_Field_Manager {
                         'section_break',
                         'custom_html',
                         'recaptcha',
+                        'humanpresence'
                     ]
                   ),
             ],

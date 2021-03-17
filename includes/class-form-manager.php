@@ -182,6 +182,8 @@ class WeForms_Form_Manager {
         update_post_meta( $data['form_id'], 'integrations', $data['integrations'] );
         update_post_meta( $data['form_id'], '_weforms_version', WEFORMS_VERSION );
 
+        do_action( 'weforms_after_save_form', $data['form_id'], $data['form_fields'], $data['form_settings'] );
+
         return $saved_wpuf_inputs;
     }
 

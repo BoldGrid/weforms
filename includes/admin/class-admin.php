@@ -10,8 +10,6 @@ class WeForms_Admin {
         add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
         add_action( 'pre_update_option_wpuf_general', [ $this, 'watch_wpuf_settings' ] );
 
-		add_action( 'admin_notices', array( $this, 'wpuf_premium_cta' ) );
-
         add_filter( 'admin_footer_text', [ $this, 'admin_footer_text' ] );
         add_filter( 'admin_post_weforms_export_forms', [ $this, 'export_forms' ] );
         add_filter( 'admin_post_weforms_export_form_entries', [ $this, 'export_form_entries' ] );
@@ -21,6 +19,7 @@ class WeForms_Admin {
         add_action( 'weforms_settings_tab_content_general', [ $this, 'settings_tab_general' ] );
         add_action( 'weforms_settings_tab_content_recaptcha', [ $this, 'settings_tab_recaptcha' ] );
         add_action( 'weforms_settings_tab_content_secure-database', [ $this, 'settings_tab_secure_database' ] );
+        add_action( 'weforms_settings_tab_content_humanpresence', [ $this, 'settings_tab_humanpresence' ] );
         add_action( 'weforms_settings_tab_content_privacy', [ $this, 'settings_tab_privacy' ] );
     }
 
@@ -337,6 +336,11 @@ class WeForms_Admin {
             'icon'  => WEFORMS_ASSET_URI . '/images/integrations/secure-database.png',
         ];
 
+        $tabs['humanpresence'] = [
+            'label' => __( 'Human Presence', 'weforms' ),
+            'icon'  => WEFORMS_ASSET_URI . '/images/integrations/hp-shield.svg',
+        ];
+
         /* TODO:  Refactor this block when more options are added in privacy settings*/
         if ( class_exists( 'WeForms_Pro' ) ) {
             $tabs['privacy'] = [
@@ -380,6 +384,16 @@ class WeForms_Admin {
         include __DIR__ . '/views/weforms-settings-secure-database.php';
     }
     /**
+     * Human Presence tab content
+     *
+     * @param array $tab
+     *
+     * @return void
+     */
+    public function settings_tab_humanpresence( $tab ) {
+        include __DIR__ . '/views/weforms-settings-humanpresence.php';
+    }
+    /**
      * Privacy tab content
      *
      * @param array $tab
@@ -389,30 +403,4 @@ class WeForms_Admin {
     public function settings_tab_privacy( $tab ) {
         include __DIR__ . '/views/weforms-settings-privacy.php';
     }
-
-	/**
-	 * WeForms Pro CTA notice
-	 *
-	 * @since 1.6.5
-	 */
-	public function wpuf_premium_cta() {
-		$screen = get_current_screen();
-		if ( $screen && $screen->base && 'toplevel_page_weforms' !== $screen->base ) {
-			return;
-		}
-
-		if ( ! class_exists( 'WeForms_Pro' ) ) {
-			?>
-			<div class="notice updated premium-cta">
-				<p style="display: flex;align-items: center;">
-					<img style="padding-right:15px;" src="<?php echo WEFORMS_ASSET_URI . '/images/weforms-logo.png'; ?>">
-					<?php _e( 'You&#39;re using weForms Free. For more features, modules and more consider upgrading to Pro.' , 'weforms' ); ?>
-				</p>
-				<p class="submit">
-					<a href="https://weformspro.com/get-premium/?utm_source=Entries&utm_medium=Button&utm_campaign=Upgrade%20Now" target="_blank" class="button-primary"><?php _e( 'UPGRADE NOW!' , 'weforms' ); ?></a>
-				</p>
-			</div>
-			<?php
-		}
-	}
 }
