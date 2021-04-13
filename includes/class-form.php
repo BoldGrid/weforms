@@ -139,10 +139,10 @@ class WeForms_Form {
                 $field['recaptcha_theme']   = isset( $field['recaptcha_theme'] ) ? $field['recaptcha_theme'] : 'light';
             }
 
-            $form_fields[] = apply_filters( 'weforms-get-form-field', $field );
+            $form_fields[] = apply_filters( 'weforms-get-form-field', $field, $this->id );
         }
 
-        $this->form_fields = apply_filters( 'weforms-get-form-fields', $form_fields );
+        $this->form_fields = apply_filters( 'weforms-get-form-fields', $form_fields, $this->id );
 
         return $this->form_fields;
     }
@@ -271,7 +271,7 @@ class WeForms_Form {
         $settings = get_post_meta( $this->id, 'wpuf_form_settings', true );
         $default  = weforms_get_default_form_settings();
 
-        return array_merge( $default, $settings );
+        return apply_filters( 'weforms-get-form-settings', array_merge( $default, $settings ), $this->id );
     }
 
     /**

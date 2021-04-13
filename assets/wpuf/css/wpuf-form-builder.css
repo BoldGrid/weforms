@@ -218,6 +218,12 @@
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#660073aa', endColorstr='#ff0073aa', GradientType=0);
 }
+.fa.fa-humanpresence {
+  width: 1em;
+  height: 1em;
+  background: no-repeat url('images/hp-shield.svg') left top;
+  background-size: cover;
+}
 #wpuf-form-builder {
   width: calc(100% - 200px);
   padding-top: 10px;

@@ -16,6 +16,7 @@
             ]"
             :data-index="index"
             data-source="stage"
+            v-if="'humanpresence' !== field.template"
         >
             <div v-if="!is_full_width(field.template)" class="wpuf-label">
                 <label v-if="!is_invisible(field)" :for="'wpuf-' + field.name ? field.name : 'cls'">
@@ -58,7 +59,9 @@
                 v-for="(field, index) in hidden_fields"
                 :class="['field-items', parseInt(editing_form_id) === parseInt(field.id) ? 'current-editing' : '']"
             >
-                <strong><?php esc_html_e( 'key', 'wp-user-frontend' ); ?></strong>: {{ field.name }} | <strong><?php esc_html_e( 'value', 'wp-user-frontend' ); ?></strong>: {{ field.meta_value }}
+                <span v-if="'humanpresence' !== field.template"><strong><?php esc_html_e( 'key', 'wp-user-frontend' ); ?></strong>: {{ field.name }} | <strong><?php esc_html_e( 'value', 'wp-user-frontend' ); ?></strong>: {{ field.meta_value }}</span>
+
+                <span v-if="'humanpresence' === field.template"><component v-if="is_template_available(field)" :is="'form-' + field.template" :field="field"></component></span>
 
                 <div class="control-buttons">
                     <p>
@@ -349,10 +352,10 @@
 
     <div v-if="'logged_in' === selected" class="condiotional-logic-container">
 
-    	<?php $roles = get_editable_roles(); ?>
+        <?php $roles = get_editable_roles(); ?>
 
-    	<ul>
-			<?php
+        <ul>
+            <?php
                 foreach ( $roles as $role => $value ) {
                     $role_name = $value['name'];
 
@@ -363,13 +366,13 @@
                     echo $output;
                 }
             ?>
-	    </ul>
+        </ul>
     </div>
 
     <div v-if="'subscribed_users' === selected" class="condiotional-logic-container">
 
-    	<ul>
-    		<?php
+        <ul>
+            <?php
 
                 if ( class_exists( 'WPUF_Subscription' ) ) {
                     $subscriptions  = WPUF_Subscription::init()->get_subscriptions();
@@ -387,7 +390,7 @@
                     }
                 }
             ?>
-    	</ul>
+        </ul>
 
     </div>
 </div></script>
@@ -708,10 +711,22 @@
     </template>
 
     <template v-else>
-    	<div v-if="'invisible_recaptcha' != field.recaptcha_type">
-        	<img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder.png'; ?>" alt="">
+        <div v-if="'invisible_recaptcha' != field.recaptcha_type">
+            <img class="wpuf-recaptcha-placeholder" src="<?php echo WPUF_ASSET_URI . '/images/recaptcha-placeholder.png'; ?>" alt="">
         </div>
         <div v-else><p><?php _e( 'Invisible reCaptcha', 'wp-user-frontend' ); ?></p></div>
+    </template>
+</div>
+</script>
+
+<script type="text/x-template" id="tmpl-wpuf-form-humanpresence">
+<div class="wpuf-fields">
+    <template v-if="!has_humanpresence_installed">
+        <p v-html="no_humanpresence_installed_msg"></p>
+    </template>
+
+    <template v-else>
+        <div><p><i aria-hidden="true" class="fa fa-humanpresence"></i> <?php _e( 'Human Presence Anti-Spam Enabled (only visible to you).', 'wp-user-frontend' ); ?></p></div>
     </template>
 </div>
 </script>

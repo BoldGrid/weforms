@@ -10,6 +10,7 @@ class WeForms_Form_Builder_Assets {
     }
 
     public function init_actions() {
+        add_action( 'in_admin_header', [ $this, 'remove_admin_notices' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'builder_enqueue_scripts' ], 2000 );
         add_action( 'admin_print_scripts', [ $this, 'builder_mixins_script' ] );
         add_action( 'admin_footer', [ $this, 'admin_footer_js_templates' ] );
@@ -31,6 +32,7 @@ class WeForms_Form_Builder_Assets {
         weforms()->scripts->enqueue_backend();
 
         $recaptcha = weforms_get_settings( 'recaptcha' );
+        $humanpresence = get_option( 'wp-human-presence', array() );
 
         $wpuf_form_builder = apply_filters( 'wpuf-form-builder-localize-script', [
             'i18n'                => $this->i18n(),
@@ -64,9 +66,14 @@ class WeForms_Form_Builder_Assets {
                     ],
                 ],
             ],
-            'integrations'     => weforms()->integrations->get_integration_js_settings(),
-            'recaptcha_site'   => isset( $recaptcha->key ) ? $recaptcha->key : '',
-            'recaptcha_secret' => isset( $recaptcha->secret ) ? $recaptcha->secret : '',
+            'integrations'              => weforms()->integrations->get_integration_js_settings(),
+            'recaptcha_site'            => isset( $recaptcha->key ) ? $recaptcha->key : '',
+            'recaptcha_secret'          => isset( $recaptcha->secret ) ? $recaptcha->secret : '',
+            'humanpresence_installed'   => ( 
+                class_exists( 'HumanPresenceWEFormsIntegration' ) && 
+                isset( $humanpresence['wp_hp_premium_license'] ) && 
+                $humanpresence['wp_hp_premium_license'] )
+                ? true : false,
         ] );
 
         // mixins
@@ -89,7 +96,7 @@ class WeForms_Form_Builder_Assets {
             'assetsURL'       => WEFORMS_ASSET_URI,
             'shortcodes'      => $this->shortcodes(),
             'settings'        => [
-                'recaptcha' => weforms_get_settings( 'recaptcha' ),
+                'recaptcha'     => weforms_get_settings( 'recaptcha' ),
             ],
         ] );
 
@@ -339,6 +346,7 @@ class WeForms_Form_Builder_Assets {
             <a href="#" :class="['nav-tab', isActiveSettingsTab( 'form' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'form' )" class="nav-tab"><?php esc_html_e( 'Form Settings', 'weforms' ); ?></a>
             <a href="#" :class="['nav-tab', isActiveSettingsTab( 'restriction' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'restriction' )" class="nav-tab"><?php esc_html_e( 'Submission Restriction', 'weforms' ); ?></a>
             <a href="#" :class="['nav-tab', isActiveSettingsTab( 'display' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'display' )" class="nav-tab"><?php esc_html_e( 'Display Settings', 'weforms' ); ?></a>
+            <a href="#" :class="['nav-tab', isActiveSettingsTab( 'humanpresence' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActiveSettingsTab( 'humanpresence' )" class="nav-tab"><i aria-hidden="true" class="fa fa-humanpresence"></i> <?php esc_html_e( 'HP Anti-Spam', 'weforms' ); ?></a>
 
             <?php do_action( 'wpuf_contact_form_settings_tab' ); ?>
 
@@ -362,6 +370,10 @@ class WeForms_Form_Builder_Assets {
 
             <div id="wpuf-metabox-settings-display" class="tab-content" v-show="isActiveSettingsTab('display')">
                 <?php include_once __DIR__ . '/views/display-settings.php'; ?>
+            </div>
+
+            <div id="wpuf-metabox-settings-humanpresence" class="tab-content" v-show="isActiveSettingsTab('humanpresence')">
+                <?php include_once __DIR__ . '/views/humanpresence-settings.php'; ?>
             </div>
 
             <?php do_action( 'wpuf_contact_form_settings_tab_content' ); ?>

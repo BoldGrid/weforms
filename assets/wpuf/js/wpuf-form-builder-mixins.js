@@ -101,6 +101,18 @@ Vue.mixin({
             return (wpuf_form_builder.recaptcha_site && wpuf_form_builder.recaptcha_secret) ? true : false;
         },
 
+        has_humanpresence_installed: function () {
+            return wpuf_form_builder.humanpresence_installed;
+        },
+
+        no_humanpresence_installed_msg: function no_humanpresence_installed_msg() {
+            return wpuf_form_builder.field_settings.humanpresence.validator.msg;
+        },
+
+        change_humanpresence: function change_humanpresence(e) {
+            wpuf_form_builder.event_hub.$emit('humanpresence-changed', e, this);
+        },
+
         containsField: function(field_name) {
             var self = this,
                 i = 0;
@@ -137,7 +149,7 @@ Vue.mixin({
         isSingleInstance: function(field_name) {
             var singleInstance = ['post_title', 'post_content', 'post_excerpt', 'featured_image',
                 'user_login', 'first_name', 'last_name', 'nickname', 'user_email', 'user_url',
-                'user_bio', 'password', 'user_avatar', 'taxonomy'];
+                'user_bio', 'password', 'user_avatar', 'taxonomy', 'humanpresence'];
 
             if ( $.inArray(field_name, singleInstance) >= 0 ) {
                 return true;
