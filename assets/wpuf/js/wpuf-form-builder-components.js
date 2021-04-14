@@ -34,9 +34,9 @@
 
         created: function created() {
             var self = this,
-                humanpresence_field_id = 0, 
+                humanpresence_field_id = 0,
                 i = 0;
-            for(i = 0; i < self.$store.state.form_fields.length; i++) {
+            for (i = 0; i < self.$store.state.form_fields.length; i++) {
                 if (self.$store.state.form_fields[i].template === 'humanpresence') {
                     humanpresence_field_id = self.$store.state.form_fields[i].id;
                 }
@@ -44,7 +44,6 @@
 
             wpuf_form_builder.event_hub.$on('humanpresence-changed', this.humanpresence_changed);
             wpuf_form_builder.event_hub.$on('humanpresence-disabled', this.delete_humanpresence_field);
-
         },
 
         mounted: function mounted() {
@@ -177,7 +176,7 @@
 
                 for (i = 0; i < this.form_fields.length; i++) {
                     if (parseInt(field_id) === parseInt(this.form_fields[i].id)) {
-                        if(this.form_fields[i].template === 'humanpresence'){
+                        if (this.form_fields[i].template === 'humanpresence') {
                             this.delete_field_no_confirm(i);
                             this.disable_humanpresence_setting();
                         } else {
@@ -189,9 +188,9 @@
 
             delete_humanpresence_field: function delete_humanpresence_field(data) {
                 var i = 0;
-                if(data.$store.state.form_fields.length) {
-                    for(i = 0; i < data.$store.state.form_fields.length; i++) {
-                        if(data.$store.state.form_fields[i].template === 'humanpresence') {
+                if (data.$store.state.form_fields.length) {
+                    for (i = 0; i < data.$store.state.form_fields.length; i++) {
+                        if (data.$store.state.form_fields[i].template === 'humanpresence') {
                             this.delete_field_no_confirm(i);
                             this.disable_humanpresence_setting();
                         }
@@ -206,7 +205,7 @@
             },
 
             humanpresence_changed: function humanpresence_changed(e, data) {
-                if(data.$store.state.settings.humanpresence_enabled === 'true'){
+                if (data.$store.state.settings.humanpresence_enabled === 'true') {
                     wpuf_form_builder.event_hub.$emit('humanpresence-enabled', data);
                 } else {
                     wpuf_form_builder.event_hub.$emit('humanpresence-disabled', data);
@@ -848,19 +847,19 @@
                 handle: '.wpuf-column-field-control-buttons .move',
                 scroll: true,
                 stop: function stop(event, ui) {
-                    var data_source = $( ui.item ).attr( 'data-source' );
+                    var data_source = $(ui.item).attr('data-source');
 
                     if ('panel' === data_source) {
                         var payload = {
                             toIndex: parseInt($(ui.item).index()),
-                            field_template: $( ui.item ).attr( 'data-form-field' ),
+                            field_template: $(ui.item).attr('data-form-field'),
                             to_column: $(this).parent()[0].classList[0]
                         };
 
                         self.add_column_inner_field(payload);
 
                         // remove button from stage
-                        $(this).find( '.button.ui-draggable.ui-draggable-handle' ).remove();
+                        $(this).find('.button.ui-draggable.ui-draggable-handle').remove();
                     }
                 },
                 update: function update(e, ui) {
@@ -874,9 +873,9 @@
 
                     if ('column-field-stage' === source) {
                         payload.field_id = self.field.id;
-                        payload.fromIndex = parseInt($( item ).attr('column-field-index'));
-                        payload.fromColumn = $( item ).attr('in-column');
-                        payload.toColumn = $( item ).parent().parent()[0].classList[0];
+                        payload.fromIndex = parseInt($(item).attr('column-field-index'));
+                        payload.fromColumn = $(item).attr('in-column');
+                        payload.toColumn = $(item).parent().parent()[0].classList[0];
 
                         // when drag field one column to another column, sortable event trigger twice and try to swap field twice.
                         // So the following conditions are needed to check and run swap_column_field_elements commit only once
@@ -1302,7 +1301,7 @@
                     }
                 }
 
-                if(field_template === 'humanpresence') {
+                if (field_template === 'humanpresence') {
                     var settings = this.$store.state.settings;
                     settings.humanpresence_enabled = true;
                     this.$store.commit('set_form_settings', settings);
@@ -1315,7 +1314,7 @@
             },
 
             add_humanpresence_field: function add_humanpresence_field(data) {
-                if(!this.containsField('humanpresence')) {
+                if (!this.containsField('humanpresence')) {
                     this.add_form_field('humanpresence');
                 }
             },
