@@ -125,7 +125,7 @@ class WeForms_Ajax {
         $notifications = json_decode( $notifications, true );
         $data = [
             'form_id'           => absint( $form_data['wpuf_form_id'] ),
-            'post_title'        => $form_data['post_title'],
+            'post_title'        => sanitize_text_field($form_data['post_title']),
             'form_fields'       => $form_fields,
             'form_settings'     => $settings,
             'form_settings_key' => isset( $form_data['form_settings_key'] ) ? $form_data['form_settings_key'] : '',
