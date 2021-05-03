@@ -10367,6 +10367,7 @@ function queryIncludes (current, target) {
   return true
 }
 
+
 /*  */
 
 // work around weird flow bug
@@ -13772,6 +13773,14 @@ return VueRouter;
 	});
 
 	$.fn.extend({
+    /*
+		* Bug Fix for serialize
+		*/
+
+    weSerialize: function() {
+      return $(this).serialize().replace("%20", "+");
+    },
+    
 		/*
 		* shorthand just to use timepicker..
 		*/
