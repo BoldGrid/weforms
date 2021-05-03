@@ -92,7 +92,7 @@ class WeForms_Ajax {
     public function save_form() {
         $post_data = wp_unslash( $_POST );
         if ( isset( $post_data['form_data'] ) ) {
-            parse_str(wp_unslash( $post_data['form_data'] ),  $form_data );
+            parse_str( sanitize_text_field( wp_unslash( $post_data['form_data'] ),  $form_data );
         }
 
         if ( !wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
@@ -125,7 +125,7 @@ class WeForms_Ajax {
         $notifications = json_decode( $notifications, true );
         $data = [
             'form_id'           => absint( $form_data['wpuf_form_id'] ),
-            'post_title'        => sanitize_text_field($form_data['post_title']),
+            'post_title'        => $form_data['post_title'],
             'form_fields'       => $form_fields,
             'form_settings'     => $settings,
             'form_settings_key' => isset( $form_data['form_settings_key'] ) ? $form_data['form_settings_key'] : '',
