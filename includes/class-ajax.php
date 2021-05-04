@@ -41,7 +41,6 @@ class WeForms_Ajax {
         add_action( 'wp_ajax_weforms_form_entry_trash', [ $this, 'trash_entry' ] );
         add_action( 'wp_ajax_weforms_form_entry_delete', [ $this, 'delete_entry' ] );
         add_action( 'wp_ajax_weforms_form_entry_restore', [ $this, 'restore_entry' ] );
-
         add_action( 'wp_ajax_weforms_form_entry_trash_bulk', [ $this, 'bulk_delete_entry' ] );
         add_action( 'wp_ajax_weforms_form_entry_restore_bulk', [ $this, 'bulk_restore_entry' ] );
 
