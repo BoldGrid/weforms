@@ -13772,6 +13772,13 @@ return VueRouter;
 	});
 
 	$.fn.extend({
+    	/*
+		* Replaces space encoded character for serialize function
+		*/
+		weSerialize: function() {
+			return $(this).serialize().replace("%20","+");
+		},
+
 		/*
 		* shorthand just to use timepicker..
 		*/
