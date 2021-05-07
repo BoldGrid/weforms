@@ -10,7 +10,7 @@ class WeForms_Form_Builder_Assets {
     }
 
     public function init_actions() {
-        add_action( 'in_admin_header', [ $this, 'remove_admin_notices' ] );
+        //add_action( 'in_admin_header', [ $this, 'remove_admin_notices' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'builder_enqueue_scripts' ], 2000 );
         add_action( 'admin_print_scripts', [ $this, 'builder_mixins_script' ] );
         add_action( 'admin_footer', [ $this, 'admin_footer_js_templates' ] );

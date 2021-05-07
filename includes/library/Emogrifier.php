@@ -339,7 +339,7 @@ class Emogrifier {
         // Also store a reference of nodes with existing inline styles so we don't overwrite them.
         $this->purgeVisitedNodes();
 
-        set_error_handler( [$this, 'handleXpathError'], E_WARNING );
+        //set_error_handler( [$this, 'handleXpathError'], E_WARNING );
 
         $nodesWithStyleAttributes = $xPath->query( '//*[@style]' );
 
