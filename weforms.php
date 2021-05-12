@@ -5,7 +5,7 @@
  * Plugin URI: https://weformspro.com/
  * Author: weForms
  * Author URI: https://weformspro.com/
- * Version: 1.6.6
+ * Version: 1.6.7-beta1
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
