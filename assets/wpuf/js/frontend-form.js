@@ -462,10 +462,10 @@
             WP_User_Frontend.removeErrors(self);
             WP_User_Frontend.removeErrorNotice(self);
 
-            // ===== Validate: Text and Textarea ========
-            var required = self.find('[data-required="yes"]:visible');
+            // Validate: Required Fields
+            var validate = self.find('[data-type]');
 
-            required.each(function(i, item) {
+            validate.each(function(i, item) {
                 // temp_val = $.trim($(item).val());
 
                 // console.log( $(item).data('type') );
