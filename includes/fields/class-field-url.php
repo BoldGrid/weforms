@@ -26,15 +26,16 @@ class WeForms_Form_Field_URL extends WeForms_Form_Field_Text {
 
             <div class="wpuf-fields">
                 <input
-                    id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
-                    type="url" class="url <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>"
-                    data-duplicate="<?php echo esc_attr( $field_settings['duplicate'] ) ? esc_attr( $field_settings['duplicate'] ) : 'no'; ?>"
-                    data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
-                    data-type="text"
-                    name="<?php echo esc_attr( $field_settings['name'] ); ?>"
-                    placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
-                    value="<?php echo esc_attr( $value ); ?>" size="<?php echo esc_attr( $field_settings['size'] ); ?>"
-                    autocomplete="url"
+                    title = "The URL must contain a protocol i.e. http://example.com"
+                    id = "<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
+                    type = "url" class="url <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>"
+                    data-duplicate = "<?php echo esc_attr( $field_settings['duplicate'] ) ? esc_attr( $field_settings['duplicate'] ) : 'no'; ?>"
+                    data-required = "<?php echo esc_attr( $field_settings['required'] ) ?>"
+                    data-type = "url"
+                    name = "<?php echo esc_attr( $field_settings['name'] ); ?>"
+                    placeholder = "<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
+                    value = "<?php echo esc_attr( $value ); ?>" size="<?php echo esc_attr( $field_settings['size'] ); ?>"
+                    autocomplete = "url"
                 />
                 <?php $this->help_text( $field_settings ); ?>
             </div>
