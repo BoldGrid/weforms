@@ -648,7 +648,7 @@ class WeForms_Notification {
             $table .= '<tr class="field-value">';
             $table .= '<td>';
 
-            if ( in_array( $value['type'], [ 'multiple_select', 'checkbox_field', 'google_maps' ] ) ) {
+            if ( in_array( $value['type'], array( 'multiple_select', 'checkbox_field' ) ) ) {
                 $field_value = is_array( $field_value ) ? $field_value : [];
 
                 if ( $field_value ) {
@@ -661,7 +661,7 @@ class WeForms_Notification {
                 } else {
                     $table .= '&mdash;';
                 }
-            }elseif (in_array( $value['type'], [ 'google_map' ] ) ) {
+            }elseif ( in_array( $value['type'], array('google_map') ) ) {
                 $table .= $field_value['address'];    
             } else {
                 $table .= $field_value;
