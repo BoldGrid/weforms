@@ -223,7 +223,7 @@ weForms.routeComponents.FormEditComponent = {
 
             wp.ajax.send('wpuf_form_builder_save_form', {
                 data: {
-                    form_data: $('#wpuf-form-builder').serialize(),
+                    form_data: $('#wpuf-form-builder').weSerialize(),
                     form_fields: JSON.stringify(self.form_fields),
                     notifications: JSON.stringify(self.notifications),
                     settings: JSON.stringify(self.settings),

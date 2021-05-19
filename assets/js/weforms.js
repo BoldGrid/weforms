@@ -308,7 +308,7 @@
 
             var self = $(this),
                 form = $(this).closest('form'),
-                form_data = form.serialize() + '&action=wpuf_draft_post',
+                form_data = form.weSerialize() + '&action=wpuf_draft_post',
                 post_id = form.find('input[type="hidden"][name="post_id"]').val();
 
             var rich_texts = [],
@@ -354,7 +354,7 @@
             e.preventDefault();
             var form = $(this).closest('form');
 
-            $.post(wpuf_frontend.ajaxurl, form.serialize(), function (res) {
+            $.post(wpuf_frontend.ajaxurl, form.weSerialize(), function (res) {
                 if (res.success) {
                     form.find('.wpuf-error').hide();
                     form.find('.wpuf-success').show();
@@ -646,7 +646,7 @@
                 return false;
             }
 
-            var form_data = self.serialize(),
+            var form_data = self.weSerialize(),
                 rich_texts = [];
 
             // grab rich texts from tinyMCE
