@@ -26,7 +26,7 @@ class WeForms_Form_Field_URL extends WeForms_Form_Field_Text {
 
             <div class="wpuf-fields">
                 <input
-                    title = "The URL must contain a protocol i.e. http://example.com"
+                    title = "<?php echo esc_attr__( 'The URL must contain a protocol i.e. http://example.com' ) ?>"
                     id = "<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
                     type = "url" class="url <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>"
                     data-duplicate = "<?php echo esc_attr( $field_settings['duplicate'] ) ? esc_attr( $field_settings['duplicate'] ) : 'no'; ?>"
