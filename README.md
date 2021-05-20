@@ -21,6 +21,22 @@ Moreover, with more than 20+ custom field, you can swiftly build contact forms, 
 
 So weForms is an all-in-one form builder created with the global users in mind. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Feel no delay – because your time is precious!
 
+## Development ##
+
+### Installing Dependencies ###
+Before you can use the development version of this plugin you must install the dependencies.
+
+```
+npm install
+```
+
+### Minify JS ###
+To minify Javascript for development run the following command.
+
+```
+grunt uglify:main
+```
+
 ###  Quick Overview of weForms  ###
 [youtube https://www.youtube.com/watch?v=4uYi0833Kjw]
 
