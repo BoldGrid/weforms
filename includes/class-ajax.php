@@ -92,7 +92,7 @@ class WeForms_Ajax {
     public function save_form() {
         $post_data = wp_unslash( $_POST );
         if ( isset( $post_data['form_data'] ) ) {
-            parse_str( wp_unslash( $post_data['form_data']  ),  $form_data );
+            parse_str( sanitize_text_field( wp_unslash( $post_data['form_data']  ) ),  $form_data );
         }
 
         if ( !wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
@@ -118,14 +118,11 @@ class WeForms_Ajax {
             $integrations = (array) json_decode( $post_data['integrations'] );
         }
 
-        // $form_fields   = wp_unslash( $form_fields );
-        // $notifications = wp_unslash( $notifications );
-
         $form_fields   = json_decode( $form_fields, true );
         $notifications = json_decode( $notifications, true );
         $data = [
             'form_id'           => absint( $form_data['wpuf_form_id'] ),
-            'post_title'        => sanitize_text_field( $form_data['post_title'] ),
+            'post_title'        => $form_data['post_title'],
             'form_fields'       => $form_fields,
             'form_settings'     => $settings,
             'form_settings_key' => isset( $form_data['form_settings_key'] ) ? $form_data['form_settings_key'] : '',
@@ -757,61 +754,60 @@ class WeForms_Ajax {
         $entry_fields = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields );
 
         $entry_id = 1;
-    $global_settings = weforms_get_settings();
-    if ( empty( $global_settings['after_submission'] ) ) {
-        do_action( 'si_error','Elana weforms successful Payment', $global_settings);
-      $entry_id = weforms_insert_entry( [
-        'form_id' => $form_id,
-      ], $entry_fields );
-      if ( is_wp_error( $entry_id ) ) {
-        wp_send_json( [
-          'success' => false,
-          'error' => $entry_id->get_error_message(),
+        $global_settings = weforms_get_settings();
+        if ( empty( $global_settings['after_submission'] ) ) {
+            $entry_id = weforms_insert_entry( [
+                'form_id' => $form_id,
+            ], $entry_fields );
+        if ( is_wp_error( $entry_id ) ) {
+            wp_send_json( [
+            'success' => false,
+            'error' => $entry_id->get_error_message(),
+            ] );
+        }
+        //Fire a hook for integration
+        do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
+        $notification = new WeForms_Notification( [
+            'form_id' => $form_id,
+            'page_id' => $page_id,
+            'entry_id' => $entry_id,
         ] );
-      }
-      //Fire a hook for integration
-      do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
-      $notification = new WeForms_Notification( [
-        'form_id' => $form_id,
-        'page_id' => $page_id,
-        'entry_id' => $entry_id,
-      ] );
-      $notification->send_notifications(); 
-    }
+        $notification->send_notifications(); 
+        }
     // redirect URL
     $show_message = false;
     $redirect_to = false;
     if ( $form_settings['redirect_to'] == 'page' ) {
-      $redirect_to = get_permalink( $form_settings['page_id'] );
+        $redirect_to = get_permalink( $form_settings['page_id'] );
     } elseif ( $form_settings['redirect_to'] == 'url' ) {
-      $redirect_to = $form_settings['url'];
+        $redirect_to = $form_settings['url'];
     } elseif ( $form_settings['redirect_to'] == 'same' ) {
-      $show_message = true;
+        $show_message = true;
     } else {
-      $show_message = true;
+        $show_message = true;
     }
     $field_search = $field_replace = [];
     foreach ( $form_fields as $r_field ) {
-      $field_search[] = '{' . $r_field['name'] . '}';
-      if ( $r_field['template'] == 'name_field' ) {
-        $field_replace[] = implode( ' ', explode( '|', $entry_fields[ $r_field['name'] ] ) );
-      } else if ( $r_field['template'] == 'address_field' ) {
-        $field_replace[] = implode( ', ', $entry_fields[ $r_field['name'] ] );
-      } else {
-        $field_replace[] = isset( $entry_fields[ $r_field['name'] ] ) ? $entry_fields[ $r_field['name'] ] : '';
-      }
+        $field_search[] = '{' . $r_field['name'] . '}';
+        if ( $r_field['template'] == 'name_field' ) {
+            $field_replace[] = implode( ' ', explode( '|', $entry_fields[ $r_field['name'] ] ) );
+        } else if ( $r_field['template'] == 'address_field' ) {
+            $field_replace[] = implode( ', ', $entry_fields[ $r_field['name'] ] );
+        } else {
+            $field_replace[] = isset( $entry_fields[ $r_field['name'] ] ) ? $entry_fields[ $r_field['name'] ] : '';
+        }
     }
     $message = str_replace( $field_search, $field_replace, $form_settings['message'] );
     // send the response
     $response = apply_filters( 'weforms_entry_submission_response', [
-      'success'   => true,
-      'redirect_to' => $redirect_to,
-      'show_message' => $show_message,
-      'message'   => $message,
-      'data'    => $_POST,
-      'form_id'   => $form_id,
-      'entry_id'  => $entry_id,
-      'entry_fields' =>$entry_fields,
+        'success'   => true,
+        'redirect_to' => $redirect_to,
+        'show_message' => $show_message,
+        'message'   => $message,
+        'data'    => $_POST,
+        'form_id'   => $form_id,
+        'entry_id'  => $entry_id,
+        'entry_fields' =>$entry_fields,
     ] );
     weforms_clear_buffer();
     wp_send_json( $response );
