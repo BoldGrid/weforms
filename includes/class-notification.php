@@ -661,7 +661,7 @@ class WeForms_Notification {
                 } else {
                     $table .= '&mdash;';
                 }
-            }elseif ( in_array( $value['type'], array('google_map') ) ) {
+            } elseif ( in_array( $value['type'], array( 'google_map' ) ) ) {
                 $table .= $field_value['address'];    
             } else {
                 $table .= $field_value;
