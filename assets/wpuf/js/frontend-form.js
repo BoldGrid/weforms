@@ -10,6 +10,8 @@
             });
         });
     };
+    // Adding custom jQuery serialize wrapper to the frontend and backend for WeForms 1.6.7. 
+    // GitHub ticket created to make one script applied to frontend/backend.
     $.fn.extend({
         /**
         * Custom jQuery serialize wrapper.
