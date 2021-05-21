@@ -761,8 +761,8 @@ class WeForms_Ajax {
             ], $entry_fields );
         if ( is_wp_error( $entry_id ) ) {
             wp_send_json( [
-            'success' => false,
-            'error' => $entry_id->get_error_message(),
+                'success' => false,
+                'error'   => $entry_id->get_error_message(),
             ] );
         }
         //Fire a hook for integration
