@@ -92,7 +92,7 @@ class WeForms_Ajax {
     public function save_form() {
         $post_data = wp_unslash( $_POST );
         if ( isset( $post_data['form_data'] ) ) {
-            parse_str( sanitize_text_field( wp_unslash( $post_data['form_data']  ) ),  $form_data );
+            parse_str( sanitize_text_field( wp_unslash( $post_data['form_data'] ) ),  $form_data );
         }
 
         if ( !wp_verify_nonce( $form_data['wpuf_form_builder_nonce'], 'wpuf_form_builder_save_form' ) ) {
@@ -768,8 +768,8 @@ class WeForms_Ajax {
         //Fire a hook for integration
         do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
         $notification = new WeForms_Notification( [
-            'form_id' => $form_id,
-            'page_id' => $page_id,
+            'form_id'  => $form_id,
+            'page_id'  => $page_id,
             'entry_id' => $entry_id,
         ] );
         $notification->send_notifications(); 
