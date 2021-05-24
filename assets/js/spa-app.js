@@ -8,7 +8,6 @@ var _typeof12 = typeof Symbol === "function" && _typeof13(Symbol.iterator) === "
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof13(obj);
 };
 
-
 var _typeof11 = typeof Symbol === "function" && _typeof12(Symbol.iterator) === "symbol" ? function (obj) {
     return typeof obj === "undefined" ? "undefined" : _typeof12(obj);
 } : function (obj) {
