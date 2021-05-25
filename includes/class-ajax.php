@@ -118,9 +118,6 @@ class WeForms_Ajax {
             $integrations = (array) json_decode( $post_data['integrations'] );
         }
 
-        // $form_fields   = wp_unslash( $form_fields );
-        // $notifications = wp_unslash( $notifications );
-
         $form_fields   = json_decode( $form_fields, true );
         $notifications = json_decode( $notifications, true );
         $data = [
@@ -756,21 +753,30 @@ class WeForms_Ajax {
 
         $entry_fields = apply_filters( 'weforms_before_entry_submission', $entry_fields, $form, $form_settings, $form_fields );
 
-        $entry_id = weforms_insert_entry( [
-            'form_id' => $form_id,
-        ], $entry_fields );
-
+        $entry_id = 1;
+        $global_settings = weforms_get_settings();
+        if ( empty( $global_settings['after_submission'] ) ) {
+            $entry_id = weforms_insert_entry( [
+                'form_id' => $form_id,
+            ], $entry_fields );
         if ( is_wp_error( $entry_id ) ) {
             wp_send_json( [
                 'success' => false,
                 'error'   => $entry_id->get_error_message(),
             ] );
         }
-
+        // Fire a hook for integration
+        do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
+        $notification = new WeForms_Notification( [
+            'form_id'  => $form_id,
+            'page_id'  => $page_id,
+            'entry_id' => $entry_id,
+        ] );
+        $notification->send_notifications(); 
+        }
         // redirect URL
         $show_message = false;
-        $redirect_to  = false;
-
+        $redirect_to = false;
         if ( $form_settings['redirect_to'] == 'page' ) {
             $redirect_to = get_permalink( $form_settings['page_id'] );
         } elseif ( $form_settings['redirect_to'] == 'url' ) {
@@ -780,15 +786,9 @@ class WeForms_Ajax {
         } else {
             $show_message = true;
         }
-
-        // Fire a hook for integration
-        do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
-
         $field_search = $field_replace = [];
-
         foreach ( $form_fields as $r_field ) {
             $field_search[] = '{' . $r_field['name'] . '}';
-
             if ( $r_field['template'] == 'name_field' ) {
                 $field_replace[] = implode( ' ', explode( '|', $entry_fields[ $r_field['name'] ] ) );
             } else if ( $r_field['template'] == 'address_field' ) {
@@ -798,66 +798,57 @@ class WeForms_Ajax {
             }
         }
         $message = str_replace( $field_search, $field_replace, $form_settings['message'] );
-
         // send the response
         $response = apply_filters( 'weforms_entry_submission_response', [
-            'success'      => true,
-            'redirect_to'  => $redirect_to,
+            'success'   => true,
+            'redirect_to' => $redirect_to,
             'show_message' => $show_message,
-            'message'      => $message,
-            'data'         => $_POST,
-            'form_id'      => $form_id,
-            'entry_id'     => $entry_id,
+            'message'   => $message,
+            'data'    => $_POST,
+            'form_id'   => $form_id,
+            'entry_id'  => $entry_id,
+            'entry_fields' =>$entry_fields,
         ] );
-
-        $notification = new WeForms_Notification( [
-            'form_id'  => $form_id,
-            'page_id'  => $page_id,
-            'entry_id' => $entry_id,
-        ] );
-
-        $notification->send_notifications();
-
         weforms_clear_buffer();
         wp_send_json( $response );
-    }
+        }
 
-    function validate_reCaptchav3( $secret ) {
-        check_ajax_referer( 'wpuf_form_add' );
+        function validate_reCaptchav3( $secret ) {
+            check_ajax_referer( 'wpuf_form_add' );
 
-        $post_data          = wp_unslash($_POST);
-        $token              = $post_data['g-recaptcha-response'];
-        $action             = $post_data['g-action'];
-        $google_captcha_url = esc_url( 'https://www.google.com/recaptcha/api/siteverify' );
+            $post_data          = wp_unslash($_POST);
+            $token              = $post_data['g-recaptcha-response'];
+            $action             = $post_data['g-action'];
+            $google_captcha_url = esc_url( 'https://www.google.com/recaptcha/api/siteverify' );
 
-        $response = wp_remote_post( $google_captcha_url,
-            array(
-                'method'      => 'POST',
-                'body'        => array(
-                    'secret'   => $secret,
-                    'response' => $token
+            $response = wp_remote_post( $google_captcha_url,
+                array(
+                    'method'      => 'POST',
+                    'body'        => array(
+                        'secret'   => $secret,
+                        'response' => $token
+                    )
                 )
-            )
-        );
+            );
 
 
-        if ( is_wp_error( $response ) ) {
-            wp_send_json( [
-                'success'     => false,
-                'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
-            ] );
-        } else {
-            $api_response = json_decode( wp_remote_retrieve_body( $response ), true );
-            if( $api_response["success"] == '1' && $api_response["action"] == $action  ) {
-                return true;
-            } else {
+            if ( is_wp_error( $response ) ) {
                 wp_send_json( [
                     'success'     => false,
                     'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
                 ] );
+            } else {
+                $api_response = json_decode( wp_remote_retrieve_body( $response ), true );
+                if( $api_response["success"] == '1' && $api_response["action"] == $action  ) {
+                    return true;
+                } else {
+                    wp_send_json( [
+                        'success'     => false,
+                        'error'       => __( 'reCAPTCHA validation failed', 'weforms' ),
+                    ] );
+                }
             }
         }
-    }
     /**
      * reCaptcha Validation
      *
