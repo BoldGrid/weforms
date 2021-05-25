@@ -194,6 +194,52 @@ class Emogrifier
         '/^\\[(\\w+|\\w+\\=[\'"]?\\w+[\'"]?)\\]/' => '*[@\\1]',
         // type and attribute exact value
         '/(\\w)\\[(\\w+)\\=[\'"]?([\\w\\s]+)[\'"]?\\]/' => '\\1[@\\2="\\3"]',
+        // element attribute~=
+        '/([\\w\\*]+)\\[(\\w+)[\\s]*\\~\\=[\\s]*[\'"]?([\\w\-_\\/]+)[\'"]?\\]/' => '\\1[contains(concat(" ", @\\2, " "), concat(" ", "\\3", " "))]',
+        // element attribute^=
+        '/([\\w\\*]+)\\[(\\w+)[\\s]*\\^\\=[\\s]*[\'"]?([\\w\-_\\/]+)[\'"]?\\]/' => '\\1[starts-with(@\\2, "\\3")]',
+        // element attribute*=
+        '/([\\w\\*]+)\\[(\\w+)[\\s]*\\*\\=[\\s]*[\'"]?([\\w\-_\\s\\/:;]+)[\'"]?\\]/' => '\\1[contains(@\\2, "\\3")]',
+        // element attribute$=
+        '/([\\w\\*]+)\\[(\\w+)[\\s]*\\$\\=[\\s]*[\'"]?([\\w\-_\\s\\/]+)[\'"]?\\]/' => '\\1[substring(@\\2, string-length(@\\2) - string-length("\\3") + 1) = "\\3"]',
+        // element attribute|=
+        '/([\\w\\*]+)\\[(\\w+)[\\s]*\\|\\=[\\s]*[\'"]?([\\w\-_\\s\\/]+)[\'"]?\\]/' => '\\1[@\\2="\\3" or starts-with(@\\2, concat("\\3", "-"))]',
+    ];
+
+    /**
+     * Determines whether CSS styles that have an equivalent HTML attribute
+     * should be mapped and attached to those elements.
+     *
+     * @var bool
+     */
+    private $shouldMapCssToHtml = false;
+
+    /**
+     * This multi-level array contains simple mappings of CSS properties to
+     * HTML attributes. If a mapping only applies to certain HTML nodes or
+     * only for certain values, the mapping is an object with a whitelist
+     * of nodes and values.
+     *
+     * @var mixed[][]
+     */
+    private $cssToHtmlMap = [
+        'background-color' => [
+            'attribute' => 'bgcolor',
+        ],
+        'text-align' => [
+            'attribute' => 'align',
+            'nodes'     => ['p', 'div', 'td'],
+            'values'    => ['left', 'right', 'center', 'justify'],
+        ],
+        'float' => [
+            'attribute' => 'align',
+            'nodes'     => ['table', 'img'],
+            'values'    => ['left', 'right'],
+        ],
+        'border-spacing' => [
+            'attribute' => 'cellspacing',
+            'nodes'     => ['table'],
+        ],
         // type and attribute value with ~ (one word within a whitespace-separated list of words)
         '/([\\w\\*]+)\\[(\\w+)[\\s]*\\~\\=[\\s]*[\'"]?([\\w\\-\_\\/]+)[\'"]?\\]/'
         => '\\1[contains(concat(" ", @\\2, " "), concat(" ", "\\3", " "))]',
