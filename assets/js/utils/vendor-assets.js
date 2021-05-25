@@ -14,7 +14,7 @@ module.exports = [
     'assets/wpuf/vendor/toastr/toastr.js',
     'assets/wpuf/vendor/clipboard/clipboard.js',
     'assets/wpuf/vendor/tooltip/tooltip.js',
-
+    'assets/js/utils/jquery-extensions.js',
     'assets/js/vendor/tinymce/plugins/code/plugin.min.js',
     'assets/js/vendor/tinymce/plugins/hr/plugin.min.js',
 ];
