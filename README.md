@@ -30,12 +30,24 @@ Before you can use the development version of this plugin you must install the d
 npm install
 ```
 
+### Workflow ###
+Before editing or making changes check to make sure you are not editing any concatenated files. Check the Gruntfile.js in the concat: section for details.
+If you need to test or view changes run:
+
+```
+grunt concat:(specified source)
+```
+
 ### Minify JS ###
 To minify Javascript for development run the following command.
 
 ```
 grunt uglify:main
 ```
+
+### Build Process ###
+When you are ready to build for release or QA make sure all branchs are merge that will be in the release and follow:
+[Release Process https://github.com/BoldGrid/weforms/wiki/Release-Process]
 
 ###  Quick Overview of weForms  ###
 [youtube https://www.youtube.com/watch?v=4uYi0833Kjw]
