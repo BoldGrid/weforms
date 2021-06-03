@@ -31,15 +31,17 @@ npm install
 ```
 
 ### Workflow ###
-Before editing or making changes check to make sure you are not editing any concatenated files. Check the Gruntfile.js in the concat: section for details.
-If you need to test or view changes run:
+Before editing or making changes check to make sure you are not editing any concatenated files. Check the Gruntfile.js in the concat: section for details. If you edit a concatenated file and run the build process any of your changes will be overwritten.
+
+Once you have made the changes and are ready to test run the following command.
 
 ```
 grunt concat:(specified source)
 ```
 
-### Minify JS ###
-To minify Javascript for development run the following command.
+#### Minify JS ####
+If you want to test changes with SCRIPT_DEBUG set to false. You will need to make sure the scripts are minified.
+To minify Javascript for testing run the following command.
 
 ```
 grunt uglify:main
