@@ -55,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.6.6';
+    public $version = '1.6.7';
 
     /**
      * Form field value seperator
