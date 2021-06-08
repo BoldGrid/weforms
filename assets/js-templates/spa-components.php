@@ -779,6 +779,7 @@
 <div class="contact-form-list">
     <h1 class="wp-heading-inline"><?php _e( 'All Forms', 'weforms' ); ?></h1>
     <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'weforms' ); ?></a>
+
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
     <form-list-table></form-list-table>
@@ -786,7 +787,7 @@
 
 <script type="text/x-template" id="tmpl-wpuf-tools">
 <div class="export-import-wrap">
-    <h1><?php _e( 'Tools', 'weforms' ); ?></h1>
+
     <h2 class="nav-tab-wrapper">
         <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
         <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
@@ -987,7 +988,7 @@
     </h1>
 
     <p v-if="no_transactions">
-       <?php printf(
+       <?php printf( 
             __( 'You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.' ),
             '<a target="_blank" href="https://wedevs.com/docs/weforms/integrations/payment/">',
             '</a>'
@@ -1089,8 +1090,7 @@
     <li><?php _e( '"Edit" the consent checkbox, remove the &#39;Field Label&#39;, and replace &#39;Option&#39; with &#39;INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY POLICY&#39;.' , 'weforms' ); ?></li>
 </ol>
 
-</div>
-</script>
+</div></script>
 
 <script type="text/x-template" id="tmpl-wpuf-weforms-premium">
 <div class="weforms-premium">
@@ -1121,7 +1121,7 @@
                 <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
             </div>
             <div class="banner-buttons">
-                <a href="https://weformspro.com/premium/?utm_source=Premium%20Page&utm_medium=Top%20Button&utm_campaign=Buy%20Now" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
                 <a href="https://weformspro.com/docs/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
             </div>
         </div><!-- end banner left column -->
@@ -1347,7 +1347,7 @@
                 </div>
             </div>
             <div class="import-right">
-                <a href="https://weformspro.com/upgrade/?utm_source=Premium%20Page&utm_medium=Bottom%20Button&utm_campaign=Upgrade%20Now" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
             </div>
         </div>
     </section><!-- end footer section -->
