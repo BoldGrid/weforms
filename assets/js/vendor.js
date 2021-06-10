@@ -22215,22 +22215,24 @@ module.exports = E;
 }(jQuery);
 
 /* assets/js/utils/jquery-extensions.js */
-$.fn.extend({
-    /**
-     * Custom jQuery serialize wrapper.
-     *
-     * When WordPress 5.6 increased the jQuery version to 3.5.1, the serialize function changed. Instead of
-     * sending spaces as "+", they are sent as "%20". This wrapper is for backwards compatibility.
-     *
-     * @todo This function is duplicated in both the frontend and backend. Need to have the code live in
-     * just one location.
-     *
-     * @since 1.6.7
-     */
-    weSerialize: function() {
-        return $( this ).serialize().replaceAll( '%20', '+' );
-    },
-});
+;(function($) {
+    $.fn.extend({
+        /**
+         * Custom jQuery serialize wrapper.
+         *
+         * When WordPress 5.6 increased the jQuery version to 3.5.1, the serialize function changed. Instead of
+         * sending spaces as "+", they are sent as "%20". This wrapper is for backwards compatibility.
+         *
+         * @todo This function is duplicated in both the frontend and backend. Need to have the code live in
+         * just one location.
+         *
+         * @since 1.6.7
+         */
+        weSerialize: function() {
+            return $( this ).serialize().replaceAll( '%20', '+' );
+        },
+    });
+})(jQuery);
 /* assets/js/vendor/tinymce/plugins/code/plugin.min.js */
 tinymce.PluginManager.add("code",function(a){function b(){var b=a.windowManager.open({title:"Source code",body:{type:"textbox",name:"code",multiline:!0,minWidth:a.getParam("code_dialog_width",600),minHeight:a.getParam("code_dialog_height",Math.min(tinymce.DOM.getViewPort().h-200,500)),spellcheck:!1,style:"direction: ltr; text-align: left"},onSubmit:function(b){a.focus(),a.undoManager.transact(function(){a.setContent(b.data.code)}),a.selection.setCursorLocation(),a.nodeChanged()}});b.find("#code").value(a.getContent({source_view:!0}))}a.addCommand("mceCodeEditor",b),a.addButton("code",{icon:"code",tooltip:"Source code",onclick:b}),a.addMenuItem("code",{icon:"code",text:"Source code",context:"tools",onclick:b})});
 /* assets/js/vendor/tinymce/plugins/hr/plugin.min.js */
