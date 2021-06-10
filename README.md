@@ -21,36 +21,6 @@ Moreover, with more than 20+ custom field, you can swiftly build contact forms, 
 
 So weForms is an all-in-one form builder created with the global users in mind. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Feel no delay – because your time is precious!
 
-## Development ##
-
-### Installing Dependencies ###
-Before you can use the development version of this plugin you must install the dependencies.
-
-```
-npm install
-```
-
-### Workflow ###
-Before editing or making changes check to make sure you are not editing any concatenated files. Check the Gruntfile.js in the concat: section for details. If you edit a concatenated file and run the build process any of your changes will be overwritten.
-
-Once you have made the changes and are ready to test run the following command.
-
-```
-grunt concat:(specified source)
-```
-
-#### Minify JS ####
-If you want to test changes with SCRIPT_DEBUG set to false. You will need to make sure the scripts are minified.
-To minify Javascript for testing run the following command.
-
-```
-grunt uglify:main
-```
-
-### Build Process ###
-When you are ready to build for release or QA make sure all branchs are merge that will be in the release and follow:
-[Release Process https://github.com/BoldGrid/weforms/wiki/Release-Process]
-
 ###  Quick Overview of weForms  ###
 [youtube https://www.youtube.com/watch?v=4uYi0833Kjw]
 
