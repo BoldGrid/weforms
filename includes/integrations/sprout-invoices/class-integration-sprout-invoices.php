@@ -100,7 +100,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         if (isset( $match[1] ) && isset( $_REQUEST[$match[1]] )) {
 
             $fieldSlug = $match[1];
-            $lineItemsSelected = $_REQUEST[$match[1]];
+            $lineItemsSelected = is_array( $_REQUEST[$match[1]] ) ? $_REQUEST[$match[1]] : array($_REQUEST[$match[1]]);
 
             // was anything even selected?
             if (is_array( $lineItemsSelected )) {
