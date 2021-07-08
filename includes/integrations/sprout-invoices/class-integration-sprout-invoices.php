@@ -95,12 +95,17 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         }
 
         preg_match( '/{field:(\w*)}/', $integration->fields->line_items, $match );
+        //$req_match = $_REQUEST[$match[1]];
+        //error_log("match-request" . " = " . print_r($req_match,1));
+        //error_log("match" . " = " . print_r($match[1],1));
 
         // bail out if nothing found to be replaced
         if (isset( $match[1] ) && isset( $_REQUEST[$match[1]] )) {
 
             $fieldSlug = $match[1];
-            $lineItemsSelected = $_REQUEST[$match[1]];
+            $lineItemsSelected = is_array( $_REQUEST[$match[1]] ) ? $_REQUEST[$match[1]] : array($_REQUEST[$match[1]]);
+        
+            //error_log("line Items" . " = " . print_r($lineItemsSelected,1));
 
             // was anything even selected?
             if (is_array( $lineItemsSelected )) {
@@ -109,6 +114,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
                 $lineItemOptions = false;
                 foreach ($form_fields as $key => $field) {
                     if ($field['name'] === $fieldSlug) {
+                        //error_log("form-fields" . " = " . print_r($field,1));
                         $lineItemOptions = ( array( $field['options'] ) ) ? $field['options'] : false;
                     }
                 }
@@ -124,6 +130,13 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
                             'qty' => 1,
                         );
                     }
+                } else {
+                    $li[] = array(
+                        'desc' => $lineItemsSelected['name'],
+                        'rate' => $lineItemsSelected['price'],
+                        'total' => $lineItemsSelected['price'],
+                        'qty' => $lineItemsSelected['quantity'],
+                    );
                 }
             }
 
@@ -328,7 +341,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
 
     protected function create_invoice($submission = array())
     {
-
+        //error_log("Invoice-Data" . " = " . print_r($submission,1));
         $invoice_args = array(
             'subject' => sprintf( apply_filters( 'si_form_submission_title_format', '%1$s (%2$s)', $submission ), $submission['subject'], $submission['client_name'] ),
             'fields' => $submission,
@@ -337,6 +350,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
 
         do_action( 'si_doc_generation_start' );
 
+        //error_log("Invoice-Data" . " = " . print_r($invoice_args,1));
         /**
          * Creates the invoice from the arguments
          */
