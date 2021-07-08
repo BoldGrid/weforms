@@ -277,6 +277,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
             return '';
         }
 
+        $table = ' ';
         $table .= '<div class="submission-values">';
         $table .= '<ul>';
 
