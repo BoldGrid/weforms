@@ -132,6 +132,14 @@ class WeForms_Ajax {
 
         $form_fields = weforms()->form->save( $data );
 
+        //Update Old Entry meta_key if changed
+        $form_id        = $form_data['wpuf_form_id'];
+        $form           = weforms()->form->get( $form_id );
+        $update_entries = $form->update_entries( $form_id, $form_fields );
+
+        
+        //error_log(print_r($form_fields,1));
+
         do_action( 'weforms_update_form', $form_data['wpuf_form_id'], $form_fields, $settings );
 
         wp_send_json_success( [ 'form_fields' => $form_fields ] );
