@@ -388,22 +388,16 @@ class WeForms_Form {
             }
         }
         $entries  = weforms_get_form_entries($form_id);
-        error_log("Entries" . " = " . print_r($entries,1));
-        error_log("Fields = " . print_r($field_to_change,1));
         if ($field_to_change == " ") {
             return;
         }
-        foreach ( $entries as $entry ) {
-            
+        foreach ( $entries as $entry ) {            
             $entry_id    = $entry->id;
             $values      = weforms_get_entry_meta( $entry_id );
             $keys        = array_keys($values);
-            error_log("keys" . " = " . print_r($keys,1));
             foreach ( $keys as $key ) {
                 if ( $key == $field_to_change) {
                     $update_keys = $wpdb->update( $wpdb->weforms_entrymeta, array( 'meta_key' => $new_name ), array( 'meta_key' => $key, 'weforms_entry_id' => $entry_id ) );
-                    error_log("Key" . " = " . print_r($key,1));
-                    error_log("keys will be changed");
                 } 
             }
         }
