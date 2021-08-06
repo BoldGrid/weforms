@@ -371,9 +371,10 @@ class WeForms_Form {
     }
 
     /**
-     * Update entries of this form on Save
-     *
-     *
+     * Update entries of form on Save
+     * @since 1.6.9
+     * @param int $form_id
+     * @param array $form_fields
      */
 
     public function update_entries( $form_id, $form_fields ) {
