@@ -139,7 +139,7 @@ class WeForms_Form {
                 $field['recaptcha_theme']   = isset( $field['recaptcha_theme'] ) ? $field['recaptcha_theme'] : 'light';
             }
 
-            // Check if meta_key has changed for updating old Entries
+            // Check if meta_key has changed when saving form compared current entries
             $field['original_name'] = $field['name'];
 
             $form_fields[] = apply_filters( 'weforms-get-form-field', $field, $this->id );
@@ -377,21 +377,17 @@ class WeForms_Form {
      * @param array $form_fields
      */
 
-    public function update_entries( $form_id, $form_fields ) {
+    public function maybe_update_entries( $form_id, $form_fields ) {
         global $wpdb;
-        foreach ($form_fields as $field) {
-            $old_name = $field['original_name'];
-            $new_name = $field['name'];
-            if ($new_name != $old_name) {
-                $field_to_change = $field['original_name'];
-            } else {
-                $field_to_change = " ";
-            }
-        }
+        $changed_fields = $this->get_changed_fields( $form_fields );
+        
+        error_log("Fields to change" . " = " . print_r($changed_fields,1));
+
+        return;
         $entries  = weforms_get_form_entries($form_id);
-        if ($field_to_change == " ") {
-            return;
-        }
+        // if ($field_to_change == " ") {
+        //     return;
+        // }
         foreach ( $entries as $entry ) {            
             $entry_id    = $entry->id;
             $values      = weforms_get_entry_meta( $entry_id );
@@ -403,6 +399,33 @@ class WeForms_Form {
             }
         }
      }
+    
+    /**
+     * Get changed fields of form on Save
+     * @since 1.6.9
+     * @param int $form_id
+     * @param array $form_fields
+     * 
+     * @return array
+     */
+    public function get_changed_fields( $form_fields ) {
+        $changed_fields = array();
+        foreach ($form_fields as $field) {
+            if ( array_key_exists( 'original_name', $field ) ) {
+                $old_name = $field['original_name'];
+                $new_name = $field['name'];
+            } else {
+                $old_name = $field['name'];
+                $new_name = $field['name'];
+            }
+            if ($new_name != $old_name) {
+                $changed_fields[] = $field['original_name'];
+            } else {
+                continue;
+            }
+        }
+        return $changed_fields;
+    }
 
     /**
      * Get number of form entries
