@@ -365,6 +365,8 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
          */
         $invoice_id = SI_Invoice::create_invoice( $invoice_args );
         $invoice = SI_Invoice::get_instance( $invoice_id );
+        $status = SI_Payment::STATUS_AUTHORIZED;
+        $invoice_status = SI_Payment::set_status($status);
         
         $invoice->set_line_items( $submission['line_items'] );
         $invoice->set_calculated_total();
