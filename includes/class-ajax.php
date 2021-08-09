@@ -133,8 +133,8 @@ class WeForms_Ajax {
         $form_fields = weforms()->form->save( $data );
 
         // Update Old Entry meta_key if changed
-        $form_id        = $form_data['wpuf_form_id'];
-        $form           = weforms()->form->get( $form_id );
+        $form_id = $form_data['wpuf_form_id'];
+        $form    = weforms()->form->get( $form_id );
         
         $form->maybe_update_entries( $form_id, $form_fields );
 

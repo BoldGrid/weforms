@@ -378,30 +378,15 @@ class WeForms_Form {
      */
 
     public function maybe_update_entries( $form_id, $form_fields ) {
-        global $wpdb;
         $changed_fields = $this->get_changed_fields( $form_fields );
-        
-        error_log("Fields to change" . " = " . print_r($changed_fields,1));
-
-        return;
-        $entries  = weforms_get_form_entries($form_id);
-        // if ($field_to_change == " ") {
-        //     return;
-        // }
-        foreach ( $entries as $entry ) {            
-            $entry_id    = $entry->id;
-            $values      = weforms_get_entry_meta( $entry_id );
-            $keys        = array_keys($values);
-            foreach ( $keys as $key ) {
-                if ( $key == $field_to_change) {
-                    $update_keys = $wpdb->update( $wpdb->weforms_entrymeta, array( 'meta_key' => $new_name ), array( 'meta_key' => $key, 'weforms_entry_id' => $entry_id ) );
-                } 
-            }
+        // Loop through changed fields and update entries
+        foreach ( $changed_fields as $old => $new) {
+            $updated_fields = $this->rename_field($old, $new, $form_id );
         }
      }
     
     /**
-     * Get changed fields of form on Save
+     * Get changed fields of a form
      * @since 1.6.9
      * @param int $form_id
      * @param array $form_fields
@@ -410,6 +395,7 @@ class WeForms_Form {
      */
     public function get_changed_fields( $form_fields ) {
         $changed_fields = array();
+        // Loop through form fields
         foreach ($form_fields as $field) {
             if ( array_key_exists( 'original_name', $field ) ) {
                 $old_name = $field['original_name'];
@@ -419,12 +405,32 @@ class WeForms_Form {
                 $new_name = $field['name'];
             }
             if ($new_name != $old_name) {
-                $changed_fields[] = $field['original_name'];
+                $changed_fields[$field['original_name']] = $field['name'];
             } else {
                 continue;
             }
         }
+        // Return array of changed fields
         return $changed_fields;
+
+    }
+    /**
+     * Rename fields of a form in entry
+     * @since 1.6.9
+     * @param int $form_id
+     * @param array $form_fields
+     * 
+     * @return array
+     */
+    public function rename_field ( $old, $new, $form_id ) {
+        global $wpdb;
+        $entries  = weforms_get_form_entries($form_id);
+        // Update entries with changed fields
+        foreach ( $entries as $entry ) {            
+            $entry_id    = $entry->id;
+            $values      = weforms_get_entry_meta( $entry_id );
+            $update_keys = $wpdb->update( $wpdb->weforms_entrymeta, array( 'meta_key' => $new ), array( 'meta_key' => $old, 'weforms_entry_id' => $entry_id ) );
+        }
     }
 
     /**
