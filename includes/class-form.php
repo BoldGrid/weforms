@@ -371,23 +371,28 @@ class WeForms_Form {
     }
 
     /**
-     * Update entries of form on Save
+     * When a user is editing their form they may change a fields name.
+     * This method will loop through existing entries to match the new field names.
+     * 
      * @since 1.6.9
+     * 
      * @param int $form_id
      * @param array $form_fields
      */
-
-    public function maybe_update_entries( $form_id, $form_fields ) {
+    public function maybe_update_entries( $form_fields ) {
         $changed_fields = $this->get_changed_fields( $form_fields );
         // Loop through changed fields and update entries
         foreach ( $changed_fields as $old => $new) {
-            $updated_fields = $this->rename_field($old, $new, $form_id );
+            $updated_fields = $this->rename_field( $old, $new );
         }
      }
     
     /**
-     * Get changed fields of a form
+     * When a user is editing their form they may change a fields name.
+     * This method will loop through all fields that have changed.
+     * 
      * @since 1.6.9
+     * 
      * @param int $form_id
      * @param array $form_fields
      * 
@@ -395,37 +400,39 @@ class WeForms_Form {
      */
     public function get_changed_fields( $form_fields ) {
         $changed_fields = array();
-        // Loop through form fields
-        foreach ($form_fields as $field) {
-            if ( array_key_exists( 'original_name', $field ) ) {
-                $old_name = $field['original_name'];
-                $new_name = $field['name'];
-            } else {
-                $old_name = $field['name'];
-                $new_name = $field['name'];
+        foreach ( $form_fields as $field ) {
+            $org_field = $field['original_name'];
+            error_log("Org Field" . " = " . print_r($org_field,1));
+            // All form fields should have an original name.
+            if ( empty( $field['original_name'] ) ) {
+                continue;
             }
-            if ($new_name != $old_name) {
+            if ( $field['name'] !== $field['original_name'] ) {
                 $changed_fields[$field['original_name']] = $field['name'];
             } else {
                 continue;
             }
         }
-        // Return array of changed fields
         return $changed_fields;
 
     }
+
     /**
-     * Rename fields of a form in entry
+     * When a user changes the field names of a form, the existing entries will need updated.
+     * This method will loop through the existing entries and update them will the new names.
+     * 
      * @since 1.6.9
+     * 
      * @param int $form_id
      * @param array $form_fields
      * 
      * @return array
      */
-    public function rename_field ( $old, $new, $form_id ) {
+    public function rename_field ( $old, $new ) {
         global $wpdb;
-        $entries  = weforms_get_form_entries($form_id);
-        // Update entries with changed fields
+
+        $entries  = weforms_get_form_entries( $this->id );
+
         foreach ( $entries as $entry ) {            
             $entry_id    = $entry->id;
             $values      = weforms_get_entry_meta( $entry_id );

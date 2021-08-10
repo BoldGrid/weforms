@@ -136,7 +136,7 @@ class WeForms_Ajax {
         $form_id = $form_data['wpuf_form_id'];
         $form    = weforms()->form->get( $form_id );
         
-        $form->maybe_update_entries( $form_id, $form_fields );
+        $form->maybe_update_entries( $form_fields );
 
         do_action( 'weforms_update_form', $form_data['wpuf_form_id'], $form_fields, $settings );
 
