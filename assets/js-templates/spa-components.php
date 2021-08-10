@@ -990,7 +990,7 @@
     <p v-if="no_transactions">
        <?php printf( 
             __( 'You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.' ),
-            '<a target="_blank" href="https://wedevs.com/docs/weforms/integrations/payment/">',
+            '<a target="_blank" href="https://weformspro.com/docs/modules/payment/">',
             '</a>'
               );
         ?>
