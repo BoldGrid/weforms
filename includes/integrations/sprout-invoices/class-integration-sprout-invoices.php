@@ -105,10 +105,10 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         
         preg_match_all("/(?<=:)\w+(?=\})/", $integration->fields->line_items, $matches );
 
-        $test_logic = array_key_exists( $matches[0][0], $form_data['data'] );
+        $line_item_data = array_key_exists( $matches[0][0], $form_data['data'] );
 
         // bail out if nothing found to be replaced
-        if ( $test_logic ) {
+        if ( $line_item_data ) {
 
             $li = " ";
 
