@@ -7,6 +7,8 @@
  * 
  * @internal This class is deprecated as of v3.0.0 of emogrifier. Need to update to new CSSInliner class. 
  *
+ * @link https://github.com/MyIntervals/emogrifier/blob/v1.2.x/Classes/Emogrifier.php
+ * 
  * @author Cameron Brooks
  * @author Jaime Prado
  * @author Oliver Klee <typo3-coding@oliverklee.de>
