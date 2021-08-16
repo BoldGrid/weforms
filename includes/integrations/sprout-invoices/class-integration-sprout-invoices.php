@@ -30,7 +30,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
                 'duedate' => '',
                 'number' => '',
                 'vat' => '',
-                'line_items' => ''
+                'line_items' => '',
             ],
         ];
 
@@ -83,6 +83,9 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         if (false === $form_data) {
             return;
         }
+
+        $payment_data = weforms_get_entry_payment( $entry_id );
+
         $address = self::get_value( $integration->fields->address, $entry_id, $form_id, $page_id );
         if (is_array( $address )) {
             $full_address = array(
@@ -93,60 +96,74 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
                 'country' => isset( $address['country_select'] ) ? $address['country_select'] : '',
             );
         }
+        
+        preg_match_all("/(?<=:)\w+(?=\})/", $integration->fields->line_items, $matches );
 
-        preg_match( '/{field:(\w*)}/', $integration->fields->line_items, $match );
+        $line_item_data = array_key_exists( $matches[0][0], $form_data['data'] );
 
         // bail out if nothing found to be replaced
-        if (isset( $match[1] ) && isset( $_REQUEST[$match[1]] )) {
+        if ( $line_item_data ) {
 
-            $fieldSlug = $match[1];
-            $lineItemsSelected = $_REQUEST[$match[1]];
+            $li = " ";
 
-            // was anything even selected?
-            if (is_array( $lineItemsSelected )) {
-
+            foreach($matches[0] as $fieldSlug ){
                 $form_fields = weforms()->form->get( $form_id )->get_fields();
-                $lineItemOptions = false;
                 foreach ($form_fields as $key => $field) {
                     if ($field['name'] === $fieldSlug) {
-                        $lineItemOptions = ( array( $field['options'] ) ) ? $field['options'] : false;
+                        $lineItemOptions = array_key_exists( 'options', $field ) ? $field['options'] : 'false';
                     }
                 }
-
-                // if the options are found
-                if ($lineItemOptions) {
-                    $li = array();
-                    foreach ($lineItemsSelected as $rate) {
-                        $li[] = array(
-                            'desc' => $lineItemOptions[$rate],
-                            'rate' => $rate,
-                            'total' => $rate,
+                $lineItemsSelected = array($form_data['data'][$fieldSlug]);
+                if ($lineItemOptions != 'false') {
+                    $li_items = array();
+                    foreach ($lineItemsSelected as $item) {
+                        $li_items[] = array(
+                            'desc' => $item,
+                            'rate' => array_search($item, $lineItemOptions),
+                            'total' => array_search($item, $lineItemOptions),
                             'qty' => 1,
                         );
                     }
+                } else {
+                    $li_deposit[] = array(
+                        'desc' => $lineItemsSelected[0]['product'],
+                        'rate' => $lineItemsSelected[0]['price'],
+                        'total' => $lineItemsSelected[0]['price'],
+                        'qty' => $lineItemsSelected[0]['quantity'],
+                    );
                 }
+                
+            };
+            if ( isset( $li_items ) && isset( $li_deposit ) ) {
+                $li = array_merge( $li_items, $li_deposit );
+            } elseif ( isset( $li_items ) ) {
+                $li = $li_items;
+            } else {
+                $li = $li_deposit;
             }
-
         }
+
+
 
         //Setting up array to send user info to WordPress
         $submission = array(
-            'subject' => self::get_value( $integration->fields->subject, $entry_id, $form_id, $page_id ),
-            'line_items' => !empty( $li ) ? $li : array(),
+            'subject'      => self::get_value( $integration->fields->subject, $entry_id, $form_id, $page_id ),
+            'line_items'   => !empty( $li ) ? $li : array(),
             'full_address' => !empty( $full_address ) ? $full_address : array(),
-            'client_name' => self::get_value( $integration->fields->client_name, $entry_id, $form_id, $page_id ),
-            'email' => self::get_value( $integration->fields->email, $entry_id, $form_id, $page_id ),
-            'first_name' => self::get_value( $integration->fields->first_name, $entry_id, $form_id, $page_id ),
-            'last_name' => self::get_value( $integration->fields->last_name, $entry_id, $form_id, $page_id ),
-            'notes' => self::get_value( $integration->fields->notes, $entry_id, $form_id, $page_id ),
-            'duedate' => self::get_value( $integration->fields->duedate, $entry_id, $form_id, $page_id ),
-            'number' => self::get_value( $integration->fields->number, $entry_id, $form_id, $page_id ),
-            'vat' => self::get_value( $integration->fields->vat, $entry_id, $form_id, $page_id ),
-            'entry_note' => self::build_entry_note( $form_id, $entry_id ),
-            'entry_id' => $entry_id,
-            'form_id' => $form_id,
-            'page_id' => $page_id,
-            'form_data' => $form_data['data'],
+            'client_name'  => self::get_value( $integration->fields->client_name, $entry_id, $form_id, $page_id ),
+            'email'        => self::get_value( $integration->fields->email, $entry_id, $form_id, $page_id ),
+            'first_name'   => self::get_value( $integration->fields->first_name, $entry_id, $form_id, $page_id ),
+            'last_name'    => self::get_value( $integration->fields->last_name, $entry_id, $form_id, $page_id ),
+            'notes'        => self::get_value( $integration->fields->notes, $entry_id, $form_id, $page_id ),
+            'duedate'      => self::get_value( $integration->fields->duedate, $entry_id, $form_id, $page_id ),
+            'number'       => self::get_value( $integration->fields->number, $entry_id, $form_id, $page_id ),
+            'vat'          => self::get_value( $integration->fields->vat, $entry_id, $form_id, $page_id ),
+            'entry_note'   => self::build_entry_note( $form_id, $entry_id ),
+            'entry_id'     => $entry_id,
+            'payment'      => !empty( $li_deposit ) ? 'true' : 'false',
+            'form_id'      => $form_id,
+            'page_id'      => $page_id,
+            'form_data'    => $form_data['data'],
         );
         $submission = apply_filters('wpf_si_submission_data_for_creation', $submission );
 
@@ -277,6 +294,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
             return '';
         }
 
+        $table = ' ';
         $table .= '<div class="submission-values">';
         $table .= '<ul>';
 
@@ -328,7 +346,6 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
 
     protected function create_invoice($submission = array())
     {
-
         $invoice_args = array(
             'subject' => sprintf( apply_filters( 'si_form_submission_title_format', '%1$s (%2$s)', $submission ), $submission['subject'], $submission['client_name'] ),
             'fields' => $submission,
@@ -342,7 +359,9 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
          */
         $invoice_id = SI_Invoice::create_invoice( $invoice_args );
         $invoice = SI_Invoice::get_instance( $invoice_id );
-
+        $status = SI_Payment::STATUS_AUTHORIZED;
+        $invoice_status = SI_Payment::set_status($status);
+        
         $invoice->set_line_items( $submission['line_items'] );
         $invoice->set_calculated_total();
 
@@ -357,6 +376,11 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
 
         if (isset( $submission['duedate'] )) {
             $invoice->set_due_date( $submission['duedate'] );
+        }
+
+        // Add Payment from weForms if deposit
+        if ( $submission['payment'] === 'false' ) {
+            SI_PAYMENT::new_payment();
         }
 
         // Finally associate the doc with the form submission

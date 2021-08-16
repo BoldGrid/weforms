@@ -165,6 +165,23 @@ function weforms_get_form_payments( $form_id, $args = [] ) {
 }
 
 /**
+ * Get payments by a entry_id
+ *
+ * @param int   $entry_id
+ *
+ * @return object
+ */
+function weforms_get_entry_payment( $entry_id ) {
+    global $wpdb;
+
+    $query = 'SELECT transaction_id FROM ' . $wpdb->prefix . 'weforms_payments' .
+        ' WHERE entry_id = ' . $entry_id;
+    $payment = $wpdb->get_row( $query, $entry_id );
+    
+    return $payment;
+}
+
+/**
  * Get an entry by id
  *
  * @param int $entry_id
