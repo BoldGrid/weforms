@@ -176,11 +176,7 @@ function weforms_get_entry_payment( $entry_id ) {
 
     $query = 'SELECT transaction_id FROM ' . $wpdb->prefix . 'weforms_payments' .
         ' WHERE entry_id = ' . $entry_id;
-        error_log(print_r($query,1));
-
     $payment = $wpdb->get_row( $query, $entry_id );
-    error_log(print_r($payment,1));
-
     
     return $payment;
 }

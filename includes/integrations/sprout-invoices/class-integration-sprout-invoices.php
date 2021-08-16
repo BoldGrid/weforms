@@ -84,13 +84,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
             return;
         }
 
-        // $form_payment_data = weforms_get_form_payments( $form_id );
-
-        // error_log("Form Payment Data" . " = " . print_r($form_payment_data,1));
-
         $payment_data = weforms_get_entry_payment( $entry_id );
-
-        error_log( $payment_data );
 
         $address = self::get_value( $integration->fields->address, $entry_id, $form_id, $page_id );
         if (is_array( $address )) {
