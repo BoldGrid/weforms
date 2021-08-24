@@ -4,7 +4,7 @@ Tags: forms, contact form, contact form plugin, custom form, form builder, form,
 Requires at least: 4.4
 Requires PHP: 5.6.20
 Tested up to: 5.7
-Stable tag: 1.6.8
+Stable tag: 1.6.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,16 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.9 (31 August, 2021) =
+* **Fix:** PHP 8.0 Emogrifier updates
+* **Fix:** Transaction page link updated to weforms site
+* **Fix:** Entry Field Names update on form save when changed
+* **Fix:** Using Vue.js minified file for production
+* **Fix:** Google Maps integration provides address in notification
+* **Update:** Field Authentication updates
+* **Update:** Dependancy updates
+* **Impovement:** Sprout Invoices integration multiple line items and payment options
 
 = Version 1.6.8 (10 June, 2021) =
 * **Fix:** weSerialize not extended
