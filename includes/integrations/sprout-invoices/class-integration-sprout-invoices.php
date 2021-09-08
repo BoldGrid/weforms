@@ -104,12 +104,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         // bail out if nothing found to be replaced
         if ( $line_item_data ) {
 
-            $fieldSlug = $match[1];
-            $lineItemsSelected = is_array( $_REQUEST[$match[1]] ) ? $_REQUEST[$match[1]] : array($_REQUEST[$match[1]]);
-
-            // was anything even selected?
-            if (is_array( $lineItemsSelected )) {
-
+            $li = " ";
 
             foreach($matches[0] as $fieldSlug ){
                 $form_fields = weforms()->form->get( $form_id )->get_fields();
@@ -147,8 +142,6 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
                 $li = $li_deposit;
             }
         }
-
-
 
         //Setting up array to send user info to WordPress
         $submission = array(

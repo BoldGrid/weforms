@@ -279,8 +279,15 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 ## Changelog ##
 
-### Version 1.6.8 (10 June, 2021) ###
-* **Fix:** weSerialize not extended
+### Version 1.6.9 (31 August, 2021) ###
+* **Fix:** PHP 8.0 Emogrifier updates
+* **Fix:** Transaction page link updated to weforms site
+* **Fix:** Entry Field Names update on form save when changed
+* **Fix:** Using Vue.js minified file for production
+* **Fix:** Google Maps integration provides address in notification
+* **Update:** Field Authentication updates
+* **Update:** Dependancy updates
+* **Impovement:** Sprout Invoices integration multiple line items and payment options
 
 ### Version 1.6.7 (26 April, 2021) ###
 * **Fix:** PHP 8.0 form submission issues fixes and removal of admin notice callback
