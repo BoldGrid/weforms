@@ -25,7 +25,7 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
             <?php $this->print_label( $field_settings ); ?>
 
             <div class="wpuf-fields">
-                <input id="wpuf-date-<?php echo esc_attr( $field_settings['name'] ); ?>" type="text" class="datepicker <?php echo ' wpuf_'.esc_attr( $field_settings['name'] ).'_'. esc_attr($form_id); ?>" data-required="<?php echo esc_attr($field_settings['required']) ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['format'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="30" />
+                <input id="wpuf-date-<?php echo esc_attr( $field_settings['name'] ); ?>" type="text" <?php echo ($field_settings['enforce_format'] !== 'yes') ? '' : 'readonly'; ?>  class="datepicker <?php echo ' wpuf_'.esc_attr( $field_settings['name'] ).'_'. esc_attr($form_id); ?>" data-required="<?php echo esc_attr($field_settings['required']) ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['format'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="30" />
                 <?php $this->help_text( $field_settings ); ?>
             </div>
         </li>
@@ -88,6 +88,18 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
                 'priority'      => 24,
                 'help_text'     => '',
             ],
+            [
+              'name'            => 'enforce_format',
+              'title'           => '',
+              'type'            => 'checkbox',
+              'section'         => 'advanced',
+              'is_single_opt'   => true,
+              'options'         => [
+                  'yes'   => __( 'Enforce Date Format', 'weforms' ),
+              ],
+              'priority'        => 24,
+              'help_text'       => __( 'Disables Keyboard Input and uses the Datepicker Format', 'weforms' ),
+            ]
         ];
 
         return array_merge( $default_options, $settings );
