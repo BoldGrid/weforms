@@ -30,6 +30,6 @@
     "jshint-stylish": "^2.2.1",
     "load-grunt-tasks": "^3.5.2",
     "minimist": ">=1.2.2",
-    "set-value": "^3.0.2"
+    "set-value": "^4.0.1"
   }
 }
