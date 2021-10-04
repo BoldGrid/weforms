@@ -1,5 +1,5 @@
 <div>
-    <?php if ( class_exists( 'WYSIJA' ) ) { ?>
+    <?php if ( class_exists(\MailPoet\API\API::class)) { ?>
     <div class="wpuf-int-form-row">
         <div class="wpuf-int-field-label">
             <label for="mailpoet-list-id"><?php esc_html_e( 'List', 'weforms' ); ?></label>
@@ -7,7 +7,7 @@
         <div class="wpuf-int-field">
             <select v-model="settings.list" id="mailpoet-list-id">
                 <option value=""><?php esc_html_e( '&mdash; Select List &mdash;', 'weforms' ); ?></option>
-                <option v-for="list in lists" :value="list.list_id">{{ list.name }}</option>
+                <option v-for="list in lists" :value="list.id">{{ list.name }}</option>
             </select>
 
             <span class="description"><?php esc_html_e( 'Select your mailpoet list for subscription', 'weforms' ); ?></span>
