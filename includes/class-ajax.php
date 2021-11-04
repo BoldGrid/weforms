@@ -135,7 +135,7 @@ class WeForms_Ajax {
         // Update Old Entry meta_key if changed
         $form_id = $form_data['wpuf_form_id'];
         $form    = weforms()->form->get( $form_id );
-        
+
         $form->maybe_update_entries( $form_fields );
 
         do_action( 'weforms_update_form', $form_data['wpuf_form_id'], $form_fields, $settings );
@@ -761,7 +761,7 @@ class WeForms_Ajax {
 
         $entry_id = 1;
         $global_settings = weforms_get_settings();
-        if ( empty( $global_settings['after_submission'] ) ) {
+        if ( empty( $form_settings['after_submission'] ) ) {
             $entry_id = weforms_insert_entry( [
                 'form_id' => $form_id,
             ], $entry_fields );
@@ -778,7 +778,7 @@ class WeForms_Ajax {
             'page_id'  => $page_id,
             'entry_id' => $entry_id,
         ] );
-        $notification->send_notifications(); 
+        $notification->send_notifications();
         }
         // redirect URL
         $show_message = false;
