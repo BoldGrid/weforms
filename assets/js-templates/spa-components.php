@@ -81,7 +81,7 @@
                         <th scope="row" class="check-column">
                             <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
                         </th>
-                        <td class="col-entry-number">{{ index + 1}}</td>
+                        <td class="col-entry-number">{{ index + 1}}</td> <!-- Add 1 since index starts at 0 -->
                         <th class="col-entry-id">
                             <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
                         </th>
