@@ -9,6 +9,9 @@ th.col-form-views,
 th.col-form-conversion {
   width: 10%;
 }
+th.col-entry-number{
+  width:10%
+}
 th.col-entry-id {
   width: 5%;
 }

@@ -51,6 +51,7 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox" v-model="selectAll">
                 </td>
+                <th class="col-entry-number">Entry #</th>
                 <th class="col-entry-id"><?php _e( 'ID', 'weforms' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
                 <th>Actions</th>
@@ -61,6 +62,7 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox" v-model="selectAll">
                 </td>
+                <th class="col-entry-number">Entry #</th>
                 <th class="col-entry-id"><?php _e( 'ID', 'weforms' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
                 <th class="col-entry-details"><?php _e( 'Actions', 'weforms' ); ?></th>
@@ -79,6 +81,7 @@
                         <th scope="row" class="check-column">
                             <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
                         </th>
+                        <td class="col-entry-number">{{ index + 1}}</td>
                         <th class="col-entry-id">
                             <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
                         </th>
@@ -101,6 +104,7 @@
                     <th scope="row" class="check-column">
                         <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
                     </th>
+                    <th class="col-entry-number">{{ n.value === 'index' ? index : item[n.value] }}</th>
                     <th class="col-entry-id">
                         <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
                     </th>
@@ -988,7 +992,7 @@
     </h1>
 
     <p v-if="no_transactions">
-       <?php printf( 
+       <?php printf(
             __( 'You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.' ),
             '<a target="_blank" href="https://weformspro.com/docs/modules/payment/">',
             '</a>'
