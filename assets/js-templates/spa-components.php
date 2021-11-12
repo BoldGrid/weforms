@@ -4,43 +4,43 @@
     <div class="tablenav top">
 
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php esc_html_e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="-1"><?php esc_html_e( 'Bulk Actions', 'weforms' ); ?></option>
                 <option value="restore" v-if="status == 'trash' ">
-                    <?php _e( 'Restore Entries', 'weforms' ); ?>
+                    <?php esc_html_e( 'Restore Entries', 'weforms' ); ?>
                 </option>
                 <option value="delete">
-                    <template v-if="status == 'trash' "><?php _e( 'Delete Permanently', 'weforms' ); ?></template>
-                    <template v-else><?php _e( 'Delete Entries', 'weforms' ); ?></template>
+                    <template v-if="status == 'trash' "><?php esc_html_e( 'Delete Permanently', 'weforms' ); ?></template>
+                    <template v-else><?php esc_html_e( 'Delete Entries', 'weforms' ); ?></template>
                 </option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php esc_html_e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="alignleft actions" v-if="has_export !== 'no' &&  status != 'trash' ">
-            <a class="button" :href="'admin-post.php?action=weforms_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php _e( 'Export Entries', 'weforms' ); ?></a>
+            <a class="button" :href="'admin-post.php?action=weforms_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php esc_html_e( 'Export Entries', 'weforms' ); ?></a>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php esc_html_e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php esc_html_e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php esc_html_e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php esc_html_e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php esc_html_e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php esc_html_e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php esc_html_e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -51,7 +51,6 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th class="col-entry-id"><?php _e( 'ID', 'weforms' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
                 <th>Actions</th>
             </tr>
@@ -61,17 +60,16 @@
                 <td id="cb" class="manage-column column-cb check-column">
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th class="col-entry-id"><?php _e( 'ID', 'weforms' ); ?></th>
                 <th v-for="(header, index) in columns">{{ header }}</th>
-                <th class="col-entry-details"><?php _e( 'Actions', 'weforms' ); ?></th>
+                <th class="col-entry-details"><?php esc_html_e( 'Actions', 'weforms' ); ?></th>
             </tr>
         </tfoot>
         <tbody>
             <tr v-if="loading">
-                <td v-bind:colspan="columnLength + 3"><?php _e( 'Loading...', 'weforms' ); ?></td>
+                <td v-bind:colspan="columnLength + 3"><?php esc_html_e( 'Loading...', 'weforms' ); ?></td>
             </tr>
             <tr v-if="!items.length && !loading">
-                <td v-bind:colspan="columnLength + 3"><?php _e( 'No entries found!', 'weforms' ); ?></td>
+                <td v-bind:colspan="columnLength + 3"><?php esc_html_e( 'No entries found!', 'weforms' ); ?></td>
             </tr>
             <tr v-for="(entry, index) in items">
                 <template v-if="currentPage == 1">
@@ -79,19 +77,16 @@
                         <th scope="row" class="check-column">
                             <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
                         </th>
-                        <th class="col-entry-id">
-                            <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
-                        </th>
                         <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
                         <th class="col-entry-details">
                             <template v-if="status == 'trash'">
-                                <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
+                                <a href="#" @click.prevent="restore(entry.id)"><?php esc_html_e( 'Restore', 'weforms' ); ?></a>
                                 <span style="color: #ddd">|</span>
-                                <a href="#" @click.prevent="deletePermanently(entry.id)"><?php _e( 'Delete Permanently', 'weforms' ); ?></a>
+                                <a href="#" @click.prevent="deletePermanently(entry.id)"><?php esc_html_e( 'Delete Permanently', 'weforms' ); ?></a>
                             </template>
                             <template  v-else>
                                 <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">
-                                    <?php _e( 'Details', 'weforms' ); ?>
+                                    <?php esc_html_e( 'Details', 'weforms' ); ?>
                                 </router-link>
                             </template>
                         </th>
@@ -101,19 +96,16 @@
                     <th scope="row" class="check-column">
                         <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
                     </th>
-                    <th class="col-entry-id">
-                        <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
-                    </th>
                     <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
                     <th class="col-entry-details">
                         <template v-if="status == 'trash'">
-                            <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
+                            <a href="#" @click.prevent="restore(entry.id)"><?php esc_html_e( 'Restore', 'weforms' ); ?></a>
                             <span style="color: #ddd">|</span>
-                            <a href="#" @click.prevent="deletePermanently(entry.id)"><?php _e( 'Delete Permanently', 'weforms' ); ?></a>
+                            <a href="#" @click.prevent="deletePermanently(entry.id)"><?php esc_html_e( 'Delete Permanently', 'weforms' ); ?></a>
                         </template>
                         <template  v-else>
                             <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">
-                                <?php _e( 'Details', 'weforms' ); ?>
+                                <?php esc_html_e( 'Details', 'weforms' ); ?>
                             </router-link>
                         </template>
                     </th>
@@ -124,39 +116,39 @@
 
     <div class="tablenav bottom">
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php esc_html_e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="-1"><?php esc_html_e( 'Bulk Actions', 'weforms' ); ?></option>
                 <option value="restore" v-if="status == 'trash' ">
-                    <?php _e( 'Restore Entries', 'weforms' ); ?>
+                    <?php esc_html_e( 'Restore Entries', 'weforms' ); ?>
                 </option>
                 <option value="delete">
-                    <template v-if="status == 'trash' "><?php _e( 'Delete Permanently', 'weforms' ); ?></template>
-                    <template v-else><?php _e( 'Delete Entries', 'weforms' ); ?></template>
+                    <template v-if="status == 'trash' "><?php esc_html_e( 'Delete Permanently', 'weforms' ); ?></template>
+                    <template v-else><?php esc_html_e( 'Delete Entries', 'weforms' ); ?></template>
                 </option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php esc_html_e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php esc_html_e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php esc_html_e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php esc_html_e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php esc_html_e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> of <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php esc_html_e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage()" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php esc_html_e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -167,7 +159,7 @@
 <div class="wpuf-contact-form-entries">
     <div>
         <h1 class="wp-heading-inline">
-            <?php _e( 'Entries', 'weforms' ); ?>
+            <?php esc_html_e( 'Entries', 'weforms' ); ?>
             <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
 
             <span style="color: #999;" class="form-name">
@@ -227,24 +219,24 @@
 
         <h2 class="nav-tab-wrapper">
             <a href="#wpuf-form-builder-container" :class="['nav-tab', isActiveTab( 'editor' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('editor')">
-                <?php _e( 'Form Editor', 'weforms' ); ?>
+                <?php esc_html_e( 'Form Editor', 'weforms' ); ?>
             </a>
 
             <a href="#wpuf-form-builder-settings" :class="['nav-tab', isActiveTab( 'settings' ) ? 'nav-tab-active' : '']" v-on:click.prevent="makeActive('settings')">
-                <?php _e( 'Settings', 'weforms' ); ?>
+                <?php esc_html_e( 'Settings', 'weforms' ); ?>
             </a>
 
             <?php do_action( 'wpuf-form-builder-tabs-contact_form' ); ?>
 
             <span class="pull-right">
-                <a :href="'<?php echo home_url( '/' ); ?>?weforms_preview=1&form_id=' + post.ID" target="_blank" class="button"><span class="dashicons dashicons-visibility" style="padding-top: 3px;"></span> <?php _e( 'Preview', 'weforms' ); ?></a>
+                <a :href="'<?php echo home_url( '/' ); ?>?weforms_preview=1&form_id=' + post.ID" target="_blank" class="button"><span class="dashicons dashicons-visibility" style="padding-top: 3px;"></span> <?php esc_html_e( 'Preview', 'weforms' ); ?></a>
 
                 <button v-if="!is_form_saving" type="button" class="button button-primary weforms-save-form-builder" @click="save_form_builder">
-                    <?php _e( 'Save Form', 'weforms' ); ?>
+                    <?php esc_html_e( 'Save Form', 'weforms' ); ?>
                 </button>
 
                 <button v-else type="button" class="button button-primary button-ajax-working" disabled>
-                    <span class="loader"></span> <?php _e( 'Saving Form Data', 'weforms' ); ?>
+                    <span class="loader"></span> <?php esc_html_e( 'Saving Form Data', 'weforms' ); ?>
                 </button>
             </span>
         </h2>
@@ -264,7 +256,7 @@
 
                         <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>">
                             <i class="fa fa-share-alt" aria-hidden="true"></i>
-                            <?php _e( 'Share', 'Share' ); ?>
+                            <?php esc_html_e( 'Share', 'Share' ); ?>
                         </span>
 
                     </header>
@@ -285,13 +277,13 @@
                         <ul class="clearfix">
                             <li :class="['form-fields' === current_panel ? 'active' : '']">
                                 <a href="#add-fields" @click.prevent="set_current_panel('form-fields')">
-                                    <?php _e( 'Add Fields', 'weforms' ); ?>
+                                    <?php esc_html_e( 'Add Fields', 'weforms' ); ?>
                                 </a>
                             </li>
 
                             <li :class="['field-options' === current_panel ? 'active' : '', !form_fields_count ? 'disabled' : '']">
                                 <a href="#field-options" @click.prevent="set_current_panel('field-options')">
-                                    <?php _e( 'Field Options', 'weforms' ); ?>
+                                    <?php esc_html_e( 'Field Options', 'weforms' ); ?>
                                 </a>
                             </li>
                         </ul>
@@ -322,7 +314,7 @@
         <div v-else>
 
             <div class="updating-message">
-                <p><?php _e( 'Loading the editor', 'weforms' ); ?></p>
+                <p><?php esc_html_e( 'Loading the editor', 'weforms' ); ?></p>
             </div>
         </div>
 
@@ -339,14 +331,14 @@
 <div class="wpuf-contact-form-entries">
     <div>
         <h1 class="wp-heading-inline">
-            <?php _e( 'Entries', 'weforms' ); ?>
+            <?php esc_html_e( 'Entries', 'weforms' ); ?>
             <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
 
             <span style="color: #999;" class="form-name">
                 {{ form_title }}
             </span>
 
-            <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
+            <router-link class="page-title-action" to="/"><?php esc_html_e( 'Back to forms', 'weforms' ); ?></router-link>
         </h1>
     </div>
 
@@ -392,10 +384,10 @@
 
 <script type="text/x-template" id="tmpl-wpuf-form-entry-single">
 <div class="wpuf-contact-form-entry">
-    <h1 class="wp-heading-inline"><?php _e( 'Entry Details', 'weforms' ); ?></h1>
-    <router-link class="page-title-action" :to="{ name: 'formEntries', params: { id: $route.params.id }}"><?php _e( 'Back to Entries', 'weforms' ); ?></router-link>
+    <h1 class="wp-heading-inline"><?php esc_html_e( 'Entry Details', 'weforms' ); ?></h1>
+    <router-link class="page-title-action" :to="{ name: 'formEntries', params: { id: $route.params.id }}"><?php esc_html_e( 'Back to Entries', 'weforms' ); ?></router-link>
 
-    <div v-if="loading"><?php _e( 'Loading...', 'weforms' ); ?></div>
+    <div v-if="loading"><?php esc_html_e( 'Loading...', 'weforms' ); ?></div>
     <div v-else class="wpuf-contact-form-entry-wrap">
 
         <div v-bind:class="['wpuf-contact-form-entry-left', form_settings.quiz_form === 'yes' ? 'weforms-quiz-entry' : '']">
@@ -404,7 +396,7 @@
                     <span>{{ entry.meta_data.form_title }} : Entry # {{ $route.params.entryid }}</span>
                     <span class="pull-right" v-if="hasEmpty">
                         <label style="font-weight: normal; font-size: 12px">
-                            <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php _e( 'Hide Empty', 'weforms' ); ?>
+                            <input type="checkbox" v-model="hideEmpty" style="margin-right: 1px"> <?php esc_html_e( 'Hide Empty', 'weforms' ); ?>
                         </label>
                     </span>
                 </h2>
@@ -440,7 +432,7 @@
                             </template>
                         </tbody>
                     </table>
-                    <div v-else><div class="inside"><?php _e( 'Loading...', 'weforms' ); ?></div></div>
+                    <div v-else><div class="inside"><?php esc_html_e( 'Loading...', 'weforms' ); ?></div></div>
 
                 </div>
             </div>
@@ -448,38 +440,38 @@
 
         <div class="wpuf-contact-form-entry-right">
             <div class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Submission Info', 'weforms' ); ?></span></h2>
+                <h2 class="hndle ui-sortable-handle"><span><?php esc_html_e( 'Submission Info', 'weforms' ); ?></span></h2>
                 <div class="inside">
                     <div class="main">
 
                         <ul>
                             <li>
-                                <span class="label"><?php _e( 'Entry ID', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Entry ID', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">#{{ $route.params.entryid }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'User IP', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'User IP', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.meta_data.ip_address }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Device', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Device', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.meta_data.device }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Page', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Page', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value"><a :href="entry.meta_data.referer">{{ entry.meta_data.referer }}</a></span>
                             </li>
                             <li v-if="entry.meta_data.user">
-                                <span class="label"><?php _e( 'From', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'From', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.meta_data.user }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Submitted On', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Submitted On', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.meta_data.created }}</span>
                             </li>
@@ -489,18 +481,18 @@
 
                 <div id="major-publishing-actions">
                     <div id="publishing-action">
-                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php _e( ' Delete', 'weforms' ); ?></button>
+                        <button class="button button-large button-secondary" v-on:click.prevent="trashEntry"><span class="dashicons dashicons-trash"></span><?php esc_html_e( ' Delete', 'weforms' ); ?></button>
                     </div>
                     <div class="clear"></div>
                 </div>
             </div>
 
             <div v-if="form_settings.quiz_form === 'yes'" class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Points', 'weforms' ); ?></span></h2>
+                <h2 class="hndle ui-sortable-handle"><span><?php esc_html_e( 'Points', 'weforms' ); ?></span></h2>
                 <div class="inside">
                     <div class="main">
-                        <p><?php _e( 'Total Points:', 'weforms' ); ?> {{ form_settings.total_points }}</p>
-                        <p><?php _e( 'Respondent Points:', 'weforms' ); ?> {{ respondent_points }}</p>
+                        <p><?php esc_html_e( 'Total Points:', 'weforms' ); ?> {{ form_settings.total_points }}</p>
+                        <p><?php esc_html_e( 'Respondent Points:', 'weforms' ); ?> {{ respondent_points }}</p>
                     </div>
                 </div>
             </div>
@@ -510,38 +502,38 @@
 
         <div class="wpuf-contact-form-entry-right" v-if="entry.payment_data" style=" clear: right;">
             <div class="postbox">
-                <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Payment Info', 'weforms' ); ?></span></h2>
+                <h2 class="hndle ui-sortable-handle"><span><?php esc_html_e( 'Payment Info', 'weforms' ); ?></span></h2>
                 <div class="inside">
                     <div class="main">
 
                         <ul>
                             <li>
-                                <span class="label"><?php _e( 'Payment ID', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Payment ID', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">#{{ entry.payment_data.id }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Gateway', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Gateway', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.payment_data.gateway }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Status', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Status', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.payment_data.status }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Total', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Total', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.payment_data.total }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Transaction ID', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Transaction ID', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.payment_data.transaction_id ? entry.payment_data.transaction_id : 'N/A' }}</span>
                             </li>
                             <li>
-                                <span class="label"><?php _e( 'Created at', 'weforms' ); ?></span>
+                                <span class="label"><?php esc_html_e( 'Created at', 'weforms' ); ?></span>
                                 <span class="sep"> : </span>
                                 <span class="value">{{ entry.payment_data.created_at }}</span>
                             </li>
@@ -576,33 +568,33 @@
 
     <div class="tablenav top">
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php esc_html_e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Forms', 'weforms' ); ?></option>
+                <option value="-1"><?php esc_html_e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="delete"><?php esc_html_e( 'Delete Forms', 'weforms' ); ?></option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php esc_html_e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php esc_html_e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php esc_html_e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php esc_html_e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php esc_html_e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php esc_html_e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php esc_html_e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php esc_html_e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -611,24 +603,24 @@
         <thead>
             <tr>
                 <td id="cb" class="manage-column column-cb check-column">
-                    <label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Select All', 'weforms' ); ?></label>
+                    <label class="screen-reader-text" for="cb-select-all-1"><?php esc_html_e( 'Select All', 'weforms' ); ?></label>
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th scope="col" class="col-form-name"><?php _e( 'Name', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-shortcode"><?php _e( 'Shortcode', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-entries"><?php _e( 'Entries', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-status weforms-form-status-col-title"><?php _e( 'Status', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-views"><?php _e( 'Views', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-created-by"><?php _e( 'Created by', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-name"><?php esc_html_e( 'Name', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-shortcode"><?php esc_html_e( 'Shortcode', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-entries"><?php esc_html_e( 'Entries', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-status weforms-form-status-col-title"><?php esc_html_e( 'Status', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-views"><?php esc_html_e( 'Views', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-conversion"><?php esc_html_e( 'Conversion', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-created-by"><?php esc_html_e( 'Created by', 'weforms' ); ?></th>
             </tr>
         </thead>
         <tbody>
             <tr v-if="loading">
-                <td colspan="6"><?php _e( 'Loading...', 'weforms' ); ?></td>
+                <td colspan="6"><?php esc_html_e( 'Loading...', 'weforms' ); ?></td>
             </tr>
             <tr v-if="!items.length && !loading">
-                <td colspan="6"><?php _e( 'No form found!', 'weforms' ); ?></td>
+                <td colspan="6"><?php esc_html_e( 'No form found!', 'weforms' ); ?></td>
             </tr>
             <tr v-for="(form, index) in items">
                 <th scope="row" class="check-column">
@@ -638,25 +630,25 @@
                     <strong><router-link :to="{ name: 'edit', params: { id: form.id }}">{{ form.name }}</router-link> <span v-if="form.data.post_status != 'publish'">({{ form.data.post_status }})</span></strong>
 
                     <div class="row-actions">
-                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.id }}"><?php _e( 'Edit', 'weforms' ); ?></router-link> | </span>
+                        <span class="edit"><router-link :to="{ name: 'edit', params: { id: form.id }}"><?php esc_html_e( 'Edit', 'weforms' ); ?></router-link> | </span>
 
-                        <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php _e( 'Delete', 'weforms' ); ?></a> | </span>
+                        <span class="trash"><a href="#" v-on:click.prevent="deleteForm(index)" class="submitdelete"><?php esc_html_e( 'Delete', 'weforms' ); ?></a> | </span>
 
-                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.id, index)"><?php _e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
+                        <span class="duplicate"><a href="#" v-on:click.prevent="duplicate(form.id, index)"><?php esc_html_e( 'Duplicate', 'weforms' ); ?></a> <template v-if="form.entries">|</template> </span>
 
-                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}"><?php _e( 'View Entries', 'weforms' ); ?></router-link>
+                        <router-link v-if="form.entries" :to="{ name: 'formEntries', params: { id: form.id }}"><?php esc_html_e( 'View Entries', 'weforms' ); ?></router-link>
 
                         <template v-if="is_pro">
                             <span>
                                 <template>|</template>
-                                <router-link :to="{ name: 'formReports', params: { id: form.id }}"><?php _e( 'Reports', 'weforms' ); ?></router-link>
+                                <router-link :to="{ name: 'formReports', params: { id: form.id }}"><?php esc_html_e( 'Reports', 'weforms' ); ?></router-link>
                             </span>
                         </template>
 
                         <template v-if="is_pro && has_payment && form.payments">
                             <span>
                                 <template>|</template>
-                                <router-link :to="{ name: 'formPayments', params: { id: form.id }}"><?php _e( 'Transactions', 'weforms' ); ?></router-link>
+                                <router-link :to="{ name: 'formPayments', params: { id: form.id }}"><?php esc_html_e( 'Transactions', 'weforms' ); ?></router-link>
                             </span>
                         </template>
                     </div>
@@ -668,9 +660,9 @@
                 </td>
                 <td class="weforms-form-status" >
                     <p v-if="isFormStatusClosed(form.settings, form.entries)">
-                        <?php _e( 'Closed', 'weforms' ); ?>
+                        <?php esc_html_e( 'Closed', 'weforms' ); ?>
                     </p>
-                    <p v-else class="open"><?php _e( 'Open', 'weforms' ); ?></p>
+                    <p v-else class="open"><?php esc_html_e( 'Open', 'weforms' ); ?></p>
 
                     <template v-if="form.settings.limit_entries === 'true'">
                         <span v-if="form.settings.schedule_form === 'true' && isExpiredForm(form.settings.schedule_end)">(Expired at {{formatTime(form.settings.schedule_end)}})</span>
@@ -686,7 +678,7 @@
                     </template>
 
                     <template v-else-if="form.settings.require_login  === 'true'">
-                        <span><?php _e( '(Requires login)', 'weforms' ); ?></span>
+                        <span><?php esc_html_e( '(Requires login)', 'weforms' ); ?></span>
                     </template>
                 </td>
                 <td>{{ form.views }}</td>
@@ -705,49 +697,49 @@
         <tfoot>
             <tr>
                 <td id="cb" class="manage-column column-cb check-column">
-                    <label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Select All', 'weforms' ); ?></label>
+                    <label class="screen-reader-text" for="cb-select-all-1"><?php esc_html_e( 'Select All', 'weforms' ); ?></label>
                     <input type="checkbox" v-model="selectAll">
                 </td>
-                <th scope="col" class="col-form-name"><?php _e( 'Name', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-shortcode"><?php _e( 'Shortcode', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-entries"><?php _e( 'Entries', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-status weforms-form-status-col-title"><?php _e( 'Status', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-views"><?php _e( 'Views', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-conversion"><?php _e( 'Conversion', 'weforms' ); ?></th>
-                <th scope="col" class="col-form-created-by"><?php _e( 'Created by', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-name"><?php esc_html_e( 'Name', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-shortcode"><?php esc_html_e( 'Shortcode', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-entries"><?php esc_html_e( 'Entries', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-status weforms-form-status-col-title"><?php esc_html_e( 'Status', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-views"><?php esc_html_e( 'Views', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-conversion"><?php esc_html_e( 'Conversion', 'weforms' ); ?></th>
+                <th scope="col" class="col-form-created-by"><?php esc_html_e( 'Created by', 'weforms' ); ?></th>
             </tr>
         </tfoot>
     </table>
 
     <div class="tablenav bottom">
         <div class="alignleft actions bulkactions">
-            <label for="bulk-action-selector-top" class="screen-reader-text"><?php _e( 'Select bulk action', 'weforms' ); ?></label>
+            <label for="bulk-action-selector-top" class="screen-reader-text"><?php esc_html_e( 'Select bulk action', 'weforms' ); ?></label>
             <select name="action" v-model="bulkAction">
-                <option value="-1"><?php _e( 'Bulk Actions', 'weforms' ); ?></option>
-                <option value="delete"><?php _e( 'Delete Forms', 'weforms' ); ?></option>
+                <option value="-1"><?php esc_html_e( 'Bulk Actions', 'weforms' ); ?></option>
+                <option value="delete"><?php esc_html_e( 'Delete Forms', 'weforms' ); ?></option>
             </select>
 
-            <button class="button action" v-on:click.prevent="handleBulkAction"><?php _e( 'Apply', 'weforms' ); ?></button>
+            <button class="button action" v-on:click.prevent="handleBulkAction"><?php esc_html_e( 'Apply', 'weforms' ); ?></button>
         </div>
 
         <div class="tablenav-pages">
 
-            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php _e( 'items', 'weforms' ); ?></span>
+            <span v-if="totalItems" class="displaying-num">{{ totalItems }} <?php esc_html_e( 'items', 'weforms' ); ?></span>
 
             <span class="pagination-links">
                 <span v-if="isFirstPage()" class="tablenav-pages-navspan" aria-hidden="true">«</span>
-                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php _e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
+                <a v-else class="first-page" href="#" @click.prevent="goFirstPage()"><span class="screen-reader-text"><?php esc_html_e( 'First page', 'weforms' ); ?></span><span aria-hidden="true">«</span></a>
 
                 <span v-if="currentPage == 1" class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php _e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
+                <a v-else class="prev-page" href="#" @click.prevent="goToPage('prev')"><span class="screen-reader-text"><?php esc_html_e( 'Previous page', 'weforms' ); ?></span><span aria-hidden="true">‹</span></a>
 
-                <span class="screen-reader-text"><?php _e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php _e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
+                <span class="screen-reader-text"><?php esc_html_e( 'Current Page', 'weforms' ); ?></span><input @keydown.enter.prevent="goToPage(pageNumberInput)" class="current-page" id="current-page-selector" v-model="pageNumberInput" type="text" value="1" size="1" aria-describedby="table-paging"> <?php esc_html_e( 'of', 'weforms' ); ?> <span class="total-pages">{{ totalPage }}</span>
 
                 <span v-if="currentPage == totalPage || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">›</span>
-                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php _e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
+                <a v-else class="next-page" href="#" @click.prevent="goToPage('next')"><span class="screen-reader-text"><?php esc_html_e( 'Next page', 'weforms' ); ?></span><span aria-hidden="true">›</span></a>
 
                 <span v-if="isLastPage() || totalPage == 0" class="tablenav-pages-navspan" aria-hidden="true">»</span>
-                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php _e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
+                <a v-else class="last-page" href="#" @click.prevent="goLastPage()"><span class="screen-reader-text"><?php esc_html_e( 'Last page', 'weforms' ); ?></span><span aria-hidden="true">»</span></a>
             </span>
         </div>
     </div>
@@ -757,12 +749,12 @@
 <script type="text/x-template" id="tmpl-wpuf-form-payments">
 <div class="wpuf-contact-form-payments">
     <h1 class="wp-heading-inline">
-        <?php _e( 'Transactions', 'weforms' ); ?>
+        <?php esc_html_e( 'Transactions', 'weforms' ); ?>
         <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
         <span style="color: #999;" class="form-name">{{ form_title }}</span>
     </h1>
 
-    <router-link class="page-title-action" to="/"><?php _e( 'Back to forms', 'weforms' ); ?></router-link>
+    <router-link class="page-title-action" to="/"><?php esc_html_e( 'Back to forms', 'weforms' ); ?></router-link>
 
     <wpuf-table
         has_export="no"
@@ -777,8 +769,8 @@
 
 <script type="text/x-template" id="tmpl-wpuf-home-page">
 <div class="contact-form-list">
-    <h1 class="wp-heading-inline"><?php _e( 'All Forms', 'weforms' ); ?></h1>
-    <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php _e( 'Add Form', 'weforms' ); ?></a>
+    <h1 class="wp-heading-inline"><?php esc_html_e( 'All Forms', 'weforms' ); ?></h1>
+    <a class="page-title-action add-form" herf="#" v-on:click.prevent="displayModal()"><?php esc_html_e( 'Add Form', 'weforms' ); ?></a>
 
     <wpuf-template-modal :show.sync="showTemplateModal" :onClose="closeModal"></wpuf-template-modal>
 
@@ -789,30 +781,30 @@
 <div class="export-import-wrap">
 
     <h2 class="nav-tab-wrapper">
-        <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php _e( 'Export', 'wpuf' ); ?></a>
-        <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php _e( 'Import', 'wpuf' ); ?></a>
-        <a :class="['nav-tab', isActiveTab( 'logs' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('logs')"><?php _e( 'Logs', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php esc_html_e( 'Export', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php esc_html_e( 'Import', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'logs' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('logs')"><?php esc_html_e( 'Logs', 'wpuf' ); ?></a>
     </h2>
 
     <div class="nav-tab-content">
         <div class="nav-tab-inside" v-show="isActiveTab('export')">
-            <h3><?php _e( 'Export Utility', 'weforms' ); ?></h3>
+            <h3><?php esc_html_e( 'Export Utility', 'weforms' ); ?></h3>
 
-            <p><?php _e( 'You can export your form, as well as exporting the submitted entries by the users', 'weforms' ); ?></p>
+            <p><?php esc_html_e( 'You can export your form, as well as exporting the submitted entries by the users', 'weforms' ); ?></p>
 
             <div class="postboxes metabox-holder two-col">
                 <div class="postbox">
-                    <h3 class="hndle"><?php _e( 'Export Forms', 'weforms' ); ?></h3>
+                    <h3 class="hndle"><?php esc_html_e( 'Export Forms', 'weforms' ); ?></h3>
 
                     <div class="inside">
                         <p class="help">
-                            <?php _e( 'You can export your existing contact forms and import the same forms into a different site.', 'weforms' ); ?>
+                            <?php esc_html_e( 'You can export your existing contact forms and import the same forms into a different site.', 'weforms' ); ?>
                         </p>
 
                         <template v-if="!loading">
                             <form action="admin-post.php?action=weforms_export_forms" method="post">
-                                <p><label><input v-model="exportType" type="radio" name="export_type" value="all" checked> <?php _e( 'All Forms', 'weforms' ); ?></label></p>
-                                <p><label><input v-model="exportType" type="radio" name="export_type" value="selected"> <?php _e( 'Selected Forms', 'weforms' ); ?></label></p>
+                                <p><label><input v-model="exportType" type="radio" name="export_type" value="all" checked> <?php esc_html_e( 'All Forms', 'weforms' ); ?></label></p>
+                                <p><label><input v-model="exportType" type="radio" name="export_type" value="selected"> <?php esc_html_e( 'Selected Forms', 'weforms' ); ?></label></p>
                                 <p v-show="exportType == 'selected'">
                                     <select name="selected_forms[]" class="forms-list" multiple="multiple">
                                         <option v-for="entry in forms" :value="entry.id">{{ entry.title }}</option>
@@ -820,7 +812,7 @@
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-forms' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php _e( 'Export Forms', 'weforms' ); ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_forms" value="<?php esc_html_e( 'Export Forms', 'weforms' ); ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -830,24 +822,24 @@
                 </div><!-- .postbox -->
 
                 <div class="postbox">
-                    <h3 class="hndle"><?php _e( 'Export Form Entries', 'weforms' ); ?></h3>
+                    <h3 class="hndle"><?php esc_html_e( 'Export Form Entries', 'weforms' ); ?></h3>
 
                     <div class="inside">
                         <p class="help">
-                            <?php _e( 'Export your form entries/submissions as a <strong>CSV</strong> file.', 'weforms' ); ?>
+                            <?php esc_html_e( 'Export your form entries/submissions as a <strong>CSV</strong> file.', 'weforms' ); ?>
                         </p>
 
                         <template v-if="!loading">
                             <form action="admin-post.php?action=weforms_export_form_entries" method="post">
                                 <p>
                                     <select name="selected_forms" class="forms-list">
-                                        <option value=""><?php _e( '&mdash; Select Form &mdash;', 'weforms' ); ?></option>
+                                        <option value=""><?php esc_html_e( '&mdash; Select Form &mdash;', 'weforms' ); ?></option>
                                         <option v-for="entry in forms" :value="entry.id">{{ entry.title }}</option>
                                     </select>
                                 </p>
 
                                 <?php wp_nonce_field( 'weforms-export-entries' ); ?>
-                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php _e( 'Export Entries', 'weforms' ); ?>">
+                                <input type="submit" class="button button-primary" name="weforms_export_entries" value="<?php esc_html_e( 'Export Entries', 'weforms' ); ?>">
                             </form>
                         </template>
                         <template v-else>
@@ -859,16 +851,16 @@
         </div>
 
         <div class="nav-tab-inside" v-show="isActiveTab('import')">
-            <h3><?php _e( 'Import Contact Form', 'weforms' ); ?></h3>
+            <h3><?php esc_html_e( 'Import Contact Form', 'weforms' ); ?></h3>
 
-            <p><?php _e( 'Browse and locate a json file you backed up before.', 'weforms' ); ?></p>
-            <p><?php _e( 'Press <strong>Import</strong> button, we will do the rest for you.', 'weforms' ); ?></p>
+            <p><?php esc_html_e( 'Browse and locate a json file you backed up before.', 'weforms' ); ?></p>
+            <p><?php esc_html_e( 'Press <strong>Import</strong> button, we will do the rest for you.', 'weforms' ); ?></p>
 
             <div class="updated-message notice notice-success is-dismissible" v-if="isSuccess">
                 <p>{{ responseMessage }}</p>
 
                 <button type="button" class="notice-dismiss" v-on:click="currentStatus = 0">
-                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'weforms' ); ?></span>
+                    <span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'weforms' ); ?></span>
                 </button>
             </div>
 
@@ -876,7 +868,7 @@
                 <p>{{ responseMessage }}</p>
 
                 <button type="button" class="notice-dismiss" v-on:click="currentStatus = 0">
-                    <span class="screen-reader-text"><?php _e( 'Dismiss this notice.', 'weforms' ); ?></span>
+                    <span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'weforms' ); ?></span>
                 </button>
             </div>
 
@@ -886,8 +878,8 @@
             </form>
 
             <hr>
-            <h3><?php _e( 'Import Other Forms', 'weforms' ); ?></h3>
-            <p><?php _e( 'You can import other WordPress form plugins into weForms.', 'weforms' ); ?></p>
+            <h3><?php esc_html_e( 'Import Other Forms', 'weforms' ); ?></h3>
+            <p><?php esc_html_e( 'You can import other WordPress form plugins into weForms.', 'weforms' ); ?></p>
 
             <div class="updated" v-if="ximport.title">
                 <p><strong>{{ ximport.title }}</strong></p>
@@ -897,13 +889,13 @@
 
                 <ul v-if="hasRefs">
                     <li v-for="ref in ximport.refs">
-                        <a target="_blank" :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'">{{ ref.title }}</a> - <a :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'" target="_blank" class="button button-small"><span class="dashicons dashicons-external"></span> <?php _e( 'Edit', 'weforms' ); ?></a>
+                        <a target="_blank" :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'">{{ ref.title }}</a> - <a :href="'admin.php?page=weforms#/form/' + ref.weforms_id + '/edit'" target="_blank" class="button button-small"><span class="dashicons dashicons-external"></span> <?php esc_html_e( 'Edit', 'weforms' ); ?></a>
                     </li>
                 </ul>
 
                 <p>
-                    <a href="#" class="button button-primary" @click.prevent="replaceX($event.target, 'replace')"><?php _e( 'Replace Shortcodes', 'weforms' ); ?></a>&nbsp;
-                    <a href="#" class="button" @click.prevent="replaceX($event.target, 'skip')"><?php _e( 'No Thanks', 'weforms' ); ?></a>
+                    <a href="#" class="button button-primary" @click.prevent="replaceX($event.target, 'replace')"><?php esc_html_e( 'Replace Shortcodes', 'weforms' ); ?></a>&nbsp;
+                    <a href="#" class="button" @click.prevent="replaceX($event.target, 'skip')"><?php esc_html_e( 'No Thanks', 'weforms' ); ?></a>
                 </p>
             </div>
 
@@ -911,24 +903,24 @@
             <table style="min-width: 500px;">
                 <tbody>
                     <tr>
-                        <td><?php _e( 'Contact Form 7', 'weforms' ); ?></td>
-                        <th><button class="button" @click.prevent="importx($event.target, 'cf7')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                        <td><?php esc_html_e( 'Contact Form 7', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'cf7')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php esc_html_e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
-                        <td><?php _e( 'Ninja Forms', 'weforms' ); ?></td>
-                        <th><button class="button" @click.prevent="importx($event.target, 'nf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                        <td><?php esc_html_e( 'Ninja Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'nf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php esc_html_e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
-                        <td><?php _e( 'Caldera Forms', 'weforms' ); ?></td>
-                        <th><button class="button" @click.prevent="importx($event.target, 'caldera-forms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                        <td><?php esc_html_e( 'Caldera Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'caldera-forms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php esc_html_e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
-                        <td><?php _e( 'Gravity Forms', 'weforms' ); ?></td>
-                        <th><button class="button" @click.prevent="importx($event.target, 'gf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                        <td><?php esc_html_e( 'Gravity Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'gf')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php esc_html_e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                     <tr>
-                        <td><?php _e( 'WP Forms', 'weforms' ); ?></td>
-                        <th><button class="button" @click.prevent="importx($event.target, 'wpforms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php _e( 'Import', 'weforms' ); ?></button></th>
+                        <td><?php esc_html_e( 'WP Forms', 'weforms' ); ?></td>
+                        <th><button class="button" @click.prevent="importx($event.target, 'wpforms')" data-importing="<?php esc_attr_e( 'Importing...', 'weforms' ); ?>" data-original="<?php esc_attr_e( 'Import', 'weforms' ); ?>"><?php esc_html_e( 'Import', 'weforms' ); ?></button></th>
                     </tr>
                 </tbody>
             </table>
@@ -936,7 +928,7 @@
 
         <div class="nav-tab-inside" v-show="isActiveTab('logs')">
             <h3>
-                <?php _e( 'Logs', 'weforms' ); ?>
+                <?php esc_html_e( 'Logs', 'weforms' ); ?>
 
                 <span class="pull-right">
 
@@ -966,7 +958,7 @@
                 </tbody>
             </table>
             <div v-else>
-                <p><?php _e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms' ); ?></p>
+                <p><?php esc_html_e( 'No logs found. If any error occurs during an action. Those will be displayed here.', 'weforms' ); ?></p>
             </div>
         </div>
     </div>
@@ -976,7 +968,7 @@
 <script type="text/x-template" id="tmpl-wpuf-transactions">
 <div class="wpuf-contact-form-transactions">
     <h1 class="wp-heading-inline">
-        <?php _e( 'Transactions', 'weforms' ); ?>
+        <?php esc_html_e( 'Transactions', 'weforms' ); ?>
         <span class="dashicons dashicons-arrow-right-alt2" style="margin-top: 5px;"></span>
            <span style="color: #999;" class="form-name">
             {{ form_title }}
@@ -988,7 +980,7 @@
     </h1>
 
     <p v-if="no_transactions">
-       <?php printf( 
+       <?php printf(
             __( 'You don\'t have any transactions yet. Learn how to %sset up payment integration%s and take payments with weFroms.' ),
             '<a target="_blank" href="https://weformspro.com/docs/modules/payment/">',
             '</a>'
@@ -1014,51 +1006,51 @@
     <div class="help-block">
         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/help/docs.svg" alt="<?php esc_attr_e( 'Looking for Something?', 'weforms' ); ?>">
 
-        <h3><?php _e( 'Looking for Something?', 'weforms' ); ?></h3>
+        <h3><?php esc_html_e( 'Looking for Something?', 'weforms' ); ?></h3>
 
-        <p><?php _e( 'We have detailed documentation on every aspects of weForms.', 'weforms' ); ?></p>
+        <p><?php esc_html_e( 'We have detailed documentation on every aspects of weForms.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://weformspro.com/docs/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=plugin-docs-link"><?php _e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/docs/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=plugin-docs-link"><?php esc_html_e( 'Visit the Plugin Documentation', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/help/support.svg" alt="<?php esc_attr_e( 'Need Any Assistance?', 'weforms' ); ?>">
 
-        <h3><?php _e( 'Need Any Assistance?', 'weforms' ); ?></h3>
+        <h3><?php esc_html_e( 'Need Any Assistance?', 'weforms' ); ?></h3>
 
-        <p><?php _e( 'Our EXPERT Support Team is always ready to Help you out.', 'weforms' ); ?></p>
+        <p><?php esc_html_e( 'Our EXPERT Support Team is always ready to Help you out.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php _e( 'Contact Support', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php esc_html_e( 'Contact Support', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/help/bugs.svg" alt="<?php esc_attr_e( 'Found Any Bugs?', 'weforms' ); ?>">
 
-        <h3><?php _e( 'Found Any Bugs?', 'weforms' ); ?></h3>
+        <h3><?php esc_html_e( 'Found Any Bugs?', 'weforms' ); ?></h3>
 
-        <p><?php _e( 'Report any Bug that you Discovered, Get Instant Solutions.', 'weforms' ); ?></p>
+        <p><?php esc_html_e( 'Report any Bug that you Discovered, Get Instant Solutions.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://github.com/BoldGrid/weforms/issues/new"><?php _e( 'Report to GitHub', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://github.com/BoldGrid/weforms/issues/new"><?php esc_html_e( 'Report to GitHub', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/help/customization.svg" alt="<?php esc_attr_e( 'Require Customization?', 'weforms' ); ?>">
 
-        <h3><?php _e( 'Require Customization?', 'weforms' ); ?></h3>
+        <h3><?php esc_html_e( 'Require Customization?', 'weforms' ); ?></h3>
 
-        <p><?php _e( 'We would Love to hear your Integration and Customization Ideas.', 'weforms' ); ?></p>
+        <p><?php esc_html_e( 'We would Love to hear your Integration and Customization Ideas.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=requires-customization"><?php _e( 'Contact Our Services', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=requires-customization"><?php esc_html_e( 'Contact Our Services', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/help/like.svg" alt="<?php esc_attr_e( 'Like The Plugin?', 'weforms' ); ?>">
 
-        <h3><?php _e( 'Like The Plugin?', 'weforms' ); ?></h3>
+        <h3><?php esc_html_e( 'Like The Plugin?', 'weforms' ); ?></h3>
 
-        <p><?php _e( 'Your Review is very important to us as it helps us to grow more.', 'weforms' ); ?></p>
+        <p><?php esc_html_e( 'Your Review is very important to us as it helps us to grow more.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://wordpress.org/support/plugin/weforms/reviews/?rate=5#new-post"><?php _e( 'Review Us on WP.org', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="https://wordpress.org/support/plugin/weforms/reviews/?rate=5#new-post"><?php esc_html_e( 'Review Us on WP.org', 'weforms' ); ?></a>
     </div>
 </div>
 </script>
@@ -1066,28 +1058,28 @@
 <script type="text/x-template" id="tmpl-wpuf-weforms-page-privacy">
 <div class="wpuf-privacy-page">
 
-<h1><?php _e('Privacy' , 'weforms'); ?></h1>
+<h1><?php esc_html_e('Privacy' , 'weforms'); ?></h1>
 
-<h2><?php _e( 'Your website may need a Privacy Policy by law' , 'weforms' ); ?></h2>
+<h2><?php esc_html_e( 'Your website may need a Privacy Policy by law' , 'weforms' ); ?></h2>
 
-<p><?php _e( 'We at weForms take privacy law compliance seriously, and we want our customers to know just how important it is for them as well.', 'weforms' ); ?></p>
+<p><?php esc_html_e( 'We at weForms take privacy law compliance seriously, and we want our customers to know just how important it is for them as well.', 'weforms' ); ?></p>
 
-<p><?php _e( 'Because you are implementing a contact form, that means you may be collecting the Personally Identifiable Information (PII) of individuals. This means that there may be privacy laws that apply to your website that require you to have a Privacy Policy. It is important to understand that if your website collects PII from users outside of your jurisdiction, you still may need to comply with the privacy laws of other states and countries. Please note that non-compliance may put you in danger of significant privacy related fines and lawsuits.' , 'weforms' ); ?></p>
+<p><?php esc_html_e( 'Because you are implementing a contact form, that means you may be collecting the Personally Identifiable Information (PII) of individuals. This means that there may be privacy laws that apply to your website that require you to have a Privacy Policy. It is important to understand that if your website collects PII from users outside of your jurisdiction, you still may need to comply with the privacy laws of other states and countries. Please note that non-compliance may put you in danger of significant privacy related fines and lawsuits.' , 'weforms' ); ?></p>
 
-<p><?php _e( 'If you do not have a Privacy Policy or are unsure if yours is up to date and compliant, we encourage you to generate one with our partner, Termageddon. Termageddon is a generator of Privacy Policies, Terms &amp; Conditions and more. They monitor privacy laws for you and update your Privacy Policy when new disclosures are required.' , 'weforms' ); ?></p>
+<p><?php esc_html_e( 'If you do not have a Privacy Policy or are unsure if yours is up to date and compliant, we encourage you to generate one with our partner, Termageddon. Termageddon is a generator of Privacy Policies, Terms &amp; Conditions and more. They monitor privacy laws for you and update your Privacy Policy when new disclosures are required.' , 'weforms' ); ?></p>
 
-<p><?php _e( 'If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 10&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://app.termageddon.com/?fp_ref=weforms" target="_blank">here</a>.' , 'weforms' ); ?></p>
+<p><?php esc_html_e( 'If you decide Termageddon is a good solution for your website, use the promo code <strong>WEFORMS</strong> for 10&#37; off your first purchase at checkout. More information on Termageddon can be found <a href="https://app.termageddon.com/?fp_ref=weforms" target="_blank">here</a>.' , 'weforms' ); ?></p>
 
-<p><?php _e( 'If you own a web design, web development or digital marketing company, check out <a href="https://termageddon.com/agency-partners/" target="_blank">Termageddon&#39;s agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.' , 'weforms' ); ?></p>
+<p><?php esc_html_e( 'If you own a web design, web development or digital marketing company, check out <a href="https://termageddon.com/agency-partners/" target="_blank">Termageddon&#39;s agency partner program</a>, where you can offer Termageddon licenses to your clients, helping them stay compliant with privacy laws.' , 'weforms' ); ?></p>
 
-<h2><?php _e( 'How to add Privacy Policy consent to your forms' , 'weforms' ); ?></h2>
+<h2><?php esc_html_e( 'How to add Privacy Policy consent to your forms' , 'weforms' ); ?></h2>
 
-<p><?php _e( 'Adding a Privacy Policy consent checkbox is your forms is simple. All you will need is the weForms plugin and an existing /privacy-policy page.' , 'weforms' ); ?></p>
+<p><?php esc_html_e( 'Adding a Privacy Policy consent checkbox is your forms is simple. All you will need is the weForms plugin and an existing /privacy-policy page.' , 'weforms' ); ?></p>
 
 <ol>
-    <li><?php _e( '"Edit" the respective form that you&#39;d like to add a consent checkbox to.' , 'weforms' ); ?></li>
-    <li><?php _e( 'Click &#39;checkbox&#39; so that it is added to the bottom of your form.' , 'weforms' ); ?></li>
-    <li><?php _e( '"Edit" the consent checkbox, remove the &#39;Field Label&#39;, and replace &#39;Option&#39; with &#39;INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY POLICY&#39;.' , 'weforms' ); ?></li>
+    <li><?php esc_html_e( '"Edit" the respective form that you&#39;d like to add a consent checkbox to.' , 'weforms' ); ?></li>
+    <li><?php esc_html_e( 'Click &#39;checkbox&#39; so that it is added to the bottom of your form.' , 'weforms' ); ?></li>
+    <li><?php esc_html_e( '"Edit" the consent checkbox, remove the &#39;Field Label&#39;, and replace &#39;Option&#39; with &#39;INSERT YOUR "I AGREE" LANGUAGE HERE AND PROVIDE A LINK TO YOUR PRIVACY POLICY&#39;.' , 'weforms' ); ?></li>
 </ol>
 
 </div></script>
@@ -1095,7 +1087,7 @@
 <script type="text/x-template" id="tmpl-wpuf-weforms-premium">
 <div class="weforms-premium">
     <?php
-        // _e( 'weForms Pro', 'weforms' );
+        // esc_html_e( 'weForms Pro', 'weforms' );
         // echo WeForms_Form_Builder_Assets::get_pro_url();
         //  echo WEFORMS_ASSET_URI; /images/integrations/mailchimp.svg"
     ?>
@@ -1117,12 +1109,12 @@
                 </svg>
             </div>
             <div class="banner-content">
-                <h1><?php _e( 'weForms Pro', 'weforms' ); ?></h1>
-                <p><?php _e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
+                <h1><?php esc_html_e( 'weForms Pro', 'weforms' ); ?></h1>
+                <p><?php esc_html_e( 'Upgrade to the premium versions of weForms and <br>unlock even more useful features.' ); ?></p>
             </div>
             <div class="banner-buttons">
-                <a href="https://weformspro.com/pricing" class="wf-btn wf-btn-primary" target="_blank"><?php _e( 'Buy Now', 'weforms' ); ?></a>
-                <a href="https://weformspro.com/docs/" class="wf-btn wf-btn-default" target="_blank"><?php _e( 'Read Full Guide', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" class="wf-btn wf-btn-primary" target="_blank"><?php esc_html_e( 'Buy Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/docs/" class="wf-btn wf-btn-default" target="_blank"><?php esc_html_e( 'Read Full Guide', 'weforms' ); ?></a>
             </div>
         </div><!-- end banner left column -->
 
@@ -1170,7 +1162,7 @@
     <!-- start features section -->
     <div id="features" class="wf-features-wrapper wf-section-wrapper">
         <div class="section-header">
-            <h2><?php _e( 'More Features', 'weforms' ); ?></h2>
+            <h2><?php esc_html_e( 'More Features', 'weforms' ); ?></h2>
         </div>
         <div class="section-content">
             <div class="feature-row">
@@ -1179,8 +1171,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/features/advance-fields.svg" alt="Advanced Fields">
                     </div>
                     <div class="feature-content">
-                        <h3><?php _e( 'Advance Fields', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Build any kind of form flexibly with the advanced field option. Its user friendly interface makes sure you do not have to scratch your head over building forms.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Advance Fields', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Build any kind of form flexibly with the advanced field option. Its user friendly interface makes sure you do not have to scratch your head over building forms.', 'weforms' ); ?></p>
                     </div>
                 </div>
                 <div class="feature-column feature-conditional-logic">
@@ -1188,8 +1180,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/features/conditional-logic.svg" alt="Conditional Logic">
                     </div>
                     <div class="feature-content">
-                        <h3><?php _e( 'Conditional Logic', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Configure your form’s settings and user flow based on conditional selection. Your forms should appear just the way you want it.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Conditional Logic', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Configure your form’s settings and user flow based on conditional selection. Your forms should appear just the way you want it.', 'weforms' ); ?></p>
                     </div>
                 </div>
                 <div class="feature-column feature-multi-step">
@@ -1197,8 +1189,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/features/multistep-form.svg" alt="Multi Step">
                     </div>
                     <div class="feature-content">
-                        <h3><?php _e( 'Multi-step Form', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Break down the long forms into small and attractive multi step forms. Long and lengthy forms are uninviting, why build one?', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Multi-step Form', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Break down the long forms into small and attractive multi step forms. Long and lengthy forms are uninviting, why build one?', 'weforms' ); ?></p>
                     </div>
                 </div>
                 <div class="feature-column feature-file-uploaders">
@@ -1206,8 +1198,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/features/file-uploader.svg" alt="File uploaders">
                     </div>
                     <div class="feature-content">
-                        <h3><?php _e( 'File Uploaders', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Let the user upload any kind of file by filling up your contact form. The process is unbelievably smooth and supports a wide range of file formats.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'File Uploaders', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Let the user upload any kind of file by filling up your contact form. The process is unbelievably smooth and supports a wide range of file formats.', 'weforms' ); ?></p>
                     </div>
                 </div>
                 <div class="feature-column feature-notification">
@@ -1215,8 +1207,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/features/notification.svg" alt="Form Submit Notification">
                     </div>
                     <div class="feature-content">
-                        <h3><?php _e( 'Form Submission Notication', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Receive email notification every time your form is submitted. You can now configure the notification settings just as you like it.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Form Submission Notication', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Receive email notification every time your form is submitted. You can now configure the notification settings just as you like it.', 'weforms' ); ?></p>
                     </div>
                 </div>
                 <div class="feature-column feature-submission">
@@ -1224,8 +1216,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/features/submission.svg" alt="Manage Submission">
                     </div>
                     <div class="feature-content">
-                        <h3><?php _e( 'Manage Submission', 'weforms' ); ?></h3>
-                        <p><?php _e( 'View, edit and manage all the submission data stored through your form. We believe that you should own it all- like literally!', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Manage Submission', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'View, edit and manage all the submission data stored through your form. We believe that you should own it all- like literally!', 'weforms' ); ?></p>
                     </div>
                 </div>
             </div>
@@ -1235,7 +1227,7 @@
     <!-- start integration section -->
     <div id="integration" class="wf-integration-wrapper wf-section-wrapper">
         <div class="section-header">
-            <h2><?php _e( 'More Integrations', 'weforms' ); ?></h2>
+            <h2><?php esc_html_e( 'More Integrations', 'weforms' ); ?></h2>
         </div>
         <div class="section-content">
             <div class="integration-row">
@@ -1244,8 +1236,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/mailchimp.svg" alt="Mailchimp integration">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'Mailchimp', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Integrate your desired form to your MailChimp email newsletter using latest API.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Mailchimp', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Integrate your desired form to your MailChimp email newsletter using latest API.', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1254,8 +1246,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/campaign-monitor.svg" alt="Campaign Monitor">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'Campaign Monitor', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Lets you add submission form in your Campaign Monitor email campaigns too.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Campaign Monitor', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Lets you add submission form in your Campaign Monitor email campaigns too.', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1264,8 +1256,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/constant-contact.svg" alt="Constant Contact">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'Constant Contact', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Integrate your contact forms seamlessly with your Constant Contact account.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Constant Contact', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Integrate your contact forms seamlessly with your Constant Contact account.', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1274,8 +1266,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/mailpoet.svg" alt="MailPoet">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'MailPoet', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Why only MailChimp? Do the same for MailPoet email campaigns as well!', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'MailPoet', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Why only MailChimp? Do the same for MailPoet email campaigns as well!', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1284,8 +1276,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/aweber.svg" alt="AWeber">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'AWeber', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Use highly customizable forms and create subscriber’s list for AWber email solution.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'AWeber', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Use highly customizable forms and create subscriber’s list for AWber email solution.', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1294,8 +1286,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/get-response.svg" alt="Get Response">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'Get Response', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Enjoy seamless integration of weForms with your Get Response account.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'Get Response', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Enjoy seamless integration of weForms with your Get Response account.', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1304,8 +1296,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/convert-kit.svg" alt="ConvertKit">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'ConvertKit', 'weforms' ); ?></h3>
-                        <p><?php _e( 'Subscribe a contact to ConvertKit when a form is submited.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'ConvertKit', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'Subscribe a contact to ConvertKit when a form is submited.', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1314,8 +1306,8 @@
                         <img src="<?php echo WEFORMS_ASSET_URI; ?>/images/premium/integrations/more-integration.svg" alt="More.Integration">
                     </div>
                     <div class="integration-content">
-                        <h3><?php _e( 'More...', 'weforms' ); ?></h3>
-                        <p><?php _e( 'A bunch of more integrations are coming soon.', 'weforms' ); ?></p>
+                        <h3><?php esc_html_e( 'More...', 'weforms' ); ?></h3>
+                        <p><?php esc_html_e( 'A bunch of more integrations are coming soon.', 'weforms' ); ?></p>
                     </div>
                 </div>
 
@@ -1342,12 +1334,12 @@
                     </svg>
                 </div>
                 <div class="import-text">
-                    <p><?php _e( 'Extend the functionalities while', 'weforms' ); ?></p>
-                    <h2><?php _e( 'Building WordPress Forms', 'wefoms' ); ?></h2>
+                    <p><?php esc_html_e( 'Extend the functionalities while', 'weforms' ); ?></p>
+                    <h2><?php esc_html_e( 'Building WordPress Forms', 'wefoms' ); ?></h2>
                 </div>
             </div>
             <div class="import-right">
-                <a href="https://weformspro.com/pricing" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php _e( 'Upgrade Now', 'weforms' ); ?></a>
+                <a href="https://weformspro.com/pricing" target="_blank" class="wf-btn wf-btn-primary wf-btn-lg"><?php esc_html_e( 'Upgrade Now', 'weforms' ); ?></a>
             </div>
         </div>
     </section><!-- end footer section -->
@@ -1358,7 +1350,7 @@
 <script type="text/x-template" id="tmpl-wpuf-weforms-settings">
 <div class="weforms-settings clearfix" id="weforms-settings">
 
-    <h1><?php _e( 'Settings', 'weforms' ); ?></h1>
+    <h1><?php esc_html_e( 'Settings', 'weforms' ); ?></h1>
     <div id="weforms-settings-tabs-warp" class="<?php echo !function_exists( 'weforms_pro' ) ? 'weforms-pro-deactivate' : ''; ?>">
         <div id="weforms-settings-tabs">
             <ul>
@@ -1378,7 +1370,7 @@
                             if ( !empty( $tab['icon'] ) ) {
                                 printf( '<img src="%s">', $tab['icon'] );
                             } ?>
-                            <?php _e( $tab['label'], 'weforms' ); ?>
+                            <?php esc_html_e( $tab['label'], 'weforms' ); ?>
                         </a>
                     </li>
 
