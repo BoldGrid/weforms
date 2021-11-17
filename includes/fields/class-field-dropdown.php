@@ -20,8 +20,9 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected  = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
-        $name      = $field_settings['name']; ?>
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        $selected      = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
+        $name          = $field_settings['name']; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -33,12 +34,12 @@ class WeForms_Form_Field_Dropdown extends WeForms_Field_Contract {
                     id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
                     name="<?php echo esc_attr( $name ); ?>"
                     data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
-                    data-type="select">
-
+                    data-type="select"
+                    data-style="<?php echo esc_attr( $use_theme_css ); ?>"
+                >
                     <?php if ( !empty( $field_settings['first'] ) ) { ?>
                         <option value=""><?php echo esc_attr( $field_settings['first'] ); ?></option>
                     <?php } ?>
-
                     <?php
                     if ( $field_settings['options'] && count( $field_settings['options'] ) > 0 ) {
                         foreach ($field_settings['options'] as $value => $option) {

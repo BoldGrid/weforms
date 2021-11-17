@@ -20,10 +20,12 @@ class WeForms_Form_Field_SectionBreak extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $description = isset( $field_settings['description'] ) ? $field_settings['description'] : '';
-        $name        = isset( $field_settings['name'] ) ? $field_settings['name'] : ''; ?>
+        $description   = isset( $field_settings['description'] ) ? $field_settings['description'] : '';
+        $name          = isset( $field_settings['name'] ) ? $field_settings['name'] : '';
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . esc_attr( $form_id ); ?><?php echo ' wpuf_' . esc_html( $name ) . '_' . esc_attr( $form_id ); ?>">
+            <div class="wpuf-section-wrap wpuf-fields <?php echo 'section_' . esc_attr( $form_id ); ?><?php echo ' wpuf_' . esc_html( $name ) . '_' . esc_attr( $form_id ); ?>" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
                 <h2 class="wpuf-section-title"><?php echo esc_attr( $field_settings['label'] ); ?></h2>
                 <div class="wpuf-section-details"><?php echo esc_attr( $description ); ?></div>
             </div>

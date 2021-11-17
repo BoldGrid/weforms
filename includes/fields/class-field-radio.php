@@ -20,12 +20,13 @@ class WeForms_Form_Field_Radio extends WeForms_Form_Field_Checkbox {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : ''; ?>
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        $selected      = isset( $field_settings['selected'] ) ? $field_settings['selected'] : ''; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <?php do_action( 'weforms_radio_field_after_label', $field_settings ); ?>
-            <div class="wpuf-fields" data-required="<?php echo esc_attr( $field_settings['required'] ) ?>" data-type="radio">
+            <div class="wpuf-fields" data-required="<?php echo esc_attr( $field_settings['required'] ) ?>" data-type="radio" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
 
                 <?php
                 if ( $field_settings['options'] && count( $field_settings['options'] ) > 0 ) {

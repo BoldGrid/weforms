@@ -22,14 +22,15 @@ class WeForms_Form_Field_Column extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id, $type = 'post', $post_id = null ) {
-        $i            = 1;
-        $columns      = $field_settings['columns'];
-        $columns_size = $field_settings['inner_columns_size'];
-        $column_space = $field_settings['column_space'];
-        $inner_fields = $field_settings['inner_fields'];
-        $atts         = []; ?>
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        $i             = 1;
+        $columns       = $field_settings['columns'];
+        $columns_size  = $field_settings['inner_columns_size'];
+        $column_space  = $field_settings['column_space'];
+        $inner_fields  = $field_settings['inner_fields'];
+        $atts          = []; ?>
         <li class="wpuf-el">
-            <div class="wpuf-field-columns <?php echo 'has-columns-' . esc_attr( $columns ); ?>">
+            <div class="wpuf-field-columns <?php echo 'has-columns-' . esc_attr( $columns ); ?>" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
                 <div class="wpuf-column-field-inner-columns">
                     <div class="wpuf-column">
                         <?php while ( $i <= $columns ) { ?>
