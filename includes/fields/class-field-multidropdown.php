@@ -20,16 +20,26 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $selected = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
-        $selected = is_array( $selected ) ? $selected : [];
-        $name     = $field_settings['name'] . '[]'; ?>
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        $selected      = isset( $field_settings['selected'] ) ? $field_settings['selected'] : '';
+        $selected      = is_array( $selected ) ? $selected : [];
+        $name          = $field_settings['name'] . '[]'; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <?php do_action( 'weforms_multidropdown_field_after_label', $field_settings ); ?>
 
             <div class="wpuf-fields">
-                <select multiple="multiple" class="multiselect <?php echo 'wpuf_'. esc_attr( $field_settings['name'] ) .'_'. esc_attr( $form_id ); ?>" id="<?php echo esc_attr($field_settings['name']) . '_' . esc_attr($form_id); ?>" name="<?php echo esc_attr($name); ?>" mulitple="multiple" data-required="<?php echo esc_attr($field_settings['required']) ?>" data-type="multiselect">
+                <select
+                    multiple="multiple"
+                    class="multiselect <?php echo 'wpuf_'. esc_attr( $field_settings['name'] ) .'_'. esc_attr( $form_id ); ?>"
+                    id="<?php echo esc_attr($field_settings['name']) . '_' . esc_attr($form_id); ?>"
+                    name="<?php echo esc_attr($name); ?>"
+                    mulitple="multiple"
+                    data-required="<?php echo esc_attr($field_settings['required']) ?>"
+                    data-type="multiselect"
+                    data-style="<?php echo esc_attr( $use_theme_css ); ?>"
+                >
 
                     <?php if ( !empty( $field_settings['first'] ) ) { ?>
                         <option value=""><?php echo esc_attr($field_settings['first']); ?></option>

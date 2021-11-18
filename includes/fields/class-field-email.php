@@ -25,8 +25,9 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
         if ( isset( $field_settings['auto_populate'] ) && $field_settings['auto_populate'] == 'yes' && is_user_logged_in() ) {
             return;
         }
-
-        $value = $field_settings['default']; ?>
+        $form_settings = weforms()->form->get( $form_id )->get_settings();
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        $value         = $field_settings['default']; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -38,6 +39,7 @@ class WeForms_Form_Field_Email extends WeForms_Form_Field_Text {
                     data-duplicate="<?php echo isset( $field_settings['duplicate'] ) ? esc_attr( $field_settings['duplicate'] ) : 'no'; ?>"
                     data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
                     data-type="email"
+                    data-style="<?php echo esc_attr( $use_theme_css ); ?>"
                     name="<?php echo esc_attr( $field_settings['name'] ); ?>"
                     placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
                     value="<?php echo esc_attr( $value ); ?>"

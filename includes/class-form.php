@@ -373,9 +373,9 @@ class WeForms_Form {
     /**
      * When a user is editing their form they may change a fields name.
      * This method will loop through existing entries to match the new field names.
-     * 
+     *
      * @since 1.6.9
-     * 
+     *
      * @param int $form_id
      * @param array $form_fields
      */
@@ -386,23 +386,22 @@ class WeForms_Form {
             $updated_fields = $this->rename_field( $old, $new );
         }
      }
-    
+
     /**
      * When a user is editing their form they may change a fields name.
      * This method will loop through all fields that have changed.
-     * 
+     *
      * @since 1.6.9
-     * 
+     *
      * @param int $form_id
      * @param array $form_fields
-     * 
+     *
      * @return array
      */
     public function get_changed_fields( $form_fields ) {
         $changed_fields = array();
         foreach ( $form_fields as $field ) {
             $org_field = $field['original_name'];
-            error_log("Org Field" . " = " . print_r($org_field,1));
             // All form fields should have an original name.
             if ( empty( $field['original_name'] ) ) {
                 continue;
@@ -420,12 +419,12 @@ class WeForms_Form {
     /**
      * When a user changes the field names of a form, the existing entries will need updated.
      * This method will loop through the existing entries and update them will the new names.
-     * 
+     *
      * @since 1.6.9
-     * 
+     *
      * @param int $form_id
      * @param array $form_fields
-     * 
+     *
      * @return array
      */
     public function rename_field ( $old, $new ) {
@@ -433,7 +432,7 @@ class WeForms_Form {
 
         $entries  = weforms_get_form_entries( $this->id );
 
-        foreach ( $entries as $entry ) {            
+        foreach ( $entries as $entry ) {
             $entry_id    = $entry->id;
             $values      = weforms_get_entry_meta( $entry_id );
             $update_keys = $wpdb->update( $wpdb->weforms_entrymeta, array( 'meta_key' => $new ), array( 'meta_key' => $old, 'weforms_entry_id' => $entry_id ) );

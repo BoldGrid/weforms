@@ -20,7 +20,9 @@ class WeForms_Form_Field_URL extends WeForms_Form_Field_Text {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $value = $field_settings['default']; ?>
+        $value         = $field_settings['default'];
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
@@ -32,6 +34,7 @@ class WeForms_Form_Field_URL extends WeForms_Form_Field_Text {
                     data-duplicate = "<?php echo esc_attr( $field_settings['duplicate'] ) ? esc_attr( $field_settings['duplicate'] ) : 'no'; ?>"
                     data-required = "<?php echo esc_attr( $field_settings['required'] ) ?>"
                     data-type = "url"
+                    data-style="<?php echo esc_attr( $use_theme_css ); ?>"
                     name = "<?php echo esc_attr( $field_settings['name'] ); ?>"
                     placeholder = "<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
                     value = "<?php echo esc_attr( $value ); ?>" size="<?php echo esc_attr( $field_settings['size'] ); ?>"
