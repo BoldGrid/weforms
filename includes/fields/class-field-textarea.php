@@ -20,13 +20,23 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $req_class   = ( $field_settings['required'] == 'yes' ) ? 'required' : 'rich-editor';
-        $value       = $field_settings['default'];
-        $textarea_id = $field_settings['name'] ? $field_settings['name'] . '_' . $form_id : 'textarea_'; ?>
+        $req_class     = ( $field_settings['required'] == 'yes' ) ? 'required' : 'rich-editor';
+        $value         = $field_settings['default'];
+        $textarea_id   = $field_settings['name'] ? $field_settings['name'] . '_' . $form_id : 'textarea_';
+        $form_settings = weforms()->form->get( $form_id )->get_settings();
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
             <?php if ( in_array( $field_settings['rich'], array( 'yes', 'teeny' ) ) ) { ?>
-                <div class="wpuf-fields wpuf-rich-validation <?php printf( wp_kses_post( 'wpuf_%s_%s', $field_settings['name'], $form_id ) ); ?>" data-type="rich" data-required="<?php echo esc_attr( $field_settings['required'] ); ?>" data-id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>" data-name="<?php echo esc_attr( $field_settings['name'] ); ?>">
+                <div
+                    class="wpuf-fields wpuf-rich-validation <?php printf( wp_kses_post( 'wpuf_%s_%s', $field_settings['name'], $form_id ) ); ?>"
+                    data-type="rich"
+                    data-required="<?php echo esc_attr( $field_settings['required'] ); ?>"
+                    data-id="<?php echo esc_attr( $field_settings['name'] ) . '_' . esc_attr( $form_id ); ?>"
+                    data-name="<?php echo esc_attr( $field_settings['name'] ); ?>"
+                    data-style="<?php echo esc_attr( $use_theme_css ); ?>"
+                >
             <?php } else { ?>
                 <div class="wpuf-fields">
             <?php } ?>

@@ -20,11 +20,12 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $settings     = weforms_get_settings( 'recaptcha' );
-        $is_invisible = false;
-        $public_key   = isset( $settings->key ) ? $settings->key : '';
-        $type         = isset( $settings->type ) ? $settings->type : '';
-        $theme        = isset( $field_settings['recaptcha_theme'] ) ? $field_settings['recaptcha_theme'] : 'light';
+        $settings      = weforms_get_settings( 'recaptcha' );
+        $is_invisible  = false;
+        $public_key    = isset( $settings->key ) ? $settings->key : '';
+        $type          = isset( $settings->type ) ? $settings->type : '';
+        $theme         = isset( $field_settings['recaptcha_theme'] ) ? $field_settings['recaptcha_theme'] : 'light';
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
         /** Recaptcha V3 start */
         if( 'v3' == $type ) {  ?>
             <li <?php $this->print_list_attributes( $field_settings ); ?> >
@@ -32,7 +33,7 @@ class WeForms_Form_Field_reCaptcha extends WeForms_Field_Contract {
                 esc_html_e( 'reCaptcha API key is missing.', 'weforms');
             } else { ?>
                 <li <?php $this->print_list_attributes( $field_settings ); ?> >
-                    <div class="wpuf-fields <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>">
+                    <div class="wpuf-fields <?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
                         <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
                         <input type="hidden" name="g-action" id="g-action">
                         <script src="https://www.google.com/recaptcha/api.js?render=<?php echo esc_attr( $public_key );?>"> </script>

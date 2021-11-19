@@ -20,9 +20,10 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
+        $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
-            <div class="wpuf-fields <?php echo 'html_' . esc_attr( $form_id ); ?><?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>">
+            <div class="wpuf-fields <?php echo 'html_' . esc_attr( $form_id ); ?><?php echo ' wpuf_'. esc_attr( $field_settings['name'] ).'_'. esc_attr( $form_id ); ?>" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
                 <?php echo $field_settings['html']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
             </div>
 

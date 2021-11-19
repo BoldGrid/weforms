@@ -24,12 +24,16 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
         // let's not show the name field if user choose to auto populate for logged users
         if ( isset( $field_settings['auto_populate'] ) && $field_settings['auto_populate'] == 'yes' && is_user_logged_in() ) {
             return;
-        } ?>
+        }
+        $form_settings = weforms()->form->get( $form_id )->get_settings();
+
+        $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
 
             <div class="wpuf-fields">
-                <div class="wpuf-name-field-wrap format-<?php echo esc_attr( $field_settings['format'] ); ?>">
+                <div class="wpuf-name-field-wrap format-<?php echo esc_attr( $field_settings['format'] ); ?>" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
                     <div class="wpuf-name-field-first-name">
                         <input
                             name="<?php echo esc_attr( $field_settings['name'] ) ?>[first]"
@@ -39,11 +43,12 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                             size="40"
                             data-required="<?php echo esc_attr( $field_settings['required'] ) ?>"
                             data-type="text"
+                            data-style="<?php echo esc_attr( $use_theme_css ); ?>"
                             class="textfield wpuf_<?php echo esc_attr( $field_settings['name'] ); ?>_<?php echo esc_attr( $form_id); ?>"
                             autocomplete="given-name"
                         >
                         <?php if ( ! $field_settings['hide_subs'] ) : ?>
-                            <label class="wpuf-form-sub-label"><?php esc_html_e( 'First', 'weforms' ); ?></label>
+                            <label class="wpuf-form-sub-label" data-style="<?php echo esc_attr( $use_theme_css ); ?>"><?php esc_html_e( 'First', 'weforms' ); ?></label>
                         <?php endif; ?>
                     </div>
 
@@ -56,9 +61,10 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                                 value="<?php echo esc_attr( $field_settings['middle_name']['default'] ); ?>"
                                 size="40"
                                 autocomplete="additional-name"
+                                data-style="<?php echo esc_attr( $use_theme_css ); ?>"
                             >
                             <?php if ( ! $field_settings['hide_subs'] ) : ?>
-                                <label class="wpuf-form-sub-label"><?php esc_html_e( 'Middle', 'weforms' ); ?></label>
+                                <label class="wpuf-form-sub-label" data-style="<?php echo esc_attr( $use_theme_css ); ?>"><?php esc_html_e( 'Middle', 'weforms' ); ?></label>
                             <?php endif; ?>
                         </div>
                     <?php } else { ?>
@@ -73,9 +79,10 @@ class WeForms_Form_Field_Name extends WeForms_Field_Contract {
                             value="<?php echo esc_attr( $field_settings['last_name']['default'] ); ?>"
                             size="40"
                             autocomplete="family-name"
+                            data-style="<?php echo esc_attr( $use_theme_css ); ?>"
                         >
                         <?php if ( ! $field_settings['hide_subs'] ) : ?>
-                            <label class="wpuf-form-sub-label"><?php esc_html_e( 'Last', 'weforms' ); ?></label>
+                            <label class="wpuf-form-sub-label" data-style="<?php echo esc_attr( $use_theme_css ); ?>"><?php esc_html_e( 'Last', 'weforms' ); ?></label>
                         <?php endif; ?>
                     </div>
                 </div>

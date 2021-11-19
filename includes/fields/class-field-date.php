@@ -20,12 +20,25 @@ class WeForms_Form_Field_Date_Free extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $value = ''; ?>
+        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        $value         = '';
+        ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings ); ?>
 
             <div class="wpuf-fields">
-                <input id="wpuf-date-<?php echo esc_attr( $field_settings['name'] ); ?>" type="text" <?php echo esc_attr( $field_settings['enforce_format'] !== 'yes' ) ? '' : 'readonly'; ?>  class="datepicker <?php echo ' wpuf_'.esc_attr( $field_settings['name'] ).'_'. esc_attr($form_id); ?>" data-required="<?php echo esc_attr($field_settings['required']) ?>" data-type="text" name="<?php echo esc_attr( $field_settings['name'] ); ?>" placeholder="<?php echo esc_attr( $field_settings['format'] ); ?>" value="<?php echo esc_attr( $value ) ?>" size="30" />
+                <input
+                    id="wpuf-date-<?php echo esc_attr( $field_settings['name'] ); ?>"
+                    type="text" <?php echo esc_attr( $field_settings['enforce_format'] !== 'yes' ) ? '' : 'readonly'; ?>
+                    class="datepicker <?php echo ' wpuf_'.esc_attr( $field_settings['name'] ).'_'. esc_attr($form_id); ?>"
+                    data-required="<?php echo esc_attr($field_settings['required']) ?>"
+                    data-type="text"
+                    data-style="<?php echo esc_attr( $use_theme_css ); ?>"
+                    name="<?php echo esc_attr( $field_settings['name'] ); ?>"
+                    placeholder="<?php echo esc_attr( $field_settings['format'] ); ?>"
+                    value="<?php echo esc_attr( $value ) ?>"
+                    size="30"
+                />
                 <?php $this->help_text( $field_settings ); ?>
             </div>
         </li>
