@@ -93,7 +93,7 @@ class WeForms_Form_Field_MultiDropdown extends WeForms_Form_Field_Dropdown {
             $new_val = [];
 
             foreach ( $entry_value as $option_key ) {
-                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : $option_key;
+                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] . ' , ' . $option_key : $option_key;
             }
 
             $entry_value = implode( WeForms::$field_separator, $new_val );
