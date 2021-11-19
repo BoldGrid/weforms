@@ -20,12 +20,13 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
-        $use_theme_css = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
-        $selected      = !empty( $field_settings['selected'] ) ? $field_settings['selected'] : []; ?>
+        $selected = !empty( $field_settings['selected'] ) ? $field_settings['selected'] : []; ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
+
             <?php do_action( 'weforms_checkbox_field_after_label', $field_settings ); ?>
-            <div class="wpuf-fields" data-required="<?php echo esc_attr( $field_settings['required'] ) ?>" data-type="radio" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
+            <div class="wpuf-fields" data-required="<?php echo esc_attr( $field_settings['required'] ) ?>" data-type="radio">
+
                 <?php
                 if ( $field_settings['options'] && count( $field_settings['options'] ) > 0 ) {
                     foreach ( $field_settings['options'] as $value => $option ) {
@@ -117,7 +118,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
             $new_val = [];
 
             foreach ( $entry_value as $option_key ) {
-                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : $option_key;
+                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] . ' , ' . $option_key : $option_key;
             }
 
             $entry_value = implode( WeForms::$field_separator, $new_val );
