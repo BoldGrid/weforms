@@ -51,4 +51,48 @@ class WeForms_Form_Entry_Manager {
     public function get( $entry_id ) {
         return new WeForms_Form_Entry( $entry_id, $this->form );
     }
+
+    /**
+     * Format Entry Values.
+     *
+     * @static
+     * @param  array $field
+     *
+     * @return array $field
+     */
+    public static function format_entry_details( $field ) {
+        switch ( $field['template'] ) {
+
+            case 'radio_field':
+                $value = array_search( $field['value'], $field['options'] );
+                $field['value'] = esc_html( 'Option: ' . $field['value'] . ' - ' . 'Value: ' . $value );
+
+                break;
+
+            case 'checkbox_field':
+                $field_formatted = array();
+                foreach ( $field['value'] as $option ) {
+                    $value             = array_search( $option, $field['options'] );
+                    $field_formatted[] = esc_html( 'Option: ' . $option . ' - ' . 'Value: ' . $value );
+                }
+                $field['value'] = array_replace( $field['value'], $field_formatted );
+
+                break;
+
+            case 'multiple_select':
+                $field_formatted = array();
+                foreach ( $field['value'] as $option ) {
+                    $value             = array_search( $option, $field['options'] );
+                    $field_formatted[] = esc_html( 'Option: ' . $option . ' - ' . 'Value: ' . $value );
+                }
+                $field['value'] = array_replace( $field['value'], $field_formatted );
+
+                break;
+
+            default:
+                // Do nothing if value format does not need to be changed.
+                break;
+        }
+        return $field;
+    }
 }

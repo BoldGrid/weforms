@@ -118,7 +118,7 @@ class WeForms_Form_Field_Checkbox extends WeForms_Field_Contract {
             $new_val = [];
 
             foreach ( $entry_value as $option_key ) {
-                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] . ' , ' . $option_key : $option_key;
+                $new_val[] = isset( $field['options'][$option_key] ) ? $field['options'][$option_key] : $option_key;
             }
 
             $entry_value = implode( WeForms::$field_separator, $new_val );
