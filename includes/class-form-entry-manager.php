@@ -53,14 +53,14 @@ class WeForms_Form_Entry_Manager {
     }
 
     /**
-     * Format Entry Values.
+     * Format Entry Value.
      *
      * @static
      * @param  array $field
      *
      * @return array $field
      */
-    public static function format_entry_details( $field ) {
+    public static function format_entry_value( $field ) {
         switch ( $field['template'] ) {
 
             case 'radio_field':

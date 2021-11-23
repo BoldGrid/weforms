@@ -576,7 +576,7 @@ class WeForms_Ajax {
                 $has_empty      = true;
                 break;
             } else {
-                $field = WeForms_Form_Entry_Manager::format_entry_details( $field );
+                $field = WeForms_Form_Entry_Manager::format_entry_value( $field );
                 array_push( $fields_formatted, $field );
             }
         }
