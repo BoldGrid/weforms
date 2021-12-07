@@ -463,33 +463,48 @@ class WeForms_Notification {
     }
 
     /**
-     * Parse out the custom fields with entry meta values
+     * Parse out the custom fields with options or values. Since the options are what is stored, options may need to be
+     * used to find the value from the field settings.
      *
      * @param string $text
+     * @param int    $entry_id
      *
      * @return string
      */
-    public static function replace_field_tags( $text, $entry_id ) {
-        $pattern = '/{field:(\w*)}/';
-
-        preg_match_all( $pattern, $text, $matches );
-
-        // bail out if nothing found to be replaced
-        if ( !$matches ) {
-            return $text;
+    public function replace_field_tags( $text, $entry_id ) {
+        $pattern_field = '/{field:(\w*)}/';
+        $pattern_value = '/{value:(\w*)}/';
+        switch ( $text ) {
+            case '':
+                return $text;
+                break;
+            case ( preg_match( $pattern_field, $text, $matches ) ? true : false ):
+                    $meta_key = $matches[1];
+                    $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+                    if ( is_array( $meta_value ) ) {
+                        $meta_value = implode( WeForms::$field_separator, $meta_value );
+                    }
+                    $text = str_replace( $matches[0], $meta_value, $text );
+                return $text;
+                break;
+            case ( preg_match( $pattern_value, $text, $matches ) ? true : false  ):
+                    $meta_key           = $matches[1];
+                    $form               = weforms()->form->get( $this->args['form_id'] );
+                    $form_field         = $form->get_field_values();
+                    $form_field_values  = $form_field[ $meta_key ]['options'];
+                    $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
+                    // The modified value is the value of the field in the form since it is not stored.
+                    $modified_value     = array_search( $meta_value, $form_field_values );
+                    if ( is_array( $modified_value ) ) {
+                        $modified_value = implode( WeForms::$field_separator, $modified_value );
+                    }
+                    $text       = str_replace( $matches[0], $modified_value, $text );
+                return $text;
+                break;
+            default:
+                return $text;
+                break;
         }
-
-        foreach ( $matches[1] as $index => $meta_key ) {
-            $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
-
-            if ( is_array( $meta_value ) ) {
-                $meta_value = implode( WeForms::$field_separator, $meta_value );
-            }
-
-            $text       = str_replace( $matches[0][$index], $meta_value, $text );
-        }
-
-        return $text;
     }
 
     /**
@@ -604,8 +619,8 @@ class WeForms_Notification {
         $merge_values = array_values( $this->merge_tags );
 
         $text         = str_replace( $merge_keys, $merge_values, $text );
-        $text         = static::replace_field_tags( $text, $this->args['entry_id'] );
-        $text         = static::replace_file_tags( $text, $this->args['entry_id'] );
+        $text         = $this->replace_field_tags( $text, $this->args['entry_id'] );
+        $text         = $this->replace_file_tags( $text, $this->args['entry_id'] );
 
         return $text;
     }
@@ -662,7 +677,7 @@ class WeForms_Notification {
                     $table .= '&mdash;';
                 }
             } elseif ( in_array( $value['type'], array( 'google_map' ) ) ) {
-                $table .= $field_value['address'];    
+                $table .= $field_value['address'];
             } else {
                 $table .= $field_value;
             }

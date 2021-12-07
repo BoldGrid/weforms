@@ -89,6 +89,12 @@ class WeForms_Form_Entry_Manager {
 
                 break;
 
+            case 'dropdown_field':
+                $value          = array_search( $field['value'], $field['options'] );
+                $field['value'] = esc_html( 'Option: ' . $field['value'] . ' - ' . 'Value: ' . $value );
+
+                break;
+
             default:
                 // Do nothing if value format does not need to be changed.
                 break;
