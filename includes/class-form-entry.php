@@ -421,4 +421,10 @@ class WeForms_Form_Entry {
 
         return $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}weforms_payments WHERE entry_id = {$this->id} " );
     }
+
+    public static function get_form_id( $entry_id ) {
+        global $wpdb;
+
+        return $wpdb->get_results( "SELECT form_id FROM {$wpdb->prefix}weforms_entries WHERE id = {$entry_id} " );
+    }
 }

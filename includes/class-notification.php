@@ -466,45 +466,53 @@ class WeForms_Notification {
      * Parse out the custom fields with options or values. Since the options are what is stored, options may need to be
      * used to find the value from the field settings.
      *
+     * For example, let's say we have the following options:
+     * DEPARTMENT / EMAIL
+     * Support / support@example.com
+     * Sales / sales@example.com
+     *
+     * Users need the ability to pass {field:department} and get "Support",
+     * and {value:department} to get support@email.com
+     *
      * @param string $text
      * @param int    $entry_id
      *
      * @return string
      */
-    public function replace_field_tags( $text, $entry_id ) {
-        $pattern_field = '/{field:(\w*)}/';
-        $pattern_value = '/{value:(\w*)}/';
-        switch ( $text ) {
-            case '':
-                return $text;
-                break;
-            case ( preg_match( $pattern_field, $text, $matches ) ? true : false ):
-                    $meta_key = $matches[1];
-                    $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
-                    if ( is_array( $meta_value ) ) {
-                        $meta_value = implode( WeForms::$field_separator, $meta_value );
-                    }
-                    $text = str_replace( $matches[0], $meta_value, $text );
-                return $text;
-                break;
-            case ( preg_match( $pattern_value, $text, $matches ) ? true : false  ):
-                    $meta_key           = $matches[1];
-                    $form               = weforms()->form->get( $this->args['form_id'] );
-                    $form_field         = $form->get_field_values();
-                    $form_field_values  = $form_field[ $meta_key ]['options'];
-                    $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
-                    // The modified value is the value of the field in the form since it is not stored.
-                    $modified_value     = array_search( $meta_value, $form_field_values );
-                    if ( is_array( $modified_value ) ) {
-                        $modified_value = implode( WeForms::$field_separator, $modified_value );
-                    }
-                    $text       = str_replace( $matches[0], $modified_value, $text );
-                return $text;
-                break;
-            default:
-                return $text;
-                break;
+    public static function replace_field_tags( $text, $entry_id ) {
+        // Validate data.
+        if ( empty( $text ) || empty( $entry_id ) ) {
+            return;
         }
+
+        // Users looking for {field:something} or {value:something}, determine which one.
+        $is_field = preg_match( '/{field:(\w*)}/', $text, $matches_field );
+        $is_value = preg_match( '/{value:(\w*)}/', $text, $matches_value );
+
+        if ( $is_field ) {
+            $meta_key   = $matches_field[1];
+            $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+            if ( is_array( $meta_value ) ) {
+                $meta_value = implode( WeForms::$field_separator, $meta_value );
+            }
+            // $text may include HTML tags, only replace tag that was matched.
+            $text = str_replace( $matches_field[0], $meta_value, $text );
+        } elseif ( $is_value ) {
+            $form_object        = WeForms_Form_Entry::get_form_id( $entry_id);
+            $meta_key           = $matches_value[1];
+            $form               = weforms()->form->get( $form_object[0]->form_id );
+            $form_field         = $form->get_field_values();
+            $form_field_values  = $form_field[ $meta_key ]['options'];
+            $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
+            $modified_value     = array_search( $meta_value, $form_field_values );
+            if ( is_array( $modified_value ) ) {
+                $modified_value = implode( WeForms::$field_separator, $modified_value );
+            }
+            // $text may include HTML tags, only replace tag that was matched.
+            $text = str_replace( $matches_value[0], $modified_value, $text );
+        }
+
+        return $text;
     }
 
     /**
@@ -619,8 +627,8 @@ class WeForms_Notification {
         $merge_values = array_values( $this->merge_tags );
 
         $text         = str_replace( $merge_keys, $merge_values, $text );
-        $text         = $this->replace_field_tags( $text, $this->args['entry_id'] );
-        $text         = $this->replace_file_tags( $text, $this->args['entry_id'] );
+        $text         = static::replace_field_tags( $text, $this->args['entry_id'] );
+        $text         = static::replace_file_tags( $text, $this->args['entry_id'] );
 
         return $text;
     }
