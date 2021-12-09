@@ -474,10 +474,10 @@ class WeForms_Notification {
      * Users need the ability to pass {field:department} and get "Support",
      * and {value:department} to get support@email.com
      *
-     * @param string $text
-     * @param int    $entry_id
+     * @param string $text The text to parse.
+     * @param int    $entry_id The entry ID.
      *
-     * @return string
+     * @return string  $text The parsed text.
      */
     public static function replace_field_tags( $text, $entry_id ) {
         // Validate data.
@@ -498,11 +498,8 @@ class WeForms_Notification {
             // $text may include HTML tags, only replace tag that was matched.
             $text = str_replace( $matches_field[0], $meta_value, $text );
         } elseif ( $is_value ) {
-            $form_object        = WeForms_Form_Entry::get_form_id( $entry_id);
             $meta_key           = $matches_value[1];
-            $form               = weforms()->form->get( $form_object[0]->form_id );
-            $form_field         = $form->get_field_values();
-            $form_field_values  = $form_field[ $meta_key ]['options'];
+            $form_field_values  = WeForms_Form_Entry::get_form( $entry_id )->get_field_values()[ $meta_key ]['options'];
             $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
             $modified_value     = array_search( $meta_value, $form_field_values );
             if ( is_array( $modified_value ) ) {
@@ -511,7 +508,6 @@ class WeForms_Notification {
             // $text may include HTML tags, only replace tag that was matched.
             $text = str_replace( $matches_value[0], $modified_value, $text );
         }
-
         return $text;
     }
 
