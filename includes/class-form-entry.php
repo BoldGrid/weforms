@@ -425,7 +425,8 @@ class WeForms_Form_Entry {
     /**
      *  Get Form from entry id.
      *
-     * @param  int $entry_id The entry id.
+     * @param  int    $entry_id The entry id.
+     * @global object $wpdb The Wordpress database object.
      *
      * @return object The form object.
      */
@@ -438,7 +439,8 @@ class WeForms_Form_Entry {
     /**
      * Get form id from entry id.
      *
-     * @param  int $entry_id The entry id.
+     * @param  int    $entry_id The entry id.
+     * @global object $wpdb The Wordpress database object.
      *
      * @return int The form id.
      */
