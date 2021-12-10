@@ -528,7 +528,7 @@ class WeForms_Ajax {
         $has_empty          = false;
         $answers            = [];
         $respondentPoints   = isset( $form_settings['total_points'] ) ? floatval( $form_settings['total_points'] ) : 0;
-
+        $fields_formatted   = array();
         foreach ( $fields as $key => $field ) {
             if ( $form_settings['quiz_form'] == 'yes' ) {
                 $selectedAnswers    = isset( $field['selected_answers'] ) ? $field['selected_answers'] : '';
@@ -539,7 +539,6 @@ class WeForms_Ajax {
 
                 if ( $template == 'radio_field' || $template == 'dropdown_field' ) {
                     $answers[$field['name']] = true;
-
                     if ( empty( $givenAnswer ) ) {
                         $answers[$field['name']] = false;
                         $respondentPoints -= $fieldPoints;
@@ -576,11 +575,13 @@ class WeForms_Ajax {
             } elseif ( empty( $field['value'] ) ) {
                 $has_empty      = true;
                 break;
+            } else {
+                $field = WeForms_Form_Entry_Manager::format_entry_value( $field );
+                array_push( $fields_formatted, $field );
             }
         }
-
         $response = [
-            'form_fields'       => $fields,
+            'form_fields'       => $fields_formatted,
             'form_settings'     => $form_settings,
             'meta_data'         => $metadata,
             'payment_data'      => $payment,
@@ -588,6 +589,7 @@ class WeForms_Ajax {
             'respondent_points' => $respondentPoints,
             'answers'           => $answers,
         ];
+
 
         wp_send_json_success( $response );
     }

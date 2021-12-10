@@ -421,4 +421,34 @@ class WeForms_Form_Entry {
 
         return $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}weforms_payments WHERE entry_id = {$this->id} " );
     }
+
+    /**
+     *  Get Form from entry id.
+     *
+     * @param  int    $entry_id The entry id.
+     * @global object $wpdb The Wordpress database object.
+     *
+     * @return object The form object.
+     */
+    public static function get_form( $entry_id ) {
+        $form_id = self::get_form_id( $entry_id );
+
+        return ! empty( $form_id ) ? weforms()->form->get( $form_id ) : null;
+    }
+
+    /**
+     * Get form id from entry id.
+     *
+     * @param  int    $entry_id The entry id.
+     * @global object $wpdb The Wordpress database object.
+     *
+     * @return int The form id.
+     */
+    public static function get_form_id( $entry_id ) {
+        global $wpdb;
+
+        $results = $wpdb->get_results( "SELECT form_id FROM {$wpdb->prefix}weforms_entries WHERE id = {$entry_id} " );
+
+        return  ! empty( $results[0]->form_id ) ? $results[0]->form_id : null;
+    }
 }
