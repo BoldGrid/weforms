@@ -96,7 +96,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
                 'country' => isset( $address['country_select'] ) ? $address['country_select'] : '',
             );
         }
-        
+
         preg_match_all("/(?<=:)\w+(?=\})/", $integration->fields->line_items, $matches );
 
         $line_item_data = array_key_exists( $matches[0][0], $form_data['data'] );
@@ -132,7 +132,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
                         'qty' => $lineItemsSelected[0]['quantity'],
                     );
                 }
-                
+
             };
             if ( isset( $li_items ) && isset( $li_deposit ) ) {
                 $li = array_merge( $li_items, $li_deposit );
@@ -158,7 +158,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
             'vat'          => self::get_value( $integration->fields->vat, $entry_id, $form_id, $page_id ),
             'entry_note'   => self::build_entry_note( $form_id, $entry_id ),
             'entry_id'     => $entry_id,
-            'payment'      => !empty( $li_deposit ) ? 'true' : 'false',
+            'payment'      => !empty( $payment_data ) ? 'true' : 'false',
             'form_id'      => $form_id,
             'page_id'      => $page_id,
             'form_data'    => $form_data['data'],
@@ -167,17 +167,17 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
 
         $doc_id = 0;
         $doctype = $integration->doctype;
-        $create_user_and_client = $integration->create_user_and_client;
+        $create_user_and_client = isset( $integration->create_user_and_client ) ? $integration->create_user_and_client : 'false';
         switch ($doctype) {
             case 'invoice':
                 $doc_id = $this->create_invoice( $submission );
-                if ($create_user_and_client) {
+                if ( 'false' !== $create_user_and_client ) {
                     $this->create_client( $submission, $doc_id );
                 }
                 break;
             case 'estimate':
                 $doc_id = $this->create_estimate( $submission );
-                if ($create_user_and_client) {
+                if ( 'false' !== $create_user_and_client ) {
                     $this->create_client( $submission, $doc_id );
                 }
                 break;
@@ -190,8 +190,8 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         }
 
         // REDIRECT
-        $redirect = $integration->redirect;
-        if ($redirect && $doc_id) {
+        $redirect = isset( $integration->redirect ) ? $integration->redirect : 'false';
+        if ( 'false' !== $redirect && $doc_id ) {
             $doc = si_get_doc_object( $doc_id );
             $doc->set_pending();
             $url = wp_get_referer();
@@ -342,7 +342,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         return $table;
     }
 
-    protected function create_invoice($submission = array())
+    protected function create_invoice( $submission = array() )
     {
         $invoice_args = array(
             'subject' => sprintf( apply_filters( 'si_form_submission_title_format', '%1$s (%2$s)', $submission ), $submission['subject'], $submission['client_name'] ),
@@ -357,11 +357,12 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
          */
         $invoice_id = SI_Invoice::create_invoice( $invoice_args );
         $invoice = SI_Invoice::get_instance( $invoice_id );
-        $status = SI_Payment::STATUS_AUTHORIZED;
-        $invoice_status = SI_Payment::set_status($status);
-        
+
         $invoice->set_line_items( $submission['line_items'] );
         $invoice->set_calculated_total();
+        if ( 'false' === $submission['payment'] ) {
+            $invoice->set_pending();
+        }
 
         // notes
         if (isset( $submission['notes'] ) && '' !== $submission['notes']) {
@@ -377,7 +378,7 @@ class WeForms_Integration_SI extends WeForms_Abstract_Integration
         }
 
         // Add Payment from weForms if deposit
-        if ( $submission['payment'] === 'false' ) {
+        if ( 'true' === $submission['payment'] ) {
             SI_PAYMENT::new_payment();
         }
 
