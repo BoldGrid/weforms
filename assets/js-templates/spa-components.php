@@ -827,10 +827,11 @@
                     <div class="inside">
                         <p class="help">
                             <?php
-                                // translators: 1: Strong tag with text.
+                                // translators: 1: Opening strong tag. 2: closing strong tag
                                 printf(
-                                    esc_html__( 'Export your form entries/submissions as a %1$s file.', 'weforms' ),
-                                    '<strong>CSV</strong>',
+                                    esc_html__( 'Export your form entries/submissions as a %1$sCSV%2$S file.', 'weforms' ),
+                                    '<strong>',
+                                    '</strong>'
                                 );
                             ?>
                         </p>
@@ -863,8 +864,9 @@
             <p><?php
                     // translators: 1: Strong tag with text.
                     printf(
-                        esc_html__( 'Press %1$s button, we will do the rest for you.', 'weforms' ),
-                        '<strong>Import</strong>',
+                        esc_html__( 'Press %1$s Import button, we will do the rest for you.', 'weforms' ),
+                        '<strong>',
+                        '</strong>'
                     );
                 ?>
             </p>
