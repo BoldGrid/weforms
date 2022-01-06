@@ -767,20 +767,20 @@ class WeForms_Ajax {
             $entry_id = weforms_insert_entry( [
                 'form_id' => $form_id,
             ], $entry_fields );
-        if ( is_wp_error( $entry_id ) ) {
-            wp_send_json( [
-                'success' => false,
-                'error'   => $entry_id->get_error_message(),
+            if ( is_wp_error( $entry_id ) ) {
+                wp_send_json( [
+                    'success' => false,
+                    'error'   => $entry_id->get_error_message(),
+                ] );
+            }
+            // Fire a hook for integration
+            do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
+            $notification = new WeForms_Notification( [
+                'form_id'  => $form_id,
+                'page_id'  => $page_id,
+                'entry_id' => $entry_id,
             ] );
-        }
-        // Fire a hook for integration
-        do_action( 'weforms_entry_submission', $entry_id, $form_id, $page_id, $form_settings );
-        $notification = new WeForms_Notification( [
-            'form_id'  => $form_id,
-            'page_id'  => $page_id,
-            'entry_id' => $entry_id,
-        ] );
-        $notification->send_notifications();
+            $notification->send_notifications();
         }
         // redirect URL
         $show_message = false;

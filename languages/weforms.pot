@@ -1,14 +1,14 @@
-# Copyright (C) 2021 weForms
+# Copyright (C) 2022 weForms
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.6.9\n"
+"Project-Id-Version: weForms 1.6.10\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2021-09-08 18:14:40+00:00\n"
+"POT-Creation-Date: 2022-01-06 15:20:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -261,9 +261,9 @@ msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:277
 #: includes/fields/class-field-checkbox.php:90
-#: includes/fields/class-field-dropdown.php:93
-#: includes/fields/class-field-multidropdown.php:64
-#: includes/fields/class-field-radio.php:95
+#: includes/fields/class-field-dropdown.php:94
+#: includes/fields/class-field-multidropdown.php:74
+#: includes/fields/class-field-radio.php:96
 msgid "Option"
 msgstr ""
 
@@ -823,26 +823,26 @@ msgstr ""
 #: includes/fields/class-abstract-fields.php:537
 #: includes/fields/class-field-checkbox.php:107
 #: includes/fields/class-field-checkbox.php:111
-#: includes/fields/class-field-date.php:121
-#: includes/fields/class-field-date.php:125
-#: includes/fields/class-field-dropdown.php:111
-#: includes/fields/class-field-dropdown.php:115
-#: includes/fields/class-field-email.php:102
-#: includes/fields/class-field-email.php:106
+#: includes/fields/class-field-date.php:152
+#: includes/fields/class-field-date.php:156
+#: includes/fields/class-field-dropdown.php:112
+#: includes/fields/class-field-dropdown.php:116
+#: includes/fields/class-field-email.php:104
+#: includes/fields/class-field-email.php:108
 #: includes/fields/class-field-image.php:129
 #: includes/fields/class-field-image.php:133
-#: includes/fields/class-field-multidropdown.php:82
-#: includes/fields/class-field-multidropdown.php:86
-#: includes/fields/class-field-name.php:202
-#: includes/fields/class-field-name.php:206
-#: includes/fields/class-field-radio.php:112
-#: includes/fields/class-field-radio.php:116
-#: includes/fields/class-field-text.php:139
-#: includes/fields/class-field-text.php:143
-#: includes/fields/class-field-textarea.php:128
-#: includes/fields/class-field-textarea.php:132
-#: includes/fields/class-field-url.php:95
-#: includes/fields/class-field-url.php:99
+#: includes/fields/class-field-multidropdown.php:92
+#: includes/fields/class-field-multidropdown.php:96
+#: includes/fields/class-field-name.php:209
+#: includes/fields/class-field-name.php:213
+#: includes/fields/class-field-radio.php:113
+#: includes/fields/class-field-radio.php:117
+#: includes/fields/class-field-text.php:142
+#: includes/fields/class-field-text.php:146
+#: includes/fields/class-field-textarea.php:138
+#: includes/fields/class-field-textarea.php:142
+#: includes/fields/class-field-url.php:98
+#: includes/fields/class-field-url.php:102
 msgid "Unauthorized operation"
 msgstr ""
 
@@ -897,8 +897,8 @@ msgstr ""
 #: includes/admin/views/display-settings.php:33
 #: includes/fields/class-abstract-fields.php:209
 #: includes/fields/class-field-checkbox.php:64
-#: includes/fields/class-field-name.php:148
-#: includes/fields/class-field-radio.php:69
+#: includes/fields/class-field-name.php:155
+#: includes/fields/class-field-radio.php:70
 #: includes/templates/class-template-event-registration.php:56
 #: includes/templates/class-template-event-registration.php:82
 #: includes/templates/class-template-loan-application-form.php:133
@@ -981,8 +981,8 @@ msgstr ""
 #: includes/admin/views/display-settings.php:34
 #: includes/fields/class-abstract-fields.php:210
 #: includes/fields/class-field-checkbox.php:65
-#: includes/fields/class-field-name.php:149
-#: includes/fields/class-field-radio.php:70
+#: includes/fields/class-field-name.php:156
+#: includes/fields/class-field-radio.php:71
 #: includes/templates/class-template-bug-report.php:112
 #: includes/templates/class-template-event-registration.php:57
 #: includes/templates/class-template-event-registration.php:83
@@ -1381,7 +1381,7 @@ msgstr ""
 
 #: includes/api/class-weforms-entries-controller.php:136
 #: includes/api/class-weforms-entries-controller.php:193
-#: includes/class-ajax.php:658 includes/class-ajax.php:685
+#: includes/class-ajax.php:660 includes/class-ajax.php:687
 msgid "No entry ids provided!"
 msgstr ""
 
@@ -1460,8 +1460,8 @@ msgid "No form fields found!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:251
-#: includes/class-ajax.php:844 includes/class-ajax.php:853
-#: includes/class-ajax.php:894 includes/class-ajax.php:909
+#: includes/class-ajax.php:846 includes/class-ajax.php:855
+#: includes/class-ajax.php:896 includes/class-ajax.php:911
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
@@ -1560,22 +1560,22 @@ msgid "form  deleted successfully "
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1235
-#: includes/class-ajax.php:1138
+#: includes/class-ajax.php:1140
 msgid "No file found to import."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1249
-#: includes/class-ajax.php:1151
+#: includes/class-ajax.php:1153
 msgid "The forms have been imported successfully!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1257
-#: includes/class-ajax.php:1153
+#: includes/class-ajax.php:1155
 msgid "Something went wrong importing the file."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1260
-#: includes/class-ajax.php:1156
+#: includes/class-ajax.php:1158
 msgid "Invalid file or file size too big."
 msgstr ""
 
@@ -1601,7 +1601,7 @@ msgid "data not exist"
 msgstr ""
 
 #: includes/api/class-weforms-log-controller.php:85
-#: includes/class-ajax.php:1197
+#: includes/class-ajax.php:1199
 msgid "ago"
 msgstr ""
 
@@ -1645,11 +1645,11 @@ msgstr ""
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:731
+#: includes/class-ajax.php:733
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:742
+#: includes/class-ajax.php:744
 msgid "No form field was found."
 msgstr ""
 
@@ -1723,7 +1723,7 @@ msgstr ""
 msgid "Form:"
 msgstr ""
 
-#: includes/class-form.php:293
+#: includes/class-form.php:294
 msgid "The form is not published yet."
 msgstr ""
 
@@ -1845,12 +1845,12 @@ msgid "Large"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:236
-#: includes/fields/class-field-column.php:85
+#: includes/fields/class-field-column.php:86
 msgid "CSS Class Name"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:240
-#: includes/fields/class-field-column.php:89
+#: includes/fields/class-field-column.php:90
 msgid ""
 "Provide a container class name for this field. Available classes: "
 "wpuf-col-half, wpuf-col-half-last, wpuf-col-one-third, "
@@ -1866,15 +1866,15 @@ msgstr ""
 
 #: includes/fields/class-abstract-fields.php:256
 #: includes/fields/class-field-hidden.php:46
-#: includes/fields/class-field-html.php:59
-#: includes/fields/class-field-sectionbreak.php:61
+#: includes/fields/class-field-html.php:60
+#: includes/fields/class-field-sectionbreak.php:63
 msgid "Meta Key"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:260
 #: includes/fields/class-field-hidden.php:50
-#: includes/fields/class-field-html.php:63
-#: includes/fields/class-field-sectionbreak.php:65
+#: includes/fields/class-field-html.php:64
+#: includes/fields/class-field-sectionbreak.php:67
 msgid "Name of the meta key this field will save to"
 msgstr ""
 
@@ -1964,32 +1964,32 @@ msgid "Checkbox"
 msgstr ""
 
 #: includes/fields/class-field-checkbox.php:61
-#: includes/fields/class-field-name.php:145
-#: includes/fields/class-field-radio.php:66
+#: includes/fields/class-field-name.php:152
+#: includes/fields/class-field-radio.php:67
 msgid "Show in inline list"
 msgstr ""
 
 #: includes/fields/class-field-checkbox.php:71
-#: includes/fields/class-field-name.php:155
-#: includes/fields/class-field-radio.php:76
+#: includes/fields/class-field-name.php:162
+#: includes/fields/class-field-radio.php:77
 msgid "Show this option in an inline list"
 msgstr ""
 
-#: includes/fields/class-field-column.php:69
+#: includes/fields/class-field-column.php:70
 msgid "Number of Columns"
 msgstr ""
 
-#: includes/fields/class-field-column.php:73
-#: includes/fields/class-field-recaptcha.php:177
-#: includes/fields/class-field-sectionbreak.php:57
+#: includes/fields/class-field-column.php:74
+#: includes/fields/class-field-recaptcha.php:178
+#: includes/fields/class-field-sectionbreak.php:59
 msgid "Title of the section"
 msgstr ""
 
-#: includes/fields/class-field-column.php:77
+#: includes/fields/class-field-column.php:78
 msgid "Space Between Columns"
 msgstr ""
 
-#: includes/fields/class-field-column.php:81
+#: includes/fields/class-field-column.php:82
 msgid "Add padding space between columns. e.g: 10"
 msgstr ""
 
@@ -1997,38 +1997,50 @@ msgstr ""
 msgid "Date / Time"
 msgstr ""
 
-#: includes/fields/class-field-date.php:61
+#: includes/fields/class-field-date.php:78
 msgid "Date Format"
 msgstr ""
 
-#: includes/fields/class-field-date.php:65
+#: includes/fields/class-field-date.php:82
 msgid "The date format"
 msgstr ""
 
-#: includes/fields/class-field-date.php:73
+#: includes/fields/class-field-date.php:90
 msgid "Enable time input"
 msgstr ""
 
-#: includes/fields/class-field-date.php:85
+#: includes/fields/class-field-date.php:102
 msgid "Set this as publish time input"
+msgstr ""
+
+#: includes/fields/class-field-date.php:110
+msgid "Toggle Keyboard input for Date"
+msgstr ""
+
+#: includes/fields/class-field-date.php:115
+msgid "Force Datepicker Input"
+msgstr ""
+
+#: includes/fields/class-field-date.php:119
+msgid "Disables Keyboard Input and uses the Datepicker Format"
 msgstr ""
 
 #: includes/fields/class-field-dropdown.php:9
 msgid "Dropdown"
 msgstr ""
 
-#: includes/fields/class-field-dropdown.php:71
+#: includes/fields/class-field-dropdown.php:72
 msgid "Select Text"
 msgstr ""
 
-#: includes/fields/class-field-dropdown.php:75
+#: includes/fields/class-field-dropdown.php:76
 msgid ""
 "First element of the select dropdown. Leave this empty if you don't want to "
 "show this field"
 msgstr ""
 
-#: includes/fields/class-field-dropdown.php:94
-#: includes/fields/class-field-multidropdown.php:65
+#: includes/fields/class-field-dropdown.php:95
+#: includes/fields/class-field-multidropdown.php:75
 msgid "— Select —"
 msgstr ""
 
@@ -2047,26 +2059,26 @@ msgstr ""
 msgid "Email Address"
 msgstr ""
 
-#: includes/fields/class-field-email.php:68
-#: includes/fields/class-field-text.php:101
-#: includes/fields/class-field-url.php:62
+#: includes/fields/class-field-email.php:70
+#: includes/fields/class-field-text.php:104
+#: includes/fields/class-field-url.php:65
 msgid "Unique Values Only"
 msgstr ""
 
-#: includes/fields/class-field-email.php:73
-#: includes/fields/class-field-text.php:106
-#: includes/fields/class-field-url.php:67
+#: includes/fields/class-field-email.php:75
+#: includes/fields/class-field-text.php:109
+#: includes/fields/class-field-url.php:70
 msgid ""
 "Select this option to limit user input to unique values only. This will "
 "require that a value entered in a field does not currently exist in the "
 "entry database for that field."
 msgstr ""
 
-#: includes/fields/class-field-email.php:81
+#: includes/fields/class-field-email.php:83
 msgid "Auto-populate Email"
 msgstr ""
 
-#: includes/fields/class-field-email.php:86
+#: includes/fields/class-field-email.php:88
 msgid ""
 "If a user is logged into the site, this email field will be auto-populated "
 "with his email. And form's email field will be hidden."
@@ -2088,15 +2100,15 @@ msgstr ""
 msgid "Custom HTML"
 msgstr ""
 
-#: includes/fields/class-field-html.php:51
+#: includes/fields/class-field-html.php:52
 msgid "Html Codes"
 msgstr ""
 
-#: includes/fields/class-field-html.php:55
+#: includes/fields/class-field-html.php:56
 msgid "Paste your HTML codes, WordPress shortcodes will also work here"
 msgstr ""
 
-#: includes/fields/class-field-html.php:79
+#: includes/fields/class-field-html.php:80
 msgid "HTML Section"
 msgstr ""
 
@@ -2154,8 +2166,8 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:46
-#: includes/fields/class-field-name.php:174
+#: includes/fields/class-field-name.php:51
+#: includes/fields/class-field-name.php:181
 #: includes/importer/class-importer-wpforms.php:161
 #: includes/templates/class-template-admission-form.php:34
 #: includes/templates/class-template-employee-information.php:43
@@ -2168,8 +2180,8 @@ msgstr ""
 msgid "First"
 msgstr ""
 
-#: includes/fields/class-field-name.php:61
-#: includes/fields/class-field-name.php:179
+#: includes/fields/class-field-name.php:67
+#: includes/fields/class-field-name.php:186
 #: includes/importer/class-importer-wpforms.php:166
 #: includes/templates/class-template-admission-form.php:40
 #: includes/templates/class-template-employee-information.php:49
@@ -2177,8 +2189,8 @@ msgstr ""
 msgid "Middle"
 msgstr ""
 
-#: includes/fields/class-field-name.php:78
-#: includes/fields/class-field-name.php:184
+#: includes/fields/class-field-name.php:85
+#: includes/fields/class-field-name.php:191
 #: includes/importer/class-importer-wpforms.php:171
 #: includes/templates/class-template-admission-form.php:45
 #: includes/templates/class-template-employee-information.php:54
@@ -2191,38 +2203,38 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: includes/fields/class-field-name.php:99
+#: includes/fields/class-field-name.php:106
 msgid "Format"
 msgstr ""
 
-#: includes/fields/class-field-name.php:102
+#: includes/fields/class-field-name.php:109
 msgid "First and Last name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:103
+#: includes/fields/class-field-name.php:110
 msgid "First, Middle and Last name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:108
-#: includes/fields/class-field-name.php:129
+#: includes/fields/class-field-name.php:115
+#: includes/fields/class-field-name.php:136
 msgid "Select format to use for the name field"
 msgstr ""
 
-#: includes/fields/class-field-name.php:116
+#: includes/fields/class-field-name.php:123
 msgid "Auto-populate Name"
 msgstr ""
 
-#: includes/fields/class-field-name.php:121
+#: includes/fields/class-field-name.php:128
 msgid ""
 "If a user is logged into the site, this name field will be auto-populated "
 "with his first-last/display name. And form's name field will be hidden."
 msgstr ""
 
-#: includes/fields/class-field-name.php:125
+#: includes/fields/class-field-name.php:132
 msgid "Label"
 msgstr ""
 
-#: includes/fields/class-field-name.php:137
+#: includes/fields/class-field-name.php:144
 msgid "Hide Sub Labels"
 msgstr ""
 
@@ -2230,50 +2242,50 @@ msgstr ""
 msgid "Radio"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:32
-#: includes/fields/class-field-recaptcha.php:76
+#: includes/fields/class-field-recaptcha.php:33
+#: includes/fields/class-field-recaptcha.php:77
 msgid "reCaptcha API key is missing."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:155
+#: includes/fields/class-field-recaptcha.php:156
 msgid "Site key and Secret key"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:157
+#: includes/fields/class-field-recaptcha.php:158
 msgid ""
 "You need to set Site key and Secret key in <a href=\"%s\" "
 "target=\"_blank\">Settings</a> in order to use \"Recaptcha\" field. <a "
 "href=\"%s\" target=\"_blank\">Click here to get the these key</a>."
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:173
-#: includes/fields/class-field-sectionbreak.php:53
+#: includes/fields/class-field-recaptcha.php:174
+#: includes/fields/class-field-sectionbreak.php:55
 #: includes/templates/class-template-employee-information.php:132
 #: includes/templates/class-template-loan-application-form.php:28
 msgid "Title"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:184
+#: includes/fields/class-field-recaptcha.php:185
 msgid "Enable noCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:185
+#: includes/fields/class-field-recaptcha.php:186
 msgid "Enable Invisible reCaptcha"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:190
+#: includes/fields/class-field-recaptcha.php:191
 msgid "Select reCaptcha type"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:198
+#: includes/fields/class-field-recaptcha.php:199
 msgid "Light"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:199
+#: includes/fields/class-field-recaptcha.php:200
 msgid "Dark"
 msgstr ""
 
-#: includes/fields/class-field-recaptcha.php:204
+#: includes/fields/class-field-recaptcha.php:205
 msgid "Select reCaptcha Theme"
 msgstr ""
 
@@ -2281,16 +2293,16 @@ msgstr ""
 msgid "Section Break"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:69
+#: includes/fields/class-field-sectionbreak.php:71
 #: includes/templates/class-template-real-estate-listing.php:117
 msgid "Description"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:73
+#: includes/fields/class-field-sectionbreak.php:75
 msgid "Some details text about the section"
 msgstr ""
 
-#: includes/fields/class-field-sectionbreak.php:89
+#: includes/fields/class-field-sectionbreak.php:91
 msgid "Some description about this section"
 msgstr ""
 
@@ -2302,7 +2314,7 @@ msgstr ""
 msgid "Website URL"
 msgstr ""
 
-#: includes/fields/class-field-url.php:29
+#: includes/fields/class-field-url.php:31
 msgid "The URL must contain a protocol i.e. http://example.com"
 msgstr ""
 
@@ -2591,11 +2603,11 @@ msgstr ""
 msgid "Invoice Submitted: Form <a href=\"%s\">#%s</a>."
 msgstr ""
 
-#: includes/integrations/sprout-invoices/class-integration-sprout-invoices.php:387
+#: includes/integrations/sprout-invoices/class-integration-sprout-invoices.php:388
 msgid "Invoice Submitted: Form %s."
 msgstr ""
 
-#: includes/integrations/sprout-invoices/class-integration-sprout-invoices.php:498
+#: includes/integrations/sprout-invoices/class-integration-sprout-invoices.php:499
 msgid "Estimate Submitted: Form %s."
 msgstr ""
 

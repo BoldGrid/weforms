@@ -826,7 +826,14 @@
 
                     <div class="inside">
                         <p class="help">
-                            <?php esc_html_e( 'Export your form entries/submissions as a <strong>CSV</strong> file.', 'weforms' ); ?>
+                            <?php
+                                // translators: 1: Opening strong tag. 2: closing strong tag
+                                printf(
+                                    esc_html__( 'Export your form entries/submissions as a %1$sCSV%2$S file.', 'weforms' ),
+                                    '<strong>',
+                                    '</strong>'
+                                );
+                            ?>
                         </p>
 
                         <template v-if="!loading">
@@ -854,7 +861,15 @@
             <h3><?php esc_html_e( 'Import Contact Form', 'weforms' ); ?></h3>
 
             <p><?php esc_html_e( 'Browse and locate a json file you backed up before.', 'weforms' ); ?></p>
-            <p><?php esc_html_e( 'Press <strong>Import</strong> button, we will do the rest for you.', 'weforms' ); ?></p>
+            <p><?php
+                    // translators: 1: Strong tag with text.
+                    printf(
+                        esc_html__( 'Press %1$s Import button, we will do the rest for you.', 'weforms' ),
+                        '<strong>',
+                        '</strong>'
+                    );
+                ?>
+            </p>
 
             <div class="updated-message notice notice-success is-dismissible" v-if="isSuccess">
                 <p>{{ responseMessage }}</p>

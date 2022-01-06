@@ -140,8 +140,9 @@ class WeForms_Form {
             }
 
             // Check if meta_key has changed when saving form compared current entries
-            $field['original_name'] = $field['name'];
-
+            if ( isset( $field['name'] ) ) {
+                $field['original_name'] = $field['name'];
+            }
             $form_fields[] = apply_filters( 'weforms-get-form-field', $field, $this->id );
         }
 
