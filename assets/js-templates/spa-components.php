@@ -862,7 +862,7 @@
 
             <p><?php esc_html_e( 'Browse and locate a json file you backed up before.', 'weforms' ); ?></p>
             <p><?php
-                    // translators: 1: Strong tag with text.
+                    // translators: 1: Opening strong tag. 2: closing strong tag.
                     printf(
                         esc_html__( 'Press %1$s Import button, we will do the rest for you.', 'weforms' ),
                         '<strong>',
