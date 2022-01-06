@@ -829,7 +829,7 @@
                             <?php
                                 // translators: 1: Opening strong tag. 2: closing strong tag
                                 printf(
-                                    esc_html__( 'Export your form entries/submissions as a %1$sCSV%2$S file.', 'weforms' ),
+                                    esc_html__( 'Export your form entries/submissions as a %1$sCSV%2$s file.', 'weforms' ),
                                     '<strong>',
                                     '</strong>'
                                 );
@@ -864,7 +864,7 @@
             <p><?php
                     // translators: 1: Opening strong tag. 2: closing strong tag.
                     printf(
-                        esc_html__( 'Press %1$s Import button, we will do the rest for you.', 'weforms' ),
+                        esc_html__( 'Press %1$sImport%2$s button, we will do the rest for you.', 'weforms' ),
                         '<strong>',
                         '</strong>'
                     );
