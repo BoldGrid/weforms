@@ -1,12 +1,12 @@
 # weForms - Easy Drag & Drop Contact Form Builder For WordPress #
-**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu), [boldgrid](https://profiles.wordpress.org/boldgrid), [joemoto](https://profiles.wordpress.org/joemoto), [jamesros161](https://profiles.wordpress.org/jamesros161)  
-**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation  
-**Requires at least:** 4.4  
-**Requires PHP:** 5.6.20  
-**Tested up to:** 5.7  
-**Stable tag:** 1.6.10  
-**License:** GPLv2 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
+**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu), [boldgrid](https://profiles.wordpress.org/boldgrid), [joemoto](https://profiles.wordpress.org/joemoto), [jamesros161](https://profiles.wordpress.org/jamesros161)
+**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
+**Requires at least:** 4.4
+**Requires PHP:** 5.6.20
+**Tested up to:** 5.7
+**Stable tag:** 1.6.10
+**License:** GPLv2 or later
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop live builder, submission listing, reCaptcha & more!
 
@@ -248,6 +248,9 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.6.11 (05 January, 2022) ###
+* **Fix:** Fixes fatal error in translator.
 
 ### Version 1.6.10 (05 January, 2022) ###
 * **Update:** Axios from 0.21.1 to 0.21.2.
