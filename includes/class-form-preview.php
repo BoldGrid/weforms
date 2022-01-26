@@ -62,11 +62,11 @@ class WeForms_Form_Preview {
         }
 
         add_action( 'pre_get_posts', [ $this, 'pre_get_posts' ] );
-        add_filter( 'template_include', [ $this, 'template_include' ] );
-
         add_filter( 'the_title', [ $this, 'the_title' ] );
         add_filter( 'the_content', [ $this, 'the_content' ] );
         add_filter( 'get_the_excerpt', [ $this, 'the_content' ] );
+        add_filter( 'home_template_hierarchy', [ $this, 'use_page_template_hierarchy' ] );
+		add_filter( 'frontpage_template_hierarchy', [ $this, 'use_page_template_hierarchy' ] );
         add_filter( 'post_thumbnail_html', '__return_empty_string' );
     }
 
@@ -129,12 +129,27 @@ class WeForms_Form_Preview {
         }
     }
 
+
+    /**
+	 * Force page template types.
+	 *
+	 * @since 1.6.12
+	 * @param array $templates A list of template candidates, in descending order of priority.
+	 *
+	 * @return array
+	 */
+	public function use_page_template_hierarchy( $templates ) {
+
+		return [ 'page.php', 'single.php', 'index.php' ];
+	}
     /**
      * Limit the page templates to singular pages only
      *
+     * @deprecated 1.6.11
      * @return string
      */
-    public function template_include() {
+    public function template_include( ) {
+        _deprecated_function( __METHOD__, 'WeForms 1.6.11' );
         return locate_template( [ 'page.php', 'single.php', 'index.php' ] );
     }
 }
