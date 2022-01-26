@@ -134,7 +134,7 @@ class WeForms_Form_Preview {
 	 * Force page template types.
 	 *
 	 * @since 1.6.12
-	 * @param array $templates A list of template candidates, in descending order of priority.
+	 * @param array $templates The list of templates in descending order of priority from WordPress.
 	 *
 	 * @return array
 	 */
