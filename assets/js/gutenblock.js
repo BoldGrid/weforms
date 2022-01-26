@@ -174,7 +174,7 @@
              * Create the div container, add an overlay so the user can interact
              * with the form in Gutenberg, then render the iframe with form
              */
-            if( '' === formID ) {
+             if ( '' === formID ) {
                 children.push( el( 'div', {style : {width: '100%'}},
                     el( 'img', { className: 'weforms-block-logo', src: weFormsBlock.block_logo}),
                     el ( 'div', null, 'weForms Forms'),
@@ -184,7 +184,7 @@
                 children.push(
                     el( 'div', { className: 'weforms-iframe-container' },
                         el( 'div', { className: 'weforms-iframe-overlay' } ),
-                        el( 'iframe', { src: weFormsBlock.siteUrl + '?weforms_preview=1&weforms_iframe&form_id=' + formID, height: '0', width: '500', scrolling: 'no' })
+                        el( 'iframe', { src: weFormsBlock.siteUrl + '/?weforms_preview=1&weforms_iframe&form_id=' + formID, height: '0', width: '500', scrolling: 'no' })
                     )
                 )
             }

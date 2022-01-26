@@ -61,12 +61,12 @@ class WeForms_Form_Preview {
             $this->form_id = isset( $_GET['form_id'] ) ? intval( $_GET['form_id'] ) : 0;
         }
 
-        add_action( 'pre_get_posts', [ $this, 'pre_get_posts' ] );
-        add_filter( 'template_include', [ $this, 'template_include' ] );
-
-        add_filter( 'the_title', [ $this, 'the_title' ] );
-        add_filter( 'the_content', [ $this, 'the_content' ] );
-        add_filter( 'get_the_excerpt', [ $this, 'the_content' ] );
+        add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+        add_filter( 'the_title', array( $this, 'the_title' ) );
+        add_filter( 'the_content', array( $this, 'the_content' ) );
+        add_filter( 'get_the_excerpt', array( $this, 'the_content' ) );
+        add_filter( 'home_template_hierarchy', array( $this, 'use_page_template_hierarchy' ) );
+		add_filter( 'frontpage_template_hierarchy', array( $this, 'use_page_template_hierarchy' ) );
         add_filter( 'post_thumbnail_html', '__return_empty_string' );
     }
 
@@ -129,12 +129,31 @@ class WeForms_Form_Preview {
         }
     }
 
+
+    /**
+	 * Use page template types.
+     *
+     * Instead of just locating one page template with the highest priority,
+     * we are going to look for any page template that matches 'page.php', 'single.php' or 'index.php'.
+     * This resolves issues with Block Based themes that do not have a index.php.
+	 *
+	 * @since 1.6.12
+	 * @param array $templates The list of templates in descending order of priority from WordPress.
+	 *
+	 * @return array
+	 */
+	public function use_page_template_hierarchy( $templates ) {
+
+		return array( 'page.php', 'single.php', 'index.php' );
+	}
     /**
      * Limit the page templates to singular pages only
      *
+     * @deprecated 1.6.11
      * @return string
      */
-    public function template_include() {
-        return locate_template( [ 'page.php', 'single.php', 'index.php' ] );
+    public function template_include( ) {
+        _deprecated_function( __METHOD__, 'WeForms 1.6.11' );
+        return locate_template( array( 'page.php', 'single.php', 'index.php' ) );
     }
 }

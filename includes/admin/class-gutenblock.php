@@ -57,15 +57,16 @@ class weForms_FormBlock {
             ];
         }
 
-        $block_logo     = WEFORMS_ASSET_URI . '/images/icon-weforms.png';
-        $thumbnail_logo = WEFORMS_ASSET_URI . '/images/icon-weforms.png';
+        $block_logo      = WEFORMS_ASSET_URI . '/images/icon-weforms.png';
+        $thumbnail_logo  = WEFORMS_ASSET_URI . '/images/icon-weforms.png';
 
-        wp_localize_script( 'weforms-forms-block', 'weFormsBlock', [
-            'forms'          => $forms,
-            'siteUrl'        => get_home_url(),
-            'block_logo'     => $block_logo,
-            'thumbnail_logo' => $thumbnail_logo,
-        ] );
+        wp_localize_script( 'weforms-forms-block', 'weFormsBlock', array(
+            'forms'           => $forms,
+            'siteUrl'         => get_home_url(),
+            'block_logo'      => $block_logo,
+            'thumbnail_logo'  => $thumbnail_logo,
+            'did_wp_head_run' => $did_wp_head_run,
+        ) );
         wp_enqueue_style( 'weforms-forms-block-style' );
         wp_enqueue_style( 'weforms-forms-block-editor' );
     }
