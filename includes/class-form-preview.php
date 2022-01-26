@@ -131,7 +131,11 @@ class WeForms_Form_Preview {
 
 
     /**
-	 * Force page template types.
+	 * Use page template types.
+     *
+     * Instead of just locating one page template with the highest priority,
+     * we are going to look for any page template that matches 'page.php', 'single.php' or 'index.php'.
+     * This resolves issues with Block Based themes that do not have a index.php.
 	 *
 	 * @since 1.6.12
 	 * @param array $templates The list of templates in descending order of priority from WordPress.
@@ -140,7 +144,7 @@ class WeForms_Form_Preview {
 	 */
 	public function use_page_template_hierarchy( $templates ) {
 
-		return [ 'page.php', 'single.php', 'index.php' ];
+		return array( 'page.php', 'single.php', 'index.php' );
 	}
     /**
      * Limit the page templates to singular pages only
@@ -150,6 +154,6 @@ class WeForms_Form_Preview {
      */
     public function template_include( ) {
         _deprecated_function( __METHOD__, 'WeForms 1.6.11' );
-        return locate_template( [ 'page.php', 'single.php', 'index.php' ] );
+        return locate_template( array( 'page.php', 'single.php', 'index.php' ) );
     }
 }
