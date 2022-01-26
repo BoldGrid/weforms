@@ -174,19 +174,12 @@
              * Create the div container, add an overlay so the user can interact
              * with the form in Gutenberg, then render the iframe with form
              */
-             if( '' === formID ) {
+             if ( '' === formID ) {
                 children.push( el( 'div', {style : {width: '100%'}},
                     el( 'img', { className: 'weforms-block-logo', src: weFormsBlock.block_logo}),
                     el ( 'div', null, 'weForms Forms'),
                     inputFilterMain
                 ) );
-            } else if( '0' === weFormsBlock.did_wp_head_run ) {
-                children.push(
-                    el( 'div', { className: 'weforms-iframe-container' },
-                        el( 'div', { className: 'weforms-iframe-overlay' } ),
-                        el( 'span', null, 'Currently weForm is not able to be previewed in the Block-Based page builder. To preview use the page preview button after saving.' ),
-                    )
-                )
             } else {
                 children.push(
                     el( 'div', { className: 'weforms-iframe-container' },

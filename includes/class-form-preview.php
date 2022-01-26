@@ -61,12 +61,12 @@ class WeForms_Form_Preview {
             $this->form_id = isset( $_GET['form_id'] ) ? intval( $_GET['form_id'] ) : 0;
         }
 
-        add_action( 'pre_get_posts', [ $this, 'pre_get_posts' ] );
-        add_filter( 'the_title', [ $this, 'the_title' ] );
-        add_filter( 'the_content', [ $this, 'the_content' ] );
-        add_filter( 'get_the_excerpt', [ $this, 'the_content' ] );
-        add_filter( 'home_template_hierarchy', [ $this, 'use_page_template_hierarchy' ] );
-		add_filter( 'frontpage_template_hierarchy', [ $this, 'use_page_template_hierarchy' ] );
+        add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+        add_filter( 'the_title', array( $this, 'the_title' ) );
+        add_filter( 'the_content', array( $this, 'the_content' ) );
+        add_filter( 'get_the_excerpt', array( $this, 'the_content' ) );
+        add_filter( 'home_template_hierarchy', array( $this, 'use_page_template_hierarchy' ) );
+		add_filter( 'frontpage_template_hierarchy', array( $this, 'use_page_template_hierarchy' ) );
         add_filter( 'post_thumbnail_html', '__return_empty_string' );
     }
 
