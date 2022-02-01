@@ -12,101 +12,90 @@ The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop
 
 == Description ==
 
-=  weForms- The easy-to-use WordPress Contact Form Builder plugin  =
-When we think about using any contact form builder plugin, the first concern is always about how user-friendly and adaptable it actually is. So, we the makers have developed [weForms](https://weformspro.com/) keeping this demand in mind. It is undoubtedly one of the most easy-to-use form builders for WordPress. This contact form plugin is not just a form builder, it can do a lot more than you can imagine. It actually brings all your forms created in your imagination into reality. Think of creating any form in your head and you can build it with a few clicks with weForms absolutely hassle-free.
+=  weForms- The Best Contact Form Builder plugin for WordPress  =
+One of the most important features of a WordPress form plugin is the ability to quickly and easily create a form. That’s why we built our product to be the easiest form builder available.
 
-Get the best experience of drag & drop form building while creating any form of your imagination. Not to forget its wide range of customizable pre-defined form templates that makes managing and designing any type of form a walk in the park.
+weForms enables you to create WordPress forms in a matter of minutes. With numerous templates and an easy to use drag and drop interface, your form can go from concept to reality instantly. Live preview functions allow you to see what your users will see with a click of a button.
 
-Moreover, with more than 20+ custom field, you can swiftly build contact forms, leads generating forms, user or event registration forms or any customized form in the simplest way possible without any hitch. Instantly get to view the preview of the form you have created to find out how it is looking for its users.
+Beyond the functionality of building the form itself, weForms boasts more than 20 custom fields. These range from address fields to multi-select boxes. All of the fields can help you build forms to collect various types of user information for things such as a support ticket, event registration, or job application. You can also see all of your users’ submissions right inside your WordPress dashboard for added convenience. 
 
-So weForms is an all-in-one form builder created with the global users in mind. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Feel no delay – because your time is precious!
+weForms is an all-in-one form builder created for every skill level of user. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Stop wasting time trying to find a developer to build a form, knock it out yourself in a matter of minutes!
 
 =  Quick Overview of weForms  =
 [youtube https://www.youtube.com/watch?v=4uYi0833Kjw]
 
 = Key Features =
-* **Unlimited forms:** Create as many forms as you want and collect all the data you need with as many fields you want.
-* **Predefined and customizable templates:** Save an ample amount of time using its unique & customizable form templates.
-* **Drag & drop builder:** Build the form of your dream with its fully featured drag & drop form editing option. v
-* **Real-time Live Preview:** Preview the form you have created in its live state as it will appear on the website.
-* **Expiry time:** Set a form expiration date to make the form invalid on a certain date or time.
-* **Entry restrictions:** Easily limit the number of entries of each individual form by setting the maximum form submission limit.
-* **One page submission via AJAX:** Form submission without page refresh as it is done using AJAX.
-* **Field customization options:** Customize the form field available with its bunch of built-in option to make a more custom form.
-* **Form redirection:** Redirect any submitted form to your website to boost your traffic collection more leads.
-* **Form submission notification:** Never miss a notification to stay updated when anyone submits a form using weForms.
-* **Manage form submissions:** Manage the submission of forms to collect data without the hassle of backend coding.
-* **Export/import forms:** Use the quick form exporting and importing option that lets you start from where you left off.
-* **Mobile-friendly forms:** 100% mobile responsive when comes to operating your contact forms through any portable devices.
-* **Mail support:** Get complete mail support feature in the form of customize mails and HTML email template.
-* **Email submission data:** Connect your forms to several email services to get submitted data in the emails.
-* **Anti-spam & reCaptcha:** Get rid of spam entries with reCaptcha to eliminate spam messages and registrations with WordPress forms.
-* **Slack Integrations:** Get notified through your Slack channel whenever any user submits a form using weForms.
-* **Column Field:** Build form adding any field in column or resize them the way you need it to create a dynamic form for your website.
+* **Unlimited Forms:** Create as many forms as you want and collect all the data you need
+* **Predefined and Customizable Templates:** Save time using our unique & customizable form templates
+* **Drag & Drop Builder:** Build the form of your dream with its fully featured drag & drop form editing option
+* **Real-time Live Preview:** Instantly preview your work in real-time
+* **Expiry Time:** Set a form expiration date to automate your forms showing on a schedule 
+* **Entry Restrictions:** Limit the number of entries for each individual form by setting the maximum form submission limit. Perfect for event registration!
+* **One Page Submission:** Form submission occurs without a page refresh using AJAX, making submissions instant
+* **Field Customization Options:** Customize the form fields available with tons of options to best fit your needs.
+* **Form Redirection:** Upon form submission easily redirect your users to any page of your choice
+* **Form Submission Notification:** Use our built-in email notifications to never miss a beat when your users submit a form on your website 
+* **Manage Form Submissions:** Manage the submission of forms to collect data without the hassle of backend coding
+* **Import or Export Forms:** Use the quick form exporting and importing option that lets you start from where you left off or save your data offline
+* **Mobile-friendly forms:** weForms is mobile-friendly and responsive, making it easy for your users to submit forms via computer, mobile phone, or tablet
+* **Mail support:** Get complete mail support feature in the form of customize mails and HTML email template
+* **Email submission data:** Connect your forms to several of our integrated email services to get form submission data in emails
+* **Anti-spam & reCaptcha:** Get rid of spam entries with reCaptcha or through our other integrated partners, like Human Presence to eliminate spam messages and registrations with WordPress forms
+* **Slack Integrations:** Get notified through your Slack account whenever any user submits a form using weForms
+* **Column Field:** Build your form the way you want by adding any field into our column field. Resize them the way you need them to create a dynamic form for your website
 
-= KEY ATTRIBUTES THAT MAKE WEFORMS STAND OUT IN THE CROWD =
+= KEY ATTRIBUTES - WEFORMS STANDS OUT FROM THE CROWD! =
 
 = DRAG & DROP FORM BUILDER WITH LIVE FORM PREVIEW  =
-If you are not using weForms, then you must be using a slower or a buggy form builder in your WordPress. With its smooth drag and drop form builder, create any type of forms in minutes. You won’t be required to know a single line of coding to create some really powerful forms with the help of its intuitive drag & drop form building features. Just simply drag & drop the fields you want to add to your form from the right panel of the available form fields. Instantly live preview form that you have created in the frontend and make any changes you want right away. Use various types of forms in any department of your company going beyond creating just a simple contact or order form making the workflow totally seamless.
+With weForms smooth drag and drop form builder, create any type of form you need within minutes. You aren’t required to know a single line of code to create a powerful form with the help of our intuitive drag & drop form building feature. Simply drag & drop the fields you want to add from the panel of the available form fields. Instantly live preview the form that you have created in the frontend. 
 
-
-= FULLY RESPONSIVE FORMS FOR ALL YOUR PORTABLE DEVICES =
-Having a completely responsive contact for your WordPress is a must for the users for a user-friendly experience nowadays. weForms ensures that your created forms are all well-responsive even on all mobile devices that help you increase form conversion rates and customer satisfaction. Comparing and testing your forms on different devices might enable you to find the flaws in it. A form might look awesome on the mobile devices, but if the design isn’t properly touch responsive then it might be difficult to use. But with weForms you can be sure that every form you design with it, the forms will be super responsive and look awesome on any screen or devices.
+= MOBILE RESPONSIVE FORMS FOR ALL OF YOUR DEVICES =
+Having a responsive contact form on your WordPress is a must for a user-friendly experience. weForms ensures that your created forms are all well-responsive even on all mobile devices. This will help you increase form conversion rates and customer satisfaction.
 
 = PRE-DEFINED FORM TEMPLATES FOR QUICK ACCESS =
-Now, in a lot of cases, you might not want to create every common form that you need. In such a scenario, you would probably want ready-made forms. With weForms you get a variety of pre-built form templates that would totally make your form building easier than ever.
+In a lot of cases, you might not need to build a form from scratch. A simple form with some predefined fields would fit all of your needs. With weForms, you get a variety of pre-built form templates that fit a multitude of use cases, helping you to capture leads easier and faster.
 
-Some of the weForms predefined form templates include, Registration forms, Application forms, Payment forms, Reservations forms, Poll and Feedback forms, Request forms, Event registration forms, that quick enables any user to give them enough freedom in generating the form that suits their work or business.
+weForms predefined form templates include: Registration forms, Application forms, Payment forms, Reservations forms, Poll and Feedback forms, Request forms, and Event Registration forms.
 
-= PUBLISH YOUR WEFORMS USING GUTENBERG =
-Easily add your forms in Gutenberg editor with the weForms block. When users want to publish forms on a page, they can simply select it from the drop-down present in the dedicated weForms block for Gutenberg. The entire form automatically renders within the editor as well as on page. It’s much easier than manually copying and pasting shortcodes! Saves you a ton of time and clicks. But you can also do it the old style using the shortcodes block.
+= ADD WEFORMS WORDPRESS CONTACT FORMS USING GUTENBERG =
+Easily add your forms in the WordPress editor with the weForms block. When users want to publish forms on a page, they can simply select it from the drop-down present in the dedicated weForms block for Gutenberg. The entire form automatically renders within the editor as well as on page. It’s much easier than manually copying and pasting shortcodes! This saves you a ton of time and clicks, but for those who prefer shortcodes, you can still add forms to your pages with other page builders too.
 
-= SUPER FAST AND SEO FRIENDLY =
-When it comes to the speed of completing every query from the frontend or in the backend, weForms is something that does this job faster than any other form builder out there. Not to mention the speed it possesses while using its form even from the portable devices.
+= SUPER FAST, SUPERCHARGED WEBSITE FORMS =
+When it comes to the speed of submitting a form from the frontend or in the backend, weForms does the job faster than any other form builder. Regardless if it is sent via computer, phone, or tablet, you can rest assured it will be quick!
 
-More specifically, weForms is the most SEO friendly contact form builder around right now.
+= THE ONLY LIMITATION IS YOUR IMAGINATION =
+Taking a form from concept to reality is a walk in the park with weForms. Quickly design any type of form you can think of using our easy to use builder with plenty of field options & a beautiful drag and drop user interface.
 
-= ENJOY A GREAT DEAL OF FLEXIBILITY WITH THE REST API =
-Enable various integrations or control and manage most forms related action absolutely hassle-free. Delete, duplicate, export & import any form you desire. Create and manage all types of form entries, notifications & integrations with it. Get to update all global settings of forms and check or delete logs. Whether it is for retrieving your form or customizing them, Rest API in weForms just simply handles everything smoother than ever. Learn more about Rest APi’s extensive operation with weForms from [here](https://wedevsofficial.github.io/weforms/).
+Instantly preview the form you built and make changes right away. Improve the quality and standard of your form-building process with weForms.
 
-= EXCEL BY CREATING THE FORMS OF YOUR IMAGINATION =
-Creating the form of your dreams with it is just a walk in the park now. Quickly design any type of forms of your imagination with its custom fields, easy to use field options & user interface.
+= CUSTOM FIELDS TO MAKE THE MOST OF YOUR CONTACT FORMS =
+While building a form with weForms custom field, anyone, even those without any prior coding knowledge are able to create great forms. From check-box to image upload fields, or radio button to the signature field, weForms provides you with every great form field. This also includes the column field option to make your forms look great and flow beautifully.
 
-Instantly, review the form you have created to make any changes required right away. Simply get to improve the quality and standard of your form building and shine your way with the forms that you create with weForms.
-
-= CUSTOM FIELDS TO MAKE THE MOST OUT OF CONTACT FORMS =
-While building a form, using the custom fields available with weForms anyone even without any prior coding knowledge is able to create forms that are suitable for every occasion and purposes. Starting from check-box to image upload fields or radio button to signature field, weForms provides you with every possible form fields including column field option that serve its users in the best & easiest way possible.
-
-= EXTEND & CUSTOMIZE THE FORMS WITHOUT A HITCH =
-As an advanced user, you might want your form to perform in a certain way. This is when the customization capabilities of weForms come in real handy. With its custom CSS, HTML blocks and section dividers, any user is able to customize their forms the way they like it. Not to forget its heaps of filters and hooks that help the developers to easily extend the contact form functionalities.
+= EXTEND & CUSTOMIZE YOUR CONTACT FORMS WITHOUT A HITCH =
+As an advanced user, you might want your form to look or perform in a certain way. This is where the customization capabilities of weForms will come in handy. With its custom CSS, HTML blocks, and section dividers, users are able to customize their forms exactly the way they like. weForms also has heaps of filters and hooks that help developers easily extend a contact forms functionality.
 
 = EASY FORM IMPORT & EXPORT FACILITY =
-Import your form submissions easily in an organized spreadsheet. Now you can use this data to create reports or export to your CRM or Email marketing solutions.
+Moving from a different form provider? Easily import your forms in a JSON format or from built-in form import tools. Looking to export out your form or the submissions? We have you covered with both form submissions exports as well as a JSON export of the form itself.
 
-= FORM ENTRY RESTRICTIONS, SCHEDULING & EXPIRY TIMES =
-You have full control over your forms! What is the point otherwise, right? Create exclusive campaigns by allowing only a limited number of entries, controlling user access, and adding a start and expiry date. Form with an expiry date will automatically disappear after the time you want.
+= FORM ENTRY RESTRICTIONS, SCHEDULING, AND EXPIRATION TIMES =
+Have full control over your forms and when they can be used! Create exclusive campaigns by allowing only a limited number of entries, controlling user access, and adding a start and expiration date. Form with an expiration date will automatically disappear after the time you want.
 
 = CUSTOMIZABLE EMAIL NOTIFICATIONS FOR ADMINS =
-Stay alert with every submission. Create multiple custom notification settings on each form with advanced mail forwarding and quickly create templates with hooks.
+Stay alert with every submission. Create multiple custom notifications on each form with advanced mail forwarding and quickly create templates with hooks.
 
-= Export/Import Option =
-Import your form submissions easily in an organized spreadsheet. Now you can use this data to create reports or export to your CRM or Email marketing solutions.
+= FORM REDIRECTION PAGE OR CUSTOM URL =
+When a user completes a form, you can redirect them with a custom link or to a page to guide the user through your desired workflow. It’s very useful when you want to direct the visitor’s attention to additional pages, or just creatively customize your submission received messaging.
 
-= FORM REDIRECTION PAGE/CUSTOM URL =
+= OTHER NOTABLE WEFORMS ATTRIBUTES INCLUDE =
 
-When a contact completes the form, you can redirect with a custom link or a page to guide the contact to the desired landing page. It’s very useful when you want to direct the visitor’s attention.
+* ReCaptcha and Human Presence Anti-Spam integrations to ensure an extra layer of security for forms.
+*The ability to sync email form data with numerous email integrations
+* Multi-step and Multi-part Forms to break up the submission process for your users.
+* Geolocation & SMS notifications to help improve your response times and data.
+* Much, much more.
 
-Craft your next form without a glitch. With weForms, stay organized and hassle-free.
 
-= Other notable weForms attributes include =
-
-* ReCaptcha enabled to ensure extra layer of security for forms.
-* Sync email data with MailPoet, MailChimp & Email Campaign.
-* Multi-step/Multi-part Forms.
-* Geolocation & SMS notifications.
-* And much more.
-
-= Don’t just take our word for it, here is what some of the big names in the community have to say about weForms =
+= DON’T JUST TAKE OUR WORD FOR IT, HERE IS WHAT SOME OF THE BIGGEST NAMES IN THE COMMUNITY HAVE TO SAY =
 
 > weForms is both easy and super fast, even the completely new users can build beautiful WordPress forms without any hassle. - WP Arena
 >
@@ -115,47 +104,51 @@ Craft your next form without a glitch. With weForms, stay organized and hassle-f
 > We tried to do some experimentation with weForms and to our utter delight, it looks like we can build all types of contact forms using it! - WPBlog
 >
 
-Still not convinced? Then...
+= MODULES & INTEGRATIONS FOR WEFORMS =
 
-[Check out this contact form comparison including some of the best in the business form builder for WordPress](https://weformspro.com/)
-
-= AVAILABLE MODULES & WEFORMS INTEGRATIONS =
-
-* [AWeber:](https://weformspro.com/docs/integrations/aweber/) Connect weForms with AWeber mail lists to reach submitters via email campaigns. Easily grow your contact base & do more with emails.
-* [Calculation:](https://weformspro.com/docs/modules/calculation/) Enable users to add calculating capabilities to their forms of numeric fields.
-* [Campaign Monitor:](https://weformspro.com/docs/integrations/campaign-monitor-integration/) Boost your email marketing by integrating weForms with Campaign Monitor. Quickly generate more leads by syncing your mail lists with submissions.
+Email Marketing Integrations
+* [MailChimp:](https://weformspro.com/docs/integrations/mailchimp/) This integration makes the already powerful form builder your ultimate lead generation source for one of the best email marketing tools available.
+* [AWeber:](https://weformspro.com/docs/integrations/aweber/) Connect weForms with AWeber mail lists to reach submitters via email campaigns. Easily grow your contact base and do more with emails.
 * [Constant Contact:](https://weformspro.com/docs/integrations/constant-contact/) Make your email marketing powerful and simple using Constant Contact integration for weForms.
-* [ConvertKit:](https://weformspro.com/docs/integrations/convertkit/) Quickly boost up your business by generating more leads syncing the mail lists with submissions by integrating it with weForms.
-* [GetResponse:](https://weformspro.com/docs/integrations/getresponse/) Supercharge your email marketing to boost up your business by integrating it with weForms.
+* [Campaign Monitor:](https://weformspro.com/docs/integrations/campaign-monitor-integration/) Boost your email marketing by integrating weForms with Campaign Monitor. Quickly generate more leads by syncing your mail lists with those who post form submissions.
+* [GetResponse:](https://weformspro.com/docs/integrations/getresponse/)Supercharge your email marketing to boost your business by integrating it with weForms.
+* [MailPoet:](https://weformspro.com/docs/integrations/mailpoet/)  It provides you the experience of using the best WordPress Newsletter plugin with the best Form Builder weForms.
+* [ConvertKit:](https://weformspro.com/docs/integrations/convertkit/) Quickly boost your business by generating more leads, syncing the mail lists with submissions by integrating them with weForms.
+
+Payment Integrations
+* [Paypal:](https://weformspro.com/docs/integrations/payment/) Collect PayPal payments with your forms easily by integrating it with weForms.
+* [Stripe:](https://weformspro.com/docs/modules/payment-stripe/) Collect credit card payments safely and quickly by integrating Stripe with your forms
+
+Productivity Tool Integrations and Modules
 * [Google Analytics:](https://weformspro.com/docs/integrations/google-analytics/) Provides a powerful & complete marketing analytics solution for businesses of all sizes using forms.
-* [Google Sheets:](https://weformspro.com/docs/integrations/google-sheets/) This awesome integration for weForms will give you the ease of managing submitted information in the familiar Google environment.
-* [HubSpot:](https://weformspro.com/docs/integrations/hubspot-integration/) Get more opportunities to make deals at your fingertips by integrating HubSpot with weForms and instantly enhance your contact list.
-* [MailChimp:](https://weformspro.com/docs/integrations/mailchimp/) It makes the already powerful form builder your ultimate lead generating source for any kind of email services.
-* [MailPoet:](https://weformspro.com/docs/integrations/mailpoet/) It provides you the experience of using the best WordPress Newsletter plugin with the best Form Builder weForms.
-* [Payment (Paypal):](https://weformspro.com/docs/integrations/payment/) Collect any online PayPal payments with your forms easily by integrating it with weForms.
-* [Payment (Stripe):](https://weformspro.com/docs/modules/payment-stripe/) Bring online payment collection with credit cards at your fingertips by integrating with the fastest form builder weForms.
+* [Zapier:](https://weformspro.com/docs/integrations/zapier/) The easiest and most popular automated workflow management system on the internet integrates with the fastest form builder.
+* [Google Sheets:](https://weformspro.com/docs/integrations/google-sheets/) This integration for weForms will give you the ease of managing submitted information in the familiar Google Sheets environment.
+* [Trello:](https://weformspro.com/docs/integrations/trello/) Instantly create task cards from your form submissions by enabling this module.
+* [Calculation:](https://weformspro.com/docs/modules/calculation/) Enable your form to have calculation capabilities with your numeric fields
 * [PDF Form Submission:](https://weformspro.com/docs/integrations/pdf-form-submission/) Enable this module to get a better printable PDF version of all your collected submission forms.
 * [Quiz:](https://weformspro.com/docs/integrations/quiz/) Create simple yet engaging quiz forms and keep your audiences hooked getting a lot of shares by enabling this module.
-* [Salesforce:](https://weformspro.com/docs/integrations/salesforce/) Integrate with weForms to instantly enhance your user list building more customers and more interactions.
 * [Slack:](https://weformspro.com/docs/integrations/slack/) Notify your team instantly in Slack when someone submits an entry to your forms created with weForms enabling this free integration.
 * [SMS Notification:](https://weformspro.com/docs/integrations/sms-notification/) Enable the module to get a notification through SMS every time a form submission occurs.
-* [Trello:](https://weformspro.com/docs/integrations/trello/) Instantly create task cards from your form submissions enabling this module and save your precious time by integrating it with weForms.
+* [File Upload:](https://weformspro.com/docs/form-field-types/file-upload/) Allow users to attach files of whatever type you specify to streamline application processes, add images and more.
+
+CRM Integrations
+* [Salesforce:](https://weformspro.com/docs/integrations/salesforce/) Integrate with weForms to instantly enhance your user list building more customers and more interactions.
 * [WP ERP:](https://weformspro.com/docs/integrations/wp-erp/) Integrate your forms with WordPress CRM contact lists & instantly get tons of new leads who you can convert as subscribers or customers.
-* [Zapier:](https://weformspro.com/docs/integrations/zapier/) The easiest and popular automated workflow management system on the internet integrates with the fastest form builder.
+* [HubSpot:](https://weformspro.com/docs/integrations/hubspot-integration/) Get more opportunities to make deals at your fingertips by integrating HubSpot with weForms and instantly enhance your contact list.
 * [Zoho:](https://weformspro.com/docs/integrations/zoho/) Enabling it gets you better sales-qualified lead generation. Simply connect it once, pass data instantly & start tracing form subscribers from your CRM as they move through the sales funnel.
 
-=  WEFORMS FORM BUILDER PRO FEATURES ARE AWESOME  =
+=  WEFORMS PRO FEATURES ARE AWESOME!  =
 
-Need More Features? Then you might want to upgrade to weForms PRO. This amazing contact form builder for WordPress has been put together with 4 easy, convenient and affordable pricing pack to strengthen your form building functionalities.
+Need more features? Then you might want to upgrade to one of our weForms Pro versions. This amazing contact form builder for WordPress has 4 convenient and affordable plans to strengthen your form building and lead capture functionalities.
 
-=  The four PRO pricing plan includes:  =
+=  THE FOUR PRO PLANS:  =
 
 * [Personal](https://weformspro.com/pricing/)
 * [Business](https://weformspro.com/pricing/)
 * [Professional](https://weformspro.com/pricing/)
 * [Developer](https://weformspro.com/pricing/)
 
-=  And these tailored plans consists of some highly essential & cutting-edge PRO features and integrations that include:  =
+=  These tailored plans consists of some highly essential & cutting-edge PRO features and integrations that include:  =
 
  * Advanced fields
  * Conditional logic
@@ -186,13 +179,8 @@ Need More Features? Then you might want to upgrade to weForms PRO. This amazing 
     * Zoho
     * Hubspot
 
-= Privacy Policy =
-weForms uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
-
-Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure great user experience for all our users.
-
-Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
-
+Learn more about our [weForms Pro Features](https://weformspro.com/pricing/) now!
+    
 == Installation ==
 
 This section describes how to install the plugin and get it working.
