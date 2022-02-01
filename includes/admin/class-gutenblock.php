@@ -65,7 +65,6 @@ class weForms_FormBlock {
             'siteUrl'         => get_home_url(),
             'block_logo'      => $block_logo,
             'thumbnail_logo'  => $thumbnail_logo,
-            'did_wp_head_run' => $did_wp_head_run,
         ) );
         wp_enqueue_style( 'weforms-forms-block-style' );
         wp_enqueue_style( 'weforms-forms-block-editor' );

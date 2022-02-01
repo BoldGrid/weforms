@@ -1,10 +1,10 @@
 === weForms - Easy Drag & Drop Contact Form Builder For WordPress ===
-Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto, jamesros161
+Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto, jamesros161, avonville1
 Tags: forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
-Requires at least: 4.4
-Requires PHP: 5.6.20
-Tested up to: 5.7
-Stable tag: 1.6.11
+Requires at least: 5.0
+Requires PHP: 7.2
+Tested up to: 5.9
+Stable tag: 1.6.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -236,6 +236,9 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.12 (26 January, 2022) =
+* **Fix:** Fixes form previews when using block based themes.
 
 = Version 1.6.11 (05 January, 2022) =
 * **Fix:** Fixes fatal error in translator.

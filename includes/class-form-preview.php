@@ -133,9 +133,9 @@ class WeForms_Form_Preview {
     /**
 	 * Use page template types.
      *
-     * Instead of just locating one page template with the highest priority,
-     * we are going to look for any page template that matches 'page.php', 'single.php' or 'index.php'.
-     * This resolves issues with Block Based themes that do not have a index.php.
+     * Instead of manually locating one page template with the highest priority,
+     * we are going to use the template hierarchy hooks to render the highest priority template.
+     * This resolves issues with Block theme's templating.
 	 *
 	 * @since 1.6.12
 	 * @param array $templates The list of templates in descending order of priority from WordPress.
