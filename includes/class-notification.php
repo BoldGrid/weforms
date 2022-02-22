@@ -475,13 +475,13 @@ class WeForms_Notification {
      * and {value:department} to get support@email.com
      *
      * @param string $text The text to parse.
-     * @param int    $entry_id The entry ID.
+     * @param int    $entry_id The entry ID. Optional. Default null if tags to be replaced are on the frontend.
      *
      * @return string  $text The parsed text.
      */
-    public static function replace_field_tags( $text, $entry_id ) {
+    public static function replace_field_tags( $text, $entry_id = null ) {
         // Validate data.
-        if ( empty( $text ) || empty( $entry_id ) ) {
+        if ( empty( $text ) || !isset( $entry_id ) ) {
             return;
         }
 
