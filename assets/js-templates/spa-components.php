@@ -1035,7 +1035,7 @@
 
         <p><?php esc_html_e( 'Our EXPERT Support Team is always ready to Help you out.', 'weforms' ); ?></p>
 
-        <a target="_blank" class="button button-primary" href="https://weformspro.com/support/?utm_source=weforms-help-page&utm_medium=help-block&utm_campaign=need-assistance"><?php esc_html_e( 'Contact Support', 'weforms' ); ?></a>
+        <a target="_blank" class="button button-primary" href="<?php echo class_exists( 'WeForms_Pro' ) ? esc_url( 'https://weformspro.com/account/premium-support/' ) : esc_url( 'https://wordpress.org/support/plugin/weforms/' );?>"><?php esc_html_e( 'Contact Support', 'weforms' ); ?></a>
     </div>
 
     <div class="help-block">
