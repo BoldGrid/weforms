@@ -486,27 +486,40 @@ class WeForms_Notification {
         }
 
         // Users looking for {field:something} or {value:something}, determine which one.
-        $is_field = preg_match( '/{field:(\w*)}/', $text, $matches_field );
-        $is_value = preg_match( '/{value:(\w*)}/', $text, $matches_value );
+        $is_field = preg_match_all( '/{field:(\w*)}/', $text, $matches_field );
+        $is_value = preg_match_all( '/{value:(\w*)}/', $text, $matches_value );
 
         if ( $is_field ) {
-            $meta_key   = $matches_field[1];
-            $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
-            if ( is_array( $meta_value ) ) {
-                $meta_value = implode( WeForms::$field_separator, $meta_value );
+            $meta_keys   = $matches_field[1];
+            // Create an array of meta values to replace.
+            $meta_values = array();
+            foreach ( $meta_keys as $meta_key ) {
+                $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+                // Add values to the array.
+                array_push( $meta_values, $meta_value );
+                if ( is_array( $meta_value ) ) {
+                    $meta_value = implode( WeForms::$field_separator, $meta_value );
+                }
+            }
+            // $text may include HTML tags, only replace tag that was matched. Replace all matches.
+            $text = str_replace( $matches_field[0], $meta_values, $text );
+        }
+        if ( $is_value ) {
+            $meta_keys       = $matches_value[1];
+            // Create an array of modified values to replace.
+            $modified_values = array();
+            foreach ( $meta_keys as $meta_key ) {
+                $form_field_values  = WeForms_Form_Entry::get_form( $entry_id )->get_field_values()[ $meta_key ]['options'];
+                $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
+                $modified_value     = array_search( $meta_value, $form_field_values );
+                // Add values to the array.
+                array_push( $modified_values, $modified_value );
+                if ( is_array( $modified_value ) ) {
+                    $modified_value = implode( WeForms::$field_separator, $modified_value );
+                }
             }
             // $text may include HTML tags, only replace tag that was matched.
-            $text = str_replace( $matches_field[0], $meta_value, $text );
-        } elseif ( $is_value ) {
-            $meta_key           = $matches_value[1];
-            $form_field_values  = WeForms_Form_Entry::get_form( $entry_id )->get_field_values()[ $meta_key ]['options'];
-            $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
-            $modified_value     = array_search( $meta_value, $form_field_values );
-            if ( is_array( $modified_value ) ) {
-                $modified_value = implode( WeForms::$field_separator, $modified_value );
-            }
-            // $text may include HTML tags, only replace tag that was matched.
-            $text = str_replace( $matches_value[0], $modified_value, $text );
+            $text = str_replace( $matches_value[0], $modified_values, $text );
         }
         return $text;
     }
