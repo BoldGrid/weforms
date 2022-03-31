@@ -4,7 +4,7 @@ Tags: forms, contact form, contact form plugin, custom form, form builder, form,
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 5.9
-Stable tag: 1.6.12
+Stable tag: 1.6.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ One of the most important features of a WordPress form plugin is the ability to 
 
 weForms enables you to create WordPress forms in a matter of minutes. With numerous templates and an easy to use drag and drop interface, your form can go from concept to reality instantly. Live preview functions allow you to see what your users will see with a click of a button.
 
-Beyond the functionality of building the form itself, weForms boasts more than 20 custom fields. These range from address fields to multi-select boxes. All of the fields can help you build forms to collect various types of user information for things such as a support ticket, event registration, or job application. You can also see all of your users’ submissions right inside your WordPress dashboard for added convenience. 
+Beyond the functionality of building the form itself, weForms boasts more than 20 custom fields. These range from address fields to multi-select boxes. All of the fields can help you build forms to collect various types of user information for things such as a support ticket, event registration, or job application. You can also see all of your users’ submissions right inside your WordPress dashboard for added convenience.
 
 weForms is an all-in-one form builder created for every skill level of user. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Stop wasting time trying to find a developer to build a form, knock it out yourself in a matter of minutes!
 
@@ -29,12 +29,12 @@ weForms is an all-in-one form builder created for every skill level of user. Its
 * **Predefined and Customizable Templates:** Save time using our unique & customizable form templates
 * **Drag & Drop Builder:** Build the form of your dream with its fully featured drag & drop form editing option
 * **Real-time Live Preview:** Instantly preview your work in real-time
-* **Expiry Time:** Set a form expiration date to automate your forms showing on a schedule 
+* **Expiry Time:** Set a form expiration date to automate your forms showing on a schedule
 * **Entry Restrictions:** Limit the number of entries for each individual form by setting the maximum form submission limit. Perfect for event registration!
 * **One Page Submission:** Form submission occurs without a page refresh using AJAX, making submissions instant
 * **Field Customization Options:** Customize the form fields available with tons of options to best fit your needs.
 * **Form Redirection:** Upon form submission easily redirect your users to any page of your choice
-* **Form Submission Notification:** Use our built-in email notifications to never miss a beat when your users submit a form on your website 
+* **Form Submission Notification:** Use our built-in email notifications to never miss a beat when your users submit a form on your website
 * **Manage Form Submissions:** Manage the submission of forms to collect data without the hassle of backend coding
 * **Import or Export Forms:** Use the quick form exporting and importing option that lets you start from where you left off or save your data offline
 * **Mobile-friendly forms:** weForms is mobile-friendly and responsive, making it easy for your users to submit forms via computer, mobile phone, or tablet
@@ -47,7 +47,7 @@ weForms is an all-in-one form builder created for every skill level of user. Its
 = KEY ATTRIBUTES - WEFORMS STANDS OUT FROM THE CROWD! =
 
 = DRAG & DROP FORM BUILDER WITH LIVE FORM PREVIEW  =
-With weForms smooth drag and drop form builder, create any type of form you need within minutes. You aren’t required to know a single line of code to create a powerful form with the help of our intuitive drag & drop form building feature. Simply drag & drop the fields you want to add from the panel of the available form fields. Instantly live preview the form that you have created in the frontend. 
+With weForms smooth drag and drop form builder, create any type of form you need within minutes. You aren’t required to know a single line of code to create a powerful form with the help of our intuitive drag & drop form building feature. Simply drag & drop the fields you want to add from the panel of the available form fields. Instantly live preview the form that you have created in the frontend.
 
 = MOBILE RESPONSIVE FORMS FOR ALL OF YOUR DEVICES =
 Having a responsive contact form on your WordPress is a must for a user-friendly experience. weForms ensures that your created forms are all well-responsive even on all mobile devices. This will help you increase form conversion rates and customer satisfaction.
@@ -180,7 +180,7 @@ Need more features? Then you might want to upgrade to one of our weForms Pro ver
     * Hubspot
 
 Learn more about our [weForms Pro Features](https://weformspro.com/pricing/) now!
-    
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
@@ -236,6 +236,11 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.13 (02 March, 2022) =
+* **Fix:** Fixes placeholders being blank on the frontend.
+* **Fix:** Fixes issue setting multiple field tag in notification body.
+* **Fix:** Fixes and adds logic for support url in help section.
 
 = Version 1.6.12 (26 January, 2022) =
 * **Fix:** Fixes form previews when using block based themes.
