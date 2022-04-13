@@ -77,6 +77,7 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
                         placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
                         rows="<?php echo esc_attr($field_settings['rows']); ?>"
                         cols="<?php echo esc_attr($field_settings['cols']); ?>"
+                        data-style="<?php echo esc_attr( $use_theme_css ); ?>"
                     ><?php echo esc_textarea( $value ) ?></textarea>
                     <span class="wpuf-wordlimit-message wpuf-help"></span>
 
