@@ -38,6 +38,7 @@ class WeForms_Form_Field_Text extends WeForms_Field_Contract {
                     placeholder="<?php echo esc_attr( $field_settings['placeholder'] ); ?>"
                     value="<?php echo esc_attr( $value ); ?>"
                     size="<?php echo esc_attr( $field_settings['size'] ); ?>"
+                    data-style="<?php echo esc_attr( $use_theme_css ); ?>"
                 />
 
                 <span class="wpuf-wordlimit-message wpuf-help"></span>
