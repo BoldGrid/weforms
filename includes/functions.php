@@ -1100,7 +1100,7 @@ function weforms_get_default_form_settings() {
             'page_id'                    => '',
             'url'                        => '',
 
-            'submit_text'                => __( 'Submit Query', 'weforms' ),
+            'submit_text'                => __( 'Submit', 'weforms' ),
             'submit_button_cond'         => [
                 'condition_status' => 'no',
                 'cond_logic'       => 'any',
