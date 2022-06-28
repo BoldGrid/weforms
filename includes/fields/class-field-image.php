@@ -22,7 +22,6 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
     public function render( $field_settings, $form_id ) {
         $form_settings = weforms()->form->get( $form_id )->get_settings();
         $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
-        error_log( print_r( $form_settings['use_theme_css'], true ) );
         $unique_id = sprintf( '%s-%d', $field_settings['name'], $form_id ); ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
