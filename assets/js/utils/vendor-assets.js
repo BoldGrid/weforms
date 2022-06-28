@@ -3,7 +3,7 @@
  */
 
 module.exports = [
-    'assets/wpuf/vendor/vue/vue.min.js',
+    'assets/wpuf/vendor/vue/vue.js',
     'assets/wpuf/vendor/vuex/vuex.js',
     'assets/js/vendor/vue-router.js',
     'assets/js/vendor/nprogress.js',

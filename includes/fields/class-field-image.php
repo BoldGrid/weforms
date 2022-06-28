@@ -20,16 +20,17 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
+        $form_settings = weforms()->form->get( $form_id )->get_settings();
         $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
+        error_log( print_r( $form_settings['use_theme_css'], true ) );
         $unique_id = sprintf( '%s-%d', $field_settings['name'], $form_id ); ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
             <?php $this->print_label( $field_settings, $form_id ); ?>
             <div class="wpuf-fields">
-                <div id="wpuf-<?php echo esc_attr( $unique_id ); ?>-upload-container">
-                    <div class="wpuf-attachment-upload-filelist" data-type="file" data-required="<?php echo esc_attr( $field_settings['required'] ); ?>" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
-                        <a id="wpuf-<?php echo esc_attr( $unique_id ); ?>-pickfiles" data-form_id="<?php echo esc_attr( $form_id ); ?>" class="button file-selector <?php echo ' wpuf_' . esc_attr( $field_settings['name'] ) . '_' . esc_attr(
+                <div id="wpuf-<?php echo esc_attr( $unique_id ); ?>-upload-container" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
+                    <div class="wpuf-attachment-upload-filelist"  data-style="<?php echo esc_attr( $use_theme_css ); ?>" data-type="file" data-required="<?php echo esc_attr( $field_settings['required'] ); ?>" data-style="<?php echo esc_attr( $use_theme_css ); ?>">
+                        <a id="wpuf-<?php echo esc_attr( $unique_id ); ?>-pickfiles" data-style="<?php echo esc_attr( $use_theme_css ); ?>" data-form_id="<?php echo esc_attr( $form_id ); ?>" class="button file-selector <?php echo ' wpuf_' . esc_attr( $field_settings['name'] ) . '_' . esc_attr(
                             $form_id); ?>" href="#"><?php echo esc_attr ( $field_settings['button_label'] ); ?></a>
-
                         <ul class="wpuf-attachment-list thumbnails"></ul>
                     </div>
                 </div><!-- .container -->

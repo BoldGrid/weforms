@@ -67,7 +67,9 @@ class WeForms_Frontend_Form {
         $show_credit      = weforms_get_settings( 'credit', false );
         $formid           = 'weforms-' . $form->id;
         $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
-
+        // if ( $use_theme_css === $form_settings['use_theme_css'] ) {
+        //     wp_dequeue_style( 'weforms-css' );
+        // }
         if ( isset( $atts['modal'] ) && 'true' == $atts['modal'] ) {
             wp_enqueue_script( 'weforms-modal-js', WEFORMS_ASSET_URI . '/modal/jquery.modal.js', [ 'jquery', 'weforms-form' ], false, false );
             wp_enqueue_style( 'weforms_modal_styles', WEFORMS_ASSET_URI . '/modal/jquery.modal.css' );
