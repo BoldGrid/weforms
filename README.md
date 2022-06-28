@@ -1,12 +1,12 @@
 # weForms - Easy Drag & Drop Contact Form Builder For WordPress #
-**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu), [boldgrid](https://profiles.wordpress.org/boldgrid), [joemoto](https://profiles.wordpress.org/joemoto), [jamesros161](https://profiles.wordpress.org/jamesros161), [avonville1](https://profiles.wordpress.org/avonville1)
-**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
-**Requires at least:** 5.0
-**Requires PHP:** 7.2
-**Tested up to:** 5.9
-**Stable tag:** 1.6.14
-**License:** GPLv2 or later
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu), [boldgrid](https://profiles.wordpress.org/boldgrid), [joemoto](https://profiles.wordpress.org/joemoto), [jamesros161](https://profiles.wordpress.org/jamesros161), [avonville1](https://profiles.wordpress.org/avonville1)  
+**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation  
+**Requires at least:** 5.0  
+**Requires PHP:** 7.2  
+**Tested up to:** 5.9  
+**Stable tag:** 1.6.14  
+**License:** GPLv2 or later  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop live builder, submission listing, reCaptcha & more!
 
@@ -237,6 +237,15 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 ## Changelog ##
 
+### Version 1.6.14 (29 June, 2022) ###
+* **Update:** Bumped grunt version to 1.5.3.
+* **Update:** Bumped simple-get version to 3.1.1.
+* **Update:** Bumped minimist version to 1.2.6.
+* **Update:** Bumped follow-redirects version to 1.14.8.
+* **Update:** Updated default submit button text.
+* **Update:** Updated fields compatbility with Crio Theme for "use theme CSS".
+* **Fix:** Fixed CSS compatbility issues with "use theme CSS" feature.
+
 ### Version 1.6.13 (02 March, 2022) ###
 * **Fix:** Fixes placeholders being blank on the frontend.
 * **Fix:** Fixes issue setting multiple field tag in notification body.
@@ -414,191 +423,21 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 * **Fix:** Gutenberg block was not loading on edit post/page which has been fixed.
 * **Fix:** On activating the WP User Frontend, the reCaptcha field of weForms did not work which has been fixed.
 
-### Version 1.6.14 (29 June, 2022) ###
-* **Update:** Bumped grunt version to 1.5.3.
-* **Update:** Bumped simple-get version to 3.1.1.
-* **Update:** Bumped minimist version to 1.2.6.
-* **Update:** Bumped follow-redirects version to 1.14.8.
-* **Update:** Updated default submit button text.
-* **Update:** Updated fields compatbility with Crio Theme for "use theme CSS".
-* **Fix:** Fixed CSS compatbility issues with "use theme CSS" feature.
-
-### Version 1.6.13 (02 March, 2022) ###
-* **Fix:** Fixes placeholders being blank on the frontend.
-* **Fix:** Fixes issue setting multiple field tag in notification body.
-* **Fix:** Fixes and adds logic for support url in help section.
-
-### Version 1.6.12 (26 January, 2022) ###
-* **Fix:** Fixes form previews when using block based themes.
-
-### Version 1.6.11 (05 January, 2022) ###
-* **Fix:** Fixes fatal error in translator.
-
-### Version 1.6.10 (05 January, 2022) ###
-* **Update:** Axios from 0.21.1 to 0.21.2.
-* **Update:** Set-value from 3.0.2 to 4.0.1.
-* **Update:** Added data-sytle to all fields.
-* **Fix:** Enforce date format from datepicker.
-* **Fix:** Changed entry after submission to form setting from global setting.
-* **Fix:** Removed id from entry table view.
-* **Fix:** Entry details show option and value selected.
-* **Improvement:** Address fields in notifications now accepts value: tags for selection fields
-
-### Version 1.6.9 (15 September, 2021) ###
-* **Fix:** PHP 8.0 Emogrifier updates
-* **Fix:** Transaction page link updated to weforms site
-* **Fix:** Entry Field Names update on form save when changed
-* **Fix:** Using Vue.js minified file for production
-* **Fix:** Google Maps integration provides address in notification
-* **Update:** Field Authentication updates
-* **Update:** Dependancy updates
-* **Impovement:** Sprout Invoices integration multiple line items and payment options
-
-### Version 1.6.8 (10 June, 2021) ###
-* **Fix:** weSerialize not extended
-
-### Version 1.6.7 (26 April, 2021) ###
-* **Fix:** PHP 8.0 form submission issues fixes and removal of admin notice callback
-* **Fix:** Transaction table id matching entry id and addition of entry after submission fixes
-* **Fix:** Added weSerialize wapper for backward compatbility with weSerialize
-* **Fix:** Admin notice form import fixes
-
-### Version 1.6.6 (13 April, 2021) ###
-* **Fix:** Front End report link fixes
-* **Fix:** Signature Displays in Entries
-* **Update:** jQuery updates for Columns
-
-### Version 1.6.5 (18 February, 2021) ###
-* **Fix:** Updated admin notices to better conform to WordPress design standards, and configured them to only show on WeForms pages.
-* **Update:** Removed FortressDB admin notice.
-* **Update:** Updated axios dependancy
-
-### Version 1.6.4 (23 December, 2020) ###
-* **Fix:** Added spreadsheet functione escaping to prevent CSV exploits. [#50] (https://github.com/BoldGrid/weforms/pull/50)
-* **Update:** Update Node Packages
-
-### Version 1.6.3 (11 November, 2020) ###
-* **Update:** Sprout Invoices Integration
-
-### Version 1.6.2 (11 November, 2020) ###
-* **Update:** Sprout Invoices Integration
-
-### Version 1.6.1 (11 November, 2020) ###
-* **Update:** Sprout Invoices Integration
-
-### Version 1.6.0 (11 November, 2020) ###
-* **Update:** Sprout Invoices Integration
-
-### Version 1.5.5 (29 October, 2020) ###
-* **Fix:** Quick Vulnerability Fix
-
-### Version 1.5.4 (29 October, 2020) ###
-* **Fix:** Quick Vulnerability Fix
-
-### Version 1.5.3 (20 October, 2020) ###
-* **Fix:** Fixed bug causing a blank screen to appear for some users
-
-### Version 1.5.2 (13 October, 2020) ###
-* **Fix:** Fixed JS Issues.
-* **Fix:** Email Header Formatting.
-* **Update:** Added Fortress DB Integration.
-
-### Version 1.5.1 (1 September, 2020) ###
-* **Fix:** Fixed Fortress DB tab.
-
-### Version 1.5.0 (1 September, 2020) ###
-* **Update:** Added Fortress DB and Conditional Banner.
-* **Update:** Removed Diagnostic Pop Up.
-* **Fix:** JSON import issue fixed.
-* **Fix:** Double Column not working, issue fixed.
-* **Fix:** File Upload issue fixed.
-* **Fix:** Signature field issue fixed.
-
-
-### Version 1.4.9 (30 June, 2020) ###
-* **Update:** Added a privacy page.
-
-### Version 1.4.8 (30 March, 2020) ###
-* **Fix:** Fixed escaping of select options when adding a form to a page.
-* **Fix:** Fixed Email notification formatting issue.
-* **Fix:** Fixed column field resize issue.
-* **Fix:** Fixes Array to string conversion warning with address field.
-* **Fix:** Replace an instance of non-existant.
-* **Fix:** Conflict with kingcomposer.
-* **Fix:** Recaptcha token expire.
-
-### Version 1.4.7 (10 March, 2020) ###
-**Update:** Links now point to new https://weformspro.com/
-
-### Version 1.4.6 (20 February, 2020) ###
-
-* **Fix:** image upload field issue
-* **Fix:** widget not rendering properyly
-* **Fix:** HTML Tags are not rendering the HTML format for the Radio or Checkbox Field
-* **Fix:** submit issue with image and recaptcha.
-
-### Version 1.4.5 (31 January, 2020) ###
-* **Feature:** Added Recaptcha v3 support
-* **Fix:** Fixed Some regressions after phpcs fixes
-
-### Version 1.4.4 (14 January, 2020) ###
-* **Improvement:** Imporve Code Quality
-
-### Version 1.4.3 (10 January, 2020) ###
-* **Fix:**  Field display issue in form entries page
-* **Fix:**  Hidden Field not working properly in builder
-* **Fix:**  Some Column field issue
-* **Fix:**  Sanitize and Escape data before saving and rendering
-* **Improvement:** Add privacy policy in readme
-
-### Version 1.4.2 (18 November, 2019) ###
-* **Fix:** Fixed Form was not showing immediately after duplicating.
-* **Fix:** Fixed some column field issues. Closes #172
-* **Fix:** Fixed a csv export issue. closes #175
-
-### Version 1.4.1 (24 September, 2019) ###
-* **New:** Added Rest api
-* **Fix:** Full name shows instead of first name in the email notification
-* **Fix:** Dynamic value population - not saving value
-
-### Version 1.4.0 (17 June, 2019) ###
-* **Feature:** Added GDPR Export and Delete Requests Forms.
-* **Fix:** Multistep form: scroll to the top of the form when click on Next & Previous buttons.
-
-### Version 1.3.9 (10 May, 2019) ###
-* **Fix:** Updated plugin description for WordPress.org
-
-### Version 1.3.8 (11 April, 2019) ###
-* **Feature:** Added column field: Now, creating multi-column in a single row is super easy with weForms Column field. Just drag the column field in the builder area, configure columns number, column space and add any fields you want inside that Column field.
-* **Enhancement:** Allow dynamic value population for hidden field.
-* **Fix:** Address field country full name not showing in the entries & PDF.
-
-### Version 1.3.7 (14 February, 2019) ###
-* **Improvement:** New design for form integrations tab.
-* **Improvement:** Replace single checkbox with switch button.
-* **Fix:** When duplicating a contact form, showing error `schedule_form of undefined`.
-
-### Version1.3.6 (17 January, 2019) ###
-* **Fix:** Changed get countries function name as the same function exists in the professional version and there was a possibility to get an error.
-
-### Version 1.3.5 (16 January, 2019) ###
-* **Feature:** As per user suggestion, we have added a status column for the form listing table. By this, the admin will be able to see whether the form is 'Open' or 'Close'. In addition to that, the admin will also be able to view or show the reasons behind keeping a form open or close according to the 3 form submission restrictions (scheduling form, requiring login and limiting submission entries) from the form settings.
-* **Feature:** As per client suggestion, we have added a "Created by" column on form listing table. This will allow the admin to know the creator of a form, their gravatar image and the date on which the form was created.
-* **Fix:** Import description and settings from WP Forms.
-* **Fix:** When viewing the entries, country short-name was displayed. With this release, we have changed the short-name to the full name. For example, Now it shows Canada instead of just showing CA.
-* **Fix:** Improved submit button design for the form builder.
-* **Fix:** Deleting form entries didn't remove the media/file from the media library permanently. But now it does.
-* **Fix:** Gutenberg block was not loading on edit post/page which has been fixed.
-* **Fix:** On activating the WP User Frontend, the reCaptcha field of weForms did not work which has been fixed.
 ### Version 1.3.4 (22 November, 2018) ###
+
 * **Fix:** Undefined name field
 * **Fix:** Shortcode popup form width fix
+
 ### Version 1.3.3 (12 November, 2018) ###
+
 * **New:** Design phone field
 * **Fix:** Default input style issue of form builder
+
 ### Version 1.3.2 (23 October, 2018) ###
+
 * **Fix:** Calendar not showing on date field
 * **New:** Use theme CSS option in form display settings
+
 ### Version 1.3.1 (18 August, 2018) ###
 
 * **New:** Added custom classes to make two or three columns form
