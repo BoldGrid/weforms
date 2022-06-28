@@ -22,7 +22,7 @@ Beyond the functionality of building the form itself, weForms boasts more than 2
 weForms is an all-in-one form builder created for every skill level of user. Its minimalistic design is not only modern but also super fast and user-friendly. Everything works on a single page. Stop wasting time trying to find a developer to build a form, knock it out yourself in a matter of minutes!
 
 ###  Quick Overview of weForms  ###
-[youtube https://www.youtube.com/watch?v###4uYi0833Kjw]
+[youtube https://www.youtube.com/watch?v=4uYi0833Kjw]
 
 ### Key Features ###
 * **Unlimited Forms:** Create as many forms as you want and collect all the data you need
@@ -679,7 +679,7 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
  * **New**: Added an Entries page in admin menu. Now you can access the form entries directly without going through few clicks.
  * **New**: MailPoet Integration added from premium version. We thought to give it away for free.
  * **New**: Date / Time field added from premium version. As it's a very commonly used field, it provides a lot more value in the free version.
- * **New**: Pop-up/Modal form option added. Can be used through shortcode like `[weforms id###"ID" modal###'true' button###'Open Form']`.
+ * **New**: Pop-up/Modal form option added. Can be used through shortcode like `[weforms id="ID" modal='true' button='Open Form']`.
  * **New**: Dynamic field population added. Field options or default values can be pre-populated by hooks or query string.
  * **New**: Unique entry checking for fields like email, phone, text, number, URL added. Now, you can prevent duplicate submissions if you want.
  * **Improved**: Settings page re-designed. New settings page is more user friendly and easy to use.
