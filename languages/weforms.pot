@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.6.13\n"
+"Project-Id-Version: weForms 1.6.14\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2022-02-25 17:26:40+00:00\n"
+"POT-Creation-Date: 2022-06-28 23:22:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -837,10 +837,10 @@ msgstr ""
 #: includes/fields/class-field-name.php:213
 #: includes/fields/class-field-radio.php:113
 #: includes/fields/class-field-radio.php:117
-#: includes/fields/class-field-text.php:142
-#: includes/fields/class-field-text.php:146
-#: includes/fields/class-field-textarea.php:138
-#: includes/fields/class-field-textarea.php:142
+#: includes/fields/class-field-text.php:143
+#: includes/fields/class-field-text.php:147
+#: includes/fields/class-field-textarea.php:139
+#: includes/fields/class-field-textarea.php:143
 #: includes/fields/class-field-url.php:98
 #: includes/fields/class-field-url.php:102
 msgid "Unauthorized operation"
@@ -1381,7 +1381,7 @@ msgstr ""
 
 #: includes/api/class-weforms-entries-controller.php:136
 #: includes/api/class-weforms-entries-controller.php:193
-#: includes/class-ajax.php:660 includes/class-ajax.php:687
+#: includes/class-ajax.php:662 includes/class-ajax.php:689
 msgid "No entry ids provided!"
 msgstr ""
 
@@ -1455,13 +1455,13 @@ msgid "Fields  deleted successfully "
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:245
-#: includes/class-ajax.php:519 includes/class-ajax.php:524
+#: includes/class-ajax.php:521 includes/class-ajax.php:526
 msgid "No form fields found!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:251
-#: includes/class-ajax.php:846 includes/class-ajax.php:855
-#: includes/class-ajax.php:896 includes/class-ajax.php:911
+#: includes/class-ajax.php:848 includes/class-ajax.php:857
+#: includes/class-ajax.php:898 includes/class-ajax.php:913
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
@@ -1526,7 +1526,7 @@ msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:797
 #: includes/api/class-weforms-forms-controller.php:822
-#: includes/class-ajax.php:346
+#: includes/class-ajax.php:348
 msgid "Could not create the form"
 msgstr ""
 
@@ -1551,7 +1551,7 @@ msgid "Unable to delete form"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1099
-#: includes/class-ajax.php:305
+#: includes/class-ajax.php:307
 msgid "No form ids provided!"
 msgstr ""
 
@@ -1560,22 +1560,22 @@ msgid "form  deleted successfully "
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1235
-#: includes/class-ajax.php:1140
+#: includes/class-ajax.php:1142
 msgid "No file found to import."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1249
-#: includes/class-ajax.php:1153
+#: includes/class-ajax.php:1155
 msgid "The forms have been imported successfully!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1257
-#: includes/class-ajax.php:1155
+#: includes/class-ajax.php:1157
 msgid "Something went wrong importing the file."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1260
-#: includes/class-ajax.php:1158
+#: includes/class-ajax.php:1160
 msgid "Invalid file or file size too big."
 msgstr ""
 
@@ -1601,7 +1601,7 @@ msgid "data not exist"
 msgstr ""
 
 #: includes/api/class-weforms-log-controller.php:85
-#: includes/class-ajax.php:1199
+#: includes/class-ajax.php:1201
 msgid "ago"
 msgstr ""
 
@@ -1637,19 +1637,19 @@ msgstr ""
 msgid "Invalid form id"
 msgstr ""
 
-#: includes/class-ajax.php:261
+#: includes/class-ajax.php:263
 msgid "Please provide a form name"
 msgstr ""
 
-#: includes/class-ajax.php:289 includes/class-ajax.php:444
+#: includes/class-ajax.php:291 includes/class-ajax.php:446
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:733
+#: includes/class-ajax.php:735
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:744
+#: includes/class-ajax.php:746
 msgid "No form field was found."
 msgstr ""
 
@@ -1749,7 +1749,7 @@ msgstr ""
 msgid "The form couldn't be found."
 msgstr ""
 
-#: includes/class-frontend-form.php:133
+#: includes/class-frontend-form.php:135
 msgid "Open Form"
 msgstr ""
 
@@ -2060,13 +2060,13 @@ msgid "Email Address"
 msgstr ""
 
 #: includes/fields/class-field-email.php:70
-#: includes/fields/class-field-text.php:104
+#: includes/fields/class-field-text.php:105
 #: includes/fields/class-field-url.php:65
 msgid "Unique Values Only"
 msgstr ""
 
 #: includes/fields/class-field-email.php:75
-#: includes/fields/class-field-text.php:109
+#: includes/fields/class-field-text.php:110
 #: includes/fields/class-field-url.php:70
 msgid ""
 "Select this option to limit user input to unique values only. This will "
@@ -2454,9 +2454,15 @@ msgid "Thanks for contacting us! We will get in touch with you shortly."
 msgstr ""
 
 #: includes/functions.php:1103
-#: includes/importer/class-importer-abstract.php:901
-#: includes/importer/class-importer-gf.php:274
-msgid "Submit Query"
+#: includes/templates/class-template-admission-form.php:135
+#: includes/templates/class-template-bug-report.php:180
+#: includes/templates/class-template-comment-and-rating.php:56
+#: includes/templates/class-template-employee-information.php:241
+#: includes/templates/class-template-polling-form.php:47
+#: includes/templates/class-template-product-order-form.php:140
+#: includes/templates/class-template-restaurant-reservation.php:111
+#: includes/templates/class-template-to-do-list.php:70
+msgid "Submit"
 msgstr ""
 
 #: includes/functions.php:1119
@@ -2553,6 +2559,11 @@ msgstr[1] ""
 
 #: includes/importer/class-importer-abstract.php:391
 msgid "You are not allowed."
+msgstr ""
+
+#: includes/importer/class-importer-abstract.php:901
+#: includes/importer/class-importer-gf.php:274
+msgid "Submit Query"
 msgstr ""
 
 #: includes/integrations/erp/class-integration-erp.php:13
@@ -2669,17 +2680,6 @@ msgstr ""
 #: includes/templates/class-template-admission-form.php:113
 #: includes/templates/class-template-donation-form.php:72
 msgid "Payment Method"
-msgstr ""
-
-#: includes/templates/class-template-admission-form.php:135
-#: includes/templates/class-template-bug-report.php:180
-#: includes/templates/class-template-comment-and-rating.php:56
-#: includes/templates/class-template-employee-information.php:241
-#: includes/templates/class-template-polling-form.php:47
-#: includes/templates/class-template-product-order-form.php:140
-#: includes/templates/class-template-restaurant-reservation.php:111
-#: includes/templates/class-template-to-do-list.php:70
-msgid "Submit"
 msgstr ""
 
 #: includes/templates/class-template-blank.php:12

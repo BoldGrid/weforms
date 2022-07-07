@@ -110,6 +110,8 @@ class WeForms_Ajax {
 
         if ( isset( $post_data['settings'] ) ) {
             $settings = (array) json_decode( $post_data['settings'] );
+            $settings['message'] = sanitize_text_field( $settings['message'] );
+            error_log(print_r($settings, true));
         } else {
             $settings = isset( $form_data['wpuf_settings'] ) ? $form_data['wpuf_settings'] : [];
         }
