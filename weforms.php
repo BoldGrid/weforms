@@ -99,8 +99,6 @@ final class WeForms {
 
         add_action( 'admin_init', [ $this, 'plugin_upgrades' ] );
         add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
-
-        $this->init_appsero();
     }
 
     /**
