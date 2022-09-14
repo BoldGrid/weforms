@@ -95,6 +95,23 @@ class WeForms_Frontend_Form {
             wp_add_inline_script( 'wpuf-form', $script );
         ?>
 
+
+        <?php if ( isset( $_GET['success_message'] ) ) : ?>
+            <?php
+                $return_to_form = remove_query_arg(
+                    array(
+                        'form_id',
+                        'form_page',
+                        'success_message',
+                    )
+                );
+            ?>
+            <div class="wpuf-success">
+                <?php echo wp_kses_post( $_GET['success_message'] ); ?>
+                <br>
+                <a href="<?php echo esc_url( $return_to_form ) ?>"><?php esc_html_e( 'Return to form', 'weforms' ); ?></a>
+            </div>
+        <?php else: ?>
         <form class="wpuf-form-add <?php echo esc_attr( $formid ); ?> <?php echo esc_attr( $modal_class ); ?> <?php echo
         esc_attr( $use_theme_css ); ?>" action="" method="post"  <?php echo esc_attr( $modal_style ); ?> id="<?php echo
         esc_attr($modal_id); ?>">
@@ -123,7 +140,7 @@ class WeForms_Frontend_Form {
             </ul>
 
         </form>
-
+        <?php endif; ?>
         <?php
         if ( isset( $atts['modal'] ) && 'true' == esc_attr( $atts['modal'] ) ) {
             if ( isset( $atts['link'] ) ) {
