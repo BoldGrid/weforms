@@ -404,7 +404,6 @@
 }
 #wpuf-form-builder-container section {
   height: calc(100vh - 170px);
-  overflow-y: auto;
 }
 #wpuf-form-builder-container #builder-form-fields {
   position: absolute;
