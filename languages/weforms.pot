@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.6.14\n"
+"Project-Id-Version: weForms 1.6.15\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2022-06-28 23:22:30+00:00\n"
+"POT-Creation-Date: 2022-09-15 18:01:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -147,7 +147,7 @@ msgstr ""
 msgid "Privacy"
 msgstr ""
 
-#: includes/admin/class-admin.php:108 weforms.php:394
+#: includes/admin/class-admin.php:108 weforms.php:392
 msgid "Settings"
 msgstr ""
 
@@ -242,7 +242,6 @@ msgid "OK"
 msgstr ""
 
 #: includes/admin/class-form-builder-assets.php:273
-#: includes/library/appsero/Insights.php:677
 msgid "Cancel"
 msgstr ""
 
@@ -1460,8 +1459,8 @@ msgid "No form fields found!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:251
-#: includes/class-ajax.php:848 includes/class-ajax.php:857
-#: includes/class-ajax.php:898 includes/class-ajax.php:913
+#: includes/class-ajax.php:856 includes/class-ajax.php:865
+#: includes/class-ajax.php:906 includes/class-ajax.php:921
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
@@ -1560,22 +1559,22 @@ msgid "form  deleted successfully "
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1235
-#: includes/class-ajax.php:1142
+#: includes/class-ajax.php:1150
 msgid "No file found to import."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1249
-#: includes/class-ajax.php:1155
+#: includes/class-ajax.php:1163
 msgid "The forms have been imported successfully!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1257
-#: includes/class-ajax.php:1157
+#: includes/class-ajax.php:1165
 msgid "Something went wrong importing the file."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1260
-#: includes/class-ajax.php:1160
+#: includes/class-ajax.php:1168
 msgid "Invalid file or file size too big."
 msgstr ""
 
@@ -1601,7 +1600,7 @@ msgid "data not exist"
 msgstr ""
 
 #: includes/api/class-weforms-log-controller.php:85
-#: includes/class-ajax.php:1201
+#: includes/class-ajax.php:1209
 msgid "ago"
 msgstr ""
 
@@ -1645,11 +1644,11 @@ msgstr ""
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:735
+#: includes/class-ajax.php:734
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:746
+#: includes/class-ajax.php:745
 msgid "No form field was found."
 msgstr ""
 
@@ -1749,7 +1748,11 @@ msgstr ""
 msgid "The form couldn't be found."
 msgstr ""
 
-#: includes/class-frontend-form.php:135
+#: includes/class-frontend-form.php:112
+msgid "Return to form"
+msgstr ""
+
+#: includes/class-frontend-form.php:152
 msgid "Open Form"
 msgstr ""
 
@@ -2620,18 +2623,6 @@ msgstr ""
 
 #: includes/integrations/sprout-invoices/class-integration-sprout-invoices.php:499
 msgid "Estimate Submitted: Form %s."
-msgstr ""
-
-#: includes/library/appsero/Insights.php:660
-msgid "If you have a moment, please let us know why you are deactivating:"
-msgstr ""
-
-#: includes/library/appsero/Insights.php:675
-msgid "I rather wouldn't say"
-msgstr ""
-
-#: includes/library/appsero/Insights.php:676
-msgid "Submit & Deactivate"
 msgstr ""
 
 #: includes/templates/class-template-admission-form.php:12
@@ -4436,53 +4427,53 @@ msgstr ""
 msgid "No contact form assigned yet by marketplace owner."
 msgstr ""
 
-#: weforms.php:393
+#: weforms.php:391
 msgid "Docs"
 msgstr ""
 
-#: weforms.php:424
+#: weforms.php:422
 msgid "Your installed PHP Version is: "
 msgstr ""
 
-#: weforms.php:425
+#: weforms.php:423
 msgid "The <strong>weForms</strong> plugin requires PHP version <strong>"
 msgstr ""
 
-#: weforms.php:425
+#: weforms.php:423
 msgid "</strong> or greater."
 msgstr ""
 
-#: weforms.php:444
+#: weforms.php:442
 msgid "<h1>An Error Occured</h1>"
 msgstr ""
 
-#: weforms.php:445
+#: weforms.php:443
 msgid "<h2>Your installed PHP Version is: "
 msgstr ""
 
-#: weforms.php:446
+#: weforms.php:444
 msgid "<p>The <strong>weforms</strong> plugin requires PHP version <strong>"
 msgstr ""
 
-#: weforms.php:446
+#: weforms.php:444
 msgid "</strong> or greater"
 msgstr ""
 
-#: weforms.php:447
+#: weforms.php:445
 msgid "<p>The version of your PHP is "
 msgstr ""
 
-#: weforms.php:447
+#: weforms.php:445
 msgid "unsupported and old"
 msgstr ""
 
-#: weforms.php:448
+#: weforms.php:446
 msgid ""
 "You should update your PHP software or contact your host regarding this "
 "matter.</p>"
 msgstr ""
 
-#: weforms.php:450
+#: weforms.php:448
 msgid "Plugin Activation Error"
 msgstr ""
 
