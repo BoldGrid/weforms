@@ -703,7 +703,6 @@ class WeForms_Ajax {
      */
     public function handle_frontend_submission() {
         check_ajax_referer( 'wpuf_form_add' );
-
         $form_id       = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
         $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
 
@@ -827,6 +826,7 @@ class WeForms_Ajax {
             'entry_id'  => $entry_id,
             'entry_fields' =>$entry_fields,
         ] );
+
         weforms_clear_buffer();
         wp_send_json( $response );
         }
