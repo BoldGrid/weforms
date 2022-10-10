@@ -403,9 +403,14 @@
   cursor: pointer;
 }
 
+#wpuf-form-builder-container section {
+  overflow: auto;
+}
+
 #builder-form-fields section {
   overflow: auto;
   display: inline-block;
+  width: 100%;
 }
 
 #wpuf-form-builder-container section {
