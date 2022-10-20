@@ -237,6 +237,13 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
+= Version 1.6.15 (20 October, 2022) =
+* **Added:** Validation for entry fields on submit.
+* **Fix:** New lines being stripped in text area entries.
+* **Fix:** wptexturize running even when disabled.
+* **Fix:** Refreshing submitted form creating multiple entries.
+* **Fix:** Fields Section disappearing at certain Zoom levels.
+
 = Version 1.6.14 (29 June, 2022) =
 * **Update:** Bumped grunt version to 1.5.3.
 * **Update:** Bumped simple-get version to 3.1.1.
