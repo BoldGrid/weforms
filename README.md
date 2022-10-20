@@ -4,7 +4,7 @@
 **Requires at least:** 5.0  
 **Requires PHP:** 7.2  
 **Tested up to:** 5.9  
-**Stable tag:** 1.6.14  
+**Stable tag:** 1.6.15  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -236,6 +236,13 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.6.15 (20 October, 2022) ###
+* **Added:** Validation for entry fields on submit.
+* **Fix:** New lines being stripped in text area entries.
+* **Fix:** wptexturize running even when disabled.
+* **Fix:** Refreshing submitted form creating multiple entries.
+* **Fix:** Fields Section disappearing at certain Zoom levels.
 
 ### Version 1.6.14 (29 June, 2022) ###
 * **Update:** Bumped grunt version to 1.5.3.

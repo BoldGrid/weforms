@@ -402,6 +402,17 @@
   margin: 10px 0 0 15px;
   cursor: pointer;
 }
+
+#wpuf-form-builder-container section {
+  overflow: auto;
+}
+
+#builder-form-fields section {
+  overflow: auto;
+  display: inline-block;
+  width: 100%;
+}
+
 #wpuf-form-builder-container section {
   height: calc(100vh - 170px);
 }
