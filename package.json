@@ -12,7 +12,7 @@
     "axios": "^0.21.2",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "browser-sync": "^2.26.13",
+    "browser-sync": "^2.27.10",
     "grunt": "^1.5.3",
     "grunt-babel": "^7.0.0",
     "grunt-contrib-clean": "^1.1.0",
