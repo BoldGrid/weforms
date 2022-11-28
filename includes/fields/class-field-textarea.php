@@ -94,7 +94,7 @@ class WeForms_Form_Field_Textarea extends WeForms_Field_Contract {
                         $field_settings['name'] . '_' . $form_id
                       );
         } ?>
-        </li>
+        </div></li>
         <?php
     }
 
