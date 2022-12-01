@@ -576,7 +576,7 @@ class WeForms_Ajax {
                 }
             } elseif ( empty( $field['value'] ) ) {
                 $has_empty      = true;
-                break;
+                continue;
             } else {
                 $field = WeForms_Form_Entry_Manager::format_entry_value( $field );
                 array_push( $fields_formatted, $field );
