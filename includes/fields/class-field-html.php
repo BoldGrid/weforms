@@ -20,6 +20,14 @@ class WeForms_Form_Field_HTML extends WeForms_Field_Contract {
      * @return void
      */
     public function render( $field_settings, $form_id ) {
+        /**
+         * Ensure the field name is set. There have been cases where the name array key is not set.
+         * Not sure why and we were unable to replicate without manually removing the key.
+         * This is a failsafe to ensure the field name is set.
+         */
+        if ( ! isset( $field_settings['name'] ) ) {
+            $field_settings['name'] = 'custom_html';
+        }
         $use_theme_css    = isset( $form_settings['use_theme_css'] ) ? $form_settings['use_theme_css'] : 'wpuf-style';
         ?>
         <li <?php $this->print_list_attributes( $field_settings ); ?>>
