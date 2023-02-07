@@ -237,6 +237,11 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
+= Version 1.6.17 ( TBD ) =
+* **Fix:** Array Key "name" doesnt exist for custom html field.
+* **Fix:** Fixes contrast for form white text error messages.
+* **Fix:** New lines being removed in textarea field.
+
 = Version 1.6.16 ( 12 December, 2022 ) =
 * **Fix:** Empty field entries ending form entries view script.
 * **Fix:** Missing html tag on textarea field.
