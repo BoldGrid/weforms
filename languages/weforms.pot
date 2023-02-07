@@ -1,14 +1,14 @@
-# Copyright (C) 2022 weForms
+# Copyright (C) 2023 weForms
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.6.16\n"
+"Project-Id-Version: weForms 1.6.17\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2022-12-02 17:58:51+00:00\n"
+"POT-Creation-Date: 2023-02-07 17:15:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1869,14 +1869,14 @@ msgstr ""
 
 #: includes/fields/class-abstract-fields.php:256
 #: includes/fields/class-field-hidden.php:46
-#: includes/fields/class-field-html.php:60
+#: includes/fields/class-field-html.php:68
 #: includes/fields/class-field-sectionbreak.php:63
 msgid "Meta Key"
 msgstr ""
 
 #: includes/fields/class-abstract-fields.php:260
 #: includes/fields/class-field-hidden.php:50
-#: includes/fields/class-field-html.php:64
+#: includes/fields/class-field-html.php:72
 #: includes/fields/class-field-sectionbreak.php:67
 msgid "Name of the meta key this field will save to"
 msgstr ""
@@ -2103,15 +2103,15 @@ msgstr ""
 msgid "Custom HTML"
 msgstr ""
 
-#: includes/fields/class-field-html.php:52
+#: includes/fields/class-field-html.php:60
 msgid "Html Codes"
 msgstr ""
 
-#: includes/fields/class-field-html.php:56
+#: includes/fields/class-field-html.php:64
 msgid "Paste your HTML codes, WordPress shortcodes will also work here"
 msgstr ""
 
-#: includes/fields/class-field-html.php:80
+#: includes/fields/class-field-html.php:88
 msgid "HTML Section"
 msgstr ""
 
