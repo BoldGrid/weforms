@@ -121,6 +121,39 @@ class WeForms_Notification {
         $headers[]  = 'Content-Type: text/html; charset=UTF-8';
         $email_body = apply_filters( 'weforms_email_message', $this->get_formatted_body( $message ), $notification['message'], $headers );
 
+        /**
+         * Added the display style to the safe styles during wp_kses_post().
+         * WP kses post removes the display css property that we need when formatting the Checkbox and Multiple Choice Grids.
+         * This function will only run during the notification process.
+         *
+         * @since 1.6.17
+         */
+        add_filter( 'safe_style_css', function( $styles ) {
+            $styles[] = 'display';
+            return $styles;
+        } );
+
+        /**
+         * Added the input tag to the allowed html during wp_kses_post().
+         * WP kses post removes the input tag that we need when formatting the Checkbox and Multiple Choice Grids.
+         * The $message variable is formatted during the entry creation process. The values from the form are sanitized to avoid
+         * any issues with malicious inputs.
+         *
+         * This function is only used during the notification process.
+         *
+         * @since 1.6.17
+         */
+        add_filter( 'wp_kses_allowed_html', function( $html ) {
+            $html['input'] = array(
+                'class'    => array(),
+                'name'     => array(),
+                'type'     => array(),
+                'value'    => array(),
+                'checked'  => array(),
+                'disabled' => array(),
+            );
+            return $html;
+        } );
         weforms()->emailer->send( $to, $subject, wp_kses_post( htmlspecialchars_decode( $email_body ) ) , $headers );
     }
 
