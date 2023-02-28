@@ -4,7 +4,7 @@ Tags: forms, contact form, contact form plugin, custom form, form builder, form,
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 1.6.16
+Stable tag: 1.6.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -236,6 +236,11 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.17 ( TBD ) =
+* **Fix:** Array Key "name" doesnt exist for custom html field.
+* **Fix:** Fixes contrast for form white text error messages.
+* **Fix:** New lines being removed in textarea field.
 
 = Version 1.6.16 ( 12 December, 2022 ) =
 * **Fix:** Empty field entries ending form entries view script.
