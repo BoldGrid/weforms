@@ -474,6 +474,8 @@ abstract class WeForms_Field_Contract {
         if ( $this->is_required( $field ) ) {
             return ' <span class="required">*</span>';
         }
+
+        return '';
     }
 
     /**
