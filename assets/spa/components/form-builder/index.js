@@ -232,6 +232,7 @@ weForms.routeComponents.FormEditComponent = {
                 },
 
                 success: function (response) {
+                    self.$store.state.settings = response.settings;
                     if (response.form_fields) {
                         self.$store.commit('set_form_fields', response.form_fields);
                     }

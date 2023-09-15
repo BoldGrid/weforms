@@ -109,9 +109,10 @@ class WeForms_Ajax {
         $integrations  = array();
 
         if ( isset( $post_data['settings'] ) ) {
-            $settings = (array) json_decode( $post_data['settings'] );
-            $settings['message'] = sanitize_text_field( $settings['message'] );
-            error_log(print_r($settings, true));
+            $settings                  = (array) json_decode( $post_data['settings'] );
+            $settings['message']       = sanitize_text_field( $settings['message'] );
+            $settings['url']           = sanitize_url( $settings['url'] );
+            $settings['limit_message'] = sanitize_text_field( $settings['limit_message'] );
         } else {
             $settings = isset( $form_data['wpuf_settings'] ) ? $form_data['wpuf_settings'] : [];
         }
@@ -142,7 +143,12 @@ class WeForms_Ajax {
 
         do_action( 'weforms_update_form', $form_data['wpuf_form_id'], $form_fields, $settings );
 
-        wp_send_json_success( [ 'form_fields' => $form_fields ] );
+        wp_send_json_success(
+            array(
+                'form_fields' => $form_fields,
+                'settings'    => $settings,
+            )
+        );
     }
 
     /**
