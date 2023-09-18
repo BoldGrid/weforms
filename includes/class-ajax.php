@@ -109,7 +109,7 @@ class WeForms_Ajax {
         $integrations  = array();
 
         if ( isset( $post_data['settings'] ) ) {
-            $settings                  = (array) json_decode( $post_data['settings'] );
+            $settings                  = json_decode( $post_data['settings'], true );
             $settings['message']       = sanitize_text_field( $settings['message'] );
             $settings['url']           = sanitize_url( $settings['url'] );
             $settings['limit_message'] = sanitize_text_field( $settings['limit_message'] );
