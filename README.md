@@ -1,12 +1,12 @@
 # weForms - Easy Drag & Drop Contact Form Builder For WordPress #
-**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988/), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu/), [boldgrid](https://profiles.wordpress.org/boldgrid/), [joemoto](https://profiles.wordpress.org/joemoto/), [jamesros161](https://profiles.wordpress.org/jamesros161/), [avonville1](https://profiles.wordpress.org/avonville1/)
-**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
-**Requires at least:** 5.0
-**Requires PHP:** 7.2
-**Tested up to:** 6.1
-**Stable tag:** 1.6.17
-**License:** GPLv2 or later
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988/), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu/), [boldgrid](https://profiles.wordpress.org/boldgrid/), [joemoto](https://profiles.wordpress.org/joemoto/), [jamesros161](https://profiles.wordpress.org/jamesros161/), [avonville1](https://profiles.wordpress.org/avonville1/)  
+**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation  
+**Requires at least:** 5.0  
+**Requires PHP:** 7.2  
+**Tested up to:** 6.3  
+**Stable tag:** 1.6.18  
+**License:** GPLv2 or later  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop live builder, submission listing, reCaptcha & more!
 
@@ -236,6 +236,14 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.6.18 ( 19 September, 2023 ) ###
+* Fix: Fixes security issue with possible XSS in form builder settings.
+* Fix: Fixes deprecation notice for abstract fields.
+* Update: Bump ua-parser-js from 1.0.2 to 1.0.33.
+* Update: Bump browser-sync from 2.27.11 to 2.28.1.
+* Update: Bump browser-sync-ui from 2.1.1 to 2.1.2.
+* Update: Bump socket.io-parser from 4.2.2 to 4.2.3.
 
 ### Version 1.6.17 ( 28 February, 2023 ) ###
 * **Fix:** Array Key "name" doesnt exist for custom html field.
