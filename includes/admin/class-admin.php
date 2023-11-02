@@ -171,13 +171,11 @@ class WeForms_Admin {
      */
     public function export_form_entries() {
         if ( ! current_user_can( 'administrator' ) ) {
-            $error = new WP_Error( 'rest_weforms_invalid_permission', __( 'You do not have permission to export entries', 'weforms' ), [ 'status' => 404 ] );
-            wp_die( esc_html__( $error->get_error_message(), 'weforms' ) );
+            wp_die( esc_html__( 'You do not have permission to export entries', 'weforms' ) );
         }
 
         if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'weforms-export-entries' ) ) {
-            $error = new WP_Error( 'rest_weforms_invalid_nonce', __( 'Invalid nonce', 'weforms' ), [ 'status' => 404 ] );
-            wp_die( esc_html__( $error->get_error_message(), 'weforms' ) );
+            wp_die( esc_html__( 'Invalid nonce', 'weforms' ) );
         }
 
         $form_id = isset( $_REQUEST['selected_forms'] ) ? absint( $_REQUEST['selected_forms'] ) : 0;
