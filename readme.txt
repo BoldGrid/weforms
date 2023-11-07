@@ -237,6 +237,9 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 == Changelog ==
 
+= Version 1.6.19 ( 08 November, 2023 ) =
+* Fix: Fixes Role and Nonce verification for entry exporting.
+
 = Version 1.6.18 ( 19 September, 2023 ) =
 * Fix: Fixes security issue with possible XSS in form builder settings.
 * Fix: Fixes deprecation notice for abstract fields.
