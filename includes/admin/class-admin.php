@@ -170,9 +170,17 @@ class WeForms_Admin {
      * @return void
      */
     public function export_form_entries() {
+        if ( ! current_user_can( 'administrator' ) ) {
+            wp_die( esc_html__( 'You do not have permission to export entries', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'weforms-export-entries' ) ) {
+            wp_die( esc_html__( 'Invalid nonce', 'weforms' ) );
+        }
+
         $form_id = isset( $_REQUEST['selected_forms'] ) ? absint( $_REQUEST['selected_forms'] ) : 0;
 
-        if ( !$form_id ) {
+        if ( ! $form_id ) {
             return;
         }
 
