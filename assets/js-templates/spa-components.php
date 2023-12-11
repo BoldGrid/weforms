@@ -20,7 +20,7 @@
         </div>
 
         <div class="alignleft actions" v-if="has_export !== 'no' &&  status != 'trash' ">
-            <a class="button" :href="'admin-post.php?action=weforms_export_form_entries&selected_forms=' + id + '&_wpnonce=' + nonce" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php esc_html_e( 'Export Entries', 'weforms' ); ?></a>
+            <a class="button" :href="'admin-post.php?action=weforms_export_form_entries&selected_forms=' + id + '&_wpnonce=' + '<?php echo esc_attr( wp_create_nonce( 'weforms-export-entries' ) ); ?>'" style="margin-top: 0;"><span class="dashicons dashicons-download" style="margin-top: 4px;"></span> <?php esc_html_e( 'Export Entries', 'weforms' ); ?></a>
         </div>
 
         <div class="tablenav-pages">
