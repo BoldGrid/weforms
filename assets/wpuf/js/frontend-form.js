@@ -450,7 +450,7 @@
                                 type: 'warning',
                                 showCancelButton: false,
                                 confirmButtonColor: '#d54e21',
-                                confirmButtonText: 'OK',
+                                confirmButtonText: 'Ok',
                                 cancelButtonClass: 'btn btn-danger',
                             });
 
