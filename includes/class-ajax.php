@@ -1253,16 +1253,4 @@ class WeForms_Ajax {
 
         wp_send_json_success();
     }
-
-    /**
-     * Show form error
-     *
-     * @param string $message
-     * @param string $type
-     *
-     * @return string
-     */
-    public function show_error( $message, $type = 'info' ) {
-        return sprintf( '<div class="wpuf-%s">%s</div>', $type, $message );
-    }
 }
