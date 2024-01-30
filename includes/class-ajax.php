@@ -711,8 +711,20 @@ class WeForms_Ajax {
         check_ajax_referer( 'wpuf_form_add' );
         $form_id       = isset( $_POST['form_id'] ) ? intval( $_POST['form_id'] ) : 0;
         $page_id       = isset( $_POST['page_id'] ) ? intval( $_POST['page_id'] ) : 0;
-
         $form          = weforms()->form->get( $form_id );
+
+        /**
+         * Check if form submission is open. This resolves broken access control with unauthenticated users.
+         * Access is now checked on frontend form rendering and submission.
+         */
+        $form_submission_status = $form->is_submission_open();
+        if ( is_wp_error( $form_submission_status ) ) {
+            wp_send_json( [
+                'success'     => false,
+                'error'       => __( 'Login Required for submission.', 'weforms' ),
+            ] );
+        }
+
         $form_settings = $form->get_settings();
         $form_fields   = $form->get_fields();
         $entry_fields  = $form->prepare_entries();
