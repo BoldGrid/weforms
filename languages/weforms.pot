@@ -1,14 +1,14 @@
-# Copyright (C) 2023 weForms
+# Copyright (C) 2024 weForms
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: weForms 1.6.20\n"
+"Project-Id-Version: weForms 1.6.21\n"
 "Report-Msgid-Bugs-To: https://wedevs.com/contact/\n"
-"POT-Creation-Date: 2023-12-11 21:36:12+00:00\n"
+"POT-Creation-Date: 2024-02-01 20:35:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1467,8 +1467,8 @@ msgid "No form fields found!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:251
-#: includes/class-ajax.php:862 includes/class-ajax.php:871
-#: includes/class-ajax.php:912 includes/class-ajax.php:927
+#: includes/class-ajax.php:874 includes/class-ajax.php:883
+#: includes/class-ajax.php:924 includes/class-ajax.php:939
 msgid "reCAPTCHA validation failed"
 msgstr ""
 
@@ -1567,22 +1567,22 @@ msgid "form  deleted successfully "
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1235
-#: includes/class-ajax.php:1156
+#: includes/class-ajax.php:1168
 msgid "No file found to import."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1249
-#: includes/class-ajax.php:1169
+#: includes/class-ajax.php:1181
 msgid "The forms have been imported successfully!"
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1257
-#: includes/class-ajax.php:1171
+#: includes/class-ajax.php:1183
 msgid "Something went wrong importing the file."
 msgstr ""
 
 #: includes/api/class-weforms-forms-controller.php:1260
-#: includes/class-ajax.php:1174
+#: includes/class-ajax.php:1186
 msgid "Invalid file or file size too big."
 msgstr ""
 
@@ -1608,7 +1608,7 @@ msgid "data not exist"
 msgstr ""
 
 #: includes/api/class-weforms-log-controller.php:85
-#: includes/class-ajax.php:1215
+#: includes/class-ajax.php:1227
 msgid "ago"
 msgstr ""
 
@@ -1652,11 +1652,15 @@ msgstr ""
 msgid "No form id provided!"
 msgstr ""
 
-#: includes/class-ajax.php:740
+#: includes/class-ajax.php:724
+msgid "Login Required for submission."
+msgstr ""
+
+#: includes/class-ajax.php:752
 msgid "\"%s\" field requires a unique entry and \"%s\" has already been used."
 msgstr ""
 
-#: includes/class-ajax.php:751
+#: includes/class-ajax.php:763
 msgid "No form field was found."
 msgstr ""
 

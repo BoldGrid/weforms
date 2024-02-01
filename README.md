@@ -4,7 +4,7 @@
 **Requires at least:** 5.0  
 **Requires PHP:** 7.2  
 **Tested up to:** 6.4  
-**Stable tag:** 1.6.20  
+**Stable tag:** 1.6.21  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -236,6 +236,9 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.6.21 ( 01 February, 2024 ) ###
+* Fix: Fixes access control issue with login required form submissions.
 
 ### Version 1.6.20 ( 12 December, 2023 ) ###
 * Fix: Fixes invalid nonce message when exporting entries from entry table.
