@@ -224,7 +224,7 @@ function weforms_insert_entry( $args, $fields = [] ) {
         'user_id'     => get_current_user_id(),
         'user_ip'     => ip2long( weforms_get_client_ip() ),
         'user_device' => $browser['name'] . '/' . $browser['platform'],
-        'referer'     => isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '',
+        'referer'     => isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '',
         'created_at'  => current_time( 'mysql' )
     ];
 
