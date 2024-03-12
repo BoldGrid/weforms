@@ -39,7 +39,7 @@ class WeForms_Frontend_Form {
 
         $form = weforms()->form->get( $id );
 
-        if ( !$form->id ) {
+        if ( !$form->id || 'wpuf_contact_form' !== $form->data->post_type ) {
             return $this->show_error( __( 'The form couldn\'t be found.', 'weforms' ) );
         }
 
