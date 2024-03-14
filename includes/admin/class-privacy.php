@@ -210,8 +210,7 @@ class WeForms_Privacy {
     public static function get_form_payments( $user_id ) {
         global $wpdb;
 
-        $query = 'SELECT * FROM ' . $wpdb->prefix . 'weforms_payments' .
-            ' WHERE user_id = ' . $user_id;
+        $query = $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'weforms_payments WHERE user_id = %d', $user_id );
 
         $results = $wpdb->get_results( $query );
 

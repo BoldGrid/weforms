@@ -268,24 +268,32 @@ class Weforms_Entry_Controller extends Weforms_REST_Controller {
     public function is_restore_exists( $param, $request, $key ) {
         global $wpdb;
 
-        // if( is_array( $param ) ) {
         if ( is_array( $request['entry_id'] ) ) {
             $entry_id = implode( ',', $param );
-            $querystr = "
+            $querystr = $wpdb->prepare(
+                "
                 SELECT $wpdb->weforms_entries.id
                 FROM $wpdb->weforms_entries
-                WHERE $wpdb->weforms_entries.ID  IN ( $entry_id )
+                WHERE $wpdb->weforms_entries.ID  IN ( %s )
                 AND $wpdb->weforms_entries.status = \"trash\"
-            ";
+                ",
+                array(
+                    $entry_id
+                )
+            );
         } else {
-            // $entry_id = (int) $param;
             $entry_id = (int) $request['entry_id'];
-            $querystr = "
+            $querystr = $wpdb->prepare(
+                "
                 SELECT $wpdb->weforms_entries.id
                 FROM $wpdb->weforms_entries
-                WHERE $wpdb->weforms_entries.ID = $entry_id
+                WHERE $wpdb->weforms_entries.ID = %d
                 AND $wpdb->weforms_entries.status = \"trash\"
-            ";
+                ",
+                array(
+                    $entry_id
+                )
+            );
         }
 
         $result = $wpdb->get_results( $querystr );

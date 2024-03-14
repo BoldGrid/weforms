@@ -110,9 +110,14 @@ class WeForms_Form_Entry {
 
         $values = [];
 
-        $query = "SELECT * FROM {$wpdb->weforms_entries} as entry
-                LEFT JOIN {$wpdb->weforms_entrymeta} AS meta ON entry.id = meta.weforms_entry_id
-                WHERE entry.id = {$this->id}";
+        $query = $wpdb->prepare(
+            "
+            SELECT * FROM {$wpdb->weforms_entries} as entry
+            LEFT JOIN {$wpdb->weforms_entrymeta} AS meta ON entry.id = meta.weforms_entry_id
+            WHERE entry.id = %d
+            ",
+            $this->id
+        );
 
         $results = $wpdb->get_results( $query );
 
@@ -447,7 +452,7 @@ class WeForms_Form_Entry {
     public static function get_form_id( $entry_id ) {
         global $wpdb;
 
-        $results = $wpdb->get_results( "SELECT form_id FROM {$wpdb->prefix}weforms_entries WHERE id = {$entry_id} " );
+        $results = $wpdb->get_results( $wpdb->prepare( "SELECT form_id FROM {$wpdb->prefix}weforms_entries WHERE id = %d ", $entry_id ) );
 
         return  ! empty( $results[0]->form_id ) ? $results[0]->form_id : null;
     }

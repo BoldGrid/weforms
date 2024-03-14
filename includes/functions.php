@@ -86,14 +86,23 @@ function weforms_get_form_entries( $form_id, $args = [] ) {
 
     $r = wp_parse_args( $args, $defaults );
 
-    $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
-            FROM ' . $wpdb->weforms_entries .
-            ' WHERE form_id = ' . $form_id . ' AND status = \'' . $r['status'] . '\'' .
-            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'];
-
-    if ( !empty( $r['offset'] ) && !empty( $r['number'] ) ) {
-        $query .= ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
-    }
+    $query = $wpdb->prepare(
+        "
+        SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+        FROM $wpdb->weforms_entries
+        WHERE form_id = %d AND status = %s
+        ORDER BY %s %s
+        LIMIT %d, %d
+        ",
+        array(
+            $form_id,
+            $r['status'],
+            $r['orderby'],
+            $r['order'],
+            $r['offset'],
+            $r['number'],
+        )
+    );
 
     $results = $wpdb->get_results( $query );
 
@@ -111,8 +120,6 @@ function weforms_count_entries( $args = [] ) {
     global $wpdb;
 
     $defaults = [
-        'number'  => -1,
-        'offset'  => 0,
         'orderby' => 'created_at',
         'status'  => 'publish',
         'order'   => 'DESC',
@@ -120,14 +127,19 @@ function weforms_count_entries( $args = [] ) {
 
     $r = wp_parse_args( $args, $defaults );
 
-    $query = 'SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
-            FROM ' . $wpdb->weforms_entries .
-            ' WHERE status = \'' . $r['status'] . '\'' .
-            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'];
-
-    if ( !empty( $r['offset'] ) && !empty( $r['number'] ) ) {
-        $query .= ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
-    }
+    $query = $wpdb->prepare(
+        "
+        SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+        FROM $wpdb->weforms_entries
+        WHERE status = %s
+        ORDER BY %s %s
+        ",
+        array(
+            $r['status'],
+            $r['orderby'],
+            $r['order'],
+        )
+    );
 
     $results = $wpdb->get_results( $query );
 
@@ -154,10 +166,22 @@ function weforms_get_form_payments( $form_id, $args = [] ) {
 
     $r = wp_parse_args( $args, $defaults );
 
-    $query = 'SELECT * FROM ' . $wpdb->prefix . 'weforms_payments' .
-            ' WHERE form_id = ' . $form_id .
-            ' ORDER BY ' . $r['orderby'] . ' ' . $r['order'] .
-            ' LIMIT ' . $r['offset'] . ', ' . $r['number'];
+    $query = $wpdb->prepare(
+        "
+        SELECT *
+        FROM wp_weforms_payments
+        WHERE form_id = %d
+        ORDER BY %s %s
+        LIMIT %d, %d
+        ",
+        array(
+            $form_id,
+            $r['orderby'],
+            $r['order'],
+            $r['offset'],
+            $r['number'],
+        )
+    );
 
     $results = $wpdb->get_results( $query );
 
@@ -174,9 +198,17 @@ function weforms_get_form_payments( $form_id, $args = [] ) {
 function weforms_get_entry_payment( $entry_id ) {
     global $wpdb;
 
-    $query = 'SELECT transaction_id FROM ' . $wpdb->prefix . 'weforms_payments' .
-        ' WHERE entry_id = ' . $entry_id;
-    $payment = $wpdb->get_row( $query, $entry_id );
+    $query = $wpdb->prepare(
+        "
+        SELECT transaction_id
+        FROM $wpdb->prefix 'weforms_payments'
+        WHERE entry_id = %d
+        ",
+        array(
+            $entry_id
+        )
+    );
+    $payment = $wpdb->get_row( $query );
 
     return $payment;
 }
