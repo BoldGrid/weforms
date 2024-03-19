@@ -196,18 +196,28 @@ abstract class Weforms_REST_Controller extends WP_REST_Controller {
 
         if ( is_array( $request['entry_id'] ) ) {
             $entry_id = implode( ',', $request['entry_id'] );
-            $querystr = "
+            $querystr = $wpdb->prepare(
+                "
                 SELECT $wpdb->weforms_entries.id
                 FROM $wpdb->weforms_entries
-                WHERE $wpdb->weforms_entries.ID  IN ( $entry_id )
-            ";
+                WHERE $wpdb->weforms_entries.ID  IN ( %s )
+                ",
+                array(
+                    $entry_id
+                )
+            );
         } else {
             $entry_id = (int) $request['entry_id'];
-            $querystr = "
+            $querystr = $wpdb->prepare(
+                "
                 SELECT $wpdb->weforms_entries.id
                 FROM $wpdb->weforms_entries
-                WHERE $wpdb->weforms_entries.ID = $entry_id
-            ";
+                WHERE $wpdb->weforms_entries.ID = %d
+                ",
+                array(
+                    $entry_id
+                )
+            );
         }
 
         $result = $wpdb->get_results( $querystr );
