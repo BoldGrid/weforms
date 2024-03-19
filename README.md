@@ -1,12 +1,12 @@
 # weForms - Easy Drag & Drop Contact Form Builder For WordPress #
-**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988/), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu/), [boldgrid](https://profiles.wordpress.org/boldgrid/), [joemoto](https://profiles.wordpress.org/joemoto/), [jamesros161](https://profiles.wordpress.org/jamesros161/), [avonville1](https://profiles.wordpress.org/avonville1/)  
-**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation  
-**Requires at least:** 5.0  
-**Requires PHP:** 7.2  
-**Tested up to:** 6.4  
-**Stable tag:** 1.6.22  
-**License:** GPLv2 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
+**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988/), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu/), [boldgrid](https://profiles.wordpress.org/boldgrid/), [joemoto](https://profiles.wordpress.org/joemoto/), [jamesros161](https://profiles.wordpress.org/jamesros161/), [avonville1](https://profiles.wordpress.org/avonville1/)
+**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
+**Requires at least:** 5.0
+**Requires PHP:** 7.2
+**Tested up to:** 6.5
+**Stable tag:** 1.6.23
+**License:** GPLv2 or later
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop live builder, submission listing, reCaptcha & more!
 
@@ -236,6 +236,9 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.6.23 ( 19 March, 2024 ) ###
+* Fix: Adds wpdb->prepare to fix SQL injection vulnerabilities.
 
 ### Version 1.6.22 ( 07 March, 2024 ) ###
 * Fix: Fixes sanitization of referrer for entries and notifications.
