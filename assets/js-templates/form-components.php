@@ -321,7 +321,7 @@
                     <template v-else>
                         <p>
                             <label class="wpuf-pro-text-alert">
-                                <a :href="pro_link" target="_blank"><?php _e( 'SMS notification moule not found', 'wpuf' ); ?></a>
+                                <a :href="pro_link" target="_blank"><?php _e( 'SMS notification moule not found', 'weforms' ); ?></a>
                             </label>
                         </p>
                     </template>
@@ -373,7 +373,7 @@
                             </template>
                             <template v-else>
                                 <label class="wpuf-pro-text-alert">
-                                    <a :href="pro_link" target="_blank"><?php _e( 'Conditional Logics available in Pro Version', 'wpuf' ); ?></a>
+                                    <a :href="pro_link" target="_blank"><?php _e( 'Conditional Logics available in Pro Version', 'weforms' ); ?></a>
                                 </label>
                             </template>
                         </div>
@@ -767,13 +767,13 @@
 
 <script type="text/x-template" id="tmpl-wpuf-merge-tags">
 <div class="wpuf-merge-tag-wrap">
-    <a href="#" v-on:click.prevent="toggleFields($event)" class="merge-tag-link" title="<?php echo esc_attr( 'Click to toggle merge tags', 'wpuf' ); ?>"><span class="dashicons dashicons-editor-code"></span></a>
+    <a href="#" v-on:click.prevent="toggleFields($event)" class="merge-tag-link" title="<?php echo esc_attr__( 'Click to toggle merge tags', 'weforms' ); ?>"><span class="dashicons dashicons-editor-code"></span></a>
 
     <!-- <pre>{{ form_fields.length }}</pre> -->
 
     <div class="wpuf-merge-tags">
         <div class="merge-tag-section" v-if="!filter || filter !== 'no_fields' ">
-            <div class="merge-tag-head"><?php _e( 'Form Fields', 'wpuf' ); ?></div>
+            <div class="merge-tag-head"><?php _e( 'Form Fields', 'weforms' ); ?></div>
 
             <ul>
                 <template v-if="form_fields.length">
@@ -782,9 +782,9 @@
                         <template v-if="field.template === 'name_field'">
                             <a href="#" v-on:click.prevent="insertField('name-full', field.name);">{{ field.label }}</a>
                             (
-                            <a href="#" v-on:click.prevent="insertField('name-first', field.name);"><?php _e( 'first', 'wpuf' ); ?></a> |
-                            <a href="#" v-on:click.prevent="insertField('name-middle', field.name);"><?php _e( 'middle', 'wpuf' ); ?></a> |
-                            <a href="#" v-on:click.prevent="insertField('name-last', field.name);"><?php _e( 'last', 'wpuf' ); ?></a>
+                            <a href="#" v-on:click.prevent="insertField('name-first', field.name);"><?php _e( 'first', 'weforms' ); ?></a> |
+                            <a href="#" v-on:click.prevent="insertField('name-middle', field.name);"><?php _e( 'middle', 'weforms' ); ?></a> |
+                            <a href="#" v-on:click.prevent="insertField('name-last', field.name);"><?php _e( 'last', 'weforms' ); ?></a>
                             )
                         </template>
 
@@ -801,7 +801,7 @@
                     </li>
                 </template>
                 <li v-else>
-                    <?php _e( 'No fields available', 'wpuf' ); ?>
+                    <?php _e( 'No fields available', 'weforms' ); ?>
                 </li>
             </ul>
         </div><!-- .merge-tag-section -->
@@ -840,8 +840,8 @@
 <div>
     <div :class="['wpuf-form-template-modal', show ? 'show' : 'hide' ]">
 
-        <span class="screen-reader-text"><?php _e( 'Modal window. Press escape to close.', 'wpuf'  ); ?></span>
-        <a href="#" class="close" v-on:click.prevent="closeModal()">× <span class="screen-reader-text"><?php _e( 'Close modal window', 'wpuf'  ); ?></span></a>
+        <span class="screen-reader-text"><?php _e( 'Modal window. Press escape to close.', 'weforms' ); ?></span>
+        <a href="#" class="close" v-on:click.prevent="closeModal()">× <span class="screen-reader-text"><?php _e( 'Close modal window', 'weforms' ); ?></span></a>
 
         <header class="modal-header">
             <slot name="header"></slot>
@@ -917,7 +917,7 @@
 
                                     <div class="title"><?php _e( 'Blank Form', 'weforms' ); ?></div>
                                     <br>
-                                    <button class="button button-primary" @click.prevent="blankForm($event.target)" title="<?php echo esc_attr( 'Blank Form' ); ?>">
+                                    <button class="button button-primary" @click.prevent="blankForm($event.target)" title="<?php echo esc_attr__( 'Blank Form', 'weforms' ); ?>">
                                         <?php _e( 'Create Form', 'weforms' ); ?>
                                     </button>
                                 </div>
