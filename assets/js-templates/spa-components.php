@@ -781,9 +781,9 @@
 <div class="export-import-wrap">
 
     <h2 class="nav-tab-wrapper">
-        <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php esc_html_e( 'Export', 'wpuf' ); ?></a>
-        <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php esc_html_e( 'Import', 'wpuf' ); ?></a>
-        <a :class="['nav-tab', isActiveTab( 'logs' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('logs')"><?php esc_html_e( 'Logs', 'wpuf' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'export' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('export')"><?php esc_html_e( 'Export', 'weforms' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'import' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('import')"><?php esc_html_e( 'Import', 'weforms' ); ?></a>
+        <a :class="['nav-tab', isActiveTab( 'logs' ) ? 'nav-tab-active' : '']" href="#" v-on:click.prevent="makeActive('logs')"><?php esc_html_e( 'Logs', 'weforms' ); ?></a>
     </h2>
 
     <div class="nav-tab-content">
