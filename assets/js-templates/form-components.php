@@ -516,7 +516,7 @@
 
             <div class="wpuf-int-form-row mapping-fields">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Email Address', 'default' ); ?> <span class="required">*</span></label>
+                    <label><?php _e( 'Email Address', 'weforms' ); ?> <span class="required">*</span></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -528,7 +528,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'First Name', 'default' ); ?></label>
+                    <label><?php _e( 'First Name', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -540,7 +540,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Last Name', 'default' ); ?></label>
+                    <label><?php _e( 'Last Name', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -601,7 +601,7 @@
 
             <div class="wpuf-int-form-row mapping-fields">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Invoice/Quote Title', 'default' ); ?></label>
+                    <label><?php _e( 'Invoice/Quote Title', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -613,7 +613,7 @@
 
             <div class="wpuf-int-form-row mapping-fields">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Client Name', 'default' ); ?></label>
+                    <label><?php _e( 'Client Name', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -625,7 +625,7 @@
 
             <div class="wpuf-int-form-row mapping-fields">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Email Address', 'default' ); ?></label>
+                    <label><?php _e( 'Email Address', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -638,7 +638,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'First Name', 'default' ); ?></label>
+                    <label><?php _e( 'First Name', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -650,7 +650,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Last Name', 'default' ); ?></label>
+                    <label><?php _e( 'Last Name', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -664,7 +664,7 @@
 
                 <div class="wpuf-int-form-row">
                     <div class="wpuf-int-field-label">
-                        <label><?php _e( 'Address', 'default' ); ?></label>
+                        <label><?php _e( 'Address', 'weforms' ); ?></label>
                     </div>
                     <div class="wpuf-int-field">
                         <div class="wpuf-int-field-small">
@@ -678,7 +678,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Notes', 'default' ); ?></label>
+                    <label><?php _e( 'Notes', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -690,7 +690,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Due Date', 'default' ); ?></label>
+                    <label><?php _e( 'Due Date', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -703,7 +703,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'Quote/Invoice #', 'default' ); ?></label>
+                    <label><?php _e( 'Quote/Invoice #', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -716,7 +716,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php _e( 'VAT Number', 'default' ); ?></label>
+                    <label><?php _e( 'VAT Number', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -728,7 +728,7 @@
 
             <div class="wpuf-int-form-row">
                 <div class="wpuf-int-field-label">
-                    <label><?php  _e( 'Line Items', 'default' ); ?></label>
+                    <label><?php  _e( 'Line Items', 'weforms' ); ?></label>
                 </div>
                 <div class="wpuf-int-field">
                     <div class="wpuf-int-field-small">
@@ -746,7 +746,7 @@
                 <label for="create-client-and-user" class="weforms-switch">
                     <input type="checkbox" id="create-client-and-user" v-model="settings.create_user_and_client">
                     <span class="switch-slider round"></span>
-                    <?php _e( 'Create Client and User', 'default' ); ?>
+                    <?php _e( 'Create Client and User', 'weforms' ); ?>
                 </label>
             </div>
         </div>
@@ -756,7 +756,7 @@
                 <label for="redirect" class="weforms-switch">
                     <input type="checkbox" id="redirect" v-model="settings.redirect">
                     <span class="switch-slider round"></span>
-                    <?php _e( 'Redirect to Quote/Invoice after Submission', 'default' ); ?>
+                    <?php _e( 'Redirect to Quote/Invoice after Submission', 'weforms' ); ?>
                 </label>
             </div>
         </div>
