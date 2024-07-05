@@ -4,7 +4,7 @@
 **Requires at least:** 5.0  
 **Requires PHP:** 7.2  
 **Tested up to:** 6.5  
-**Stable tag:** 1.6.23  
+**Stable tag:** 1.6.24  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -236,6 +236,8 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+### Version 1.6.24 ( 05 July, 2024 ) ###
+* Fix: Updates remote url for pollyfill.io to secured CloudFlare URL.
 
 ### Version 1.6.23 ( 19 March, 2024 ) ###
 * Fix: Adds wpdb->prepare to fix SQL injection vulnerabilities.
