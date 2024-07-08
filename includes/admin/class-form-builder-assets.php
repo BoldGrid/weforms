@@ -211,14 +211,6 @@ class WeForms_Form_Builder_Assets {
     public function builder_mixins_script() {
         ?>
             <script>
-                if (!window.Promise) {
-                    var promise_polyfill = document.createElement('script');
-                    promise_polyfill.setAttribute('src','https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0');
-                    document.head.appendChild(promise_polyfill);
-                }
-            </script>
-
-            <script>
                 var wpuf_form_builder_mixins = function(mixins, mixin_parent) {
                     if (!mixins || !mixins.length) {
                         return [];
