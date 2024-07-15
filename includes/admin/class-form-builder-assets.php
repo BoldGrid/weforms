@@ -68,9 +68,9 @@ class WeForms_Form_Builder_Assets {
             'integrations'              => weforms()->integrations->get_integration_js_settings(),
             'recaptcha_site'            => isset( $recaptcha->key ) ? $recaptcha->key : '',
             'recaptcha_secret'          => isset( $recaptcha->secret ) ? $recaptcha->secret : '',
-            'humanpresence_installed'   => ( 
-                class_exists( 'HumanPresenceWEFormsIntegration' ) && 
-                isset( $humanpresence['wp_hp_premium_license'] ) && 
+            'humanpresence_installed'   => (
+                class_exists( 'HumanPresenceWEFormsIntegration' ) &&
+                isset( $humanpresence['wp_hp_premium_license'] ) &&
                 $humanpresence['wp_hp_premium_license'] )
                 ? true : false,
         ] );
@@ -210,14 +210,6 @@ class WeForms_Form_Builder_Assets {
      */
     public function builder_mixins_script() {
         ?>
-            <script>
-                if (!window.Promise) {
-                    var promise_polyfill = document.createElement('script');
-                    promise_polyfill.setAttribute('src','https://cdn.polyfill.io/v2/polyfill.min.js');
-                    document.head.appendChild(promise_polyfill);
-                }
-            </script>
-
             <script>
                 var wpuf_form_builder_mixins = function(mixins, mixin_parent) {
                     if (!mixins || !mixins.length) {
