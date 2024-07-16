@@ -50,11 +50,13 @@ class WeForms_Integration_MailPoet_Free extends WeForms_Abstract_Integration {
      * @return array
      */
     public function fetch_lists() {
-        if ( class_exists( 'WYSIJA' ) ) {
-            $mail_poet_lists = WYSIJA::get( 'list', 'model' );
-            $lists           = $mail_poet_lists->get( [ 'name', 'list_id' ], [ 'is_enabled' => 1 ] );
+        if (class_exists(\MailPoet\API\API::class)) {
+            // Get MailPoet API instance
+            $mailpoet_api = \MailPoet\API\API::MP('v1');
+            // Get available list so that a subscriber can choose in which to subscribe 
+            $lists = $mailpoet_api->getLists( [ 'name', 'id' ], [ 'is_enabled' => 1 ] );
             wp_send_json_success( $lists );
-        }
+          }
     }
 
     /**
@@ -68,10 +70,10 @@ class WeForms_Integration_MailPoet_Free extends WeForms_Abstract_Integration {
      * @return void
      */
     public function subscribe_user( $entry_id, $form_id, $page_id, $form_settings ) {
-        if ( !class_exists( 'WYSIJA' ) ) {
+        if ( !class_exists(\MailPoet\API\API::class)){
             return;
         }
-
+        $mailpoet = \MailPoet\API\API::MP('v1');
         $integration = weforms_is_integration_active( $form_id, $this->id );
 
         if ( false === $integration ) {
@@ -93,18 +95,23 @@ class WeForms_Integration_MailPoet_Free extends WeForms_Abstract_Integration {
 
         // Populate data submitted.
         if ( $first_name && 'false' !== $first_name ) {
-            $userData = [ 'email' => $email, 'firstname' => $first_name, 'lastname' => $last_name ];
+            $userData = [ 'email' => $email, 'first_name' => $first_name, 'last_name' => $last_name ];
         } else {
             $userData = [ 'email' => $user->user_email ];
         }
 
-        $data = [
+        $subscriber = [
           'user'      => $userData,
           'user_list' => [ 'list_ids' => [ $integration->list ] ],
         ];
 
-        // Add subscriber to MailPoet.
-        $weHelper = WYSIJA::get( 'user', 'helper' );
-        $weHelper->addSubscriber( $data );
+        $get_subscriber = $mailpoet->getSubscriber($subscriber['email']);
+        if (!$get_subscriber) {
+            // Subscriber doesn't exist let's create one
+             $mailpoet_api->addSubscriber($subscriber['email'], $subscriber['list_ids']);
+        }else{
+            // In case subscriber exists just add them to new lists
+            $mailpoet_api->subscribeToLists($subscriber['email'], $subscriber['list_ids'] );
+        } 
     }
 }
