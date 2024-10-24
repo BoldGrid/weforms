@@ -521,6 +521,7 @@ class WeForms_Notification {
         // Users looking for {field:something} or {value:something}, determine which one.
         $is_field = preg_match_all( '/{field:(\w*)}/', $text, $matches_field );
         $is_value = preg_match_all( '/{value:(\w*)}/', $text, $matches_value );
+        $is_product = preg_match_all( '/{product:(\w*)}/', $text, $matches_product );
 
         if ( $is_field ) {
             $meta_keys   = $matches_field[1];
@@ -553,6 +554,28 @@ class WeForms_Notification {
             }
             // $text may include HTML tags, only replace tag that was matched.
             $text = str_replace( $matches_value[0], $modified_values, $text );
+        }
+        if( $is_product ) {
+            $meta_keys       = $matches_product[1];
+            // Create an array of modified values to replace.
+            $modified_values = array();
+            foreach ( $meta_keys as $meta_key ) {
+                $form_field_values  = WeForms_Form_Entry::get_form( $entry_id )->get_field_values()[ $meta_key ]['options'];
+                $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
+                // muli-products are an array of arrays so parse each value
+                $modified_value = array();
+                foreach($meta_value as $product){
+                    array_push( $modified_value,  array_keys($form_field_values)[array_search( $product['product'], array_keys($form_field_values) )] );
+                }
+                // implode $modified_value before adding it to the $modified_values array
+                if ( is_array( $modified_value ) ) {
+                    $modified_value = implode( WeForms::$field_separator, $modified_value );
+                }
+                // Add values to the array.
+                array_push( $modified_values, $modified_value );
+            }
+            // $text may include HTML tags, only replace tag that was matched.
+            $text = str_replace( $matches_product[0], $modified_values, $text );
         }
         return $text;
     }
