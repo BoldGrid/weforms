@@ -18,10 +18,11 @@ if ( !class_exists( 'weForms_Dokan_Integration' ) ) {
 
         public function add_settings_sections( $sections ) {
             $sections[] = [
-            'id'    => 'weforms_integration',
-            'title' => __( 'Vendor Contact Form', 'weforms' ),
-            'icon'  => 'dashicons-admin-generic',
-        ];
+                'id'             => 'weforms_integration',
+                'title'          => __( 'Vendor Contact Form', 'weforms' ),
+                'settings_title' => __( 'Vendor Contact Form Settings', 'weforms' ),
+                'icon_url'       => WEFORMS_ASSET_URI . '/images/icon-weforms.png',
+            ];
 
             return $sections;
         }
@@ -97,7 +98,7 @@ if ( !class_exists( 'weForms_Dokan_Integration' ) ) {
             'name'    => 'allow_vendor_contact_form',
             'label'   => __( 'Vendor Can Contact', 'weforms' ),
             'desc'    => __( 'Allow Vendors to contact admin from the dashbaord area', 'weforms' ),
-            'type'    => 'checkbox',
+            'type'    => 'switcher',
             'default' => 'off',
         ];
 
