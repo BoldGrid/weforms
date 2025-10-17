@@ -20,7 +20,7 @@ if ( !class_exists( 'weForms_Dokan_Integration' ) ) {
             $sections[] = [
                 'id'             => 'weforms_integration',
                 'title'          => __( 'Vendor Contact Form', 'weforms' ),
-                'settings_title' => __( 'Vendor Contact Form Settings', 'weforms' ),
+                'settings_title' => __( 'Vendor Contact Form', 'weforms' ),
                 'icon_url'       => WEFORMS_ASSET_URI . '/images/icon-weforms.png',
             ];
 
