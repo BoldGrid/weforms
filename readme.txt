@@ -214,6 +214,9 @@ You can set as many email notifications as possible with weForms.
 
 weForms is the most beginner friendly and fastest WordPress contact form plugin available and getting started is so easy!
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/7481e451-57f5-48ca-9cfb-11bd7c8a31e8). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Screenshots ==
 
