@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/BoldGrid/weforms"
   },
+  "scripts": {
+    "install:deps": "composer install -o --with-all-dependencies && yarn install --ignore-optional",
+    "upgrade:deps": "composer update -o --with-all-dependencies && yarn upgrade --ignore-optional"
+  },
   "dependencies": {},
   "devDependencies": {
     "axios": "^0.28.0",
