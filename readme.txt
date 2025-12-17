@@ -240,7 +240,7 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Changelog ==
 
-= Version 1.6.26 ( 17 Decemner, 2025 ) =
+= Version 1.6.26 ( 17 December, 2025 ) =
 * Fix: Added extra validation for form uploads.
 
 = Version 1.6.25 ( 15 July, 2024 ) =
