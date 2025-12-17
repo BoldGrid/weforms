@@ -1,12 +1,12 @@
 # weForms - Easy Drag & Drop Contact Form Builder For WordPress #
-**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988/), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu/), [boldgrid](https://profiles.wordpress.org/boldgrid/), [joemoto](https://profiles.wordpress.org/joemoto/), [jamesros161](https://profiles.wordpress.org/jamesros161/), [avonville1](https://profiles.wordpress.org/avonville1/)
-**Tags:** forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
-**Requires at least:** 5.0
-**Requires PHP:** 7.2
-**Tested up to:** 6.6
-**Stable tag:** 1.6.25
-**License:** GPLv2 or later
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** [tareq1988](https://profiles.wordpress.org/tareq1988/), [nizamuddinbabu](https://profiles.wordpress.org/nizamuddinbabu/), [boldgrid](https://profiles.wordpress.org/boldgrid/), [joemoto](https://profiles.wordpress.org/joemoto/), [jamesros161](https://profiles.wordpress.org/jamesros161/), [avonville1](https://profiles.wordpress.org/avonville1/)  
+**Tags:** form builder, contact form, forms, form creator, custom form  
+**Requires at least:** 5.0  
+**Requires PHP:** 7.2.5  
+**Tested up to:** 6.9  
+**Stable tag:** 1.6.26  
+**License:** GPLv2 or later  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 The easiest & fastest Contact Form on WordPress. Multiple templates, drag-&-drop live builder, submission listing, reCaptcha & more!
 
@@ -214,6 +214,9 @@ You can set as many email notifications as possible with weForms.
 
 weForms is the most beginner friendly and fastest WordPress contact form plugin available and getting started is so easy!
 
+### Where do I report security bugs found in this plugin? ###
+
+Please report security bugs found in the source code of the undefined plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/7481e451-57f5-48ca-9cfb-11bd7c8a31e8). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 ## Screenshots ##
 
@@ -236,6 +239,9 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 17. Event registration form displayed on the site
 
 ## Changelog ##
+
+### Version 1.6.26 ( 17 Decemner, 2025 ) ###
+* Fix: Added extra validation for form uploads.
 
 ### Version 1.6.25 ( 15 July, 2024 ) ###
 * Update: Removed Polyfill.io from the plugin.
@@ -641,4 +647,5 @@ weForms is the most beginner friendly and fastest WordPress contact form plugin 
 
 ## Upgrade Notice ##
 
-Nothing here right now
+### 1.6.26 ###
+This ia a security release.  All users are encouraged to update to this version.
