@@ -1,26 +1,29 @@
 {
-  "name": "wedevsofficial/weforms",
+  "name": "boldgrid/weforms",
   "description": "The fastest contact form plugin for WordPress",
   "type": "wordpress-plugin",
-  "license": "GPL-2.0+",
-  "authors": [
-    {
-      "name": "Tareq Hasan",
-      "email": "tareq@wedevs.com"
-    }
-  ],
-  "minimum-stability": "dev",
+  "license": "GPL-2.0-or-later",
   "require": {
-    "php": ">=5.4.0",
+    "php": ">=7.2.5",
     "composer/installers": "~1.0"
   },
   "require-dev": {
-    "automattic/vipwpcs": "dev-master",
-    "dealerdirect/phpcodesniffer-composer-installer": "dev-master"
+    "automattic/vipwpcs": "dev-main"
   },
   "scripts": {
     "phpcs": [
       "phpcs -p -s"
     ]
-  }
+  },
+    "config": {
+        "optimize-autoloader": true,
+        "COMPOSER_MIRROR_PATH_REPOS": true,
+        "platform": {
+            "php": "7.2.5"
+        },
+    "allow-plugins": {
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+    }
 }
