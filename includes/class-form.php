@@ -29,6 +29,34 @@ class WeForms_Form {
     public $data = null;
 
     /**
+     * Derived/formatted stats & metadata used by admin/AJAX/API responses.
+     * Declared explicitly to avoid PHP 8.2 "dynamic property" deprecations.
+     *
+     * @var int
+     */
+    public $entries = 0;
+
+    /**
+     * @var array
+     */
+    public $settings = [];
+
+    /**
+     * @var int
+     */
+    public $views = 0;
+
+    /**
+     * @var int
+     */
+    public $payments = 0;
+
+    /**
+     * @var array
+     */
+    public $author = [];
+
+    /**
      * Form fields
      *
      * @var array
