@@ -144,6 +144,10 @@ class WeForms_Ajax_Upload {
 
             wp_update_attachment_metadata( $attach_id, $attach_data );
 
+            // Store a unique deletion token for security (prevents IDOR attacks)
+            $delete_token = wp_generate_password( 32, false );
+            update_post_meta( $attach_id, '_wpuf_delete_token', $delete_token );
+
             return ['success' => true, 'attach_id' => $attach_id];
         }
 
@@ -176,12 +180,20 @@ class WeForms_Ajax_Upload {
             $image = wp_mime_type_icon( $attach_id );
         }
 
+        // Get deletion token for security (prevents IDOR attacks)
+        $delete_token = get_post_meta( $attach_id, '_wpuf_delete_token', true );
+        // If no token exists (legacy files), generate one now
+        if ( empty( $delete_token ) ) {
+            $delete_token = wp_generate_password( 32, false );
+            update_post_meta( $attach_id, '_wpuf_delete_token', $delete_token );
+        }
+
         $html = '<li class="ui-state-default wpuf-image-wrap thumbnail">';
         $html .= sprintf( '<div class="attachment-name"><img src="%s" alt="%s" /></div>', $image, esc_attr( $attachment->post_title ) );
 
         $html .= sprintf( '<input type="hidden" name="wpuf_files[%s][]" value="%d">', $type, $attach_id );
         $html .= '<div class="caption">';
-        $html .= sprintf( '<a href="#" class="attachment-delete" data-attach_id="%d"> <img src="%s" /></a>', $attach_id, WEFORMS_ASSET_URI . '/images/del-img.png' );
+        $html .= sprintf( '<a href="#" class="attachment-delete" data-attach_id="%d" data-delete-token="%s"> <img src="%s" /></a>', $attach_id, esc_attr( $delete_token ), WEFORMS_ASSET_URI . '/images/del-img.png' );
         $html .= sprintf( '<span class="wpuf-drag-file"> <img src="%s" /></span>', WEFORMS_ASSET_URI . '/images/move-img.png' );
         $html .= '</div>';
         $html .= '</li>';
@@ -200,12 +212,42 @@ class WeForms_Ajax_Upload {
         $attach_id  = isset( $_POST['attach_id'] ) ? intval( $_POST['attach_id'] ) : 0;
         $attachment = get_post( $attach_id );
 
-        //post author or editor role
-        if ( get_current_user_id() == $attachment->post_author || current_user_can( 'delete_private_pages' ) ) {
-            wp_delete_attachment( $attach_id, true );
+        // Validate attachment exists
+        if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
+            echo 'error';
+            exit;
         }
 
-        echo 'success';
+        $current_user_id = get_current_user_id();
+        $is_authenticated = $current_user_id > 0;
+        $can_delete = false;
+
+        if ( $is_authenticated ) {
+            // For authenticated users: must own the file OR have admin/editor capabilities
+            if ( $current_user_id == $attachment->post_author || current_user_can( 'delete_private_pages' ) ) {
+                $can_delete = true;
+            }
+        } else {
+            // For unauthenticated users: must provide the correct deletion token
+            // This prevents IDOR attacks where 0 == 0 would allow deletion of any guest upload
+            $delete_token = isset( $_POST['delete_token'] ) ? sanitize_text_field( wp_unslash( $_POST['delete_token'] ) ) : '';
+            $stored_token = get_post_meta( $attach_id, '_wpuf_delete_token', true );
+
+            // Only allow deletion if token matches AND file was uploaded by guest (post_author == 0)
+            if ( ! empty( $delete_token ) && ! empty( $stored_token ) &&
+                 hash_equals( $stored_token, $delete_token ) &&
+                 $attachment->post_author == 0 ) {
+                $can_delete = true;
+            }
+        }
+
+        if ( $can_delete ) {
+            wp_delete_attachment( $attach_id, true );
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+
         exit;
     }
 }
