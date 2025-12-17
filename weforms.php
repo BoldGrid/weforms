@@ -5,7 +5,7 @@
  * Plugin URI: https://weformspro.com/
  * Author: weForms
  * Author URI: https://weformspro.com/
- * Version: 1.6.25
+ * Version: 1.6.26
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -55,7 +55,7 @@ final class WeForms {
      *
      * @var string
      */
-    public $version = '1.6.25';
+    public $version = '1.6.26';
 
     /**
      * Form field value seperator
@@ -76,7 +76,7 @@ final class WeForms {
      *
      * @var string
      */
-    private $min_php = '5.6.0';
+    private $min_php = '7.2.5';
 
     /**
      * Constructor for the WeForms class
