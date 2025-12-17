@@ -648,4 +648,4 @@ Please report security bugs found in the source code of the undefined plugin thr
 == Upgrade Notice ==
 
 = 1.6.26 =
-This ia a security release.  All users are encouraged to update to this version.
+This is a security release.  All users are encouraged to update to this version.
