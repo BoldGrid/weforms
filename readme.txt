@@ -1,10 +1,10 @@
 === weForms - Easy Drag & Drop Contact Form Builder For WordPress ===
 Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto, jamesros161, avonville1
-Tags: forms, contact form, contact form plugin, custom form, form builder, form, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation
+Tags: form builder, contact form, forms, form creator, custom form
 Requires at least: 5.0
-Requires PHP: 7.2
+Requires PHP: 7.2.5
 Tested up to: 6.9
-Stable tag: 1.6.25
+Stable tag: 1.6.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,9 @@ Please report security bugs found in the source code of the undefined plugin thr
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.26 ( 17 December, 2025 ) =
+* Fix: Added extra validation for form uploads.
 
 = Version 1.6.25 ( 15 July, 2024 ) =
 * Update: Removed Polyfill.io from the plugin.
@@ -644,4 +647,5 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Upgrade Notice ==
 
-Nothing here right now
+= 1.6.26 =
+This is a security release.  All users are encouraged to update to this version.
