@@ -36,9 +36,9 @@
                             <button type="button" class="button button-small" style="margin-top: 8px;" @click.prevent="post_title_editing = false"><i class="fa fa-check"></i></button>
                         </span>
 
-                        <span class="form-id" title="<?php echo esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
+                        <span class="form-id" title="<?php esc_attr_e( 'Click to copy shortcode', 'weforms' ); ?>" :data-clipboard-text='"[weforms id=\"" + post.ID + "\"]"'><i class="fa fa-clipboard" aria-hidden="true"></i> #{{ post.ID }}</span>
 
-                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php echo esc_attr_e( 'Share Your Form', 'weforms' ); ?>">
+                        <span :class="{ sharing_on : settings.sharing_on }" class="ann-form-btn form-id" @click="shareForm( '<?php echo site_url( '/' ); ?>',post)" title="<?php esc_attr_e( 'Share Your Form', 'weforms' ); ?>">
                             <i class="fa fa-share-alt" aria-hidden="true"></i>
                             <?php _e( 'Share', 'Share' ); ?>
                         </span>
@@ -109,3 +109,4 @@
         <input type="hidden" name="wpuf_form_id" :value="post.ID">
     </fieldset>
 </form><!-- #wpuf-form-builder -->
+
