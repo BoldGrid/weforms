@@ -520,7 +520,8 @@ class WeForms_Ajax {
         $payment        = $entry->get_payment_data();
 
         if ( isset( $payment->payment_data ) && is_serialized( $payment->payment_data ) ) {
-            $payment->payment_data = unserialize( $payment->payment_data );
+            // Security fix: Use safe deserialization with allowed_classes
+            $payment->payment_data = @unserialize( $payment->payment_data, [ 'allowed_classes' => false ] );
         }
 
         if ( false === $fields ) {

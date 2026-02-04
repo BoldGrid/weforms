@@ -1248,14 +1248,15 @@ function weforms_get_default_form_notification() {
  * @return string
  **/
 function weforms_get_pain_text( $value ) {
-    if ( is_serialized( $value ) ) {
-        $value = unserialize( $value );
-    }
+    // Security fix: Removed unsafe unserialize() call to prevent PHP Object Injection.
+    // WordPress's get_metadata() already handles deserialization safely.
+    // Any serialized strings at this point should be treated as untrusted user input.
 
     if ( is_array( $value ) ) {
         $string_value = [];
         foreach ( $value as $key => $single_value ) {
-            if ( is_array( $single_value ) || is_serialized( $single_value ) ) {
+            // Only recursively process arrays, not serialized strings
+            if ( is_array( $single_value ) ) {
                 $single_value = weforms_get_pain_text( $single_value );
             }
 
