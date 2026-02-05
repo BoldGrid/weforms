@@ -217,7 +217,8 @@ class WeFormsSecurityTester {
     private function test_verify_allowed_classes() {
         $this->print_test_header("TEST 4: Verifying allowed_classes => false Parameter");
 
-        $all_files = glob($this->plugin_path . '/includes/**/*.php');
+        // Recursively find all PHP files in includes directory
+        $all_files = $this->get_php_files_recursive($this->plugin_path . '/includes');
         $all_secure = true;
         $unserialize_count = 0;
 
@@ -256,6 +257,33 @@ class WeFormsSecurityTester {
         }
 
         echo "\n";
+    }
+
+    /**
+     * Recursively get all PHP files in a directory
+     *
+     * @param string $directory Directory path to scan
+     * @return array Array of PHP file paths
+     */
+    private function get_php_files_recursive($directory) {
+        $php_files = [];
+
+        if (!is_dir($directory)) {
+            return $php_files;
+        }
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $file) {
+            if ($file->isFile() && $file->getExtension() === 'php') {
+                $php_files[] = $file->getPathname();
+            }
+        }
+
+        return $php_files;
     }
 
     /**
