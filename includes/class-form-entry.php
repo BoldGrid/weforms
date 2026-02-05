@@ -170,8 +170,8 @@ class WeForms_Form_Entry {
                         }
                     } elseif ( in_array( $field['type'], [ 'image_upload', 'file_upload' ] ) ) {
                         $file_field = '';
-                        // Security fix: Use safe deserialization with allowed_classes
-                        $value      = is_string( $value ) && is_serialized( $value )
+                        // Security fix: Prevent PHP Object Injection by restricting allowed classes
+                        $value      = is_serialized( $value )
                             ? @unserialize( $value, [ 'allowed_classes' => false ] )
                             : $value;
 
@@ -199,8 +199,8 @@ class WeForms_Form_Entry {
                             'long'    => trim( $long ),
                         ];
                     } elseif ( $field['type'] == 'multiple_product' ) {
-                        // Security fix: Use safe deserialization with allowed_classes
-                        $field_value = is_string( $value ) && is_serialized( $value )
+                        // Security fix: Prevent PHP Object Injection by restricting allowed classes
+                        $field_value = is_serialized( $value )
                             ? @unserialize( $value, [ 'allowed_classes' => false ] )
                             : $value;
 
@@ -224,8 +224,8 @@ class WeForms_Form_Entry {
                             $value = implode( '<br> <br> ', $serialized_value );
                         }
                     } elseif ( $field['type'] == 'checkbox_grid' ) {
-                        // Security fix: Use safe deserialization with allowed_classes
-                        $entry_value = is_string( $value ) && is_serialized( $value )
+                        // Security fix: Prevent PHP Object Injection by restricting allowed classes
+                        $entry_value = is_serialized( $value )
                             ? @unserialize( $value, [ 'allowed_classes' => false ] )
                             : $value;
 
@@ -290,8 +290,8 @@ class WeForms_Form_Entry {
                             $value = $return;
                         }
                     } elseif ( $field['type'] == 'multiple_choice_grid' ) {
-                        // Security fix: Use safe deserialization with allowed_classes
-                        $entry_value = is_string( $value ) && is_serialized( $value )
+                        // Security fix: Prevent PHP Object Injection by restricting allowed classes
+                        $entry_value = is_serialized( $value )
                             ? @unserialize( $value, [ 'allowed_classes' => false ] )
                             : $value;
 
@@ -356,8 +356,8 @@ class WeForms_Form_Entry {
                             $value = $return;
                         }
                     } elseif ( $field['type'] == 'address_field' || is_serialized( $value ) ) {
-                        // Security fix: Use safe deserialization with allowed_classes
-                        $field_value = is_string( $value ) && is_serialized( $value )
+                        // Security fix: Prevent PHP Object Injection by restricting allowed classes
+                        $field_value = is_serialized( $value )
                             ? @unserialize( $value, [ 'allowed_classes' => false ] )
                             : $value;
 

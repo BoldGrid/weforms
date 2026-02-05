@@ -1548,7 +1548,7 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
         $payment       = $entry->get_payment_data();
 
         if ( isset( $payment->payment_data ) && is_serialized( $payment->payment_data ) ) {
-            // Security fix: Use safe deserialization with allowed_classes
+            // Security fix: Prevent PHP Object Injection by restricting allowed classes
             $payment->payment_data = @unserialize( $payment->payment_data, [ 'allowed_classes' => false ] );
         }
 

@@ -87,14 +87,25 @@ class WeFormsSecurityTester {
 
             // Look for unsafe unserialize patterns
             // Pattern: unserialize( without ['allowed_classes' => false]
-            if (preg_match('/unserialize\s*\(\s*\$[^)]+\)\s*;/', $content, $matches)) {
-                // Check if it has allowed_classes parameter
-                if (!preg_match('/unserialize\s*\([^)]+\[\s*[\'"]allowed_classes[\'"]\s*=>\s*false\s*\]/', $content)) {
-                    echo TestColors::RED . "  ❌ VULNERABLE: {$file}" . TestColors::RESET . "\n";
-                    echo "     Found: " . trim($matches[0]) . "\n";
-                    $this->vulnerable_files[] = $file;
-                    $found_unsafe = true;
+            preg_match_all('/unserialize\s*\(\s*[^)]+\)\s*;/', $content, $all_matches, PREG_SET_ORDER);
+
+            $unsafe_matches = [];
+            foreach ($all_matches as $match) {
+                // Check if it has allowed_classes parameter nearby
+                $context_start = max(0, strpos($content, $match[0]) - 200);
+                $context = substr($content, $context_start, 300);
+                if (!preg_match('/allowed_classes.*false/', $context)) {
+                    $unsafe_matches[] = $match;
                 }
+            }
+
+            if (!empty($unsafe_matches)) {
+                echo TestColors::RED . "  ❌ VULNERABLE: {$file}" . TestColors::RESET . "\n";
+                foreach ($unsafe_matches as $match) {
+                    echo "     Found: " . trim($match[0]) . "\n";
+                }
+                $this->vulnerable_files[] = $file;
+                $found_unsafe = true;
             }
         }
 
@@ -134,7 +145,7 @@ class WeFormsSecurityTester {
 
             $content = file_get_contents($full_path);
 
-            // Count safe patterns
+            // Count safe patterns: allowed_classes => false
             $safe_count = preg_match_all(
                 '/unserialize\s*\([^)]+\[\s*[\'"]allowed_classes[\'"]\s*=>\s*false\s*\]/',
                 $content

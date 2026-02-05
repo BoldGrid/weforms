@@ -218,8 +218,8 @@ class WeForms_Privacy {
     }
 
     public static function process_payment_data( $payment_data ) {
-        // Security fix: Use safe deserialization with allowed_classes
-        $field_value = is_string( $payment_data->payment_data ) && is_serialized( $payment_data->payment_data )
+        // Security fix: Prevent PHP Object Injection by restricting allowed classes
+        $field_value = is_serialized( $payment_data->payment_data )
             ? @unserialize( $payment_data->payment_data, [ 'allowed_classes' => false ] )
             : $payment_data->payment_data;
 
