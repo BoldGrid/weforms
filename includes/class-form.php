@@ -126,7 +126,10 @@ class WeForms_Form {
         $form_fields = [];
 
         foreach ( $fields as $key => $content ) {
-            $field = maybe_unserialize( $content->post_content );
+            // Security fix: Prevent PHP Object Injection by restricting allowed classes
+            $field = is_serialized( $content->post_content )
+                ? @unserialize( $content->post_content, [ 'allowed_classes' => false ] )
+                : $content->post_content;
 
             if ( empty( $field['template']  ) ) {
                 continue;
