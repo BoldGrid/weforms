@@ -40,7 +40,8 @@
                                             </div>
                                             <div v-else-if="field.type === 'country_list_field'">{{ getCountryName( field.value ) }}</div>
                                             <div v-else-if="field.type === 'address_field'" v-html="getAddressFieldValue( field.value)"></div>
-                                            <div v-else v-html="field.value"></div>
+                                            <div v-else-if="field.type === 'textarea_field'" v-html="field.value"></div>
+                                            <div v-else>{{ field.value }}</div>
                                         </td>
                                     </tr>
                                 </template>

@@ -545,7 +545,7 @@ abstract class WeForms_Field_Contract {
         if ( is_array( $value ) ) {
             $entry_value = implode( WeForms::$field_separator, $args[$field['name']] );
         } else {
-            $entry_value = trim( $value  );
+            $entry_value = sanitize_textarea_field( trim( $value ) );
         }
 
         return $entry_value;
