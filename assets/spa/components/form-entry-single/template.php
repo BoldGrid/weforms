@@ -41,6 +41,7 @@
                                             <div v-else-if="field.type === 'country_list_field'">{{ getCountryName( field.value ) }}</div>
                                             <div v-else-if="field.type === 'address_field'" v-html="getAddressFieldValue( field.value)"></div>
                                             <div v-else-if="field.type === 'textarea_field'" v-html="field.value"></div>
+                                            <div v-else-if="field.type === 'image_upload' || field.type === 'file_upload' || field.type === 'signature_field' || field.type === 'checkbox_grid' || field.type === 'multiple_choice_grid'" v-html="field.value"></div>
                                             <div v-else>{{ field.value }}</div>
                                         </td>
                                     </tr>
