@@ -539,11 +539,16 @@ abstract class WeForms_Field_Contract {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 
-        $args  = ! empty( $args ) ? $args : weforms_clean( $_POST );
-        $value = !empty( $args[$field['name']] ) ? $args[$field['name']] : '';
+        if ( $args instanceof WP_REST_Request ) {
+            $args = weforms_clean( $args->get_params() );
+        } elseif ( empty( $args ) ) {
+            $args = weforms_clean( $_POST );
+        }
+
+        $value = ! empty( $args[ $field['name'] ] ) ? $args[ $field['name'] ] : '';
 
         if ( is_array( $value ) ) {
-            $entry_value = implode( WeForms::$field_separator, $args[$field['name']] );
+            $entry_value = implode( WeForms::$field_separator, $value );
         } else {
             $entry_value = sanitize_textarea_field( trim( $value ) );
         }

@@ -602,6 +602,7 @@ class WeForms_Notification {
      * @return string
      */
     public static function replace_file_tags( $text, $entry_id ) {
+        $text    = $text ?? '';
         $pattern = '/{(?:image|file):(\w*)}/';
 
         preg_match_all( $pattern, $text, $matches );

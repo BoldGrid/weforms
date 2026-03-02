@@ -621,7 +621,7 @@ function weforms_get_form_field_labels( $form_id ) {
         }
 
         $data[ $field['name'] ] = [
-            'label' => $field['label'],
+            'label' => $field['label'] ?? '',
             'type'  => $field['template'],
         ];
     }
@@ -715,6 +715,7 @@ function weforms_get_browser() {
     $bname    = 'Unknown';
     $platform = 'Unknown';
     $version  = '';
+    $ub       = '';
 
     // first get the platform
     if ( preg_match( '/linux/i', $u_agent ) ) {

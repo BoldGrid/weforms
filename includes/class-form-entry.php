@@ -142,7 +142,7 @@ class WeForms_Form_Entry {
                     $this->raw_fields[ $result->meta_key ]['value'] = $value;
 
                     if ( $field['type'] == 'textarea_field' ) {
-                        $value = weforms_format_text( $value );
+                        $value = wp_kses_post( weforms_format_text( $value ) );
                     } elseif ( $field['type'] == 'name_field' ) {
                         $value = implode( ' ', explode( WeForms::$field_separator, $value ) );
                     } elseif ( in_array( $field['type'], [ 'dropdown_field', 'radio_field' ] ) ) {
@@ -180,16 +180,16 @@ class WeForms_Form_Entry {
                                 if ( $field['type'] == 'image_upload' ) {
                                     $thumb = wp_get_attachment_image( $attachment_id, 'thumbnail' );
                                 } else {
-                                    $thumb = get_post_field( 'post_title', $attachment_id );
+                                    $thumb = esc_html( get_post_field( 'post_title', $attachment_id ) );
                                 }
 
-                                $full_size = wp_get_attachment_url( $attachment_id );
+                                $full_size = esc_url( wp_get_attachment_url( $attachment_id ) );
 
                                 $file_field .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
                             }
                         }
 
-                        $value = $file_field;
+                        $value = wp_kses_post( $file_field );
                     } elseif ( $field['type'] == 'google_map' ) {
                         list( $address, $lat, $long ) = explode( '||', $value );
 
@@ -251,7 +251,7 @@ class WeForms_Form_Entry {
                                             <div class="wpufTableHead">&nbsp;</div>';
 
                                 foreach ( $field['grid_columns'] as $column ) {
-                                    $return .= '<div class="wpufTableHead">' . $column . '</div>';
+                                    $return .= '<div class="wpufTableHead">' . esc_html( $column ) . '</div>';
                                 }
 
                                 $return .= '</div>
@@ -260,7 +260,7 @@ class WeForms_Form_Entry {
 
                                 foreach ( $field['grid_rows'] as $row_key => $row_value ) {
                                     $return .= '<div class="wpufTableRow">
-                                                <div class="wpufTableHead">' . $row_value . '</div>';
+                                                <div class="wpufTableHead">' . esc_html( $row_value ) . '</div>';
 
                                     foreach ( $field['grid_columns'] as $column_key => $column_value ) {
                                         if ( isset( $new_val[ $row_key ] ) ) {
@@ -317,7 +317,7 @@ class WeForms_Form_Entry {
                                             <div class="wpufTableHead">&nbsp;</div>';
 
                                 foreach ( $field['grid_columns'] as $column ) {
-                                    $return .= '<div class="wpufTableHead">' . $column . '</div>';
+                                    $return .= '<div class="wpufTableHead">' . esc_html( $column ) . '</div>';
                                 }
 
                                 $return .= '</div>
@@ -326,7 +326,7 @@ class WeForms_Form_Entry {
 
                                 foreach ( $field['grid_rows'] as $row_key => $row_value ) {
                                     $return .= '<div class="wpufTableRow">
-                                                <div class="wpufTableHead">' . $row_value . '</div>';
+                                                <div class="wpufTableHead">' . esc_html( $row_value ) . '</div>';
 
                                     foreach ( $field['grid_columns'] as $column_key => $column_value ) {
                                         if ( isset( $new_val[ $row_key ] ) ) {
@@ -373,16 +373,15 @@ class WeForms_Form_Entry {
                             $value = implode( '<br> ', $serialized_value );
                         }
                     } elseif ( $field['type'] == 'signature_field' ) {
-                        $url   =  $value;
-
                         if ( isset( $_REQUEST['action'] ) != 'weforms_pdf_download' ) {
-                            $url   = content_url() . '/' . $value;
+                            $url   = esc_url( content_url() . '/' . $value );
                             $value = sprintf( '<img src="%s">', $url );
                             $value .= sprintf( '<a style="margin-left: -200px" href="%s">Download</a>', $url );
-                        }
-                        else{
+                        } else {
+                            $url   = esc_url( $value );
                             $value = sprintf( '<img src="%s">', $url );
                         }
+                        $value = wp_kses_post( $value );
                     }
 
                     $this->fields[ $result->meta_key ]['value'] = apply_filters( 'weforms_entry_meta_field', $value, $field );
