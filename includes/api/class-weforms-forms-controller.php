@@ -255,7 +255,7 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
             $entry_fields = [];
 
             foreach ( $form_fields as $key => $field ) {
-                if ( $field['wpuf_cond']['condition_status'] == 'yes' ) {
+                if ( ! empty( $field['wpuf_cond'] ) && $field['wpuf_cond']['condition_status'] == 'yes' ) {
                     $logic          = [];
                     $cond_fields    = $field['wpuf_cond']['cond_field'];
                     $cond_operators = $field['wpuf_cond']['cond_operator'];

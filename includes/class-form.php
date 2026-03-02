@@ -433,7 +433,6 @@ class WeForms_Form {
     public function get_changed_fields( $form_fields ) {
         $changed_fields = array();
         foreach ( $form_fields as $field ) {
-            $org_field = $field['original_name'];
             // All form fields should have an original name.
             if ( empty( $field['original_name'] ) ) {
                 continue;
