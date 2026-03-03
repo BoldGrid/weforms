@@ -185,7 +185,7 @@ class WeForms_Form_Entry {
 
                                 $full_size = esc_url( wp_get_attachment_url( $attachment_id ) );
 
-                                $file_field .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
+                                $file_field .= sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a> ', $full_size, $thumb );
                             }
                         }
 
@@ -221,7 +221,7 @@ class WeForms_Form_Entry {
                                 }
                             }
 
-                            $value = implode( '<br> <br> ', $serialized_value );
+                            $value = wp_kses_post( implode( '<br> <br> ', $serialized_value ) );
                         }
                     } elseif ( $field['type'] == 'checkbox_grid' ) {
                         // Security fix: Prevent PHP Object Injection by restricting allowed classes
@@ -287,7 +287,7 @@ class WeForms_Form_Entry {
                                 </div>';
                             }
 
-                            $value = $return;
+                            $value = wp_kses_post( $return );
                         }
                     } elseif ( $field['type'] == 'multiple_choice_grid' ) {
                         // Security fix: Prevent PHP Object Injection by restricting allowed classes
@@ -353,7 +353,7 @@ class WeForms_Form_Entry {
                                 </div>';
                             }
 
-                            $value = $return;
+                            $value = wp_kses_post( $return );
                         }
                     } elseif ( $field['type'] == 'address_field' || is_serialized( $value ) ) {
                         // Security fix: Prevent PHP Object Injection by restricting allowed classes
@@ -373,7 +373,7 @@ class WeForms_Form_Entry {
                             $value = implode( '<br> ', $serialized_value );
                         }
                     } elseif ( $field['type'] == 'signature_field' ) {
-                        if ( isset( $_REQUEST['action'] ) != 'weforms_pdf_download' ) {
+                        if ( ! isset( $_REQUEST['action'] ) || $_REQUEST['action'] !== 'weforms_pdf_download' ) {
                             $url   = esc_url( content_url() . '/' . $value );
                             $value = sprintf( '<img src="%s">', $url );
                             $value .= sprintf( '<a style="margin-left: -200px" href="%s">Download</a>', $url );
