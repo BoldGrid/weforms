@@ -531,11 +531,17 @@ abstract class WeForms_Field_Contract {
      * @return mixed
      */
     public function prepare_entry( $field, $args = [] ) {
-        if( empty( $_POST['_wpnonce'] ) ) {
-             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        if ( $args instanceof WP_REST_Request ) {
+            $nonce = $args->get_param( '_wpnonce' );
+        } else {
+            $nonce = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : '';
         }
 
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wpuf_form_add' ) ) {
+        if ( empty( $nonce ) ) {
+            wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce ) ), 'wpuf_form_add' ) ) {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 

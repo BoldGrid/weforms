@@ -108,6 +108,22 @@ class WeForms_Form_Entry {
         $grid_css_added = false;
         $grid_css       = '<style>.wpufTable {display: table; width: 100%; } .wpufTableRow {display: table-row; } .wpufTableRow:nth-child(even) {background-color: #f5f5f5; } .wpufTableHeading {background-color: #eee; display: table-header-group; font-weight: bold; } .wpufTableCell, .wpufTableHead {border: none; display: table-cell; padding: 3px 10px; } .wpufTableFoot {background-color: #eee; display: table-footer-group; font-weight: bold; } .wpufTableBody {display: table-row-group; }</style>';
 
+        // Custom allowlist for grid field HTML: wp_kses_post() strips <style> and <input>,
+        // but all dynamic values are already escaped (esc_html/esc_attr) at construction time.
+        $grid_kses_allowed = array(
+            'style' => array(),
+            'div'   => array( 'class' => true ),
+            'label' => array( 'class' => true ),
+            'input' => array(
+                'name'     => true,
+                'class'    => true,
+                'type'     => true,
+                'value'    => true,
+                'checked'  => true,
+                'disabled' => true,
+            ),
+        );
+
         $values = [];
 
         $query = $wpdb->prepare(
@@ -287,7 +303,7 @@ class WeForms_Form_Entry {
                                 </div>';
                             }
 
-                            $value = wp_kses_post( $return );
+                            $value = wp_kses( $return, $grid_kses_allowed );
                         }
                     } elseif ( $field['type'] == 'multiple_choice_grid' ) {
                         // Security fix: Prevent PHP Object Injection by restricting allowed classes
@@ -353,7 +369,7 @@ class WeForms_Form_Entry {
                                 </div>';
                             }
 
-                            $value = wp_kses_post( $return );
+                            $value = wp_kses( $return, $grid_kses_allowed );
                         }
                     } elseif ( $field['type'] == 'address_field' || is_serialized( $value ) ) {
                         // Security fix: Prevent PHP Object Injection by restricting allowed classes
