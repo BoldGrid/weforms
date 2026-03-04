@@ -602,6 +602,7 @@ class WeForms_Notification {
      * @return string
      */
     public static function replace_file_tags( $text, $entry_id ) {
+        $text    = $text ?? '';
         $pattern = '/{(?:image|file):(\w*)}/';
 
         preg_match_all( $pattern, $text, $matches );
@@ -614,17 +615,10 @@ class WeForms_Notification {
         foreach ( $matches[1] as $index => $meta_key ) {
             $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
 
-            $files = [];
+            $files       = [];
+            $attachments = is_array( $meta_value ) ? $meta_value : array( $meta_value );
 
-            if ( is_array( $meta_value ) ) {
-                foreach ( $meta_value as $key => $attachment_id ) {
-                    $file_url = wp_get_attachment_url( $attachment_id );
-
-                    if ( $file_url ) {
-                        $files[] = $file_url;
-                    }
-                }
-            } else {
+            foreach ( $attachments as $attachment_id ) {
                 $file_url = wp_get_attachment_url( $attachment_id );
 
                 if ( $file_url ) {

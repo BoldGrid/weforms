@@ -77,7 +77,7 @@
                         <th scope="row" class="check-column">
                             <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
                         </th>
-                        <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
+                        <td v-for="(header, index) in columns"><span>{{ entry.fields[index] }}</span></td>
                         <th class="col-entry-details">
                             <template v-if="status == 'trash'">
                                 <a href="#" @click.prevent="restore(entry.id)"><?php esc_html_e( 'Restore', 'weforms' ); ?></a>
@@ -96,7 +96,7 @@
                     <th scope="row" class="check-column">
                         <input type="checkbox" name="post[]" v-model="checkedItems" :value="entry.id">
                     </th>
-                    <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
+                    <td v-for="(header, index) in columns"><span>{{ entry.fields[index] }}</span></td>
                     <th class="col-entry-details">
                         <template v-if="status == 'trash'">
                             <a href="#" @click.prevent="restore(entry.id)"><?php esc_html_e( 'Restore', 'weforms' ); ?></a>
@@ -425,7 +425,9 @@
                                             </div>
                                             <div v-else-if="field.type === 'country_list_field'">{{ getCountryName( field.value ) }}</div>
                                             <div v-else-if="field.type === 'address_field'" v-html="getAddressFieldValue( field.value)"></div>
-                                            <div v-else v-html="field.value"></div>
+                                            <div v-else-if="field.type === 'textarea_field'" v-html="field.value"></div>
+                                            <div v-else-if="field.type === 'image_upload' || field.type === 'file_upload' || field.type === 'signature_field' || field.type === 'checkbox_grid' || field.type === 'multiple_choice_grid' || field.type === 'multiple_product'" v-html="field.value"></div>
+                                            <div v-else>{{ field.value }}</div>
                                         </td>
                                     </tr>
                                 </template>
