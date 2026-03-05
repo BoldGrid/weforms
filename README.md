@@ -4,7 +4,7 @@
 **Requires at least:** 5.0  
 **Requires PHP:** 7.2.5  
 **Tested up to:** 6.9  
-**Stable tag:** 1.6.26  
+**Stable tag:** 1.6.28  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -240,7 +240,13 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 ## Changelog ##
 
-### Version 1.6.26 ( 17 Decemner, 2025 ) ###
+### Version 1.6.28 ( 27 February, 2026 ) ###
+* Security: Patched stored XSS vulnerability in form entry fields.
+
+### Version 1.6.27 ( 09 February, 2026 ) ###
+* Security: Patched object injection vulnerability.
+
+### Version 1.6.26 ( 17 December, 2025 ) ###
 * Fix: Added extra validation for form uploads.
 
 ### Version 1.6.25 ( 15 July, 2024 ) ###
@@ -648,4 +654,4 @@ Please report security bugs found in the source code of the undefined plugin thr
 ## Upgrade Notice ##
 
 ### 1.6.26 ###
-This ia a security release.  All users are encouraged to update to this version.
+This is a security release.  All users are encouraged to update to this version.
