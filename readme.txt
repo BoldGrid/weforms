@@ -3,7 +3,7 @@ Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto, jamesros161, avonvil
 Tags: form builder, contact form, forms, form creator, custom form
 Requires at least: 5.0
 Requires PHP: 7.2.5
-Tested up to: 6.9
+Tested up to: 7.0
 Stable tag: 1.6.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
