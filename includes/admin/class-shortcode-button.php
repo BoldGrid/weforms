@@ -43,7 +43,7 @@ class Weforms_Form_Button {
     public function add_media_button( $editor_id ) {
         ?>
         <a href="#TB_inline?width=480&amp;inlineId=weforms-media-dialog" class="button thickbox insert-form" data-editor="<?php echo esc_attr( $editor_id ); ?>" title="<?php esc_html_e( 'Add a Form', 'weforms' ); ?>">
-            <?php echo '<span class="wp-media-buttons-icon dashicons dashicons-welcome-widgets-menus"></span>' . esc_html_e( ' Add Contact Form', 'weforms' ); ?>
+            <?php echo '<span class="wp-media-buttons-icon dashicons dashicons-welcome-widgets-menus"></span>' . esc_html__( ' Add Contact Form', 'weforms' ); ?>
         </a>
         <?php
     }
@@ -123,3 +123,4 @@ class Weforms_Form_Button {
 }
 
 Weforms_Form_Button::init();
+
