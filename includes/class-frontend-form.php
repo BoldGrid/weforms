@@ -149,7 +149,7 @@ class WeForms_Frontend_Form {
                 if ( isset( $atts['button'] ) ) {
                     $button_text = $atts['button'];
                 } else {
-                    $button_text = esc_html_e( 'Open Form', 'weforms' );
+                    $button_text = esc_html__( 'Open Form', 'weforms' );
                 }
                 printf( wp_kses_post( '<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $button_text ) );
             }
@@ -203,3 +203,4 @@ class WeForms_Frontend_Form {
     <?php
     }
 }
+
