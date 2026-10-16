@@ -3,6 +3,7 @@
 .gitignore
 .jshintrc
 .php_cs.dist
+.phpunit.result.cache
 .svnignore
 AGENTS.md
 assets/components
@@ -13,6 +14,10 @@ Gruntfile.js
 package.json
 package-lock.json
 phpcs.xml.dist
+phpunit.xml.dist
 plugin-deploy.sh
 README.md
+security-tests
+tests
+vendor
 yarn.lock
