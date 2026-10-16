@@ -8,7 +8,7 @@
     "composer/installers": "~1.0"
   },
   "require-dev": {
-    "automattic/vipwpcs": "dev-main"
+    "automattic/vipwpcs": "3.0.1"
   },
   "scripts": {
     "phpcs": [
