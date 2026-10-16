@@ -8,6 +8,7 @@
 class WeForms_Ajax_Upload {
 
     public function __construct() {
+        add_action( 'add_attachment', [ $this, 'register_attachment_from_upload_request' ] );
 
         // let WPUF handle the upload if installed
         if ( class_exists( 'WPUF_Upload' ) ) {
@@ -19,6 +20,28 @@ class WeForms_Ajax_Upload {
 
         add_action( 'wp_ajax_wpuf_file_del', [$this, 'delete_file'] );
         add_action( 'wp_ajax_nopriv_wpuf_file_del', [$this, 'delete_file'] );
+    }
+
+    /**
+     * Record an attachment created during the shared upload request.
+     *
+     * WPUF owns the upload handler when it is installed. The attachment is
+     * still tied to this submission.
+     *
+     * @since 1.6.29
+     *
+     * @param int $attach_id Attachment ID.
+     *
+     * @return void
+     */
+    public function register_attachment_from_upload_request( $attach_id ) {
+        $action = isset( $_REQUEST['action'] ) ? sanitize_key( wp_unslash( $_REQUEST['action'] ) ) : '';
+
+        if ( 'wpuf_upload_file' !== $action ) {
+            return;
+        }
+
+        weforms_register_uploaded_attachment( $attach_id );
     }
 
     /**
@@ -62,7 +85,7 @@ class WeForms_Ajax_Upload {
         $upload = array(
              'name'     => isset( $file['name'] ) ? $file['name'] : '',
              'type'     => isset( $file['type'] ) ? $file['type'] : '',
-             'tmp_name' => $_FILES['wpuf_file']['tmp_name'],
+             'tmp_name' => isset( $file['tmp_name'] ) ? $file['tmp_name'] : '',
              'error'    => isset( $file['error'] ) ? $file['error'] : '',
              'size'     => isset( $file['size'] ) ? $file['size'] : '',
          );
@@ -147,6 +170,7 @@ class WeForms_Ajax_Upload {
             // Store a unique deletion token for security (prevents IDOR attacks)
             $delete_token = wp_generate_password( 32, false );
             update_post_meta( $attach_id, '_wpuf_delete_token', $delete_token );
+            weforms_register_uploaded_attachment( $attach_id );
 
             return ['success' => true, 'attach_id' => $attach_id];
         }

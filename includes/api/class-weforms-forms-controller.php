@@ -355,7 +355,7 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
                     $file_ids = $file[ $field['name'] ];
 
                     foreach ( $file_ids as $key => $file_id ) {
-                        if ( !wp_get_attachment_url( $file_id ) ) {
+                        if ( ! wp_get_attachment_url( $file_id ) || ! weforms_filter_submission_attachment_ids( array( $file_id ) ) ) {
                             $form_error->add( 'rest_weforms_form_file', __( 'File Not Found', 'weforms' ), [ 'status' => 404 ] );
                         }
                     }
@@ -366,7 +366,7 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
                     $image_ids = $image[ $field['name'] ];
 
                     foreach ( $image_ids as $key => $image_id ) {
-                        if ( !wp_get_attachment_url( $image_id ) ) {
+                        if ( ! wp_get_attachment_url( $image_id ) || ! weforms_filter_submission_attachment_ids( array( $image_id ) ) ) {
                             $form_error->add( 'rest_weforms_form_image', __( 'Image Not Found', 'weforms' ), [ 'status' => 404 ] );
                         }
                     }
@@ -571,10 +571,13 @@ class Weforms_Forms_Controller extends Weforms_REST_Controller {
         }
 
         $entry_id = $wpdb->insert_id;
+        $fields   = weforms_sanitize_entry_attachment_fields( $r['form_id'], $fields );
 
         foreach ( $fields as $key => $value ) {
             weforms_add_entry_meta( $entry_id, $key, $value );
         }
+
+        weforms_claim_entry_attachments( $entry_id, $r['form_id'], $fields );
 
         return $entry_id;
     }

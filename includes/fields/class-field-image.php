@@ -133,8 +133,19 @@ class WeForms_Form_Field_Image extends WeForms_Field_Contract {
             wp_send_json_error( __( 'Unauthorized operation', 'weforms' ) );
         }
 
-       $args = ! empty( $args ) ? $args : weforms_clean( $_POST );
+        $args  = ! empty( $args ) ? $args : weforms_clean( $_POST );
+        $files = array();
 
-        return isset( $args['wpuf_files'][$field['name']] ) ? $args['wpuf_files'][$field['name']] : [];
+        if ( is_array( $args ) && isset( $args['wpuf_files'][ $field['name'] ] ) ) {
+            $files = $args['wpuf_files'][ $field['name'] ];
+        } elseif ( $args instanceof ArrayAccess && isset( $args['wpuf_files'] ) ) {
+            $uploads = $args['wpuf_files'];
+
+            if ( is_array( $uploads ) && isset( $uploads[ $field['name'] ] ) ) {
+                $files = $uploads[ $field['name'] ];
+            }
+        }
+
+        return weforms_filter_submission_attachment_ids( $files );
     }
 }

@@ -10,7 +10,7 @@
  * @return false|WP_Post
  */
 function weform_get_form( $form_id ) {
-    return weforms()->form->get( $form_id );
+	return weforms()->form->get( $form_id );
 }
 
 /**
@@ -19,50 +19,50 @@ function weform_get_form( $form_id ) {
  * @return array
  */
 function weforms_get_form_template_categories() {
-    $categories    = [
-        'default'      => [
-            'name'         => 'Default Templates',
-            'icon'         => 'fa fa-bars',
-        ],
-        'registration' => [
-            'name'         => 'Registration Templates',
-            'icon'         => 'fa fa-user-plus',
-        ],
-        'application'        => [
-            'name'         => 'Application Templates',
-            'icon'         => 'fa fa-address-card-o',
-        ],
-        'request'        => [
-            'name'         => 'Request Templates',
-            'icon'         => 'fa fa-hand-paper-o',
-        ],
-        'event'        => [
-            'name'         => 'Event Templates',
-            'icon'         => 'fa fa-calendar',
-        ],
-        'feedback'        => [
-            'name'         => 'Feedback Templates',
-            'icon'         => 'fa fa-comments',
-        ],
-        'employment'        => [
-            'name'         => 'Employment Templates',
-            'icon'         => 'fa fa-suitcase',
-        ],
-        'payment'           => [
-            'name'         => 'Payment Templates',
-            'icon'         => 'fa fa-money',
-        ],
-        'reservation'       => [
-            'name'         => 'Reservation Templates',
-            'icon'         => 'fa fa-bandcamp',
-        ],
-        'others'        => [
-            'name'         => 'Others Templates',
-            'icon'         => 'fa fa-info-circle',
-        ],
-    ];
+	$categories    = [
+		'default'      => [
+			'name'         => 'Default Templates',
+			'icon'         => 'fa fa-bars',
+		],
+		'registration' => [
+			'name'         => 'Registration Templates',
+			'icon'         => 'fa fa-user-plus',
+		],
+		'application'        => [
+			'name'         => 'Application Templates',
+			'icon'         => 'fa fa-address-card-o',
+		],
+		'request'        => [
+			'name'         => 'Request Templates',
+			'icon'         => 'fa fa-hand-paper-o',
+		],
+		'event'        => [
+			'name'         => 'Event Templates',
+			'icon'         => 'fa fa-calendar',
+		],
+		'feedback'        => [
+			'name'         => 'Feedback Templates',
+			'icon'         => 'fa fa-comments',
+		],
+		'employment'        => [
+			'name'         => 'Employment Templates',
+			'icon'         => 'fa fa-suitcase',
+		],
+		'payment'           => [
+			'name'         => 'Payment Templates',
+			'icon'         => 'fa fa-money',
+		],
+		'reservation'       => [
+			'name'         => 'Reservation Templates',
+			'icon'         => 'fa fa-bandcamp',
+		],
+		'others'        => [
+			'name'         => 'Others Templates',
+			'icon'         => 'fa fa-info-circle',
+		],
+	];
 
-    return apply_filters( 'weforms_form_template_categories', $categories );
+	return apply_filters( 'weforms_form_template_categories', $categories );
 }
 
 /**
@@ -74,39 +74,39 @@ function weforms_get_form_template_categories() {
  * @return object
  */
 function weforms_get_form_entries( $form_id, $args = [] ) {
-    global $wpdb;
+	global $wpdb;
 
-    $defaults = [
-        'number'  => 10,
-        'offset'  => 0,
-        'orderby' => 'created_at',
-        'status'  => 'publish',
-        'order'   => 'DESC',
-    ];
+	$defaults = [
+		'number'  => 10,
+		'offset'  => 0,
+		'orderby' => 'created_at',
+		'status'  => 'publish',
+		'order'   => 'DESC',
+	];
 
-    $r = wp_parse_args( $args, $defaults );
+	$r = wp_parse_args( $args, $defaults );
 
-    $query = $wpdb->prepare(
-        "
-        SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
-        FROM $wpdb->weforms_entries
-        WHERE form_id = %d AND status = %s
-        ORDER BY %s %s
-        LIMIT %d, %d
-        ",
-        array(
-            $form_id,
-            $r['status'],
-            $r['orderby'],
-            $r['order'],
-            $r['offset'],
-            $r['number'],
-        )
-    );
+	$query = $wpdb->prepare(
+		"
+		SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+		FROM $wpdb->weforms_entries
+		WHERE form_id = %d AND status = %s
+		ORDER BY %s %s
+		LIMIT %d, %d
+		",
+		array(
+			$form_id,
+			$r['status'],
+			$r['orderby'],
+			$r['order'],
+			$r['offset'],
+			$r['number'],
+		)
+	);
 
-    $results = $wpdb->get_results( $query );
+	$results = $wpdb->get_results( $query );
 
-    return $results;
+	return $results;
 }
 
 /**
@@ -117,33 +117,33 @@ function weforms_get_form_entries( $form_id, $args = [] ) {
  * @return int $number
  */
 function weforms_count_entries( $args = [] ) {
-    global $wpdb;
+	global $wpdb;
 
-    $defaults = [
-        'orderby' => 'created_at',
-        'status'  => 'publish',
-        'order'   => 'DESC',
-    ];
+	$defaults = [
+		'orderby' => 'created_at',
+		'status'  => 'publish',
+		'order'   => 'DESC',
+	];
 
-    $r = wp_parse_args( $args, $defaults );
+	$r = wp_parse_args( $args, $defaults );
 
-    $query = $wpdb->prepare(
-        "
-        SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
-        FROM $wpdb->weforms_entries
-        WHERE status = %s
-        ORDER BY %s %s
-        ",
-        array(
-            $r['status'],
-            $r['orderby'],
-            $r['order'],
-        )
-    );
+	$query = $wpdb->prepare(
+		"
+		SELECT id, form_id, user_id, INET_NTOA( user_ip ) as ip_address, created_at
+		FROM $wpdb->weforms_entries
+		WHERE status = %s
+		ORDER BY %s %s
+		",
+		array(
+			$r['status'],
+			$r['orderby'],
+			$r['order'],
+		)
+	);
 
-    $results = $wpdb->get_results( $query );
+	$results = $wpdb->get_results( $query );
 
-    return count( $results );
+	return count( $results );
 }
 
 /**
@@ -155,37 +155,37 @@ function weforms_count_entries( $args = [] ) {
  * @return object
  */
 function weforms_get_form_payments( $form_id, $args = [] ) {
-    global $wpdb;
+	global $wpdb;
 
-    $defaults = [
-        'number'  => 10,
-        'offset'  => 0,
-        'orderby' => 'created_at',
-        'order'   => 'DESC',
-    ];
+	$defaults = [
+		'number'  => 10,
+		'offset'  => 0,
+		'orderby' => 'created_at',
+		'order'   => 'DESC',
+	];
 
-    $r = wp_parse_args( $args, $defaults );
+	$r = wp_parse_args( $args, $defaults );
 
-    $query = $wpdb->prepare(
-        "
-        SELECT *
-        FROM wp_weforms_payments
-        WHERE form_id = %d
-        ORDER BY %s %s
-        LIMIT %d, %d
-        ",
-        array(
-            $form_id,
-            $r['orderby'],
-            $r['order'],
-            $r['offset'],
-            $r['number'],
-        )
-    );
+	$query = $wpdb->prepare(
+		"
+		SELECT *
+		FROM wp_weforms_payments
+		WHERE form_id = %d
+		ORDER BY %s %s
+		LIMIT %d, %d
+		",
+		array(
+			$form_id,
+			$r['orderby'],
+			$r['order'],
+			$r['offset'],
+			$r['number'],
+		)
+	);
 
-    $results = $wpdb->get_results( $query );
+	$results = $wpdb->get_results( $query );
 
-    return $results;
+	return $results;
 }
 
 /**
@@ -196,21 +196,21 @@ function weforms_get_form_payments( $form_id, $args = [] ) {
  * @return object
  */
 function weforms_get_entry_payment( $entry_id ) {
-    global $wpdb;
+	global $wpdb;
 
-    $query = $wpdb->prepare(
-        "
-        SELECT transaction_id
-        FROM $wpdb->prefix 'weforms_payments'
-        WHERE entry_id = %d
-        ",
-        array(
-            $entry_id
-        )
-    );
-    $payment = $wpdb->get_row( $query );
+	$query = $wpdb->prepare(
+		"
+		SELECT transaction_id
+		FROM $wpdb->prefix 'weforms_payments'
+		WHERE entry_id = %d
+		",
+		array(
+			$entry_id
+		)
+	);
+	$payment = $wpdb->get_row( $query );
 
-    return $payment;
+	return $payment;
 }
 
 /**
@@ -221,21 +221,21 @@ function weforms_get_entry_payment( $entry_id ) {
  * @return object
  */
 function weforms_get_entry( $entry_id ) {
-    global $wpdb;
+	global $wpdb;
 
-    $cache_key = 'weforms-entry-' . $entry_id;
-    $entry     = wp_cache_get( $cache_key, 'weforms' );
+	$cache_key = 'weforms-entry-' . $entry_id;
+	$entry     = wp_cache_get( $cache_key, 'weforms' );
 
-    if ( false === $entry ) {
-        $query = 'SELECT id, form_id, user_id, user_device, referer, INET_NTOA( user_ip ) as ip_address, created_at
-            FROM ' . $wpdb->weforms_entries . '
-            WHERE id = %d';
+	if ( false === $entry ) {
+		$query = 'SELECT id, form_id, user_id, user_device, referer, INET_NTOA( user_ip ) as ip_address, created_at
+			FROM ' . $wpdb->weforms_entries . '
+			WHERE id = %d';
 
-        $entry = $wpdb->get_row( $wpdb->prepare( $query, $entry_id ) );
-        wp_cache_set( $cache_key, $entry );
-    }
+		$entry = $wpdb->get_row( $wpdb->prepare( $query, $entry_id ) );
+		wp_cache_set( $cache_key, $entry );
+	}
 
-    return $entry;
+	return $entry;
 }
 
 /**
@@ -247,42 +247,45 @@ function weforms_get_entry( $entry_id ) {
  * @return WP_Error|int
  */
 function weforms_insert_entry( $args, $fields = [] ) {
-    global $wpdb;
+	global $wpdb;
 
-    $browser = weforms_get_browser();
+	$browser = weforms_get_browser();
 
-    $defaults = [
-        'form_id'     => 0,
-        'user_id'     => get_current_user_id(),
-        'user_ip'     => ip2long( weforms_get_client_ip() ),
-        'user_device' => $browser['name'] . '/' . $browser['platform'],
-        'referer'     => isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '',
-        'created_at'  => current_time( 'mysql' )
-    ];
+	$defaults = [
+		'form_id'     => 0,
+		'user_id'     => get_current_user_id(),
+		'user_ip'     => ip2long( weforms_get_client_ip() ),
+		'user_device' => $browser['name'] . '/' . $browser['platform'],
+		'referer'     => isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '',
+		'created_at'  => current_time( 'mysql' )
+	];
 
-    $r = wp_parse_args( $args, $defaults );
+	$r = wp_parse_args( $args, $defaults );
 
-    if ( !$r['form_id'] ) {
-        return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'weforms' ) );
-    }
+	if ( !$r['form_id'] ) {
+		return new WP_Error( 'no-form-id', __( 'No form ID was found.', 'weforms' ) );
+	}
 
-    if ( !$fields ) {
-        return new WP_Error( 'no-fields', __( 'No form fields were found.', 'weforms' ) );
-    }
+	if ( !$fields ) {
+		return new WP_Error( 'no-fields', __( 'No form fields were found.', 'weforms' ) );
+	}
 
-    $success = $wpdb->insert( $wpdb->weforms_entries, $r );
+	$success = $wpdb->insert( $wpdb->weforms_entries, $r );
 
-    if ( is_wp_error( $success ) || !$success ) {
-        return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'weforms' ) );
-    }
+	if ( is_wp_error( $success ) || !$success ) {
+		return new WP_Error( 'could-not-create', __( 'Could not create an entry', 'weforms' ) );
+	}
 
-    $entry_id = $wpdb->insert_id;
+	$entry_id = $wpdb->insert_id;
+	$fields   = weforms_sanitize_entry_attachment_fields( $r['form_id'], $fields );
 
-    foreach ( $fields as $key => $value ) {
-        weforms_add_entry_meta( $entry_id, $key, $value );
-    }
+	foreach ( $fields as $key => $value ) {
+		weforms_add_entry_meta( $entry_id, $key, $value );
+	}
 
-    return $entry_id;
+	weforms_claim_entry_attachments( $entry_id, $r['form_id'], $fields );
+
+	return $entry_id;
 }
 
 /**
@@ -294,19 +297,19 @@ function weforms_insert_entry( $args, $fields = [] ) {
  * @return int|bool
  */
 function weforms_change_entry_status( $entry_id, $status ) {
-    global $wpdb;
+	global $wpdb;
 
-    return $wpdb->update(
-        $wpdb->weforms_entries,
-        [
-            'status' => $status,
-        ],
-        [
-            'id' => $entry_id,
-        ],
-        [ '%s' ],
-        [ '%d' ]
-      );
+	return $wpdb->update(
+		$wpdb->weforms_entries,
+		[
+			'status' => $status,
+		],
+		[
+			'id' => $entry_id,
+		],
+		[ '%s' ],
+		[ '%d' ]
+	  );
 }
 
 /**
@@ -317,25 +320,338 @@ function weforms_change_entry_status( $entry_id, $status ) {
  * @return int|bool
  */
 function weforms_delete_entry( $entry_id ) {
-    global $wpdb;
+	global $wpdb;
 
-    weforms_delete_entry_attachments( $entry_id );
+	weforms_delete_entry_attachments( $entry_id );
 
-    $deleted = $wpdb->delete(
-        $wpdb->weforms_entries, [
-            'id' => $entry_id,
-        ], [ '%d' ]
-      );
+	$deleted = $wpdb->delete(
+		$wpdb->weforms_entries, [
+			'id' => $entry_id,
+		], [ '%d' ]
+	  );
 
-    if ( $deleted ) {
-        $wpdb->delete(
-            $wpdb->weforms_entrymeta, [
-                'weforms_entry_id' => $entry_id,
-            ], [ '%d' ]
-          );
-    }
+	if ( $deleted ) {
+		$wpdb->delete(
+			$wpdb->weforms_entrymeta, [
+				'weforms_entry_id' => $entry_id,
+			], [ '%d' ]
+		  );
+	}
 
-    return $deleted;
+	return $deleted;
+}
+
+/**
+ * Cookie that ties an upload to the browser session that created it.
+ *
+ * @since 1.6.29
+ *
+ * @return string
+ */
+function weforms_upload_session_cookie_name() {
+	return 'weforms_upload_key';
+}
+
+/**
+ * Current upload session key.
+ *
+ * Creates a key and sends it as an HttpOnly cookie when $create is true.
+ *
+ * @since 1.6.29
+ *
+ * @param bool $create Whether to create a key when the request has none.
+ *
+ * @return string
+ */
+function weforms_get_upload_session_key( $create = false ) {
+	$name = weforms_upload_session_cookie_name();
+	$key  = '';
+
+	if ( isset( $_COOKIE[ $name ] ) ) {
+		$key = sanitize_text_field( wp_unslash( $_COOKIE[ $name ] ) );
+	}
+
+	if ( ! preg_match( '/^[a-zA-Z0-9]{20,64}$/', $key ) ) {
+		$key = '';
+	}
+
+	if ( $key || ! $create ) {
+		return $key;
+	}
+
+	$key    = wp_generate_password( 32, false );
+	$path   = ( defined( 'COOKIEPATH' ) && COOKIEPATH ) ? COOKIEPATH : '/';
+	$domain = defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '';
+
+	if ( ! headers_sent() ) {
+		setcookie( $name, $key, time() + DAY_IN_SECONDS, $path, $domain, is_ssl(), true );
+	}
+
+	$_COOKIE[ $name ] = $key;
+
+	return $key;
+}
+
+/**
+ * Record that the upload endpoint created this attachment for the current session.
+ *
+ * @since 1.6.29
+ *
+ * @param int $attach_id Attachment ID.
+ *
+ * @return void
+ */
+function weforms_register_uploaded_attachment( $attach_id ) {
+	$attach_id  = absint( $attach_id );
+	$attachment = get_post( $attach_id );
+
+	if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
+		return;
+	}
+
+	$token = get_post_meta( $attach_id, '_wpuf_delete_token', true );
+
+	if ( ! is_string( $token ) || '' === $token ) {
+		update_post_meta( $attach_id, '_wpuf_delete_token', wp_generate_password( 32, false ) );
+	}
+
+	$key = weforms_get_upload_session_key( true );
+
+	if ( $key ) {
+		update_post_meta( $attach_id, '_weforms_upload_key', wp_hash( $key ) );
+	}
+}
+
+/**
+ * Keep attachment IDs created by the upload endpoint for this session.
+ *
+ * Every other ID is dropped, including media-library items the submitter does not own.
+ *
+ * @since 1.6.29
+ *
+ * @param mixed $ids Attachment IDs from the request.
+ *
+ * @return int[]
+ */
+function weforms_filter_submission_attachment_ids( $ids ) {
+	if ( ! is_array( $ids ) ) {
+		$ids = array( $ids );
+	}
+
+	$key      = weforms_get_upload_session_key( false );
+	$key_hash = $key ? wp_hash( $key ) : '';
+	$allowed  = array();
+
+	foreach ( $ids as $id ) {
+		$id = absint( $id );
+
+		if ( ! $id || ! $key_hash ) {
+			continue;
+		}
+
+		$attachment = get_post( $id );
+
+		if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
+			continue;
+		}
+
+		$stored = (string) get_post_meta( $id, '_weforms_upload_key', true );
+		$token  = get_post_meta( $id, '_wpuf_delete_token', true );
+
+		if ( '' === $stored || ! is_string( $token ) || '' === $token || ! hash_equals( $stored, $key_hash ) ) {
+			continue;
+		}
+
+		if ( absint( get_post_meta( $id, '_weforms_entry_id', true ) ) ) {
+			continue;
+		}
+
+		$allowed[] = $id;
+	}
+
+	return array_values( array_unique( $allowed ) );
+}
+
+/**
+ * Upload fields on a form, including fields nested in columns.
+ *
+ * @since 1.6.29
+ *
+ * @param int $form_id Form ID.
+ *
+ * @return array Map of field name to field type.
+ */
+function weforms_get_upload_fields( $form_id ) {
+	$form_id = absint( $form_id );
+	$uploads = array();
+
+	if ( ! $form_id ) {
+		return $uploads;
+	}
+
+	$fields = weforms()->form->get( $form_id )->get_fields();
+
+	if ( ! is_array( $fields ) ) {
+		return $uploads;
+	}
+
+	$collect = function ( $field ) use ( &$collect, &$uploads ) {
+		if ( ! is_array( $field ) ) {
+			return;
+		}
+
+		$type = isset( $field['template'] ) ? $field['template'] : '';
+
+		if ( in_array( $type, array( 'image_upload', 'file_upload' ), true ) && ! empty( $field['name'] ) ) {
+			$uploads[ $field['name'] ] = $type;
+		}
+
+		if ( empty( $field['inner_fields'] ) || ! is_array( $field['inner_fields'] ) ) {
+			return;
+		}
+
+		foreach ( $field['inner_fields'] as $column_fields ) {
+			if ( ! is_array( $column_fields ) ) {
+				continue;
+			}
+
+			foreach ( $column_fields as $inner_field ) {
+				$collect( $inner_field );
+			}
+		}
+	};
+
+	foreach ( $fields as $field ) {
+		$collect( $field );
+	}
+
+	return $uploads;
+}
+
+/**
+ * Replace upload-field values with IDs from the current submission.
+ *
+ * @since 1.6.29
+ *
+ * @param int   $form_id Form ID.
+ * @param array $fields  Entry field values.
+ *
+ * @return array
+ */
+function weforms_sanitize_entry_attachment_fields( $form_id, $fields ) {
+	$form_id = absint( $form_id );
+
+	if ( ! $form_id || ! is_array( $fields ) ) {
+		return $fields;
+	}
+
+	$uploads = weforms_get_upload_fields( $form_id );
+
+	foreach ( $uploads as $meta_key => $type ) {
+		if ( ! array_key_exists( $meta_key, $fields ) ) {
+			continue;
+		}
+
+		$fields[ $meta_key ] = weforms_filter_submission_attachment_ids( $fields[ $meta_key ] );
+	}
+
+	return $fields;
+}
+
+/**
+ * Mark accepted uploads as owned by this entry.
+ *
+ * IDs that fail the session check are not claimed, so a later permanent
+ * delete cannot remove them.
+ *
+ * @since 1.6.29
+ *
+ * @param int   $entry_id Entry ID.
+ * @param int   $form_id  Form ID.
+ * @param array $fields   Entry field values.
+ *
+ * @return void
+ */
+function weforms_claim_entry_attachments( $entry_id, $form_id, $fields ) {
+	$entry_id = absint( $entry_id );
+	$form_id  = absint( $form_id );
+
+	if ( ! $entry_id || ! $form_id || ! is_array( $fields ) ) {
+		return;
+	}
+
+	$uploads = weforms_get_upload_fields( $form_id );
+
+	if ( ! $uploads ) {
+		return;
+	}
+
+	foreach ( $uploads as $meta_key => $type ) {
+		if ( empty( $fields[ $meta_key ] ) || ! is_array( $fields[ $meta_key ] ) ) {
+			continue;
+		}
+
+		foreach ( weforms_filter_submission_attachment_ids( $fields[ $meta_key ] ) as $attachment_id ) {
+			update_post_meta( $attachment_id, '_weforms_entry_id', $entry_id );
+		}
+	}
+}
+
+/**
+ * Whether permanent entry delete may force-delete this attachment.
+ *
+ * @since 1.6.29
+ *
+ * @param int $attachment_id Attachment ID.
+ * @param int $entry_id      Entry ID.
+ *
+ * @return bool
+ */
+function weforms_attachment_belongs_to_entry( $attachment_id, $entry_id ) {
+	$attachment_id = absint( $attachment_id );
+	$entry_id      = absint( $entry_id );
+
+	if ( ! $attachment_id || ! $entry_id ) {
+		return false;
+	}
+
+	$attachment = get_post( $attachment_id );
+
+	if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
+		return false;
+	}
+
+	if ( absint( get_post_meta( $attachment_id, '_weforms_entry_id', true ) ) !== $entry_id ) {
+		return false;
+	}
+
+	$token = get_post_meta( $attachment_id, '_wpuf_delete_token', true );
+
+	return is_string( $token ) && '' !== $token;
+}
+
+/**
+ * Force-delete attachment IDs this entry owns.
+ *
+ * @since 1.6.29
+ *
+ * @param int   $entry_id Entry ID.
+ * @param mixed $value    Stored upload field value.
+ *
+ * @return void
+ */
+function weforms_delete_owned_entry_attachments( $entry_id, $value ) {
+	if ( ! is_array( $value ) || ! $value ) {
+		return;
+	}
+
+	foreach ( $value as $attachment_id ) {
+		if ( ! weforms_attachment_belongs_to_entry( $attachment_id, $entry_id ) ) {
+			continue;
+		}
+
+		wp_delete_attachment( $attachment_id, true );
+	}
 }
 
 /**
@@ -346,24 +662,31 @@ function weforms_delete_entry( $entry_id ) {
  * @since 1.3.5
  */
 function weforms_delete_entry_attachments( $entry_id ) {
-    $entry  = weforms_get_entry( $entry_id );
-    $fields = weforms_get_form_field_labels( $entry->form_id );
+	$entry  = weforms_get_entry( $entry_id );
+	$fields = weforms_get_form_field_labels( $entry->form_id );
 
-    if ( !$fields ) {
-        return false;
-    }
+	if ( !$fields ) {
+		return false;
+	}
 
-    foreach ( $fields as $meta_key => $field ) {
-        $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+	$handled = array();
 
-        if ( in_array( $field['type'], [ 'image_upload', 'file_upload' ] ) ) {
-            if ( is_array( $value ) && $value ) {
-                foreach ( $value as $attachment_id ) {
-                    wp_delete_attachment( $attachment_id, true );
-                }
-            }
-        }
-    }
+	foreach ( $fields as $meta_key => $field ) {
+		$value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+
+		if ( in_array( $field['type'], [ 'image_upload', 'file_upload' ] ) ) {
+			$handled[ $meta_key ] = true;
+			weforms_delete_owned_entry_attachments( $entry_id, $value );
+		}
+	}
+
+	foreach ( weforms_get_upload_fields( $entry->form_id ) as $meta_key => $type ) {
+		if ( isset( $handled[ $meta_key ] ) ) {
+			continue;
+		}
+
+		weforms_delete_owned_entry_attachments( $entry_id, weforms_get_entry_meta( $entry_id, $meta_key, true ) );
+	}
 }
 
 /**
@@ -378,7 +701,7 @@ function weforms_delete_entry_attachments( $entry_id ) {
  * @return int|false meta ID on success, false on failure
  */
 function weforms_add_entry_meta( $entry_id, $meta_key, $meta_value, $unique = false ) {
-    return add_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $unique );
+	return add_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $unique );
 }
 
 /**
@@ -393,7 +716,7 @@ function weforms_add_entry_meta( $entry_id, $meta_key, $meta_value, $unique = fa
  *               field if $single is true.
  */
 function weforms_get_entry_meta( $entry_id, $key = '', $single = false ) {
-    return get_metadata( 'weforms_entry', $entry_id, $key, $single );
+	return get_metadata( 'weforms_entry', $entry_id, $key, $single );
 }
 
 /**
@@ -414,7 +737,7 @@ function weforms_get_entry_meta( $entry_id, $key = '', $single = false ) {
  *                  false on failure
  */
 function weforms_update_entry_meta( $entry_id, $meta_key, $meta_value, $prev_value = '' ) {
-    return update_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $prev_value );
+	return update_metadata( 'weforms_entry', $entry_id, $meta_key, $meta_value, $prev_value );
 }
 
 /**
@@ -425,7 +748,7 @@ function weforms_update_entry_meta( $entry_id, $meta_key, $meta_value, $prev_val
  * @return bool whether the entry meta key was deleted from the database
  */
 function weforms_delete_entry_meta_by_key( $meta_key ) {
-    return delete_metadata( 'weforms_entry', null, $meta_key, '', true );
+	return delete_metadata( 'weforms_entry', null, $meta_key, '', true );
 }
 
 /**
@@ -441,9 +764,9 @@ function weforms_delete_entry_meta_by_key( $meta_key ) {
  * @return array entry meta for the given entry
  */
 function weforms_get_entry_custom( $entry_id = 0 ) {
-    $entry_id = absint( $entry_id );
+	$entry_id = absint( $entry_id );
 
-    return weforms_get_entry_meta( $entry_id );
+	return weforms_get_entry_meta( $entry_id );
 }
 
 /**
@@ -456,15 +779,15 @@ function weforms_get_entry_custom( $entry_id = 0 ) {
  * @return array|void array of the keys, if retrieved
  */
 function weforms_get_entry_custom_keys( $entry_id = 0 ) {
-    $custom = weforms_get_entry_custom( $entry_id );
+	$custom = weforms_get_entry_custom( $entry_id );
 
-    if ( !is_array( $custom ) ) {
-        return false;
-    }
+	if ( !is_array( $custom ) ) {
+		return false;
+	}
 
-    if ( $keys = array_keys( $custom ) ) {
-        return $keys;
-    }
+	if ( $keys = array_keys( $custom ) ) {
+		return $keys;
+	}
 }
 
 /**
@@ -475,9 +798,9 @@ function weforms_get_entry_custom_keys( $entry_id = 0 ) {
  * @return int
  */
 function weforms_count_form_entries( $form_id, $status = 'publish' ) {
-    global $wpdb;
+	global $wpdb;
 
-    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->weforms_entries . ' WHERE form_id = %d AND status = %s', $form_id, $status ) );
+	return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->weforms_entries . ' WHERE form_id = %d AND status = %s', $form_id, $status ) );
 }
 
 /**
@@ -488,13 +811,13 @@ function weforms_count_form_entries( $form_id, $status = 'publish' ) {
  * @return int
  */
 function weforms_count_form_payments( $form_id ) {
-    global $wpdb;
+	global $wpdb;
 
-    if ( !class_exists( 'WeForms_Payment' ) ) {
-        return 0;
-    }
+	if ( !class_exists( 'WeForms_Payment' ) ) {
+		return 0;
+	}
 
-    return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->prefix . 'weforms_payments' . ' WHERE form_id = %d', $form_id ) );
+	return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT count(id) FROM ' . $wpdb->prefix . 'weforms_payments' . ' WHERE form_id = %d', $form_id ) );
 }
 
 /**
@@ -505,18 +828,18 @@ function weforms_count_form_payments( $form_id ) {
  * @return array
  */
 function weforms_get_form_author_details( $form_id ) {
-    if ( empty( $form_id ) ) {
-        return;
-    }
+	if ( empty( $form_id ) ) {
+		return;
+	}
 
-    $author_details = [];
-    $form           = get_post( $form_id );
-    $author_id      = $form->post_author;
+	$author_details = [];
+	$form           = get_post( $form_id );
+	$author_id      = $form->post_author;
 
-    $author_details['username'] = get_the_author_meta( 'user_login', $author_id );
-    $author_details['avatar']   = get_avatar_url( $author_id );
+	$author_details['username'] = get_the_author_meta( 'user_login', $author_id );
+	$author_details['avatar']   = get_avatar_url( $author_id );
 
-    return $author_details;
+	return $author_details;
 }
 
 /**
@@ -529,34 +852,34 @@ function weforms_get_form_author_details( $form_id ) {
  * @return array
  */
 function weforms_get_entry_columns( $form_id, $limit = 6 ) {
-    $fields  = weforms()->form->get( $form_id )->get_fields();
-    $columns = [];
+	$fields  = weforms()->form->get( $form_id )->get_fields();
+	$columns = [];
 
-    // filter by input types
-    if ( $limit ) {
-        $fields = array_filter( $fields, function ( $item ) {
-            return in_array( $item['template'], [ 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field', 'column_field' ] );
-        } );
-    }
+	// filter by input types
+	if ( $limit ) {
+		$fields = array_filter( $fields, function ( $item ) {
+			return in_array( $item['template'], [ 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field', 'column_field' ] );
+		} );
+	}
 
-    if ( $fields ) {
-        foreach ( $fields as $field ) {
-            if ( $field['template'] == 'column_field' ) {
-                foreach ( $field['inner_fields'] as $c_field ) {
-                    $columns[ $c_field[0]['name'] ] = $c_field[0]['label'];
-                }
-                continue;
-            }
-            $columns[ $field['name'] ] = $field['label'];
-        }
-    }
+	if ( $fields ) {
+		foreach ( $fields as $field ) {
+			if ( $field['template'] == 'column_field' ) {
+				foreach ( $field['inner_fields'] as $c_field ) {
+					$columns[ $c_field[0]['name'] ] = $c_field[0]['label'];
+				}
+				continue;
+			}
+			$columns[ $field['name'] ] = $field['label'];
+		}
+	}
 
-    // if passed 0/false, return all columns
-    if ( $limit && sizeof( $columns ) > $limit ) {
-        $columns = array_slice( $columns, 0, $limit ); // max 6 columns
-    }
+	// if passed 0/false, return all columns
+	if ( $limit && sizeof( $columns ) > $limit ) {
+		$columns = array_slice( $columns, 0, $limit ); // max 6 columns
+	}
 
-    return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
+	return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
 }
 
 /**
@@ -569,28 +892,28 @@ function weforms_get_entry_columns( $form_id, $limit = 6 ) {
  * @return array
  */
 function weforms_get_payment_columns( $form_id, $limit = 6 ) {
-    $fields  = weforms()->form->get( $form_id )->get_fields();
-    $columns = [];
+	$fields  = weforms()->form->get( $form_id )->get_fields();
+	$columns = [];
 
-    // filter by input types
-    if ( $limit ) {
-        $fields = array_filter( $fields, function ( $item ) {
-            return in_array( $item['template'], [ 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ] );
-        } );
-    }
+	// filter by input types
+	if ( $limit ) {
+		$fields = array_filter( $fields, function ( $item ) {
+			return in_array( $item['template'], [ 'text_field', 'name_field', 'dropdown_field', 'radio_field', 'email_address', 'url_field' ] );
+		} );
+	}
 
-    if ( $fields ) {
-        foreach ( $fields as $field ) {
-            $columns[ $field['name'] ] = $field['label'];
-        }
-    }
+	if ( $fields ) {
+		foreach ( $fields as $field ) {
+			$columns[ $field['name'] ] = $field['label'];
+		}
+	}
 
-    // if passed 0/false, return all collumns
-    if ( $limit && sizeof( $columns ) > $limit ) {
-        $columns = array_slice( $columns, 0, $limit ); // max 6 columns
-    }
+	// if passed 0/false, return all collumns
+	if ( $limit && sizeof( $columns ) > $limit ) {
+		$columns = array_slice( $columns, 0, $limit ); // max 6 columns
+	}
 
-    return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
+	return apply_filters( 'weforms_get_entry_columns', $columns, $form_id );
 }
 
 /**
@@ -601,32 +924,32 @@ function weforms_get_payment_columns( $form_id, $limit = 6 ) {
  * @return array
  */
 function weforms_get_form_field_labels( $form_id ) {
-    $fields  = weforms()->form->get( $form_id )->get_fields();
-    $exclude = [ 'step_start', 'section_break', 'recaptcha', 'shortcode', 'action_hook' ];
+	$fields  = weforms()->form->get( $form_id )->get_fields();
+	$exclude = [ 'step_start', 'section_break', 'recaptcha', 'shortcode', 'action_hook' ];
 
-    if ( !$fields ) {
-        return false;
-    }
+	if ( !$fields ) {
+		return false;
+	}
 
-    $data = [];
+	$data = [];
 
-    foreach ( $fields as $field ) {
-        if ( empty( $field['name'] ) ) {
-            continue;
-        }
+	foreach ( $fields as $field ) {
+		if ( empty( $field['name'] ) ) {
+			continue;
+		}
 
-        // exclude the fields
-        if ( in_array( $field['template'], $exclude ) ) {
-            continue;
-        }
+		// exclude the fields
+		if ( in_array( $field['template'], $exclude ) ) {
+			continue;
+		}
 
-        $data[ $field['name'] ] = [
-            'label' => $field['label'] ?? '',
-            'type'  => $field['template'],
-        ];
-    }
+		$data[ $field['name'] ] = [
+			'label' => $field['label'] ?? '',
+			'type'  => $field['template'],
+		];
+	}
 
-    return $data;
+	return $data;
 }
 
 /**
@@ -638,55 +961,55 @@ function weforms_get_form_field_labels( $form_id ) {
  * @return false|array
  */
 function weforms_get_entry_data( $entry_id ) {
-    $data   = [];
-    $entry  = weforms_get_entry( $entry_id );
-    $fields = weforms_get_form_field_labels( $entry->form_id );
+	$data   = [];
+	$entry  = weforms_get_entry( $entry_id );
+	$fields = weforms_get_form_field_labels( $entry->form_id );
 
-    if ( !$fields ) {
-        return false;
-    }
+	if ( !$fields ) {
+		return false;
+	}
 
-    foreach ( $fields as $meta_key => $field ) {
-        $value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+	foreach ( $fields as $meta_key => $field ) {
+		$value = weforms_get_entry_meta( $entry_id, $meta_key, true );
 
-        if ( $field['type'] == 'textarea' ) {
-            $data[ $meta_key ] = weforms_format_text( $value );
-        } elseif ( $field['type'] == 'name' ) {
-            $data[ $meta_key ] = implode( ' ', explode( WeForms::$field_separator, $value ) );
-        } elseif ( in_array( $field['type'], [ 'image_upload', 'file_upload' ] ) ) {
-            $data[ $meta_key ] = '';
+		if ( $field['type'] == 'textarea' ) {
+			$data[ $meta_key ] = weforms_format_text( $value );
+		} elseif ( $field['type'] == 'name' ) {
+			$data[ $meta_key ] = implode( ' ', explode( WeForms::$field_separator, $value ) );
+		} elseif ( in_array( $field['type'], [ 'image_upload', 'file_upload' ] ) ) {
+			$data[ $meta_key ] = '';
 
-            if ( is_array( $value ) && $value ) {
-                foreach ( $value as $attachment_id ) {
-                    if ( $field['type'] == 'image_upload' ) {
-                        $thumb = wp_get_attachment_image( $attachment_id, 'thumbnail' );
-                    } else {
-                        $thumb = get_post_field( 'post_title', $attachment_id );
-                    }
+			if ( is_array( $value ) && $value ) {
+				foreach ( $value as $attachment_id ) {
+					if ( $field['type'] == 'image_upload' ) {
+						$thumb = wp_get_attachment_image( $attachment_id, 'thumbnail' );
+					} else {
+						$thumb = get_post_field( 'post_title', $attachment_id );
+					}
 
-                    $full_size = wp_get_attachment_url( $attachment_id );
+					$full_size = wp_get_attachment_url( $attachment_id );
 
-                    $data[ $meta_key ] .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
-                }
-            }
-        } elseif ( in_array( $field['type'], [ 'checkbox', 'multiselect' ] ) ) {
-            $data[ $meta_key ] = explode( WeForms::$field_separator, $value );
-        } elseif ( $field['type'] == 'map' ) {
-            list( $lat, $long ) = explode( ',', $value );
+					$data[ $meta_key ] .= sprintf( '<a href="%s" target="_blank">%s</a> ', $full_size, $thumb );
+				}
+			}
+		} elseif ( in_array( $field['type'], [ 'checkbox', 'multiselect' ] ) ) {
+			$data[ $meta_key ] = explode( WeForms::$field_separator, $value );
+		} elseif ( $field['type'] == 'map' ) {
+			list( $lat, $long ) = explode( ',', $value );
 
-            $data[ $meta_key ] = [
-                'lat'  => $lat,
-                'long' => $long,
-            ];
-        } else {
-            $data[ $meta_key ] = $value;
-        }
-    }
+			$data[ $meta_key ] = [
+				'lat'  => $lat,
+				'long' => $long,
+			];
+		} else {
+			$data[ $meta_key ] = $value;
+		}
+	}
 
-    return [
-        'fields' => $fields,
-        'data'   => $data,
-    ];
+	return [
+		'fields' => $fields,
+		'data'   => $data,
+	];
 }
 
 /**
@@ -697,12 +1020,12 @@ function weforms_get_entry_data( $entry_id ) {
  * @return string
  */
 function weforms_format_text( $content ) {
-    $content = wptexturize( $content );
-    $content = convert_smilies( $content );
-    $content = wpautop( $content );
-    $content = make_clickable( $content );
+	$content = wptexturize( $content );
+	$content = convert_smilies( $content );
+	$content = wpautop( $content );
+	$content = make_clickable( $content );
 
-    return $content;
+	return $content;
 }
 
 /**
@@ -711,83 +1034,83 @@ function weforms_format_text( $content ) {
  * @return array
  */
 function weforms_get_browser() {
-    $u_agent  = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
-    $bname    = 'Unknown';
-    $platform = 'Unknown';
-    $version  = '';
-    $ub       = '';
+	$u_agent  = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
+	$bname    = 'Unknown';
+	$platform = 'Unknown';
+	$version  = '';
+	$ub       = '';
 
-    // first get the platform
-    if ( preg_match( '/linux/i', $u_agent ) ) {
-        $platform = 'Linux';
-    } elseif ( preg_match( '/macintosh|mac os x/i', $u_agent ) ) {
-        $platform = 'MAC OS';
-    } elseif ( preg_match( '/windows|win32/i', $u_agent ) ) {
-        $platform = 'Windows';
-    }
+	// first get the platform
+	if ( preg_match( '/linux/i', $u_agent ) ) {
+		$platform = 'Linux';
+	} elseif ( preg_match( '/macintosh|mac os x/i', $u_agent ) ) {
+		$platform = 'MAC OS';
+	} elseif ( preg_match( '/windows|win32/i', $u_agent ) ) {
+		$platform = 'Windows';
+	}
 
-    // next get the name of the useragent yes seperately and for good reason
-    if ( preg_match( '/MSIE/i', $u_agent ) && !preg_match( '/Opera/i', $u_agent ) ) {
-        $bname = 'Internet Explorer';
-        $ub    = 'MSIE';
-    } elseif ( preg_match( '/Trident/i', $u_agent ) ) {
-        // this condition is for IE11
-        $bname = 'Internet Explorer';
-        $ub    = 'rv';
-    } elseif ( preg_match( '/Firefox/i', $u_agent ) ) {
-        $bname = 'Mozilla Firefox';
-        $ub    = 'Firefox';
-    } elseif ( preg_match( '/Chrome/i', $u_agent ) ) {
-        $bname = 'Google Chrome';
-        $ub    = 'Chrome';
-    } elseif ( preg_match( '/Safari/i', $u_agent ) ) {
-        $bname = 'Apple Safari';
-        $ub    = 'Safari';
-    } elseif ( preg_match( '/Opera/i', $u_agent ) ) {
-        $bname = 'Opera';
-        $ub    = 'Opera';
-    } elseif ( preg_match( '/Netscape/i', $u_agent ) ) {
-        $bname = 'Netscape';
-        $ub    = 'Netscape';
-    }
+	// next get the name of the useragent yes seperately and for good reason
+	if ( preg_match( '/MSIE/i', $u_agent ) && !preg_match( '/Opera/i', $u_agent ) ) {
+		$bname = 'Internet Explorer';
+		$ub    = 'MSIE';
+	} elseif ( preg_match( '/Trident/i', $u_agent ) ) {
+		// this condition is for IE11
+		$bname = 'Internet Explorer';
+		$ub    = 'rv';
+	} elseif ( preg_match( '/Firefox/i', $u_agent ) ) {
+		$bname = 'Mozilla Firefox';
+		$ub    = 'Firefox';
+	} elseif ( preg_match( '/Chrome/i', $u_agent ) ) {
+		$bname = 'Google Chrome';
+		$ub    = 'Chrome';
+	} elseif ( preg_match( '/Safari/i', $u_agent ) ) {
+		$bname = 'Apple Safari';
+		$ub    = 'Safari';
+	} elseif ( preg_match( '/Opera/i', $u_agent ) ) {
+		$bname = 'Opera';
+		$ub    = 'Opera';
+	} elseif ( preg_match( '/Netscape/i', $u_agent ) ) {
+		$bname = 'Netscape';
+		$ub    = 'Netscape';
+	}
 
-    // finally get the correct version number
-    // Added "|:"
-    $known   = [ 'Version', $ub, 'other' ];
-    $pattern = '#(?<browser>' . join( '|', $known ) .
-     ')[/|: ]+(?<version>[0-9.|a-zA-Z.]*)#';
+	// finally get the correct version number
+	// Added "|:"
+	$known   = [ 'Version', $ub, 'other' ];
+	$pattern = '#(?<browser>' . join( '|', $known ) .
+	 ')[/|: ]+(?<version>[0-9.|a-zA-Z.]*)#';
 
-    if ( !preg_match_all( $pattern, $u_agent, $matches ) ) {
-        // we have no matching number just continue
-    }
+	if ( !preg_match_all( $pattern, $u_agent, $matches ) ) {
+		// we have no matching number just continue
+	}
 
-    // see how many we have
-    $i = count( $matches['browser'] );
+	// see how many we have
+	$i = count( $matches['browser'] );
 
-    if ( $i != 1 ) {
-        // we will have two since we are not using 'other' argument yet
-        // see if version is before or after the name
-        if ( strripos( $u_agent, 'Version' ) < strripos( $u_agent, $ub ) ) {
-            $version = $matches['version'][0];
-        } else {
-            $version = $matches['version'][1];
-        }
-    } else {
-        $version = $matches['version'][0];
-    }
+	if ( $i != 1 ) {
+		// we will have two since we are not using 'other' argument yet
+		// see if version is before or after the name
+		if ( strripos( $u_agent, 'Version' ) < strripos( $u_agent, $ub ) ) {
+			$version = $matches['version'][0];
+		} else {
+			$version = $matches['version'][1];
+		}
+	} else {
+		$version = $matches['version'][0];
+	}
 
-    // check if we have a number
-    if ( $version == null || $version == '' ) {
-        $version = '';
-    }
+	// check if we have a number
+	if ( $version == null || $version == '' ) {
+		$version = '';
+	}
 
-    return [
-        'userAgent' => $u_agent,
-        'name'      => $bname,
-        'version'   => $version,
-        'platform'  => $platform,
-        'pattern'   => $pattern,
-    ];
+	return [
+		'userAgent' => $u_agent,
+		'name'      => $bname,
+		'version'   => $version,
+		'platform'  => $platform,
+		'pattern'   => $pattern,
+	];
 }
 
 /**
@@ -798,52 +1121,52 @@ function weforms_get_browser() {
  * @return array
  */
 function weforms_get_merge_tags() {
-    $tags = [
-        'form' => [
-            'title' => __( 'Form', 'weforms' ),
-            'tags'  => [
-                'entry_id'  => __( 'Entry ID', 'weforms' ),
-                'form_id'   => __( 'Form ID', 'weforms' ),
-                'form_name' => __( 'Form Name', 'weforms' ),
-            ],
-        ],
-        'system' => [
-            'title' => __( 'System', 'weforms' ),
-            'tags'  => [
-                'admin_email' => __( 'Site Administrator Email', 'weforms' ),
-                'date'        => __( 'Date', 'weforms' ),
-                'site_name'   => __( 'Site Title', 'weforms' ),
-                'site_url'    => __( 'Site URL', 'weforms' ),
-                'page_title'  => __( 'Embedded Page Title', 'weforms' ),
-            ],
-        ],
-        'user' => [
-            'title' => __( 'User', 'weforms' ),
-            'tags'  => [
-                'ip_address'   => __( 'IP Address', 'weforms' ),
-                'user_id'      => __( 'User ID', 'weforms' ),
-                'first_name'   => __( 'First Name', 'weforms' ),
-                'last_name'    => __( 'Last Name', 'weforms' ),
-                'display_name' => __( 'Display Name', 'weforms' ),
-                'user_email'   => __( 'Email', 'weforms' ),
-            ],
-        ],
-        'urls' => [
-            'title' => __( 'URL\'s', 'weforms' ),
-            'tags'  => [
-                'url_page'                          => __( 'Embeded Page URL', 'weforms' ),
-                'url_referer'                       => __( 'Referer URL', 'weforms' ),
-                'url_login'                         => __( 'Login URL', 'weforms' ),
-                'url_logout'                        => __( 'Logout URL', 'weforms' ),
-                'url_register'                      => __( 'Register URL', 'weforms' ),
-                'url_lost_password'                 => __( 'Lost Password URL', 'weforms' ),
-                'personal_data_erase_confirm_url'   => __( 'Personal Data Erase Confirmation URL', 'weforms' ),
-                'personal_data_export_confirm_url'  => __( 'Personal Data Export Confirmation URL', 'weforms' ),
-            ],
-        ],
-    ];
+	$tags = [
+		'form' => [
+			'title' => __( 'Form', 'weforms' ),
+			'tags'  => [
+				'entry_id'  => __( 'Entry ID', 'weforms' ),
+				'form_id'   => __( 'Form ID', 'weforms' ),
+				'form_name' => __( 'Form Name', 'weforms' ),
+			],
+		],
+		'system' => [
+			'title' => __( 'System', 'weforms' ),
+			'tags'  => [
+				'admin_email' => __( 'Site Administrator Email', 'weforms' ),
+				'date'        => __( 'Date', 'weforms' ),
+				'site_name'   => __( 'Site Title', 'weforms' ),
+				'site_url'    => __( 'Site URL', 'weforms' ),
+				'page_title'  => __( 'Embedded Page Title', 'weforms' ),
+			],
+		],
+		'user' => [
+			'title' => __( 'User', 'weforms' ),
+			'tags'  => [
+				'ip_address'   => __( 'IP Address', 'weforms' ),
+				'user_id'      => __( 'User ID', 'weforms' ),
+				'first_name'   => __( 'First Name', 'weforms' ),
+				'last_name'    => __( 'Last Name', 'weforms' ),
+				'display_name' => __( 'Display Name', 'weforms' ),
+				'user_email'   => __( 'Email', 'weforms' ),
+			],
+		],
+		'urls' => [
+			'title' => __( 'URL\'s', 'weforms' ),
+			'tags'  => [
+				'url_page'                          => __( 'Embeded Page URL', 'weforms' ),
+				'url_referer'                       => __( 'Referer URL', 'weforms' ),
+				'url_login'                         => __( 'Login URL', 'weforms' ),
+				'url_logout'                        => __( 'Logout URL', 'weforms' ),
+				'url_register'                      => __( 'Register URL', 'weforms' ),
+				'url_lost_password'                 => __( 'Lost Password URL', 'weforms' ),
+				'personal_data_erase_confirm_url'   => __( 'Personal Data Erase Confirmation URL', 'weforms' ),
+				'personal_data_export_confirm_url'  => __( 'Personal Data Export Confirmation URL', 'weforms' ),
+			],
+		],
+	];
 
-    return apply_filters( 'wpuf_cf_merge_tags', $tags );
+	return apply_filters( 'wpuf_cf_merge_tags', $tags );
 }
 
 /**
@@ -854,23 +1177,23 @@ function weforms_get_merge_tags() {
  * @return void
  */
 function weforms_track_form_view( $form_id ) {
-    // don't track administrators
-    if ( current_user_can( 'administrator' ) ) {
-        return;
-    }
+	// don't track administrators
+	if ( current_user_can( 'administrator' ) ) {
+		return;
+	}
 
-    // ability to turn this off if someone doesn't like this tracking
-    $is_enabled = apply_filters( 'weforms_track_form_view', true );
+	// ability to turn this off if someone doesn't like this tracking
+	$is_enabled = apply_filters( 'weforms_track_form_view', true );
 
-    if ( !$is_enabled ) {
-        return;
-    }
+	if ( !$is_enabled ) {
+		return;
+	}
 
-    // increase the count
-    $meta_key = '_weforms_view_count';
-    $number   = (int) get_post_meta( $form_id, $meta_key, true );
+	// increase the count
+	$meta_key = '_weforms_view_count';
+	$number   = (int) get_post_meta( $form_id, $meta_key, true );
 
-    update_post_meta( $form_id, $meta_key, ( $number + 1 ) );
+	update_post_meta( $form_id, $meta_key, ( $number + 1 ) );
 }
 
 /**
@@ -881,7 +1204,7 @@ function weforms_track_form_view( $form_id ) {
  * @return int
  */
 function weforms_get_form_views( $form_id ) {
-    return (int) get_post_meta( $form_id, '_weforms_view_count', true );
+	return (int) get_post_meta( $form_id, '_weforms_view_count', true );
 }
 
 /**
@@ -893,18 +1216,18 @@ function weforms_get_form_views( $form_id ) {
  * @return mixed
  */
 function weforms_get_settings( $key = '', $default = '' ) {
-    $settings = get_option( 'weforms_settings', [] );
-    $settings = apply_filters( 'weforms_get_settings', $settings );
+	$settings = get_option( 'weforms_settings', [] );
+	$settings = apply_filters( 'weforms_get_settings', $settings );
 
-    if ( empty( $key ) ) {
-        return $settings;
-    }
+	if ( empty( $key ) ) {
+		return $settings;
+	}
 
-    if ( isset( $settings[ $key ] ) ) {
-        return $settings[ $key ];
-    }
+	if ( isset( $settings[ $key ] ) ) {
+		return $settings[ $key ];
+	}
 
-    return $default;
+	return $default;
 }
 
 /**
@@ -915,13 +1238,13 @@ function weforms_get_settings( $key = '', $default = '' ) {
  * @return array
  */
 function weforms_update_settings( $updated_settings = [] ) {
-    $previuos_settings = weforms_get_settings();
+	$previuos_settings = weforms_get_settings();
 
-    $settings = array_merge( $previuos_settings, $updated_settings );
+	$settings = array_merge( $previuos_settings, $updated_settings );
 
-    update_option( 'weforms_settings', $settings );
+	update_option( 'weforms_settings', $settings );
 
-    return $settings;
+	return $settings;
 }
 
 /**
@@ -932,7 +1255,7 @@ function weforms_update_settings( $updated_settings = [] ) {
  * @return string
  */
 function weforms_form_access_capability() {
-    return apply_filters( 'weforms_form_access_capability', 'manage_options' );
+	return apply_filters( 'weforms_form_access_capability', 'manage_options' );
 }
 
 /**
@@ -943,7 +1266,7 @@ function weforms_form_access_capability() {
  * @return string
  */
 function weforms_log_file_path() {
-    return apply_filters( 'weforms_log_file_path', WP_CONTENT_DIR . '/weforms.log' );
+	return apply_filters( 'weforms_log_file_path', WP_CONTENT_DIR . '/weforms.log' );
 }
 
 /**
@@ -956,9 +1279,9 @@ function weforms_log_file_path() {
  * @return void
  */
 function weforms_clear_buffer() {
-    if ( ob_get_length() > 0 ) {
-        ob_clean();
-    }
+	if ( ob_get_length() > 0 ) {
+		ob_clean();
+	}
 }
 
 /**
@@ -969,25 +1292,25 @@ function weforms_clear_buffer() {
  * @return string
  */
 function weforms_get_client_ip() {
-    $ipaddress = '';
+	$ipaddress = '';
 
-    if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
-    } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
-    } elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
-        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED'] ) );
-    } elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
-        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] ) );
-    } elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
-        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) );
-    } elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-        $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
-    } else {
-        $ipaddress = 'UNKNOWN';
-    }
+	if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+		$ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
+	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		$ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
+	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
+		$ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED'] ) );
+	} elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
+		$ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] ) );
+	} elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
+		$ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) );
+	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+		$ipaddress = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+	} else {
+		$ipaddress = 'UNKNOWN';
+	}
 
-    return $ipaddress;
+	return $ipaddress;
 }
 
 /**
@@ -1003,23 +1326,23 @@ function weforms_get_client_ip() {
  * @return int ID of updated or inserted post
  */
 function weforms_insert_form_field( $form_id, $field = [], $field_id = null, $order = 0 ) {
-    $args = [
-        'post_type'    => 'wpuf_input',
-        'post_parent'  => $form_id,
-        'post_status'  => 'publish',
-        'post_content' => maybe_serialize( wp_unslash( $field ) ),
-        'menu_order'   => $order,
-    ];
+	$args = [
+		'post_type'    => 'wpuf_input',
+		'post_parent'  => $form_id,
+		'post_status'  => 'publish',
+		'post_content' => maybe_serialize( wp_unslash( $field ) ),
+		'menu_order'   => $order,
+	];
 
-    if ( $field_id ) {
-        $args['ID'] = $field_id;
-    }
+	if ( $field_id ) {
+		$args['ID'] = $field_id;
+	}
 
-    if ( $field_id ) {
-        return wp_update_post( $args );
-    } else {
-        return wp_insert_post( $args );
-    }
+	if ( $field_id ) {
+		return wp_update_post( $args );
+	} else {
+		return wp_insert_post( $args );
+	}
 }
 
 /**
@@ -1028,42 +1351,42 @@ function weforms_insert_form_field( $form_id, $field = [], $field_id = null, $or
  * @return array
  */
 function weforms_allowed_extensions() {
-    $extesions = [
-        'images' => [
-            'ext'   => 'jpg,jpeg,gif,png,bmp',
-            'label' => __( 'Images', 'weforms' ),
-        ],
-        'audio'  => [
-            'ext'   => 'mp3,wav,ogg,wma,mka,m4a,ra,mid,midi',
-            'label' => __( 'Audio', 'weforms' ),
-        ],
-        'video'  => [
-            'ext'   => 'avi,divx,flv,mov,ogv,mkv,mp4,m4v,divx,mpg,mpeg,mpe',
-            'label' => __( 'Videos', 'weforms' ),
-        ],
-        'pdf'    => [
-            'ext'   => 'pdf',
-            'label' => __( 'PDF', 'weforms' ),
-        ],
-        'office' => [
-            'ext'   => 'doc,ppt,pps,xls,mdb,docx,xlsx,pptx,odt,odp,ods,odg,odc,odb,odf,rtf,txt',
-            'label' => __( 'Office Documents', 'weforms' ),
-        ],
-        'zip'    => [
-            'ext'   => 'zip,gz,gzip,rar,7z',
-            'label' => __( 'Zip Archives', 'weforms' ),
-        ],
-        'exe'    => [
-            'ext'   => 'exe',
-            'label' => __( 'Executable Files', 'weforms' ),
-        ],
-        'csv'    => [
-            'ext'   => 'csv',
-            'label' => __( 'CSV', 'weforms' ),
-        ],
-    ];
+	$extesions = [
+		'images' => [
+			'ext'   => 'jpg,jpeg,gif,png,bmp',
+			'label' => __( 'Images', 'weforms' ),
+		],
+		'audio'  => [
+			'ext'   => 'mp3,wav,ogg,wma,mka,m4a,ra,mid,midi',
+			'label' => __( 'Audio', 'weforms' ),
+		],
+		'video'  => [
+			'ext'   => 'avi,divx,flv,mov,ogv,mkv,mp4,m4v,divx,mpg,mpeg,mpe',
+			'label' => __( 'Videos', 'weforms' ),
+		],
+		'pdf'    => [
+			'ext'   => 'pdf',
+			'label' => __( 'PDF', 'weforms' ),
+		],
+		'office' => [
+			'ext'   => 'doc,ppt,pps,xls,mdb,docx,xlsx,pptx,odt,odp,ods,odg,odc,odb,odf,rtf,txt',
+			'label' => __( 'Office Documents', 'weforms' ),
+		],
+		'zip'    => [
+			'ext'   => 'zip,gz,gzip,rar,7z',
+			'label' => __( 'Zip Archives', 'weforms' ),
+		],
+		'exe'    => [
+			'ext'   => 'exe',
+			'label' => __( 'Executable Files', 'weforms' ),
+		],
+		'csv'    => [
+			'ext'   => 'csv',
+			'label' => __( 'CSV', 'weforms' ),
+		],
+	];
 
-    return apply_filters( 'weforms_allowed_extensions', $extesions );
+	return apply_filters( 'weforms_allowed_extensions', $extesions );
 }
 
 /**
@@ -1076,13 +1399,13 @@ function weforms_allowed_extensions() {
  * @return array
  */
 function weforms_get_form_integrations( $form_id ) {
-    $integrations = get_post_meta( $form_id, 'integrations', true );
+	$integrations = get_post_meta( $form_id, 'integrations', true );
 
-    if ( !$integrations ) {
-        return [];
-    }
+	if ( !$integrations ) {
+		return [];
+	}
 
-    return $integrations;
+	return $integrations;
 }
 
 /**
@@ -1096,19 +1419,19 @@ function weforms_get_form_integrations( $form_id ) {
  * @return bool
  */
 function weforms_is_integration_active( $form_id, $integration_id ) {
-    $integrations = weforms_get_form_integrations( $form_id );
+	$integrations = weforms_get_form_integrations( $form_id );
 
-    if ( !$integrations ) {
-        return false;
-    }
+	if ( !$integrations ) {
+		return false;
+	}
 
-    foreach ( $integrations as $id => $integration ) {
-        if ( $integration_id == $id && $integration->enabled == true ) {
-            return $integration;
-        }
-    }
+	foreach ( $integrations as $id => $integration ) {
+		if ( $integration_id == $id && $integration->enabled == true ) {
+			return $integration;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 /**
@@ -1117,7 +1440,7 @@ function weforms_is_integration_active( $form_id, $integration_id ) {
  * @return array
  */
 function weforms_get_flat_ui_colors() {
-    return [ '#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e' ];
+	return [ '#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e' ];
 }
 
 /**
@@ -1126,81 +1449,81 @@ function weforms_get_flat_ui_colors() {
  * @return array
  */
 function weforms_get_default_form_settings() {
-    return apply_filters(
-        'weforms_get_default_form_settings', [
-            'redirect_to'                => 'same',
-            'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
-            'page_id'                    => '',
-            'url'                        => '',
+	return apply_filters(
+		'weforms_get_default_form_settings', [
+			'redirect_to'                => 'same',
+			'message'                    => __( 'Thanks for contacting us! We will get in touch with you shortly.', 'weforms' ),
+			'page_id'                    => '',
+			'url'                        => '',
 
-            'submit_text'                => __( 'Submit', 'weforms' ),
-            'submit_button_cond'         => [
-                'condition_status' => 'no',
-                'cond_logic'       => 'any',
-                'conditions'       => [
-                    [
-                        'name'             => '',
-                        'operator'         => '=',
-                        'option'           => '',
-                    ],
-                ],
-            ],
+			'submit_text'                => __( 'Submit', 'weforms' ),
+			'submit_button_cond'         => [
+				'condition_status' => 'no',
+				'cond_logic'       => 'any',
+				'conditions'       => [
+					[
+						'name'             => '',
+						'operator'         => '=',
+						'option'           => '',
+					],
+				],
+			],
 
-            'schedule_form'              => 'false',
-            'schedule_start'             => '',
-            'schedule_end'               => '',
-            'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
-            'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
-            'require_login'              => 'false',
-            'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
-            'limit_entries'              => 'false',
-            'limit_number'               => '100',
-            'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
-            'label_position'             => 'above',
-            'use_theme_css'              => 'wpuf-style',
-            'quiz_form'                  => 'no',
-            'shuffle_question_order'     => 'no',
-            'release_grade'              => 'after_submission',
-            'respondent_can_see'         => [ 'missed_questions', 'correct_answers', 'point_values' ],
-            'total_points'               => 0,
-            'enable_multistep'           => false,
-            'multistep_progressbar_type' => 'progressive',
-            'humanpresence_enabled'      => false,
+			'schedule_form'              => 'false',
+			'schedule_start'             => '',
+			'schedule_end'               => '',
+			'sc_pending_message'         => __( 'Form submission hasn\'t been started yet', 'weforms' ),
+			'sc_expired_message'         => __( 'Form submission is now closed.', 'weforms' ),
+			'require_login'              => 'false',
+			'req_login_message'          => __( 'You need to login to submit a query.', 'weforms' ),
+			'limit_entries'              => 'false',
+			'limit_number'               => '100',
+			'limit_message'              => __( 'Sorry, we have reached the maximum number of submissions.', 'weforms' ),
+			'label_position'             => 'above',
+			'use_theme_css'              => 'wpuf-style',
+			'quiz_form'                  => 'no',
+			'shuffle_question_order'     => 'no',
+			'release_grade'              => 'after_submission',
+			'respondent_can_see'         => [ 'missed_questions', 'correct_answers', 'point_values' ],
+			'total_points'               => 0,
+			'enable_multistep'           => false,
+			'multistep_progressbar_type' => 'progressive',
+			'humanpresence_enabled'      => false,
 
-            // payment
-            'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
+			// payment
+			'payment_paypal_images'      => 'https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg',
 
-            'payment_paypal_label'       => __( 'PayPal', 'weforms' ),
-            'payment_stripe_label'       => __( 'Credit Card', 'weforms' ),
-            'payment_stripe_images'      => [ 'visa', 'mastercard', 'amex', 'discover' ],
+			'payment_paypal_label'       => __( 'PayPal', 'weforms' ),
+			'payment_stripe_label'       => __( 'Credit Card', 'weforms' ),
+			'payment_stripe_images'      => [ 'visa', 'mastercard', 'amex', 'discover' ],
 
-            'payment_stripe_deactivate'  => '',
-            'stripe_mode'                => 'live',
-            'stripe_page_id'             => '',
+			'payment_stripe_deactivate'  => '',
+			'stripe_mode'                => 'live',
+			'stripe_page_id'             => '',
 
-            'stripe_override_keys'       => '',
-            'stripe_email'               => '',
-            'stripe_key'                 => '',
-            'stripe_secret_key'          => '',
-            'stripe_key_test'            => '',
-            'stripe_secret_key_test'     => '',
+			'stripe_override_keys'       => '',
+			'stripe_email'               => '',
+			'stripe_key'                 => '',
+			'stripe_secret_key'          => '',
+			'stripe_key_test'            => '',
+			'stripe_secret_key_test'     => '',
 
-            'stripe_prefill_email'       => '',
-            'stripe_user_email_field'    => '',
+			'stripe_prefill_email'       => '',
+			'stripe_user_email_field'    => '',
 
-            'payment_paypal_deactivate'  => '',
-            'paypal_mode'                => 'live',
-            'paypal_type'                => '_cart',
+			'payment_paypal_deactivate'  => '',
+			'paypal_mode'                => 'live',
+			'paypal_type'                => '_cart',
 
-            'paypal_override'            => '',
-            'paypal_email'               => '',
+			'paypal_override'            => '',
+			'paypal_email'               => '',
 
-            'paypal_page_id'             => '',
+			'paypal_page_id'             => '',
 
-            'paypal_prefill_email'       => '',
-            'paypal_user_email_field'    => '',
-        ]
-      );
+			'paypal_prefill_email'       => '',
+			'paypal_user_email_field'    => '',
+		]
+	  );
 }
 
 /**
@@ -1209,36 +1532,36 @@ function weforms_get_default_form_settings() {
  * @return array
  */
 function weforms_get_default_form_notification() {
-    return apply_filters(
-        'weforms_get_default_form_notification', [
-            'active'       => 'true',
+	return apply_filters(
+		'weforms_get_default_form_notification', [
+			'active'       => 'true',
 
-            'type'         => 'email',
-            'smsTo'        => '',
-            'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+			'type'         => 'email',
+			'smsTo'        => '',
+			'smsText'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
 
-            'name'         => __( 'Admin Notification', 'weforms' ),
-            'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
-            'to'           => '{admin_email}',
-            'replyTo'      => '{field:email}',
-            'message'      => '{all_fields}',
-            'fromName'     => '{site_name}',
-            'fromAddress'  => '{admin_email}',
-            'cc'           => '',
-            'bcc'          => '',
-            'weforms_cond' => [
-                'condition_status' => 'no',
-                'cond_logic'       => 'any',
-                'conditions'       => [
-                    [
-                        'name'             => '',
-                        'operator'         => '=',
-                        'option'           => '',
-                    ],
-                ],
-            ],
-        ]
-      );
+			'name'         => __( 'Admin Notification', 'weforms' ),
+			'subject'      => '[{form_name}] ' . __( 'New Form Submission', 'weforms' ) . ' #{entry_id}',
+			'to'           => '{admin_email}',
+			'replyTo'      => '{field:email}',
+			'message'      => '{all_fields}',
+			'fromName'     => '{site_name}',
+			'fromAddress'  => '{admin_email}',
+			'cc'           => '',
+			'bcc'          => '',
+			'weforms_cond' => [
+				'condition_status' => 'no',
+				'cond_logic'       => 'any',
+				'conditions'       => [
+					[
+						'name'             => '',
+						'operator'         => '=',
+						'option'           => '',
+					],
+				],
+			],
+		]
+	  );
 }
 
 /**
@@ -1249,32 +1572,32 @@ function weforms_get_default_form_notification() {
  * @return string
  **/
 function weforms_get_pain_text( $value ) {
-    // Security fix: Removed unsafe unserialize() call to prevent PHP Object Injection.
-    // WordPress's get_metadata() already handles deserialization safely.
-    // Any serialized strings at this point should be treated as untrusted user input.
+	// Security fix: Removed unsafe unserialize() call to prevent PHP Object Injection.
+	// WordPress's get_metadata() already handles deserialization safely.
+	// Any serialized strings at this point should be treated as untrusted user input.
 
-    if ( is_array( $value ) ) {
-        $string_value = [];
-        foreach ( $value as $key => $single_value ) {
-            // Only recursively process arrays, not serialized strings
-            if ( is_array( $single_value ) ) {
-                $single_value = weforms_get_pain_text( $single_value );
-            }
+	if ( is_array( $value ) ) {
+		$string_value = [];
+		foreach ( $value as $key => $single_value ) {
+			// Only recursively process arrays, not serialized strings
+			if ( is_array( $single_value ) ) {
+				$single_value = weforms_get_pain_text( $single_value );
+			}
 
-            $single_value = ucwords( str_replace( [ '_', '-' ], ' ', $key ) ) . ': ' . ucwords( $single_value );
+			$single_value = ucwords( str_replace( [ '_', '-' ], ' ', $key ) ) . ': ' . ucwords( $single_value );
 
-            $string_value[] = $single_value;
-        }
+			$string_value[] = $single_value;
+		}
 
-        $value = implode( WeForms::$field_separator, $string_value );
-    }
+		$value = implode( WeForms::$field_separator, $string_value );
+	}
 
-    $value = trim( strip_tags( $value ) );
+	$value = trim( strip_tags( $value ) );
 
-    // escape spreadsheet special characters to prevent formula exploits.
-    $value = preg_match( '/^[=+@-]/', $value ) ? '\'' . $value : $value;
+	// escape spreadsheet special characters to prevent formula exploits.
+	$value = preg_match( '/^[=+@-]/', $value ) ? '\'' . $value : $value;
 
-    return $value;
+	return $value;
 }
 
 /**
@@ -1287,13 +1610,13 @@ function weforms_get_pain_text( $value ) {
  * @return array|string
  */
 function weforms_get_countries( $type = 'array' ) {
-    $countries = include WEFORMS_INCLUDES . '/country-list.php';
+	$countries = include WEFORMS_INCLUDES . '/country-list.php';
 
-    if ( $type == 'json' ) {
-        $countries = json_encode( $countries );
-    }
+	if ( $type == 'json' ) {
+		$countries = json_encode( $countries );
+	}
 
-    return $countries;
+	return $countries;
 }
 
 /**
@@ -1306,17 +1629,17 @@ function weforms_get_countries( $type = 'array' ) {
  * @return string
  */
 function get_country_name( $country_code ) {
-    if ( empty( $country_code ) ) {
-        return;
-    }
+	if ( empty( $country_code ) ) {
+		return;
+	}
 
-    $countries = weforms_get_countries();
+	$countries = weforms_get_countries();
 
-    foreach ( $countries as $country ) {
-        if ( $country['code'] == $country_code ) {
-            return $country['name'];
-        }
-    }
+	foreach ( $countries as $country ) {
+		if ( $country['code'] == $country_code ) {
+			return $country['name'];
+		}
+	}
 }
 
 /**
@@ -1327,20 +1650,20 @@ function get_country_name( $country_code ) {
  * @return array
  */
 function weforms_localized_countries( $script ) {
-    $script['countries'] = weforms_get_countries();
+	$script['countries'] = weforms_get_countries();
 
-    return $script;
+	return $script;
 }
 add_filter( 'weforms_localized_script', 'weforms_localized_countries' );
 
 function is_weforms_api_allowed_guest_submission() {
-    $permission = false;
+	$permission = false;
 
-    if ( current_user_can( 'read' ) ) {
-        $permission = true;
-    }
+	if ( current_user_can( 'read' ) ) {
+		$permission = true;
+	}
 
-    return apply_filters( 'weforms_anonymous_entry_submit_permission', $permission );
+	return apply_filters( 'weforms_anonymous_entry_submit_permission', $permission );
 }
 
 /**
@@ -1351,9 +1674,9 @@ function is_weforms_api_allowed_guest_submission() {
  * @return string|array
  */
 function weforms_clean( $var ) {
-    if ( is_array( $var ) ) {
-        return array_map( 'weforms_clean', $var );
-    } else {
-        return is_scalar( $var ) ? sanitize_textarea_field( wp_unslash( $var ) ) : $var;
-    }
+	if ( is_array( $var ) ) {
+		return array_map( 'weforms_clean', $var );
+	} else {
+		return is_scalar( $var ) ? sanitize_textarea_field( wp_unslash( $var ) ) : $var;
+	}
 }
