@@ -4,7 +4,7 @@ Tags: form builder, contact form, forms, form creator, custom form
 Requires at least: 5.0
 Requires PHP: 7.2.5
 Tested up to: 7.1
-Stable tag: 1.6.28
+Stable tag: 1.6.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,9 @@ Please report security bugs found in the source code of the undefined plugin thr
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.29 ( 16 October, 2026 ) =
+* Security: Patched unauthorized media deletion when permanently deleting a form entry.
 
 = Version 1.6.28 ( 27 February, 2026 ) =
 * Security: Patched stored XSS vulnerability in form entry fields.
@@ -653,5 +656,5 @@ Please report security bugs found in the source code of the undefined plugin thr
 
 == Upgrade Notice ==
 
-= 1.6.26 =
-This is a security release.  All users are encouraged to update to this version.
+= 1.6.29 =
+This is a security release. All users are encouraged to update to this version.
