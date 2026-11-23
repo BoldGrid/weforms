@@ -150,7 +150,7 @@ abstract class WeForms_Importer_Abstract {
         } ?>
         <div class="notice notice-info">
             <p><strong><?php printf( esc_html__( '%s Detected', 'weforms' ), wp_kses_post( $this->get_importer_name() ) ); ?></strong></p>
-            <p><?php printf( wp_kses_post( 'Hey, looks like you have <strong>%s</strong> installed. Would you like to <strong>import</strong> the forms into weForms?', 'weforms' ), wp_kses_post ( $this->get_importer_name() ) ); ?></p>
+            <p><?php printf( wp_kses_post( __( 'Hey, looks like you have <strong>%s</strong> installed. Would you like to <strong>import</strong> the forms into weForms?', 'weforms' ) ), wp_kses_post ( $this->get_importer_name() ) ); ?></p>
 
             <p>
                 <a href="#" class="button button-primary weforms-import-<?php echo esc_attr( $this->id );?>" id="weforms-import-<?php echo esc_attr( $this->id );?>"><?php esc_html_e( 'Import Forms', 'weforms' ); ?></a>
