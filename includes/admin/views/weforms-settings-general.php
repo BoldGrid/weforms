@@ -56,7 +56,7 @@
             <td>
                 <label>
                     <input type="checkbox" v-model="settings.credit">
-                    <?php wp_kses_post( __( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ) ); ?>
+                    <?php echo wp_kses_post( __( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ) ); ?>
                 </label>
             </td>
         </tr>
