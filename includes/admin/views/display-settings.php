@@ -41,9 +41,10 @@
             </select>
 
             <p class="description">
-                <?php wp_kses_post( __( "Selecting <strong>Yes</strong> will use your theme's style for form fields.", "weforms" ) ) ?>
+                <?php echo wp_kses_post( __( "Selecting <strong>Yes</strong> will use your theme's style for form fields.", "weforms" ) ) ?>
             </p>
         </td>
     </tr>
 
 </table>
+
