@@ -47,7 +47,7 @@
                 <td>
                     <input type="text" v-model="settings.gateways.sparkpost" class="regular-text">
 
-                    <p class="description"><?php printf( wp_kses_post( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
+                    <p class="description"><?php printf( wp_kses_post( __( 'Fill your SparkPost <a href="%s" target="_blank">API Key</a>.', 'weforms' ) ), 'https://app.sparkpost.com/account/credentials' ); ?></p>
                 </td>
             </tr>
         </template>
@@ -56,7 +56,7 @@
             <td>
                 <label>
                     <input type="checkbox" v-model="settings.credit">
-                    <?php wp_kses_post( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ); ?>
+                    <?php echo wp_kses_post( __( 'Show <em>powered by weForms</em> credit in form footer.', 'weforms' ) ); ?>
                 </label>
             </td>
         </tr>
