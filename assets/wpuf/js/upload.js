@@ -212,6 +212,11 @@
                     'nonce' : wpuf_frontend_upload.nonce,
                     'action' : 'wpuf_file_del'
                 };
+                // Include deletion token for security (prevents IDOR attacks)
+                var deleteToken = el.data('delete-token');
+                if ( deleteToken ) {
+                    data['delete_token'] = deleteToken;
+                }
                 self.removed_files.push(data);
                 jQuery('#del_attach').val(el.data('attach_id'));
                 jQuery.post(wpuf_frontend_upload.ajaxurl, data, function() {

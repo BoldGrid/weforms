@@ -218,7 +218,10 @@ class WeForms_Privacy {
     }
 
     public static function process_payment_data( $payment_data ) {
-        $field_value = unserialize( $payment_data->payment_data );
+        // Security fix: Prevent PHP Object Injection by restricting allowed classes
+        $field_value = is_serialized( $payment_data->payment_data )
+            ? @unserialize( $payment_data->payment_data, [ 'allowed_classes' => false ] )
+            : $payment_data->payment_data;
 
         $serialized_value = [];
         $transaction_data = [];

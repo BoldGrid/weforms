@@ -71,3 +71,4 @@ HTML
 Rails
 vendor
 phpcs-report.txt
+.phpunit.result.cache

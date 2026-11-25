@@ -81,7 +81,7 @@
                         <th class="col-entry-id">
                             <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
                         </th>
-                        <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
+                        <td v-for="(header, index) in columns"><span>{{ entry.fields[index] }}</span></td>
                         <th class="col-entry-details">
                             <template v-if="status == 'trash'">
                                 <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>
@@ -103,7 +103,7 @@
                     <th class="col-entry-id">
                         <router-link :to="{ name: 'formEntriesSingle', params: { entryid: entry.id }}">#{{ entry.id }}</router-link>
                     </th>
-                    <td v-for="(header, index) in columns"><span v-html="entry.fields[index]"></span></td>
+                    <td v-for="(header, index) in columns"><span>{{ entry.fields[index] }}</span></td>
                     <th class="col-entry-details">
                         <template v-if="status == 'trash'">
                             <a href="#" @click.prevent="restore(entry.id)"><?php _e( 'Restore', 'weforms' ); ?></a>

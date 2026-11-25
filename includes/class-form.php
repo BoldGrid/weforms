@@ -29,6 +29,34 @@ class WeForms_Form {
     public $data = null;
 
     /**
+     * Derived/formatted stats & metadata used by admin/AJAX/API responses.
+     * Declared explicitly to avoid PHP 8.2 "dynamic property" deprecations.
+     *
+     * @var int
+     */
+    public $entries = 0;
+
+    /**
+     * @var array
+     */
+    public $settings = [];
+
+    /**
+     * @var int
+     */
+    public $views = 0;
+
+    /**
+     * @var int
+     */
+    public $payments = 0;
+
+    /**
+     * @var array
+     */
+    public $author = [];
+
+    /**
      * Form fields
      *
      * @var array
@@ -98,7 +126,10 @@ class WeForms_Form {
         $form_fields = [];
 
         foreach ( $fields as $key => $content ) {
-            $field = maybe_unserialize( $content->post_content );
+            // Security fix: Prevent PHP Object Injection by restricting allowed classes
+            $field = is_serialized( $content->post_content )
+                ? @unserialize( $content->post_content, [ 'allowed_classes' => false ] )
+                : $content->post_content;
 
             if ( empty( $field['template']  ) ) {
                 continue;
@@ -402,7 +433,6 @@ class WeForms_Form {
     public function get_changed_fields( $form_fields ) {
         $changed_fields = array();
         foreach ( $form_fields as $field ) {
-            $org_field = $field['original_name'];
             // All form fields should have an original name.
             if ( empty( $field['original_name'] ) ) {
                 continue;

@@ -184,6 +184,7 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
             $form_id  = $request->get_param( 'form_id' );
 
             update_post_meta( $attachment_response->data['id'], 'attachment_form_id', $form_id );
+            weforms_register_uploaded_attachment( $attachment_response->data['id'] );
 
             if ( wp_attachment_is_image( $attachment_response->data['id'] ) ) {
                 $image = wp_get_attachment_image_src( $attachment_response->data['id'], 'thumbnail' );

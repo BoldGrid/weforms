@@ -1,0 +1,124 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║   WEFORMS SECURITY TESTING - QUICK START GUIDE                  ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📍 You are here: security-tests/
+
+🎯 GOAL: Test the PHP Object Injection vulnerability patch
+
+═══════════════════════════════════════════════════════════════════
+
+🚀 FASTEST WAY TO TEST (30 seconds):
+
+   cd /home/jacobd/public_html/wp-content/plugins/weforms
+   ./security-tests/run-all-tests.sh $(pwd)
+
+═══════════════════════════════════════════════════════════════════
+
+📋 WHAT GETS TESTED:
+
+   ✓ Scans for unsafe unserialize() calls
+   ✓ Verifies safe deserialization patterns  
+   ✓ Tests exploit prevention with PoC
+   ✓ Validates allowed_classes parameter
+   ✓ Confirms patch coverage (100%)
+
+═══════════════════════════════════════════════════════════════════
+
+📂 AVAILABLE TESTS:
+
+   1️⃣  AUTOMATED (Recommended)
+       ./run-all-tests.sh $(pwd)
+       → Runs all tests, provides summary
+
+   2️⃣  PROOF OF CONCEPT
+       php exploit-poc.php
+       → Demonstrates vulnerability safely
+
+   3️⃣  PLUGIN SCANNER  
+       php automated-test.php $(pwd)
+       → Scans plugin code for issues
+
+   4️⃣  MANUAL TESTING
+       See: MANUAL_TESTING_GUIDE.md
+       → Step-by-step instructions
+
+═══════════════════════════════════════════════════════════════════
+
+⚡ QUICK TESTS:
+
+   # Test current version
+   ./security-tests/run-all-tests.sh $(pwd)
+
+   # Test vulnerable version (before patch)
+   git stash
+   git checkout master
+   ./security-tests/run-all-tests.sh $(pwd)
+
+   # Test patched version (after patch)
+   git checkout fix-access-vulnerable
+   ./security-tests/run-all-tests.sh $(pwd)
+
+═══════════════════════════════════════════════════════════════════
+
+✅ EXPECTED RESULTS (Patched):
+
+   ✅ PASS: No unsafe unserialize() calls found
+   ✅ PASS: All expected safe patterns verified
+   ✅ PASS: No maybe_unserialize() calls found
+   ✅ PASS: All unserialize() calls have allowed_classes => false
+   
+   ✅ VERDICT: SECURE - All tests passed!
+
+❌ EXPECTED RESULTS (Vulnerable):
+
+   ❌ FAIL: Found unsafe unserialize() calls
+   ❌ FAIL: Some safe patterns missing
+   
+   ❌ VERDICT: VULNERABLE - Patch incomplete or not applied
+
+═══════════════════════════════════════════════════════════════════
+
+📖 DOCUMENTATION:
+
+   README.md                 → Overview and reference
+   MANUAL_TESTING_GUIDE.md   → Detailed step-by-step guide
+   QUICKSTART.txt            → This file
+
+═══════════════════════════════════════════════════════════════════
+
+🔧 TROUBLESHOOTING:
+
+   Problem: "Permission denied"
+   Solution: chmod +x run-all-tests.sh
+
+   Problem: "PHP not found"
+   Solution: Install PHP CLI (apt-get install php-cli)
+
+   Problem: Tests fail
+   Solution: Check you're on fix-access-vulnerable branch
+
+═══════════════════════════════════════════════════════════════════
+
+🎯 STEP-BY-STEP TEST PROCESS:
+
+   1. Test vulnerable version:
+      $ git checkout master
+      $ ./security-tests/run-all-tests.sh $(pwd)
+      Expected: ❌ TESTS FAILED (Vulnerable)
+
+   2. Apply patch:
+      $ git checkout fix-access-vulnerable
+
+   3. Test patched version:
+      $ ./security-tests/run-all-tests.sh $(pwd)
+      Expected: ✅ ALL TESTS PASSED (Secure)
+
+   4. Compare results to confirm fix worked!
+
+═══════════════════════════════════════════════════════════════════
+
+Questions? See README.md or MANUAL_TESTING_GUIDE.md
+

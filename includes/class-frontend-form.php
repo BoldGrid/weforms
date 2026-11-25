@@ -144,19 +144,19 @@ class WeForms_Frontend_Form {
         <?php
         if ( isset( $atts['modal'] ) && 'true' == esc_attr( $atts['modal'] ) ) {
             if ( isset( $atts['link'] ) ) {
-                printf( wp_kses_post(  '<p><a href="#modal-form" rel="modal:open">%s</a></p>', $atts['link'] ) );
+                printf( '<p><a href="#modal-form" rel="modal:open">%s</a></p>', esc_html( $atts['link'] ) );
             } else {
                 if ( isset( $atts['button'] ) ) {
                     $button_text = $atts['button'];
                 } else {
-                    $button_text = esc_html_e( 'Open Form', 'weforms' );
+                    $button_text = esc_html__( 'Open Form', 'weforms' );
                 }
-                printf( wp_kses_post( '<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', $button_text ) );
+                printf( '<p><button><a href="#modal-form" rel="modal:open">%s</a></button></p>', esc_html( $button_text ) );
             }
         }
 
         if ( $show_credit ) {
-            printf( '<em>' . wp_kses_post( 'Powered by <a href="%s" target="_blank">weForms</a>', 'weforms' ) . '</em>', 'https://wordpress.org/plugins/weforms/' );
+            printf( '<em>' . wp_kses_post( __( 'Powered by <a href="%s" target="_blank">weForms</a>', 'weforms' ) ) . '</em>', 'https://wordpress.org/plugins/weforms/' );
         }
 
         weforms_track_form_view( $form->id );
@@ -203,3 +203,4 @@ class WeForms_Frontend_Form {
     <?php
     }
 }
+
