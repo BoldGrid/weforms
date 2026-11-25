@@ -505,7 +505,9 @@ class WeForms_Notification {
      * Sales / sales@example.com
      *
      * Users need the ability to pass {field:department} and get "Support",
-     * and {value:department} to get support@email.com
+     * and {value:department} to get support@email.com.
+     *
+     * Users can also pass {product:meta_name} for a multiple product field to get the names of the selected products.
      *
      * @param string $text The text to parse.
      * @param int    $entry_id The entry ID. Optional. Default null if tags to be replaced are on the frontend.
@@ -519,8 +521,8 @@ class WeForms_Notification {
         }
 
         // Users looking for {field:something} or {value:something}, determine which one.
-        $is_field = preg_match_all( '/{field:(\w*)}/', $text, $matches_field );
-        $is_value = preg_match_all( '/{value:(\w*)}/', $text, $matches_value );
+        $is_field   = preg_match_all( '/{field:(\w*)}/', $text, $matches_field );
+        $is_value   = preg_match_all( '/{value:(\w*)}/', $text, $matches_value );
         $is_product = preg_match_all( '/{product:(\w*)}/', $text, $matches_product );
 
         if ( $is_field ) {
@@ -528,11 +530,11 @@ class WeForms_Notification {
             // Create an array of meta values to replace.
             $meta_values = array();
             foreach ( $meta_keys as $meta_key ) {
-                // implode $modified_value before adding it to the $modified_values array
-                if ( is_array( $meta_value ) ) {
-                    $meta_value = implode( WeForms::$field_separator, $meta_value );
-                }
                 $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+                // Array values (checkboxes, multi-selects) must be flattened before replacing.
+                if ( \is_array( $meta_value ) ) {
+                    $meta_value = \implode( WeForms::$field_separator, $meta_value );
+                }
                 // Add values to the array.
                 array_push( $meta_values, $meta_value );
             }
@@ -547,41 +549,92 @@ class WeForms_Notification {
                 $form_field_values  = WeForms_Form_Entry::get_form( $entry_id )->get_field_values()[ $meta_key ]['options'];
                 $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
                 $modified_value     = array_search( $meta_value, $form_field_values );
-                // implode $modified_value before adding it to the $modified_values array
+                // Add values to the array.
+                array_push( $modified_values, $modified_value );
                 if ( is_array( $modified_value ) ) {
                     $modified_value = implode( WeForms::$field_separator, $modified_value );
                 }
-                // Add values to the array.
-                array_push( $modified_values, $modified_value );
             }
             // $text may include HTML tags, only replace tag that was matched.
             $text = str_replace( $matches_value[0], $modified_values, $text );
         }
-        if( $is_product ) {
-            $meta_keys       = $matches_product[1];
-            // Create an array of modified values to replace.
+        if ( $is_product ) {
             $modified_values = array();
-            foreach ( $meta_keys as $meta_key ) {
-                $form_field_values  = WeForms_Form_Entry::get_form( $entry_id )->get_field_values()[ $meta_key ]['options'];
-                $meta_value         = weforms_get_entry_meta( $entry_id, $meta_key, true );
-                // muli-products are an array of arrays so parse each value
-                $modified_value = array();
-                foreach($meta_value as $product){
-                    array_push( $modified_value,  array_keys($form_field_values)[array_search( $product['product'], array_keys($form_field_values) )] );
-                }
-                // implode $modified_value before adding it to the $modified_values array
-                if ( is_array( $modified_value ) ) {
-                    $modified_value = implode( WeForms::$field_separator, $modified_value );
-                }
-                // Add values to the array.
-                array_push( $modified_values, $modified_value );
+            foreach ( $matches_product[1] as $meta_key ) {
+                array_push( $modified_values, self::get_product_tag_value( $entry_id, $meta_key ) );
             }
             // $text may include HTML tags, only replace tag that was matched.
             $text = str_replace( $matches_product[0], $modified_values, $text );
         }
-        // Add filter for custom templating snippets and field logic
-        $text = apply_filters('weforms_notification_replace_field_tags', $text, $entry_id);
+
+        /**
+         * Filters the notification text after the {field:}, {value:}, and {product:} tags are replaced.
+         *
+         * Allows custom templating snippets and field logic.
+         *
+         * @since X.X.X
+         *
+         * @param string $text     The text with field tags replaced.
+         * @param int    $entry_id The entry ID.
+         */
+        $text = \apply_filters( 'weforms_notification_replace_field_tags', $text, $entry_id );
+
         return $text;
+    }
+
+    /**
+     * Get the {product:meta_name} replacement for a multiple product field.
+     *
+     * Returns the names of the selected products, joined by the field separator. A product is only included when
+     * its name is one of the field's configured options and its submitted quantity (when present) is at least 1.
+     * The names come from the form's options, never from the submitted value.
+     *
+     * @since X.X.X
+     *
+     * @param int    $entry_id The entry ID.
+     * @param string $meta_key The multiple product field's meta name.
+     *
+     * @return string The product names, or an empty string when none can be determined.
+     */
+    private static function get_product_tag_value( $entry_id, $meta_key ) {
+        $form = WeForms_Form_Entry::get_form( $entry_id );
+
+        if ( empty( $form ) ) {
+            return '';
+        }
+
+        $form_field_values = $form->get_field_values();
+
+        if ( empty( $form_field_values[ $meta_key ]['options'] ) || ! \is_array( $form_field_values[ $meta_key ]['options'] ) ) {
+            return '';
+        }
+
+        $options    = $form_field_values[ $meta_key ]['options'];
+        $meta_value = weforms_get_entry_meta( $entry_id, $meta_key, true );
+
+        if ( ! \is_array( $meta_value ) ) {
+            return '';
+        }
+
+        // Multiple products are an array of arrays, so parse each selected product.
+        $product_names = array();
+        foreach ( $meta_value as $product ) {
+            if ( ! \is_array( $product ) || ! isset( $product['product'] ) || ( ! \is_string( $product['product'] ) && ! \is_int( $product['product'] ) ) ) {
+                continue;
+            }
+
+            if ( isset( $product['quantity'] ) && (float) $product['quantity'] < 1 ) {
+                continue;
+            }
+
+            if ( ! \array_key_exists( $product['product'], $options ) ) {
+                continue;
+            }
+
+            array_push( $product_names, (string) $product['product'] );
+        }
+
+        return \implode( WeForms::$field_separator, $product_names );
     }
 
     /**
