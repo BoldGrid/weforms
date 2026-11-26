@@ -529,6 +529,417 @@ function weforms_get_upload_fields( $form_id ) {
 }
 
 /**
+ * Generic rejection for an upload that is not allowed.
+ *
+ * @since 1.6.30
+ *
+ * @return WP_Error
+ */
+function weforms_upload_error() {
+	return new WP_Error( 'weforms_upload_rejected', __( 'Upload could not be accepted.', 'weforms' ) );
+}
+
+/**
+ * Whether a weForms form is published and accepting submissions.
+ *
+ * A form without a stored settings array is treated as closed.
+ *
+ * @since 1.6.30
+ *
+ * @param int $form_id Form ID.
+ *
+ * @return bool
+ */
+function weforms_upload_form_is_open( $form_id ) {
+	$form_id = absint( $form_id );
+
+	if ( ! $form_id || ! is_array( get_post_meta( $form_id, 'wpuf_form_settings', true ) ) ) {
+		return false;
+	}
+
+	return true === weforms()->form->get( $form_id )->is_submission_open();
+}
+
+/**
+ * Whether the request targets a weForms contact form.
+ *
+ * Other post types stay with their own handler.
+ *
+ * @since 1.6.30
+ *
+ * @param int $form_id Form ID.
+ *
+ * @return bool
+ */
+function weforms_upload_targets_weforms_form( $form_id ) {
+	$post = get_post( absint( $form_id ) );
+
+	return $post instanceof WP_Post && 'wpuf_contact_form' === $post->post_type;
+}
+
+/**
+ * Upload field objects on a form, including column nesting.
+ *
+ * @since 1.6.30
+ *
+ * @param int $form_id Form ID.
+ *
+ * @return array
+ */
+function weforms_collect_upload_fields( $form_id ) {
+	$form_id = absint( $form_id );
+	$found   = array();
+
+	if ( ! $form_id || ! weforms_upload_targets_weforms_form( $form_id ) ) {
+		return $found;
+	}
+
+	$fields = weforms()->form->get( $form_id )->get_fields();
+
+	if ( ! is_array( $fields ) ) {
+		return $found;
+	}
+
+	$collect = function ( $field ) use ( &$collect, &$found ) {
+		if ( ! is_array( $field ) ) {
+			return;
+		}
+
+		$type = isset( $field['template'] ) ? $field['template'] : '';
+
+		if ( in_array( $type, array( 'image_upload', 'file_upload' ), true ) && ! empty( $field['name'] ) ) {
+			$found[] = $field;
+		}
+
+		if ( empty( $field['inner_fields'] ) || ! is_array( $field['inner_fields'] ) ) {
+			return;
+		}
+
+		foreach ( $field['inner_fields'] as $column_fields ) {
+			if ( ! is_array( $column_fields ) ) {
+				continue;
+			}
+
+			foreach ( $column_fields as $inner_field ) {
+				$collect( $inner_field );
+			}
+		}
+	};
+
+	foreach ( $fields as $field ) {
+		$collect( $field );
+	}
+
+	return $found;
+}
+
+/**
+ * Extensions WordPress itself will store.
+ *
+ * @since 1.6.30
+ *
+ * @return array Map of lowercase extension to true.
+ */
+function weforms_wordpress_allowed_extensions() {
+	$extensions = array();
+
+	foreach ( get_allowed_mime_types() as $pattern => $mime ) {
+		unset( $mime );
+
+		foreach ( explode( '|', (string) $pattern ) as $extension ) {
+			$extension = strtolower( trim( $extension ) );
+
+			if ( '' !== $extension ) {
+				$extensions[ $extension ] = true;
+			}
+		}
+	}
+
+	return $extensions;
+}
+
+/**
+ * Positive configured size limit in bytes.
+ *
+ * A missing or empty `max_size` uses Weforms_Upload_Controller::DEFAULT_MAX_SIZE_KB.
+ * A non-numeric or non-positive value has no usable limit.
+ *
+ * @since 1.6.30
+ *
+ * @param array $field Upload field.
+ *
+ * @return int Zero when the field has no usable limit.
+ */
+function weforms_upload_max_bytes( $field ) {
+	if ( ! is_array( $field ) ) {
+		return 0;
+	}
+
+	if ( ! isset( $field['max_size'] ) || '' === $field['max_size'] ) {
+		require_once WEFORMS_INCLUDES . '/api/class-weforms-uploads-controller.php';
+
+		$kilobytes = (float) \Weforms_Upload_Controller::DEFAULT_MAX_SIZE_KB;
+	} elseif ( is_numeric( $field['max_size'] ) ) {
+		$kilobytes = (float) $field['max_size'];
+	} else {
+		return 0;
+	}
+
+	if ( $kilobytes <= 0 ) {
+		return 0;
+	}
+
+	return (int) floor( $kilobytes * 1024 );
+}
+
+/**
+ * Extension allow-list for one upload field.
+ *
+ * Image fields use the image category. File fields use their configured
+ * categories. The result is the intersection with WordPress allowed types.
+ *
+ * @since 1.6.30
+ *
+ * @param array $field Upload field.
+ *
+ * @return array Map of lowercase extension to true.
+ */
+function weforms_upload_extension_allowlist( $field ) {
+	$catalog    = weforms_allowed_extensions();
+	$wordpress  = weforms_wordpress_allowed_extensions();
+	$template   = isset( $field['template'] ) ? $field['template'] : '';
+	$categories = array();
+
+	if ( 'image_upload' === $template ) {
+		$categories = array( 'images' );
+	} else {
+		$raw = isset( $field['extension'] ) ? $field['extension'] : array();
+
+		if ( is_string( $raw ) ) {
+			$raw = array_map( 'trim', explode( ',', $raw ) );
+		}
+
+		if ( is_array( $raw ) ) {
+			$categories = $raw;
+		}
+	}
+
+	$allowed = array();
+
+	foreach ( $categories as $category ) {
+		if ( ! is_string( $category ) || ! isset( $catalog[ $category ]['ext'] ) ) {
+			continue;
+		}
+
+		foreach ( explode( ',', $catalog[ $category ]['ext'] ) as $extension ) {
+			$extension = strtolower( trim( $extension ) );
+
+			if ( '' !== $extension && isset( $wordpress[ $extension ] ) ) {
+				$allowed[ $extension ] = true;
+			}
+		}
+	}
+
+	return $allowed;
+}
+
+/**
+ * Resolve the single upload field a request is allowed to use.
+ *
+ * @since 1.6.30
+ *
+ * @param int   $form_id  Form ID.
+ * @param array $selector Field name and/or field ID.
+ *
+ * @return array|WP_Error
+ */
+function weforms_resolve_upload_field( $form_id, $selector ) {
+	$form_id = absint( $form_id );
+
+	if ( ! weforms_upload_targets_weforms_form( $form_id ) ) {
+		return new WP_Error( 'weforms_upload_not_ours', __( 'Upload could not be accepted.', 'weforms' ) );
+	}
+
+	if ( ! weforms_upload_form_is_open( $form_id ) ) {
+		return weforms_upload_error();
+	}
+
+	if ( ! is_array( $selector ) ) {
+		$selector = array();
+	}
+
+	$name     = isset( $selector['name'] ) ? sanitize_key( (string) $selector['name'] ) : '';
+	$field_id = isset( $selector['field_id'] ) ? absint( $selector['field_id'] ) : 0;
+
+	if ( '' === $name && ! $field_id ) {
+		return weforms_upload_error();
+	}
+
+	$matches = array();
+
+	foreach ( weforms_collect_upload_fields( $form_id ) as $field ) {
+		$field_name = isset( $field['name'] ) ? sanitize_key( (string) $field['name'] ) : '';
+		$id         = isset( $field['id'] ) ? absint( $field['id'] ) : 0;
+
+		if ( '' !== $name && $field_name !== $name ) {
+			continue;
+		}
+
+		if ( $field_id && $id !== $field_id ) {
+			continue;
+		}
+
+		$matches[] = $field;
+	}
+
+	if ( 1 !== count( $matches ) ) {
+		return weforms_upload_error();
+	}
+
+	return $matches[0];
+}
+
+/**
+ * Authorize one file for one weForms upload field.
+ *
+ * Nothing is written. Callers must stop before creating a file or attachment
+ * when this returns an error.
+ *
+ * @since 1.6.30
+ *
+ * @param int   $form_id  Form ID.
+ * @param array $selector Field name and/or field ID.
+ * @param array $file     A `$_FILES` entry.
+ *
+ * @return array|WP_Error The matching field on success.
+ */
+function weforms_authorize_upload( $form_id, $selector, $file ) {
+	$field = weforms_resolve_upload_field( $form_id, $selector );
+
+	if ( is_wp_error( $field ) ) {
+		return $field;
+	}
+
+	if ( ! is_array( $file ) || ! empty( $file['error'] ) ) {
+		return weforms_upload_error();
+	}
+
+	$tmp  = isset( $file['tmp_name'] ) ? $file['tmp_name'] : '';
+	$name = isset( $file['name'] ) ? wp_basename( (string) $file['name'] ) : '';
+
+	/**
+	 * Lets the test suite check a file that was not received over HTTP.
+	 *
+	 * Only honored when the WordPress test suite is loaded. Do not use this
+	 * filter in production code.
+	 *
+	 * @since 1.6.30
+	 *
+	 * @param bool $accept Whether a local readable file may be checked.
+	 */
+	$local    = defined( 'WP_TESTS_DOMAIN' ) && apply_filters( 'weforms_upload_accept_local_file', false );
+	$uploaded = is_string( $tmp ) && '' !== $tmp && is_uploaded_file( $tmp );
+
+	if ( ! $uploaded && ! ( $local && is_string( $tmp ) && is_readable( $tmp ) ) ) {
+		return weforms_upload_error();
+	}
+
+	$limit    = weforms_upload_max_bytes( $field );
+	$bytes    = (int) filesize( $tmp );
+	$wp_limit = (int) wp_max_upload_size();
+
+	if ( $limit <= 0 || $bytes <= 0 || $bytes > $limit || ( $wp_limit > 0 && $bytes > $wp_limit ) ) {
+		return weforms_upload_error();
+	}
+
+	$allow     = weforms_upload_extension_allowlist( $field );
+	$extension = strtolower( (string) pathinfo( $name, PATHINFO_EXTENSION ) );
+
+	if ( '' === $extension || ! isset( $allow[ $extension ] ) ) {
+		return weforms_upload_error();
+	}
+
+	if ( 'image_upload' === $field['template'] ) {
+		$checked = wp_check_filetype_and_ext( $tmp, $name );
+		$real    = isset( $checked['ext'] ) ? strtolower( (string) $checked['ext'] ) : '';
+
+		if ( '' === $real || empty( $checked['type'] ) || ! isset( $allow[ $real ] ) || ! empty( $checked['proper_filename'] ) || $real !== $extension ) {
+			return weforms_upload_error();
+		}
+	}
+
+	return $field;
+}
+
+/**
+ * Field names WPUF 4.3.14+ may accept for a weForms form.
+ *
+ * Forms that are not weForms contact forms are left unchanged.
+ *
+ * @since 1.6.30
+ *
+ * @param array  $allowed_names Names WPUF already collected.
+ * @param int    $form_id       Form ID.
+ * @param string $field_type    Client-supplied field name.
+ *
+ * @return array
+ */
+function weforms_wpuf_upload_allowed_field_names( $allowed_names, $form_id, $field_type ) {
+	unset( $field_type );
+
+	if ( ! weforms_upload_targets_weforms_form( $form_id ) ) {
+		return $allowed_names;
+	}
+
+	if ( ! weforms_upload_form_is_open( $form_id ) ) {
+		return array();
+	}
+
+	$counts = array();
+
+	foreach ( weforms_collect_upload_fields( $form_id ) as $field ) {
+		$name = isset( $field['name'] ) ? sanitize_key( (string) $field['name'] ) : '';
+
+		if ( '' === $name || weforms_upload_max_bytes( $field ) <= 0 || ! weforms_upload_extension_allowlist( $field ) ) {
+			continue;
+		}
+
+		$counts[ $name ] = isset( $counts[ $name ] ) ? $counts[ $name ] + 1 : 1;
+	}
+
+	$names = array();
+
+	foreach ( $counts as $name => $count ) {
+		if ( 1 === $count ) {
+			$names[] = $name;
+		}
+	}
+
+	return $names;
+}
+
+/**
+ * weForms forms do not use WPUF's insert-photo bypass.
+ *
+ * @since 1.6.30
+ *
+ * @param bool $allowed Whether WPUF allows an insert-photo upload.
+ * @param int  $form_id Form ID.
+ *
+ * @return bool
+ */
+function weforms_wpuf_upload_allow_insert_image( $allowed, $form_id ) {
+	if ( weforms_upload_targets_weforms_form( $form_id ) ) {
+		return false;
+	}
+
+	return $allowed;
+}
+
+add_filter( 'wpuf_upload_allowed_field_names', 'weforms_wpuf_upload_allowed_field_names', 10, 3 );
+add_filter( 'wpuf_upload_allow_insert_image', 'weforms_wpuf_upload_allow_insert_image', 10, 2 );
+
+/**
  * Replace upload-field values with IDs from the current submission.
  *
  * @since 1.6.29

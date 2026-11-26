@@ -44,7 +44,14 @@ class WeForms_Integration_Slack extends WeForms_Abstract_Integration {
 
         $attachment_fields = [];
         $title             = sprintf( __( '#%d New submission on %s', 'weforms' ), $entry_id, get_post_field( 'post_title', $form_id ) );
-        $form_data         = weforms_get_entry_data( $entry_id );
+
+        WeForms_Upload_Protection::begin_signed_urls();
+
+        try {
+            $form_data = weforms_get_entry_data( $entry_id );
+        } finally {
+            WeForms_Upload_Protection::end_signed_urls();
+        }
 
         if ( false === $form_data ) {
             return;

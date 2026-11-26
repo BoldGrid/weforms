@@ -7,11 +7,26 @@
  */
 class WeForms_Ajax_Upload {
 
+    /**
+     * Whether the shared upload request is for a weForms form.
+     *
+     * @since 1.6.30
+     *
+     * @var bool
+     */
+    private $protect_shared_upload = false;
+
     public function __construct() {
         add_action( 'add_attachment', [ $this, 'register_attachment_from_upload_request' ] );
+        add_filter( 'wp_handle_upload_prefilter', [ $this, 'reject_unverified_weforms_upload' ], 0 );
+        add_action( 'wp_ajax_wpuf_upload_file', [ $this, 'guard_weforms_upload' ], 0 );
+        add_action( 'wp_ajax_nopriv_wpuf_upload_file', [ $this, 'guard_weforms_upload' ], 0 );
 
         // let WPUF handle the upload if installed
         if ( class_exists( 'WPUF_Upload' ) ) {
+            add_action( 'wp_ajax_wpuf_upload_file', [ $this, 'protect_shared_upload_request' ], 0 );
+            add_action( 'wp_ajax_nopriv_wpuf_upload_file', [ $this, 'protect_shared_upload_request' ], 0 );
+
             return;
         }
 
@@ -42,6 +57,115 @@ class WeForms_Ajax_Upload {
         }
 
         weforms_register_uploaded_attachment( $attach_id );
+
+        if ( $this->protect_shared_upload ) {
+            $this->protect_shared_upload = false;
+
+            WeForms_Upload_Protection::end();
+            WeForms_Upload_Protection::protect( $attach_id );
+        }
+    }
+
+    /**
+     * Store a WPUF-handled upload for a weForms form in protected storage.
+     *
+     * Runs before the WPUF handler. Uploads for WPUF's own forms are left alone.
+     *
+     * @since 1.6.30
+     *
+     * @return void
+     */
+    public function protect_shared_upload_request() {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Only selects storage; the upload handler verifies the nonce.
+        $form_id = isset( $_POST['form_id'] ) && is_scalar( $_POST['form_id'] ) ? absint( $_POST['form_id'] ) : 0;
+
+        if ( ! $form_id || 'wpuf_contact_form' !== get_post_type( $form_id ) ) {
+            return;
+        }
+
+        $this->protect_shared_upload = true;
+
+        WeForms_Upload_Protection::begin();
+
+        add_action( 'wp_ajax_wpuf_upload_file', [ 'WeForms_Upload_Protection', 'end' ], PHP_INT_MAX );
+        add_action( 'wp_ajax_nopriv_wpuf_upload_file', [ 'WeForms_Upload_Protection', 'end' ], PHP_INT_MAX );
+    }
+
+    /**
+     * Stop a weForms upload that has not passed the field policy.
+     *
+     * Runs before WPUF when that plugin owns the handler.
+     *
+     * @since 1.6.30
+     *
+     * @return void
+     */
+    public function guard_weforms_upload() {
+        $nonce    = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
+        $verified = wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) || wp_verify_nonce( $nonce, 'wpuf_nonce' );
+        $form_id  = isset( $_POST['form_id'] ) ? absint( wp_unslash( $_POST['form_id'] ) ) : 0;
+
+        if ( ! weforms_upload_targets_weforms_form( $form_id ) ) {
+            return;
+        }
+
+        if ( ! $verified ) {
+            echo 'error';
+            exit;
+        }
+
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The path is authorized before anything is stored.
+        $file   = isset( $_FILES['wpuf_file'] ) && is_array( $_FILES['wpuf_file'] ) ? $_FILES['wpuf_file'] : array();
+        $name   = isset( $_REQUEST['type'] ) ? sanitize_key( wp_unslash( $_REQUEST['type'] ) ) : '';
+        $result = weforms_authorize_upload( $form_id, array( 'name' => $name ), $file );
+
+        if ( is_wp_error( $result ) ) {
+            echo 'error';
+            exit;
+        }
+    }
+
+    /**
+     * Reject a weForms file before WordPress stores it.
+     *
+     * @since 1.6.30
+     *
+     * @param array $file Upload array.
+     *
+     * @return array
+     */
+    public function reject_unverified_weforms_upload( $file ) {
+        $nonce    = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
+        $verified = wp_verify_nonce( $nonce, 'wpuf-upload-nonce' ) || wp_verify_nonce( $nonce, 'wpuf_nonce' );
+        $form_id  = isset( $_POST['form_id'] ) ? absint( wp_unslash( $_POST['form_id'] ) ) : 0;
+
+        if ( ! $form_id && isset( $GLOBALS['weforms_upload_form_id'] ) ) {
+            $form_id = absint( $GLOBALS['weforms_upload_form_id'] );
+        }
+
+        if ( ! weforms_upload_targets_weforms_form( $form_id ) ) {
+            return $file;
+        }
+
+        if ( ! $verified && ! isset( $GLOBALS['weforms_upload_form_id'] ) ) {
+            $file['error'] = __( 'Upload could not be accepted.', 'weforms' );
+
+            return $file;
+        }
+
+        if ( isset( $GLOBALS['weforms_upload_field_name'] ) ) {
+            $name = sanitize_key( (string) $GLOBALS['weforms_upload_field_name'] );
+        } else {
+            $name = isset( $_REQUEST['type'] ) ? sanitize_key( wp_unslash( $_REQUEST['type'] ) ) : '';
+        }
+
+        $result = weforms_authorize_upload( $form_id, array( 'name' => $name ), $file );
+
+        if ( is_wp_error( $result ) ) {
+            $file['error'] = __( 'Upload could not be accepted.', 'weforms' );
+        }
+
+        return $file;
     }
 
     /**
@@ -80,15 +204,24 @@ class WeForms_Ajax_Upload {
         }
 
 
-        $file = isset( $_FILES['wpuf_file'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_FILES['wpuf_file'] ) ) : [];
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The path is authorized before anything is stored.
+        $file       = isset( $_FILES['wpuf_file'] ) && is_array( $_FILES['wpuf_file'] ) ? $_FILES['wpuf_file'] : array();
+        $field_name = isset( $_REQUEST['type'] ) ? sanitize_key( wp_unslash( $_REQUEST['type'] ) ) : '';
 
         $upload = array(
-             'name'     => isset( $file['name'] ) ? $file['name'] : '',
-             'type'     => isset( $file['type'] ) ? $file['type'] : '',
+             'name'     => isset( $file['name'] ) ? sanitize_file_name( wp_unslash( $file['name'] ) ) : '',
+             'type'     => isset( $file['type'] ) ? sanitize_mime_type( wp_unslash( $file['type'] ) ) : '',
              'tmp_name' => isset( $file['tmp_name'] ) ? $file['tmp_name'] : '',
-             'error'    => isset( $file['error'] ) ? $file['error'] : '',
-             'size'     => isset( $file['size'] ) ? $file['size'] : '',
+             'error'    => isset( $file['error'] ) ? absint( $file['error'] ) : 0,
+             'size'     => isset( $file['size'] ) ? absint( $file['size'] ) : 0,
          );
+
+        $authorized = weforms_authorize_upload( $form_id, array( 'name' => $field_name ), $upload );
+
+        if ( is_wp_error( $authorized ) ) {
+            echo 'error';
+            exit;
+        }
 
         // $upload = array(
         //     'name'     => isset( $_FILES['wpuf_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wpuf_file']['name'] ) ) : '',
@@ -147,7 +280,13 @@ class WeForms_Ajax_Upload {
      * @return bool|int attachment id on success, bool false instead
      */
     public function handle_upload( $upload_data ) {
-        $uploaded_file = wp_handle_upload( $upload_data, ['test_form' => false] );
+        WeForms_Upload_Protection::begin();
+
+        try {
+            $uploaded_file = wp_handle_upload( $upload_data, ['test_form' => false] );
+        } finally {
+            WeForms_Upload_Protection::end();
+        }
 
         // If the wp_handle_upload call returned a local path for the image
         if ( isset( $uploaded_file['file'] ) ) {
@@ -159,7 +298,7 @@ class WeForms_Ajax_Upload {
                 'post_mime_type' => $file_type['type'],
                 'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
                 'post_content'   => '',
-                'post_status'    => 'inherit',
+                'post_status'    => 'private',
             ];
 
             $attach_id   = wp_insert_attachment( $attachment, $file_loc );
@@ -171,6 +310,7 @@ class WeForms_Ajax_Upload {
             $delete_token = wp_generate_password( 32, false );
             update_post_meta( $attach_id, '_wpuf_delete_token', $delete_token );
             weforms_register_uploaded_attachment( $attach_id );
+            WeForms_Upload_Protection::protect( $attach_id );
 
             return ['success' => true, 'attach_id' => $attach_id];
         }
@@ -213,7 +353,7 @@ class WeForms_Ajax_Upload {
         }
 
         $html = '<li class="ui-state-default wpuf-image-wrap thumbnail">';
-        $html .= sprintf( '<div class="attachment-name"><img src="%s" alt="%s" /></div>', $image, esc_attr( $attachment->post_title ) );
+        $html .= sprintf( '<div class="attachment-name"><img src="%s" alt="%s" /></div>', \esc_url( $image ), \esc_attr( $attachment->post_title ) );
 
         $html .= sprintf( '<input type="hidden" name="wpuf_files[%s][]" value="%d">', $type, $attach_id );
         $html .= '<div class="caption">';

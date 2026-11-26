@@ -572,7 +572,7 @@ class WeForms_Notification {
          *
          * Allows custom templating snippets and field logic.
          *
-         * @since X.X.X
+         * @since 1.6.30
          *
          * @param string $text     The text with field tags replaced.
          * @param int    $entry_id The entry ID.
@@ -589,7 +589,7 @@ class WeForms_Notification {
      * its name is one of the field's configured options and its submitted quantity (when present) is at least 1.
      * The names come from the form's options, never from the submitted value.
      *
-     * @since X.X.X
+     * @since 1.6.30
      *
      * @param int    $entry_id The entry ID.
      * @param string $meta_key The multiple product field's meta name.
@@ -699,7 +699,7 @@ class WeForms_Notification {
             $attachments = is_array( $meta_value ) ? $meta_value : array( $meta_value );
 
             foreach ( $attachments as $attachment_id ) {
-                $file_url = wp_get_attachment_url( $attachment_id );
+                $file_url = WeForms_Upload_Protection::get_notification_url( $attachment_id );
 
                 if ( $file_url ) {
                     $files[] = $file_url;
@@ -764,8 +764,15 @@ class WeForms_Notification {
         }
 
         $form     = weforms()->form->get( $this->args['form_id'] );
-        $entry    = $form->entries()->get( $this->args['entry_id'] );
-        $fields   = $entry->get_fields();
+
+        WeForms_Upload_Protection::begin_signed_urls();
+
+        try {
+            $entry  = $form->entries()->get( $this->args['entry_id'] );
+            $fields = $entry->get_fields();
+        } finally {
+            WeForms_Upload_Protection::end_signed_urls();
+        }
 
         if ( !$fields ) {
             return $text;

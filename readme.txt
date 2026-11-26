@@ -3,8 +3,8 @@ Contributors: tareq1988, nizamuddinbabu, boldgrid, joemoto, jamesros161, avonvil
 Tags: form builder, contact form, forms, form creator, custom form
 Requires at least: 5.0
 Requires PHP: 7.2.5
-Tested up to: 7.1
-Stable tag: 1.6.29
+Tested up to: 7.2
+Stable tag: 1.6.30
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,14 @@ Please report security bugs found in the source code of the undefined plugin thr
 17. Event registration form displayed on the site
 
 == Changelog ==
+
+= Version 1.6.30 ( 25 November, 2026 ) =
+* Security: Patched form uploads being able to modify existing media library items.
+* Security: Form uploads are now stored in private storage and served through signed links.
+* Security: Patched form uploads being accepted for fields that are not published on the form.
+* Fix: Added the {product:meta_name} notification tag and fixed multi-value fields showing as "Array" in notification emails.
+* Fix: Fixed Dokan vendor contact form settings.
+* Fix: Fixed escaping and translation of several frontend form and settings strings.
 
 = Version 1.6.29 ( 16 October, 2026 ) =
 * Security: Patched unauthorized media deletion when permanently deleting a form entry.
@@ -655,6 +663,9 @@ Please report security bugs found in the source code of the undefined plugin thr
  * First beta version
 
 == Upgrade Notice ==
+
+= 1.6.30 =
+This is a security release. All users are encouraged to update to this version.
 
 = 1.6.29 =
 This is a security release. All users are encouraged to update to this version.

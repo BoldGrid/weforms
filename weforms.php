@@ -5,7 +5,7 @@
  * Plugin URI: https://weformspro.com/
  * Author: weForms
  * Author URI: https://weformspro.com/
- * Version: 1.6.29
+ * Version: 1.6.30
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: weforms
@@ -55,7 +55,7 @@ final class WeForms {
 	 *
 	 * @var string
 	 */
-	public $version = '1.6.29';
+	public $version = '1.6.30';
 
 	/**
 	 * Form field value seperator
@@ -255,6 +255,7 @@ final class WeForms {
 
 		require_once WEFORMS_INCLUDES . '/class-ajax.php';
 		require_once WEFORMS_INCLUDES . '/class-ajax-upload.php';
+		require_once WEFORMS_INCLUDES . '/class-upload-protection.php';
 		require_once WEFORMS_INCLUDES . '/class-notification.php';
 		require_once WEFORMS_INCLUDES . '/class-form-preview.php';
 		require_once WEFORMS_INCLUDES . '/class-dokan-integration.php';
@@ -348,6 +349,7 @@ final class WeForms {
 		$this->container['scripts']           = new WeForms_Scripts_Styles();
 		$this->container['block']             = new weForms_FormBlock();
 		$this->container['dokan_integration'] = new weForms_Dokan_Integration();
+		$this->container['upload_protection'] = new WeForms_Upload_Protection();
 		// Instantiate the integrations.
 		$this->integrations->get_integrations();
 

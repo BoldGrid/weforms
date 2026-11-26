@@ -1,5 +1,13 @@
 === weForms Changelog ===
 
+= Version 1.6.30 ( 25 November, 2026 ) =
+* Security: Patched form uploads being able to modify existing media library items.
+* Security: Form uploads are now stored in private storage and served through signed links.
+* Security: Patched form uploads being accepted for fields that are not published on the form.
+* Fix: Added the {product:meta_name} notification tag and fixed multi-value fields showing as "Array" in notification emails.
+* Fix: Fixed Dokan vendor contact form settings.
+* Fix: Fixed escaping and translation of several frontend form and settings strings.
+
 = Version 1.6.29 ( 16 October, 2026 ) =
 * Security: Patched unauthorized media deletion when permanently deleting a form entry.
 

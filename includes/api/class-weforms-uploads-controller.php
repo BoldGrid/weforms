@@ -22,6 +22,19 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
     protected $rest_base = 'uploads';
 
     /**
+     * Size limit in KB for an upload field saved without `max_size`.
+     *
+     * Matches the form builder default for image fields. Uploads are also
+     * capped by wp_max_upload_size(), so a missing value never means
+     * "no limit".
+     *
+     * @since 1.6.30
+     *
+     * @var int
+     */
+    const DEFAULT_MAX_SIZE_KB = 1024;
+
+    /**
      * Register all routes releated with forms
      *
      * @return void
@@ -77,7 +90,7 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
             [
                 'methods'             => WP_REST_Server::DELETABLE,
                 'callback'            => [ $this, 'delete_file' ],
-                'permission_callback' => [ $this, 'upload_permissions_check' ],
+                'permission_callback' => [ $this, 'delete_permissions_check' ],
             ],
         ] );
     }
@@ -110,56 +123,26 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      *
      * @since 1.4.2
      *
-     * @param string          $param
-     * @param WP_REST_Request $request
-     * @param string          $key
+     * @param WP_REST_Request $request Request.
      *
-     * @return bool
+     * @return bool|\WP_Error True when the file matches one published upload field.
      */
     public function is_file_validate( $request ) {
-        $file_error    = new WP_Error();
-        $form          = weforms()->form->get( (int) $request['form_id'] );
-        $form_settings = $form->get_settings();
-        $form_fields   = $form->get_fields();
-        $files         = $request->get_file_params();
-        $headers       = $request->get_headers();
-        $field_id      = $request->get_param( 'field_id' );
+        $files  = $request->get_file_params();
+        $file   = ( isset( $files['file'] ) && \is_array( $files['file'] ) ) ? $files['file'] : [];
+        $result = \weforms_authorize_upload(
+            (int) $request->get_param( 'form_id' ),
+            [
+                'field_id' => \absint( $request->get_param( 'field_id' ) ),
+            ],
+            $file
+        );
 
-        if ( !empty( $files ) ) {
-            foreach ( $form_fields as $field ) {
-                if ( 'image_upload' === $field['template'] && $field['id'] == $field_id ) {
-                    $allowed_extension = weforms_allowed_extensions();
-                    $allowed_file_type = explode( ',', $allowed_extension['images']['ext'] );
-                    $file_type         =  wp_check_filetype( $files['file']['name'], $mimes = null );
-
-                    if ( in_array( $file_type['ext'], $allowed_file_type ) ) {
-                        if ( $files['file']['size'] <= ( $field['max_size'] * 1024 ) ) {
-                            return true;
-                        } else {
-                            $file_error->add( 'rest_weforms_invalid_file_size', __( 'File Size exceeds limit!', 'weforms' ), [ 'status' => 404 ] );
-                        }
-                    }
-                }
-
-                if ( 'file_upload' === $field['template'] && $field['id'] == $field_id ) {
-                    $file_type =  wp_check_filetype( $files['file']['name'], $mimes = null );
-
-                    if ( $this->is_allow_file_type( $field['extension'], $file_type['ext'] ) ) {
-                        if ( $files['file']['size'] <= ( $field['max_size'] * 1024 ) ) {
-                            return true;
-                        } else {
-                            $file_error->add( 'rest_weforms_invalid_file_size', __( 'File Size exceeds limit!', 'weforms' ), [ 'status' => 404 ] );
-                        }
-                    }
-                }
-            }
+        if ( \is_wp_error( $result ) ) {
+            return new \WP_Error( 'rest_weforms_upload', \__( 'Upload could not be accepted.', 'weforms' ), [ 'status' => 400 ] );
         }
 
-        if ( count( $file_error->get_error_messages() ) > 0 ) {
-            return $file_error;
-        } else {
-            return true;
-        }
+        return true;
     }
 
     /**
@@ -174,15 +157,49 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
     public function upload_file( $request ) {
         global $wp_rest_server;
 
+        $rejected = $this->reject_attachment_update_params( $request );
+
+        if ( \is_wp_error( $rejected ) ) {
+            return $rejected;
+        }
+
+        $files      = $request->get_file_params();
+        $file       = ( isset( $files['file'] ) && \is_array( $files['file'] ) ) ? $files['file'] : [];
+        $authorized = \weforms_authorize_upload(
+            (int) $request->get_param( 'form_id' ),
+            [
+                'field_id' => \absint( $request->get_param( 'field_id' ) ),
+            ],
+            $file
+        );
+
+        if ( \is_wp_error( $authorized ) ) {
+            return new \WP_Error( 'rest_weforms_upload', \__( 'Upload could not be accepted.', 'weforms' ), [ 'status' => 400 ] );
+        }
+
         $endpoints             = $wp_rest_server->get_routes();
         $attachment_controller = $endpoints['/wp/v2/media'][0]['callback'][0];
-        $files                 = $request->get_file_params();
-        $headers               = $request->get_headers();
-        $attachment_response   = $attachment_controller->create_item( $request );
+
+        $GLOBALS['weforms_upload_form_id']    = \absint( $request->get_param( 'form_id' ) );
+        $GLOBALS['weforms_upload_field_name'] = \sanitize_key( $authorized['name'] );
+
+        WeForms_Upload_Protection::begin();
+
+        try {
+            $attachment_response = $attachment_controller->create_item( $this->request_for_new_attachment( $request ) );
+        } finally {
+            WeForms_Upload_Protection::end();
+            unset( $GLOBALS['weforms_upload_form_id'], $GLOBALS['weforms_upload_field_name'] );
+        }
+
+        if ( \is_wp_error( $attachment_response ) ) {
+            return $attachment_response;
+        }
 
         if ( !empty( $attachment_response->data['id'] ) ) {
             $form_id  = $request->get_param( 'form_id' );
 
+            WeForms_Upload_Protection::protect( $attachment_response->data['id'], (string) $files['file']['name'] );
             update_post_meta( $attachment_response->data['id'], 'attachment_form_id', $form_id );
             weforms_register_uploaded_attachment( $attachment_response->data['id'] );
 
@@ -219,11 +236,26 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
      * @return WP_REST_Response|WP_Error response object on success, or WP_Error object on failure
      */
     public function delete_file( $request ) {
+        $permission = $this->delete_permissions_check( $request );
+
+        if ( \is_wp_error( $permission ) ) {
+            return $permission;
+        }
+
         global $wp_rest_server;
 
-        $endpoints              = $wp_rest_server->get_routes();
-        $attachment_controller  = $endpoints['/wp/v2/media'][0]['callback'][0];
-        $attachment_response    = $attachment_controller->delete_item( $request );
+        $endpoints             = $wp_rest_server->get_routes();
+        $attachment_controller = $endpoints['/wp/v2/media'][0]['callback'][0];
+        $attachment_response   = $attachment_controller->delete_item( $request );
+
+        if ( \is_wp_error( $attachment_response ) || empty( $attachment_response->data['previous']['id'] ) ) {
+            return new \WP_Error(
+                'rest_weforms_cannot_delete',
+                \__( 'Sorry, you are not allowed to delete this file.', 'weforms' ),
+                [ 'status' => \rest_authorization_required_code() ]
+            );
+        }
+
         $data                   = [];
         $data['id']             = $attachment_response->data['previous']['id'];
         $data['message']        = 'File deleted successfully';
@@ -263,7 +295,7 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
         }
 
         $html = '<li class="ui-state-default wpuf-image-wrap thumbnail">';
-        $html .= sprintf( '<div class="attachment-name"><img src="%s" alt="%s" /></div>', $image, esc_attr( $attachment->post_title ) );
+        $html .= sprintf( '<div class="attachment-name"><img src="%s" alt="%s" /></div>', \esc_url( $image ), \esc_attr( $attachment->post_title ) );
         $html .= sprintf( '<input type="hidden" name="wpuf_files[%s][]" value="%d">', $type, $attach_id );
         $html .= '<div class="caption">';
         $html .= sprintf( '<a href="#" class="attachment-delete" data-attach_id="%d"> <img src="%s" /></a>', $attach_id, WEFORMS_ASSET_URI . '/images/del-img.png' );
@@ -338,12 +370,18 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
                 }
             }
         } else {
-            if ( array_key_exists( $field_extensions, $allowd_extensions ) ) {
-                foreach ( $allowd_extensions[ $field_extensions ][ 'ext' ] as $key => $allowd_extension ) {
-                    $extensions = explode( ',', $allowd_extension['ext'] );
+            /**
+             * A scalar value is one extension category. `ext` is a comma-separated
+             * list, not a list of category records.
+             */
+            $category = \is_string( $field_extensions ) ? $field_extensions : '';
 
-                    foreach ( $extensions as $key => $extension ) {
-                        array_push( $allowd_ext_array, $extension );
+            if ( isset( $allowd_extensions[ $category ]['ext'] ) && \is_string( $allowd_extensions[ $category ]['ext'] ) ) {
+                foreach ( \explode( ',', $allowd_extensions[ $category ]['ext'] ) as $extension ) {
+                    $extension = \trim( $extension );
+
+                    if ( '' !== $extension ) {
+                        $allowd_ext_array[] = $extension;
                     }
                 }
             }
@@ -352,16 +390,175 @@ class Weforms_Upload_Controller extends Weforms_REST_Controller {
         return $allowd_ext_array;
     }
 
+    /**
+     * Published image or file upload field with this ID.
+     *
+     * Fields nested in columns are included. An unknown ID does not match.
+     *
+     * @since 1.6.30
+     *
+     * @param int $form_id  Form ID.
+     * @param int $field_id Field ID.
+     *
+     * @return array|null
+     */
+    protected function find_upload_field( $form_id, $field_id ) {
+        $form_id  = \absint( $form_id );
+        $field_id = \absint( $field_id );
+
+        if ( ! $form_id || ! $field_id ) {
+            return null;
+        }
+
+        $fields = weforms()->form->get( $form_id )->get_fields();
+
+        if ( ! \is_array( $fields ) ) {
+            return null;
+        }
+
+        $found = null;
+
+        $walk = function ( $field ) use ( &$walk, &$found, $field_id ) {
+            if ( null !== $found || ! \is_array( $field ) ) {
+                return;
+            }
+
+            $template = isset( $field['template'] ) ? $field['template'] : '';
+            $id       = isset( $field['id'] ) ? \absint( $field['id'] ) : 0;
+
+            if ( $id === $field_id && \in_array( $template, [ 'image_upload', 'file_upload' ], true ) ) {
+                $found = $field;
+
+                return;
+            }
+
+            if ( empty( $field['inner_fields'] ) || ! \is_array( $field['inner_fields'] ) ) {
+                return;
+            }
+
+            foreach ( $field['inner_fields'] as $column_fields ) {
+                if ( ! \is_array( $column_fields ) ) {
+                    continue;
+                }
+
+                foreach ( $column_fields as $inner_field ) {
+                    $walk( $inner_field );
+                }
+            }
+        };
+
+        foreach ( $fields as $field ) {
+            $walk( $field );
+        }
+
+        return $found;
+    }
+
+    /**
+     * Parameters that would edit an existing attachment.
+     *
+     * @since 1.6.30
+     *
+     * @return string[]
+     */
+    protected function attachment_update_params() {
+        return [ 'id', 'post', 'author', 'status' ];
+    }
+
+    /**
+     * Reject a create request that carries attachment-update parameters.
+     *
+     * @since 1.6.30
+     *
+     * @param WP_REST_Request $request Request.
+     *
+     * @return true|\WP_Error
+     */
+    public function reject_attachment_update_params( $request ) {
+        foreach ( $this->attachment_update_params() as $key ) {
+            if ( $request->has_param( $key ) ) {
+                return new \WP_Error(
+                    'rest_weforms_cannot_edit_attachment',
+                    \__( 'Sorry, you are not allowed to edit an existing file.', 'weforms' ),
+                    [ 'status' => 400 ]
+                );
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Media request that contains only the uploaded file.
+     *
+     * @since 1.6.30
+     *
+     * @param WP_REST_Request $request Upload request.
+     *
+     * @return WP_REST_Request
+     */
+    protected function request_for_new_attachment( $request ) {
+        $clean = new \WP_REST_Request( 'POST' );
+        $files = $request->get_file_params();
+        $file  = ( isset( $files['file'] ) && \is_array( $files['file'] ) ) ? $files['file'] : [];
+
+        $clean->set_file_params(
+            [
+                'file' => $file,
+            ]
+        );
+
+        return $clean;
+    }
+
+    /**
+     * Whether the current user may delete this form attachment.
+     *
+     * @since 1.6.30
+     *
+     * @param WP_REST_Request $request Request.
+     *
+     * @return true|\WP_Error
+     */
+    public function delete_permissions_check( $request ) {
+        $id      = isset( $request['id'] ) ? \absint( $request['id'] ) : 0;
+        $form_id = isset( $request['form_id'] ) ? \absint( $request['form_id'] ) : 0;
+        $post    = $id ? \get_post( $id ) : null;
+
+        if ( ! $post || 'attachment' !== $post->post_type || ! $form_id ) {
+            return new \WP_Error(
+                'rest_weforms_cannot_delete',
+                \__( 'Sorry, you are not allowed to delete this file.', 'weforms' ),
+                [ 'status' => \rest_authorization_required_code() ]
+            );
+        }
+
+        $attach_form_id = \absint( \get_post_meta( $id, 'attachment_form_id', true ) );
+
+        if ( $attach_form_id !== $form_id || ! \current_user_can( 'delete_post', $id ) ) {
+            return new \WP_Error(
+                'rest_weforms_cannot_delete',
+                \__( 'Sorry, you are not allowed to delete this file.', 'weforms' ),
+                [ 'status' => \rest_authorization_required_code() ]
+            );
+        }
+
+        return true;
+    }
+
     public function upload_permissions_check( $request ) {
+        $rejected = $this->reject_attachment_update_params( $request );
+
+        if ( \is_wp_error( $rejected ) ) {
+            return $rejected;
+        }
+
         if ( !is_weforms_api_allowed_guest_submission() ) {
             return new WP_Error( 'rest_weforms_cannot_upload', __( 'Sorry, you have no permission to upload File.', 'weforms' ), [ 'status' => rest_authorization_required_code() ] );
         }
 
-        $form         = weforms()->form->get( (int) $request['form_id'] );
-        $form_is_open = $form->is_submission_open();
-
-        if ( is_wp_error( $form_is_open ) ) {
-            return new WP_Error( 'rest_weforms_form_permission', $form_is_open->get_error_message(), [ 'status' => 404 ] );
+        if ( ! \weforms_upload_form_is_open( (int) $request['form_id'] ) ) {
+            return new WP_Error( 'rest_weforms_upload', __( 'Upload could not be accepted.', 'weforms' ), [ 'status' => 400 ] );
         }
 
         $file_validations = $this->is_file_validate( $request );
